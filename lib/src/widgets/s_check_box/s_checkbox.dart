@@ -4,22 +4,9 @@ import 'package:s_design/src/widgets/s_check_box/themes/s_checkbox_theme.dart';
 import 'package:s_design/src/widgets/s_check_box/utils/s_checkbox_util.dart';
 
 ///
-/// The [SCheckbox] widget allows for three states: unchecked, checked, and indeterminate.
+/// The [SCheckbox] widget allows for two or three states: unchecked, checked, and optionally indeterminate.
 /// It supports customization of colors, sizes, and integrates with theming for consistent styling.
 ///
-/// Example usage:
-/// ```dart
-/// SCheckbox(
-///   value: SCheckboxState.checked,
-///   onChanged: (newState) {
-///     // Handle state change
-///   },
-///   size: 24.0,
-///   activeColor: Colors.green,
-///   checkColor: Colors.white,
-///   borderColor: Colors.green,
-/// )
-/// ```
 class SCheckbox extends StatefulWidget {
   /// The current state of the checkbox.
   final SCheckboxState value;
@@ -29,6 +16,9 @@ class SCheckbox extends StatefulWidget {
 
   /// The size of the checkbox.
   final double size;
+
+  /// Whether to include the indeterminate state.
+  final bool intermediate;
 
   /// The active color when the checkbox is checked or indeterminate.
   final Color? activeColor;
@@ -43,15 +33,16 @@ class SCheckbox extends StatefulWidget {
   final bool isDisabled;
 
   const SCheckbox({
-    Key? key,
+    super.key,
     required this.value,
     required this.onChanged,
+    this.intermediate = true,
     this.size = 18.0,
     this.activeColor,
     this.checkColor,
     this.borderColor,
     this.isDisabled = false,
-  }) : super(key: key);
+  });
 
   @override
   _SCheckboxState createState() => _SCheckboxState();
@@ -104,9 +95,20 @@ class _SCheckboxState extends State<SCheckbox>
       return;
     }
 
-    final SCheckboxState newValue = SCheckboxUtils.toggleState(_currentValue);
+    final SCheckboxState newState =
+        SCheckboxUtils.toggleState(_currentValue, widget.intermediate);
 
-    widget.onChanged?.call(newValue);
+    setState(() {
+      _currentValue = newState;
+    });
+
+    if (newState != SCheckboxState.unchecked) {
+      _animationController.forward();
+    } else {
+      _animationController.reverse();
+    }
+
+    widget.onChanged?.call(newState);
   }
 
   @override

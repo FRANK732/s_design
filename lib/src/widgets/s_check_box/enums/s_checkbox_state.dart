@@ -1,11 +1,6 @@
-/// Enumeration for Checkbox States
+/// Enum for checkbox states.
 enum SCheckboxState {
-  /// Unchecked state.
   unchecked,
-
-  /// Checked state.
   checked,
-
-  /// Indeterminate state.
   indeterminate,
 }

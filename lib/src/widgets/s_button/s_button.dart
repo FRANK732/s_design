@@ -55,20 +55,37 @@ class SButton extends StatelessWidget {
   /// The padding inside the button.
   final EdgeInsetsGeometry? padding;
 
+  /// Changes the background color of the button
+  final Color? backgroundColor;
+
+  /// Changes the foreground color of the button
+  final Color? foregroundColor;
+
+  /// Custom you own button style
+  final ButtonStyle? buttonStyle;
+
+  /// Border radius
+  final BorderRadiusGeometry? borderRadius;
+
+  ///
+
   /// Creates an [SButton] widget.
-  const SButton({
-    super.key,
-    this.variant = SButtonVariant.defaultVariant,
-    this.size = SButtonSize.defaultSize,
-    this.state,
-    this.icon,
-    this.loading = false,
-    required this.onPressed,
-    this.child,
-    this.height,
-    this.width,
-    this.padding,
-  });
+  const SButton(
+      {super.key,
+      this.variant = SButtonVariant.defaultVariant,
+      this.size = SButtonSize.defaultSize,
+      this.state,
+      this.icon,
+      this.backgroundColor,
+      this.foregroundColor,
+      this.loading = false,
+      required this.onPressed,
+      this.child,
+      this.height,
+      this.buttonStyle,
+      this.width,
+      this.padding,
+      this.borderRadius});
 
   @override
   Widget build(BuildContext context) {
@@ -79,11 +96,12 @@ class SButton extends StatelessWidget {
     final SButtonThemeData theme = Theme.of(context).sButtonTheme;
 
     // Determine effective colors based on variant and state
-    final Color backgroundColor =
+    final Color defaultBackgroundColor =
         _getBackgroundColor(theme, isDisabled, context);
-    final Color foregroundColor =
+    final Color defaultForegroundColor =
         _getForegroundColor(theme, isDisabled, context);
-    final BorderSide? borderSide = _getBorderSide(theme, isDisabled, context);
+    final BorderSide? defaultBorderSide =
+        _getBorderSide(theme, isDisabled, context);
 
     // Determine padding based on size or custom padding
     final EdgeInsetsGeometry computedPadding =
@@ -93,11 +111,11 @@ class SButton extends StatelessWidget {
     final Widget content = loading ? _buildLoader(theme) : _buildContent(theme);
 
     // Choose the appropriate button type based on variant
-    final ButtonStyle buttonStyle = _getButtonStyle(
+    final ButtonStyle defaultStyle = _getButtonStyle(
       theme,
-      backgroundColor,
-      foregroundColor,
-      borderSide,
+      backgroundColor ?? defaultBackgroundColor,
+      foregroundColor ?? defaultForegroundColor,
+      defaultBorderSide,
       computedPadding,
     );
 
@@ -109,7 +127,7 @@ class SButton extends StatelessWidget {
       case SButtonVariant.secondary:
         buttonWidget = ElevatedButton(
           onPressed: isDisabled ? null : onPressed,
-          style: buttonStyle,
+          style: buttonStyle ?? defaultStyle,
           child: content,
         );
         break;
@@ -117,7 +135,7 @@ class SButton extends StatelessWidget {
       case SButtonVariant.destructiveOutline:
         buttonWidget = OutlinedButton(
           onPressed: isDisabled ? null : onPressed,
-          style: buttonStyle,
+          style: buttonStyle ?? defaultStyle,
           child: content,
         );
         break;
@@ -125,7 +143,7 @@ class SButton extends StatelessWidget {
       case SButtonVariant.link:
         buttonWidget = TextButton(
           onPressed: isDisabled ? null : onPressed,
-          style: buttonStyle,
+          style: buttonStyle ?? defaultStyle,
           child: content,
         );
         break;
@@ -290,24 +308,24 @@ class SButton extends StatelessWidget {
     EdgeInsetsGeometry padding,
   ) {
     return ButtonStyle(
-      backgroundColor: MaterialStateProperty.all(backgroundColor),
-      foregroundColor: MaterialStateProperty.all(foregroundColor),
-      overlayColor: MaterialStateProperty.resolveWith<Color?>(
-        (Set<MaterialState> states) {
-          if (states.contains(MaterialState.pressed)) {
+      backgroundColor: WidgetStateProperty.all(backgroundColor),
+      foregroundColor: WidgetStateProperty.all(foregroundColor),
+      overlayColor: WidgetStateProperty.resolveWith<Color?>(
+        (Set<WidgetState> states) {
+          if (states.contains(WidgetState.pressed)) {
             return foregroundColor.withOpacity(0.12);
           }
           return null;
         },
       ),
-      padding: MaterialStateProperty.all(padding),
-      side: borderSide != null ? MaterialStateProperty.all(borderSide) : null,
-      shape: MaterialStateProperty.all(
+      padding: WidgetStateProperty.all(padding),
+      side: borderSide != null ? WidgetStateProperty.all(borderSide) : null,
+      shape: WidgetStateProperty.all(
         RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: borderRadius ?? BorderRadius.circular(8.0),
         ),
       ),
-      minimumSize: MaterialStateProperty.all(Size.zero),
+      minimumSize: WidgetStateProperty.all(Size.zero),
       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
     );
   }

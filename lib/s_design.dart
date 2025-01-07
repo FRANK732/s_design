@@ -13,7 +13,7 @@ export 'src/widgets/s_card/s_card.dart';
 export 'src/widgets/s_check_box/enums/s_checkbox_state.dart';
 export 'src/widgets/s_check_box/s_checkbox.dart';
 export 'src/widgets/s_check_box/themes/s_checkbox_theme.dart';
-export 'src/widgets/s_check_box/utils/s_checkbox_util.dart';
+// export 'src/widgets/s_check_box/utils/s_checkbox_util.dart';
 export 'src/widgets/s_dialog/enums/s_dialog_type.dart';
 export 'src/widgets/s_dialog/dialog.dart';
 export 'src/widgets/s_dialog/themes/s_dialog_theme.dart';
