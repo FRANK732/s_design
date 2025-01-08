@@ -23,9 +23,9 @@ class _InputFieldPageState extends State<InputFieldPage> {
   final FocusNode _dateFocusNode = FocusNode();
   final FocusNode _validationFocusNode = FocusNode();
 
-  _onSubmit(){
-    if(_formKey.currentState!.validate()){
-      print('Form is valid');
+  _onSubmit() {
+    if (_formKey.currentState!.validate()) {
+      // print('Form is valid');
     }
   }
 
@@ -88,8 +88,8 @@ class _InputFieldPageState extends State<InputFieldPage> {
                 controller: _iconController,
                 focusNode: _iconFocusNode,
                 hintText: 'Search',
-                validator: (data){
-                  if(data!.isEmpty){
+                validator: (data) {
+                  if (data!.isEmpty) {
                     return 'This field cannot be empty';
                   }
                   return null;
