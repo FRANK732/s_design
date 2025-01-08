@@ -4,7 +4,7 @@ import 'package:s_design/src/widgets/s_input/themes/s_input_field_theme.dart';
 import 'package:s_design/src/widgets/s_input/utils/s_input_field_utils.dart';
 
 /// A comprehensive Input Field Widget that supports various configurations,
-/// including size variants, icons, validation, and optional date picker functionality.
+/// including size variants, icons, validation.
 class SInputField extends StatefulWidget {
   /// The controller for the input field.
   final TextEditingController? controller;
@@ -46,7 +46,7 @@ class SInputField extends StatefulWidget {
   final Widget? endIcon;
 
   /// The validator function for form validation.
-  final FormFieldValidator<String>? validator;
+  final String? Function(String?)? validator;
 
   /// The function to call when the form is saved.
   final FormFieldSetter<String>? onSaved;
@@ -90,12 +90,6 @@ class SInputField extends StatefulWidget {
   /// Autofill hints for the input field.
   final Iterable<String>? autofillHints;
 
-  /// Determines if the input field should act as a date picker.
-  final bool isDatePicker;
-
-  /// Initial date value for the date picker.
-  final DateTime? initialDate;
-
   /// Background Color
   final Color? backgroundColor;
 
@@ -131,9 +125,176 @@ class SInputField extends StatefulWidget {
     this.enableSuggestions = true,
     this.autofillHints,
     this.hintStyle,
-    this.isDatePicker = false,
-    this.initialDate,
   }) : super(key: key);
+
+  factory SInputField.password({
+    Key? key,
+    required TextEditingController controller,
+    FocusNode? focusNode,
+    String? hintText,
+    bool enabled = true,
+    FormFieldValidator<String>? validator,
+    FormFieldSetter<String>? onSaved,
+    ValueChanged<String>? onChanged,
+    VoidCallback? onEditingComplete,
+    ValueChanged<String>? onFieldSubmitted,
+    int? maxLength,
+    EdgeInsetsGeometry? contentPadding,
+    InputDecoration? decoration,
+    TextStyle? style,
+    bool autocorrect = false,
+    bool autofocus = false,
+    bool enableSuggestions = false,
+    Iterable<String>? autofillHints,
+  }) {
+    return SInputField(
+      key: key,
+      controller: controller,
+      focusNode: focusNode,
+      hintText: hintText,
+      obscureText: true,
+      enabled: enabled,
+      validator: validator,
+      onSaved: onSaved,
+      onChanged: onChanged,
+      onEditingComplete: onEditingComplete,
+      onFieldSubmitted: onFieldSubmitted,
+      maxLength: maxLength,
+      contentPadding: contentPadding,
+      decoration: decoration,
+      style: style,
+      autocorrect: autocorrect,
+      autofocus: autofocus,
+      enableSuggestions: enableSuggestions,
+      autofillHints: autofillHints,
+    );
+  }
+  factory SInputField.datePicker({
+    Key? key,
+    required TextEditingController controller,
+    FocusNode? focusNode,
+    String? hintText,
+    bool enabled = true,
+    FormFieldValidator<String>? validator,
+    FormFieldSetter<String>? onSaved,
+    ValueChanged<String>? onChanged,
+    VoidCallback? onEditingComplete,
+    ValueChanged<String>? onFieldSubmitted,
+    int? maxLength,
+    EdgeInsetsGeometry? contentPadding,
+    InputDecoration? decoration,
+    TextStyle? style,
+    bool autocorrect = true,
+    bool autofocus = false,
+    bool enableSuggestions = true,
+    Iterable<String>? autofillHints,
+    DateTime? initialDate,
+    String? dateFormat,
+  }) {
+    return SInputField(
+      key: key,
+      controller: controller,
+      focusNode: focusNode,
+      hintText: hintText,
+      enabled: enabled,
+      validator: validator,
+      onSaved: onSaved,
+      onChanged: onChanged,
+      onEditingComplete: onEditingComplete,
+      onFieldSubmitted: onFieldSubmitted,
+      maxLength: maxLength,
+      contentPadding: contentPadding,
+      decoration: decoration,
+      style: style,
+      autocorrect: autocorrect,
+      autofocus: autofocus,
+      enableSuggestions: enableSuggestions,
+      autofillHints: autofillHints,
+      endIcon: Builder(
+        builder: (BuildContext context) {
+          return IconButton(
+            icon: Icon(Icons.calendar_today),
+            onPressed: () async {
+              DateTime initialDateValue = initialDate ?? DateTime.now();
+              DateTime firstDate = DateTime(1900);
+              DateTime lastDate =
+                  DateTime.now().add(const Duration(days: 365 * 100));
+
+              DateTime? pickedDate = await showDatePicker(
+                context: context,
+                initialDate: initialDateValue,
+                firstDate: firstDate,
+                lastDate: lastDate,
+              );
+
+              if (pickedDate != null) {
+                controller.text = dateFormat ??
+                    "${pickedDate.day.toString().padLeft(2, '0')}-"
+                        "${pickedDate.month.toString().padLeft(2, '0')}-"
+                        "${pickedDate.year}";
+                if (onChanged != null) {
+                  onChanged(controller.text);
+                }
+              }
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  factory SInputField.search({
+    Key? key,
+    required TextEditingController controller,
+    FocusNode? focusNode,
+    String? hintText,
+    bool enabled = true,
+    FormFieldValidator<String>? validator,
+    FormFieldSetter<String>? onSaved,
+    ValueChanged<String>? onChanged,
+    VoidCallback? onEditingComplete,
+    ValueChanged<String>? onFieldSubmitted,
+    int? maxLength,
+    EdgeInsetsGeometry? contentPadding,
+    InputDecoration? decoration,
+    TextStyle? style,
+    bool autocorrect = true,
+    bool autofocus = false,
+    bool enableSuggestions = true,
+    Iterable<String>? autofillHints,
+
+  }) {
+    return SInputField(
+      key: key,
+      controller: controller,
+      focusNode: focusNode,
+      hintText: hintText,
+      enabled: enabled,
+      validator: validator,
+      onSaved: onSaved,
+      onChanged: onChanged,
+      onEditingComplete: onEditingComplete,
+      onFieldSubmitted: onFieldSubmitted,
+      maxLength: maxLength,
+      contentPadding: contentPadding,
+      decoration: decoration,
+      style: style,
+      autocorrect: autocorrect,
+      autofocus: autofocus,
+      enableSuggestions: enableSuggestions,
+      autofillHints: autofillHints,
+      startIcon: Icon(Icons.search),
+      endIcon: IconButton(
+        icon: Icon(Icons.clear),
+        onPressed: () {
+          controller.clear();
+          if (onChanged != null) {
+            onChanged('');
+          }
+        },
+      ),
+    );
+  }
 
   @override
   _SInputFieldState createState() => _SInputFieldState();
@@ -156,11 +317,6 @@ class _SInputFieldState extends State<SInputField> {
     _controller =
         widget.controller ?? TextEditingController(text: widget.initialValue);
     _focusNode = widget.focusNode ?? FocusNode();
-
-    // If it's a date picker and an initial date is provided, set it
-    if (widget.isDatePicker && widget.initialDate != null) {
-      _controller.text = _formatDate(widget.initialDate!);
-    }
   }
 
   @override
@@ -174,53 +330,15 @@ class _SInputFieldState extends State<SInputField> {
     super.dispose();
   }
 
-  /// Helper method to format the date.
-  String _formatDate(DateTime date) {
-    // You can customize the format as needed
-    // For example, using intl package for better formatting
-    return "${date.day.toString().padLeft(2, '0')}-"
-        "${date.month.toString().padLeft(2, '0')}-"
-        "${date.year}";
-  }
-
-  /// Method to handle date picking.
-  Future<void> _selectDate() async {
-    DateTime initialDate = widget.initialDate ?? DateTime.now();
-    DateTime firstDate = DateTime(1900);
-    DateTime lastDate = DateTime.now().add(const Duration(days: 365 * 100));
-
-    DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: initialDate,
-      firstDate: firstDate,
-      lastDate: lastDate,
-    );
-
-    if (pickedDate != null) {
-      setState(() {
-        _controller.text = _formatDate(pickedDate);
-      });
-      if (widget.onChanged != null) {
-        widget.onChanged!(_controller.text);
-      }
-    }
-  }
-
-  /// Determines the height of the input field based on its size.
   double _getHeight() {
     return SInputFieldUtils.getHeight(widget.size);
   }
 
-  /// Determines the content padding based on the input field's size and icons.
   EdgeInsetsGeometry _getContentPadding() {
     return widget.contentPadding ??
         SInputFieldUtils.getContentPadding(widget.size).copyWith(
           left: widget.startIcon != null ? 40.0 : 16.0,
-          right: (_showObscureToggle ||
-                  widget.endIcon != null ||
-                  widget.isDatePicker)
-              ? 40.0
-              : 16.0,
+          right: (_showObscureToggle || widget.endIcon != null) ? 40.0 : 16.0,
         );
   }
 
@@ -247,6 +365,21 @@ class _SInputFieldState extends State<SInputField> {
             : null;
       }
     }
+    InputDecoration _mergeDecorations(InputDecoration base, InputDecoration? override) {
+      return base.copyWith(
+        hintText: override?.hintText ?? base.hintText,
+        hintStyle: override?.hintStyle ?? base.hintStyle,
+        filled: override?.filled ?? base.filled,
+        fillColor: override?.fillColor ?? base.fillColor,
+        contentPadding: override?.contentPadding ?? base.contentPadding,
+        enabledBorder: override?.enabledBorder ?? base.enabledBorder,
+        focusedBorder: override?.focusedBorder ?? base.focusedBorder,
+        errorBorder: override?.errorBorder ?? base.errorBorder,
+        disabledBorder: override?.disabledBorder ?? base.disabledBorder,
+        prefixIcon: override?.prefixIcon ?? base.prefixIcon,
+        suffixIcon: override?.suffixIcon ?? base.suffixIcon,
+      );
+    }
 
     final InputDecoration effectiveDecoration =
         (widget.decoration ?? const InputDecoration()).copyWith(
@@ -264,98 +397,59 @@ class _SInputFieldState extends State<SInputField> {
           buildBorder(Theme.of(context).sInputFieldTheme.errorBorderColor),
       disabledBorder:
           buildBorder(Theme.of(context).sInputFieldTheme.enabledBorderColor),
-      // If it's a date picker, add a calendar icon as suffix
-      suffixIcon: widget.isDatePicker
+      prefixIcon: widget.startIcon,
+      suffixIcon: _showObscureToggle
           ? IconButton(
+              padding: EdgeInsets.zero,
               icon: Icon(
-                Icons.calendar_today,
+                _obscureText ? Icons.visibility_off : Icons.visibility,
+                size: 20.0,
                 color: Theme.of(context).sInputFieldTheme.iconColor,
               ),
-              onPressed:
-                  widget.enabled && !widget.readOnly ? _selectDate : null,
-              tooltip: 'Select Date',
+              onPressed: () {
+                setState(() {
+                  _obscureText = !_obscureText;
+                });
+              },
+              tooltip: _obscureText ? 'Show Password' : 'Hide Password',
             )
-          : (_showObscureToggle ? null : widget.endIcon),
+          : widget.endIcon,
     );
 
-    return SizedBox(
-      height: _getHeight(),
-      child: Stack(
-        children: [
-          TextFormField(
-            controller: _controller,
-            focusNode: _focusNode,
-            obscureText: _obscureText,
-            enabled: widget.enabled,
-            readOnly: widget.isDatePicker || widget.readOnly,
-            keyboardType:
-                widget.isDatePicker ? TextInputType.none : widget.keyboardType,
-            textInputAction: widget.textInputAction,
-            style: widget.style ??
-                Theme.of(context).sInputFieldTheme.textStyle ??
-                TextStyle(
-                  color: Theme.of(context).sInputFieldTheme.textColor,
-                  fontSize: 14.0,
-                ),
-            autocorrect: widget.autocorrect,
-            autofocus: widget.autofocus,
-            enableSuggestions: widget.enableSuggestions,
-            maxLines: widget.maxLines,
-            minLines: widget.minLines,
-            maxLength: widget.maxLength,
-            autofillHints: widget.autofillHints,
-            validator: widget.validator,
-            onSaved: widget.onSaved,
-            onChanged: widget.onChanged,
-            onEditingComplete: widget.onEditingComplete,
-            onFieldSubmitted: widget.onFieldSubmitted,
-            onTap: widget.isDatePicker ? _selectDate : null,
-            decoration: effectiveDecoration,
-          ),
-          // Start Icon
-          if (widget.startIcon != null)
-            Positioned(
-              left: 16.0,
-              top: (_getHeight() - 24.0) / 2,
-              child: SizedBox(
-                width: 24.0,
-                height: 24.0,
-                child: widget.startIcon,
+    final InputDecoration finalDecoration = _mergeDecorations(effectiveDecoration, widget.decoration);
+
+
+    return Stack(
+      children: [
+        TextFormField(
+          controller: _controller,
+          focusNode: _focusNode,
+          obscureText: _obscureText,
+          enabled: widget.enabled,
+          readOnly: widget.readOnly,
+          keyboardType: widget.keyboardType,
+          textInputAction: widget.textInputAction,
+          style: widget.style ??
+              Theme.of(context).sInputFieldTheme.textStyle ??
+              TextStyle(
+                color: Theme.of(context).sInputFieldTheme.textColor,
+                fontSize: 14.0,
               ),
-            ),
-          // End Icon or Obscure Toggle or Calendar Icon
-          if (_showObscureToggle ||
-              (widget.endIcon != null && !widget.isDatePicker) ||
-              widget.isDatePicker)
-            Positioned(
-              right: 16.0,
-              top: (_getHeight() - 24.0) / 2,
-              child: SizedBox(
-                width: 24.0,
-                height: 24.0,
-                child: _showObscureToggle
-                    ? IconButton(
-                        padding: EdgeInsets.zero,
-                        icon: Icon(
-                          _obscureText
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                          size: 20.0,
-                          color: Theme.of(context).sInputFieldTheme.iconColor,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _obscureText = !_obscureText;
-                          });
-                        },
-                        tooltip:
-                            _obscureText ? 'Show Password' : 'Hide Password',
-                      )
-                    : widget.endIcon,
-              ),
-            ),
-        ],
-      ),
+          autocorrect: widget.autocorrect,
+          autofocus: widget.autofocus,
+          enableSuggestions: widget.enableSuggestions,
+          maxLines: widget.maxLines,
+          minLines: widget.minLines,
+          maxLength: widget.maxLength,
+          autofillHints: widget.autofillHints,
+          validator: widget.validator,
+          onSaved: widget.onSaved,
+          onChanged: widget.onChanged,
+          onEditingComplete: widget.onEditingComplete,
+          onFieldSubmitted: widget.onFieldSubmitted,
+          decoration: finalDecoration,
+        ),
+      ],
     );
   }
 }

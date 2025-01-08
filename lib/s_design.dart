@@ -31,6 +31,7 @@ export 'src/widgets/s_list_tile/themes/t_list_tile_theme_extension.dart';
 export 'src/widgets/s_list_tile/themes/t_list_tile_theme.dart';
 export 'src/widgets/s_modal/enums/modal_animation_type.dart';
 export 'src/widgets/s_modal/enums/s_modal_size.dart';
+export 'src/widgets/s_modal/enums/s_modal_type.dart';
 export 'src/widgets/s_modal/s_modal.dart';
 export 'src/widgets/s_modal/themes/s_modal_theme.dart';
 export 'src/widgets/s_modal/utils/s_modal_utils.dart';

@@ -2,6 +2,7 @@ import 'package:example/pages/card.dart';
 import 'package:example/pages/check_box.dart';
 import 'package:example/pages/dropdown_menu.dart';
 import 'package:example/pages/inputs_page.dart';
+import 'package:example/pages/s_modal_page.dart';
 import 'package:example/pages/sbutton.dart';
 import 'package:get/get.dart';
 
@@ -22,6 +23,12 @@ class AppRoutes {
     GetPage(
       name: '/inputs_page',
       page: () => const InputFieldPage(),
+      transition: Transition.rightToLeft,
+    ),
+
+    GetPage(
+      name: '/modal_page',
+      page: () => const ModalPage(),
       transition: Transition.rightToLeft,
     ),
   ];

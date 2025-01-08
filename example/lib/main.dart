@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
     {'title': 'Check bBoxes', 'page': '/check_box_page'},
     {'title': 'Progress Indicators', 'page': '/progress_indicator_page'},
     {'title': 'Cards', 'page': '/card_page'},
-    {'title': 'Chips', 'page': '/chip_page'},
+    {'title': 'Modals', 'page': '/modal_page'},
     {'title': 'Tabs', 'page': '/tab_page'},
     {'title': 'Bottom Navigation', 'page': '/bottom_navigation_page'},
     {'title': 'App Bars', 'page': '/app_bar_page'},

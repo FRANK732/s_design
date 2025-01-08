@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/src/widgets/s_modal/enums/modal_animation_type.dart';
 import 'package:s_design/src/widgets/s_modal/enums/s_modal_size.dart';
+import 'package:s_design/src/widgets/s_modal/enums/s_modal_type.dart';
 import 'package:s_design/src/widgets/s_modal/themes/s_modal_theme.dart';
 import 'package:s_design/src/widgets/s_modal/utils/s_modal_utils.dart';
 
@@ -16,7 +17,7 @@ class SModal extends StatefulWidget {
   final String message;
 
   /// The icon to display at the top of the modal. Defaults to a generic info icon.
-  final IconData? icon;
+  final Icon? icon;
 
   /// The color of the icon. Defaults to primary color if not specified.
   final Color? iconColor;
@@ -71,35 +72,38 @@ class SModal extends StatefulWidget {
   }) : super(key: key);
 
   /// Method to show the modal.
-  static Future<void> show(
-    BuildContext context, {
-    required String title,
-    required String message,
-    IconData? icon,
-    Color? iconColor,
-    List<Widget>? actions,
-    bool barrierDismissible = true,
-    Color barrierColor = Colors.black54,
-    String? barrierLabel,
-    Duration transitionDuration = const Duration(milliseconds: 300),
-    ShapeBorder? shape,
-    Color? backgroundColor,
-    EdgeInsetsGeometry? contentPadding,
-    SModalAnimationType animationType = SModalAnimationType.fade,
-    SModalSize size = SModalSize.medium,
-  }) {
-    // If barrierDismissible is true and barrierLabel is not provided, set a default label.
+  static Future<void> _show(
+      BuildContext context, {
+        required String title,
+        required String message,
+        Icon? icon,
+        Color? iconColor,
+        List<Widget>? actions,
+        bool barrierDismissible = true,
+        Color barrierColor = Colors.black54,
+        String? barrierLabel,
+        Duration transitionDuration = const Duration(milliseconds: 300),
+        ShapeBorder? shape,
+        Color? backgroundColor,
+        EdgeInsetsGeometry? contentPadding,
+        SModalAnimationType animationType = SModalAnimationType.fade,
+        SModalSize size = SModalSize.medium,
+      }) {
+    // Compute the effective barrierLabel
+    final String? effectiveBarrierLabel =
+    barrierDismissible ? (barrierLabel ?? 'Dismiss dialog') : null;
+
+    // Update the assertion to check the effective barrierLabel
     assert(
-      !barrierDismissible || barrierLabel != null,
-      '!barrierDismissible || barrierLabel != null',
+    !barrierDismissible || effectiveBarrierLabel != null,
+    '!barrierDismissible || effectiveBarrierLabel != null',
     );
 
     return showGeneralDialog(
       context: context,
       barrierDismissible: barrierDismissible,
       barrierColor: barrierColor,
-      barrierLabel:
-          barrierDismissible ? (barrierLabel ?? 'Dismiss dialog') : null,
+      barrierLabel: effectiveBarrierLabel,
       transitionDuration: transitionDuration,
       pageBuilder: (context, animation, secondaryAnimation) {
         return SafeArea(
@@ -131,6 +135,211 @@ class SModal extends StatefulWidget {
           animation,
         );
       },
+    );
+  }
+
+
+  // ### Specialized Static Methods ###
+
+  /// Displays a Success modal with predefined settings.
+  static Future<void> showSuccess(
+      BuildContext context, {
+        required String message,
+        String title = 'Success',
+        List<Widget>? actions,
+        bool barrierDismissible = true,
+        Color barrierColor = Colors.black54,
+        String? barrierLabel,
+        Duration transitionDuration = const Duration(milliseconds: 300),
+        ShapeBorder? shape,
+        Color? backgroundColor,
+        EdgeInsetsGeometry? contentPadding,
+        SModalAnimationType animationType = SModalAnimationType.fade,
+        SModalSize size = SModalSize.medium,
+      }) {
+    return _show(
+      context,
+      title: title,
+      message: message,
+      icon: Icon(Icons.check_circle_outline) ,
+      iconColor: Colors.green,
+      actions: actions,
+      barrierDismissible: barrierDismissible,
+      barrierColor: barrierColor,
+      barrierLabel: barrierLabel,
+      transitionDuration: transitionDuration,
+      shape: shape,
+      backgroundColor: backgroundColor,
+      contentPadding: contentPadding,
+      animationType: animationType,
+      size: size,
+    );
+  }
+
+  /// Displays an Error modal with predefined settings.
+  static Future<void> showError(
+      BuildContext context, {
+        required String message,
+        String title = 'Error',
+        List<Widget>? actions,
+        bool barrierDismissible = true,
+        Color barrierColor = Colors.black54,
+        String? barrierLabel,
+        Duration transitionDuration = const Duration(milliseconds: 300),
+        ShapeBorder? shape,
+        Color? backgroundColor,
+        EdgeInsetsGeometry? contentPadding,
+        SModalAnimationType animationType = SModalAnimationType.fade,
+        SModalSize size = SModalSize.medium,
+      }) {
+    return _show(
+      context,
+      title: title,
+      message: message,
+      icon: Icon(Icons.error_outline,color: Colors.red,),
+      actions: actions,
+      barrierDismissible: barrierDismissible,
+      barrierColor: barrierColor,
+      barrierLabel: barrierLabel,
+      transitionDuration: transitionDuration,
+      shape: shape,
+      backgroundColor: backgroundColor,
+      contentPadding: contentPadding,
+      animationType: animationType,
+      size: size,
+    );
+  }
+
+  /// Displays an Info modal with predefined settings.
+  static Future<void> showInfo(
+      BuildContext context, {
+        required String message,
+        String title = 'Information',
+        List<Widget>? actions,
+        bool barrierDismissible = true,
+        Color barrierColor = Colors.black54,
+        String? barrierLabel,
+        Duration transitionDuration = const Duration(milliseconds: 300),
+        ShapeBorder? shape,
+        Color? backgroundColor,
+        Icon? icon,
+        EdgeInsetsGeometry? contentPadding,
+        SModalAnimationType animationType = SModalAnimationType.fade,
+        SModalSize size = SModalSize.medium,
+      }) {
+    return _show(
+      context,
+      title: title,
+      message: message,
+      icon: icon ?? Icon(Icons.info_outline, color:Colors.blue),
+      actions: actions,
+      barrierDismissible: barrierDismissible,
+      barrierColor: barrierColor,
+      barrierLabel: barrierLabel,
+      transitionDuration: transitionDuration,
+      shape: shape,
+      backgroundColor: backgroundColor,
+      contentPadding: contentPadding,
+      animationType: animationType,
+      size: size,
+    );
+  }
+
+  /// Displays a Warning modal with predefined settings.
+  static Future<void> showWarning(
+      BuildContext context, {
+        required String message,
+        String title = 'Warning',
+        List<Widget>? actions,
+        bool barrierDismissible = true,
+        Color barrierColor = Colors.black54,
+        String? barrierLabel,
+        Duration transitionDuration = const Duration(milliseconds: 300),
+        ShapeBorder? shape,
+        Color? backgroundColor,
+        EdgeInsetsGeometry? contentPadding,
+        SModalAnimationType animationType = SModalAnimationType.fade,
+        SModalSize size = SModalSize.medium,
+        Icon? icon
+      }) {
+    return _show(
+      context,
+      title: title,
+      message: message,
+      icon: icon ?? Icon(Icons.warning_amber_outlined, color:Colors.orange),
+      actions: actions,
+      barrierDismissible: barrierDismissible,
+      barrierColor: barrierColor,
+      barrierLabel: barrierLabel,
+      transitionDuration: transitionDuration,
+      shape: shape,
+      backgroundColor: backgroundColor,
+      contentPadding: contentPadding,
+      animationType: animationType,
+      size: size,
+    );
+  }
+
+  /// Displays a Custom modal where you can specify the modal type.
+  static Future<void> showCustom(
+      BuildContext context, {
+        required SModalType type,
+        required String title,
+        required String message,
+        List<Widget>? actions,
+        bool barrierDismissible = true,
+        Color barrierColor = Colors.black54,
+        String? barrierLabel,
+        Duration transitionDuration = const Duration(milliseconds: 300),
+        ShapeBorder? shape,
+        Color? backgroundColor,
+        EdgeInsetsGeometry? contentPadding,
+        SModalAnimationType animationType = SModalAnimationType.fade,
+        SModalSize size = SModalSize.medium,
+        IconData? customIcon,
+        Color? customIconColor,
+      }) {
+    IconData? icon;
+    Color? iconColor;
+
+    switch (type) {
+      case SModalType.success:
+        icon = Icons.check_circle_outline;
+        iconColor = Colors.green;
+        break;
+      case SModalType.error:
+        icon = Icons.error_outline;
+        iconColor = Colors.red;
+        break;
+      case SModalType.info:
+        icon = Icons.info_outline;
+        iconColor = Colors.blue;
+        break;
+      case SModalType.warning:
+        icon = Icons.warning_amber_outlined;
+        iconColor = Colors.orange;
+        break;
+      case SModalType.custom:
+        icon = customIcon;
+        iconColor = customIconColor;
+        break;
+    }
+
+    return _show(
+      context,
+      title: title,
+      message: message,
+      icon: Icon(icon, color: iconColor),
+     actions: actions,
+      barrierDismissible: barrierDismissible,
+      barrierColor: barrierColor,
+      barrierLabel: barrierLabel,
+      transitionDuration: transitionDuration,
+      shape: shape,
+      backgroundColor: backgroundColor,
+      contentPadding: contentPadding,
+      animationType: animationType,
+      size: size,
     );
   }
 
@@ -177,6 +386,7 @@ class _SModalState extends State<SModal> with SingleTickerProviderStateMixin {
     double modalWidth;
     double modalHeight;
 
+
     switch (widget.size) {
       case SModalSize.small:
         modalWidth = MediaQuery.of(context).size.width * 0.6;
@@ -197,6 +407,8 @@ class _SModalState extends State<SModal> with SingleTickerProviderStateMixin {
       default:
         modalWidth = MediaQuery.of(context).size.width * 0.8;
         modalHeight = MediaQuery.of(context).size.height * 0.4;
+
+
     }
 
     return Center(
@@ -206,12 +418,8 @@ class _SModalState extends State<SModal> with SingleTickerProviderStateMixin {
           color: Colors.transparent,
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: widget.size != SModalSize.fullScreen
-                  ? (modalWidth > 500 ? 500 : modalWidth)
-                  : modalWidth,
-              maxHeight: widget.size != SModalSize.fullScreen
-                  ? modalHeight
-                  : double.infinity,
+              maxWidth:  modalWidth,
+              maxHeight: modalHeight,
             ),
             child: Dialog(
               shape: widget.shape ??
@@ -228,12 +436,7 @@ class _SModalState extends State<SModal> with SingleTickerProviderStateMixin {
                     children: [
                       const SizedBox(height: 10),
                       // Optional Icon
-                      if (widget.icon != null)
-                        Icon(
-                          widget.icon,
-                          color: widget.iconColor ?? theme.iconColor,
-                          size: theme.iconSize,
-                        ),
+                      if (widget.icon != null) widget.icon!,
                       if (widget.icon != null) const SizedBox(height: 20),
                       // Title Text
                       Text(

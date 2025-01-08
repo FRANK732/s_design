@@ -101,7 +101,6 @@ class SInputFieldThemeData extends ThemeExtension<SInputFieldThemeData> {
   }
 
   /// Creates a copy of this theme with the given fields replaced with the new values.
-  @override
   SInputFieldThemeData copyWithPartial({
     Color? backgroundColor,
     Color? textColor,

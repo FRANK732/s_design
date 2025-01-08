@@ -23,7 +23,11 @@ class _InputFieldPageState extends State<InputFieldPage> {
   final FocusNode _dateFocusNode = FocusNode();
   final FocusNode _validationFocusNode = FocusNode();
 
-  String? _selectedDate;
+  _onSubmit(){
+    if(_formKey.currentState!.validate()){
+      print('Form is valid');
+    }
+  }
 
   @override
   void dispose() {
@@ -80,12 +84,16 @@ class _InputFieldPageState extends State<InputFieldPage> {
               const Divider(height: 40),
               _buildSectionTitle('Input with Icons'),
               const SizedBox(height: 8),
-              SInputField(
+              SInputField.search(
                 controller: _iconController,
                 focusNode: _iconFocusNode,
                 hintText: 'Search',
-                startIcon: const Icon(Icons.search),
-                endIcon: const Icon(Icons.clear),
+                validator: (data){
+                  if(data!.isEmpty){
+                    return 'This field cannot be empty';
+                  }
+                  return null;
+                },
                 onChanged: (value) {
                   if (value.isEmpty) {
                     _iconController.clear();
@@ -95,11 +103,10 @@ class _InputFieldPageState extends State<InputFieldPage> {
               const Divider(height: 40),
               _buildSectionTitle('Date Picker Input'),
               const SizedBox(height: 8),
-              SInputField(
+              SInputField.datePicker(
                 controller: _dateController,
                 focusNode: _dateFocusNode,
                 hintText: 'Select date',
-                isDatePicker: true,
                 initialDate: DateTime.now(),
               ),
               const Divider(height: 40),
@@ -116,9 +123,7 @@ class _InputFieldPageState extends State<InputFieldPage> {
               ),
               const SizedBox(height: 20),
               SButton(
-                onPressed: () {
-                  // Implement form validation and saving if using within a Form
-                },
+                onPressed: _onSubmit,
                 child: const Text('Submit'),
               ),
               const Divider(height: 40),
