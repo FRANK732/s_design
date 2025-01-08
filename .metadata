@@ -41,31 +41,6 @@ dev_dependencies:
 - Predefined widgets for common UI patterns.
 - Extensible architecture to create custom widgets.
 
-## Package Structure
-
-```
-📦sDesign
- ┣ 📂example
- ┃ ┣ 📂lib
- ┃ ┃ ┣ 📜app_routes.dart
- ┃ ┃ ┣ 📜main.dart
- ┃ ┃ ┗ 📂pages
- ┃ ┃ ┃ ┣ 📜card.dart
- ┃ ┃ ┃ ┣ 📜check_box.dart
- ┃ ┃ ┃ ┣ 📜dropdown_menu.dart
- ┃ ┃ ┃ ┣ 📜inputs_page.dart
- ┃ ┃ ┃ ┣ 📜s_modal_page.dart
- ┃ ┃ ┃ ┗ 📜sbutton.dart
- ┣ 📂lib
- ┃ ┣ 📜s_design.dart
- ┃ ┗ 📂src
- ┃ ┃ ┣ 📂widgets
- ┃ ┃ ┃ ┗ 📜[Widget files]
- ┃ ┃ ┗ 📂common
- ┃ ┃ ┃ ┗ 📜[Common files]
- ┗ 📂test
-   ┗ 📜package_test.dart
-```
 
 ## Example Usage
 
