@@ -151,7 +151,7 @@ class SCard extends StatelessWidget {
 
   /// Creates an [SCard] widget.
   const SCard({
-    Key? key,
+    super.key,
     this.title,
     this.titleStyle,
     this.description,
@@ -192,8 +192,7 @@ class SCard extends StatelessWidget {
         assert(
           shadowStyle != SCardShadow.custom || customShadow != null,
           'customShadow must be provided when shadowStyle is set to SCardShadow.custom.',
-        ),
-        super(key: key);
+        );
 
   @override
   Widget build(BuildContext context) {

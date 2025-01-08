@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/src/widgets/s_dropdown_menu/enums/s_dropdown_menu_item_type.dart';
 import 'package:s_design/s_design.dart';
 
 class DropdownMenuPage extends StatefulWidget {
@@ -11,10 +10,10 @@ class DropdownMenuPage extends StatefulWidget {
 
 class _DropdownMenuPageState extends State<DropdownMenuPage> {
   bool _isFeatureEnabled = false;
-  String? _selectedOption;
+  // String? _selectedOption;
   String? _selectedRadio;
-  List<String> _checkedItems = [];
-  String? _selectedSubOption;
+  final List<String> _checkedItems = [];
+  // String? _selectedSubOption;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +72,7 @@ class _DropdownMenuPageState extends State<DropdownMenuPage> {
             const SizedBox(height: 8),
             SDropdownMenu<String>(
               // closeOnItemTap: false,
-              trigger: Text('Dropdown with Checkboxes'),
+              trigger: const Text('Dropdown with Checkboxes'),
               items: [
                 SDropdownMenuItemData(
                   label: 'Enable Feature',

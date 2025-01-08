@@ -44,7 +44,7 @@ class SDialog extends StatelessWidget {
 
   /// Creates an [SDialog] widget.
   const SDialog({
-    Key? key,
+    super.key,
     required this.trigger,
     this.type = SDialogType.alert,
     this.title,
@@ -57,7 +57,7 @@ class SDialog extends StatelessWidget {
     this.shape,
     this.backgroundColor,
     this.contentPadding,
-  }) : super(key: key);
+  });
 
   /// Displays the dialog.
   void _showDialog(BuildContext context) {

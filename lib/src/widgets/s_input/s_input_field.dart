@@ -95,7 +95,7 @@ class SInputField extends StatefulWidget {
 
   /// Creates an [SInputField] widget.
   const SInputField({
-    Key? key,
+    super.key,
     this.controller,
     this.focusNode,
     this.size = SInputFieldSize.sm,
@@ -125,7 +125,7 @@ class SInputField extends StatefulWidget {
     this.enableSuggestions = true,
     this.autofillHints,
     this.hintStyle,
-  }) : super(key: key);
+  });
 
   factory SInputField.password({
     Key? key,
@@ -213,7 +213,7 @@ class SInputField extends StatefulWidget {
       endIcon: Builder(
         builder: (BuildContext context) {
           return IconButton(
-            icon: Icon(Icons.calendar_today),
+            icon: const Icon(Icons.calendar_today),
             onPressed: () async {
               DateTime initialDateValue = initialDate ?? DateTime.now();
               DateTime firstDate = DateTime(1900);
@@ -262,7 +262,6 @@ class SInputField extends StatefulWidget {
     bool autofocus = false,
     bool enableSuggestions = true,
     Iterable<String>? autofillHints,
-
   }) {
     return SInputField(
       key: key,
@@ -283,9 +282,9 @@ class SInputField extends StatefulWidget {
       autofocus: autofocus,
       enableSuggestions: enableSuggestions,
       autofillHints: autofillHints,
-      startIcon: Icon(Icons.search),
+      startIcon: const Icon(Icons.search),
       endIcon: IconButton(
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
         onPressed: () {
           controller.clear();
           if (onChanged != null) {
@@ -365,7 +364,9 @@ class _SInputFieldState extends State<SInputField> {
             : null;
       }
     }
-    InputDecoration _mergeDecorations(InputDecoration base, InputDecoration? override) {
+
+    InputDecoration mergeDecorations(
+        InputDecoration base, InputDecoration? override) {
       return base.copyWith(
         hintText: override?.hintText ?? base.hintText,
         hintStyle: override?.hintStyle ?? base.hintStyle,
@@ -416,8 +417,8 @@ class _SInputFieldState extends State<SInputField> {
           : widget.endIcon,
     );
 
-    final InputDecoration finalDecoration = _mergeDecorations(effectiveDecoration, widget.decoration);
-
+    final InputDecoration finalDecoration =
+        mergeDecorations(effectiveDecoration, widget.decoration);
 
     return Stack(
       children: [

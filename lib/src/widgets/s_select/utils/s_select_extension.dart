@@ -46,7 +46,7 @@ class _SSelectContentState<T> extends State<SSelectContent<T>> {
     _filteredItems = widget.items;
     _searchController.addListener(_filterItems);
     if (widget.isMultiSelect && widget.selectedValue != null) {
-      _multiSelectedValues = [widget.selectedValue!];
+      _multiSelectedValues = [widget.selectedValue as T];
     }
   }
 
@@ -97,7 +97,7 @@ class _SSelectContentState<T> extends State<SSelectContent<T>> {
           ? Icon(Icons.check_box, color: Theme.of(context).primaryColor)
           : Icon(Icons.check, color: Theme.of(context).primaryColor))
           : (widget.isMultiSelect
-          ? Icon(Icons.check_box_outline_blank)
+          ? const Icon(Icons.check_box_outline_blank)
           : const SizedBox(width: 24)),
       title: Text(
         item.label,

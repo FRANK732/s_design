@@ -33,7 +33,8 @@ class Sonner {
     ToastSize size = ToastSize.md,
   }) {
     if (_overlayState == null) {
-      throw Exception('AdvancedToast is not initialized. Call initialize() first.');
+      throw Exception(
+          'AdvancedToast is not initialized. Call initialize() first.');
     }
 
     final entry = _ToastEntry(
@@ -63,7 +64,8 @@ class Sonner {
 
     _overlayState?.insert(overlayEntry);
 
-    Future.delayed(currentToast.duration + const Duration(milliseconds: 300), () {
+    Future.delayed(currentToast.duration + const Duration(milliseconds: 300),
+        () {
       overlayEntry.remove();
       _isShowing = false;
       _displayNext();
@@ -106,7 +108,8 @@ class _ToastWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color backgroundColor = entry.backgroundColor ?? _getBackgroundColor(entry.type);
+    Color backgroundColor =
+        entry.backgroundColor ?? _getBackgroundColor(entry.type);
     IconData icon = entry.icon ?? _getIcon(entry.type);
 
     Alignment alignment;
@@ -198,7 +201,7 @@ class _ToastWidget extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(icon, color: Colors.white),
-                        SizedBox(width: 12),
+                        const SizedBox(width: 12),
                         Flexible(
                           child: Text(
                             entry.message,

@@ -54,7 +54,7 @@ class SModal extends StatefulWidget {
 
   /// Creates an [SModal].
   const SModal({
-    Key? key,
+    super.key,
     required this.title,
     required this.message,
     this.icon,
@@ -69,7 +69,7 @@ class SModal extends StatefulWidget {
     this.contentPadding,
     this.animationType = SModalAnimationType.fade,
     this.size = SModalSize.medium,
-  }) : super(key: key);
+  });
 
   /// Method to show the modal.
   static Future<void> _show(
@@ -161,7 +161,7 @@ class SModal extends StatefulWidget {
       context,
       title: title,
       message: message,
-      icon: Icon(Icons.check_circle_outline) ,
+      icon: const Icon(Icons.check_circle_outline) ,
       iconColor: Colors.green,
       actions: actions,
       barrierDismissible: barrierDismissible,
@@ -196,7 +196,7 @@ class SModal extends StatefulWidget {
       context,
       title: title,
       message: message,
-      icon: Icon(Icons.error_outline,color: Colors.red,),
+      icon: const Icon(Icons.error_outline,color: Colors.red,),
       actions: actions,
       barrierDismissible: barrierDismissible,
       barrierColor: barrierColor,
@@ -231,7 +231,7 @@ class SModal extends StatefulWidget {
       context,
       title: title,
       message: message,
-      icon: icon ?? Icon(Icons.info_outline, color:Colors.blue),
+      icon: icon ?? const Icon(Icons.info_outline, color:Colors.blue),
       actions: actions,
       barrierDismissible: barrierDismissible,
       barrierColor: barrierColor,
@@ -266,7 +266,7 @@ class SModal extends StatefulWidget {
       context,
       title: title,
       message: message,
-      icon: icon ?? Icon(Icons.warning_amber_outlined, color:Colors.orange),
+      icon: icon ?? const Icon(Icons.warning_amber_outlined, color:Colors.orange),
       actions: actions,
       barrierDismissible: barrierDismissible,
       barrierColor: barrierColor,

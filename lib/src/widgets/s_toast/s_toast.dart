@@ -14,10 +14,10 @@ class SToastWidget extends StatefulWidget {
 
   /// Creates an [SToastWidget].
   const SToastWidget({
-    Key? key,
+    super.key,
     required this.options,
     required this.onDismiss,
-  }) : super(key: key);
+  });
 
   @override
   _SToastWidgetState createState() => _SToastWidgetState();

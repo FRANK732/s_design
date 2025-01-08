@@ -106,7 +106,7 @@ class _SSelectState<T> extends State<SSelect<T>> {
 
   void _showOverlay() {
     final overlay = Overlay.of(context);
-    if (overlay == null) return;
+    // if (overlay == null) return;
 
     final renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;

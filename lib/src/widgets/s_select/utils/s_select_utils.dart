@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:s_design/src/widgets/s_select/enums/s_select_direction.dart';
-import 'package:s_design/src/widgets/s_select/s_select.dart';
 import 'package:s_design/src/widgets/s_select/utils/s_select_extension.dart';
 
 /// Utility class for filtering select items based on a search query.

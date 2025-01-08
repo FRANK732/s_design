@@ -12,7 +12,7 @@ class _CheckboxPageState extends State<CheckboxPage> {
   SCheckboxState _defaultCheckboxState = SCheckboxState.unchecked;
   SCheckboxState _customColoredCheckboxState = SCheckboxState.unchecked;
   SCheckboxState _largeStyledCheckboxState = SCheckboxState.unchecked;
-  SCheckboxState _disabledCheckboxState = SCheckboxState.unchecked;
+  final SCheckboxState _disabledCheckboxState = SCheckboxState.unchecked;
   SCheckboxState _indeterminateCheckboxState = SCheckboxState.unchecked;
 
   @override

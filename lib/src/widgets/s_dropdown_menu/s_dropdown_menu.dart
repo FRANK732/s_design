@@ -281,7 +281,6 @@ class _SDropdownMenuState<T> extends State<SDropdownMenu<T>>
       onChanged: item.enabled
           ? (value) {
               if (item.onCheckedChanged != null) {
-                print('onCheckedChanged $value');
                 item.onCheckedChanged!(value ?? false);
               }
               // if (widget.closeOnItemTap) {
@@ -396,7 +395,7 @@ class SDropdownSubmenu<T> extends StatefulWidget {
 
   /// Creates an [SDropdownSubmenu].
   const SDropdownSubmenu({
-    Key? key,
+    super.key,
     required this.parentItem,
     required this.buildMenuItem,
     required this.closeParentMenu,
@@ -404,7 +403,7 @@ class SDropdownSubmenu<T> extends StatefulWidget {
     this.disabledItemTextStyle,
     this.backgroundColor,
     this.elevation = 8.0,
-  }) : super(key: key);
+  });
 
   @override
   _SDropdownSubmenuState<T> createState() => _SDropdownSubmenuState<T>();
@@ -463,7 +462,7 @@ class _SDropdownSubmenuState<T> extends State<SDropdownSubmenu<T>>
     Size size = renderBox.size;
     Offset offset = renderBox.localToGlobal(Offset.zero);
 
-    double screenWidth = MediaQuery.of(context).size.width;
+    // double screenWidth = MediaQuery.of(context).size.width;
 
     return OverlayEntry(
       builder: (context) {

@@ -49,7 +49,7 @@ class SLoadingIndicator extends StatefulWidget {
   final Duration animationDuration;
 
   const SLoadingIndicator({
-    Key? key,
+    super.key,
     this.message = "Loading...",
     this.color,
     this.size = 25.0,
@@ -63,7 +63,7 @@ class SLoadingIndicator extends StatefulWidget {
     this.semanticLabel,
     this.borderRadius,
     this.animationDuration = const Duration(milliseconds: 300),
-  }) : super(key: key);
+  });
 
   @override
   _SLoadingIndicatorState createState() => _SLoadingIndicatorState();
@@ -71,14 +71,14 @@ class SLoadingIndicator extends StatefulWidget {
 
 class _SLoadingIndicatorState extends State<SLoadingIndicator>
     with SingleTickerProviderStateMixin {
-  bool _visible = false;
+  // bool _visible = false;
   late AnimationController _controller;
   late Animation<double> _animation;
 
   @override
   void initState() {
     super.initState();
-    _visible = true;
+    // _visible = true;
     _controller = AnimationController(
       vsync: this,
       duration: widget.animationDuration,
@@ -154,8 +154,8 @@ class _SLoadingIndicatorState extends State<SLoadingIndicator>
   Widget build(BuildContext context) {
     final theme = Theme.of(context).sLoadingIndicatorTheme;
 
-    final spinnerColor = widget.color ?? theme.spinnerColor;
-    final spinnerSize = widget.size;
+    // final spinnerColor = widget.color ?? theme.spinnerColor;
+    // final spinnerSize = widget.size;
     final messageStyle = widget.messageStyle ??
         theme.messageStyle.copyWith(color: widget.messageColor);
 

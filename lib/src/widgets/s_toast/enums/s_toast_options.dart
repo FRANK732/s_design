@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 
 /// Represents the properties of a toast message.
 class SToastOptions {

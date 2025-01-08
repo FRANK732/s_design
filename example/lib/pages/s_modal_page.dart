@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
 
 class ModalPage extends StatelessWidget {
-  const ModalPage({Key? key}) : super(key: key);
+  const ModalPage({super.key});
 
   // Helper method to create action buttons
   List<Widget> _buildActions(BuildContext context) {

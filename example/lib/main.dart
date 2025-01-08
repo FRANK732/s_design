@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
     {'title': 'Sliders', 'page': '/slider_page'},
     {'title': 'Switches', 'page': '/switch_page'},
     {'title': 'Date Pickers', 'page': '/date_picker_page'},
-    {'title': 'Time Pickers', 'page': '/time_picker'}
+    {'title': 'Time Pickers', 'page': '/time_picker'},
   ];
 
   @override

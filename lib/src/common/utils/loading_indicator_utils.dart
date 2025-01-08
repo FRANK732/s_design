@@ -4,7 +4,7 @@ import 'package:s_design/src/common/enums/s_loading_types.dart';
 class SLoadingIndicatorUtils {
   /// Validates if the provided [SLoaderType] is supported.
   static bool isSupportedLoaderType(SLoaderType type) {
-    return type != null;
+    return type != SLoaderType.circle;
   }
 
   /// Formats the loading message based on context or other parameters.

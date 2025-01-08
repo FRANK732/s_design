@@ -46,7 +46,7 @@ class SProgressBar extends StatelessWidget {
   ///
   /// The [value] must be non-negative and [max] must be greater than zero.
   const SProgressBar({
-    Key? key,
+    super.key,
     required this.value,
     this.max = 100.0,
     this.height = 8.0,
@@ -56,8 +56,7 @@ class SProgressBar extends StatelessWidget {
     this.animationDuration,
     this.animationCurve,
   })  : assert(value >= 0),
-        assert(max > 0),
-        super(key: key);
+        assert(max > 0);
 
   @override
   Widget build(BuildContext context) {

@@ -36,13 +36,13 @@ class TListTile extends StatelessWidget {
 
   /// Creates a [TListTile].
   const TListTile({
-    Key? key,
+    super.key,
     required this.title,
     this.subtitle,
     this.leading,
     this.trailing,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
