@@ -1,7 +1,118 @@
-# This file tracks properties of this Flutter project.
-# Used by Flutter tool to assess capabilities and perform upgrades etc.
-#
-# This file should be version controlled and should not be manually edited.
+# Package Metadata for sDesign
+
+This metadata file outlines essential details about the **sDesign** Flutter package to provide a comprehensive overview for users and contributors. Below are the key metadata attributes:
+
+## General Information
+
+- **Package Name:** `sDesign`
+- **Description:** A comprehensive Flutter UI component library offering customizable widgets such as buttons, modals, cards, and more to build consistent and professional user interfaces.
+- **Version:** `1.0.0`
+- **Author:** [Your Name or Organization]
+- **License:** MIT
+- **Homepage:** [https://github.com/FRANK732/s_design](https://github.com/FRANK732/s_design)(https://github.com/yourusername/sDesign)
+
+## Flutter/Dart Compatibility
+
+- **Dart SDK:** `^3.5.3`
+- **Flutter SDK:** `>=1.17.0`
+
+## Dependencies
+
+The following dependencies are required for the sDesign package:
+
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_spinkit: ^5.2.1
+  provider: ^6.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  test: ^1.25.7
+```
+
+## Key Features
+
+- Modular UI components for Flutter applications.
+- Comprehensive theming and utility functions.
+- Predefined widgets for common UI patterns.
+- Extensible architecture to create custom widgets.
+
+## Package Structure
+
+```
+📦sDesign
+ ┣ 📂example
+ ┃ ┣ 📂lib
+ ┃ ┃ ┣ 📜app_routes.dart
+ ┃ ┃ ┣ 📜main.dart
+ ┃ ┃ ┗ 📂pages
+ ┃ ┃ ┃ ┣ 📜card.dart
+ ┃ ┃ ┃ ┣ 📜check_box.dart
+ ┃ ┃ ┃ ┣ 📜dropdown_menu.dart
+ ┃ ┃ ┃ ┣ 📜inputs_page.dart
+ ┃ ┃ ┃ ┣ 📜s_modal_page.dart
+ ┃ ┃ ┃ ┗ 📜sbutton.dart
+ ┣ 📂lib
+ ┃ ┣ 📜s_design.dart
+ ┃ ┗ 📂src
+ ┃ ┃ ┣ 📂widgets
+ ┃ ┃ ┃ ┗ 📜[Widget files]
+ ┃ ┃ ┗ 📂common
+ ┃ ┃ ┃ ┗ 📜[Common files]
+ ┗ 📂test
+   ┗ 📜package_test.dart
+```
+
+## Example Usage
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:s_design/s_design.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('sDesign Example'),
+        ),
+        body: Center(
+          child: SButton(
+            onPressed: () {},
+            label: 'Click Me',
+            variant: SButtonVariant.primary,
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+## Licensing
+
+This package is licensed under the [MIT License](https://github.com/FRANK732/s_design/blob/development/LICENSE).
+
+## Contributions
+
+Contributions are welcome! Please read the `CONTRIBUTING.md` file for guidelines on submitting issues, pull requests, and feature suggestions.
+
+## Contact
+
+For further information or support, please contact:
+
+- **GitHub Repository:** [https://github.com/FRANK732/s_design](https://github.com/FRANK732/s_design)(https://github.com/yourusername/sDesign)
+- **Issues:** [https://github.com/FRANK732/s_design/issues](https://github.com/FRANK732/s_design/issues)(https://github.com/yourusername/sDesign/issues)
+- **Discussions:** [https://github.com/FRANK732/s_design/discussions](https://github.com/FRANK732/s_design/discussions)(https://github.com/yourusername/sDesign/discussions)
 
 version:
   revision: "2663184aa79047d0a33a14a3b607954f8fdd8730"
