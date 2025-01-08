@@ -90,7 +90,7 @@ class SDropdownMenu<T> extends StatefulWidget {
 
   /// Creates an [SDropdownMenu].
   const SDropdownMenu({
-    Key? key,
+    super.key,
     required this.trigger,
     required this.items,
     this.selectedRadioValue,
@@ -102,7 +102,7 @@ class SDropdownMenu<T> extends StatefulWidget {
     this.backgroundColor,
     this.elevation = 8.0,
     this.padding,
-  }) : super(key: key);
+  });
 
   @override
   _SDropdownMenuState<T> createState() => _SDropdownMenuState<T>();
@@ -182,7 +182,7 @@ class _SDropdownMenuState<T> extends State<SDropdownMenu<T>>
             children: [
               Positioned.fill(
                 child: Container(
-                  color: Colors.transparent,
+                  color: const Color.fromARGB(0, 180, 47, 47),
                 ),
               ),
               Positioned(
@@ -281,11 +281,13 @@ class _SDropdownMenuState<T> extends State<SDropdownMenu<T>>
       onChanged: item.enabled
           ? (value) {
               if (item.onCheckedChanged != null) {
+                print('onCheckedChanged $value');
                 item.onCheckedChanged!(value ?? false);
               }
-              if (widget.closeOnItemTap) {
-                _closeDropdown();
-              }
+              // if (widget.closeOnItemTap) {
+              //   print('close on item tap');
+              //   _closeDropdown();
+              // }
             }
           : null,
       title: Text(

@@ -37,9 +37,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   static const List<Map<String, String>> _widgets = [
     {'title': 'Buttons', 'page': '/button_page'},
-    {'title': 'Inputs', 'page': '/input_page'},
+    {'title': 'Inputs', 'page': '/inputs_page'},
     {'title': 'Toasts', 'page': '/toast_page'},
-    {'title': 'Dialogs', 'page': '/dialog_page'},
+    {'title': 'DropDown Menu', 'page': '/dropdown_menu_page'},
     {'title': 'Check bBoxes', 'page': '/check_box_page'},
     {'title': 'Progress Indicators', 'page': '/progress_indicator_page'},
     {'title': 'Cards', 'page': '/card_page'},
