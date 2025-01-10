@@ -1,43 +1,104 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/src/widgets/s_input/enums/s_input_field_size.dart';
-import 'package:s_design/src/widgets/s_input/themes/s_input_field_theme.dart';
-import 'package:s_design/src/widgets/s_input/utils/s_input_field_utils.dart';
+import '../../../s_design.dart';
 
-/// A comprehensive Input Field Widget that supports various configurations,
-/// including size variants, icons, validation.
 class SInputField extends StatefulWidget {
-  /// The controller for the input field.
+  /// High-level “type” of this field (e.g., password, email, etc.).
+  final SInputFieldType inputType;
+
+  /// Allows controlling the text programmatically.
   final TextEditingController? controller;
 
-  /// The focus node for the input field.
+  /// For controlling focus programmatically.
   final FocusNode? focusNode;
 
-  /// The size variant of the input field.
-  final SInputFieldSize size;
-
-  /// The hint text displayed when the input field is empty.
-  final String? hintText;
-
-  /// Whether to obscure the input text (e.g., for passwords).
-  final bool obscureText;
-
-  /// Whether the input field is enabled.
-  final bool enabled;
-
-  /// The style for the hint text.
-  final TextStyle? hintStyle;
-
-  /// Whether the input field is read-only.
-  final bool readOnly;
-
-  /// The initial value of the input field.
+  /// If provided, used as the initial text (ignored if [controller] is set).
   final String? initialValue;
 
-  /// The type of keyboard to use for input.
+  /// Whether the field is enabled or not.
+  final bool? enabled;
+
+  /// Whether to hide the text (e.g., for a password).
+  final bool obscureText;
+
+  /// The keyboard type (text, number, etc.).
+  /// If null, it’s inferred from [inputType].
   final TextInputType? keyboardType;
 
-  /// The action button to use for the keyboard.
+  /// Defines the action button (e.g., “search”, “done”).
   final TextInputAction? textInputAction;
+
+  /// Validator for forms.
+  final FormFieldValidator<String>? validator;
+
+  /// Called when the text changes.
+  final ValueChanged<String>? onChanged;
+
+  /// Called when the user indicates submission (keyboard “enter”).
+  final ValueChanged<String>? onFieldSubmitted;
+
+  /// The label text to display.
+  final String? labelText;
+
+  /// The hint text to display.
+  final String? hintText;
+
+  /// Provides custom decoration, if you’d like to override all defaults.
+  final InputDecoration? decoration;
+
+  /// If true, auto-focusing the field when shown.
+  final bool autofocus;
+
+  /// If true, the field is read-only.
+  final bool readOnly;
+
+  /// The maximum number of lines. Defaults to 1.
+  final int? maxLines;
+
+  /// The minimum number of lines.
+  final int? minLines;
+
+  /// The maximum length, if not null.
+  final int? maxLength;
+
+  /// The style to use inside the field.
+  final TextStyle? style;
+
+  /// Aligns the text in the field (start, center, end).
+  final TextAlign textAlign;
+
+  /// If true, the field will fill the parent vertically if possible.
+  final bool expands;
+
+  /// Whether to show the cursor.
+  final bool showCursor;
+
+  /// Whether the user can interactively select text.
+  final bool enableInteractiveSelection;
+
+  /// How to capitalize the text (none, words, sentences, etc.).
+  final TextCapitalization textCapitalization;
+
+  /// Forces a certain text direction (LTR or RTL).
+  final TextDirection? textDirection;
+
+  /// Called when the user taps the “done” button.
+  final VoidCallback? onEditingComplete;
+
+  /// Called when the field is tapped.
+  final VoidCallback? onTap;
+
+  /// Whether to enable suggestions in the keyboard.
+  final bool? enableSuggestions;
+
+  /// Whether to enable auto-correction.
+  final bool autocorrect;
+
+  /// Padding inside the field.
+  final EdgeInsetsGeometry? contentPadding;
+
+  /// The size of the field (small, medium, large).
+  /// We can interpret this to adjust font size, padding, etc.
+  final SInputFieldSize size;
 
   /// The widget to display at the start of the input field.
   final Widget? startIcon;
@@ -45,130 +106,115 @@ class SInputField extends StatefulWidget {
   /// The widget to display at the end of the input field.
   final Widget? endIcon;
 
-  /// The validator function for form validation.
-  final String? Function(String?)? validator;
-
-  /// The function to call when the form is saved.
-  final FormFieldSetter<String>? onSaved;
-
-  /// The function to call when the input value changes.
-  final ValueChanged<String>? onChanged;
-
-  /// The function to call when editing is complete.
-  final VoidCallback? onEditingComplete;
-
-  /// The function to call when the input field is submitted.
-  final ValueChanged<String>? onFieldSubmitted;
-
-  /// The maximum number of lines for the input field.
-  final int? maxLines;
-
-  /// The minimum number of lines for the input field.
-  final int? minLines;
-
-  /// The maximum length of input.
-  final int? maxLength;
-
-  /// The padding inside the input field.
-  final EdgeInsetsGeometry? contentPadding;
-
-  /// The decoration for the input field.
-  final InputDecoration? decoration;
-
-  /// The text style for the input text.
-  final TextStyle? style;
-
-  /// Whether to enable autocorrect.
-  final bool autocorrect;
-
-  /// Whether to autofocus the input field.
-  final bool autofocus;
-
-  /// Whether to enable suggestions.
-  final bool enableSuggestions;
-
-  /// Autofill hints for the input field.
-  final Iterable<String>? autofillHints;
-
-  /// Background Color
-  final Color? backgroundColor;
-
-  /// Creates an [SInputField] widget.
+  /// Main constructor (use the factories below for specialized input “types”).
   const SInputField({
     super.key,
+    this.inputType = SInputFieldType.text,
     this.controller,
     this.focusNode,
-    this.size = SInputFieldSize.sm,
-    this.hintText,
-    this.obscureText = false,
-    this.enabled = true,
-    this.readOnly = false,
-    this.initialValue,
-    this.keyboardType,
-    this.textInputAction,
     this.startIcon,
     this.endIcon,
+    this.initialValue,
+    this.enabled,
+    bool? obscureText,
+    this.keyboardType,
+    this.textInputAction,
     this.validator,
-    this.onSaved,
     this.onChanged,
-    this.onEditingComplete,
     this.onFieldSubmitted,
+    this.labelText,
+    this.hintText,
+    this.decoration,
+    this.autofocus = false,
+    this.readOnly = false,
     this.maxLines = 1,
     this.minLines,
-    this.backgroundColor,
     this.maxLength,
-    this.contentPadding,
-    this.decoration,
     this.style,
+    this.textAlign = TextAlign.start,
+    this.expands = false,
+    this.showCursor = true,
+    this.enableInteractiveSelection = true,
+    this.textCapitalization = TextCapitalization.none,
+    this.textDirection,
+    this.onEditingComplete,
+    this.onTap,
+    this.enableSuggestions,
     this.autocorrect = true,
-    this.autofocus = false,
-    this.enableSuggestions = true,
-    this.autofillHints,
-    this.hintStyle,
-  });
+    this.contentPadding,
+    this.size = SInputFieldSize.medium,
+    SInputFieldTheme? theme,
+  }) : obscureText = obscureText ?? (inputType == SInputFieldType.password);
 
   factory SInputField.password({
     Key? key,
-    required TextEditingController controller,
+    TextEditingController? controller,
     FocusNode? focusNode,
-    String? hintText,
-    bool enabled = true,
+    String? initialValue,
+    bool? enabled,
+    TextInputAction? textInputAction,
     FormFieldValidator<String>? validator,
-    FormFieldSetter<String>? onSaved,
     ValueChanged<String>? onChanged,
-    VoidCallback? onEditingComplete,
     ValueChanged<String>? onFieldSubmitted,
-    int? maxLength,
-    EdgeInsetsGeometry? contentPadding,
+    String? labelText,
+    String? hintText,
     InputDecoration? decoration,
-    TextStyle? style,
-    bool autocorrect = false,
     bool autofocus = false,
-    bool enableSuggestions = false,
-    Iterable<String>? autofillHints,
+    bool readOnly = false,
+    int? maxLines = 1,
+    int? minLines,
+    int? maxLength,
+    TextStyle? style,
+    TextAlign textAlign = TextAlign.start,
+    bool expands = false,
+    bool showCursor = true,
+    bool enableInteractiveSelection = true,
+    TextCapitalization textCapitalization = TextCapitalization.none,
+    TextDirection? textDirection,
+    VoidCallback? onEditingComplete,
+    VoidCallback? onTap,
+    bool? enableSuggestions,
+    bool autocorrect = false,
+    EdgeInsetsGeometry? contentPadding,
+    SInputFieldSize size = SInputFieldSize.medium,
+    SInputFieldTheme? theme,
   }) {
     return SInputField(
       key: key,
+      inputType: SInputFieldType.password,
       controller: controller,
       focusNode: focusNode,
-      hintText: hintText,
-      obscureText: true,
+      initialValue: initialValue,
       enabled: enabled,
+      textInputAction: textInputAction,
       validator: validator,
-      onSaved: onSaved,
       onChanged: onChanged,
-      onEditingComplete: onEditingComplete,
       onFieldSubmitted: onFieldSubmitted,
-      maxLength: maxLength,
-      contentPadding: contentPadding,
+      labelText: labelText,
+      hintText: hintText,
       decoration: decoration,
-      style: style,
-      autocorrect: autocorrect,
       autofocus: autofocus,
+      readOnly: readOnly,
+      maxLines: maxLines,
+      minLines: minLines,
+      maxLength: maxLength,
+      style: style,
+      textAlign: textAlign,
+      expands: expands,
+      showCursor: showCursor,
+      enableInteractiveSelection: enableInteractiveSelection,
+      textCapitalization: textCapitalization,
+      textDirection: textDirection,
+      onEditingComplete: onEditingComplete,
+      onTap: onTap,
       enableSuggestions: enableSuggestions,
-      autofillHints: autofillHints,
+      autocorrect: autocorrect,
+      contentPadding: contentPadding,
+      size: size,
+      theme: theme,
     );
   }
+
   factory SInputField.datePicker({
     Key? key,
     required TextEditingController controller,
@@ -176,7 +222,6 @@ class SInputField extends StatefulWidget {
     String? hintText,
     bool enabled = true,
     FormFieldValidator<String>? validator,
-    FormFieldSetter<String>? onSaved,
     ValueChanged<String>? onChanged,
     VoidCallback? onEditingComplete,
     ValueChanged<String>? onFieldSubmitted,
@@ -187,7 +232,6 @@ class SInputField extends StatefulWidget {
     bool autocorrect = true,
     bool autofocus = false,
     bool enableSuggestions = true,
-    Iterable<String>? autofillHints,
     DateTime? initialDate,
     String? dateFormat,
   }) {
@@ -198,7 +242,6 @@ class SInputField extends StatefulWidget {
       hintText: hintText,
       enabled: enabled,
       validator: validator,
-      onSaved: onSaved,
       onChanged: onChanged,
       onEditingComplete: onEditingComplete,
       onFieldSubmitted: onFieldSubmitted,
@@ -208,8 +251,13 @@ class SInputField extends StatefulWidget {
       style: style,
       autocorrect: autocorrect,
       autofocus: autofocus,
+      initialValue: initialDate != null
+          ? dateFormat ??
+              "${initialDate.day.toString().padLeft(2, '0')}-"
+                  "${initialDate.month.toString().padLeft(2, '0')}-"
+                  "${initialDate.year}"
+          : null,
       enableSuggestions: enableSuggestions,
-      autofillHints: autofillHints,
       endIcon: Builder(
         builder: (BuildContext context) {
           return IconButton(
@@ -243,50 +291,78 @@ class SInputField extends StatefulWidget {
     );
   }
 
+  /// Factory for a **search**-type field.
   factory SInputField.search({
     Key? key,
-    required TextEditingController controller,
+    TextEditingController? controller,
     FocusNode? focusNode,
-    String? hintText,
-    bool enabled = true,
+    String? initialValue,
+    bool? enabled,
     FormFieldValidator<String>? validator,
-    FormFieldSetter<String>? onSaved,
     ValueChanged<String>? onChanged,
-    VoidCallback? onEditingComplete,
     ValueChanged<String>? onFieldSubmitted,
-    int? maxLength,
-    EdgeInsetsGeometry? contentPadding,
+    String? labelText,
+    String? hintText,
     InputDecoration? decoration,
-    TextStyle? style,
-    bool autocorrect = true,
     bool autofocus = false,
-    bool enableSuggestions = true,
-    Iterable<String>? autofillHints,
+    bool readOnly = false,
+    int? maxLines = 1,
+    int? minLines,
+    int? maxLength,
+    TextStyle? style,
+    TextAlign textAlign = TextAlign.start,
+    bool expands = false,
+    bool showCursor = true,
+    bool enableInteractiveSelection = true,
+    TextCapitalization textCapitalization = TextCapitalization.none,
+    TextDirection? textDirection,
+    VoidCallback? onEditingComplete,
+    VoidCallback? onTap,
+    bool? enableSuggestions,
+    bool autocorrect = true,
+    EdgeInsetsGeometry contentPadding =
+        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+    SInputFieldSize size = SInputFieldSize.medium,
+    SInputFieldTheme? theme,
   }) {
     return SInputField(
       key: key,
+      inputType: SInputFieldType.search,
+      textInputAction: TextInputAction.search,
       controller: controller,
       focusNode: focusNode,
-      hintText: hintText,
+      initialValue: initialValue,
       enabled: enabled,
       validator: validator,
-      onSaved: onSaved,
       onChanged: onChanged,
-      onEditingComplete: onEditingComplete,
       onFieldSubmitted: onFieldSubmitted,
-      maxLength: maxLength,
-      contentPadding: contentPadding,
+      labelText: labelText,
+      hintText: hintText,
       decoration: decoration,
-      style: style,
-      autocorrect: autocorrect,
       autofocus: autofocus,
+      readOnly: readOnly,
+      maxLines: maxLines,
+      minLines: minLines,
+      maxLength: maxLength,
+      style: style,
+      textAlign: textAlign,
+      expands: expands,
+      showCursor: showCursor,
+      enableInteractiveSelection: enableInteractiveSelection,
+      textCapitalization: textCapitalization,
+      textDirection: textDirection,
+      onEditingComplete: onEditingComplete,
+      onTap: onTap,
       enableSuggestions: enableSuggestions,
-      autofillHints: autofillHints,
+      autocorrect: autocorrect,
+      contentPadding: contentPadding,
+      size: size,
+      theme: theme,
       startIcon: const Icon(Icons.search),
       endIcon: IconButton(
         icon: const Icon(Icons.clear),
         onPressed: () {
-          controller.clear();
+          controller?.clear();
           if (onChanged != null) {
             onChanged('');
           }
@@ -295,11 +371,223 @@ class SInputField extends StatefulWidget {
     );
   }
 
+  /// Factory for a **number**-type field.
+  factory SInputField.number({
+    Key? key,
+    TextEditingController? controller,
+    FocusNode? focusNode,
+    String? initialValue,
+    bool? enabled,
+    TextInputAction? textInputAction,
+    FormFieldValidator<String>? validator,
+    ValueChanged<String>? onChanged,
+    ValueChanged<String>? onFieldSubmitted,
+    String? labelText,
+    String? hintText,
+    InputDecoration? decoration,
+    bool autofocus = false,
+    bool readOnly = false,
+    int? maxLines = 1,
+    int? minLines,
+    int? maxLength,
+    TextStyle? style,
+    TextAlign textAlign = TextAlign.start,
+    bool expands = false,
+    bool showCursor = true,
+    bool enableInteractiveSelection = true,
+    TextCapitalization textCapitalization = TextCapitalization.none,
+    TextDirection? textDirection,
+    VoidCallback? onEditingComplete,
+    VoidCallback? onTap,
+    bool? enableSuggestions,
+    bool autocorrect = true,
+    EdgeInsetsGeometry contentPadding =
+        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+    SInputFieldSize size = SInputFieldSize.medium,
+    SInputFieldTheme? theme,
+  }) {
+    return SInputField(
+      key: key,
+      inputType: SInputFieldType.number,
+      controller: controller,
+      focusNode: focusNode,
+      initialValue: initialValue,
+      enabled: enabled,
+      textInputAction: textInputAction,
+      validator: validator,
+      onChanged: onChanged,
+      onFieldSubmitted: onFieldSubmitted,
+      labelText: labelText,
+      hintText: hintText,
+      decoration: decoration,
+      autofocus: autofocus,
+      readOnly: readOnly,
+      maxLines: maxLines,
+      minLines: minLines,
+      maxLength: maxLength,
+      style: style,
+      textAlign: textAlign,
+      expands: expands,
+      showCursor: showCursor,
+      enableInteractiveSelection: enableInteractiveSelection,
+      textCapitalization: textCapitalization,
+      textDirection: textDirection,
+      onEditingComplete: onEditingComplete,
+      onTap: onTap,
+      enableSuggestions: enableSuggestions,
+      autocorrect: autocorrect,
+      contentPadding: contentPadding,
+      size: size,
+      theme: theme,
+    );
+  }
+
+  /// Factory for an **email**-type field.
+  factory SInputField.email({
+    Key? key,
+    TextEditingController? controller,
+    FocusNode? focusNode,
+    String? initialValue,
+    bool? enabled,
+    TextInputAction? textInputAction,
+    FormFieldValidator<String>? validator,
+    ValueChanged<String>? onChanged,
+    ValueChanged<String>? onFieldSubmitted,
+    String? labelText,
+    String? hintText,
+    InputDecoration? decoration,
+    bool autofocus = false,
+    bool readOnly = false,
+    int? maxLines = 1,
+    int? minLines,
+    int? maxLength,
+    TextStyle? style,
+    TextAlign textAlign = TextAlign.start,
+    bool expands = false,
+    bool showCursor = true,
+    bool enableInteractiveSelection = true,
+    TextCapitalization textCapitalization = TextCapitalization.none,
+    TextDirection? textDirection,
+    VoidCallback? onEditingComplete,
+    VoidCallback? onTap,
+    bool? enableSuggestions,
+    bool autocorrect = true,
+    EdgeInsetsGeometry contentPadding =
+        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+    SInputFieldSize size = SInputFieldSize.medium,
+    SInputFieldTheme? theme,
+  }) {
+    return SInputField(
+      key: key,
+      inputType: SInputFieldType.email,
+      controller: controller,
+      focusNode: focusNode,
+      initialValue: initialValue,
+      enabled: enabled,
+      textInputAction: textInputAction,
+      validator: validator,
+      onChanged: onChanged,
+      onFieldSubmitted: onFieldSubmitted,
+      labelText: labelText,
+      hintText: hintText,
+      decoration: decoration,
+      autofocus: autofocus,
+      readOnly: readOnly,
+      maxLines: maxLines,
+      minLines: minLines,
+      maxLength: maxLength,
+      style: style,
+      textAlign: textAlign,
+      expands: expands,
+      showCursor: showCursor,
+      enableInteractiveSelection: enableInteractiveSelection,
+      textCapitalization: textCapitalization,
+      textDirection: textDirection,
+      onEditingComplete: onEditingComplete,
+      onTap: onTap,
+      enableSuggestions: enableSuggestions,
+      autocorrect: autocorrect,
+      contentPadding: contentPadding,
+      size: size,
+      theme: theme,
+    );
+  }
+
+  /// Factory for a **phone**-type field.
+  factory SInputField.phone({
+    Key? key,
+    TextEditingController? controller,
+    FocusNode? focusNode,
+    String? initialValue,
+    bool? enabled,
+    TextInputAction? textInputAction,
+    FormFieldValidator<String>? validator,
+    ValueChanged<String>? onChanged,
+    ValueChanged<String>? onFieldSubmitted,
+    String? labelText,
+    String? hintText,
+    InputDecoration? decoration,
+    bool autofocus = false,
+    bool readOnly = false,
+    int? maxLines = 1,
+    int? minLines,
+    int? maxLength,
+    TextStyle? style,
+    TextAlign textAlign = TextAlign.start,
+    bool expands = false,
+    bool showCursor = true,
+    bool enableInteractiveSelection = true,
+    TextCapitalization textCapitalization = TextCapitalization.none,
+    TextDirection? textDirection,
+    VoidCallback? onEditingComplete,
+    VoidCallback? onTap,
+    bool? enableSuggestions,
+    bool autocorrect = true,
+    EdgeInsetsGeometry contentPadding =
+        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+    SInputFieldSize size = SInputFieldSize.medium,
+    SInputFieldTheme? theme,
+  }) {
+    return SInputField(
+      key: key,
+      inputType: SInputFieldType.phone,
+      controller: controller,
+      focusNode: focusNode,
+      initialValue: initialValue,
+      enabled: enabled,
+      textInputAction: textInputAction,
+      validator: validator,
+      onChanged: onChanged,
+      onFieldSubmitted: onFieldSubmitted,
+      labelText: labelText,
+      hintText: hintText,
+      decoration: decoration,
+      autofocus: autofocus,
+      readOnly: readOnly,
+      maxLines: maxLines,
+      minLines: minLines,
+      maxLength: maxLength,
+      style: style,
+      textAlign: textAlign,
+      expands: expands,
+      showCursor: showCursor,
+      enableInteractiveSelection: enableInteractiveSelection,
+      textCapitalization: textCapitalization,
+      textDirection: textDirection,
+      onEditingComplete: onEditingComplete,
+      onTap: onTap,
+      enableSuggestions: enableSuggestions,
+      autocorrect: autocorrect,
+      contentPadding: contentPadding,
+      size: size,
+      theme: theme,
+    );
+  }
+
   @override
-  _SInputFieldState createState() => _SInputFieldState();
+  State<SInputField> createState() => _SInputFieldState();
 }
 
-/// State class for [SInputField].
 class _SInputFieldState extends State<SInputField> {
   late TextEditingController _controller;
   late FocusNode _focusNode;
@@ -313,8 +601,7 @@ class _SInputFieldState extends State<SInputField> {
     _obscureText = widget.obscureText;
     _showObscureToggle = widget.obscureText;
 
-    _controller =
-        widget.controller ?? TextEditingController(text: widget.initialValue);
+    _controller = TextEditingController(text: widget.initialValue);
     _focusNode = widget.focusNode ?? FocusNode();
   }
 
@@ -329,41 +616,18 @@ class _SInputFieldState extends State<SInputField> {
     super.dispose();
   }
 
-  double _getHeight() {
-    return SInputFieldUtils.getHeight(widget.size);
-  }
-
-  EdgeInsetsGeometry _getContentPadding() {
-    return widget.contentPadding ??
-        SInputFieldUtils.getContentPadding(widget.size).copyWith(
-          left: widget.startIcon != null ? 40.0 : 16.0,
-          right: (_showObscureToggle || widget.endIcon != null) ? 40.0 : 16.0,
-        );
-  }
-
   @override
   Widget build(BuildContext context) {
-    final borderRadius = SInputFieldUtils.getBorderRadius(widget.size);
+    final effectiveKeyboardType =
+        widget.keyboardType ?? mapInputTypeToKeyboard(widget.inputType);
 
-    InputBorder buildBorder(Color color) {
-      return OutlineInputBorder(
-        borderRadius: borderRadius,
-        borderSide: BorderSide(color: color, width: 1.0),
-      );
-    }
+    final SInputFieldTheme theme = SInputFieldTheme.defaults();
+    final OutlineInputBorder inputBorder = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(theme.borderRadius),
+    );
 
-    // Determine the hint style
-    TextStyle? determineHintStyle() {
-      if (widget.hintStyle != null) {
-        return widget.hintStyle;
-      } else {
-        return Theme.of(context).sInputFieldTheme.hintTextColor != Colors.grey
-            ? Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(context).sInputFieldTheme.hintTextColor,
-                )
-            : null;
-      }
-    }
+    final EdgeInsetsGeometry defaultContentPadding =
+        getContentPadding(widget.size);
 
     InputDecoration mergeDecorations(
         InputDecoration base, InputDecoration? override) {
@@ -382,75 +646,85 @@ class _SInputFieldState extends State<SInputField> {
       );
     }
 
-    final InputDecoration effectiveDecoration =
-        (widget.decoration ?? const InputDecoration()).copyWith(
-      hintText: widget.hintText,
-      hintStyle: determineHintStyle(),
-      filled: true,
-      fillColor: widget.backgroundColor ??
-          Theme.of(context).sInputFieldTheme.backgroundColor,
-      contentPadding: _getContentPadding(),
-      enabledBorder:
-          buildBorder(Theme.of(context).sInputFieldTheme.enabledBorderColor),
-      focusedBorder:
-          buildBorder(Theme.of(context).sInputFieldTheme.focusedBorderColor),
-      errorBorder:
-          buildBorder(Theme.of(context).sInputFieldTheme.errorBorderColor),
-      disabledBorder:
-          buildBorder(Theme.of(context).sInputFieldTheme.enabledBorderColor),
-      prefixIcon: widget.startIcon,
-      suffixIcon: _showObscureToggle
-          ? IconButton(
-              padding: EdgeInsets.zero,
-              icon: Icon(
-                _obscureText ? Icons.visibility_off : Icons.visibility,
-                size: 20.0,
-                color: Theme.of(context).sInputFieldTheme.iconColor,
-              ),
-              onPressed: () {
-                setState(() {
-                  _obscureText = !_obscureText;
-                });
-              },
-              tooltip: _obscureText ? 'Show Password' : 'Hide Password',
-            )
-          : widget.endIcon,
-    );
+    // Base or user-provided InputDecoration.
+    InputDecoration effectiveDecoration = widget.decoration ??
+        InputDecoration(
+          isDense: true,
+          labelText: widget.labelText,
+          hintText: widget.hintText,
+          contentPadding: widget.contentPadding ?? defaultContentPadding,
+          border: inputBorder.copyWith(
+            borderRadius: BorderRadius.circular(theme.borderRadius),
+          ),
+          enabledBorder: inputBorder.copyWith(
+            borderSide: BorderSide(
+              color: theme.borderColor,
+              width: theme.borderWidth,
+            ),
+          ),
+          focusedBorder: inputBorder.copyWith(
+            borderSide: BorderSide(
+              color: theme.focusedBorderColor,
+              width: theme.focusedBorderWidth,
+            ),
+          ),
+          disabledBorder: inputBorder.copyWith(
+            borderSide: BorderSide(
+              color: theme.disabledBorderColor,
+              width: theme.borderWidth,
+            ),
+          ),
+          prefixIcon: widget.startIcon,
+          suffixIcon: _showObscureToggle
+              ? IconButton(
+                  padding: EdgeInsets.zero,
+                  icon: Icon(
+                    _obscureText ? Icons.visibility_off : Icons.visibility,
+                    size: 20.0,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _obscureText = !_obscureText;
+                    });
+                  },
+                  tooltip: _obscureText ? 'Show Password' : 'Hide Password',
+                )
+              : widget.endIcon,
+        );
+
+    final sizeAdjustedStyle = buildSizedTextStyle(widget.style, widget.size);
 
     final InputDecoration finalDecoration =
         mergeDecorations(effectiveDecoration, widget.decoration);
 
-    return Stack(
-      children: [
-        TextFormField(
-          controller: _controller,
-          focusNode: _focusNode,
-          obscureText: _obscureText,
-          enabled: widget.enabled,
-          readOnly: widget.readOnly,
-          keyboardType: widget.keyboardType,
-          textInputAction: widget.textInputAction,
-          style: widget.style ??
-              Theme.of(context).sInputFieldTheme.textStyle ??
-              TextStyle(
-                color: Theme.of(context).sInputFieldTheme.textColor,
-                fontSize: 14.0,
-              ),
-          autocorrect: widget.autocorrect,
-          autofocus: widget.autofocus,
-          enableSuggestions: widget.enableSuggestions,
-          maxLines: widget.maxLines,
-          minLines: widget.minLines,
-          maxLength: widget.maxLength,
-          autofillHints: widget.autofillHints,
-          validator: widget.validator,
-          onSaved: widget.onSaved,
-          onChanged: widget.onChanged,
-          onEditingComplete: widget.onEditingComplete,
-          onFieldSubmitted: widget.onFieldSubmitted,
-          decoration: finalDecoration,
-        ),
-      ],
+    return TextFormField(
+      controller: _controller,
+      focusNode: _focusNode,
+      initialValue: widget.controller == null ? widget.initialValue : null,
+      enabled: widget.enabled,
+      obscureText: _obscureText,
+      keyboardType: effectiveKeyboardType,
+      textInputAction: widget.textInputAction,
+      validator: widget.validator,
+      onChanged: widget.onChanged,
+      onFieldSubmitted: widget.onFieldSubmitted,
+      autofocus: widget.autofocus,
+      readOnly: widget.readOnly,
+      maxLines: widget.maxLines,
+      minLines: widget.minLines,
+      maxLength: widget.maxLength,
+      style: widget.style ?? sizeAdjustedStyle,
+      textAlign: widget.textAlign,
+      expands: widget.expands,
+      showCursor: widget.showCursor,
+      enableInteractiveSelection: widget.enableInteractiveSelection,
+      textCapitalization: widget.textCapitalization,
+      textDirection: widget.textDirection,
+      onEditingComplete: widget.onEditingComplete,
+      onTap: widget.onTap,
+      enableSuggestions: widget.enableSuggestions ?? false,
+      autocorrect: widget.autocorrect,
+      decoration: finalDecoration,
     );
   }
 }

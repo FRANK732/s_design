@@ -14,6 +14,7 @@ class _InputFieldPageState extends State<InputFieldPage> {
   final TextEditingController _iconController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _validationController = TextEditingController();
+  final TextEditingController _customController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -22,10 +23,12 @@ class _InputFieldPageState extends State<InputFieldPage> {
   final FocusNode _iconFocusNode = FocusNode();
   final FocusNode _dateFocusNode = FocusNode();
   final FocusNode _validationFocusNode = FocusNode();
+  final FocusNode _customFocusNode = FocusNode();
 
-  _onSubmit() {
+  _onSubmit() async {
     if (_formKey.currentState!.validate()) {
-      // print('Form is valid');
+      return print('Form is valid ${_passwordController.value.text}');
+      // print('Form is valid ${_customController.value.text}');
     }
   }
 
@@ -67,19 +70,25 @@ class _InputFieldPageState extends State<InputFieldPage> {
             children: [
               _buildSectionTitle('Default Input Field'),
               const SizedBox(height: 8),
-              SInputField(
+              SInputField.number(
+                validator: (val) {
+                  if (val!.isEmpty || val.length < 10) {
+                    return 'Please enter a valid number';
+                  }
+                  return null;
+                },
                 controller: _defaultController,
                 focusNode: _defaultFocusNode,
-                hintText: 'Enter text',
+                hintText: 'Enter number',
               ),
               const Divider(height: 40),
               _buildSectionTitle('Password Field'),
               const SizedBox(height: 8),
-              SInputField(
+              SInputField.password(
+                size: SInputFieldSize.small,
                 controller: _passwordController,
                 focusNode: _passwordFocusNode,
                 hintText: 'Enter password',
-                obscureText: true,
               ),
               const Divider(height: 40),
               _buildSectionTitle('Input with Icons'),
@@ -107,7 +116,6 @@ class _InputFieldPageState extends State<InputFieldPage> {
                 controller: _dateController,
                 focusNode: _dateFocusNode,
                 hintText: 'Select date',
-                initialDate: DateTime.now(),
               ),
               const Divider(height: 40),
               _buildSectionTitle('Input with Validation'),
@@ -117,8 +125,22 @@ class _InputFieldPageState extends State<InputFieldPage> {
                 focusNode: _validationFocusNode,
                 hintText: 'Enter your name',
                 validator: _validateNotEmpty,
-                onSaved: (value) {
+                onChanged: (value) {
                   // Handle saved value
+                },
+              ),
+              const Divider(height: 40),
+              _buildSectionTitle('Input Customization'),
+              const SizedBox(height: 8),
+              SInputField(
+                initialValue: 'Hello',
+                size: SInputFieldSize.large,
+                controller: _customController,
+                focusNode: _customFocusNode,
+                hintText: 'Custom',
+                validator: _validateNotEmpty,
+                onChanged: (value) {
+                  print("Value changed: $value");
                 },
               ),
               const SizedBox(height: 20),
