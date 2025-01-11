@@ -11,3 +11,13 @@ enum SInputVariant {
   filled,
   subtle,
 }
+
+/// A variety of “types” that approximate HTML input types.
+enum SInputFieldType {
+  text,
+  password,
+  search,
+  number,
+  email,
+  phone,
+}

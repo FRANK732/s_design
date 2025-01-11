@@ -13,7 +13,7 @@ class _SonnerPageState extends State<SonnerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Sonner Showcase"),
+        title: const Text('Sonner Showcase'),
       ),
       body: Center(
         child: SingleChildScrollView(

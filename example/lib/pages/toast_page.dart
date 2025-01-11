@@ -40,6 +40,26 @@ class ToastPage extends StatelessWidget {
                 },
                 child: const Text('Show Destruction Toast'),
               ),
+              const SizedBox(
+                height: 10,
+              ),
+              SButton(
+                backgroundColor: const Color.fromARGB(197, 29, 29, 169),
+                onPressed: () {
+                  // Show a Toast with action
+                  SToast.show(
+                    title: 'Destructive!',
+                    description: 'This is a destructive toast.',
+                    variant: SToastVariant.destructive,
+                    action: SButton(
+                      onPressed: () {},
+                      size: SButtonSize.sm,
+                      child: const Text('action'),
+                    ),
+                  );
+                },
+                child: const Text('Show Toast with Action'),
+              ),
             ],
           ),
         ),

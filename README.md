@@ -8,7 +8,7 @@ A comprehensive Flutter UI component library offering customizable widgets to bu
 
 ```yaml
 dependencies:
-  s_design: ^0.0.1
+  s_design: ^0.1.0
 ```
 
 ### ⚡️ Import
@@ -53,6 +53,80 @@ class MyApp extends StatelessWidget {
   }
 }
 ```
+### Example: Using Sonner and Toaster
+```dart
+import 'package:flutter/material.dart';
+import 'package:s_design/s_design.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final myOverlays = [
+      OverlayEntry(
+        builder: (overlayContext) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            final overlay = Overlay.of(overlayContext);
+
+            SSonner.instance.initialize(overlay);
+
+            /// You can initialize other instance here as well
+            SToast.initialize(overlay);
+          });
+          return const SizedBox.shrink();
+        },
+      ),
+      // You could add more overlay entries here, if needed:
+      // OverlayEntry(builder: ...),
+    ];
+
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('sDesign Example'),
+        ),
+      builder: sOverlayBuilder(overlays: myOverlays),
+        home:  body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            children: [
+              // Success Sonner Button
+              SButton(
+                onPressed: () {
+                  // Show a success Sonner
+                  SSonner.instance.show(
+                    message: 'The operation was successful!',
+                    type: SSonnerType.success,
+                  );
+                },
+                child: const Text('Show Success Sonner'),
+              ),
+              const SizedBox(height: 20),
+            SButton(
+                onPressed: () {
+                  // Show a Default Toast
+                  SToast.show(
+                    title: 'Default!',
+                    description: 'This is a default toast.',
+                  );
+                },
+                child: const Text('Show Default Toast'),
+              ),
+            ],
+          ),
+        ),
+      ),
+
+      ),
+    );
+  }
+}
+```
+
 
 ### Example: Displaying a Success Modal
 

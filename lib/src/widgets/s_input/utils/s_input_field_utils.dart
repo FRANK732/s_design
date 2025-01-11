@@ -1,5 +1,5 @@
-// import '../enums/s_input_field_size.dart';
-// import 'package:flutter/material.dart';
+import '../enums/s_input_field_size.dart';
+import 'package:flutter/material.dart';
 
 // import '../themes/s_input_field_theme.dart';
 
@@ -43,19 +43,6 @@
 //     );
 //   }
 // }
-
-import 'package:flutter/material.dart';
-import 'package:s_design/s_design.dart';
-
-/// A variety of “types” that approximate HTML input types.
-enum SInputFieldType {
-  text,
-  password,
-  search,
-  number,
-  email,
-  phone,
-}
 
 /// Helper function that maps an [SInputFieldType] to a
 /// suitable [TextInputType] in Flutter.
