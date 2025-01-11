@@ -1,9 +1,16 @@
+import 'package:example/pages/bottom_navigation.dart';
 import 'package:example/pages/card.dart';
 import 'package:example/pages/check_box.dart';
 import 'package:example/pages/dropdown_menu.dart';
 import 'package:example/pages/inputs_page.dart';
 import 'package:example/pages/s_modal_page.dart';
 import 'package:example/pages/sbutton.dart';
+import 'package:example/pages/sonner_page.dart';
+import 'package:example/pages/toast_page.dart';
+import 'package:example/pages/progress_indicator_page.dart';
+import 'package:example/pages/tab_page.dart';
+import 'package:example/pages/slider_page.dart';
+import 'package:example/pages/switch_page.dart';
 import 'package:get/get.dart';
 
 class AppRoutes {
@@ -25,10 +32,44 @@ class AppRoutes {
       page: () => const InputFieldPage(),
       transition: Transition.rightToLeft,
     ),
-
     GetPage(
       name: '/modal_page',
       page: () => const ModalPage(),
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: '/toast_page',
+      page: () => const ToastPage(),
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: '/sonner_page',
+      page: () => const SonnerPage(),
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: '/progress_indicator_page',
+      page: () => const ProgressIndicatorPage(),
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: '/tab_page',
+      page: () => const TabPage(),
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: '/bottom_navigation_page',
+      page: () => const BottomNavigationPage(),
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: '/slider_page',
+      page: () => const SliderPage(),
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: '/switch_page',
+      page: () => const SwitchPage(),
       transition: Transition.rightToLeft,
     ),
   ];

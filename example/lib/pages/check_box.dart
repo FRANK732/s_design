@@ -103,7 +103,7 @@ class _CheckboxPageState extends State<CheckboxPage> {
               ],
             ),
             const Divider(height: 40),
-            _buildSectionTitle('Indeterminate Checkbox'),
+            _buildSectionTitle('Determinate Checkbox'),
             const SizedBox(height: 8),
             Row(
               children: [

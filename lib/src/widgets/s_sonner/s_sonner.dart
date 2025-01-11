@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'enums/s_sonner_options.dart';
+import 'utils/s_sonner_utils.dart';
 
-class Sonner {
-  static final Sonner _instance = Sonner._internal();
+class SSonner {
+  static final SSonner _instance = SSonner._internal();
   OverlayState? _overlayState;
   final List<_ToastEntry> _queue = [];
   bool _isShowing = false;
 
-  Sonner._internal();
+  SSonner._internal();
 
-  static Sonner get instance => _instance;
+  static SSonner get instance => _instance;
 
   void initialize(OverlayState? overlayState) {
     if (overlayState == null) {
@@ -24,17 +26,16 @@ class Sonner {
   /// Show a sonner
   void show({
     required String message,
-    ToastType type = ToastType.info,
+    SSonnerType type = SSonnerType.info,
     Duration duration = const Duration(seconds: 3),
     Color? backgroundColor,
     TextStyle? textStyle,
     IconData? icon,
-    ToastPosition position = ToastPosition.bottom,
-    ToastSize size = ToastSize.md,
+    SSonnerPosition position = SSonnerPosition.bottom,
+    SSonnerSize size = SSonnerSize.md,
   }) {
     if (_overlayState == null) {
-      throw Exception(
-          'AdvancedToast is not initialized. Call initialize() first.');
+      throw Exception('SSonner is not initialized. Call initialize() first.');
     }
 
     final entry = _ToastEntry(
@@ -73,31 +74,25 @@ class Sonner {
   }
 }
 
-enum ToastType { success, error, warning, info }
-
-enum ToastPosition { top, center, bottom }
-
-enum ToastSize { sm, md, lg }
-
 class _ToastEntry {
   final String message;
-  final ToastType type;
+  final SSonnerType type;
   final Duration duration;
   final Color? backgroundColor;
   final TextStyle? textStyle;
   final IconData? icon;
-  final ToastPosition position;
-  final ToastSize size;
+  final SSonnerPosition position;
+  final SSonnerSize size;
 
   _ToastEntry({
     required this.message,
-    this.type = ToastType.info,
+    this.type = SSonnerType.info,
     this.duration = const Duration(seconds: 3),
     this.backgroundColor,
     this.textStyle,
     this.icon,
-    this.position = ToastPosition.bottom,
-    this.size = ToastSize.md,
+    this.position = SSonnerPosition.bottom,
+    this.size = SSonnerSize.md,
   });
 }
 
@@ -109,21 +104,21 @@ class _ToastWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color backgroundColor =
-        entry.backgroundColor ?? _getBackgroundColor(entry.type);
-    IconData icon = entry.icon ?? _getIcon(entry.type);
+        entry.backgroundColor ?? SSonnerUtils.getBackgroundColor(entry.type);
+    IconData icon = entry.icon ?? SSonnerUtils.getIconData(entry.type);
 
     Alignment alignment;
     double verticalOffset = 50.0;
 
     switch (entry.position) {
-      case ToastPosition.top:
+      case SSonnerPosition.top:
         alignment = Alignment.topCenter;
         break;
-      case ToastPosition.center:
+      case SSonnerPosition.center:
         alignment = Alignment.center;
         verticalOffset = 0;
         break;
-      case ToastPosition.bottom:
+      case SSonnerPosition.bottom:
       default:
         alignment = Alignment.bottomCenter;
         break;
@@ -133,15 +128,15 @@ class _ToastWidget extends StatelessWidget {
     TextStyle textStyle;
 
     switch (entry.size) {
-      case ToastSize.sm:
+      case SSonnerSize.sm:
         paddingValue = 8.0;
         textStyle = entry.textStyle ?? Theme.of(context).textTheme.bodySmall!;
         break;
-      case ToastSize.lg:
+      case SSonnerSize.lg:
         paddingValue = 16.0;
         textStyle = entry.textStyle ?? Theme.of(context).textTheme.bodyLarge!;
         break;
-      case ToastSize.md:
+      case SSonnerSize.md:
       default:
         paddingValue = 12.0;
         textStyle = entry.textStyle ?? Theme.of(context).textTheme.bodyMedium!;
@@ -151,13 +146,13 @@ class _ToastWidget extends StatelessWidget {
     EdgeInsetsGeometry? margin;
 
     switch (entry.size) {
-      case ToastSize.sm:
+      case SSonnerSize.sm:
         margin = const EdgeInsets.symmetric(horizontal: 6);
         break;
-      case ToastSize.md:
+      case SSonnerSize.md:
         margin = const EdgeInsets.symmetric(horizontal: 12);
         break;
-      case ToastSize.lg:
+      case SSonnerSize.lg:
         margin = const EdgeInsets.symmetric(horizontal: 18);
         break;
       default:
@@ -201,7 +196,7 @@ class _ToastWidget extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(icon, color: Colors.white),
-                        const SizedBox(width: 12),
+                        SizedBox(width: 12),
                         Flexible(
                           child: Text(
                             entry.message,
@@ -220,33 +215,5 @@ class _ToastWidget extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  Color _getBackgroundColor(ToastType type) {
-    switch (type) {
-      case ToastType.success:
-        return Colors.green;
-      case ToastType.error:
-        return Colors.redAccent;
-      case ToastType.warning:
-        return Colors.blueGrey;
-      case ToastType.info:
-      default:
-        return Colors.blue;
-    }
-  }
-
-  IconData _getIcon(ToastType type) {
-    switch (type) {
-      case ToastType.success:
-        return Icons.check_circle_outline;
-      case ToastType.error:
-        return Icons.error_outline_outlined;
-      case ToastType.warning:
-        return Icons.info_outline_rounded;
-      case ToastType.info:
-      default:
-        return Icons.info_outline_sharp;
-    }
   }
 }

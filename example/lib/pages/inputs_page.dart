@@ -14,7 +14,7 @@ class _InputFieldPageState extends State<InputFieldPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _iconController = TextEditingController();
   final TextEditingController _dateController = TextEditingController(
-      text: DateFormat('dd-MM-yyyy').format(DateTime.now()));
+      text: DateFormat('dd-MM-yyyy').format(DateTime.now()),);
   final TextEditingController _validationController = TextEditingController();
   final TextEditingController _customController = TextEditingController();
 
@@ -29,8 +29,9 @@ class _InputFieldPageState extends State<InputFieldPage> {
 
   _onSubmit() async {
     if (_formKey.currentState!.validate()) {
-      return print('Form is valid ${_passwordController.value.text}');
-      // print('Form is valid ${_customController.value.text}');
+      print('Form is valid');
+    } else {
+      print('Form is invalid');
     }
   }
 
@@ -142,7 +143,7 @@ class _InputFieldPageState extends State<InputFieldPage> {
                 hintText: 'Custom',
                 validator: _validateNotEmpty,
                 onChanged: (value) {
-                  print("Value changed: $value");
+                  print('Value changed: $value');
                 },
               ),
               const SizedBox(height: 20),

@@ -1,6 +1,7 @@
 import 'package:example/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:s_design/s_design.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,6 +14,24 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final myOverlays = [
+      OverlayEntry(
+        builder: (overlayContext) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            final overlay = Overlay.of(overlayContext);
+
+            SSonner.instance.initialize(overlay);
+
+            /// You can initialize other instance here as well
+            SToast.initialize(overlay);
+          });
+          return const SizedBox.shrink();
+        },
+      ),
+      // You could add more overlay entries here, if needed:
+      // OverlayEntry(builder: ...),
+    ];
+
     return GetMaterialApp(
       title: 'SDesign Demo',
       getPages: AppRoutes.routes,
@@ -21,6 +40,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'SDesign '),
+      builder: sOverlayBuilder(overlays: myOverlays),
     );
   }
 }
@@ -38,19 +58,17 @@ class _MyHomePageState extends State<MyHomePage> {
   static const List<Map<String, String>> _widgets = [
     {'title': 'Buttons', 'page': '/button_page'},
     {'title': 'Inputs', 'page': '/inputs_page'},
-    {'title': 'Toasts', 'page': '/toast_page'},
-    {'title': 'DropDown Menu', 'page': '/dropdown_menu_page'},
-    {'title': 'Check bBoxes', 'page': '/check_box_page'},
-    {'title': 'Progress Indicators', 'page': '/progress_indicator_page'},
+    {'title': 'Sonner', 'page': '/sonner_page'},
     {'title': 'Cards', 'page': '/card_page'},
+    {'title': 'Check Boxes', 'page': '/check_box_page'},
+    {'title': 'DropDown Menu', 'page': '/dropdown_menu_page'},
+    {'title': 'Progress Indicators', 'page': '/progress_indicator_page'},
     {'title': 'Modals', 'page': '/modal_page'},
+    {'title': 'Toasts', 'page': '/toast_page'},
     {'title': 'Tabs', 'page': '/tab_page'},
     {'title': 'Bottom Navigation', 'page': '/bottom_navigation_page'},
-    {'title': 'App Bars', 'page': '/app_bar_page'},
     {'title': 'Sliders', 'page': '/slider_page'},
     {'title': 'Switches', 'page': '/switch_page'},
-    {'title': 'Date Pickers', 'page': '/date_picker_page'},
-    {'title': 'Time Pickers', 'page': '/time_picker'},
   ];
 
   @override

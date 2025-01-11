@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'enums/s_toaster_enum.dart';
+
 /// Represents a toast notification with customizable properties.
-class TToast extends StatefulWidget {
+class SToast extends StatefulWidget {
   /// The message or description to display in the toast.
   final String description;
 
@@ -12,7 +14,7 @@ class TToast extends StatefulWidget {
   final Widget? action;
 
   /// The variant of the toast, affecting its styling.
-  final ToastVariant variant;
+  final SToastVariant variant;
 
   /// The duration for which the toast is displayed.
   final Duration duration;
@@ -21,18 +23,18 @@ class TToast extends StatefulWidget {
   final VoidCallback? onClose;
 
   /// Creates an instance of TToast.
-  const TToast({
+  const SToast({
     super.key,
     required this.description,
     this.title,
     this.action,
-    this.variant = ToastVariant.defaultVariant,
+    this.variant = SToastVariant.defaultVariant,
     this.duration = const Duration(seconds: 5),
     this.onClose,
   });
 
   @override
-  _TToastState createState() => _TToastState();
+  _SToastState createState() => _SToastState();
 
   /// The OverlayState to insert the toast into.
   static OverlayState? _overlayState;
@@ -47,18 +49,18 @@ class TToast extends StatefulWidget {
     required String description,
     String? title,
     Widget? action,
-    ToastVariant variant = ToastVariant.defaultVariant,
+    SToastVariant variant = SToastVariant.defaultVariant,
     Duration duration = const Duration(seconds: 5),
     VoidCallback? onClose,
   }) {
     if (_overlayState == null) {
-      throw Exception('TToast is not initialized. Call initialize() first.');
+      throw Exception('SToast is not initialized. Call initialize() first.');
     }
 
     late OverlayEntry overlayEntry;
 
     overlayEntry = OverlayEntry(
-      builder: (context) => TToast(
+      builder: (context) => SToast(
         description: description,
         title: title,
         action: action,
@@ -75,13 +77,7 @@ class TToast extends StatefulWidget {
   }
 }
 
-/// Enum representing the variant of the toast.
-enum ToastVariant {
-  defaultVariant,
-  destructive,
-}
-
-class _TToastState extends State<TToast> with SingleTickerProviderStateMixin {
+class _SToastState extends State<SToast> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<Offset> _offsetAnimation;
   bool _isVisible = true;
@@ -96,16 +92,14 @@ class _TToastState extends State<TToast> with SingleTickerProviderStateMixin {
       duration: const Duration(milliseconds: 300),
     );
 
-    // Define the offset animation for slide transition.
     _offsetAnimation = Tween<Offset>(
-      begin: const Offset(0, -1), // Start above the screen.
+      begin: const Offset(0, -1),
       end: Offset.zero,
     ).animate(CurvedAnimation(
       parent: _animationController,
       curve: Curves.easeOut,
     ));
 
-    // Start the animation.
     _animationController.forward();
 
     // Start the timer to auto-dismiss the toast.
@@ -132,13 +126,12 @@ class _TToastState extends State<TToast> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     if (!_isVisible) return const SizedBox.shrink();
 
-    final isDestructive = widget.variant == ToastVariant.destructive;
+    final isDestructive = widget.variant == SToastVariant.destructive;
     final backgroundColor = isDestructive
         ? Colors.red.shade300
         : Theme.of(context).colorScheme.surface;
-    final borderColor = isDestructive
-        ? Colors.red.shade900
-        : Theme.of(context).dividerColor;
+    final borderColor =
+        isDestructive ? Colors.red.shade900 : Theme.of(context).dividerColor;
     final textColor = isDestructive ? Colors.white : Colors.blue.shade700;
 
     return Positioned(
@@ -170,12 +163,12 @@ class _TToastState extends State<TToast> with SingleTickerProviderStateMixin {
                 contentPadding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
                 title: widget.title != null
                     ? Text(
-                  widget.title!,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: textColor,
-                  ),
-                )
+                        widget.title!,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: textColor,
+                        ),
+                      )
                     : null,
                 subtitle: Text(
                   widget.description,

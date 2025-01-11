@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// Theme data for [SToasterService] and [SToastWidget].
-class SToasterThemeData {
+class SSonnerThemeData {
   /// Default background color of the toast.
   final Color backgroundColor;
 
@@ -17,8 +17,8 @@ class SToasterThemeData {
   /// Default padding of the toast.
   final EdgeInsetsGeometry padding;
 
-  /// Creates an instance of [SToasterThemeData].
-  const SToasterThemeData({
+  /// Creates an instance of [SSonnerThemeData].
+  const SSonnerThemeData({
     this.backgroundColor = const Color(0xFF323232), // Dark gray
     this.messageTextStyle = const TextStyle(
       color: Colors.white,
@@ -30,10 +30,10 @@ class SToasterThemeData {
   });
 
   /// Provides a light theme.
-  static const SToasterThemeData light = SToasterThemeData();
+  static const SSonnerThemeData light = SSonnerThemeData();
 
   /// Provides a dark theme.
-  static const SToasterThemeData dark = SToasterThemeData(
+  static const SSonnerThemeData dark = SSonnerThemeData(
     backgroundColor: Colors.black87,
     messageTextStyle: TextStyle(
       color: Colors.white,
@@ -45,14 +45,14 @@ class SToasterThemeData {
   );
 
   /// Creates a copy of this theme with the given fields replaced with the new values.
-  SToasterThemeData copyWith({
+  SSonnerThemeData copyWith({
     Color? backgroundColor,
     TextStyle? messageTextStyle,
     Color? iconColor,
     BorderRadiusGeometry? borderRadius,
     EdgeInsetsGeometry? padding,
   }) {
-    return SToasterThemeData(
+    return SSonnerThemeData(
       backgroundColor: backgroundColor ?? this.backgroundColor,
       messageTextStyle: messageTextStyle ?? this.messageTextStyle,
       iconColor: iconColor ?? this.iconColor,

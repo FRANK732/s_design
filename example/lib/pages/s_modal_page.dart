@@ -6,19 +6,18 @@ import 'package:s_design/s_design.dart';
 class ModalPage extends StatelessWidget {
   const ModalPage({super.key});
 
-  // Helper method to create action buttons
   List<Widget> _buildActions(BuildContext context) {
     return [
-      TextButton(
+      SButton(
         onPressed: () {
-          Navigator.of(context).pop(); // Dismiss the modal
+          Navigator.of(context).pop();
         },
         child: const Text('Cancel'),
       ),
-      ElevatedButton(
+      SButton(
         onPressed: () {
           // Perform some action
-          Navigator.of(context).pop(); // Dismiss the modal
+          Navigator.of(context).pop();
         },
         child: const Text('OK'),
       ),
@@ -40,9 +39,10 @@ class ModalPage extends StatelessWidget {
                 // Success Modal Button
                 SButton(
                   onPressed: () {
-                    SModal.showSuccess(
-                      context,
-                      message: 'The operation was successful!',
+                    SDialog(
+                      trigger: const Text('open'),
+                      title: 'The operation was successful!',
+                      description: 'The operation was successful!',
                       actions: _buildActions(context),
                     );
                   },
@@ -77,7 +77,7 @@ class ModalPage extends StatelessWidget {
                 const SizedBox(height: 20),
 
                 // Warning Modal Button
-                ElevatedButton(
+                SButton(
                   onPressed: () {
                     SModal.showWarning(
                       context,
@@ -101,11 +101,11 @@ class ModalPage extends StatelessWidget {
                       customIcon: Icons.star,
                       customIconColor: Colors.purple,
                       actions: [
-                        TextButton(
+                        SButton(
                           onPressed: () => Navigator.of(context).pop(),
                           child: const Text('Close'),
                         ),
-                        ElevatedButton(
+                        SButton(
                           onPressed: () {
                             // Perform custom action
                             Navigator.of(context).pop();
