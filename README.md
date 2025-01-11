@@ -151,6 +151,11 @@ For more usage examples, refer to the `example` folder in the repository.
 <table>
   <tr>
     <td align="center">
+      <img src="https://github.com/FRANK732/s_design/blob/development/assets/sample.gif" width="100px" height="100px">
+      <br />
+      Sample view
+    </td>
+    <td align="center">
       <img src="https://via.placeholder.com/100" width="100px" height="100px">
       <br />
       SButton
