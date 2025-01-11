@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../s_design.dart';
+import 'package:intl/intl.dart' hide TextDirection;
 
 class SInputField extends StatefulWidget {
   /// High-level “type” of this field (e.g., password, email, etc.).
@@ -142,9 +143,13 @@ class SInputField extends StatefulWidget {
     this.enableSuggestions,
     this.autocorrect = true,
     this.contentPadding,
-    this.size = SInputFieldSize.medium,
+    this.size = SInputFieldSize.small,
     SInputFieldTheme? theme,
-  }) : obscureText = obscureText ?? (inputType == SInputFieldType.password);
+  })  : obscureText = obscureText ?? (inputType == SInputFieldType.password),
+        assert(
+          initialValue == null || controller == null,
+          'You cannot provide both initialValue and controller at the same time.',
+        );
 
   factory SInputField.password({
     Key? key,
@@ -176,7 +181,7 @@ class SInputField extends StatefulWidget {
     bool? enableSuggestions,
     bool autocorrect = false,
     EdgeInsetsGeometry? contentPadding,
-    SInputFieldSize size = SInputFieldSize.medium,
+    SInputFieldSize size = SInputFieldSize.small,
     SInputFieldTheme? theme,
   }) {
     return SInputField(
@@ -235,6 +240,14 @@ class SInputField extends StatefulWidget {
     DateTime? initialDate,
     String? dateFormat,
   }) {
+    final effectiveDate = initialDate ?? DateTime.now();
+
+    final formattedDate = dateFormat != null
+        ? DateFormat(dateFormat).format(effectiveDate)
+        : '${effectiveDate.day.toString().padLeft(2, '0')}-'
+            '${effectiveDate.month.toString().padLeft(2, '0')}-'
+            '${effectiveDate.year}';
+
     return SInputField(
       key: key,
       controller: controller,
@@ -251,37 +264,33 @@ class SInputField extends StatefulWidget {
       style: style,
       autocorrect: autocorrect,
       autofocus: autofocus,
-      initialValue: initialDate != null
-          ? dateFormat ??
-              "${initialDate.day.toString().padLeft(2, '0')}-"
-                  "${initialDate.month.toString().padLeft(2, '0')}-"
-                  "${initialDate.year}"
-          : null,
       enableSuggestions: enableSuggestions,
+      initialValue: initialDate != null ? formattedDate : null,
       endIcon: Builder(
         builder: (BuildContext context) {
           return IconButton(
             icon: const Icon(Icons.calendar_today),
             onPressed: () async {
-              DateTime initialDateValue = initialDate ?? DateTime.now();
-              DateTime firstDate = DateTime(1900);
-              DateTime lastDate =
-                  DateTime.now().add(const Duration(days: 365 * 100));
-
-              DateTime? pickedDate = await showDatePicker(
+              final pickedDate = await showDatePicker(
                 context: context,
-                initialDate: initialDateValue,
-                firstDate: firstDate,
-                lastDate: lastDate,
+                initialDate: effectiveDate,
+                firstDate: DateTime(1900),
+                lastDate: DateTime.now().add(const Duration(days: 365 * 100)),
               );
-
               if (pickedDate != null) {
-                controller.text = dateFormat ??
-                    "${pickedDate.day.toString().padLeft(2, '0')}-"
-                        "${pickedDate.month.toString().padLeft(2, '0')}-"
-                        "${pickedDate.year}";
+                // Reformat the picked date
+                final pickedDateStr = dateFormat != null
+                    ? DateFormat(dateFormat).format(pickedDate)
+                    : '${pickedDate.day.toString().padLeft(2, '0')}-'
+                        '${pickedDate.month.toString().padLeft(2, '0')}-'
+                        '${pickedDate.year}';
+
+                // Update controller.text
+                controller.text = pickedDateStr;
+
+                // Trigger onChanged, if any
                 if (onChanged != null) {
-                  onChanged(controller.text);
+                  onChanged(pickedDateStr);
                 }
               }
             },
@@ -322,7 +331,7 @@ class SInputField extends StatefulWidget {
     bool autocorrect = true,
     EdgeInsetsGeometry contentPadding =
         const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-    SInputFieldSize size = SInputFieldSize.medium,
+    SInputFieldSize size = SInputFieldSize.small,
     SInputFieldTheme? theme,
   }) {
     return SInputField(
@@ -371,7 +380,6 @@ class SInputField extends StatefulWidget {
     );
   }
 
-  /// Factory for a **number**-type field.
   factory SInputField.number({
     Key? key,
     TextEditingController? controller,
@@ -401,9 +409,8 @@ class SInputField extends StatefulWidget {
     VoidCallback? onTap,
     bool? enableSuggestions,
     bool autocorrect = true,
-    EdgeInsetsGeometry contentPadding =
-        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-    SInputFieldSize size = SInputFieldSize.medium,
+    EdgeInsetsGeometry? contentPadding,
+    SInputFieldSize size = SInputFieldSize.small,
     SInputFieldTheme? theme,
   }) {
     return SInputField(
@@ -442,7 +449,6 @@ class SInputField extends StatefulWidget {
     );
   }
 
-  /// Factory for an **email**-type field.
   factory SInputField.email({
     Key? key,
     TextEditingController? controller,
@@ -472,9 +478,8 @@ class SInputField extends StatefulWidget {
     VoidCallback? onTap,
     bool? enableSuggestions,
     bool autocorrect = true,
-    EdgeInsetsGeometry contentPadding =
-        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-    SInputFieldSize size = SInputFieldSize.medium,
+    EdgeInsetsGeometry? contentPadding,
+    SInputFieldSize size = SInputFieldSize.small,
     SInputFieldTheme? theme,
   }) {
     return SInputField(
@@ -513,7 +518,6 @@ class SInputField extends StatefulWidget {
     );
   }
 
-  /// Factory for a **phone**-type field.
   factory SInputField.phone({
     Key? key,
     TextEditingController? controller,
@@ -543,9 +547,8 @@ class SInputField extends StatefulWidget {
     VoidCallback? onTap,
     bool? enableSuggestions,
     bool autocorrect = true,
-    EdgeInsetsGeometry contentPadding =
-        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-    SInputFieldSize size = SInputFieldSize.medium,
+    EdgeInsetsGeometry? contentPadding,
+    SInputFieldSize size = SInputFieldSize.small,
     SInputFieldTheme? theme,
   }) {
     return SInputField(
@@ -601,7 +604,8 @@ class _SInputFieldState extends State<SInputField> {
     _obscureText = widget.obscureText;
     _showObscureToggle = widget.obscureText;
 
-    _controller = TextEditingController(text: widget.initialValue);
+    _controller =
+        widget.controller ?? TextEditingController(text: widget.initialValue);
     _focusNode = widget.focusNode ?? FocusNode();
   }
 

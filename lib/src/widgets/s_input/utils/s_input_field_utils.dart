@@ -79,11 +79,11 @@ EdgeInsetsGeometry getContentPadding(SInputFieldSize size) {
     case SInputFieldSize.small:
       return const EdgeInsets.all(12.0);
     case SInputFieldSize.medium:
-      return const EdgeInsets.all(18.0);
+      return const EdgeInsets.all(15.0);
     case SInputFieldSize.large:
-      return const EdgeInsets.all(16.0);
+      return const EdgeInsets.all(17.0);
     default:
-      return const EdgeInsets.all(8.0);
+      return const EdgeInsets.all(12.0);
   }
 }
 
@@ -92,14 +92,16 @@ TextStyle? buildSizedTextStyle(TextStyle? base, SInputFieldSize size) {
   double fontSize;
   switch (size) {
     case SInputFieldSize.small:
-      fontSize = 10;
+      fontSize = 13;
       break;
     case SInputFieldSize.medium:
       fontSize = 16;
       break;
     case SInputFieldSize.large:
-      fontSize = 25;
+      fontSize = 20;
       break;
+    default:
+      fontSize = 10;
   }
   return (base ?? const TextStyle()).copyWith(fontSize: fontSize);
 }

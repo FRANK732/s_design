@@ -14,11 +14,12 @@ dependencies:
     sdk: flutter
   flutter_spinkit: ^5.2.1
   provider: ^6.1.2
+  intl: ^0.20.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  # flutter_lints: ^4.0.0
   test: ^1.25.7
 
 # For information on the generic Dart part of this file, see the

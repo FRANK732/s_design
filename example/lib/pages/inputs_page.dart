@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
+import 'package:intl/intl.dart';
 
 class InputFieldPage extends StatefulWidget {
   const InputFieldPage({super.key});
@@ -12,7 +13,8 @@ class _InputFieldPageState extends State<InputFieldPage> {
   final TextEditingController _defaultController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _iconController = TextEditingController();
-  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController(
+      text: DateFormat('dd-MM-yyyy').format(DateTime.now()));
   final TextEditingController _validationController = TextEditingController();
   final TextEditingController _customController = TextEditingController();
 
@@ -85,7 +87,7 @@ class _InputFieldPageState extends State<InputFieldPage> {
               _buildSectionTitle('Password Field'),
               const SizedBox(height: 8),
               SInputField.password(
-                size: SInputFieldSize.small,
+                // size: SInputFieldSize.small,
                 controller: _passwordController,
                 focusNode: _passwordFocusNode,
                 hintText: 'Enter password',
@@ -120,10 +122,10 @@ class _InputFieldPageState extends State<InputFieldPage> {
               const Divider(height: 40),
               _buildSectionTitle('Input with Validation'),
               const SizedBox(height: 8),
-              SInputField(
+              SInputField.email(
                 controller: _validationController,
                 focusNode: _validationFocusNode,
-                hintText: 'Enter your name',
+                hintText: 'Enter your email',
                 validator: _validateNotEmpty,
                 onChanged: (value) {
                   // Handle saved value
@@ -133,7 +135,7 @@ class _InputFieldPageState extends State<InputFieldPage> {
               _buildSectionTitle('Input Customization'),
               const SizedBox(height: 8),
               SInputField(
-                initialValue: 'Hello',
+                // initialValue: 'Hello',
                 size: SInputFieldSize.large,
                 controller: _customController,
                 focusNode: _customFocusNode,
