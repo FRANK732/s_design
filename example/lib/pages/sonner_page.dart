@@ -26,7 +26,7 @@ class _SonnerPageState extends State<SonnerPage> {
                   // Show a success Sonner
                   SSonner.instance.show(
                     message: 'The operation was successful!',
-                    type: SSonnerType.success,
+                    variant: SSonnerVariant.success,
                   );
                 },
                 child: const Text('Show Success Sonner'),
@@ -39,7 +39,7 @@ class _SonnerPageState extends State<SonnerPage> {
                   // Show an error Sonner
                   SSonner.instance.show(
                     message: 'An error has occurred. Please try again.',
-                    type: SSonnerType.error,
+                    variant: SSonnerVariant.error,
                   );
                 },
                 child: const Text('Show Error Sonner'),

@@ -1,3 +1,4 @@
+import 'package:example/pages/base_scaffold.dart';
 import 'package:example/pages/bottom_navigation.dart';
 import 'package:example/pages/card.dart';
 import 'package:example/pages/check_box.dart';
@@ -54,7 +55,7 @@ class AppRoutes {
     ),
     GetPage(
       name: '/tab_page',
-      page: () => const TabPage(),
+      page: () => const TabsPage(),
       transition: Transition.rightToLeft,
     ),
     GetPage(
@@ -70,6 +71,11 @@ class AppRoutes {
     GetPage(
       name: '/switch_page',
       page: () => const SwitchPage(),
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: '/base_scaffold_page',
+      page: () => const BaseScaffoldPage(),
       transition: Transition.rightToLeft,
     ),
   ];

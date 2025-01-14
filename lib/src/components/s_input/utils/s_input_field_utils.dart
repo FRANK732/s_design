@@ -1,4 +1,4 @@
-import '../enums/s_input_field_size.dart';
+import '../../../components/s_input/enums/s_input_field_size.dart';
 import 'package:flutter/material.dart';
 
 // import '../themes/s_input_field_theme.dart';

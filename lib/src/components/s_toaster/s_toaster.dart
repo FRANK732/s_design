@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'enums/s_toaster_enum.dart';
+import '../../components/s_toaster/enums/s_toaster_enum.dart';
 
 /// Represents a toast notification with customizable properties.
 class SToast extends StatefulWidget {

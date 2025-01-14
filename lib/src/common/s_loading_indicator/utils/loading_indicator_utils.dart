@@ -1,5 +1,4 @@
-
-import '../../../../s_design.dart';
+import '../enums/s_loading_types.dart';
 
 /// Utility functions for [SLoadingIndicator].
 class SLoadingIndicatorUtils {

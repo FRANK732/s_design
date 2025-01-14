@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'themes/s_tabs_theme.dart';
+import '../../components/s_tabs/themes/s_tabs_theme.dart';
 
 class TabsList extends StatelessWidget {
   final Axis direction;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/src/widgets/s_button/enums/s_button_state.dart';
+import 'package:s_design/src/components/s_button/enums/s_button_state.dart';
 
 /// Utility functions for [SButton].
 class SButtonUtils {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/src/widgets/s_select/enums/s_select_direction.dart';
-import 'package:s_design/src/widgets/s_select/utils/s_select_extension.dart';
+import 'package:s_design/src/components/s_select/enums/s_select_direction.dart';
+import 'package:s_design/src/components/s_select/utils/s_select_extension.dart';
 
 /// An advanced select widget with customizable trigger and content.
 class SSelect<T> extends StatefulWidget {

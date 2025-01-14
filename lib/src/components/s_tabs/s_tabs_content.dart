@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'enums/s_tabs_enums.dart';
 import 's_tabs.dart';
-import 'utils/s_tabs_utils.dart';
+import '../../components/s_tabs/utils/s_tabs_utils.dart';
 
 class TabsContent extends StatelessWidget {
   final int index;

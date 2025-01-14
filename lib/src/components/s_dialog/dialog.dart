@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/src/widgets/s_dialog/enums/s_dialog_type.dart';
-import 'package:s_design/src/widgets/s_dialog/themes/s_dialog_theme.dart';
-import 'package:s_design/src/widgets/s_dialog/utils/s_dialog_utils.dart';
+import 'package:s_design/src/components/s_dialog/enums/s_dialog_type.dart';
+import 'package:s_design/src/components/s_dialog/themes/s_dialog_theme.dart';
+import 'package:s_design/src/components/s_dialog/utils/s_dialog_utils.dart';
 
 /// A comprehensive Dialog Widget that encapsulates triggering, overlay, content,
 /// header, footer, title, description, and close actions.

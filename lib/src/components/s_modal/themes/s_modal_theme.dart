@@ -1,4 +1,4 @@
-// lib/src/widgets/s_modal/themes/s_modal_theme.dart
+// lib/src/components/s_modal/themes/s_modal_theme.dart
 
 import 'package:flutter/material.dart';
 import '../enums/modal_animation_type.dart';

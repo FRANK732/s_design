@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../enums/s_tabs_enums.dart';
+import '../../../components/s_tabs/enums/s_tabs_enums.dart';
 
 /// Utility to get the transition based on the TabAnimationType.
 Widget getTabTransition({

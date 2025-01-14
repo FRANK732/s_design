@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'enums/s_sonner_options.dart';
-import 'utils/s_sonner_utils.dart';
+import '../../components/s_sonner/utils/s_sonner_utils.dart';
 
 class SSonner {
   static final SSonner _instance = SSonner._internal();

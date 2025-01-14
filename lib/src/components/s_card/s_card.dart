@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/src/widgets/s_card/enums/s_card_shadow.dart';
-import 'package:s_design/src/widgets/s_card/enums/s_card_shape.dart';
+import 'package:s_design/src/components/s_card/enums/s_card_shadow.dart';
+import 'package:s_design/src/components/s_card/enums/s_card_shape.dart';
 
 /// A highly customizable and versatile card widget for Flutter applications.
 ///

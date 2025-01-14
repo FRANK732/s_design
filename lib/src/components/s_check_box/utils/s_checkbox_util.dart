@@ -1,4 +1,4 @@
-import 'package:s_design/src/widgets/s_check_box/enums/s_checkbox_state.dart';
+import 'package:s_design/src/components/s_check_box/enums/s_checkbox_state.dart';
 
 /// Utility functions for [SCheckbox].
 class SCheckboxUtils {

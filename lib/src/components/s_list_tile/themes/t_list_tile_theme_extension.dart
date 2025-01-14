@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 't_list_tile_theme.dart';
+import '../../../components/s_list_tile/themes/t_list_tile_theme.dart';
 
 /// Extension to access [TListTileThemeData] from [ThemeData].
 extension TListTileThemeExtension on ThemeData {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'themes/t_list_tile_theme.dart';
-import 'themes/t_list_tile_theme_extension.dart';
+import '../../components/s_list_tile/themes/t_list_tile_theme_extension.dart';
 
 /// A customizable ListTile widget with theming support.
 ///

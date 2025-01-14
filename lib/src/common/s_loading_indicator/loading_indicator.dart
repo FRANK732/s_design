@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:s_design/src/common/s_loading_indicator/themes/s_loading_indicator_theme.dart';
-
-import '../../../s_design.dart';
+import 'enums/s_loading_types.dart';
 import 'utils/loading_indicator_utils.dart';
 
 /// Displays a centered, compact container with a loading spinner and an optional message.

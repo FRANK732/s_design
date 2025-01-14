@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/src/widgets/s_dialog/enums/s_dialog_type.dart';
+import 'package:s_design/src/components/s_dialog/enums/s_dialog_type.dart';
 
 /// Utility functions for [SDialog].
 class SDialogUtils {

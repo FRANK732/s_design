@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 's_progress_bar_theme.dart';
+import '../../../components/s_progress_bar/themes/s_progress_bar_theme.dart';
 
 /// Extension to access [SProgressBarThemeData] from [ThemeData].
 extension SProgressBarThemeExtension on ThemeData {

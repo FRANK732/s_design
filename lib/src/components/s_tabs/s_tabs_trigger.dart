@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 's_tabs.dart';
-import 'themes/s_tabs_theme.dart';
+import '../../components/s_tabs/s_tabs.dart';
+import '../../components/s_tabs/themes/s_tabs_theme.dart';
 
 class TabsTrigger extends StatelessWidget {
   final String label;
@@ -37,9 +37,7 @@ class TabsTrigger extends StatelessWidget {
         ),
         child: Text(
           label,
-          style: isActive
-              ? theme.activeTextStyle
-              : theme.inactiveTextStyle,
+          style: isActive ? theme.activeTextStyle : theme.inactiveTextStyle,
         ),
       ),
     );

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/src/widgets/s_button/enums/s_button_size.dart';
-import 'package:s_design/src/widgets/s_button/enums/s_button_state.dart';
-import 'package:s_design/src/widgets/s_button/enums/s_button_variant.dart';
-import 'package:s_design/src/widgets/s_button/themes/s_button_theme.dart';
-import 'package:s_design/src/widgets/s_button/utils/s_button_util.dart';
+import 'package:s_design/src/components/s_button/enums/s_button_size.dart';
+import 'package:s_design/src/components/s_button/enums/s_button_state.dart';
+import 'package:s_design/src/components/s_button/enums/s_button_variant.dart';
+import 'package:s_design/src/components/s_button/themes/s_button_theme.dart';
+import 'package:s_design/src/components/s_button/utils/s_button_util.dart';
 
 /// A customizable and versatile button widget for Flutter applications.
 ///
@@ -85,7 +85,7 @@ class SButton extends StatelessWidget {
       this.buttonStyle,
       this.width,
       this.padding,
-      this.borderRadius}) ;
+      this.borderRadius});
 
   @override
   Widget build(BuildContext context) {

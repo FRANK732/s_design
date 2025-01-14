@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/src/widgets/s_dropdown_menu/enums/s_dropdown_menu_item_type.dart';
+import 'package:s_design/src/components/s_dropdown_menu/enums/s_dropdown_menu_item_type.dart';
 
 /// Utility functions for [SDropdownMenu].
 class SDropdownMenuUtils {

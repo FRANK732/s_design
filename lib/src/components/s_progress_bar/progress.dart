@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'themes/s_progress_bar_theme.dart';
-import 'themes/s_progress_bar_theme_extension.dart';
+import '../../components/s_progress_bar/themes/s_progress_bar_theme_extension.dart';
 import 'utils/s_progress_bar_utils.dart'; // Import if utilities are added
 
 /// A customizable progress bar widget.
@@ -68,8 +68,7 @@ class SProgressBar extends StatelessWidget {
     final SProgressBarThemeData theme = Theme.of(context).sProgressBarTheme;
 
     // Calculate percentage using utility.
-    final double percentage =
-    SProgressBarUtils.valueToPercentage(value, max);
+    final double percentage = SProgressBarUtils.valueToPercentage(value, max);
 
     return ClipRRect(
       borderRadius: borderRadius ?? theme.borderRadius,
@@ -82,8 +81,7 @@ class SProgressBar extends StatelessWidget {
             return Stack(
               children: [
                 AnimatedContainer(
-                  duration:
-                  animationDuration ?? theme.animationDuration,
+                  duration: animationDuration ?? theme.animationDuration,
                   curve: animationCurve ?? theme.animationCurve,
                   width: constraints.maxWidth * percentage,
                   color: progressColor ?? theme.progressColor,
