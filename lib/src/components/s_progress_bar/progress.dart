@@ -27,6 +27,9 @@ class SProgressBar extends StatelessWidget {
   /// The height of the progress bar.
   final double height;
 
+  /// The length/width of the progress bar.
+  final double? length;
+
   /// The background color of the progress bar.
   final Color? backgroundColor;
 
@@ -51,6 +54,7 @@ class SProgressBar extends StatelessWidget {
     this.max = 100.0,
     this.height = 8.0,
     this.backgroundColor,
+    this.length,
     this.progressColor,
     this.borderRadius,
     this.animationDuration,
@@ -71,6 +75,7 @@ class SProgressBar extends StatelessWidget {
       borderRadius: borderRadius ?? theme.borderRadius,
       child: Container(
         height: height < 1.0 ? theme.height : height,
+        width: length ?? double.infinity,
         color: backgroundColor ?? theme.backgroundColor,
         child: LayoutBuilder(
           builder: (context, constraints) {

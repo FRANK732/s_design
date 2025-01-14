@@ -85,7 +85,7 @@ class SButton extends StatelessWidget {
       this.buttonStyle,
       this.width,
       this.padding,
-      this.borderRadius});
+      this.borderRadius}) ;
 
   @override
   Widget build(BuildContext context) {

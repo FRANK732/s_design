@@ -26,7 +26,7 @@ class SSonner {
   /// Show a sonner
   void show({
     required String message,
-    SSonnerType type = SSonnerType.info,
+    SSonnerVariant variant = SSonnerVariant.info,
     Duration duration = const Duration(seconds: 3),
     Color? backgroundColor,
     TextStyle? textStyle,
@@ -40,7 +40,7 @@ class SSonner {
 
     final entry = _ToastEntry(
       message: message,
-      type: type,
+      type: variant,
       duration: duration,
       backgroundColor: backgroundColor,
       textStyle: textStyle,
@@ -76,7 +76,7 @@ class SSonner {
 
 class _ToastEntry {
   final String message;
-  final SSonnerType type;
+  final SSonnerVariant type;
   final Duration duration;
   final Color? backgroundColor;
   final TextStyle? textStyle;
@@ -86,7 +86,7 @@ class _ToastEntry {
 
   _ToastEntry({
     required this.message,
-    this.type = SSonnerType.info,
+    this.type = SSonnerVariant.info,
     this.duration = const Duration(seconds: 3),
     this.backgroundColor,
     this.textStyle,

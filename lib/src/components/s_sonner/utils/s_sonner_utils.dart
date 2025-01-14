@@ -31,30 +31,30 @@ class SSonnerUtils {
     }
   }
 
-  /// Provides icon data based on [SSonnerType].
-  static IconData getIconData(SSonnerType type) {
+  /// Provides icon data based on [SSonnerVariant].
+  static IconData getIconData(SSonnerVariant type) {
     switch (type) {
-      case SSonnerType.success:
+      case SSonnerVariant.success:
         return Icons.check_circle;
-      case SSonnerType.error:
+      case SSonnerVariant.error:
         return Icons.error;
-      case SSonnerType.warning:
+      case SSonnerVariant.warning:
         return Icons.warning;
-      case SSonnerType.info:
+      case SSonnerVariant.info:
       default:
         return Icons.info;
     }
   }
 
-  static Color getBackgroundColor(SSonnerType type) {
+  static Color getBackgroundColor(SSonnerVariant type) {
     switch (type) {
-      case SSonnerType.success:
+      case SSonnerVariant.success:
         return Colors.green.shade400;
-      case SSonnerType.error:
+      case SSonnerVariant.error:
         return Colors.redAccent.shade400;
-      case SSonnerType.warning:
+      case SSonnerVariant.warning:
         return Colors.orange.shade300;
-      case SSonnerType.info:
+      case SSonnerVariant.info:
       default:
         return Colors.blue.shade400;
     }
