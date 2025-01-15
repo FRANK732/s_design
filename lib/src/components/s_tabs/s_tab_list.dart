@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
-import '../../components/s_tabs/themes/s_tabs_theme.dart';
+import 'models/s_tabs_model.dart';
+import 'themes/s_tabs_theme.dart';
 
 class TabsList extends StatelessWidget {
   final Axis direction;
   final MainAxisAlignment mainAxisAlignment;
-  final List<Widget> children;
+  final List<TabItem> tabs;
+  final Function(int) onTabSelected;
+  final int activeIndex;
 
   const TabsList({
     Key? key,
     this.direction = Axis.horizontal,
-    this.mainAxisAlignment = MainAxisAlignment.start,
-    required this.children,
+    this.mainAxisAlignment = MainAxisAlignment.center,
+    required this.tabs,
+    required this.onTabSelected,
+    required this.activeIndex,
   }) : super(key: key);
 
   @override
@@ -18,15 +23,54 @@ class TabsList extends StatelessWidget {
     final theme = TabsTheme.of(context).listStyle;
 
     return Container(
-      padding: const EdgeInsets.all(4.0), // Spacing around the tabs
+      padding: const EdgeInsets.all(10.0),
+      margin: const EdgeInsets.symmetric(horizontal: 10.0),
       decoration: BoxDecoration(
         color: theme.backgroundColor,
         borderRadius: theme.borderRadius,
       ),
-      child: Flex(
-        direction: direction,
-        mainAxisAlignment: mainAxisAlignment,
-        children: children,
+      child: SingleChildScrollView(
+        scrollDirection: direction,
+        child: Flex(
+          direction: direction,
+          mainAxisAlignment: mainAxisAlignment,
+          children: List.generate(tabs.length, (index) {
+            final tab = tabs[index];
+            final isActive = index == activeIndex;
+            final triggerStyle = TabsTheme.of(context).triggerStyle;
+
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
+              child: Semantics(
+                button: true,
+                selected: isActive,
+                label: tab.label,
+                child: GestureDetector(
+                  onTap: () => onTabSelected(index),
+                  child: FocusableActionDetector(
+                    mouseCursor: SystemMouseCursors.click,
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      padding: triggerStyle.padding,
+                      decoration: BoxDecoration(
+                        color: isActive
+                            ? triggerStyle.activeBackgroundColor
+                            : triggerStyle.inactiveBackgroundColor,
+                        borderRadius: triggerStyle.borderRadius,
+                      ),
+                      child: Text(
+                        tab.label,
+                        style: isActive
+                            ? triggerStyle.activeTextStyle
+                            : triggerStyle.inactiveTextStyle,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }),
+        ),
       ),
     );
   }

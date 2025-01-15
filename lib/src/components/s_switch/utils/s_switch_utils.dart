@@ -17,7 +17,7 @@ class SSwitchUtils {
     }
   }
 
-  /// Returns the variant decoration based on SSwitchVariant.
+  /// Variant decoration based on SSwitchVariant.
   static BoxDecoration getVariantDecoration(
       SSwitchVariant variant, Color activeColor, Color inactiveColor) {
     switch (variant) {

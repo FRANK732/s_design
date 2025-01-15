@@ -49,7 +49,7 @@ class _BaseScaffoldPageState extends State<BaseScaffoldPage> {
       ),
       isLoading: _isLoading,
       appBar: AppBar(
-        title: const Text('Base Scaffold'),
+        title: const Text('S Scaffold'),
       ),
       renderBody: (context) {
         return Column(

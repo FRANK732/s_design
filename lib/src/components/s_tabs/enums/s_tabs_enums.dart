@@ -1,11 +1,11 @@
 
-enum TabAnimationType {
+enum STabAnimationType {
   fade,
   slide,
   scale,
 }
 
-enum TabOrientation {
+enum STabOrientation {
   horizontal,
   vertical,
 }

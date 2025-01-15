@@ -56,6 +56,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   static const List<Map<String, String>> _widgets = [
+    {'title': 'S Scaffold', 'page': '/base_scaffold_page'},
     {'title': 'Buttons', 'page': '/button_page'},
     {'title': 'Inputs', 'page': '/inputs_page'},
     {'title': 'Sonner', 'page': '/sonner_page'},
@@ -63,12 +64,11 @@ class _MyHomePageState extends State<MyHomePage> {
     {'title': 'Cards', 'page': '/card_page'},
     {'title': 'Check Boxes', 'page': '/check_box_page'},
     {'title': 'DropDown Menu', 'page': '/dropdown_menu_page'},
-    {'title': 'Base Scaffold', 'page': '/base_scaffold_page'},
     {'title': 'Progress Indicators', 'page': '/progress_indicator_page'},
     {'title': 'Modals', 'page': '/modal_page'},
     {'title': 'Tabs', 'page': '/tab_page'},
-    {'title': 'Bottom Navigation', 'page': '/bottom_navigation_page'},
-    {'title': 'Sliders', 'page': '/slider_page'},
+    // {'title': 'Bottom Navigation', 'page': '/bottom_navigation_page'},
+    // {'title': 'Sliders', 'page': '/slider_page'},
     {'title': 'Switches', 'page': '/switch_page'},
   ];
 

@@ -57,9 +57,11 @@ export 'src/common/s_loading_indicator/enums/s_loading_types.dart';
 export 'src/components/s_tabs/s_tabs.dart';
 export 'src/components/s_tabs/enums/s_tabs_enums.dart';
 export 'src/components/s_tabs/themes/s_tabs_theme.dart';
+export 'src/components/s_tabs/models/s_tabs_model.dart';
 export 'src/components/s_tabs/utils/s_tabs_utils.dart';
 export 'src/components/s_tabs/s_tabs_content.dart';
 export 'src/components/s_tabs/s_tab_list.dart';
 export 'src/components/s_tabs/s_tabs_trigger.dart';
 export 'src/components/s_switch/enums/s_switch_enums.dart';
 export 'src/components/s_switch/s_switch.dart';
+
