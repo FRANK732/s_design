@@ -124,6 +124,7 @@ class _SToastState extends State<SToast> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    var _top = MediaQuery.of(context).viewPadding.top;
     if (!_isVisible) return const SizedBox.shrink();
 
     final isDestructive = widget.variant == SToastVariant.destructive;
@@ -135,7 +136,7 @@ class _SToastState extends State<SToast> with SingleTickerProviderStateMixin {
     final textColor = isDestructive ? Colors.white : Colors.blue.shade700;
 
     return Positioned(
-      top: 16.0,
+      top: _top,
       right: 16.0,
       left: 16.0,
       child: SlideTransition(
