@@ -21,7 +21,7 @@ class _ProgressIndicatorPageState extends State<ProgressIndicatorPage> {
     _timer = Timer.periodic(duration, (Timer timer) {
       if (_progressValue == 100.0) {
         SSonner.instance.show(
-            message: 'Progress Completed', variant: SSonnerVariant.success);
+            message: 'Progress Completed', variant: SSonnerVariant.success,);
         setState(() {
           _disable = false;
           timer.cancel();
@@ -84,7 +84,7 @@ class _ProgressIndicatorPageState extends State<ProgressIndicatorPage> {
                   _updateProgress();
                 },
                 child: Text(
-                    _progressValue != 100 ? 'Run Progress' : 'Reset Progress'),
+                    _progressValue != 100 ? 'Run Progress' : 'Reset Progress',),
               ),
             ],
           ),

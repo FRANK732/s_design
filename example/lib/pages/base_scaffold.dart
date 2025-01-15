@@ -75,8 +75,8 @@ class _BaseScaffoldPageState extends State<BaseScaffoldPage> {
         );
       },
       renderFooter: (context) {
-        return Tab(
-          child: Text("This is the footer"),
+        return const Tab(
+          child: Text('This is the footer'),
         );
       },
     );

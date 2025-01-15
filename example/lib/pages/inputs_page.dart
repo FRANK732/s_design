@@ -29,9 +29,7 @@ class _InputFieldPageState extends State<InputFieldPage> {
 
   _onSubmit() async {
     if (_formKey.currentState!.validate()) {
-      print('Form is valid');
-    } else {
-      print('Form is invalid');
+      // print('Form is valid');
     }
   }
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
 
 class TabsPage extends StatefulWidget {
-  const TabsPage({Key? key}) : super(key: key);
+  const TabsPage({super.key});
 
   @override
   _TabsPageState createState() => _TabsPageState();
@@ -15,14 +15,14 @@ class _TabsPageState extends State<TabsPage> {
       appBar: AppBar(
         title: const Text('Tabs Example'),
       ),
-      body:Tabs(
+      body:const Tabs(
         initialIndex: 0,
         child: Column(
           children: [
             TabsList(
               children: [
-                TabsTrigger(label: "Account", index: 0),
-                TabsTrigger(label: "Password", index: 1),
+                TabsTrigger(label: 'Account', index: 0),
+                TabsTrigger(label: 'Password', index: 1),
               ],
             ),
           ],

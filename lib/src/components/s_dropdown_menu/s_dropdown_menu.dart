@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/src/components/s_dropdown_menu/enums/s_dropdown_menu_item_type.dart';
+import 'package:s_design/s_design.dart';
 
 /// Data model for a dropdown menu item.
 class SDropdownMenuItemData<T> {
@@ -33,8 +33,11 @@ class SDropdownMenuItemData<T> {
   /// Shortcut text displayed alongside the menu item.
   final String? shortcut;
 
-  /// Creates an [SDropdownMenuItemData].
+  /// A unique identifier for the menu item, used for state management.
+  final String key;
+
   SDropdownMenuItemData({
+    required this.key,
     this.label,
     this.icon,
     this.type = SDropdownMenuItemType.normal,
@@ -45,10 +48,53 @@ class SDropdownMenuItemData<T> {
     this.value,
     this.submenuItems,
     this.shortcut,
-  }) : assert(
+  })  : assert(
           (type == SDropdownMenuItemType.checkbox && isChecked != null) ||
               type != SDropdownMenuItemType.checkbox,
           'isChecked must be provided for checkbox menu items.',
+        ),
+        assert(
+          (type == SDropdownMenuItemType.radio && value != null) ||
+              type != SDropdownMenuItemType.radio,
+          'value must be provided for radio menu items.',
+        ),
+        assert(
+          (type == SDropdownMenuItemType.submenu && submenuItems != null) ||
+              type != SDropdownMenuItemType.submenu,
+          'submenuItems must be provided for submenu menu items.',
+        ),
+        assert(
+          (type == SDropdownMenuItemType.label && label != null) ||
+              type != SDropdownMenuItemType.label,
+          'label must be provided for label menu items.',
+        ),
+        assert(
+          (type != SDropdownMenuItemType.checkbox || submenuItems == null),
+          'SDropdownMenuItemType of checkbox cannot have sub menu items.',
+        ),
+        assert(
+          (type != SDropdownMenuItemType.radio || submenuItems == null),
+          'SDropdownMenuItemType of radio cannot have sub menu items.',
+        ),
+        assert(
+          (type != SDropdownMenuItemType.label || submenuItems == null),
+          'SDropdownMenuItemType of label cannot have sub menu items.',
+        ),
+        assert(
+          (type != SDropdownMenuItemType.separator || submenuItems == null),
+          'SDropdownMenuItemType of separator cannot have sub menu items.',
+        ),
+        assert(
+          (type != SDropdownMenuItemType.submenu || isChecked == null),
+          'SDropdownMenuItemType of submenu cannot have isChecked.',
+        ),
+        assert(
+          (type != SDropdownMenuItemType.submenu || value == null),
+          'SDropdownMenuItemType of submenu cannot have value.',
+        ),
+        assert(
+          (type != SDropdownMenuItemType.submenu || shortcut == null),
+          'SDropdownMenuItemType of submenu cannot have shortcut.',
         );
 }
 
@@ -56,7 +102,7 @@ class SDropdownMenuItemData<T> {
 /// and various types of menu items.
 class SDropdownMenu<T> extends StatefulWidget {
   /// The widget that triggers the dropdown menu when interacted with.
-  final Widget trigger;
+  final Widget? trigger;
 
   /// The list of dropdown menu items.
   final List<SDropdownMenuItemData<T>> items;
@@ -88,10 +134,16 @@ class SDropdownMenu<T> extends StatefulWidget {
   /// The padding inside the dropdown menu.
   final EdgeInsetsGeometry? padding;
 
+  /// The alignment of the dropdown menu relative to the trigger.
+  final SDropdownMenuPosition menuPosition;
+
+  /// Additional offset for the dropdown menu's position.
+  final Offset offset;
+
   /// Creates an [SDropdownMenu].
   const SDropdownMenu({
     super.key,
-    required this.trigger,
+    this.trigger,
     required this.items,
     this.selectedRadioValue,
     this.onRadioValueChanged,
@@ -102,6 +154,8 @@ class SDropdownMenu<T> extends StatefulWidget {
     this.backgroundColor,
     this.elevation = 8.0,
     this.padding,
+    this.menuPosition = SDropdownMenuPosition.bottomLeft,
+    this.offset = Offset.zero,
   });
 
   @override
@@ -116,10 +170,14 @@ class _SDropdownMenuState<T> extends State<SDropdownMenu<T>>
   late AnimationController _animationController;
   late Animation<double> _opacityAnimation;
 
+  T? _selectedRadioValue;
+  Map<String, bool> _checkboxStates = {};
+
   @override
   void initState() {
     super.initState();
 
+    _selectedRadioValue = widget.selectedRadioValue;
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 200),
       vsync: this,
@@ -152,6 +210,7 @@ class _SDropdownMenuState<T> extends State<SDropdownMenu<T>>
 
   /// Closes the dropdown menu by removing the [OverlayEntry].
   void _closeDropdown() {
+    print('close dropdown');
     _animationController.reverse();
     Future.delayed(const Duration(milliseconds: 200), () {
       _overlayEntry?.remove();
@@ -168,49 +227,106 @@ class _SDropdownMenuState<T> extends State<SDropdownMenu<T>>
     Size size = renderBox.size;
     Offset offset = renderBox.localToGlobal(Offset.zero);
     double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
 
-    // Calculate available space below
+    // Calculate available space below and above
     double availableHeightBelow = screenHeight - offset.dy - size.height;
-    bool openAbove = availableHeightBelow < 200.0; // Adjust threshold as needed
+    bool openAbove = availableHeightBelow < 100.0;
+
+    double left;
+    double top;
+
+    switch (widget.menuPosition) {
+      case SDropdownMenuPosition.topLeft:
+        left = offset.dx + widget.offset.dx;
+        top = openAbove
+            ? offset.dy - 300.0 + widget.offset.dy
+            : offset.dy + size.height + widget.offset.dy;
+        break;
+      case SDropdownMenuPosition.topCenter:
+        left = offset.dx +
+            (size.width / 2) -
+            (widget.menuWidth / 2) +
+            widget.offset.dx;
+        top = openAbove
+            ? offset.dy - 300.0 + widget.offset.dy
+            : offset.dy + size.height + widget.offset.dy;
+        break;
+      case SDropdownMenuPosition.topRight:
+        left = offset.dx + size.width - widget.menuWidth + widget.offset.dx;
+        top = openAbove
+            ? offset.dy - 300.0 + widget.offset.dy
+            : offset.dy + size.height + widget.offset.dy;
+        break;
+      case SDropdownMenuPosition.bottomLeft:
+        left = offset.dx + widget.offset.dx;
+        top = openAbove
+            ? offset.dy - 300.0 + widget.offset.dy
+            : offset.dy + size.height + widget.offset.dy;
+        break;
+      case SDropdownMenuPosition.bottomCenter:
+        left = offset.dx +
+            (size.width / 2) -
+            (widget.menuWidth / 2) +
+            widget.offset.dx;
+        top = openAbove
+            ? offset.dy - 300.0 + widget.offset.dy
+            : offset.dy + size.height + widget.offset.dy;
+        break;
+      case SDropdownMenuPosition.bottomRight:
+        left = offset.dx + size.width - widget.menuWidth + widget.offset.dx;
+        top = openAbove
+            ? offset.dy - 300.0 + widget.offset.dy
+            : offset.dy + size.height + widget.offset.dy;
+        break;
+      default:
+        left = offset.dx;
+        top = openAbove
+            ? offset.dy - 300.0 + widget.offset.dy
+            : offset.dy + size.height + widget.offset.dy;
+    }
+
+    // Ensuring the overlay doesn't go off-screen horizontally
+    left = left.clamp(0.0, screenWidth - widget.menuWidth);
+
+    // Ensuring the overlay doesn't go off-screen vertically
+    top = top.clamp(0.0, screenHeight - 100.0);
 
     return OverlayEntry(
       builder: (context) {
-        return GestureDetector(
-          onTap: _closeDropdown,
-          behavior: HitTestBehavior.translucent,
-          child: Stack(
-            children: [
-              Positioned.fill(
+        return Stack(
+          children: [
+            // Backdrop GestureDetector
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: _closeDropdown,
+                behavior: HitTestBehavior.translucent,
                 child: Container(
-                  color: const Color.fromARGB(0, 180, 47, 47),
+                  color: Colors.transparent,
                 ),
               ),
-              Positioned(
-                width: widget.menuWidth,
-                left: offset.dx,
-                top: openAbove ? offset.dy - 300.0 : offset.dy + size.height,
-                child: CompositedTransformFollower(
-                  link: _layerLink,
-                  offset: const Offset(0.0, 0.0),
-                  showWhenUnlinked: false,
-                  child: FadeTransition(
-                    opacity: _opacityAnimation,
-                    child: Material(
-                      color: widget.backgroundColor ??
-                          Theme.of(context).canvasColor,
-                      elevation: widget.elevation,
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(
-                          maxHeight: 300.0,
-                        ),
-                        child: _buildMenuItems(widget.items),
-                      ),
+            ),
+            // Menu Positioned above the backdrop
+            Positioned(
+              width: widget.menuWidth,
+              left: left,
+              top: top,
+              child: FadeTransition(
+                opacity: _opacityAnimation,
+                child: Material(
+                  color:
+                      widget.backgroundColor ?? Theme.of(context).canvasColor,
+                  elevation: widget.elevation,
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      maxHeight: 300.0,
                     ),
+                    child: _buildMenuItems(widget.items),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         );
       },
     );
@@ -269,6 +385,9 @@ class _SDropdownMenuState<T> extends State<SDropdownMenu<T>>
         }
         if (widget.closeOnItemTap) {
           _closeDropdown();
+        } else {
+          // Mark the OverlayEntry to rebuild
+          _overlayEntry?.markNeedsBuild();
         }
       },
     );
@@ -277,16 +396,20 @@ class _SDropdownMenuState<T> extends State<SDropdownMenu<T>>
   /// Builds a checkbox menu item.
   Widget _buildCheckboxItem(SDropdownMenuItemData<T> item) {
     return CheckboxListTile(
-      value: item.isChecked ?? false,
+      value: _checkboxStates[item.key] ?? item.isChecked ?? false,
       onChanged: item.enabled
           ? (value) {
+              setState(() {
+                _checkboxStates[item.key] = value ?? false;
+              });
               if (item.onCheckedChanged != null) {
                 item.onCheckedChanged!(value ?? false);
               }
-              // if (widget.closeOnItemTap) {
-              //   print('close on item tap');
-              //   _closeDropdown();
-              // }
+              // Mark the OverlayEntry to rebuild to reflect the new state
+              _overlayEntry?.markNeedsBuild();
+              if (widget.closeOnItemTap) {
+                _closeDropdown();
+              }
             }
           : null,
       title: Text(
@@ -300,16 +423,21 @@ class _SDropdownMenuState<T> extends State<SDropdownMenu<T>>
     );
   }
 
-  /// Builds a radio button menu item.
+  /// Builds a radio menu item.
   Widget _buildRadioItem(SDropdownMenuItemData<T> item) {
     return RadioListTile<T>(
       value: item.value as T,
-      groupValue: widget.selectedRadioValue,
+      groupValue: _selectedRadioValue,
       onChanged: item.enabled
           ? (value) {
+              setState(() {
+                _selectedRadioValue = value;
+              });
               if (widget.onRadioValueChanged != null) {
                 widget.onRadioValueChanged!(value);
               }
+              // Mark the OverlayEntry to rebuild to reflect the new state
+              _overlayEntry?.markNeedsBuild();
               if (widget.closeOnItemTap) {
                 _closeDropdown();
               }
@@ -355,17 +483,24 @@ class _SDropdownMenuState<T> extends State<SDropdownMenu<T>>
   Widget build(BuildContext context) {
     return CompositedTransformTarget(
       link: _layerLink,
-      child: GestureDetector(
-        onTap: _toggleDropdown,
-        child: widget.trigger,
-      ),
+      child: widget.trigger != null
+          ? GestureDetector(
+              onTap: _toggleDropdown,
+              child: widget.trigger,
+            )
+          : SButton(
+              onPressed: _toggleDropdown,
+              variant: SButtonVariant.outline,
+              padding: EdgeInsets.symmetric(horizontal: 45, vertical: 6),
+              child: Text("Open"),
+            ),
     );
   }
 
   @override
   void dispose() {
     _animationController.dispose();
-    _closeDropdown();
+    _overlayEntry?.remove();
     super.dispose();
   }
 }
@@ -393,6 +528,12 @@ class SDropdownSubmenu<T> extends StatefulWidget {
   /// The elevation of the submenu.
   final double elevation;
 
+  /// The alignment of the dropdown menu relative to the trigger.
+  final SDropdownMenuPosition menuPosition;
+
+  /// Additional offset for the dropdown menu's position.
+  final Offset offset;
+
   /// Creates an [SDropdownSubmenu].
   const SDropdownSubmenu({
     super.key,
@@ -403,6 +544,8 @@ class SDropdownSubmenu<T> extends StatefulWidget {
     this.disabledItemTextStyle,
     this.backgroundColor,
     this.elevation = 8.0,
+    this.menuPosition = SDropdownMenuPosition.topLeft,
+    this.offset = Offset.zero,
   });
 
   @override
@@ -434,6 +577,7 @@ class _SDropdownSubmenuState<T> extends State<SDropdownSubmenu<T>>
 
   /// Opens the submenu by inserting an [OverlayEntry].
   void _openSubmenu() {
+    print("Sub Menu opened");
     if (_isOpen) return;
     _overlayEntry = _createOverlayEntry();
     Overlay.of(context).insert(_overlayEntry!);
@@ -445,9 +589,14 @@ class _SDropdownSubmenuState<T> extends State<SDropdownSubmenu<T>>
 
   /// Closes the submenu by removing the [OverlayEntry].
   void _closeSubmenu() {
-    if (!_isOpen) return;
-    _animationController.reverse();
+    if (!_isOpen || !mounted) return;
+
+    if (_animationController.isAnimating || _animationController.isCompleted) {
+      _animationController.reverse();
+    }
+
     Future.delayed(const Duration(milliseconds: 200), () {
+      if (!mounted) return;
       _overlayEntry?.remove();
       _overlayEntry = null;
       setState(() {
@@ -456,58 +605,113 @@ class _SDropdownSubmenuState<T> extends State<SDropdownSubmenu<T>>
     });
   }
 
+  @override
+  void dispose() {
+    _animationController.dispose();
+    _overlayEntry?.remove();
+    super.dispose();
+  }
+
   /// Creates an [OverlayEntry] for the submenu.
   OverlayEntry _createOverlayEntry() {
     RenderBox renderBox = context.findRenderObject() as RenderBox;
     Size size = renderBox.size;
     Offset offset = renderBox.localToGlobal(Offset.zero);
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
 
-    // double screenWidth = MediaQuery.of(context).size.width;
+    // Calculate available space to the right
+    // double availableWidthRight = screenWidth - offset.dx - size.width;
+    // bool openToRight = availableWidthRight >= 200.0;
+
+    // Determine the position based on alignment
+    double left;
+    double top;
+
+    switch (widget.menuPosition) {
+      case SDropdownMenuPosition.topLeft:
+        left = offset.dx + size.width + widget.offset.dx;
+        top = offset.dy + widget.offset.dy;
+        break;
+      case SDropdownMenuPosition.topCenter:
+        left = offset.dx + (size.width / 2) - (200.0 / 2) + widget.offset.dx;
+        top = offset.dy + widget.offset.dy;
+        break;
+      case SDropdownMenuPosition.topRight:
+        left = offset.dx - 200.0 + widget.offset.dx;
+        top = offset.dy + widget.offset.dy;
+        break;
+      case SDropdownMenuPosition.bottomLeft:
+        left = offset.dx + size.width + widget.offset.dx;
+        top = offset.dy + size.height + widget.offset.dy;
+        break;
+      case SDropdownMenuPosition.bottomCenter:
+        left = offset.dx + (size.width / 2) - (200.0 / 2) + widget.offset.dx;
+        top = offset.dy + size.height + widget.offset.dy;
+        break;
+      case SDropdownMenuPosition.bottomRight:
+        left = offset.dx - 200.0 + widget.offset.dx;
+        top = offset.dy + size.height + widget.offset.dy;
+        break;
+      default:
+        left = offset.dx + size.width + widget.offset.dx;
+        top = offset.dy + widget.offset.dy;
+    }
+
+    // Submenu goes off the screen to the right
+    if (left + 200.0 > screenWidth) {
+      left = screenWidth - 200.0 - 10.0;
+    }
+
+    // Submenu goes off the screen to the left
+    if (left < 0.0) {
+      left = 10.0;
+    }
+
+    // Submenu goes off the screen vertically
+    top = top.clamp(0.0, screenHeight - 150.0);
 
     return OverlayEntry(
       builder: (context) {
-        return GestureDetector(
-          onTap: _closeSubmenu,
-          behavior: HitTestBehavior.translucent,
-          child: Stack(
-            children: [
-              Positioned.fill(
+        return Stack(
+          children: [
+            // Backdrop GestureDetector for Submenu
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: _closeSubmenu,
+                behavior: HitTestBehavior.translucent,
                 child: Container(
                   color: Colors.transparent,
                 ),
               ),
-              Positioned(
-                left: offset.dx + size.width,
-                top: offset.dy,
-                child: CompositedTransformFollower(
-                  link: _layerLink,
-                  offset: const Offset(0.0, 0.0),
-                  showWhenUnlinked: false,
-                  child: FadeTransition(
-                    opacity: _opacityAnimation,
-                    child: Material(
-                      color: widget.backgroundColor ??
-                          Theme.of(context).canvasColor,
-                      elevation: widget.elevation,
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(
-                          maxWidth: 200.0,
-                          maxHeight: 300.0,
-                        ),
-                        child: ListView(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          children: widget.parentItem.submenuItems!
-                              .map(widget.buildMenuItem)
-                              .toList(),
-                        ),
-                      ),
+            ),
+            // Submenu Positioned above the backdrop
+            Positioned(
+              left: left,
+              top: top,
+              child: FadeTransition(
+                opacity: _opacityAnimation,
+                child: Material(
+                  color:
+                      widget.backgroundColor ?? Theme.of(context).canvasColor,
+                  elevation: widget.elevation,
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      maxWidth: 200.0,
+                      maxHeight: 300.0,
+                    ),
+                    child: ListView(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      children: widget.parentItem.submenuItems!
+                          .map(widget.buildMenuItem)
+                          .toList(),
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         );
       },
     );
@@ -527,16 +731,9 @@ class _SDropdownSubmenuState<T> extends State<SDropdownSubmenu<T>>
             style: widget.itemTextStyle ?? const TextStyle(fontSize: 14.0),
           ),
           trailing: const Icon(Icons.chevron_right),
-          onTap: null,
+          onTap: () => _openSubmenu(),
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    _closeSubmenu();
-    super.dispose();
   }
 }

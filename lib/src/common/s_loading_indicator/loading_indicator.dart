@@ -81,7 +81,8 @@ class SLoadingIndicator extends StatefulWidget {
     this.customIcon,
     this.padding,
     this.margin,
-  }) : assert((customIcon == null || loaderType == null), "Use either a custom Icon or a loader type" );
+  }) : assert((customIcon == null || loaderType == null),
+            "Use either a custom Icon or a loader type");
 
   @override
   _SLoadingIndicatorState createState() => _SLoadingIndicatorState();
@@ -123,63 +124,63 @@ class _SLoadingIndicatorState extends State<SLoadingIndicator>
             color: widget.spinnerColor ?? Colors.teal,
             size: widget.spinnerSize,
             duration:
-            Duration(milliseconds: (1000 / widget.spinnerSpeed).round()),
+                Duration(milliseconds: (1000 / widget.spinnerSpeed).round()),
           );
         case SLoaderType.doubleBounce:
           return SpinKitDoubleBounce(
             color: widget.spinnerColor ?? Colors.teal,
             size: widget.spinnerSize,
             duration:
-            Duration(milliseconds: (1000 / widget.spinnerSpeed).round()),
+                Duration(milliseconds: (1000 / widget.spinnerSpeed).round()),
           );
         case SLoaderType.wave:
           return SpinKitWave(
             color: widget.spinnerColor ?? Colors.teal,
             size: widget.spinnerSize,
             duration:
-            Duration(milliseconds: (1000 / widget.spinnerSpeed).round()),
+                Duration(milliseconds: (1000 / widget.spinnerSpeed).round()),
           );
         case SLoaderType.threeBounce:
           return SpinKitThreeBounce(
             color: widget.spinnerColor ?? Colors.teal,
             size: widget.spinnerSize,
             duration:
-            Duration(milliseconds: (1000 / widget.spinnerSpeed).round()),
+                Duration(milliseconds: (1000 / widget.spinnerSpeed).round()),
           );
         case SLoaderType.circle:
           return SpinKitCircle(
             color: widget.spinnerColor ?? Colors.teal,
             size: widget.spinnerSize,
             duration:
-            Duration(milliseconds: (1000 / widget.spinnerSpeed).round()),
+                Duration(milliseconds: (1000 / widget.spinnerSpeed).round()),
           );
         case SLoaderType.cubeGrid:
           return SpinKitCubeGrid(
             color: widget.spinnerColor ?? Colors.teal,
             size: widget.spinnerSize,
             duration:
-            Duration(milliseconds: (1000 / widget.spinnerSpeed).round()),
+                Duration(milliseconds: (1000 / widget.spinnerSpeed).round()),
           );
         case SLoaderType.rotatingCircle:
           return SpinKitRotatingCircle(
             color: widget.spinnerColor ?? Colors.teal,
             size: widget.spinnerSize,
             duration:
-            Duration(milliseconds: (1000 / widget.spinnerSpeed).round()),
+                Duration(milliseconds: (1000 / widget.spinnerSpeed).round()),
           );
         case SLoaderType.rotatingPlain:
           return SpinKitRotatingPlain(
             color: widget.spinnerColor ?? Colors.teal,
             size: widget.spinnerSize,
             duration:
-            Duration(milliseconds: (1000 / widget.spinnerSpeed).round()),
+                Duration(milliseconds: (1000 / widget.spinnerSpeed).round()),
           );
         case SLoaderType.foldingCube:
           return SpinKitFoldingCube(
             color: widget.spinnerColor ?? Colors.teal,
             size: widget.spinnerSize,
             duration:
-            Duration(milliseconds: (1000 / widget.spinnerSpeed).round()),
+                Duration(milliseconds: (1000 / widget.spinnerSpeed).round()),
           );
         case SLoaderType.fadingCircle:
         default:
@@ -187,7 +188,7 @@ class _SLoadingIndicatorState extends State<SLoadingIndicator>
             color: widget.spinnerColor ?? Colors.teal,
             size: widget.spinnerSize,
             duration:
-            Duration(milliseconds: (1000 / widget.spinnerSpeed).round()),
+                Duration(milliseconds: (1000 / widget.spinnerSpeed).round()),
           );
       }
     }(widget.loaderType);
@@ -212,13 +213,13 @@ class _SLoadingIndicatorState extends State<SLoadingIndicator>
               GestureDetector(
                 onTap: widget.barrierDismissible
                     ? () {
-                  Navigator.of(context).pop();
-                }
+                        Navigator.of(context).pop();
+                      }
                     : null,
                 child: AnimatedContainer(
                   duration: widget.animationDuration,
                   color: widget.backgroundColor
-                      ?.withOpacity(widget.backgroundOpacity) ??
+                          ?.withOpacity(widget.backgroundOpacity) ??
                       Colors.black.withOpacity(widget.backgroundOpacity),
                 ),
               ),
@@ -231,20 +232,20 @@ class _SLoadingIndicatorState extends State<SLoadingIndicator>
                   decoration: BoxDecoration(
                     gradient: theme.useGradient
                         ? LinearGradient(
-                      colors: [
-                        widget.backgroundColor ?? Colors.white,
-                        (widget.backgroundColor ?? Colors.white)
-                            .withOpacity(0.9),
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    )
+                            colors: [
+                              widget.backgroundColor ?? Colors.white,
+                              (widget.backgroundColor ?? Colors.white)
+                                  .withOpacity(0.9),
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          )
                         : null,
                     color: theme.useGradient
                         ? null
                         : (widget.backgroundColor ?? Colors.white),
                     borderRadius:
-                    widget.borderRadius ?? BorderRadius.circular(20),
+                        widget.borderRadius ?? BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
                         color: theme.shadowColor,
@@ -262,12 +263,11 @@ class _SLoadingIndicatorState extends State<SLoadingIndicator>
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      _buildSpinner(),
+                      RepaintBoundary(child: _buildSpinner()),
                       if (widget.message.isNotEmpty) ...[
                         const SizedBox(height: 10),
                         Text(
-                          SLoadingIndicatorUtils
-                              .formatMessage(widget.message),
+                          SLoadingIndicatorUtils.formatMessage(widget.message),
                           textAlign: TextAlign.center,
                           style: messageStyle,
                         ),

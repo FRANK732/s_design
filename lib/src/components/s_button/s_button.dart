@@ -264,10 +264,12 @@ class SButton extends StatelessWidget {
     return SizedBox(
       width: 20.0,
       height: 20.0,
-      child: CircularProgressIndicator(
-        strokeWidth: 2.0,
-        valueColor: AlwaysStoppedAnimation<Color>(
-          _getLoaderColor(theme),
+      child: RepaintBoundary(
+        child: CircularProgressIndicator(
+          strokeWidth: 2.0,
+          valueColor: AlwaysStoppedAnimation<Color>(
+            _getLoaderColor(theme),
+          ),
         ),
       ),
     );
