@@ -67,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
     {'title': 'Check Boxes', 'page': '/check_box_page'},
     {'title': 'DropDown Menu', 'page': '/dropdown_menu_page'},
     {'title': 'Progress Indicators', 'page': '/progress_indicator_page'},
-    {'title': 'Modals', 'page': '/modal_page'},
+    {'title': 'Dialog', 'page': '/modal_page'},
     {'title': 'Tabs', 'page': '/tab_page'},
     // {'title': 'Bottom Navigation', 'page': '/bottom_navigation_page'},
     // {'title': 'Sliders', 'page': '/slider_page'},
