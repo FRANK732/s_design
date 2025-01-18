@@ -14,6 +14,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final STheme _sTheme = STheme();
+
     final myOverlays = [
       OverlayEntry(
         builder: (overlayContext) {
@@ -36,9 +38,9 @@ class MyApp extends StatelessWidget {
       title: 'SDesign Demo',
       getPages: AppRoutes.routes,
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-      ),
+      theme: _sTheme.getLightTheme(),
+      darkTheme: _sTheme.getDarkTheme(),
+      themeMode: ThemeMode.system,
       home: const MyHomePage(title: 'SDesign '),
       builder: sOverlayBuilder(overlays: myOverlays),
     );
@@ -74,20 +76,22 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SScaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: ListView(
-        children: [
-          for (final widget in _widgets)
-            ListTile(
-              title: Text(widget['title']!),
-              onTap: () => Get.toNamed(widget['page']!),
-            ),
-        ],
-      ),
+      renderBody: ((context){
+        return ListView(
+          children: [
+            for (final widget in _widgets)
+              ListTile(
+                title: Text(widget['title']!),
+                onTap: () => Get.toNamed(widget['page']!),
+              ),
+          ],
+        );
+      }),
     );
   }
 }

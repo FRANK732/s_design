@@ -35,7 +35,7 @@ class AppRoutes {
     ),
     GetPage(
       name: '/modal_page',
-      page: () => const ModalPage(),
+      page: () => const DialogPage(),
       transition: Transition.rightToLeft,
     ),
     GetPage(

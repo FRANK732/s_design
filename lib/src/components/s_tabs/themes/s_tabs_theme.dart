@@ -68,7 +68,7 @@ class TabsTriggerStyle {
     this.activeTextStyle = const TextStyle(
         fontSize: 14.0, fontWeight: FontWeight.bold, color: Colors.white),
     this.inactiveTextStyle = const TextStyle(
-        fontSize: 14.0, fontWeight: FontWeight.normal, color: Colors.grey),
+        fontSize: 14.0, fontWeight: FontWeight.normal, color: Colors.white),
     this.activeBackgroundColor = Colors.black,
     this.inactiveBackgroundColor = const Color(0xFF2C2C2C),
     this.borderRadius = const BorderRadius.all(Radius.circular(8.0)),

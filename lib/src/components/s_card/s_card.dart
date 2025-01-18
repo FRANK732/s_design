@@ -4,37 +4,7 @@ import 'package:s_design/src/components/s_card/enums/s_card_shape.dart';
 
 /// A highly customizable and versatile card widget for Flutter applications.
 ///
-/// The [SCard] widget provides extensive customization options, including
-/// shadow customization, shape customization, gradient and image backgrounds,
-/// tappable interactions, and flexible content slots for headers, body, actions,
-/// and footer.
-///
-/// Example usage:
-/// ```dart
-/// SCard(
-///   title: 'Card Title',
-///   description: 'This is a description of the card.',
-///   body: Text('Here is the main content of the card.'),
-///   actions: Row(
-///     mainAxisAlignment: MainAxisAlignment.end,
-///     children: [
-///       TextButton(onPressed: () {}, child: Text('Cancel')),
-///       ElevatedButton(onPressed: () {}, child: Text('Accept')),
-///     ],
-///   ),
-///   footer: Text('Footer content'),
-///   color: Colors.white,
-///   borderRadius: 12,
-///   shape: SCardShape.rounded,
-///   shadowStyle: SCardShadow.subtle,
-///   shadowColor: Colors.black26, // Optional: Customize shadow color
-///   shadowOffset: Offset(0, 2),   // Optional: Customize shadow offset
-///   isTappable: true,
-///   onTap: () {
-///     print('Card tapped!');
-///   },
-/// )
-/// ```
+/// The [SCard] widget provides extensive customization options, including.
 class SCard extends StatelessWidget {
   /// The primary title text of the card.
   final String? title;

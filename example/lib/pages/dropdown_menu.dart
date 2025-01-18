@@ -9,6 +9,14 @@ class DropdownMenuPage extends StatefulWidget {
 }
 
 class _DropdownMenuPageState extends State<DropdownMenuPage> {
+  final SDropdownController _iconsController = SDropdownController();
+  final SDropdownController _defaultController = SDropdownController();
+  final SDropdownController _radioController = SDropdownController();
+  final SDropdownController _checkBoxController = SDropdownController();
+  final SDropdownController _subController = SDropdownController();
+  final SDropdownController _sepController = SDropdownController();
+  final SDropdownController _customController = SDropdownController();
+
   bool _isFeatureEnabled = false;
   // String? _selectedOption;
   String? _selectedRadio;
@@ -28,6 +36,7 @@ class _DropdownMenuPageState extends State<DropdownMenuPage> {
             _buildSectionTitle('Default Dropdown Menu'),
             const SizedBox(height: 8),
             SDropdownMenu<String>(
+              controller: _defaultController,
               menuPosition: SDropdownMenuPosition.bottomRight,
               // trigger: const Text('Default Dropdown'),
               items: [
@@ -52,6 +61,7 @@ class _DropdownMenuPageState extends State<DropdownMenuPage> {
             _buildSectionTitle('Dropdown with Icons'),
             const SizedBox(height: 8),
             SDropdownMenu<String>(
+              controller: _iconsController,
               // trigger: const Text('Dropdown with Icons'),
               items: [
                 SDropdownMenuItemData(
@@ -78,6 +88,7 @@ class _DropdownMenuPageState extends State<DropdownMenuPage> {
             _buildSectionTitle('Dropdown with Checkboxes'),
             const SizedBox(height: 8),
             SDropdownMenu<String>(
+              controller: _checkBoxController,
               closeOnItemTap: false,
               menuPosition: SDropdownMenuPosition.topCenter,
               // closeOnItemTap: false,
@@ -130,6 +141,7 @@ class _DropdownMenuPageState extends State<DropdownMenuPage> {
             _buildSectionTitle('Dropdown with Radio Buttons'),
             const SizedBox(height: 8),
             SDropdownMenu<String>(
+              controller: _radioController,
               closeOnItemTap: false,
               // trigger: const Text('Dropdown with Radio Buttons'),
               selectedRadioValue: _selectedRadio,
@@ -163,6 +175,7 @@ class _DropdownMenuPageState extends State<DropdownMenuPage> {
             _buildSectionTitle('Dropdown with Submenu'),
             const SizedBox(height: 8),
             SDropdownMenu<String>(
+              controller: _subController,
               // closeOnItemTap: false,
               // trigger: const Text('Dropdown with Submenu'),
               items: [
@@ -175,7 +188,6 @@ class _DropdownMenuPageState extends State<DropdownMenuPage> {
                       key: 'new',
                       label: 'New',
                       onTap: () {},
-
                     ),
                     SDropdownMenuItemData(
                       key: 'open',
@@ -229,7 +241,7 @@ class _DropdownMenuPageState extends State<DropdownMenuPage> {
             _buildSectionTitle('Dropdown with Separators and Labels'),
             const SizedBox(height: 8),
             SDropdownMenu<String>(
-              // trigger: const Text('Dropdown with Separators and Labels'),
+              controller: _sepController,
               items: [
                 SDropdownMenuItemData(
                   key: 'section1',
@@ -263,6 +275,51 @@ class _DropdownMenuPageState extends State<DropdownMenuPage> {
               ],
             ),
             const Divider(height: 40),
+            _buildSectionTitle('Dropdown with Custom trigger Builder'),
+            const SizedBox(height: 8),
+            SDropdownMenu<String>(
+              controller: _customController,
+              triggerBuilder: (context, isOpen, toggle) {
+                return SButton(
+                  padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 15),
+                  onPressed: toggle,
+                  child: Text(
+                    isOpen ? 'Close ▼' : 'Open ▲',
+                  ),
+                );
+              },
+              items: [
+                SDropdownMenuItemData(
+                  key: 'custom',
+                  label: 'Custom 1',
+                  type: SDropdownMenuItemType.label,
+                ),
+                SDropdownMenuItemData(
+                  key: 'item1',
+                  label: 'Item 1',
+                  onTap: () {},
+                ),
+                SDropdownMenuItemData(
+                  key: 'item2',
+                  type: SDropdownMenuItemType.separator,
+                ),
+                SDropdownMenuItemData(
+                  key: 'item3',
+                  label: 'Section 2',
+                  type: SDropdownMenuItemType.label,
+                ),
+                SDropdownMenuItemData(
+                  key: 'item4',
+                  label: 'Item 2',
+                  onTap: () {},
+                ),
+                SDropdownMenuItemData(
+                  key: 'item5',
+                  label: 'Item 3',
+                  onTap: () {},
+                ),
+              ],
+            ),
           ],
         ),
       ),

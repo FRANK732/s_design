@@ -1,135 +1,78 @@
-// lib/src/pages/modal_page.dart
-
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
 
-class ModalPage extends StatelessWidget {
-  const ModalPage({super.key});
+class DialogPage extends StatefulWidget {
+  const DialogPage({super.key});
 
-  List<Widget> _buildActions(BuildContext context) {
-    return [
-      SButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        child: const Text('Cancel'),
-      ),
-      SButton(
-        onPressed: () {
-          // Perform some action
-          Navigator.of(context).pop();
-        },
-        child: const Text('OK'),
-      ),
-    ];
-  }
+  @override
+  State<DialogPage> createState() => _DialogPageState();
+}
+
+class _DialogPageState extends State<DialogPage> {
+  final SDialogController _dialogController = SDialogController();
+  final TextEditingController _nameController =
+  TextEditingController(text: 'Schrift');
+  final TextEditingController _usernameController =
+  TextEditingController(text: 'schrift');
+
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SScaffold(
       appBar: AppBar(
-        title: const Text('SModal Showcase'),
+        title: const Text('Dialog Showcase'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              children: [
-                // Success Modal Button
-                SButton(
-                  onPressed: () {
-                    SDialog(
-                      trigger: const Text('open'),
-                      title: 'The operation was successful!',
-                      description: 'The operation was successful!',
-                      actions: _buildActions(context),
-                    );
-                  },
-                  child: const Text('Show Success Modal'),
-                ),
-                const SizedBox(height: 20),
+      renderBody:((context){
 
-                // Error Modal Button
-                SButton(
-                  onPressed: () {
-                    SModal.showError(
-                      context,
-                      message: 'An error has occurred. Please try again.',
-                      actions: _buildActions(context),
-                    );
-                  },
-                  child: const Text('Show Error Modal'),
-                ),
-                const SizedBox(height: 20),
-
-                // Info Modal Button
-                SButton(
-                  onPressed: () {
-                    SModal.showInfo(
-                      context,
-                      message: 'Here is some important information for you.',
-                      actions: _buildActions(context),
-                    );
-                  },
-                  child: const Text('Show Info Modal'),
-                ),
-                const SizedBox(height: 20),
-
-                // Warning Modal Button
-                SButton(
-                  onPressed: () {
-                    SModal.showWarning(
-                      context,
-                      message: 'Please be cautious about the next steps.',
-                      actions: _buildActions(context),
-                    );
-                  },
-                  child: const Text('Show Warning Modal'),
-                ),
-                const SizedBox(height: 20),
-
-                // Custom Modal Button
-                SButton(
-                  onPressed: () {
-                    SModal.showCustom(
-                      context,
-                      type: SModalType.custom,
-                      title: 'Custom Modal',
-                      message:
-                          'This is a custom modal with a unique icon and actions.',
-                      customIcon: Icons.star,
-                      customIconColor: Colors.purple,
-                      actions: [
-                        SButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          child: const Text('Close'),
-                        ),
-                        SButton(
-                          onPressed: () {
-                            // Perform custom action
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text('Proceed'),
-                        ),
-                      ],
-                      backgroundColor: Colors.purple[50],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
+        return Center(
+          child: SButton(
+            onPressed: () {
+              _dialogController.show(
+                context,
+                dialog:SDialog(
+                  title: 'Edit profile',
+                  description:
+                  'Make changes to your profile here',
+                  semanticLabel: 'Edit',
+                  content: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Name Field
+                      const Text(
+                        'Name',
                       ),
-                      animationType: SModalAnimationType
-                          .slideFromLeft, // Assuming slide is another enum
-                      size: SModalSize.large,
-                    );
-                  },
-                  child: const Text('Show Custom Modal'),
+                      const SizedBox(height: 6),
+                      SInputField(
+                        controller: _nameController,
+                      ),
+                      const SizedBox(height: 16),
+                     const Text(
+                        'Nick Name',
+                      ),
+                      const SizedBox(height: 6),
+                      SInputField(
+                        controller: _usernameController,
+                      ),
+
+                    ],
+                  ),
+                  // Action buttons at bottom-right
+                  actions: [
+                    SButton(
+                      variant: SButtonVariant.secondary,
+                      onPressed: () {
+                        _dialogController.close(context);
+                      },
+                      child: const Text('Save changes'),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 20),
-              ],
-            ),
+              );
+            },
+            child: const Text('Show Dialog'),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

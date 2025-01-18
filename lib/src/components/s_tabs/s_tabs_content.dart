@@ -9,11 +9,13 @@ class TabsContent extends StatelessWidget {
   final Duration duration;
   final Curve curve;
   final Widget child;
+  final EdgeInsetsGeometry contentMargin;
 
   const TabsContent({
     Key? key,
     required this.index,
     required this.activeIndex,
+    required this.contentMargin,
     required this.animationType,
     required this.duration,
     required this.curve,
@@ -33,6 +35,7 @@ class TabsContent extends StatelessWidget {
       },
       child: activeIndex == index
           ? Container(
+        margin: contentMargin,
         key: ValueKey<int>(index),
         child: child,
       )

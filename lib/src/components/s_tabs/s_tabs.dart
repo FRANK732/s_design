@@ -1,6 +1,5 @@
-// lib/components/s_tabs/tabs.dart
-
 import 'package:flutter/material.dart';
+import 'package:s_design/src/theme/s_spacers.dart';
 import 'enums/s_tabs_enums.dart';
 import 'models/s_tabs_model.dart';
 import 's_tab_list.dart';
@@ -32,10 +31,13 @@ class Tabs extends StatefulWidget {
   /// Optional callback when a tab is changed.
   final ValueChanged<int>? onTabChanged;
 
+  final EdgeInsetsGeometry tabMargin;
+
   const Tabs({
     Key? key,
     required this.tabs,
     this.initialIndex = 0,
+    this.tabMargin = const EdgeInsets.symmetric(horizontal: 20.0),
     this.animationType = STabAnimationType.fade,
     this.duration = const Duration(milliseconds: 300),
     this.curve = Curves.easeInOut,
@@ -74,7 +76,6 @@ class _TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
-  /// Method to change the active tab.
   void _setActiveIndex(int index) {
     if (index != _activeIndex && index >= 0 && index < widget.tabs.length) {
       setState(() {
@@ -90,12 +91,15 @@ class _TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     // Fetch the TabsTheme from the current theme
-    final theme = TabsTheme.of(context);
+    // final theme = TabsTheme.of(context);
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        Spacers.mediumHeight,
         TabsList(
+          tabListMargin: widget.tabMargin,
           direction: widget.orientation == STabOrientation.horizontal
               ? Axis.horizontal
               : Axis.vertical,
@@ -104,14 +108,15 @@ class _TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
           onTabSelected: _setActiveIndex,
           activeIndex: _activeIndex,
         ),
-        const SizedBox(height: 10.0),
-        Expanded(
+        Spacers.mediumHeight,
+        Flexible(
           child: Stack(
             children: widget.tabs
                 .asMap()
                 .map((index, tab) => MapEntry(
               index,
               TabsContent(
+                contentMargin: widget.tabMargin,
                 index: index,
                 activeIndex: _activeIndex,
                 animationType: widget.animationType,
@@ -126,8 +131,8 @@ class _TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
         ),
       ],
     );
+
   }
 
-  /// Get the current active index.
   int get activeIndex => _activeIndex;
 }

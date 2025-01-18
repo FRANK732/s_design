@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/src/components/s_sonner/enums/s_sonner_options.dart';
+import 'package:s_design/src/theme/theme_extension.dart';
 
 /// Utility functions for [SToasterService] and [SToastWidget].
 class SSonnerUtils {
@@ -46,17 +47,17 @@ class SSonnerUtils {
     }
   }
 
-  static Color getBackgroundColor(SSonnerVariant type) {
+  static Color getBackgroundColor(SSonnerVariant type,BuildContext context) {
     switch (type) {
       case SSonnerVariant.success:
-        return Colors.green.shade400;
+        return context.primaryColor;
       case SSonnerVariant.error:
-        return Colors.redAccent.shade400;
+        return context.errorColor;
       case SSonnerVariant.warning:
-        return Colors.orange.shade300;
+        return context.secondaryColor;
       case SSonnerVariant.info:
       default:
-        return Colors.blue.shade400;
+        return context.primaryColor;
     }
   }
 }

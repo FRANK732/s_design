@@ -12,89 +12,77 @@ class _TabsPageState extends State<TabsPage> {
   final List<TabItem> _tabs = [
     TabItem(
       label: 'Login',
-      content: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Username',
-                ),
-              ),
+      content: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical:  8.0),
+            child: SInputField(
+              hintText: 'Username',
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
-                ),
-              ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical:  8.0),
+            child: SInputField.password(
+              hintText: 'Password',
             ),
-            ElevatedButton(
+          ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical:  8.0),
+            child: SButton(
+              width: double.infinity,
               onPressed: () {
-                // Handle login logic here
               },
               child: Text('Login'),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     ),
     TabItem(
       label: 'SignUp',
-      content: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Username',
-                ),
-              ),
+      content: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical:  8.0),
+            child: SInputField(
+              hintText: 'Username',
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
-                ),
-              ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical:  8.0),
+            child: SInputField.password(
+              hintText: 'Password',
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Confirm Password',
-                ),
-              ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical:  8.0),
+            child: SInputField.password(
+              hintText: 'Confirm Password',
             ),
-            ElevatedButton(
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical:  8.0),
+            child: SButton(
+              width: double.infinity,
               onPressed: () {
-                // Handle sign-up logic here
               },
-              child: Text('Sign Up'),
+              child: const Text('Sign Up'),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     ),
+
   ];
 
   @override
   Widget build(BuildContext context) {
     return SScaffold(
+      // centerBody: true,
+        scrollable: true,
         appBar: AppBar(
           title: const Text('Tabs Showcase'),
         ),

@@ -64,7 +64,6 @@ class _SScaffoldState extends State<SScaffold> {
 
   @override
   Widget build(BuildContext context) {
-
     return ChangeNotifierProvider<LoadingProvider>.value(
       value: _loadingProvider,
       child: Stack(
@@ -72,10 +71,8 @@ class _SScaffoldState extends State<SScaffold> {
           Scaffold(
             appBar: widget.appBar,
             drawer: widget.drawer,
-            body: widget.centerBody
-                ? Center(child: _buildBody(context))
-                : _buildBody(context),
-            bottomNavigationBar:widget.renderFooter != null ? _buildFooter(context) : null
+            body: _buildBody(context),
+            bottomNavigationBar: widget.renderFooter != null ? _buildFooter(context) : null,
           ),
           Consumer<LoadingProvider>(
             builder: (context, loadingProvider, child) {
@@ -89,17 +86,34 @@ class _SScaffoldState extends State<SScaffold> {
     );
   }
 
+
   Widget _buildBody(BuildContext context) {
     final bodyContent = widget.renderBody != null
         ? widget.renderBody!(context)
         : const SizedBox.shrink();
 
-    return widget.scrollable
-        ? SingleChildScrollView(
-            child: bodyContent,
-          )
-        : bodyContent;
+    Widget content = widget.centerBody ? Center(child: bodyContent) : bodyContent;
+
+    if (widget.scrollable) {
+      return SingleChildScrollView(
+        child: widget.centerBody
+            ? ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: MediaQuery.of(context).size.height -
+                (widget.appBar?.preferredSize.height ?? 0) -
+                (widget.renderFooter != null
+                    ? kBottomNavigationBarHeight
+                    : 0),
+          ),
+          child: content,
+        )
+            : content,
+      );
+    } else {
+      return content;
+    }
   }
+
 
   Widget _buildFooter(BuildContext context) {
     final footerWidget = widget.renderFooter?.call(context);

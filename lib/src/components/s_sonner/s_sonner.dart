@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:s_design/src/theme/theme_extension.dart';
+import '../../theme/s_dimension.dart';
 import 'enums/s_sonner_options.dart';
 import '../../components/s_sonner/utils/s_sonner_utils.dart';
 
@@ -65,8 +67,7 @@ class SSonner {
 
     _overlayState?.insert(overlayEntry);
 
-    Future.delayed(currentToast.duration + const Duration(milliseconds: 300),
-        () {
+    Future.delayed(currentToast.duration + const Duration(milliseconds: 300), () {
       overlayEntry.remove();
       _isShowing = false;
       _displayNext();
@@ -103,8 +104,14 @@ class _ToastWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color backgroundColor =
-        entry.backgroundColor ?? SSonnerUtils.getBackgroundColor(entry.type);
+    // Access theme properties using extension methods
+    final colors = context.primaryColor;
+    final onPrimary = context.textOnPrimaryColor;
+    final textTheme = context.textThemeStyles;
+    final spacers = context.spacers;
+
+    // Determine background color and icon based on variant
+    Color backgroundColor = entry.backgroundColor ?? SSonnerUtils.getBackgroundColor(entry.type, context);
     IconData icon = entry.icon ?? SSonnerUtils.getIconData(entry.type);
 
     Alignment alignment;
@@ -130,16 +137,16 @@ class _ToastWidget extends StatelessWidget {
     switch (entry.size) {
       case SSonnerSize.sm:
         paddingValue = 8.0;
-        textStyle = entry.textStyle ?? Theme.of(context).textTheme.bodySmall!;
+        textStyle = entry.textStyle ?? textTheme.bodySmall!;
         break;
       case SSonnerSize.lg:
         paddingValue = 16.0;
-        textStyle = entry.textStyle ?? Theme.of(context).textTheme.bodyLarge!;
+        textStyle = entry.textStyle ?? textTheme.bodyLarge!;
         break;
       case SSonnerSize.md:
       default:
         paddingValue = 12.0;
-        textStyle = entry.textStyle ?? Theme.of(context).textTheme.bodyMedium!;
+        textStyle = entry.textStyle ?? textTheme.bodyMedium!;
         break;
     }
 
@@ -183,7 +190,7 @@ class _ToastWidget extends StatelessWidget {
                     margin: margin,
                     decoration: BoxDecoration(
                       color: backgroundColor,
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(SDimensions.borderRadiusMedium),
                       boxShadow: const [
                         BoxShadow(
                           color: Colors.black26,
@@ -200,7 +207,7 @@ class _ToastWidget extends StatelessWidget {
                         Flexible(
                           child: Text(
                             entry.message,
-                            style: textStyle,
+                            style: textStyle.copyWith(color: Colors.white),
                             softWrap: true,
                             overflow: TextOverflow.visible,
                           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
+import '../../common/s_trigger_builder.dat.dart';
 
 /// Data model for a dropdown menu item.
 class SDropdownMenuItemData<T> {
@@ -98,12 +99,7 @@ class SDropdownMenuItemData<T> {
         );
 }
 
-/// A comprehensive Dropdown Menu Widget that encapsulates triggering, overlay, content,
-/// and various types of menu items.
 class SDropdownMenu<T> extends StatefulWidget {
-  /// The widget that triggers the dropdown menu when interacted with.
-  final Widget? trigger;
-
   /// The list of dropdown menu items.
   final List<SDropdownMenuItemData<T>> items;
 
@@ -140,10 +136,15 @@ class SDropdownMenu<T> extends StatefulWidget {
   /// Additional offset for the dropdown menu's position.
   final Offset offset;
 
+  final STriggerBuilder? triggerBuilder;
+
+  final SDropdownController controller;
+
   /// Creates an [SDropdownMenu].
   const SDropdownMenu({
     super.key,
-    this.trigger,
+    required this.controller,
+    this.triggerBuilder,
     required this.items,
     this.selectedRadioValue,
     this.onRadioValueChanged,
@@ -187,11 +188,13 @@ class _SDropdownMenuState<T> extends State<SDropdownMenu<T>>
       parent: _animationController,
       curve: Curves.easeInOut,
     );
+
+    widget.controller.addListener(_handleControllerChange);
   }
 
   /// Toggles the dropdown menu's visibility.
-  void _toggleDropdown() {
-    if (_isOpen) {
+  void _handleControllerChange() {
+    if (!widget.controller.isOpen) {
       _closeDropdown();
     } else {
       _openDropdown();
@@ -200,6 +203,7 @@ class _SDropdownMenuState<T> extends State<SDropdownMenu<T>>
 
   /// Opens the dropdown menu by inserting an [OverlayEntry].
   void _openDropdown() {
+    widget.controller.setOpen(true);
     _overlayEntry = _createOverlayEntry();
     Overlay.of(context).insert(_overlayEntry!);
     _animationController.forward();
@@ -210,14 +214,16 @@ class _SDropdownMenuState<T> extends State<SDropdownMenu<T>>
 
   /// Closes the dropdown menu by removing the [OverlayEntry].
   void _closeDropdown() {
-    print('close dropdown');
+    if(!_isOpen) return;
+    widget.controller.setOpen(false);
+
+    setState(() {
+      _isOpen = false;
+    });
     _animationController.reverse();
     Future.delayed(const Duration(milliseconds: 200), () {
       _overlayEntry?.remove();
       _overlayEntry = null;
-      setState(() {
-        _isOpen = false;
-      });
     });
   }
 
@@ -481,25 +487,29 @@ class _SDropdownMenuState<T> extends State<SDropdownMenu<T>>
 
   @override
   Widget build(BuildContext context) {
-    return CompositedTransformTarget(
-      link: _layerLink,
-      child: widget.trigger != null
-          ? GestureDetector(
-              onTap: _toggleDropdown,
-              child: widget.trigger,
-            )
-          : SButton(
-              onPressed: _toggleDropdown,
-              variant: SButtonVariant.outline,
-              padding: EdgeInsets.symmetric(horizontal: 45, vertical: 6),
-              child: Text("Open"),
-            ),
-    );
+    final bool isOPen = _isOpen;
+    Widget trigger;
+
+    if (widget.triggerBuilder != null) {
+      trigger = widget.triggerBuilder!(context, isOPen,
+          () => widget.controller.setOpen(!widget.controller.isOpen));
+    } else {
+      trigger = SButton(
+        onPressed: () {
+          widget.controller.setOpen(!widget.controller.isOpen);
+        },
+        variant: SButtonVariant.outline,
+        padding: EdgeInsets.symmetric(horizontal: 45, vertical: 6),
+        child: Text("Open"),
+      );
+    }
+    return CompositedTransformTarget(link: _layerLink, child: trigger);
   }
 
   @override
   void dispose() {
     _animationController.dispose();
+    widget.controller.removeListener(_handleControllerChange);
     _overlayEntry?.remove();
     super.dispose();
   }
