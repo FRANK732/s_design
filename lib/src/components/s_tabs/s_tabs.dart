@@ -3,7 +3,6 @@ import 'package:s_design/src/theme/s_spacers.dart';
 import 'enums/s_tabs_enums.dart';
 import 'models/s_tabs_model.dart';
 import 's_tab_list.dart';
-import 'themes/s_tabs_theme.dart';
 import 's_tabs_content.dart';
 
 class Tabs extends StatefulWidget {
@@ -45,9 +44,8 @@ class Tabs extends StatefulWidget {
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.onTabChanged,
   })  : assert(tabs.length > 0, 'Tabs list cannot be empty.'),
-        assert(
-        initialIndex >= 0 && initialIndex < tabs.length,
-        'Initial index must be within the range of tabs.'),
+        assert(initialIndex >= 0 && initialIndex < tabs.length,
+            'Initial index must be within the range of tabs.'),
         super(key: key);
 
   @override
@@ -114,24 +112,23 @@ class _TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
             children: widget.tabs
                 .asMap()
                 .map((index, tab) => MapEntry(
-              index,
-              TabsContent(
-                contentMargin: widget.tabMargin,
-                index: index,
-                activeIndex: _activeIndex,
-                animationType: widget.animationType,
-                duration: widget.duration,
-                curve: widget.curve,
-                child: tab.content,
-              ),
-            ))
+                      index,
+                      TabsContent(
+                        contentMargin: widget.tabMargin,
+                        index: index,
+                        activeIndex: _activeIndex,
+                        animationType: widget.animationType,
+                        duration: widget.duration,
+                        curve: widget.curve,
+                        child: tab.content,
+                      ),
+                    ))
                 .values
                 .toList(),
           ),
         ),
       ],
     );
-
   }
 
   int get activeIndex => _activeIndex;

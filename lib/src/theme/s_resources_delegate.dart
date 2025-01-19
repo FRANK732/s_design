@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+//Not in use now
 class ResourceDelegate {
-  // Example: Fetching image assets
   Image getLogo(BuildContext context) {
     return Image.asset(
       'assets/images/logo.png',

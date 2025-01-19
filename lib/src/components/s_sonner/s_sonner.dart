@@ -67,7 +67,8 @@ class SSonner {
 
     _overlayState?.insert(overlayEntry);
 
-    Future.delayed(currentToast.duration + const Duration(milliseconds: 300), () {
+    Future.delayed(currentToast.duration + const Duration(milliseconds: 300),
+        () {
       overlayEntry.remove();
       _isShowing = false;
       _displayNext();
@@ -104,14 +105,14 @@ class _ToastWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Access theme properties using extension methods
-    final colors = context.primaryColor;
-    final onPrimary = context.textOnPrimaryColor;
+    // final colors = context.primaryColor;
+    // final onPrimary = context.textOnPrimaryColor;
     final textTheme = context.textThemeStyles;
-    final spacers = context.spacers;
+    // final spacers = context.spacers;
 
     // Determine background color and icon based on variant
-    Color backgroundColor = entry.backgroundColor ?? SSonnerUtils.getBackgroundColor(entry.type, context);
+    Color backgroundColor = entry.backgroundColor ??
+        SSonnerUtils.getBackgroundColor(entry.type, context);
     IconData icon = entry.icon ?? SSonnerUtils.getIconData(entry.type);
 
     Alignment alignment;
@@ -190,7 +191,8 @@ class _ToastWidget extends StatelessWidget {
                     margin: margin,
                     decoration: BoxDecoration(
                       color: backgroundColor,
-                      borderRadius: BorderRadius.circular(SDimensions.borderRadiusMedium),
+                      borderRadius:
+                          BorderRadius.circular(SDimensions.borderRadiusMedium),
                       boxShadow: const [
                         BoxShadow(
                           color: Colors.black26,

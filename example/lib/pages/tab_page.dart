@@ -15,8 +15,8 @@ class _TabsPageState extends State<TabsPage> {
       content: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical:  8.0),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical:  8.0),
             child: SInputField(
               hintText: 'Username',
             ),
@@ -34,7 +34,7 @@ class _TabsPageState extends State<TabsPage> {
               width: double.infinity,
               onPressed: () {
               },
-              child: Text('Login'),
+              child: const Text('Login'),
             ),
           ),
         ],
@@ -100,7 +100,7 @@ class _TabsPageState extends State<TabsPage> {
               print('Active Tab: $index');
             },
           );
-        })
+        }),
 
     );
   }

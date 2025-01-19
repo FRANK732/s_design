@@ -53,7 +53,6 @@ class STheme {
         labelMedium: typography.labelMedium,
         labelSmall: typography.labelSmall,
       ),
-      // Define other ThemeData properties as needed
     );
   }
 
@@ -99,7 +98,6 @@ class STheme {
         labelMedium: typography.labelMedium,
         labelSmall: typography.labelSmall,
       ),
-      // Define other ThemeData properties as needed
     );
   }
 }

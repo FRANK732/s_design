@@ -1,7 +1,5 @@
-// lib/theme/s_colors.dart
 import 'package:flutter/material.dart';
 
-/// Base class for color definitions
 abstract class SColorsBase {
   // Primary Colors
   Color get primary;

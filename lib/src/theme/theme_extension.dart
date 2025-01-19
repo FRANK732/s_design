@@ -11,15 +11,16 @@ extension ThemeExtensions on BuildContext {
   Color get secondaryColor => Theme.of(this).colorScheme.secondary;
   Color get surfaceColor => Theme.of(this).colorScheme.surface;
   Color get errorColor => Theme.of(this).colorScheme.error;
-  Color get textPrimaryColor => Theme.of(this).textTheme.bodyMedium?.color ?? Colors.black;
+  Color get textPrimaryColor =>
+      Theme.of(this).textTheme.bodyMedium?.color ?? Colors.black;
   Color get textOnPrimaryColor => Theme.of(this).colorScheme.onPrimary;
   Color get textOnSecondaryColor => Theme.of(this).colorScheme.onSecondary;
 
-  // Additional color getters
   // Color get primaryVariantColor => Theme.of(this).colorScheme.primaryVariant;
   // Color get secondaryVariantColor => Theme.of(this).colorScheme.secondaryVariant;
-  Color get backgroundColor => Theme.of(this).colorScheme.background;
-  Color get textSecondaryColor => Theme.of(this).textTheme.bodySmall?.color ?? Colors.grey;
+  Color get backgroundColor => Theme.of(this).colorScheme.surface;
+  Color get textSecondaryColor =>
+      Theme.of(this).textTheme.bodySmall?.color ?? Colors.grey;
   Color get disabledColor => Theme.of(this).disabledColor;
   Color get dividerColor => Theme.of(this).dividerColor;
   Color get shadowColor => Colors.black.withOpacity(0.2);

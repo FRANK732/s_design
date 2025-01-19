@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    final STheme _sTheme = STheme();
+    final STheme sTheme = STheme();
 
     final myOverlays = [
       OverlayEntry(
@@ -38,8 +38,8 @@ class MyApp extends StatelessWidget {
       title: 'SDesign Demo',
       getPages: AppRoutes.routes,
       debugShowCheckedModeBanner: false,
-      theme: _sTheme.getLightTheme(),
-      darkTheme: _sTheme.getDarkTheme(),
+      theme: sTheme.getLightTheme(),
+      darkTheme: sTheme.getDarkTheme(),
       themeMode: ThemeMode.system,
       home: const MyHomePage(title: 'SDesign '),
       builder: sOverlayBuilder(overlays: myOverlays),

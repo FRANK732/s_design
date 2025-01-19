@@ -41,10 +41,10 @@ class _SwitchPageState extends State<SwitchPage> {
                     semanticLabel: 'Filled Switch',
                   ),
 
-                  Text('Filled Variant'),
+                  const Text('Filled Variant'),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               // Outlined Variant
               Row(
@@ -60,11 +60,11 @@ class _SwitchPageState extends State<SwitchPage> {
                     variant: SSwitchVariant.outlined,
                     semanticLabel: 'Outlined Switch',
                   ),
-                  Text('Outlined Variant'),
+                  const Text('Outlined Variant'),
                 ],
               ),
               // Ghost Variant
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -81,14 +81,14 @@ class _SwitchPageState extends State<SwitchPage> {
                     thumbColor: Colors.green,
                     semanticLabel: 'Ghost Switch',
                   ),
-                  Text('Ghost Variant'),
+                  const Text('Ghost Variant'),
                 ],
               ),
 
             ],
           ),
         );
-      })
+      }),
 
     );
   }

@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2025-01-19
+### Added
+- **S Scaffold**: SScaffold is a custom scaffold widget designed to simplify layout, loading states, and optional scrollable content in a single, reusable component. 
+  - It integrates a ChangeNotifier (LoadingProvider) to handle a loading overlay (e.g., an activity indicator) without needing extra boilerplate.
+- **STabs**: A customizable tabs.
+  - It allows you to display multiple views under different tab labels, with optional animations and orientation options.
+- **SSwitch**: A customizable switches.
+  - SSwitch is a customizable and accessible switch component. It provides an animated toggle (on/off) behavior with configurable sizes, colors, and variants.
+  - Allows bot determinate(two states) and indeterminates(three states) checks.
+
+### Changed
+  - **New Features**: 
+    - `STriggerBuilder` for `SDropdownMenu` to build custom trigger widget.
+
+- **Other Components**:
+  - Minor styling and performance tweaks across various UI components (e.g., `SCard`, `SCheckBox`).
+  - Introduced improved theming logic for more consistent dark and light mode support.
+
+### Fixed
+- Resolved major inconsistencies in `SDropdownMenu`.
+
+### Removed
+- `SModals` now removed and replaced with `SDialog`
+
+
 ## [0.1.0] - 2025-01-11
 ### Added
 - **SToast**: A lightweight and customizable toast notification widget for quick status updates.
