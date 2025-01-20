@@ -18,7 +18,7 @@ import '../../components/s_list_tile/themes/t_list_tile_theme_extension.dart';
 ///   },
 /// )
 /// ```
-class TListTile extends StatelessWidget {
+class SListTile extends StatelessWidget {
   /// The title text of the tile.
   final String title;
 
@@ -34,8 +34,8 @@ class TListTile extends StatelessWidget {
   /// Callback when the tile is tapped.
   final VoidCallback? onTap;
 
-  /// Creates a [TListTile].
-  const TListTile({
+  /// Creates a [SListTile].
+  const SListTile({
     super.key,
     required this.title,
     this.subtitle,
@@ -47,16 +47,16 @@ class TListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Retrieve the current theme data.
-    final TListTileThemeData theme = Theme.of(context).tListTileTheme;
+    final SListTileThemeData theme = Theme.of(context).tListTileTheme;
 
     return ListTile(
       leading: leading != null
           ? IconTheme(
-        data: IconThemeData(
-          color: theme.leadingColor,
-        ),
-        child: leading!,
-      )
+              data: IconThemeData(
+                color: theme.leadingColor,
+              ),
+              child: leading!,
+            )
           : null,
       title: Text(
         title,
@@ -64,9 +64,10 @@ class TListTile extends StatelessWidget {
       ),
       subtitle: subtitle != null
           ? DefaultTextStyle(
-        style: theme.subtitleTextStyle ?? Theme.of(context).textTheme.titleSmall!,
-        child: subtitle!,
-      )
+              style: theme.subtitleTextStyle ??
+                  Theme.of(context).textTheme.titleSmall!,
+              child: subtitle!,
+            )
           : null,
       trailing: trailing ??
           Icon(

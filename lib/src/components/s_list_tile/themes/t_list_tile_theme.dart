@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// Theme data for [TListTile].
-class TListTileThemeData {
+class SListTileThemeData {
   /// Default text style for the title.
   final TextStyle titleTextStyle;
 
@@ -17,8 +17,8 @@ class TListTileThemeData {
   /// Default size for the trailing icon.
   final double trailingIconSize;
 
-  /// Creates an instance of [TListTileThemeData].
-  const TListTileThemeData({
+  /// Creates an instance of [SListTileThemeData].
+  const SListTileThemeData({
     this.titleTextStyle = const TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.w500,
@@ -31,10 +31,10 @@ class TListTileThemeData {
   });
 
   /// Provides a light theme.
-  static const TListTileThemeData light = TListTileThemeData();
+  static const SListTileThemeData light = SListTileThemeData();
 
   /// Provides a dark theme.
-  static const TListTileThemeData dark = TListTileThemeData(
+  static const SListTileThemeData dark = SListTileThemeData(
     titleTextStyle: TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.w500,
@@ -50,14 +50,14 @@ class TListTileThemeData {
   );
 
   /// Creates a copy of this theme with the given fields replaced with the new values.
-  TListTileThemeData copyWith({
+  SListTileThemeData copyWith({
     TextStyle? titleTextStyle,
     TextStyle? subtitleTextStyle,
     Color? leadingColor,
     Color? trailingColor,
     double? trailingIconSize,
   }) {
-    return TListTileThemeData(
+    return SListTileThemeData(
       titleTextStyle: titleTextStyle ?? this.titleTextStyle,
       subtitleTextStyle: subtitleTextStyle ?? this.subtitleTextStyle,
       leadingColor: leadingColor ?? this.leadingColor,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../../components/s_list_tile/themes/t_list_tile_theme.dart';
 
-/// Extension to access [TListTileThemeData] from [ThemeData].
-extension TListTileThemeExtension on ThemeData {
-  /// Retrieves the current [TListTileThemeData].
-  TListTileThemeData get tListTileTheme =>
-      extension<TListTileThemeData>() ?? TListTileThemeData.light;
+/// Extension to access [SListTileThemeData] from [ThemeData].
+extension SListTileThemeExtension on ThemeData {
+  /// Retrieves the current [SListTileThemeData].
+  SListTileThemeData get tListTileTheme =>
+      extension<SListTileThemeData>() ?? SListTileThemeData.light;
 }

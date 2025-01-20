@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
 import 'package:s_design/src/theme/s_spacers.dart';
 import 'package:s_design/src/theme/theme_extension.dart';
+import 'themes/s_tabs_theme.dart';
 
 class TabsList extends StatelessWidget {
   final Axis direction;
@@ -27,7 +28,7 @@ class TabsList extends StatelessWidget {
 
     Tabs? widgetTabs = context.findAncestorWidgetOfExactType<Tabs>();
 
-    if(widgetTabs != null && widgetTabs.tabs != this.tabs) {
+    if (widgetTabs != null && widgetTabs.tabs != this.tabs) {
       throw FlutterError('TabsList must be a child of Tabs');
     }
 
@@ -50,7 +51,8 @@ class TabsList extends StatelessWidget {
               final triggerStyle = TabsTheme.of(context).triggerStyle;
 
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.0),
                 child: Semantics(
                   button: true,
                   selected: isActive,
@@ -61,7 +63,8 @@ class TabsList extends StatelessWidget {
                       mouseCursor: SystemMouseCursors.click,
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 300),
-                        padding: EdgeInsets.symmetric(vertical: 3, horizontal: 55),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 3, horizontal: 55),
                         decoration: BoxDecoration(
                           color: isActive
                               ? triggerStyle.activeBackgroundColor

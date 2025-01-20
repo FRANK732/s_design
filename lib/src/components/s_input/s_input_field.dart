@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../../../s_design.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 
+import 'themes/s_input_field_theme.dart';
+
 class SInputField extends StatefulWidget {
   /// High-level “type” of this field (e.g., password, email, etc.).
   final SInputFieldType inputType;
