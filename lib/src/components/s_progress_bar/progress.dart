@@ -1,39 +1,28 @@
 import 'package:flutter/material.dart';
-import 'themes/s_progress_bar_theme.dart';
-import '../../components/s_progress_bar/themes/s_progress_bar_theme_extension.dart';
-import 'utils/s_progress_bar_utils.dart'; // Import if utilities are added
+import 'utils/s_progress_bar_utils.dart';
 
 /// A customizable progress bar widget.
 ///
 /// [SProgressBar] displays a horizontal bar representing progress.
-/// It supports custom values, colors, sizes, animations, and theming.
-///
-/// Example usage:
-/// ```dart
-/// SProgressBar(
-///   value: 50,
-///   max: 100,
-///   height: 10.0,
-///   progressColor: Colors.green,
-/// )
-/// ```
+/// It supports custom values, colors, sizes, animations, and theming via
+/// Flutter's built-in [Theme].
 class SProgressBar extends StatelessWidget {
   /// The current value of the progress bar.
   final double value;
 
-  /// The maximum value of the progress bar.
+  /// The maximum value of the progress bar (must be > 0).
   final double max;
 
-  /// The height of the progress bar.
+  /// The height of the progress bar track.
   final double height;
 
-  /// The length/width of the progress bar.
+  /// The explicit width of the progress bar (if null, it expands to max width).
   final double? length;
 
-  /// The background color of the progress bar.
+  /// The background color of the progress bar track.
   final Color? backgroundColor;
 
-  /// The color of the progress indicator.
+  /// The color of the filled progress portion.
   final Color? progressColor;
 
   /// The border radius of the progress bar.
@@ -47,14 +36,15 @@ class SProgressBar extends StatelessWidget {
 
   /// Creates an [SProgressBar].
   ///
-  /// The [value] must be non-negative and [max] must be greater than zero.
+  /// * [value] must be non-negative.
+  /// * [max] must be greater than zero.
   const SProgressBar({
     super.key,
     required this.value,
     this.max = 100.0,
     this.height = 8.0,
-    this.backgroundColor,
     this.length,
+    this.backgroundColor,
     this.progressColor,
     this.borderRadius,
     this.animationDuration,
@@ -64,27 +54,41 @@ class SProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Retrieve the current theme data.
-    final SProgressBarThemeData theme = Theme.of(context).sProgressBarTheme;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final progressTheme = theme.progressIndicatorTheme;
 
-    // Calculate percentage using utility.
+    // Calculate progress fraction (0.0 -> 1.0).
     final double percentage = SProgressBarUtils.valueToPercentage(value, max);
 
+    final trackColor = backgroundColor ??
+        progressTheme.linearTrackColor ??
+        colorScheme.surfaceContainerHighest;
+    final fillColor =
+        progressColor ?? progressTheme.color ?? colorScheme.primary;
+
+    final usedBorderRadius = borderRadius ?? BorderRadius.circular(4.0);
+    final usedAnimationDuration =
+        animationDuration ?? const Duration(milliseconds: 300);
+    final usedCurve = animationCurve ?? Curves.linear;
+
+    final usedHeight = height < 1.0 ? 8.0 : height;
+
     return ClipRRect(
-      borderRadius: borderRadius ?? theme.borderRadius,
+      borderRadius: usedBorderRadius,
       child: Container(
-        height: height < 1.0 ? theme.height : height,
+        height: usedHeight,
         width: length ?? double.infinity,
-        color: backgroundColor ?? theme.backgroundColor,
+        color: trackColor,
         child: LayoutBuilder(
           builder: (context, constraints) {
             return Stack(
               children: [
                 AnimatedContainer(
-                  duration: animationDuration ?? theme.animationDuration,
-                  curve: animationCurve ?? theme.animationCurve,
+                  duration: usedAnimationDuration,
+                  curve: usedCurve,
                   width: constraints.maxWidth * percentage,
-                  color: progressColor ?? theme.progressColor,
+                  color: fillColor,
                 ),
               ],
             );

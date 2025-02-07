@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/s_design.dart';
 import 'package:s_design/src/theme/s_spacers.dart';
-import 'package:s_design/src/theme/theme_extension.dart';
-import 'themes/s_tabs_theme.dart';
+
+import '../../../s_design.dart';
 
 class TabsList extends StatelessWidget {
   final Axis direction;
@@ -24,20 +23,28 @@ class TabsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = TabsTheme.of(context).listStyle;
-
-    Tabs? widgetTabs = context.findAncestorWidgetOfExactType<Tabs>();
-
-    if (widgetTabs != null && widgetTabs.tabs != this.tabs) {
-      throw FlutterError('TabsList must be a child of Tabs');
+    final widgetTabs = context.findAncestorWidgetOfExactType<Tabs>();
+    if (widgetTabs != null && widgetTabs.tabs != tabs) {
+      throw FlutterError(
+          'TabsList must be a child of the corresponding Tabs widget.');
     }
+
+    // Access the current theme: colorScheme, textTheme, etc.
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+
+    final containerColor = colorScheme.outline.withOpacity(0.15);
+
+    final activeTabColor = colorScheme.primary.withOpacity(0.2);
+    final borderRadius = Spacers.radiusSmall;
 
     return Container(
       padding: const EdgeInsets.all(3.0),
       margin: tabListMargin,
       decoration: BoxDecoration(
-        color: context.tabsIndicatorColor,
-        borderRadius: Spacers.radiusSmall,
+        color: containerColor,
+        borderRadius: borderRadius,
       ),
       child: Center(
         child: SingleChildScrollView(
@@ -47,8 +54,7 @@ class TabsList extends StatelessWidget {
             mainAxisAlignment: mainAxisAlignment,
             children: List.generate(tabs.length, (index) {
               final tab = tabs[index];
-              final isActive = index == activeIndex;
-              final triggerStyle = TabsTheme.of(context).triggerStyle;
+              final isActive = (index == activeIndex);
 
               return Padding(
                 padding:
@@ -63,19 +69,20 @@ class TabsList extends StatelessWidget {
                       mouseCursor: SystemMouseCursors.click,
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 300),
-                        padding:
-                            EdgeInsets.symmetric(vertical: 3, horizontal: 55),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 3,
+                          horizontal: 55,
+                        ),
                         decoration: BoxDecoration(
-                          color: isActive
-                              ? triggerStyle.activeBackgroundColor
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          color: isActive ? activeTabColor : Colors.transparent,
+                          borderRadius: BorderRadius.circular(5),
                         ),
                         child: Text(
                           tab.label,
                           style: isActive
-                              ? triggerStyle.activeTextStyle
-                              : triggerStyle.inactiveTextStyle,
+                              ? textTheme.bodyMedium
+                                  ?.copyWith(fontWeight: FontWeight.bold)
+                              : textTheme.bodyMedium,
                         ),
                       ),
                     ),

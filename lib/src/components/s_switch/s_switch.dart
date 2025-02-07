@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'enums/s_switch_enums.dart';
-import 'theme/s_switch_theme.dart';
 import 'utils/s_switch_utils.dart';
 
-/// A customizable and accessible switch component.
-
+/// A customizable and accessible switch component
 class SSwitch extends StatefulWidget {
   /// The current state of the switch.
   final bool value;
@@ -61,10 +59,10 @@ class _SSwitchState extends State<SSwitch> with SingleTickerProviderStateMixin {
     super.initState();
     _value = widget.value;
 
+    // Default to 300ms if no duration is provided
     _animationController = AnimationController(
       vsync: this,
-      duration: widget.animationDuration ??
-          SSwitchTheme.of(context).animationDuration,
+      duration: widget.animationDuration ?? const Duration(milliseconds: 300),
     );
 
     _thumbAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -74,6 +72,7 @@ class _SSwitchState extends State<SSwitch> with SingleTickerProviderStateMixin {
       ),
     );
 
+    // Set initial animation position if the switch is on
     if (_value) {
       _animationController.value = 1.0;
     }
@@ -85,7 +84,6 @@ class _SSwitchState extends State<SSwitch> with SingleTickerProviderStateMixin {
     if (oldWidget.value != widget.value) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
-          // Update the internal state without toggling
           setState(() {
             _value = widget.value;
             if (_value) {
@@ -98,7 +96,6 @@ class _SSwitchState extends State<SSwitch> with SingleTickerProviderStateMixin {
       });
     }
   }
-
 
   void toggleSwitch({bool animated = true}) {
     setState(() {
@@ -116,7 +113,6 @@ class _SSwitchState extends State<SSwitch> with SingleTickerProviderStateMixin {
     });
   }
 
-
   @override
   void dispose() {
     _animationController.dispose();
@@ -125,11 +121,17 @@ class _SSwitchState extends State<SSwitch> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final theme = SSwitchTheme.of(context);
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    // Determine final colors from props or fallback to theme
     final switchSize = SSwitchUtils.getSwitchSize(widget.size);
-    final activeColor = widget.activeColor ?? theme.activeColor;
-    final inactiveColor = widget.inactiveColor ?? theme.inactiveColor;
-    final thumbColor = widget.thumbColor ?? theme.thumbColor;
+
+    final activeColor = widget.activeColor ?? colorScheme.primary;
+    final inactiveColor =
+        widget.inactiveColor ?? colorScheme.onSurface.withOpacity(0.4);
+    final thumbColor = widget.thumbColor ?? colorScheme.onSecondaryFixedVariant;
+
     final variant = widget.variant;
 
     return Semantics(
@@ -140,8 +142,7 @@ class _SSwitchState extends State<SSwitch> with SingleTickerProviderStateMixin {
         child: AnimatedBuilder(
           animation: _animationController,
           builder: (context, child) {
-            final backgroundColor =
-            _value ? activeColor : inactiveColor;
+            final backgroundColor = _value ? activeColor : inactiveColor;
             return Container(
               width: switchSize.width,
               height: switchSize.height,
@@ -163,7 +164,7 @@ class _SSwitchState extends State<SSwitch> with SingleTickerProviderStateMixin {
                       decoration: BoxDecoration(
                         color: thumbColor,
                         shape: BoxShape.circle,
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Colors.black26,
                             blurRadius: 2,
@@ -181,8 +182,4 @@ class _SSwitchState extends State<SSwitch> with SingleTickerProviderStateMixin {
       ),
     );
   }
-}
-
-extension SSwitchThemeExtension on BuildContext {
-  SSwitchThemeData get sSwitchTheme => SSwitchTheme.of(this);
 }

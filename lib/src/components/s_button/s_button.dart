@@ -11,19 +11,6 @@ import 'package:s_design/src/components/s_button/utils/s_button_util.dart';
 /// for displaying icons and loading indicators. It adapts its appearance based on the
 /// current theme and provided customization parameters.
 ///
-/// Example usage:
-/// ```dart
-/// SButton(
-///   variant: SButtonVariant.destructive,
-///   size: SButtonSize.lg,
-///   state: SButtonState.enabled,
-///   icon: Icon(Icons.delete),
-///   onPressed: () {
-///     // Handle button press
-///   },
-///   child: Text('Delete'),
-/// )
-/// ```
 class SButton extends StatelessWidget {
   /// The variant of the button, determining its style.
   final SButtonVariant variant;

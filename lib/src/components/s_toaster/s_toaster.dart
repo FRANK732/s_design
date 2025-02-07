@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../components/s_toaster/enums/s_toaster_enum.dart';
 
 /// Represents a toast notification with customizable properties.
@@ -10,7 +9,7 @@ class SToast extends StatefulWidget {
   /// The title of the toast (optional).
   final String? title;
 
-  /// An optional action button within the toast.
+  /// An optional action widget (e.g., a button) within the toast.
   final Widget? action;
 
   /// The variant of the toast, affecting its styling.
@@ -22,7 +21,7 @@ class SToast extends StatefulWidget {
   /// Callback when the toast is closed.
   final VoidCallback? onClose;
 
-  /// Creates an instance of TToast.
+  /// Creates an instance of SToast.
   const SToast({
     super.key,
     required this.description,
@@ -39,12 +38,12 @@ class SToast extends StatefulWidget {
   /// The OverlayState to insert the toast into.
   static OverlayState? _overlayState;
 
-  /// Initializes the TToast system with the provided OverlayState.
+  /// Initializes the SToast system with the provided OverlayState.
   static void initialize(OverlayState overlayState) {
     _overlayState = overlayState;
   }
 
-  /// Static method to show the toast using the initialized OverlayState.
+  /// Shows a toast using the initialized OverlayState.
   static void show({
     required String description,
     String? title,
@@ -80,6 +79,7 @@ class SToast extends StatefulWidget {
 class _SToastState extends State<SToast> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<Offset> _offsetAnimation;
+
   bool _isVisible = true;
 
   @override
@@ -102,7 +102,7 @@ class _SToastState extends State<SToast> with SingleTickerProviderStateMixin {
 
     _animationController.forward();
 
-    // Start the timer to auto-dismiss the toast.
+    // Auto-dismiss the toast after [widget.duration].
     Future.delayed(widget.duration, _closeToast);
   }
 
@@ -114,7 +114,7 @@ class _SToastState extends State<SToast> with SingleTickerProviderStateMixin {
 
   void _closeToast() {
     if (!_isVisible) return;
-    _animationController.reverse().then((value) {
+    _animationController.reverse().then((_) {
       setState(() {
         _isVisible = false;
       });
@@ -124,19 +124,24 @@ class _SToastState extends State<SToast> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    var _top = MediaQuery.of(context).viewPadding.top;
     if (!_isVisible) return const SizedBox.shrink();
 
+    final mediaQuery = MediaQuery.of(context);
+    final topPadding = mediaQuery.viewPadding.top;
+
+    /// Determine colors based on variant + current theme
+    final colorScheme = Theme.of(context).colorScheme;
+    final dividerColor = Theme.of(context).dividerColor;
     final isDestructive = widget.variant == SToastVariant.destructive;
-    final backgroundColor = isDestructive
-        ? Colors.red.shade300
-        : Theme.of(context).colorScheme.surface;
-    final borderColor =
-        isDestructive ? Colors.red.shade900 : Theme.of(context).dividerColor;
-    final textColor = isDestructive ? Colors.white : Colors.blue.shade700;
+
+    final backgroundColor =
+        isDestructive ? colorScheme.errorContainer : colorScheme.surface;
+    final textColor =
+        isDestructive ? colorScheme.onErrorContainer : colorScheme.onSurface;
+    final borderColor = isDestructive ? colorScheme.error : dividerColor;
 
     return Positioned(
-      top: _top,
+      top: topPadding,
       right: 16.0,
       left: 16.0,
       child: SlideTransition(
@@ -146,7 +151,7 @@ class _SToastState extends State<SToast> with SingleTickerProviderStateMixin {
           child: Dismissible(
             key: UniqueKey(),
             direction: DismissDirection.horizontal,
-            onDismissed: (direction) => _closeToast(),
+            onDismissed: (_) => _closeToast(),
             child: Container(
               decoration: BoxDecoration(
                 color: backgroundColor,

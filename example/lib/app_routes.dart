@@ -4,6 +4,7 @@ import 'package:example/pages/card.dart';
 import 'package:example/pages/check_box.dart';
 import 'package:example/pages/dropdown_menu.dart';
 import 'package:example/pages/inputs_page.dart';
+import 'package:example/pages/list_tile_page.dart';
 import 'package:example/pages/s_modal_page.dart';
 import 'package:example/pages/sbutton.dart';
 import 'package:example/pages/sonner_page.dart';
@@ -76,6 +77,11 @@ class AppRoutes {
     GetPage(
       name: '/base_scaffold_page',
       page: () => const BaseScaffoldPage(),
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: '/list_tile_page',
+      page: () => const ListTilePage(),
       transition: Transition.rightToLeft,
     ),
   ];

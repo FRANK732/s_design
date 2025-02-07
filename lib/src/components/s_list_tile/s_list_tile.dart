@@ -1,23 +1,7 @@
 import 'package:flutter/material.dart';
-import 'themes/t_list_tile_theme.dart';
-import '../../components/s_list_tile/themes/t_list_tile_theme_extension.dart';
 
 /// A customizable ListTile widget with theming support.
-///
-/// It supports custom icons, titles, subtitles, actions, and theming.
-///
-/// Example usage:
-/// ```dart
-/// TListTile(
-///   title: 'Profile',
-///   subtitle: Text('View and edit your profile'),
-///   leading: Icon(Icons.person),
-///   trailing: Icon(Icons.edit),
-///   onTap: () {
-///     // Handle tap
-///   },
-/// )
-/// ```
+/// It supports custom icons, titles, subtitles, trailing widgets, and a tap callback.
 class SListTile extends StatelessWidget {
   /// The title text of the tile.
   final String title;
@@ -46,34 +30,35 @@ class SListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Retrieve the current theme data.
-    final SListTileThemeData theme = Theme.of(context).tListTileTheme;
+    final listTileTheme = ListTileTheme.of(context);
+    final iconTheme = Theme.of(context).iconTheme;
+    final textTheme = Theme.of(context).textTheme;
 
     return ListTile(
       leading: leading != null
           ? IconTheme(
               data: IconThemeData(
-                color: theme.leadingColor,
+                color: listTileTheme.iconColor ?? iconTheme.color,
+                size: iconTheme.size,
               ),
               child: leading!,
             )
           : null,
       title: Text(
         title,
-        style: theme.titleTextStyle,
+        style: listTileTheme.titleTextStyle ?? textTheme.titleMedium,
       ),
       subtitle: subtitle != null
           ? DefaultTextStyle(
-              style: theme.subtitleTextStyle ??
-                  Theme.of(context).textTheme.titleSmall!,
+              style: listTileTheme.subtitleTextStyle ?? textTheme.bodySmall!,
               child: subtitle!,
             )
           : null,
       trailing: trailing ??
           Icon(
             Icons.arrow_forward_ios,
-            size: theme.trailingIconSize,
-            color: theme.trailingColor ?? Theme.of(context).iconTheme.color,
+            color: listTileTheme.iconColor ?? iconTheme.color,
+            size: iconTheme.size,
           ),
       onTap: onTap,
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Base interface for all color definitions
 abstract class SColorsBase {
   // Primary Colors
   Color get primary;
@@ -81,7 +82,7 @@ abstract class SColorsBase {
   Color get toasterBackground;
   Color get toasterText;
 
-// Additional component colors can be added here
+  // Additional component colors can be added here if needed
 }
 
 /// Light Theme Colors
@@ -398,7 +399,7 @@ class SDarkColors extends SColorsBase {
   Color get toasterText => textPrimary;
 }
 
-/// Unified SColors class that selects light or dark colors based on the theme
+/// Aggregator: provides quick access to light/dark color sets
 class SColors {
   final SColorsBase light = SLightColors();
   final SColorsBase dark = SDarkColors();

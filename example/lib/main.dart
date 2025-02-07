@@ -69,9 +69,9 @@ class _MyHomePageState extends State<MyHomePage> {
     {'title': 'Progress Indicators', 'page': '/progress_indicator_page'},
     {'title': 'Dialog', 'page': '/modal_page'},
     {'title': 'Tabs', 'page': '/tab_page'},
-    // {'title': 'Bottom Navigation', 'page': '/bottom_navigation_page'},
-    // {'title': 'Sliders', 'page': '/slider_page'},
+    {'title': 'OTP Input', 'page': '/otp_input_page'},
     {'title': 'Switches', 'page': '/switch_page'},
+    {'title': 'TextTile', 'page': '/list_tile_page'},
   ];
 
   @override
@@ -81,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      renderBody: ((context){
+      renderBody: ((context) {
         return ListView(
           children: [
             for (final widget in _widgets)
