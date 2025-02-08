@@ -43,7 +43,7 @@ class _BaseScaffoldPageState extends State<BaseScaffoldPage> {
 
   @override
   Widget build(BuildContext context) {
-    var isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return SScaffold(
       bodyShimmer: Padding(
         padding: const EdgeInsets.all(18.0),
