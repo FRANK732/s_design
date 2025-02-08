@@ -8,7 +8,7 @@ import 'utils/loading_indicator_utils.dart';
 /// Suitable for overlaying on existing content without covering the entire screen.
 class SLoadingIndicator extends StatefulWidget {
   /// The message to display below the loading spinner.
-  final String message;
+  final String? message;
 
   /// The color of the loading spinner.
   final Color? spinnerColor;
@@ -63,7 +63,7 @@ class SLoadingIndicator extends StatefulWidget {
 
   const SLoadingIndicator({
     super.key,
-    this.message = "Loading...",
+    this.message,
     this.spinnerColor,
     this.spinnerSize = 25.0,
     this.messageColor,
@@ -264,10 +264,11 @@ class _SLoadingIndicatorState extends State<SLoadingIndicator>
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       RepaintBoundary(child: _buildSpinner()),
-                      if (widget.message.isNotEmpty) ...[
+                      if (widget.message!.isNotEmpty) ...[
                         const SizedBox(height: 10),
                         Text(
-                          SLoadingIndicatorUtils.formatMessage(widget.message),
+                          SLoadingIndicatorUtils.formatMessage(
+                              widget.message ?? ''),
                           textAlign: TextAlign.center,
                           style: messageStyle,
                         ),

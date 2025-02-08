@@ -1,7 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:s_design/s_design.dart';
 import 'package:s_design/src/common/s_loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 /// The SScaffold widget that provides a reusable scaffold for pages.
 class SScaffold extends StatefulWidget {
@@ -22,6 +24,9 @@ class SScaffold extends StatefulWidget {
 
   /// Customize loading appearance
   final SLoadingIndicator? loadingIndicator;
+
+  // Custom Shimmer
+  final Widget? bodyShimmer;
 
   /// Optional appBar.
   final PreferredSizeWidget? appBar;
@@ -70,7 +75,7 @@ class SScaffold extends StatefulWidget {
 
   final String? restorationId;
 
-  const SScaffold({
+  SScaffold({
     super.key,
     this.appBar,
     this.renderBody,
@@ -88,6 +93,7 @@ class SScaffold extends StatefulWidget {
     this.onDrawerChanged,
     this.endDrawer,
     this.onEndDrawerChanged,
+    this.bodyShimmer,
     this.bottomNavigationBar,
     this.bottomSheet,
     this.backgroundColor,
@@ -101,7 +107,10 @@ class SScaffold extends StatefulWidget {
     this.drawerEnableOpenDragGesture = true,
     this.endDrawerEnableOpenDragGesture = true,
     this.restorationId,
-  });
+  }) : assert(
+            bodyShimmer == null ||
+                loadingIndicator?.loaderType == SLoaderType.shimmer,
+            "Shimmer should only be used with shimmer loader type.");
 
   @override
   _SScaffoldState createState() => _SScaffoldState();
@@ -155,26 +164,37 @@ class _SScaffoldState extends State<SScaffold> {
             endDrawerEnableOpenDragGesture:
                 widget.endDrawerEnableOpenDragGesture,
             restorationId: widget.restorationId,
-            body: _buildBody(context),
+            body: _buildBody(context, widget.loadingIndicator),
             bottomNavigationBar:
                 widget.renderFooter != null ? _buildFooter(context) : null,
           ),
-          Consumer<LoadingProvider>(
-            builder: (context, loadingProvider, child) {
-              return loadingProvider.isLoading
-                  ? widget.loadingIndicator ?? _buildLoadingIndicator()
-                  : const SizedBox.shrink();
-            },
-          ),
+          if (widget.loadingIndicator?.loaderType != SLoaderType.shimmer)
+            Consumer<LoadingProvider>(
+              builder: (context, loadingProvider, child) {
+                return loadingProvider.isLoading
+                    ? widget.loadingIndicator ?? _buildLoadingIndicator()
+                    : const SizedBox.shrink();
+              },
+            ),
         ],
       ),
     );
   }
 
-  Widget _buildBody(BuildContext context) {
-    final bodyContent = widget.renderBody != null
-        ? widget.renderBody!(context)
-        : const SizedBox.shrink();
+  Widget _buildBody(BuildContext context, SLoadingIndicator? loadingIndicator) {
+    final bodyContent = loadingIndicator?.loaderType == SLoaderType.shimmer
+        ? Consumer<LoadingProvider>(
+            builder: (context, loadingProvider, child) {
+              return loadingProvider.isLoading
+                  ? widget.bodyShimmer ?? _buildShimmerLoader()
+                  : widget.renderBody != null
+                      ? widget.renderBody!(context)
+                      : const SizedBox.shrink();
+            },
+          )
+        : widget.renderBody != null
+            ? widget.renderBody!(context)
+            : const SizedBox.shrink();
 
     Widget content =
         widget.centerBody ? Center(child: bodyContent) : bodyContent;
@@ -220,6 +240,25 @@ class _SScaffoldState extends State<SScaffold> {
     return SLoadingIndicator(
       showBackground: true,
       spinnerColor: Colors.teal,
+    );
+  }
+
+  Widget _buildShimmerLoader() {
+    return SizedBox(
+      width: 200.0,
+      height: 100.0,
+      child: Shimmer.fromColors(
+        baseColor: Colors.red,
+        highlightColor: Colors.yellow,
+        child: Text(
+          'Shimmer',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 40.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
     );
   }
 }

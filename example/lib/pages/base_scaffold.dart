@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
+import 'package:shimmer/shimmer.dart';
 
 class BaseScaffoldPage extends StatefulWidget {
   const BaseScaffoldPage({super.key});
@@ -42,9 +43,32 @@ class _BaseScaffoldPageState extends State<BaseScaffoldPage> {
 
   @override
   Widget build(BuildContext context) {
+    var isDark = Theme.of(context).brightness == Brightness.dark;
     return SScaffold(
+      bodyShimmer: Padding(
+        padding: const EdgeInsets.all(18.0),
+        child: Shimmer.fromColors(
+          baseColor: isDark ? Colors.grey[850]! : Colors.grey[300]!,
+          highlightColor: isDark ? Colors.grey[800]! : Colors.grey[100]!,
+          child: ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: 5,
+            itemBuilder: (_, index) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Container(
+                height: 70,
+                decoration: BoxDecoration(
+                  color: Colors.grey,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
       loadingIndicator: SLoadingIndicator(
-        loaderType: SLoaderType.chasingDots,
+        loaderType: SLoaderType.shimmer,
         message: 'Loading will stop in $_start seconds',
       ),
       isLoading: _isLoading,

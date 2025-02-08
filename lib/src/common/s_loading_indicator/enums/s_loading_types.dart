@@ -10,4 +10,5 @@ enum SLoaderType {
   rotatingCircle,
   rotatingPlain,
   foldingCube,
+  shimmer
 }
