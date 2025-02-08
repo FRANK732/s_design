@@ -109,6 +109,27 @@ class SInputField extends StatefulWidget {
   /// The widget to display at the end of the input field.
   final Widget? endIcon;
 
+  /// The amount of space by which to inset the TextFormField when scrolling.
+  final EdgeInsets scrollPadding;
+
+  /// The ScrollPhysics to use for the TextFormField.
+  final ScrollPhysics? scrollPhysics;
+
+  /// The autofill hints for the TextFormField.
+  final Iterable<String>? autofillHints;
+
+  /// The mouse cursor for the TextFormField.
+  final MouseCursor? mouseCursor;
+
+  /// The context menu builder for the TextFormField.
+  final EditableTextContextMenuBuilder? contextMenuBuilder;
+
+  /// The restoration ID for the TextFormField.
+  final String? restorationId;
+
+  /// Whether to enable IME personalized learning.
+  final bool enableIMEPersonalizedLearning;
+
   /// Main constructor (use the factories below for specialized input “types”).
   const SInputField({
     super.key,
@@ -147,6 +168,13 @@ class SInputField extends StatefulWidget {
     this.contentPadding,
     this.size = SInputFieldSize.small,
     SInputFieldTheme? theme,
+    this.scrollPadding = const EdgeInsets.all(20.0),
+    this.scrollPhysics,
+    this.autofillHints,
+    this.mouseCursor,
+    this.contextMenuBuilder,
+    this.restorationId,
+    this.enableIMEPersonalizedLearning = true,
   })  : obscureText = obscureText ?? (inputType == SInputFieldType.password),
         assert(
           initialValue == null || controller == null,
@@ -731,6 +759,13 @@ class _SInputFieldState extends State<SInputField> {
       enableSuggestions: widget.enableSuggestions ?? false,
       autocorrect: widget.autocorrect,
       decoration: finalDecoration,
+      scrollPadding: widget.scrollPadding,
+      scrollPhysics: widget.scrollPhysics,
+      autofillHints: widget.autofillHints,
+      mouseCursor: widget.mouseCursor,
+      contextMenuBuilder: widget.contextMenuBuilder,
+      restorationId: widget.restorationId,
+      enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
     );
   }
 }

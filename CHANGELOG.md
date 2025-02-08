@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 2025-02-08
+### Changed
+  ## New Feature
+    - Added shimmer loading effect to SScaffold, update loading indicator and integrate shimmer package
+
+ - Enhanced `SInputField` with additional properties for improved functionality; add scrollPadding, scrollPhysics, autofillHints, mouseCursor, contextMenuBuilder, restorationId, and enableIMEPersonalizedLearning.
+
+
 ## [0.2.0] - 2025-01-19
 ### Added
 - **S Scaffold**: SScaffold is a custom scaffold widget designed to simplify layout, loading states, and optional scrollable content in a single, reusable component. 
