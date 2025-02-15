@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
-import 'package:s_design/src/common/s_loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -182,19 +181,24 @@ class _SScaffoldState extends State<SScaffold> {
   }
 
   Widget _buildBody(BuildContext context, SLoadingIndicator? loadingIndicator) {
-    final bodyContent = loadingIndicator?.loaderType == SLoaderType.shimmer
-        ? Consumer<LoadingProvider>(
-            builder: (context, loadingProvider, child) {
-              return loadingProvider.isLoading
-                  ? widget.bodyShimmer ?? _buildShimmerLoader()
-                  : widget.renderBody != null
-                      ? widget.renderBody!(context)
-                      : const SizedBox.shrink();
-            },
-          )
-        : widget.renderBody != null
-            ? widget.renderBody!(context)
-            : const SizedBox.shrink();
+    final bodyContent = Consumer<LoadingProvider>(
+      builder: (context, loadingProvider, child) {
+        if (loadingProvider.isLoading &&
+            loadingIndicator?.loaderType == SLoaderType.shimmer) {
+          return Shimmer.fromColors(
+            baseColor: const Color.fromARGB(255, 118, 111, 111)!,
+            highlightColor: Colors.grey[100]!,
+            child: widget.renderBody != null
+                ? widget.renderBody!(context)
+                : _buildShimmerLoader(),
+          );
+        } else {
+          return widget.renderBody != null
+              ? widget.renderBody!(context)
+              : const SizedBox.shrink();
+        }
+      },
+    );
 
     Widget content =
         widget.centerBody ? Center(child: bodyContent) : bodyContent;

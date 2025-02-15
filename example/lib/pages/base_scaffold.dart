@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
-import 'package:shimmer/shimmer.dart';
 
 class BaseScaffoldPage extends StatefulWidget {
   const BaseScaffoldPage({super.key});
@@ -43,30 +42,7 @@ class _BaseScaffoldPageState extends State<BaseScaffoldPage> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
     return SScaffold(
-      bodyShimmer: Padding(
-        padding: const EdgeInsets.all(18.0),
-        child: Shimmer.fromColors(
-          baseColor: isDark ? Colors.grey[850]! : Colors.grey[300]!,
-          highlightColor: isDark ? Colors.grey[800]! : Colors.grey[100]!,
-          child: ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: 5,
-            itemBuilder: (_, index) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Container(
-                height: 70,
-                decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
       loadingIndicator: SLoadingIndicator(
         loaderType: SLoaderType.shimmer,
         message: 'Loading will stop in $_start seconds',
@@ -74,6 +50,41 @@ class _BaseScaffoldPageState extends State<BaseScaffoldPage> {
       isLoading: _isLoading,
       appBar: AppBar(
         title: const Text('S Scaffold'),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: const <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text(
+                'Drawer Header',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.message),
+              title: Text('Messages'),
+            ),
+            ListTile(
+              leading: Icon(Icons.account_circle),
+              title: Text('Profile'),
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text('Settings'),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
       ),
       renderBody: (context) {
         return Column(
@@ -95,6 +106,24 @@ class _BaseScaffoldPageState extends State<BaseScaffoldPage> {
               },
               child: const Text('Press me'),
             ),
+            const SizedBox(height: 16),
+            const TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Enter your name',
+              ),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: const [
+                Icon(Icons.favorite, color: Colors.pink),
+                Icon(Icons.thumb_up, color: Colors.blue),
+                Icon(Icons.share, color: Colors.green),
+              ],
+            ),
+            const SizedBox(height: 16),
+            const LinearProgressIndicator(),
           ],
         );
       },

@@ -1,19 +1,13 @@
 /// Enumeration for Dropdown Menu Item Types
 enum SDropdownMenuItemType {
   normal,
-  checkbox,
-  radio,
-  submenu,
-  separator,
-  label,
+  searchable,
+  multiSelect,
 }
 
-
 enum SDropdownMenuPosition {
-  topLeft,
-  topCenter,
-  topRight,
-  bottomLeft,
-  bottomCenter,
-  bottomRight,
+  bottom,
+  top,
+  left,
+  right,
 }

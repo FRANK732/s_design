@@ -9,20 +9,6 @@ class DropdownMenuPage extends StatefulWidget {
 }
 
 class _DropdownMenuPageState extends State<DropdownMenuPage> {
-  final SDropdownController _iconsController = SDropdownController();
-  final SDropdownController _defaultController = SDropdownController();
-  final SDropdownController _radioController = SDropdownController();
-  final SDropdownController _checkBoxController = SDropdownController();
-  final SDropdownController _subController = SDropdownController();
-  final SDropdownController _sepController = SDropdownController();
-  final SDropdownController _customController = SDropdownController();
-
-  bool _isFeatureEnabled = false;
-  // String? _selectedOption;
-  String? _selectedRadio;
-  final List<String> _checkedItems = [];
-  // String? _selectedSubOption;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,297 +17,29 @@ class _DropdownMenuPageState extends State<DropdownMenuPage> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            _buildSectionTitle('Default Dropdown Menu'),
-            const SizedBox(height: 8),
-            SDropdownMenu<String>(
-              controller: _defaultController,
-              menuPosition: SDropdownMenuPosition.bottomRight,
-              // trigger: const Text('Default Dropdown'),
-              items: [
-                SDropdownMenuItemData(
-                  key: 'item1',
-                  label: 'Item 1',
-                  onTap: () {},
-                ),
-                SDropdownMenuItemData(
-                  key: 'item2',
-                  label: 'Item 2',
-                  onTap: () {},
-                ),
-                SDropdownMenuItemData(
-                  key: 'item3',
-                  label: 'Item 3',
-                  onTap: () {},
-                ),
-              ],
+        child: Column(children: [
+          _buildSectionTitle('Default Dropdown Menu'),
+          SDropdownMenu(
+            items: ['Apple', 'Banana', 'Orange', 'Mango', 'Grapes'],
+            onChanged: (selectedItem) {
+              print('Selected: $selectedItem');
+            },
+            hintText: 'Select a fruit',
+            menuType: SDropdownMenuItemType.multiSelect,
+            preferredPosition: SDropdownMenuPosition.bottom,
+            backgroundColor: Colors.blue[50],
+            borderRadius: 12,
+            shadow: BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 10,
+              offset: Offset(0, 5),
             ),
-            const Divider(height: 40),
-            _buildSectionTitle('Dropdown with Icons'),
-            const SizedBox(height: 8),
-            SDropdownMenu<String>(
-              controller: _iconsController,
-              // trigger: const Text('Dropdown with Icons'),
-              items: [
-                SDropdownMenuItemData(
-                  key: 'home',
-                  label: 'Home',
-                  icon: const Icon(Icons.home),
-                  onTap: () {},
-                ),
-                SDropdownMenuItemData(
-                  key: 'settings',
-                  label: 'Settings',
-                  icon: const Icon(Icons.settings),
-                  onTap: () {},
-                ),
-                SDropdownMenuItemData(
-                  key: 'profile',
-                  label: 'Profile',
-                  icon: const Icon(Icons.person),
-                  onTap: () {},
-                ),
-              ],
-            ),
-            const Divider(height: 40),
-            _buildSectionTitle('Dropdown with Checkboxes'),
-            const SizedBox(height: 8),
-            SDropdownMenu<String>(
-              controller: _checkBoxController,
-              closeOnItemTap: false,
-              menuPosition: SDropdownMenuPosition.topCenter,
-              // closeOnItemTap: false,
-              // trigger: const Text('Dropdown with Checkboxes'),
-              items: [
-                SDropdownMenuItemData(
-                  key: 'enable',
-                  label: 'Enable Feature',
-                  type: SDropdownMenuItemType.checkbox,
-                  isChecked: _isFeatureEnabled,
-                  onCheckedChanged: (bool value) {
-                    setState(() {
-                      _isFeatureEnabled = value;
-                    });
-                  },
-                ),
-                SDropdownMenuItemData(
-                  key: 'optionA',
-                  label: 'Option A',
-                  type: SDropdownMenuItemType.checkbox,
-                  isChecked: _checkedItems.contains('Option A'),
-                  onCheckedChanged: (bool value) {
-                    setState(() {
-                      if (value) {
-                        _checkedItems.add('Option A');
-                      } else {
-                        _checkedItems.remove('Option A');
-                      }
-                    });
-                  },
-                ),
-                SDropdownMenuItemData(
-                  key: 'optionB',
-                  label: 'Option B',
-                  type: SDropdownMenuItemType.checkbox,
-                  isChecked: _checkedItems.contains('Option B'),
-                  onCheckedChanged: (bool value) {
-                    setState(() {
-                      if (value) {
-                        _checkedItems.add('Option B');
-                      } else {
-                        _checkedItems.remove('Option B');
-                      }
-                    });
-                  },
-                ),
-              ],
-            ),
-            const Divider(height: 40),
-            _buildSectionTitle('Dropdown with Radio Buttons'),
-            const SizedBox(height: 8),
-            SDropdownMenu<String>(
-              controller: _radioController,
-              closeOnItemTap: false,
-              // trigger: const Text('Dropdown with Radio Buttons'),
-              selectedRadioValue: _selectedRadio,
-              onRadioValueChanged: (String? value) {
-                setState(() {
-                  _selectedRadio = value;
-                });
-              },
-              items: [
-                SDropdownMenuItemData(
-                  key: 'option1',
-                  label: 'Option 1',
-                  type: SDropdownMenuItemType.radio,
-                  value: 'Option 1',
-                ),
-                SDropdownMenuItemData(
-                  key: 'option2',
-                  label: 'Option 2',
-                  type: SDropdownMenuItemType.radio,
-                  value: 'Option 2',
-                ),
-                SDropdownMenuItemData(
-                  key: 'option3',
-                  label: 'Option 3',
-                  type: SDropdownMenuItemType.radio,
-                  value: 'Option 3',
-                ),
-              ],
-            ),
-            const Divider(height: 40),
-            _buildSectionTitle('Dropdown with Submenu'),
-            const SizedBox(height: 8),
-            SDropdownMenu<String>(
-              controller: _subController,
-              // closeOnItemTap: false,
-              // trigger: const Text('Dropdown with Submenu'),
-              items: [
-                SDropdownMenuItemData(
-                  key: 'file',
-                  label: 'File',
-                  type: SDropdownMenuItemType.submenu,
-                  submenuItems: [
-                    SDropdownMenuItemData(
-                      key: 'new',
-                      label: 'New',
-                      onTap: () {},
-                    ),
-                    SDropdownMenuItemData(
-                      key: 'open',
-                      label: 'Open',
-                      onTap: () {},
-                    ),
-                    SDropdownMenuItemData(
-                      key: 'save',
-                      label: 'Save',
-                      onTap: () {},
-                    ),
-                  ],
-                ),
-                SDropdownMenuItemData(
-                  key: 'edit',
-                  label: 'Edit',
-                  type: SDropdownMenuItemType.submenu,
-                  submenuItems: [
-                    SDropdownMenuItemData(
-                      key: 'undo',
-                      label: 'Undo',
-                      onTap: () {},
-                    ),
-                    SDropdownMenuItemData(
-                      key: 'redo',
-                      label: 'Redo',
-                      onTap: () {},
-                    ),
-                  ],
-                ),
-                SDropdownMenuItemData(
-                  key: 'view',
-                  label: 'View',
-                  type: SDropdownMenuItemType.submenu,
-                  submenuItems: [
-                    SDropdownMenuItemData(
-                      key: 'zoomIn',
-                      label: 'Zoom In',
-                      onTap: () {},
-                    ),
-                    SDropdownMenuItemData(
-                      key: 'zoomOut',
-                      label: 'Zoom Out',
-                      onTap: () {},
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const Divider(height: 40),
-            _buildSectionTitle('Dropdown with Separators and Labels'),
-            const SizedBox(height: 8),
-            SDropdownMenu<String>(
-              controller: _sepController,
-              items: [
-                SDropdownMenuItemData(
-                  key: 'section1',
-                  label: 'Section 1',
-                  type: SDropdownMenuItemType.label,
-                ),
-                SDropdownMenuItemData(
-                  key: 'item1',
-                  label: 'Item 1',
-                  onTap: () {},
-                ),
-                SDropdownMenuItemData(
-                  key: 'item2',
-                  type: SDropdownMenuItemType.separator,
-                ),
-                SDropdownMenuItemData(
-                  key: 'item3',
-                  label: 'Section 2',
-                  type: SDropdownMenuItemType.label,
-                ),
-                SDropdownMenuItemData(
-                  key: 'item4',
-                  label: 'Item 2',
-                  onTap: () {},
-                ),
-                SDropdownMenuItemData(
-                  key: 'item5',
-                  label: 'Item 3',
-                  onTap: () {},
-                ),
-              ],
-            ),
-            const Divider(height: 40),
-            _buildSectionTitle('Dropdown with Custom trigger Builder'),
-            const SizedBox(height: 8),
-            SDropdownMenu<String>(
-              controller: _customController,
-              triggerBuilder: (context, isOpen, toggle) {
-                return SButton(
-                  padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 15),
-                  onPressed: toggle,
-                  child: Text(
-                    isOpen ? 'Close ▼' : 'Open ▲',
-                  ),
-                );
-              },
-              items: [
-                SDropdownMenuItemData(
-                  key: 'custom',
-                  label: 'Custom 1',
-                  type: SDropdownMenuItemType.label,
-                ),
-                SDropdownMenuItemData(
-                  key: 'item1',
-                  label: 'Item 1',
-                  onTap: () {},
-                ),
-                SDropdownMenuItemData(
-                  key: 'item2',
-                  type: SDropdownMenuItemType.separator,
-                ),
-                SDropdownMenuItemData(
-                  key: 'item3',
-                  label: 'Section 2',
-                  type: SDropdownMenuItemType.label,
-                ),
-                SDropdownMenuItemData(
-                  key: 'item4',
-                  label: 'Item 2',
-                  onTap: () {},
-                ),
-                SDropdownMenuItemData(
-                  key: 'item5',
-                  label: 'Item 3',
-                  onTap: () {},
-                ),
-              ],
-            ),
-          ],
-        ),
+            textStyle: TextStyle(color: Colors.blue),
+            menuBackgroundColor: Colors.blue[50],
+            menuElevation: 8,
+            menuWidth: 300,
+          )
+        ]),
       ),
     );
   }

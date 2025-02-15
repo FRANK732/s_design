@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/src/components/s_button/enums/s_button_size.dart';
-import 'package:s_design/src/components/s_button/enums/s_button_state.dart';
-import 'package:s_design/src/components/s_button/enums/s_button_variant.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:s_design/s_design.dart';
 import 'package:s_design/src/components/s_button/themes/s_button_theme.dart';
-import 'package:s_design/src/components/s_button/utils/s_button_util.dart';
 
 /// A customizable and versatile button widget for Flutter applications.
 ///
@@ -248,18 +246,28 @@ class SButton extends StatelessWidget {
 
   /// Builds the loading indicator widget.
   Widget _buildLoader(SButtonThemeData theme) {
-    return SizedBox(
-      width: 20.0,
-      height: 20.0,
-      child: RepaintBoundary(
-        child: CircularProgressIndicator(
-          strokeWidth: 2.0,
-          valueColor: AlwaysStoppedAnimation<Color>(
-            _getLoaderColor(theme),
-          ),
-        ),
+    return Center(
+      child: SpinKitThreeBounce(
+        color: _getLoaderColor(theme),
+        size: _getLoaderSize(),
+        duration: Duration(milliseconds: (1000 / 1.0).round()),
       ),
     );
+  }
+
+  double _getLoaderSize() {
+    switch (size) {
+      case SButtonSize.sm:
+        return 16.0;
+      case SButtonSize.defaultSize:
+        return 20.0;
+      case SButtonSize.lg:
+        return 24.0;
+      case SButtonSize.icon:
+        return 20.0;
+      default:
+        return 16.0;
+    }
   }
 
   /// Retrieves the loader color based on the theme.
