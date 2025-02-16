@@ -33,6 +33,7 @@ class SDropdownMenu extends StatefulWidget {
   final Duration animationDuration;
   final Curve animationCurve;
   final SDropdownMenuPosition preferredPosition;
+  final STriggerContainerSize triggerSize;
   final bool showSelectedItemIcon;
   final Widget? selectedItemIcon;
   final bool showClearButton;
@@ -51,8 +52,6 @@ class SDropdownMenu extends StatefulWidget {
   final Color? checkboxCheckColor;
   final Color? checkboxHoverColor;
 
-  final double? triggerWidth;
-  final double? triggerHeight;
   final Decoration? triggerDecoration;
   final AlignmentGeometry? triggerAlignment;
   final AlignmentGeometry? triggerIconAlignment;
@@ -152,8 +151,7 @@ class SDropdownMenu extends StatefulWidget {
     this.checkboxActiveColor,
     this.checkboxCheckColor,
     this.checkboxHoverColor,
-    this.triggerWidth,
-    this.triggerHeight,
+    this.triggerSize = STriggerContainerSize.md,
     this.triggerDecoration,
     this.triggerAlignment,
     this.triggerIconAlignment,
@@ -201,16 +199,9 @@ class SDropdownMenu extends StatefulWidget {
     this.chipAnimationStyle,
   }) : super(key: key) {
     assert(items.isNotEmpty, 'Items list cannot be empty.');
-    assert(menuType != null, 'Menu type cannot be null.');
-    assert(animationDuration != null && animationDuration >= Duration.zero,
-        'Animation duration must be non-negative.');
     assert(menuWidth == null || menuWidth! > 0, 'Menu width must be positive.');
     assert(menuMaxHeight == null || menuMaxHeight! > 0,
         'Menu max height must be positive.');
-    assert(triggerWidth == null || triggerWidth! > 0,
-        'Trigger width must be positive.');
-    assert(triggerHeight == null || triggerHeight! > 0,
-        'Trigger height must be positive.');
     assert(maxSelectedItemsToShow == null || maxSelectedItemsToShow! > 0,
         'Max selected items to show must be positive.');
     assert(borderRadius == null || borderRadius! >= 0,
@@ -286,7 +277,8 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
     var offset = renderBox.localToGlobal(Offset.zero);
     var screenSize = MediaQuery.of(context).size;
 
-    double menuWidth = widget.menuWidth ?? renderBox.size.width;
+    double menuWidth =
+        STriggerContainerSizeUtils.getMenuWidth(widget.triggerSize, context);
     double menuHeight = _calculateMenuHeight();
 
     Offset menuOffset = _calculateMenuPosition(
@@ -347,8 +339,7 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
                           ),
                         Container(
                           constraints: BoxConstraints(
-                            maxHeight:
-                                widget.menuMaxHeight ?? screenSize.height * 0.4,
+                            maxHeight: menuHeight,
                           ),
                           child: SingleChildScrollView(
                             child: Column(
@@ -460,6 +451,13 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final containerHeight =
+        STriggerContainerSizeUtils.getContainerHeight(widget.triggerSize);
+    final containerWidth =
+        STriggerContainerSizeUtils.getContainerWidth(widget.triggerSize);
+    final containerPadding =
+        STriggerContainerSizeUtils.getContainerPadding(widget.triggerSize);
+
     return CompositedTransformTarget(
       link: _layerLink,
       child: GestureDetector(
@@ -470,11 +468,9 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
           child: AnimatedContainer(
             duration: widget.animationDuration,
             curve: widget.animationCurve,
-            width: widget.triggerWidth ?? 200,
-            height: widget.triggerHeight,
-            padding: widget.triggerContentPadding ??
-                widget.padding ??
-                const EdgeInsets.all(12),
+            width: containerWidth,
+            height: containerHeight,
+            padding: containerPadding,
             decoration: widget.triggerDecoration ??
                 BoxDecoration(
                   color: widget.backgroundColor ??
@@ -525,9 +521,13 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
                     alignment:
                         widget.triggerIconAlignment ?? Alignment.centerRight,
                     child: widget.menuIcon ??
-                        Icon(Icons.arrow_drop_down,
-                            color: theme.iconTheme.color),
-                  ),
+                        Icon(
+                          Icons.arrow_drop_down,
+                          size: STriggerContainerSizeUtils.getIconSize(
+                              widget.triggerSize),
+                          color: theme.iconTheme.color,
+                        ),
+                  )
               ],
             ),
           ),
@@ -538,41 +538,58 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
 
   Widget _buildSelectedItems() {
     final theme = Theme.of(context);
+    final chipHeight =
+        STriggerContainerSizeUtils.getChipHeight(widget.triggerSize);
+    final chipWidth =
+        STriggerContainerSizeUtils.getChipWidth(widget.triggerSize);
+    final chipPadding =
+        STriggerContainerSizeUtils.getChipPadding(widget.triggerSize);
+    final chipIconSize =
+        STriggerContainerSizeUtils.getChipIconSize(widget.triggerSize);
+    final chipElevation =
+        STriggerContainerSizeUtils.getChipElevation(widget.triggerSize);
+
     final selectedItems = _selectedItems
         .take(widget.maxSelectedItemsToShow ?? 3)
-        .map((item) => Chip(
-              avatar: widget.chipAvatar,
-              label: Text(
-                item,
-                style: widget.selectedTextStyle ?? theme.textTheme.bodyMedium,
-                overflow: widget.triggerTextOverflow,
+        .map((item) => Container(
+              height: chipHeight, // Use chipHeight here
+              width: chipWidth, // Use chipWidth here
+              child: Chip(
+                avatar: widget.chipAvatar,
+                label: Text(
+                  item,
+                  style: widget.selectedTextStyle ?? theme.textTheme.bodyMedium,
+                  overflow: widget.triggerTextOverflow,
+                ),
+                labelPadding: widget.chipLabelPadding ?? chipPadding,
+                deleteIcon: widget.chipDeleteIcon ??
+                    Icon(Icons.close, size: chipIconSize),
+                onDeleted: () {
+                  setState(() {
+                    _selectedItems.remove(item);
+                    widget.onChanged(_selectedItems);
+                  });
+                },
+                deleteIconColor: widget.chipDeleteIconColor,
+                deleteButtonTooltipMessage:
+                    widget.chipDeleteButtonTooltipMessage,
+                side: widget.chipSide,
+                shape: widget.chipShape,
+                clipBehavior: widget.clipBehavior,
+                focusNode: widget.chipFocusNode,
+                autofocus: widget.chipAutofocus,
+                backgroundColor: widget.chipBackgroundColor,
+                padding: widget.chipPadding ?? chipPadding,
+                visualDensity: widget.chipVisualDensity,
+                materialTapTargetSize: widget.chipMaterialTapTargetSize,
+                elevation: widget.chipElevation ?? chipElevation,
+                shadowColor: widget.chipShadowColor,
+                surfaceTintColor: widget.chipSurfaceTintColor,
+                iconTheme: widget.chipIconTheme,
+                avatarBoxConstraints: widget.chipAvatarBoxConstraints,
+                deleteIconBoxConstraints: widget.chipDeleteIconBoxConstraints,
+                chipAnimationStyle: widget.chipAnimationStyle,
               ),
-              labelPadding: widget.chipLabelPadding,
-              deleteIcon: widget.chipDeleteIcon ?? const Icon(Icons.close),
-              onDeleted: () {
-                setState(() {
-                  _selectedItems.remove(item);
-                  widget.onChanged(_selectedItems);
-                });
-              },
-              deleteIconColor: widget.chipDeleteIconColor,
-              deleteButtonTooltipMessage: widget.chipDeleteButtonTooltipMessage,
-              side: widget.chipSide,
-              shape: widget.chipShape,
-              clipBehavior: widget.clipBehavior,
-              focusNode: widget.chipFocusNode,
-              autofocus: widget.chipAutofocus,
-              backgroundColor: widget.chipBackgroundColor,
-              padding: widget.chipPadding,
-              visualDensity: widget.chipVisualDensity,
-              materialTapTargetSize: widget.chipMaterialTapTargetSize,
-              elevation: widget.chipElevation,
-              shadowColor: widget.chipShadowColor,
-              surfaceTintColor: widget.chipSurfaceTintColor,
-              iconTheme: widget.chipIconTheme,
-              avatarBoxConstraints: widget.chipAvatarBoxConstraints,
-              deleteIconBoxConstraints: widget.chipDeleteIconBoxConstraints,
-              chipAnimationStyle: widget.chipAnimationStyle,
             ))
         .toList();
 

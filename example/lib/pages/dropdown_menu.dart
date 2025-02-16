@@ -49,8 +49,6 @@ class _DropdownMenuPageState extends State<DropdownMenuPage> {
             ),
             textStyle: TextStyle(color: Colors.blue),
             // menuBackgroundColor: Colors.blue[50],
-            menuElevation: 8,
-            menuWidth: 200,
           )
         ]),
       ),
