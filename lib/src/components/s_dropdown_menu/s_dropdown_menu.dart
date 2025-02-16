@@ -74,7 +74,7 @@ class SDropdownMenu extends StatefulWidget {
   final BoxConstraints? menuConstraints;
   final EdgeInsetsGeometry? menuContentPadding;
 
-  const SDropdownMenu({
+  SDropdownMenu({
     Key? key,
     required this.items,
     required this.onChanged,
@@ -145,8 +145,41 @@ class SDropdownMenu extends StatefulWidget {
     this.menuShape,
     this.menuConstraints,
     this.menuContentPadding,
-  }) : super(key: key);
-
+  }) : super(key: key) {
+    // Assertions for production-level validation
+    assert(items.isNotEmpty, 'Items list cannot be empty.');
+    assert(menuType != null, 'Menu type cannot be null.');
+    assert(animationDuration != null && animationDuration >= Duration.zero,
+        'Animation duration must be non-negative.');
+    assert(menuWidth == null || menuWidth! > 0, 'Menu width must be positive.');
+    assert(menuMaxHeight == null || menuMaxHeight! > 0,
+        'Menu max height must be positive.');
+    assert(triggerWidth == null || triggerWidth! > 0,
+        'Trigger width must be positive.');
+    assert(triggerHeight == null || triggerHeight! > 0,
+        'Trigger height must be positive.');
+    assert(maxSelectedItemsToShow == null || maxSelectedItemsToShow! > 0,
+        'Max selected items to show must be positive.');
+    assert(borderRadius == null || borderRadius! >= 0,
+        'Border radius must be non-negative.');
+    assert(menuBorderRadius == null || menuBorderRadius!.topLeft.x >= 0,
+        'Menu border radius must be non-negative.');
+    assert(dividerThickness == null || dividerThickness! >= 0,
+        'Divider thickness must be non-negative.');
+    assert(checkboxActiveColor == null || checkboxActiveColor != null,
+        'Checkbox active color must be a valid color.');
+    assert(checkboxCheckColor == null || checkboxCheckColor != null,
+        'Checkbox check color must be a valid color.');
+    assert(checkboxHoverColor == null || checkboxHoverColor != null,
+        'Checkbox hover color must be a valid color.');
+    assert(onChanged != null, 'onChanged callback cannot be null.');
+    assert(onClear == null || onClear != null,
+        'onClear callback must be valid if provided.');
+    assert(onMenuOpen == null || onMenuOpen != null,
+        'onMenuOpen callback must be valid if provided.');
+    assert(onMenuClose == null || onMenuClose != null,
+        'onMenuClose callback must be valid if provided.');
+  }
   @override
   _SDropdownMenuState createState() => _SDropdownMenuState();
 }
@@ -210,7 +243,7 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
             // Transparent background to capture taps outside the dropdown
             Positioned.fill(
               child: GestureDetector(
-                onTap: _toggleMenu, // Close the dropdown when tapping outside
+                onTap: _toggleMenu,
                 behavior: HitTestBehavior.translucent,
               ),
             ),

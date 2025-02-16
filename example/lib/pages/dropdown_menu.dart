@@ -20,12 +20,12 @@ class _DropdownMenuPageState extends State<DropdownMenuPage> {
         child: Column(children: [
           _buildSectionTitle('Default Dropdown Menu'),
           SDropdownMenu(
-            items: ['Apple', 'Banana', 'Orange', 'Mango', 'Grapes'],
+            items: ['Banana', 'Orange', 'Mango', 'Grapes'],
             onChanged: (selectedItem) {
               print('Selected: $selectedItem');
             },
             hintText: 'Select a fruit',
-            menuType: SDropdownMenuItemType.multiSelect,
+            menuType: SDropdownMenuItemType.normal,
             preferredPosition: SDropdownMenuPosition.bottom,
             backgroundColor: const Color.fromARGB(255, 96, 104, 110),
             borderRadius: 12,
