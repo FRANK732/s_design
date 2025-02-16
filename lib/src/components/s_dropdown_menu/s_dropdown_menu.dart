@@ -74,7 +74,29 @@ class SDropdownMenu extends StatefulWidget {
   final BoxConstraints? menuConstraints;
   final EdgeInsetsGeometry? menuContentPadding;
 
-  // New fields for direction and expansion
+  final Widget? chipAvatar;
+  final EdgeInsetsGeometry? chipLabelPadding;
+  final Widget? chipDeleteIcon;
+  final VoidCallback? chipOnDeleted;
+  final Color? chipDeleteIconColor;
+  final String? chipDeleteButtonTooltipMessage;
+  final BorderSide? chipSide;
+  final OutlinedBorder? chipShape;
+  final Clip clipBehavior;
+  final FocusNode? chipFocusNode;
+  final bool chipAutofocus;
+  final Color? chipBackgroundColor;
+  final EdgeInsetsGeometry? chipPadding;
+  final VisualDensity? chipVisualDensity;
+  final MaterialTapTargetSize? chipMaterialTapTargetSize;
+  final double? chipElevation;
+  final Color? chipShadowColor;
+  final Color? chipSurfaceTintColor;
+  final IconThemeData? chipIconTheme;
+  final BoxConstraints? chipAvatarBoxConstraints;
+  final BoxConstraints? chipDeleteIconBoxConstraints;
+  final ChipAnimationStyle? chipAnimationStyle;
+
   final Axis selectedItemsDirection;
   final bool expandToMax;
   final double? triggerMaxHeight;
@@ -155,8 +177,29 @@ class SDropdownMenu extends StatefulWidget {
     this.expandToMax = false,
     this.triggerMaxHeight,
     this.triggerMaxWidth,
+    this.chipAvatar,
+    this.chipLabelPadding,
+    this.chipDeleteIcon,
+    this.chipOnDeleted,
+    this.chipDeleteIconColor,
+    this.chipDeleteButtonTooltipMessage,
+    this.chipSide,
+    this.chipShape,
+    this.clipBehavior = Clip.none,
+    this.chipFocusNode,
+    this.chipAutofocus = false,
+    this.chipBackgroundColor,
+    this.chipPadding,
+    this.chipVisualDensity,
+    this.chipMaterialTapTargetSize,
+    this.chipElevation,
+    this.chipShadowColor,
+    this.chipSurfaceTintColor,
+    this.chipIconTheme,
+    this.chipAvatarBoxConstraints,
+    this.chipDeleteIconBoxConstraints,
+    this.chipAnimationStyle,
   }) : super(key: key) {
-    // Assertions for production-level validation
     assert(items.isNotEmpty, 'Items list cannot be empty.');
     assert(menuType != null, 'Menu type cannot be null.');
     assert(animationDuration != null && animationDuration >= Duration.zero,
@@ -227,11 +270,11 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
     if (_isMenuOpen) {
       _overlayEntry?.remove();
       _overlayEntry = null;
-      if (widget.onMenuClose != null) widget.onMenuClose!();
+      widget.onMenuClose?.call();
     } else {
       _overlayEntry = _createOverlayEntry();
-      Overlay.of(context)?.insert(_overlayEntry!);
-      if (widget.onMenuOpen != null) widget.onMenuOpen!();
+      Overlay.of(context).insert(_overlayEntry!);
+      widget.onMenuOpen?.call();
     }
     setState(() {
       _isMenuOpen = !_isMenuOpen;
@@ -246,7 +289,6 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
     double menuWidth = widget.menuWidth ?? renderBox.size.width;
     double menuHeight = _calculateMenuHeight();
 
-    // Calculate the position based on the preferred position and available space
     Offset menuOffset = _calculateMenuPosition(
         offset, screenSize, menuWidth, menuHeight, renderBox);
 
@@ -255,14 +297,12 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
         final theme = Theme.of(context);
         return Stack(
           children: [
-            // Transparent background to capture taps outside the dropdown
             Positioned.fill(
               child: GestureDetector(
                 onTap: _toggleMenu,
                 behavior: HitTestBehavior.translucent,
               ),
             ),
-            // Dropdown menu content
             Positioned(
               left: menuOffset.dx,
               top: menuOffset.dy,
@@ -331,7 +371,6 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
                                             }
                                             widget.onChanged(_selectedItems);
                                           });
-                                          // Mark the overlay entry to rebuild
                                           _overlayEntry?.markNeedsBuild();
                                         },
                                         activeColor: widget.checkboxActiveColor,
@@ -412,7 +451,6 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
         break;
     }
 
-    // Ensure the menu stays within screen bounds
     dx = dx.clamp(0, screenSize.width - menuWidth);
     dy = dy.clamp(0, screenSize.height - menuHeight);
 
@@ -454,7 +492,15 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
               children: [
                 Expanded(
                   child: widget.menuType == SDropdownMenuItemType.multiSelect
-                      ? _buildSelectedItems()
+                      ? _selectedItems.isEmpty
+                          ? Text(
+                              widget.hintText ?? 'Select an item',
+                              style: widget.hintTextStyle ??
+                                  widget.textStyle ??
+                                  theme.textTheme.bodyMedium,
+                              overflow: widget.triggerTextOverflow,
+                            )
+                          : _buildSelectedItems()
                       : Text(
                           _selectedItems.isNotEmpty
                               ? _selectedItems.first
@@ -470,7 +516,7 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
                       setState(() {
                         _selectedItems.clear();
                         widget.onChanged(_selectedItems);
-                        if (widget.onClear != null) widget.onClear!();
+                        widget.onClear?.call();
                       });
                     },
                   ),
@@ -495,17 +541,38 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
     final selectedItems = _selectedItems
         .take(widget.maxSelectedItemsToShow ?? 3)
         .map((item) => Chip(
+              avatar: widget.chipAvatar,
               label: Text(
                 item,
                 style: widget.selectedTextStyle ?? theme.textTheme.bodyMedium,
                 overflow: widget.triggerTextOverflow,
               ),
+              labelPadding: widget.chipLabelPadding,
+              deleteIcon: widget.chipDeleteIcon ?? const Icon(Icons.close),
               onDeleted: () {
                 setState(() {
                   _selectedItems.remove(item);
                   widget.onChanged(_selectedItems);
                 });
               },
+              deleteIconColor: widget.chipDeleteIconColor,
+              deleteButtonTooltipMessage: widget.chipDeleteButtonTooltipMessage,
+              side: widget.chipSide,
+              shape: widget.chipShape,
+              clipBehavior: widget.clipBehavior,
+              focusNode: widget.chipFocusNode,
+              autofocus: widget.chipAutofocus,
+              backgroundColor: widget.chipBackgroundColor,
+              padding: widget.chipPadding,
+              visualDensity: widget.chipVisualDensity,
+              materialTapTargetSize: widget.chipMaterialTapTargetSize,
+              elevation: widget.chipElevation,
+              shadowColor: widget.chipShadowColor,
+              surfaceTintColor: widget.chipSurfaceTintColor,
+              iconTheme: widget.chipIconTheme,
+              avatarBoxConstraints: widget.chipAvatarBoxConstraints,
+              deleteIconBoxConstraints: widget.chipDeleteIconBoxConstraints,
+              chipAnimationStyle: widget.chipAnimationStyle,
             ))
         .toList();
 
