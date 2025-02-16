@@ -7,17 +7,49 @@ class SDropdownMenu extends StatefulWidget {
   final String? hintText;
   final Widget? icon;
   final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? menuPadding;
   final Color? backgroundColor;
+  final Color? hoverColor;
+  final Color? splashColor;
+  final Color? highlightColor;
   final double? borderRadius;
+  final BorderRadius? menuBorderRadius;
   final BoxShadow? shadow;
+  final List<BoxShadow>? menuShadows;
   final TextStyle? textStyle;
+  final TextStyle? menuTextStyle;
+  final TextStyle? hintTextStyle;
+  final TextStyle? selectedTextStyle;
+  final Color? menuBackgroundColor;
+  final Color? menuItemBackgroundColor;
+  final Color? menuItemHoverColor;
+  final Color? menuItemSelectedColor;
+  final double? menuElevation;
+  final double? menuWidth;
+  final double? menuMaxHeight;
+  final double? menuItemHeight;
+  final double? menuItemPadding;
   final SDropdownMenuItemType menuType;
   final Duration animationDuration;
   final Curve animationCurve;
-  final Color? menuBackgroundColor;
-  final double? menuElevation;
-  final double? menuWidth;
   final SDropdownMenuPosition preferredPosition;
+  final bool showSelectedItemIcon;
+  final Widget? selectedItemIcon;
+  final bool showClearButton;
+  final Widget? clearButtonIcon;
+  final VoidCallback? onClear;
+  final bool showMenuIcon;
+  final Widget? menuIcon;
+  final bool showDivider;
+  final Color? dividerColor;
+  final double? dividerThickness;
+  final EdgeInsetsGeometry? dividerPadding;
+  final bool showScrollbar;
+  final ScrollbarThemeData? scrollbarTheme;
+  final bool showCheckbox;
+  final Color? checkboxActiveColor;
+  final Color? checkboxCheckColor;
+  final Color? checkboxHoverColor;
 
   const SDropdownMenu({
     Key? key,
@@ -26,17 +58,49 @@ class SDropdownMenu extends StatefulWidget {
     this.hintText,
     this.icon,
     this.padding,
+    this.menuPadding,
     this.backgroundColor,
+    this.hoverColor,
+    this.splashColor,
+    this.highlightColor,
     this.borderRadius,
+    this.menuBorderRadius,
     this.shadow,
+    this.menuShadows,
     this.textStyle,
+    this.menuTextStyle,
+    this.hintTextStyle,
+    this.selectedTextStyle,
+    this.menuBackgroundColor,
+    this.menuItemBackgroundColor,
+    this.menuItemHoverColor,
+    this.menuItemSelectedColor,
+    this.menuElevation,
+    this.menuWidth,
+    this.menuMaxHeight,
+    this.menuItemHeight,
+    this.menuItemPadding,
     this.menuType = SDropdownMenuItemType.normal,
     this.animationDuration = const Duration(milliseconds: 300),
     this.animationCurve = Curves.easeInOut,
-    this.menuBackgroundColor,
-    this.menuElevation,
-    this.menuWidth,
     this.preferredPosition = SDropdownMenuPosition.bottom,
+    this.showSelectedItemIcon = false,
+    this.selectedItemIcon,
+    this.showClearButton = false,
+    this.clearButtonIcon,
+    this.onClear,
+    this.showMenuIcon = true,
+    this.menuIcon,
+    this.showDivider = false,
+    this.dividerColor,
+    this.dividerThickness,
+    this.dividerPadding,
+    this.showScrollbar = true,
+    this.scrollbarTheme,
+    this.showCheckbox = false,
+    this.checkboxActiveColor,
+    this.checkboxCheckColor,
+    this.checkboxHoverColor,
   }) : super(key: key);
 
   @override
@@ -114,33 +178,32 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
                     widget.menuElevation ?? theme.cardTheme.elevation ?? 4,
                 color: widget.menuBackgroundColor ?? theme.cardColor,
                 borderRadius: BorderRadius.circular(
-                  widget.borderRadius is BorderRadius
-                      ? (widget.borderRadius as BorderRadius).topLeft.x
-                      : (theme.cardTheme.shape is RoundedRectangleBorder
-                          ? (theme.cardTheme.shape as RoundedRectangleBorder)
-                              .borderRadius
-                              .resolve(TextDirection.ltr)
-                              .topLeft
-                              .x
-                          : 8),
+                  widget.menuBorderRadius?.topLeft.x ?? 8,
                 ),
                 child: AnimatedContainer(
                   duration: widget.animationDuration,
                   curve: widget.animationCurve,
-                  padding: const EdgeInsets.all(8),
+                  padding: widget.menuPadding ?? const EdgeInsets.all(8),
                   child: Column(
                     children: [
                       if (widget.menuType == SDropdownMenuItemType.searchable)
                         Padding(
                           padding: const EdgeInsets.all(8),
-                          child: SInputField(
+                          child: SInputField.search(
                             controller: _searchController,
                             hintText: 'Search...',
                           ),
                         ),
+                      if (widget.showDivider)
+                        Divider(
+                          color: widget.dividerColor ?? theme.dividerColor,
+                          thickness: widget.dividerThickness ?? 1,
+                          height: widget.dividerPadding?.vertical ?? 8,
+                        ),
                       Container(
                         constraints: BoxConstraints(
-                          maxHeight: screenSize.height * 0.4,
+                          maxHeight:
+                              widget.menuMaxHeight ?? screenSize.height * 0.4,
                         ),
                         child: SingleChildScrollView(
                           child: Column(
@@ -150,7 +213,8 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
                                   ? CheckboxListTile(
                                       title: Text(
                                         item,
-                                        style: theme.textTheme.bodyMedium,
+                                        style: widget.menuTextStyle ??
+                                            theme.textTheme.bodyMedium,
                                       ),
                                       value: _selectedItems.contains(item),
                                       onChanged: (value) {
@@ -162,12 +226,18 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
                                           }
                                           widget.onChanged(_selectedItems);
                                         });
+                                        // Mark the overlay entry to rebuild
+                                        _overlayEntry?.markNeedsBuild();
                                       },
+                                      activeColor: widget.checkboxActiveColor,
+                                      checkColor: widget.checkboxCheckColor,
+                                      hoverColor: widget.checkboxHoverColor,
                                     )
                                   : ListTile(
                                       title: Text(
                                         item,
-                                        style: theme.textTheme.bodyMedium,
+                                        style: widget.menuTextStyle ??
+                                            theme.textTheme.bodyMedium,
                                       ),
                                       onTap: () {
                                         setState(() {
@@ -193,10 +263,9 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
   }
 
   double _calculateMenuHeight() {
-    double baseHeight =
-        _filteredItems.length * 48.0; // Approximate height per item
+    double baseHeight = _filteredItems.length * (widget.menuItemHeight ?? 48.0);
     if (widget.menuType == SDropdownMenuItemType.searchable) {
-      baseHeight += 64; // Add height for the search bar
+      baseHeight += 64;
     }
     return baseHeight;
   }
@@ -254,9 +323,11 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
         child: AnimatedContainer(
           duration: widget.animationDuration,
           curve: widget.animationCurve,
+          width: 300,
           padding: widget.padding ?? const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: widget.backgroundColor ?? theme.cardColor,
+            color:
+                widget.backgroundColor ?? theme.inputDecorationTheme.focusColor,
             borderRadius: BorderRadius.circular(widget.borderRadius ?? 8),
             boxShadow: widget.shadow != null
                 ? [widget.shadow!]
@@ -281,8 +352,21 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
                         : widget.hintText ?? 'Select an item',
                 style: widget.textStyle ?? theme.textTheme.bodyMedium,
               ),
-              widget.icon ??
-                  Icon(Icons.arrow_drop_down, color: theme.iconTheme.color),
+              if (widget.showClearButton && _selectedItems.isNotEmpty)
+                IconButton(
+                  icon: widget.clearButtonIcon ?? const Icon(Icons.clear),
+                  onPressed: () {
+                    setState(() {
+                      _selectedItems.clear();
+                      widget.onChanged(_selectedItems);
+                      if (widget.onClear != null) widget.onClear!();
+                    });
+                  },
+                ),
+              widget.showMenuIcon
+                  ? widget.menuIcon ??
+                      Icon(Icons.arrow_drop_down, color: theme.iconTheme.color)
+                  : const SizedBox.shrink(),
             ],
           ),
         ),

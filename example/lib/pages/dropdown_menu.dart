@@ -27,7 +27,7 @@ class _DropdownMenuPageState extends State<DropdownMenuPage> {
             hintText: 'Select a fruit',
             menuType: SDropdownMenuItemType.multiSelect,
             preferredPosition: SDropdownMenuPosition.bottom,
-            backgroundColor: Colors.blue[50],
+            backgroundColor: const Color.fromARGB(255, 96, 104, 110),
             borderRadius: 12,
             shadow: BoxShadow(
               color: Colors.black.withOpacity(0.1),
@@ -35,9 +35,9 @@ class _DropdownMenuPageState extends State<DropdownMenuPage> {
               offset: Offset(0, 5),
             ),
             textStyle: TextStyle(color: Colors.blue),
-            menuBackgroundColor: Colors.blue[50],
+            // menuBackgroundColor: Colors.blue[50],
             menuElevation: 8,
-            menuWidth: 300,
+            menuWidth: 200,
           )
         ]),
       ),
