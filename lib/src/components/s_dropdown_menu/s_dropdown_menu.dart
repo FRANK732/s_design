@@ -51,7 +51,6 @@ class SDropdownMenu extends StatefulWidget {
   final Color? checkboxCheckColor;
   final Color? checkboxHoverColor;
 
-  // New properties for the trigger container
   final double? triggerWidth;
   final double? triggerHeight;
   final Decoration? triggerDecoration;
@@ -61,6 +60,19 @@ class SDropdownMenu extends StatefulWidget {
   final int? maxSelectedItemsToShow;
   final VoidCallback? onMenuOpen;
   final VoidCallback? onMenuClose;
+  final EdgeInsetsGeometry? triggerMargin;
+  final Border? triggerBorder;
+  final Gradient? triggerGradient;
+  final ShapeBorder? triggerShape;
+  final BoxConstraints? triggerConstraints;
+  final EdgeInsetsGeometry? triggerContentPadding;
+
+  final EdgeInsetsGeometry? menuMargin;
+  final Border? menuBorder;
+  final Gradient? menuGradient;
+  final ShapeBorder? menuShape;
+  final BoxConstraints? menuConstraints;
+  final EdgeInsetsGeometry? menuContentPadding;
 
   const SDropdownMenu({
     Key? key,
@@ -121,6 +133,18 @@ class SDropdownMenu extends StatefulWidget {
     this.maxSelectedItemsToShow,
     this.onMenuOpen,
     this.onMenuClose,
+    this.triggerMargin,
+    this.triggerBorder,
+    this.triggerGradient,
+    this.triggerShape,
+    this.triggerConstraints,
+    this.triggerContentPadding,
+    this.menuMargin,
+    this.menuBorder,
+    this.menuGradient,
+    this.menuShape,
+    this.menuConstraints,
+    this.menuContentPadding,
   }) : super(key: key);
 
   @override
@@ -195,85 +219,97 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
               left: menuOffset.dx,
               top: menuOffset.dy,
               width: menuWidth,
-              child: Material(
-                elevation:
-                    widget.menuElevation ?? theme.cardTheme.elevation ?? 4,
-                color: widget.menuBackgroundColor ?? theme.cardColor,
-                borderRadius: BorderRadius.circular(
-                  widget.menuBorderRadius?.topLeft.x ?? 8,
-                ),
-                child: AnimatedContainer(
-                  duration: widget.animationDuration,
-                  curve: widget.animationCurve,
-                  padding: widget.menuPadding ?? const EdgeInsets.all(8),
-                  child: Column(
-                    children: [
-                      if (widget.menuType == SDropdownMenuItemType.searchable)
-                        Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: SInputField.search(
-                            controller: _searchController,
-                            hintText: 'Search...',
-                          ),
-                        ),
-                      if (widget.showDivider)
-                        Divider(
-                          color: widget.dividerColor ?? theme.dividerColor,
-                          thickness: widget.dividerThickness ?? 1,
-                          height: widget.dividerPadding?.vertical ?? 8,
-                        ),
-                      Container(
-                        constraints: BoxConstraints(
-                          maxHeight:
-                              widget.menuMaxHeight ?? screenSize.height * 0.4,
-                        ),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: _filteredItems.map((item) {
-                              return widget.menuType ==
-                                      SDropdownMenuItemType.multiSelect
-                                  ? CheckboxListTile(
-                                      title: Text(
-                                        item,
-                                        style: widget.menuTextStyle ??
-                                            theme.textTheme.bodyMedium,
-                                      ),
-                                      value: _selectedItems.contains(item),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          if (value == true) {
-                                            _selectedItems.add(item);
-                                          } else {
-                                            _selectedItems.remove(item);
-                                          }
-                                          widget.onChanged(_selectedItems);
-                                        });
-                                        // Mark the overlay entry to rebuild
-                                        _overlayEntry?.markNeedsBuild();
-                                      },
-                                      activeColor: widget.checkboxActiveColor,
-                                      checkColor: widget.checkboxCheckColor,
-                                      hoverColor: widget.checkboxHoverColor,
-                                    )
-                                  : ListTile(
-                                      title: Text(
-                                        item,
-                                        style: widget.menuTextStyle ??
-                                            theme.textTheme.bodyMedium,
-                                      ),
-                                      onTap: () {
-                                        setState(() {
-                                          _selectedItems = [item];
-                                          widget.onChanged(item);
-                                        });
-                                        _toggleMenu();
-                                      },
-                                    );
-                            }).toList(),
-                          ),
-                        ),
+              child: Container(
+                margin: widget.menuMargin,
+                constraints: widget.menuConstraints,
+                child: Material(
+                  elevation:
+                      widget.menuElevation ?? theme.cardTheme.elevation ?? 4,
+                  color: widget.menuBackgroundColor ?? theme.cardColor,
+                  shape: widget.menuShape ??
+                      RoundedRectangleBorder(
+                        borderRadius:
+                            widget.menuBorderRadius ?? BorderRadius.circular(8),
                       ),
-                    ],
+                  child: AnimatedContainer(
+                    duration: widget.animationDuration,
+                    curve: widget.animationCurve,
+                    padding: widget.menuContentPadding ??
+                        widget.menuPadding ??
+                        const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      gradient: widget.menuGradient,
+                      border: widget.menuBorder,
+                    ),
+                    child: Column(
+                      children: [
+                        if (widget.menuType == SDropdownMenuItemType.searchable)
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: SInputField.search(
+                              controller: _searchController,
+                              hintText: 'Search...',
+                            ),
+                          ),
+                        if (widget.showDivider)
+                          Divider(
+                            color: widget.dividerColor ?? theme.dividerColor,
+                            thickness: widget.dividerThickness ?? 1,
+                            height: widget.dividerPadding?.vertical ?? 8,
+                          ),
+                        Container(
+                          constraints: BoxConstraints(
+                            maxHeight:
+                                widget.menuMaxHeight ?? screenSize.height * 0.4,
+                          ),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: _filteredItems.map((item) {
+                                return widget.menuType ==
+                                        SDropdownMenuItemType.multiSelect
+                                    ? CheckboxListTile(
+                                        title: Text(
+                                          item,
+                                          style: widget.menuTextStyle ??
+                                              theme.textTheme.bodyMedium,
+                                        ),
+                                        value: _selectedItems.contains(item),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            if (value == true) {
+                                              _selectedItems.add(item);
+                                            } else {
+                                              _selectedItems.remove(item);
+                                            }
+                                            widget.onChanged(_selectedItems);
+                                          });
+                                          // Mark the overlay entry to rebuild
+                                          _overlayEntry?.markNeedsBuild();
+                                        },
+                                        activeColor: widget.checkboxActiveColor,
+                                        checkColor: widget.checkboxCheckColor,
+                                        hoverColor: widget.checkboxHoverColor,
+                                      )
+                                    : ListTile(
+                                        title: Text(
+                                          item,
+                                          style: widget.menuTextStyle ??
+                                              theme.textTheme.bodyMedium,
+                                        ),
+                                        onTap: () {
+                                          setState(() {
+                                            _selectedItems = [item];
+                                            widget.onChanged(item);
+                                          });
+                                          _toggleMenu();
+                                        },
+                                      );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -342,82 +378,85 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
       link: _layerLink,
       child: GestureDetector(
         onTap: _toggleMenu,
-        child: AnimatedContainer(
-          duration: widget.animationDuration,
-          curve: widget.animationCurve,
-          width: widget.triggerWidth ?? 200,
-          height: widget.triggerHeight,
-          padding: widget.padding ?? const EdgeInsets.all(12),
-          decoration: widget.triggerDecoration ??
-              BoxDecoration(
-                color: widget.backgroundColor ??
-                    theme.inputDecorationTheme.focusColor,
-                borderRadius: BorderRadius.circular(widget.borderRadius ?? 8),
-                boxShadow: widget.shadow != null
-                    ? [widget.shadow!]
-                    : [
-                        BoxShadow(
-                          color: theme.shadowColor.withOpacity(0.1),
-                          blurRadius: 10,
-                          offset: Offset(0, 5),
+        child: Container(
+          margin: widget.triggerMargin,
+          constraints: widget.triggerConstraints,
+          child: AnimatedContainer(
+            duration: widget.animationDuration,
+            curve: widget.animationCurve,
+            width: widget.triggerWidth ?? 200,
+            height: widget.triggerHeight,
+            padding: widget.triggerContentPadding ??
+                widget.padding ??
+                const EdgeInsets.all(12),
+            decoration: widget.triggerDecoration ??
+                BoxDecoration(
+                  color: widget.backgroundColor ??
+                      theme.inputDecorationTheme.focusColor,
+                  borderRadius: BorderRadius.circular(widget.borderRadius ?? 8),
+                  border: widget.triggerBorder,
+                  gradient: widget.triggerGradient,
+                  shape: widget.triggerShape != null
+                      ? BoxShape.rectangle
+                      : BoxShape.rectangle,
+                ),
+            alignment: widget.triggerAlignment ?? Alignment.centerLeft,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: widget.menuType == SDropdownMenuItemType.multiSelect
+                      ? Wrap(
+                          spacing: 4,
+                          runSpacing: 4,
+                          children: _selectedItems
+                              .take(widget.maxSelectedItemsToShow ?? 3)
+                              .map((item) {
+                            return Chip(
+                              label: Text(
+                                item,
+                                style: widget.selectedTextStyle ??
+                                    theme.textTheme.bodyMedium,
+                                overflow: widget.triggerTextOverflow,
+                              ),
+                              onDeleted: () {
+                                setState(() {
+                                  _selectedItems.remove(item);
+                                  widget.onChanged(_selectedItems);
+                                });
+                              },
+                            );
+                          }).toList(),
+                        )
+                      : Text(
+                          _selectedItems.isNotEmpty
+                              ? _selectedItems.first
+                              : widget.hintText ?? 'Select an item',
+                          style: widget.textStyle ?? theme.textTheme.bodyMedium,
+                          overflow: widget.triggerTextOverflow,
                         ),
-                      ],
-              ),
-          alignment: widget.triggerAlignment ?? Alignment.centerLeft,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: widget.menuType == SDropdownMenuItemType.multiSelect
-                    ? Wrap(
-                        spacing: 4,
-                        runSpacing: 4,
-                        children: _selectedItems
-                            .take(widget.maxSelectedItemsToShow ?? 3)
-                            .map((item) {
-                          return Chip(
-                            label: Text(
-                              item,
-                              style: widget.selectedTextStyle ??
-                                  theme.textTheme.bodyMedium,
-                              overflow: widget.triggerTextOverflow,
-                            ),
-                            onDeleted: () {
-                              setState(() {
-                                _selectedItems.remove(item);
-                                widget.onChanged(_selectedItems);
-                              });
-                            },
-                          );
-                        }).toList(),
-                      )
-                    : Text(
-                        _selectedItems.isNotEmpty
-                            ? _selectedItems.first
-                            : widget.hintText ?? 'Select an item',
-                        style: widget.textStyle ?? theme.textTheme.bodyMedium,
-                        overflow: widget.triggerTextOverflow,
-                      ),
-              ),
-              if (widget.showClearButton && _selectedItems.isNotEmpty)
-                IconButton(
-                  icon: widget.clearButtonIcon ?? const Icon(Icons.clear),
-                  onPressed: () {
-                    setState(() {
-                      _selectedItems.clear();
-                      widget.onChanged(_selectedItems);
-                      if (widget.onClear != null) widget.onClear!();
-                    });
-                  },
                 ),
-              if (widget.showMenuIcon)
-                Align(
-                  alignment:
-                      widget.triggerIconAlignment ?? Alignment.centerRight,
-                  child: widget.menuIcon ??
-                      Icon(Icons.arrow_drop_down, color: theme.iconTheme.color),
-                ),
-            ],
+                if (widget.showClearButton && _selectedItems.isNotEmpty)
+                  IconButton(
+                    icon: widget.clearButtonIcon ?? const Icon(Icons.clear),
+                    onPressed: () {
+                      setState(() {
+                        _selectedItems.clear();
+                        widget.onChanged(_selectedItems);
+                        if (widget.onClear != null) widget.onClear!();
+                      });
+                    },
+                  ),
+                if (widget.showMenuIcon)
+                  Align(
+                    alignment:
+                        widget.triggerIconAlignment ?? Alignment.centerRight,
+                    child: widget.menuIcon ??
+                        Icon(Icons.arrow_drop_down,
+                            color: theme.iconTheme.color),
+                  ),
+              ],
+            ),
           ),
         ),
       ),
