@@ -96,7 +96,7 @@ class SDropdownMenu extends StatefulWidget {
   final BoxConstraints? chipDeleteIconBoxConstraints;
   final ChipAnimationStyle? chipAnimationStyle;
 
-  final Axis selectedItemsDirection;
+  // final Axis selectedItemsDirection;
   final bool expandToMax;
   final double? triggerMaxHeight;
   final double? triggerMaxWidth;
@@ -171,7 +171,7 @@ class SDropdownMenu extends StatefulWidget {
     this.menuShape,
     this.menuConstraints,
     this.menuContentPadding,
-    this.selectedItemsDirection = Axis.horizontal,
+    // this.selectedItemsDirection = Axis.horizontal,
     this.expandToMax = false,
     this.triggerMaxHeight,
     this.triggerMaxWidth,
@@ -465,6 +465,7 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
         child: Container(
           margin: widget.triggerMargin,
           constraints: widget.triggerConstraints,
+          decoration: widget.triggerDecoration,
           child: AnimatedContainer(
             duration: widget.animationDuration,
             curve: widget.animationCurve,
@@ -497,17 +498,29 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
                               overflow: widget.triggerTextOverflow,
                             )
                           : _buildSelectedItems()
-                      : Text(
-                          _selectedItems.isNotEmpty
-                              ? _selectedItems.first
-                              : widget.hintText ?? 'Select an item',
-                          style: widget.textStyle ?? theme.textTheme.bodyMedium,
-                          overflow: widget.triggerTextOverflow,
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                          child: Text(
+                            _selectedItems.isNotEmpty
+                                ? _selectedItems.first
+                                : widget.hintText ?? 'Select an item',
+                            style:
+                                widget.textStyle ?? theme.textTheme.bodyMedium,
+                            overflow: widget.triggerTextOverflow ??
+                                TextOverflow.ellipsis,
+                          ),
                         ),
                 ),
                 if (widget.showClearButton && _selectedItems.isNotEmpty)
                   IconButton(
-                    icon: widget.clearButtonIcon ?? const Icon(Icons.clear),
+                    iconSize: STriggerContainerSizeUtils.getIconSize(
+                            widget.triggerSize) *
+                        0.7,
+                    icon: widget.clearButtonIcon ??
+                        Icon(
+                          Icons.clear,
+                          color: theme.iconTheme.color,
+                        ),
                     onPressed: () {
                       setState(() {
                         _selectedItems.clear();
@@ -551,9 +564,8 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
 
     final selectedItems = _selectedItems
         .take(widget.maxSelectedItemsToShow ?? 3)
-        .map((item) => Container(
-              height: chipHeight, // Use chipHeight here
-              width: chipWidth, // Use chipWidth here
+        .map((item) => Padding(
+              padding: const EdgeInsets.only(right: 5.0),
               child: Chip(
                 avatar: widget.chipAvatar,
                 label: Text(
@@ -593,25 +605,19 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
             ))
         .toList();
 
-    return widget.expandToMax
-        ? ConstrainedBox(
-            constraints: BoxConstraints(
-              maxHeight: widget.triggerMaxHeight ?? double.infinity,
-              maxWidth: widget.triggerMaxWidth ?? double.infinity,
-            ),
-            child: SingleChildScrollView(
-              scrollDirection: widget.selectedItemsDirection,
-              child: widget.selectedItemsDirection == Axis.horizontal
-                  ? Row(children: selectedItems)
-                  : Column(children: selectedItems),
-            ),
-          )
-        : Wrap(
-            direction: widget.selectedItemsDirection,
-            spacing: 4,
-            runSpacing: 4,
-            children: selectedItems,
-          );
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxHeight: widget.triggerMaxHeight ?? double.infinity,
+        maxWidth: widget.triggerMaxWidth ?? double.infinity,
+      ),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: selectedItems),
+      ),
+    );
   }
 
   @override

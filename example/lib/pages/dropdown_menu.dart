@@ -18,15 +18,14 @@ class _DropdownMenuPageState extends State<DropdownMenuPage> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(children: [
-          _buildSectionTitle('Default Dropdown Menu 1'),
+          _buildSectionTitle('Searchable Dropdown Menu'),
           SDropdownMenu(
             items: ['Item 1', 'Item 2', 'Item 3'],
             onChanged: (value) {
               print('Selected: $value');
             },
             backgroundColor: const Color.fromARGB(255, 96, 104, 110),
-            menuType: SDropdownMenuItemType.multiSelect,
-            selectedItemsDirection: Axis.horizontal,
+            menuType: SDropdownMenuItemType.searchable,
             expandToMax: true,
             triggerMaxHeight: 100,
             triggerMaxWidth: 200,
@@ -38,16 +37,19 @@ class _DropdownMenuPageState extends State<DropdownMenuPage> {
               print('Selected: $selectedItem');
             },
             hintText: 'Select a fruit',
-            menuType: SDropdownMenuItemType.multiSelect,
+            menuType: SDropdownMenuItemType.normal,
             preferredPosition: SDropdownMenuPosition.top,
             backgroundColor: const Color.fromARGB(255, 96, 104, 110),
             borderRadius: 12,
+            triggerSize: STriggerContainerSize.custom(
+                50, MediaQuery.of(context).size.width),
             shadow: BoxShadow(
               color: Colors.black.withOpacity(0.1),
               blurRadius: 10,
               offset: Offset(0, 5),
             ),
             textStyle: TextStyle(color: Colors.blue),
+            showClearButton: true,
             // menuBackgroundColor: Colors.blue[50],
           )
         ]),
