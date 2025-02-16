@@ -51,6 +51,17 @@ class SDropdownMenu extends StatefulWidget {
   final Color? checkboxCheckColor;
   final Color? checkboxHoverColor;
 
+  // New properties for the trigger container
+  final double? triggerWidth;
+  final double? triggerHeight;
+  final Decoration? triggerDecoration;
+  final AlignmentGeometry? triggerAlignment;
+  final AlignmentGeometry? triggerIconAlignment;
+  final TextOverflow? triggerTextOverflow;
+  final int? maxSelectedItemsToShow;
+  final VoidCallback? onMenuOpen;
+  final VoidCallback? onMenuClose;
+
   const SDropdownMenu({
     Key? key,
     required this.items,
@@ -101,6 +112,15 @@ class SDropdownMenu extends StatefulWidget {
     this.checkboxActiveColor,
     this.checkboxCheckColor,
     this.checkboxHoverColor,
+    this.triggerWidth,
+    this.triggerHeight,
+    this.triggerDecoration,
+    this.triggerAlignment,
+    this.triggerIconAlignment,
+    this.triggerTextOverflow,
+    this.maxSelectedItemsToShow,
+    this.onMenuOpen,
+    this.onMenuClose,
   }) : super(key: key);
 
   @override
@@ -135,9 +155,11 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
     if (_isMenuOpen) {
       _overlayEntry?.remove();
       _overlayEntry = null;
+      if (widget.onMenuClose != null) widget.onMenuClose!();
     } else {
       _overlayEntry = _createOverlayEntry();
       Overlay.of(context)?.insert(_overlayEntry!);
+      if (widget.onMenuOpen != null) widget.onMenuOpen!();
     }
     setState(() {
       _isMenuOpen = !_isMenuOpen;
@@ -323,34 +345,59 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
         child: AnimatedContainer(
           duration: widget.animationDuration,
           curve: widget.animationCurve,
-          width: 300,
+          width: widget.triggerWidth ?? 200,
+          height: widget.triggerHeight,
           padding: widget.padding ?? const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color:
-                widget.backgroundColor ?? theme.inputDecorationTheme.focusColor,
-            borderRadius: BorderRadius.circular(widget.borderRadius ?? 8),
-            boxShadow: widget.shadow != null
-                ? [widget.shadow!]
-                : [
-                    BoxShadow(
-                      color: theme.shadowColor.withOpacity(0.1),
-                      blurRadius: 10,
-                      offset: Offset(0, 5),
-                    ),
-                  ],
-          ),
+          decoration: widget.triggerDecoration ??
+              BoxDecoration(
+                color: widget.backgroundColor ??
+                    theme.inputDecorationTheme.focusColor,
+                borderRadius: BorderRadius.circular(widget.borderRadius ?? 8),
+                boxShadow: widget.shadow != null
+                    ? [widget.shadow!]
+                    : [
+                        BoxShadow(
+                          color: theme.shadowColor.withOpacity(0.1),
+                          blurRadius: 10,
+                          offset: Offset(0, 5),
+                        ),
+                      ],
+              ),
+          alignment: widget.triggerAlignment ?? Alignment.centerLeft,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                widget.menuType == SDropdownMenuItemType.multiSelect
-                    ? _selectedItems.isNotEmpty
-                        ? _selectedItems.join(', ')
-                        : widget.hintText ?? 'Select items'
-                    : _selectedItems.isNotEmpty
-                        ? _selectedItems.first
-                        : widget.hintText ?? 'Select an item',
-                style: widget.textStyle ?? theme.textTheme.bodyMedium,
+              Expanded(
+                child: widget.menuType == SDropdownMenuItemType.multiSelect
+                    ? Wrap(
+                        spacing: 4,
+                        runSpacing: 4,
+                        children: _selectedItems
+                            .take(widget.maxSelectedItemsToShow ?? 3)
+                            .map((item) {
+                          return Chip(
+                            label: Text(
+                              item,
+                              style: widget.selectedTextStyle ??
+                                  theme.textTheme.bodyMedium,
+                              overflow: widget.triggerTextOverflow,
+                            ),
+                            onDeleted: () {
+                              setState(() {
+                                _selectedItems.remove(item);
+                                widget.onChanged(_selectedItems);
+                              });
+                            },
+                          );
+                        }).toList(),
+                      )
+                    : Text(
+                        _selectedItems.isNotEmpty
+                            ? _selectedItems.first
+                            : widget.hintText ?? 'Select an item',
+                        style: widget.textStyle ?? theme.textTheme.bodyMedium,
+                        overflow: widget.triggerTextOverflow,
+                      ),
               ),
               if (widget.showClearButton && _selectedItems.isNotEmpty)
                 IconButton(
@@ -363,10 +410,13 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
                     });
                   },
                 ),
-              widget.showMenuIcon
-                  ? widget.menuIcon ??
-                      Icon(Icons.arrow_drop_down, color: theme.iconTheme.color)
-                  : const SizedBox.shrink(),
+              if (widget.showMenuIcon)
+                Align(
+                  alignment:
+                      widget.triggerIconAlignment ?? Alignment.centerRight,
+                  child: widget.menuIcon ??
+                      Icon(Icons.arrow_drop_down, color: theme.iconTheme.color),
+                ),
             ],
           ),
         ),
