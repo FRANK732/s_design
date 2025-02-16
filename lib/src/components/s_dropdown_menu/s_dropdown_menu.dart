@@ -74,6 +74,12 @@ class SDropdownMenu extends StatefulWidget {
   final BoxConstraints? menuConstraints;
   final EdgeInsetsGeometry? menuContentPadding;
 
+  // New fields for direction and expansion
+  final Axis selectedItemsDirection;
+  final bool expandToMax;
+  final double? triggerMaxHeight;
+  final double? triggerMaxWidth;
+
   SDropdownMenu({
     Key? key,
     required this.items,
@@ -145,6 +151,10 @@ class SDropdownMenu extends StatefulWidget {
     this.menuShape,
     this.menuConstraints,
     this.menuContentPadding,
+    this.selectedItemsDirection = Axis.horizontal,
+    this.expandToMax = false,
+    this.triggerMaxHeight,
+    this.triggerMaxWidth,
   }) : super(key: key) {
     // Assertions for production-level validation
     assert(items.isNotEmpty, 'Items list cannot be empty.');
@@ -179,7 +189,12 @@ class SDropdownMenu extends StatefulWidget {
         'onMenuOpen callback must be valid if provided.');
     assert(onMenuClose == null || onMenuClose != null,
         'onMenuClose callback must be valid if provided.');
+    assert(triggerMaxHeight == null || triggerMaxHeight! > 0,
+        'Trigger max height must be positive.');
+    assert(triggerMaxWidth == null || triggerMaxWidth! > 0,
+        'Trigger max width must be positive.');
   }
+
   @override
   _SDropdownMenuState createState() => _SDropdownMenuState();
 }
@@ -439,28 +454,7 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
               children: [
                 Expanded(
                   child: widget.menuType == SDropdownMenuItemType.multiSelect
-                      ? Wrap(
-                          spacing: 4,
-                          runSpacing: 4,
-                          children: _selectedItems
-                              .take(widget.maxSelectedItemsToShow ?? 3)
-                              .map((item) {
-                            return Chip(
-                              label: Text(
-                                item,
-                                style: widget.selectedTextStyle ??
-                                    theme.textTheme.bodyMedium,
-                                overflow: widget.triggerTextOverflow,
-                              ),
-                              onDeleted: () {
-                                setState(() {
-                                  _selectedItems.remove(item);
-                                  widget.onChanged(_selectedItems);
-                                });
-                              },
-                            );
-                          }).toList(),
-                        )
+                      ? _buildSelectedItems()
                       : Text(
                           _selectedItems.isNotEmpty
                               ? _selectedItems.first
@@ -494,6 +488,46 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
         ),
       ),
     );
+  }
+
+  Widget _buildSelectedItems() {
+    final theme = Theme.of(context);
+    final selectedItems = _selectedItems
+        .take(widget.maxSelectedItemsToShow ?? 3)
+        .map((item) => Chip(
+              label: Text(
+                item,
+                style: widget.selectedTextStyle ?? theme.textTheme.bodyMedium,
+                overflow: widget.triggerTextOverflow,
+              ),
+              onDeleted: () {
+                setState(() {
+                  _selectedItems.remove(item);
+                  widget.onChanged(_selectedItems);
+                });
+              },
+            ))
+        .toList();
+
+    return widget.expandToMax
+        ? ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: widget.triggerMaxHeight ?? double.infinity,
+              maxWidth: widget.triggerMaxWidth ?? double.infinity,
+            ),
+            child: SingleChildScrollView(
+              scrollDirection: widget.selectedItemsDirection,
+              child: widget.selectedItemsDirection == Axis.horizontal
+                  ? Row(children: selectedItems)
+                  : Column(children: selectedItems),
+            ),
+          )
+        : Wrap(
+            direction: widget.selectedItemsDirection,
+            spacing: 4,
+            runSpacing: 4,
+            children: selectedItems,
+          );
   }
 
   @override
