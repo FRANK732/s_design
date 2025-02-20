@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class TabItem {
+class STabItem {
   final String label;
   final Widget content;
 
-  TabItem({
+  STabItem({
     required this.label,
     required this.content,
   });

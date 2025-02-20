@@ -96,10 +96,14 @@ class SDropdownMenu extends StatefulWidget {
   final BoxConstraints? chipDeleteIconBoxConstraints;
   final ChipAnimationStyle? chipAnimationStyle;
 
-  // final Axis selectedItemsDirection;
   final bool expandToMax;
   final double? triggerMaxHeight;
   final double? triggerMaxWidth;
+
+  final FocusNode? triggerFocus;
+  final bool readOnly;
+  final String? initialValue;
+  final List<String>? initialValues;
 
   SDropdownMenu({
     Key? key,
@@ -171,7 +175,6 @@ class SDropdownMenu extends StatefulWidget {
     this.menuShape,
     this.menuConstraints,
     this.menuContentPadding,
-    // this.selectedItemsDirection = Axis.horizontal,
     this.expandToMax = false,
     this.triggerMaxHeight,
     this.triggerMaxWidth,
@@ -197,6 +200,10 @@ class SDropdownMenu extends StatefulWidget {
     this.chipAvatarBoxConstraints,
     this.chipDeleteIconBoxConstraints,
     this.chipAnimationStyle,
+    this.initialValue,
+    this.initialValues,
+    this.triggerFocus,
+    this.readOnly = false,
   }) : super(key: key) {
     assert(items.isNotEmpty, 'Items list cannot be empty.');
     assert(menuWidth == null || menuWidth! > 0, 'Menu width must be positive.');
@@ -227,6 +234,15 @@ class SDropdownMenu extends StatefulWidget {
         'Trigger max height must be positive.');
     assert(triggerMaxWidth == null || triggerMaxWidth! > 0,
         'Trigger max width must be positive.');
+    assert(
+        initialValue == null || initialValues == null,
+        'Cannot provide both initialValue and initialValues. '
+        'Use initialValue for single selection and initialValues for multi-selection.');
+    assert(initialValue == null || menuType == SDropdownMenuItemType.normal,
+        'initialValue can only be used with SDropdownMenuItemType.normal.');
+    assert(
+        initialValues == null || menuType == SDropdownMenuItemType.multiSelect,
+        'initialValues can only be used with SDropdownMenuItemType.multiSelect.');
   }
 
   @override
@@ -240,12 +256,32 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
   OverlayEntry? _overlayEntry;
   TextEditingController _searchController = TextEditingController();
   List<String> _filteredItems = [];
+  late FocusNode _focusNode;
 
   @override
   void initState() {
     super.initState();
     _filteredItems = widget.items;
     _searchController.addListener(_onSearchChanged);
+
+    // Initialize selected items based on initial values
+    if (widget.menuType == SDropdownMenuItemType.multiSelect) {
+      _selectedItems = widget.initialValues ?? [];
+    } else {
+      if (widget.initialValue != null) {
+        _selectedItems = [widget.initialValue!];
+      }
+    }
+
+    // Initialize focus node
+    _focusNode = widget.triggerFocus ?? FocusNode();
+    _focusNode.addListener(_onFocusChange);
+  }
+
+  void _onFocusChange() {
+    if (!_focusNode.hasFocus && _isMenuOpen) {
+      _toggleMenu();
+    }
   }
 
   void _onSearchChanged() {
@@ -257,18 +293,44 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
     });
   }
 
+  // void _toggleMenu() {
+  //   if (widget.readOnly) return; // Do nothing if read-only
+
+  //   if (_isMenuOpen) {
+  //     _closeMenu();
+  //   } else {
+  //     _openMenu();
+  //   }
+  // }
+
   void _toggleMenu() {
     if (_isMenuOpen) {
       _overlayEntry?.remove();
       _overlayEntry = null;
-      widget.onMenuClose?.call();
     } else {
       _overlayEntry = _createOverlayEntry();
       Overlay.of(context).insert(_overlayEntry!);
-      widget.onMenuOpen?.call();
     }
     setState(() {
       _isMenuOpen = !_isMenuOpen;
+    });
+  }
+
+  void _openMenu() {
+    _overlayEntry = _createOverlayEntry();
+    Overlay.of(context).insert(_overlayEntry!);
+    widget.onMenuOpen?.call();
+    setState(() {
+      _isMenuOpen = true;
+    });
+  }
+
+  void _closeMenu() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+    widget.onMenuClose?.call();
+    setState(() {
+      _isMenuOpen = false;
     });
   }
 
@@ -458,94 +520,112 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
     final containerPadding =
         STriggerContainerSizeUtils.getContainerPadding(widget.triggerSize);
 
-    return CompositedTransformTarget(
-      link: _layerLink,
-      child: GestureDetector(
-        onTap: _toggleMenu,
-        child: Container(
-          margin: widget.triggerMargin,
-          constraints: widget.triggerConstraints,
-          decoration: widget.triggerDecoration,
-          child: AnimatedContainer(
-            duration: widget.animationDuration,
-            curve: widget.animationCurve,
-            width: containerWidth,
-            height: containerHeight,
-            padding: containerPadding,
-            decoration: widget.triggerDecoration ??
-                BoxDecoration(
-                  color: widget.backgroundColor ??
-                      theme.inputDecorationTheme.focusColor,
-                  borderRadius: BorderRadius.circular(widget.borderRadius ?? 8),
-                  border: widget.triggerBorder,
-                  gradient: widget.triggerGradient,
-                  shape: widget.triggerShape != null
-                      ? BoxShape.rectangle
-                      : BoxShape.rectangle,
-                ),
-            alignment: widget.triggerAlignment ?? Alignment.centerLeft,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: widget.menuType == SDropdownMenuItemType.multiSelect
-                      ? _selectedItems.isEmpty
-                          ? Text(
-                              widget.hintText ?? 'Select an item',
-                              style: widget.hintTextStyle ??
-                                  widget.textStyle ??
-                                  theme.textTheme.bodyMedium,
-                              overflow: widget.triggerTextOverflow,
-                            )
-                          : _buildSelectedItems()
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                          child: Text(
-                            _selectedItems.isNotEmpty
-                                ? _selectedItems.first
-                                : widget.hintText ?? 'Select an item',
-                            style:
-                                widget.textStyle ?? theme.textTheme.bodyMedium,
-                            overflow: widget.triggerTextOverflow ??
-                                TextOverflow.ellipsis,
-                          ),
+    return PopScope(
+      canPop: true,
+      onPopInvokedWithResult: (popped, result) {
+        if (_isMenuOpen) {
+          _closeMenu();
+        }
+      },
+      child: CompositedTransformTarget(
+          link: _layerLink,
+          child: GestureDetector(
+            onTap: () {
+              if (widget.readOnly) return;
+              _toggleMenu();
+            },
+            child: Focus(
+              focusNode: _focusNode,
+              child: Container(
+                margin: widget.triggerMargin,
+                constraints: widget.triggerConstraints,
+                decoration: widget.triggerDecoration,
+                child: AnimatedContainer(
+                  duration: widget.animationDuration,
+                  curve: widget.animationCurve,
+                  width: containerWidth,
+                  height: containerHeight,
+                  padding: containerPadding,
+                  decoration: widget.triggerDecoration ??
+                      BoxDecoration(
+                        color: widget.backgroundColor ??
+                            theme.inputDecorationTheme.focusColor,
+                        borderRadius:
+                            BorderRadius.circular(widget.borderRadius ?? 8),
+                        border: widget.triggerBorder,
+                        gradient: widget.triggerGradient,
+                        shape: widget.triggerShape != null
+                            ? BoxShape.rectangle
+                            : BoxShape.rectangle,
+                      ),
+                  alignment: widget.triggerAlignment ?? Alignment.centerLeft,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: widget.menuType ==
+                                SDropdownMenuItemType.multiSelect
+                            ? _selectedItems.isEmpty
+                                ? Text(
+                                    widget.hintText ?? 'Select an item',
+                                    style: widget.hintTextStyle ??
+                                        widget.textStyle ??
+                                        theme.textTheme.bodyMedium,
+                                    overflow: widget.triggerTextOverflow,
+                                  )
+                                : _buildSelectedItems()
+                            : Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5.0),
+                                child: Text(
+                                  _selectedItems.isNotEmpty
+                                      ? _selectedItems.first
+                                      : widget.hintText ?? 'Select an item',
+                                  style: widget.textStyle ??
+                                      theme.textTheme.bodyMedium,
+                                  overflow: widget.triggerTextOverflow ??
+                                      TextOverflow.ellipsis,
+                                ),
+                              ),
+                      ),
+                      if (widget.showClearButton && _selectedItems.isNotEmpty)
+                        IconButton(
+                          iconSize: STriggerContainerSizeUtils.getIconSize(
+                                  widget.triggerSize) *
+                              0.7,
+                          icon: widget.clearButtonIcon ??
+                              Icon(
+                                Icons.clear,
+                                color: theme.iconTheme.color,
+                              ),
+                          onPressed: widget.readOnly
+                              ? null
+                              : () {
+                                  setState(() {
+                                    _selectedItems.clear();
+                                    widget.onChanged(_selectedItems);
+                                    widget.onClear?.call();
+                                  });
+                                },
                         ),
-                ),
-                if (widget.showClearButton && _selectedItems.isNotEmpty)
-                  IconButton(
-                    iconSize: STriggerContainerSizeUtils.getIconSize(
-                            widget.triggerSize) *
-                        0.7,
-                    icon: widget.clearButtonIcon ??
-                        Icon(
-                          Icons.clear,
-                          color: theme.iconTheme.color,
-                        ),
-                    onPressed: () {
-                      setState(() {
-                        _selectedItems.clear();
-                        widget.onChanged(_selectedItems);
-                        widget.onClear?.call();
-                      });
-                    },
+                      if (widget.showMenuIcon)
+                        Align(
+                          alignment: widget.triggerIconAlignment ??
+                              Alignment.centerRight,
+                          child: widget.menuIcon ??
+                              Icon(
+                                Icons.arrow_drop_down,
+                                size: STriggerContainerSizeUtils.getIconSize(
+                                    widget.triggerSize),
+                                color: theme.iconTheme.color,
+                              ),
+                        )
+                    ],
                   ),
-                if (widget.showMenuIcon)
-                  Align(
-                    alignment:
-                        widget.triggerIconAlignment ?? Alignment.centerRight,
-                    child: widget.menuIcon ??
-                        Icon(
-                          Icons.arrow_drop_down,
-                          size: STriggerContainerSizeUtils.getIconSize(
-                              widget.triggerSize),
-                          color: theme.iconTheme.color,
-                        ),
-                  )
-              ],
+                ),
+              ),
             ),
-          ),
-        ),
-      ),
+          )),
     );
   }
 
@@ -623,6 +703,10 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
   @override
   void dispose() {
     _searchController.dispose();
+    _focusNode.removeListener(_onFocusChange);
+    if (widget.triggerFocus == null) {
+      _focusNode.dispose();
+    }
     super.dispose();
   }
 }

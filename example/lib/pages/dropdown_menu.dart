@@ -9,6 +9,16 @@ class DropdownMenuPage extends StatefulWidget {
 }
 
 class _DropdownMenuPageState extends State<DropdownMenuPage> {
+  bool _changeIcon = false;
+
+  String? dropdownValue;
+  final List<String> dropdownItems = <String>['One', 'Two', 'Free', 'Four'];
+  void _toggleIcon() {
+    setState(() {
+      _changeIcon = !_changeIcon;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,6 +28,10 @@ class _DropdownMenuPageState extends State<DropdownMenuPage> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(children: [
+          IconButton(
+            onPressed: _toggleIcon,
+            icon: Icon(_changeIcon ? Icons.abc : Icons.accessible_outlined),
+          ),
           _buildSectionTitle('Searchable Dropdown Menu'),
           SDropdownMenu(
             items: ['Item 1', 'Item 2', 'Item 3'],
@@ -25,33 +39,8 @@ class _DropdownMenuPageState extends State<DropdownMenuPage> {
               print('Selected: $value');
             },
             backgroundColor: const Color.fromARGB(255, 96, 104, 110),
-            menuType: SDropdownMenuItemType.searchable,
-            expandToMax: true,
-            triggerMaxHeight: 100,
-            triggerMaxWidth: 200,
+            menuType: SDropdownMenuItemType.multiSelect,
           ),
-          _buildSectionTitle('Default Dropdown Menu 2'),
-          SDropdownMenu(
-            items: ['Banana', 'Orange', 'Mango', 'Grapes'],
-            onChanged: (selectedItem) {
-              print('Selected: $selectedItem');
-            },
-            hintText: 'Select a fruit',
-            menuType: SDropdownMenuItemType.normal,
-            preferredPosition: SDropdownMenuPosition.top,
-            backgroundColor: const Color.fromARGB(255, 96, 104, 110),
-            borderRadius: 12,
-            triggerSize: STriggerContainerSize.custom(
-                50, MediaQuery.of(context).size.width),
-            shadow: BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 10,
-              offset: Offset(0, 5),
-            ),
-            textStyle: TextStyle(color: Colors.blue),
-            showClearButton: true,
-            // menuBackgroundColor: Colors.blue[50],
-          )
         ]),
       ),
     );

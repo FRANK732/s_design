@@ -5,9 +5,9 @@ import 'models/s_tabs_model.dart';
 import 's_tab_list.dart';
 import 's_tabs_content.dart';
 
-class Tabs extends StatefulWidget {
+class STabs extends StatefulWidget {
   /// The list of tabs, each containing a label and corresponding content.
-  final List<TabItem> tabs;
+  final List<STabItem> tabs;
 
   /// The initial index of the active tab.
   final int initialIndex;
@@ -32,7 +32,7 @@ class Tabs extends StatefulWidget {
 
   final EdgeInsetsGeometry tabMargin;
 
-  const Tabs({
+  const STabs({
     Key? key,
     required this.tabs,
     this.initialIndex = 0,
@@ -49,10 +49,10 @@ class Tabs extends StatefulWidget {
         super(key: key);
 
   @override
-  _TabsState createState() => _TabsState();
+  _STabsState createState() => _STabsState();
 }
 
-class _TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
+class _STabsState extends State<STabs> with SingleTickerProviderStateMixin {
   late int _activeIndex;
   late AnimationController _controller;
   late Animation<double> _animation;

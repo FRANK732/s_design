@@ -51,37 +51,6 @@ class _BaseScaffoldPageState extends State<BaseScaffoldPage> {
       appBar: AppBar(
         title: const Text('S Scaffold'),
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: const <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text(
-                'Drawer Header',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.message),
-              title: Text('Messages'),
-            ),
-            ListTile(
-              leading: Icon(Icons.account_circle),
-              title: Text('Profile'),
-            ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Settings'),
-            ),
-          ],
-        ),
-      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         child: const Icon(Icons.add),
@@ -106,24 +75,6 @@ class _BaseScaffoldPageState extends State<BaseScaffoldPage> {
               },
               child: const Text('Press me'),
             ),
-            const SizedBox(height: 16),
-            const TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Enter your name',
-              ),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const [
-                Icon(Icons.favorite, color: Colors.pink),
-                Icon(Icons.thumb_up, color: Colors.blue),
-                Icon(Icons.share, color: Colors.green),
-              ],
-            ),
-            const SizedBox(height: 16),
-            const LinearProgressIndicator(),
           ],
         );
       },

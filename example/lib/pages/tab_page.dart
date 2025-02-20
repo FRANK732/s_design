@@ -9,99 +9,93 @@ class TabsPage extends StatefulWidget {
 }
 
 class _TabsPageState extends State<TabsPage> {
-  final List<TabItem> _tabs = [
-    TabItem(
+  final List<STabItem> _tabs = [
+    STabItem(
       label: 'Login',
       content: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const Padding(
-            padding: EdgeInsets.symmetric(vertical:  8.0),
+            padding: EdgeInsets.symmetric(vertical: 8.0),
             child: SInputField(
               hintText: 'Username',
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical:  8.0),
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: SInputField.password(
               hintText: 'Password',
             ),
           ),
-
           Padding(
-            padding: const EdgeInsets.symmetric(vertical:  8.0),
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: SButton(
               width: double.infinity,
-              onPressed: () {
-              },
+              onPressed: () {},
               child: const Text('Login'),
             ),
           ),
         ],
       ),
     ),
-    TabItem(
+    STabItem(
       label: 'SignUp',
       content: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const Padding(
-            padding: EdgeInsets.symmetric(vertical:  8.0),
+            padding: EdgeInsets.symmetric(vertical: 8.0),
             child: SInputField(
               hintText: 'Username',
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical:  8.0),
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: SInputField.password(
               hintText: 'Password',
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical:  8.0),
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: SInputField.password(
               hintText: 'Confirm Password',
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical:  8.0),
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: SButton(
               width: double.infinity,
-              onPressed: () {
-              },
+              onPressed: () {},
               child: const Text('Sign Up'),
             ),
           ),
         ],
       ),
     ),
-
   ];
 
   @override
   Widget build(BuildContext context) {
     return SScaffold(
-      // centerBody: true,
-        scrollable: true,
-        appBar: AppBar(
-          title: const Text('Tabs Showcase'),
-        ),
-        renderBody: ((context) {
-          return  Tabs(
-            tabs: _tabs,
-            initialIndex: 0,
-            animationType: STabAnimationType.fade,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-            orientation: STabOrientation.horizontal,
-            mainAxisAlignment: MainAxisAlignment.center,
-            onTabChanged: (index) {
-              // Optional: Handle tab change events
-              print('Active Tab: $index');
-            },
-          );
-        }),
-
+      scrollable: true,
+      appBar: AppBar(
+        title: const Text('Tabs Showcase'),
+      ),
+      renderBody: ((context) {
+        return STabs(
+          tabs: _tabs,
+          initialIndex: 0,
+          animationType: STabAnimationType.fade,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+          orientation: STabOrientation.horizontal,
+          mainAxisAlignment: MainAxisAlignment.center,
+          onTabChanged: (index) {
+            // Optional: Handle tab change events
+            print('Active Tab: $index');
+          },
+        );
+      }),
     );
   }
 }

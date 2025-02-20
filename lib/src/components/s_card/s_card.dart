@@ -106,7 +106,7 @@ class SCard extends StatelessWidget {
   final Offset? shadowOffset;
 
   /// Determines if the card is tappable.
-  final bool isTappable;
+  // final bool isTappable;
 
   /// The callback invoked when the card is tapped.
   ///
@@ -147,7 +147,7 @@ class SCard extends StatelessWidget {
     this.borderRadius,
     this.shadowColor,
     this.shadowOffset,
-    this.isTappable = false,
+    // this.isTappable = false,
     this.onTap,
     this.height,
     this.width,
@@ -326,7 +326,7 @@ class SCard extends StatelessWidget {
     );
 
     // Make the card tappable if required
-    if (isTappable && onTap != null) {
+    if (onTap != null) {
       cardContent = InkWell(
         onTap: onTap,
         borderRadius: effectiveShape is RoundedRectangleBorder ||
@@ -339,7 +339,7 @@ class SCard extends StatelessWidget {
 
     // Apply semantics for accessibility
     return Semantics(
-      button: isTappable && onTap != null,
+      button: onTap != null,
       label: title ?? 'Card',
       hint: description,
       child: Container(

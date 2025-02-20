@@ -6,7 +6,7 @@ import '../../../s_design.dart';
 class TabsList extends StatelessWidget {
   final Axis direction;
   final MainAxisAlignment mainAxisAlignment;
-  final List<TabItem> tabs;
+  final List<STabItem> tabs;
   final Function(int) onTabSelected;
   final int activeIndex;
   final EdgeInsetsGeometry tabListMargin;
@@ -23,7 +23,7 @@ class TabsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final widgetTabs = context.findAncestorWidgetOfExactType<Tabs>();
+    final widgetTabs = context.findAncestorWidgetOfExactType<STabs>();
     if (widgetTabs != null && widgetTabs.tabs != tabs) {
       throw FlutterError(
           'TabsList must be a child of the corresponding Tabs widget.');
