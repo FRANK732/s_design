@@ -61,6 +61,7 @@ class CardPage extends StatelessWidget {
             // Card 3: Default Styling (No Background Customization)
             const SCard(
               title: 'Default Card',
+              dismissKey: Key('Default Card'),
               description:
                   'This card uses the default styling without any background customization.',
               shape: SCardShape.rounded,

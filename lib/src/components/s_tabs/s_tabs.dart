@@ -32,6 +32,10 @@ class STabs extends StatefulWidget {
 
   final EdgeInsetsGeometry tabMargin;
 
+  final Color? activeTabColor;
+
+  final Color? activeTabTextColor;
+
   const STabs({
     Key? key,
     required this.tabs,
@@ -43,6 +47,8 @@ class STabs extends StatefulWidget {
     this.orientation = STabOrientation.horizontal,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.onTabChanged,
+    this.activeTabColor,
+    this.activeTabTextColor,
   })  : assert(tabs.length > 0, 'Tabs list cannot be empty.'),
         assert(initialIndex >= 0 && initialIndex < tabs.length,
             'Initial index must be within the range of tabs.'),
@@ -88,15 +94,14 @@ class _STabsState extends State<STabs> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    // Fetch the TabsTheme from the current theme
-    // final theme = TabsTheme.of(context);
-
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Spacers.mediumHeight,
         TabsList(
+          activeTabTextColor: widget.activeTabTextColor,
+          activeTabColor: widget.activeTabColor,
           tabListMargin: widget.tabMargin,
           direction: widget.orientation == STabOrientation.horizontal
               ? Axis.horizontal

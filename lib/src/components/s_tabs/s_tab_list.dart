@@ -10,6 +10,8 @@ class TabsList extends StatelessWidget {
   final Function(int) onTabSelected;
   final int activeIndex;
   final EdgeInsetsGeometry tabListMargin;
+  final Color? activeTabColor;
+  final Color? activeTabTextColor;
 
   const TabsList({
     Key? key,
@@ -19,6 +21,8 @@ class TabsList extends StatelessWidget {
     required this.tabs,
     required this.onTabSelected,
     required this.activeIndex,
+    this.activeTabColor,
+    this.activeTabTextColor,
   }) : super(key: key);
 
   @override
@@ -36,7 +40,7 @@ class TabsList extends StatelessWidget {
 
     final containerColor = colorScheme.outline.withOpacity(0.15);
 
-    final activeTabColor = colorScheme.primary.withOpacity(0.2);
+    final defaulActiveTabColor = colorScheme.primary.withOpacity(0.2);
     final borderRadius = Spacers.radiusSmall;
 
     return Container(
@@ -74,14 +78,17 @@ class TabsList extends StatelessWidget {
                           horizontal: 55,
                         ),
                         decoration: BoxDecoration(
-                          color: isActive ? activeTabColor : Colors.transparent,
+                          color: isActive
+                              ? activeTabColor ?? defaulActiveTabColor
+                              : Colors.transparent,
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Text(
                           tab.label,
                           style: isActive
-                              ? textTheme.bodyMedium
-                                  ?.copyWith(fontWeight: FontWeight.bold)
+                              ? textTheme.bodyMedium?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: activeTabTextColor)
                               : textTheme.bodyMedium,
                         ),
                       ),
