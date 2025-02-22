@@ -12,7 +12,7 @@ export 'src/components/s_card/s_card.dart';
 export 'src/components/s_check_box/enums/s_checkbox_state.dart';
 export 'src/components/s_check_box/s_checkbox.dart';
 export 'src/components/s_dialog/enums/s_dialog_type.dart';
-export 'src/components/s_dialog/dialog.dart';
+export 'src/components/s_dialog/s_dialog.dart';
 export 'src/components/s_dialog/controller/s_dialog_controller.dart';
 export 'src/components/s_dropdown_menu/enums/s_dropdown_menu_item_type.dart';
 export 'src/components/s_dropdown_menu/s_dropdown_menu.dart';

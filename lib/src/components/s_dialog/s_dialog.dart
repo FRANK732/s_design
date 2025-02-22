@@ -52,7 +52,7 @@ class SDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: Colors.transparent,
+      backgroundColor: backgroundColor ?? Colors.transparent,
       insetPadding: EdgeInsets.zero,
       elevation: 0,
       child: AnimatedBuilder(
