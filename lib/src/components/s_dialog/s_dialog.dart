@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
 import 'package:s_design/src/theme/s_spacers.dart';
-import 'package:s_design/src/theme/theme_extension.dart';
 
 class SDialog extends StatelessWidget {
   final String? title;
@@ -24,6 +23,26 @@ class SDialog extends StatelessWidget {
   final TextStyle? descriptionStyle;
   final BorderRadius? borderRadius;
   final SDialogAnimationType animationType;
+  final bool showDivider;
+  final Color? dividerColor;
+  final double dividerThickness;
+  final EdgeInsetsGeometry? actionsPadding;
+  final MainAxisAlignment actionsAlignment;
+  final CrossAxisAlignment contentCrossAlignment;
+  final MainAxisAlignment contentMainAlignment;
+  final bool scrollable;
+  final ScrollController? scrollController;
+  final ScrollPhysics? scrollPhysics;
+  final double elevation;
+  final bool useSafeArea;
+  final bool showTitleDivider;
+  final Color? titleDividerColor;
+  final double titleDividerThickness;
+  final EdgeInsetsGeometry? titlePadding;
+  final EdgeInsetsGeometry? descriptionPadding;
+  final bool showDescriptionDivider;
+  final Color? descriptionDividerColor;
+  final double descriptionDividerThickness;
 
   const SDialog({
     this.title,
@@ -46,15 +65,130 @@ class SDialog extends StatelessWidget {
     this.descriptionStyle,
     this.borderRadius,
     this.animationType = SDialogAnimationType.zoomIn,
+    this.showDivider = false,
+    this.dividerColor,
+    this.dividerThickness = 1.0,
+    this.actionsPadding,
+    this.actionsAlignment = MainAxisAlignment.end,
+    this.contentCrossAlignment = CrossAxisAlignment.start,
+    this.contentMainAlignment = MainAxisAlignment.start,
+    this.scrollable = false,
+    this.scrollController,
+    this.scrollPhysics,
+    this.elevation = 0,
+    this.useSafeArea = false,
+    this.showTitleDivider = false,
+    this.titleDividerColor,
+    this.titleDividerThickness = 1.0,
+    this.titlePadding,
+    this.descriptionPadding,
+    this.showDescriptionDivider = false,
+    this.descriptionDividerColor,
+    this.descriptionDividerThickness = 1.0,
     Key? key,
   }) : super(key: key);
+
+  // Static method to show the dialog
+  static Future<void> show({
+    required BuildContext context,
+    String? title,
+    String? description,
+    Widget? content,
+    List<Widget>? actions,
+    bool barrierDismissible = true,
+    Color barrierColor = Colors.black54,
+    Duration transitionDuration = const Duration(milliseconds: 300),
+    ShapeDecoration? shapeDecoration,
+    Color? backgroundColor,
+    EdgeInsetsGeometry? contentPadding,
+    String? semanticLabel,
+    bool showCloseButton = true,
+    double maxWidth = 250,
+    double maxHeight = 350,
+    Curve animationCurve = Curves.easeInOut,
+    Duration animationDuration = const Duration(milliseconds: 300),
+    TextStyle? titleStyle,
+    TextStyle? descriptionStyle,
+    BorderRadius? borderRadius,
+    SDialogAnimationType animationType = SDialogAnimationType.zoomIn,
+    bool showDivider = false,
+    Color? dividerColor,
+    double dividerThickness = 1.0,
+    EdgeInsetsGeometry? actionsPadding,
+    MainAxisAlignment actionsAlignment = MainAxisAlignment.end,
+    CrossAxisAlignment contentCrossAlignment = CrossAxisAlignment.start,
+    MainAxisAlignment contentMainAlignment = MainAxisAlignment.start,
+    bool scrollable = false,
+    ScrollController? scrollController,
+    ScrollPhysics? scrollPhysics,
+    double elevation = 0,
+    bool useSafeArea = false,
+    bool showTitleDivider = false,
+    Color? titleDividerColor,
+    double titleDividerThickness = 1.0,
+    EdgeInsetsGeometry? titlePadding,
+    EdgeInsetsGeometry? descriptionPadding,
+    bool showDescriptionDivider = false,
+    Color? descriptionDividerColor,
+    double descriptionDividerThickness = 1.0,
+  }) async {
+    await showDialog(
+      context: context,
+      barrierDismissible: barrierDismissible,
+      barrierColor: barrierColor,
+      builder: (context) {
+        return SDialog(
+          title: title,
+          description: description,
+          content: content,
+          actions: actions,
+          barrierDismissible: barrierDismissible,
+          barrierColor: barrierColor,
+          transitionDuration: transitionDuration,
+          shapeDecoration: shapeDecoration,
+          backgroundColor: backgroundColor,
+          contentPadding: contentPadding,
+          semanticLabel: semanticLabel,
+          showCloseButton: showCloseButton,
+          maxWidth: maxWidth,
+          maxHeight: maxHeight,
+          animationCurve: animationCurve,
+          animationDuration: animationDuration,
+          titleStyle: titleStyle,
+          descriptionStyle: descriptionStyle,
+          borderRadius: borderRadius,
+          animationType: animationType,
+          showDivider: showDivider,
+          dividerColor: dividerColor,
+          dividerThickness: dividerThickness,
+          actionsPadding: actionsPadding,
+          actionsAlignment: actionsAlignment,
+          contentCrossAlignment: contentCrossAlignment,
+          contentMainAlignment: contentMainAlignment,
+          scrollable: scrollable,
+          scrollController: scrollController,
+          scrollPhysics: scrollPhysics,
+          elevation: elevation,
+          useSafeArea: useSafeArea,
+          showTitleDivider: showTitleDivider,
+          titleDividerColor: titleDividerColor,
+          titleDividerThickness: titleDividerThickness,
+          titlePadding: titlePadding,
+          descriptionPadding: descriptionPadding,
+          showDescriptionDivider: showDescriptionDivider,
+          descriptionDividerColor: descriptionDividerColor,
+          descriptionDividerThickness: descriptionDividerThickness,
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
       backgroundColor: backgroundColor ?? Colors.transparent,
       insetPadding: EdgeInsets.zero,
-      elevation: 0,
+      elevation: elevation,
       child: AnimatedBuilder(
         animation: ModalRoute.of(context)!.animation!,
         builder: (context, child) {
@@ -147,46 +281,85 @@ class SDialog extends StatelessWidget {
               padding: contentPadding ?? const EdgeInsets.all(20.0),
               decoration: effectiveDecoration,
               child: SingleChildScrollView(
+                controller: scrollController,
+                physics: scrollPhysics,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: contentCrossAlignment,
+                  mainAxisAlignment: contentMainAlignment,
                   children: [
                     if (title != null)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: Text(
-                              title!,
-                              style: titleStyle ??
-                                  Theme.of(context).textTheme.headlineMedium,
+                          Padding(
+                            padding: titlePadding ?? EdgeInsets.zero,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    title!,
+                                    style: titleStyle ??
+                                        Theme.of(context)
+                                            .textTheme
+                                            .headlineMedium,
+                                  ),
+                                ),
+                                if (showCloseButton)
+                                  IconButton(
+                                    icon: const Icon(Icons.close, size: 24),
+                                    onPressed: () => Navigator.pop(context),
+                                  ),
+                              ],
                             ),
                           ),
-                          if (showCloseButton)
-                            IconButton(
-                              icon: const Icon(Icons.close, size: 24),
-                              onPressed: () => Navigator.pop(context),
+                          if (showTitleDivider)
+                            Divider(
+                              color: titleDividerColor ??
+                                  Theme.of(context).dividerColor,
+                              thickness: titleDividerThickness,
                             ),
                         ],
                       ),
                     if (description != null && description!.isNotEmpty) ...[
-                      const SizedBox(height: 8),
-                      Text(
-                        description!,
-                        style: descriptionStyle ??
-                            Theme.of(context).textTheme.bodyMedium,
-                        textAlign: TextAlign.left,
+                      Padding(
+                        padding:
+                            descriptionPadding ?? const EdgeInsets.only(top: 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              description!,
+                              style: descriptionStyle ??
+                                  Theme.of(context).textTheme.bodyMedium,
+                              textAlign: TextAlign.left,
+                            ),
+                            if (showDescriptionDivider)
+                              Divider(
+                                color: descriptionDividerColor ??
+                                    Theme.of(context).dividerColor,
+                                thickness: descriptionDividerThickness,
+                              ),
+                          ],
+                        ),
                       ),
                     ],
                     if (content != null) ...[
                       const SizedBox(height: 16),
                       content!,
                     ],
+                    if (showDivider)
+                      Divider(
+                        color: dividerColor ?? Theme.of(context).dividerColor,
+                        thickness: dividerThickness,
+                      ),
                     if (actions != null && actions!.isNotEmpty)
                       Padding(
-                        padding: const EdgeInsets.only(top: 20.0),
+                        padding:
+                            actionsPadding ?? const EdgeInsets.only(top: 20.0),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: actionsAlignment,
                           children: actions!,
                         ),
                       ),
