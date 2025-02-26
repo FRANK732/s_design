@@ -43,6 +43,7 @@ class SDialog extends StatelessWidget {
   final bool showDescriptionDivider;
   final Color? descriptionDividerColor;
   final double descriptionDividerThickness;
+  final bool hasActions;
 
   const SDialog({
     this.title,
@@ -85,11 +86,11 @@ class SDialog extends StatelessWidget {
     this.showDescriptionDivider = false,
     this.descriptionDividerColor,
     this.descriptionDividerThickness = 1.0,
+    this.hasActions = false,
     Key? key,
   }) : super(key: key);
 
-  // Static method to show the dialog
-  static Future<void> show({
+  static Future<T?> show<T>({
     required BuildContext context,
     String? title,
     String? description,
@@ -131,56 +132,137 @@ class SDialog extends StatelessWidget {
     bool showDescriptionDivider = false,
     Color? descriptionDividerColor,
     double descriptionDividerThickness = 1.0,
+    bool hasActions = false,
   }) async {
-    await showDialog(
-      context: context,
-      barrierDismissible: barrierDismissible,
-      barrierColor: barrierColor,
-      builder: (context) {
-        return SDialog(
-          title: title,
-          description: description,
-          content: content,
-          actions: actions,
-          barrierDismissible: barrierDismissible,
-          barrierColor: barrierColor,
-          transitionDuration: transitionDuration,
-          shapeDecoration: shapeDecoration,
-          backgroundColor: backgroundColor,
-          contentPadding: contentPadding,
-          semanticLabel: semanticLabel,
-          showCloseButton: showCloseButton,
-          maxWidth: maxWidth,
-          maxHeight: maxHeight,
-          animationCurve: animationCurve,
-          animationDuration: animationDuration,
-          titleStyle: titleStyle,
-          descriptionStyle: descriptionStyle,
-          borderRadius: borderRadius,
-          animationType: animationType,
-          showDivider: showDivider,
-          dividerColor: dividerColor,
-          dividerThickness: dividerThickness,
-          actionsPadding: actionsPadding,
-          actionsAlignment: actionsAlignment,
-          contentCrossAlignment: contentCrossAlignment,
-          contentMainAlignment: contentMainAlignment,
-          scrollable: scrollable,
-          scrollController: scrollController,
-          scrollPhysics: scrollPhysics,
-          elevation: elevation,
-          useSafeArea: useSafeArea,
-          showTitleDivider: showTitleDivider,
-          titleDividerColor: titleDividerColor,
-          titleDividerThickness: titleDividerThickness,
-          titlePadding: titlePadding,
-          descriptionPadding: descriptionPadding,
-          showDescriptionDivider: showDescriptionDivider,
-          descriptionDividerColor: descriptionDividerColor,
-          descriptionDividerThickness: descriptionDividerThickness,
-        );
-      },
+    assert(
+      !hasActions || actions != null,
+      'If `hasActions` is true, `actions` must be provided.',
     );
+    assert(
+      !hasActions || T == bool,
+      'If `hasActions` is true, the return type must be `Future<bool?>`.',
+    );
+    assert(
+      maxWidth > 0,
+      '`maxWidth` must be greater than 0.',
+    );
+    assert(
+      maxHeight > 0,
+      '`maxHeight` must be greater than 0.',
+    );
+    assert(
+      transitionDuration >= Duration.zero,
+      '`transitionDuration` must be a non-negative duration.',
+    );
+    assert(
+      animationDuration >= Duration.zero,
+      '`animationDuration` must be a non-negative duration.',
+    );
+
+    if (hasActions) {
+      return await showDialog<T>(
+        context: context,
+        barrierDismissible: barrierDismissible,
+        barrierColor: barrierColor,
+        builder: (context) {
+          return SDialog(
+            title: title,
+            description: description,
+            content: content,
+            actions: actions,
+            barrierDismissible: barrierDismissible,
+            barrierColor: barrierColor,
+            transitionDuration: transitionDuration,
+            shapeDecoration: shapeDecoration,
+            backgroundColor: backgroundColor,
+            contentPadding: contentPadding,
+            semanticLabel: semanticLabel,
+            showCloseButton: showCloseButton,
+            maxWidth: maxWidth,
+            maxHeight: maxHeight,
+            animationCurve: animationCurve,
+            animationDuration: animationDuration,
+            titleStyle: titleStyle,
+            descriptionStyle: descriptionStyle,
+            borderRadius: borderRadius,
+            animationType: animationType,
+            showDivider: showDivider,
+            dividerColor: dividerColor,
+            dividerThickness: dividerThickness,
+            actionsPadding: actionsPadding,
+            actionsAlignment: actionsAlignment,
+            contentCrossAlignment: contentCrossAlignment,
+            contentMainAlignment: contentMainAlignment,
+            scrollable: scrollable,
+            scrollController: scrollController,
+            scrollPhysics: scrollPhysics,
+            elevation: elevation,
+            useSafeArea: useSafeArea,
+            showTitleDivider: showTitleDivider,
+            titleDividerColor: titleDividerColor,
+            titleDividerThickness: titleDividerThickness,
+            titlePadding: titlePadding,
+            descriptionPadding: descriptionPadding,
+            showDescriptionDivider: showDescriptionDivider,
+            descriptionDividerColor: descriptionDividerColor,
+            descriptionDividerThickness: descriptionDividerThickness,
+            hasActions: hasActions,
+          );
+        },
+      );
+    } else {
+      await showDialog(
+        context: context,
+        barrierDismissible: barrierDismissible,
+        barrierColor: barrierColor,
+        builder: (context) {
+          return SDialog(
+            title: title,
+            description: description,
+            content: content,
+            actions: actions,
+            barrierDismissible: barrierDismissible,
+            barrierColor: barrierColor,
+            transitionDuration: transitionDuration,
+            shapeDecoration: shapeDecoration,
+            backgroundColor: backgroundColor,
+            contentPadding: contentPadding,
+            semanticLabel: semanticLabel,
+            showCloseButton: showCloseButton,
+            maxWidth: maxWidth,
+            maxHeight: maxHeight,
+            animationCurve: animationCurve,
+            animationDuration: animationDuration,
+            titleStyle: titleStyle,
+            descriptionStyle: descriptionStyle,
+            borderRadius: borderRadius,
+            animationType: animationType,
+            showDivider: showDivider,
+            dividerColor: dividerColor,
+            dividerThickness: dividerThickness,
+            actionsPadding: actionsPadding,
+            actionsAlignment: actionsAlignment,
+            contentCrossAlignment: contentCrossAlignment,
+            contentMainAlignment: contentMainAlignment,
+            scrollable: scrollable,
+            scrollController: scrollController,
+            scrollPhysics: scrollPhysics,
+            elevation: elevation,
+            useSafeArea: useSafeArea,
+            showTitleDivider: showTitleDivider,
+            titleDividerColor: titleDividerColor,
+            titleDividerThickness: titleDividerThickness,
+            titlePadding: titlePadding,
+            descriptionPadding: descriptionPadding,
+            showDescriptionDivider: showDescriptionDivider,
+            descriptionDividerColor: descriptionDividerColor,
+            descriptionDividerThickness: descriptionDividerThickness,
+            hasActions: hasActions,
+          );
+        },
+      );
+      return null;
+    }
   }
 
   @override
@@ -309,7 +391,8 @@ class SDialog extends StatelessWidget {
                                 if (showCloseButton)
                                   IconButton(
                                     icon: const Icon(Icons.close, size: 24),
-                                    onPressed: () => Navigator.pop(context),
+                                    onPressed: () =>
+                                        Navigator.pop(context, false),
                                   ),
                               ],
                             ),
