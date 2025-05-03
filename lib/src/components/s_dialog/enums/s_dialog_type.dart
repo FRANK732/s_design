@@ -5,3 +5,11 @@ enum SDialogAnimationType {
   slideFromTop,
   slideFromBottom,
 }
+
+enum SDialogBackgroundEffect {
+  none,
+  blur,
+  dim,
+  gradient,
+  frosted,
+}

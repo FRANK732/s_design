@@ -1,27 +1,15 @@
 import 'package:flutter/material.dart';
 import '../../components/s_toaster/enums/s_toaster_enum.dart';
+import 'dart:developer' as developer;
 
-/// Represents a toast notification with customizable properties.
 class SToast extends StatefulWidget {
-  /// The message or description to display in the toast.
   final String description;
-
-  /// The title of the toast (optional).
   final String? title;
-
-  /// An optional action widget (e.g., a button) within the toast.
   final Widget? action;
-
-  /// The variant of the toast, affecting its styling.
   final SToastVariant variant;
-
-  /// The duration for which the toast is displayed.
   final Duration duration;
-
-  /// Callback when the toast is closed.
   final VoidCallback? onClose;
 
-  /// Creates an instance of SToast.
   const SToast({
     super.key,
     required this.description,
@@ -35,15 +23,14 @@ class SToast extends StatefulWidget {
   @override
   _SToastState createState() => _SToastState();
 
-  /// The OverlayState to insert the toast into.
   static OverlayState? _overlayState;
+  static final Map<String, OverlayEntry> _activeToasts = {};
 
-  /// Initializes the SToast system with the provided OverlayState.
   static void initialize(OverlayState overlayState) {
+    developer.log('SToast: Initializing with OverlayState', name: 'SToast');
     _overlayState = overlayState;
   }
 
-  /// Shows a toast using the initialized OverlayState.
   static void show({
     required String description,
     String? title,
@@ -51,8 +38,11 @@ class SToast extends StatefulWidget {
     SToastVariant variant = SToastVariant.defaultVariant,
     Duration duration = const Duration(seconds: 5),
     VoidCallback? onClose,
+    String? id = 'default',
   }) {
     if (_overlayState == null) {
+      developer.log('SToast: Error: OverlayState not initialized',
+          name: 'SToast', error: 'Call initialize() first');
       throw Exception('SToast is not initialized. Call initialize() first.');
     }
 
@@ -66,13 +56,36 @@ class SToast extends StatefulWidget {
         variant: variant,
         duration: duration,
         onClose: () {
+          developer.log('SToast: Removing toast with id: $id', name: 'SToast');
           overlayEntry.remove();
+          if (id != null) _activeToasts.remove(id);
           onClose?.call();
         },
       ),
     );
 
+    if (id != null) {
+      _activeToasts[id]?.remove();
+      _activeToasts[id] = overlayEntry;
+      developer.log('SToast: Active toasts: ${_activeToasts.keys}',
+          name: 'SToast');
+    }
+
+    developer.log('SToast: Showing toast with id: $id, duration: $duration',
+        name: 'SToast');
     _overlayState!.insert(overlayEntry);
+  }
+
+  static void dismiss({String? id}) {
+    if (id != null) {
+      developer.log('SToast: Dismissing toast with id: $id', name: 'SToast');
+      _activeToasts[id]?.remove();
+      _activeToasts.remove(id);
+    } else {
+      developer.log('SToast: Dismissing all toasts', name: 'SToast');
+      _activeToasts.values.forEach((entry) => entry.remove());
+      _activeToasts.clear();
+    }
   }
 }
 
@@ -85,8 +98,8 @@ class _SToastState extends State<SToast> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    developer.log('SToast: Initializing toast state', name: 'SToast');
 
-    // Initialize the animation controller.
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
@@ -102,18 +115,29 @@ class _SToastState extends State<SToast> with SingleTickerProviderStateMixin {
 
     _animationController.forward();
 
-    // Auto-dismiss the toast after [widget.duration].
-    Future.delayed(widget.duration, _closeToast);
+    if (widget.duration != Duration.zero) {
+      developer.log('SToast: Scheduling auto-dismiss after ${widget.duration}',
+          name: 'SToast');
+      Future.delayed(widget.duration, _closeToast);
+    } else {
+      developer.log('SToast: No auto-dismiss (duration is zero)',
+          name: 'SToast');
+    }
   }
 
   @override
   void dispose() {
+    developer.log('SToast: Disposing toast state', name: 'SToast');
     _animationController.dispose();
     super.dispose();
   }
 
   void _closeToast() {
-    if (!_isVisible) return;
+    if (!_isVisible) {
+      developer.log('SToast: Toast already closed, skipping', name: 'SToast');
+      return;
+    }
+    developer.log('SToast: Closing toast', name: 'SToast');
     _animationController.reverse().then((_) {
       setState(() {
         _isVisible = false;
@@ -124,12 +148,15 @@ class _SToastState extends State<SToast> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    if (!_isVisible) return const SizedBox.shrink();
+    if (!_isVisible) {
+      developer.log('SToast: Toast not visible, returning empty widget',
+          name: 'SToast');
+      return const SizedBox.shrink();
+    }
 
     final mediaQuery = MediaQuery.of(context);
     final topPadding = mediaQuery.viewPadding.top;
 
-    /// Determine colors based on variant + current theme
     final colorScheme = Theme.of(context).colorScheme;
     final dividerColor = Theme.of(context).dividerColor;
     final isDestructive = widget.variant == SToastVariant.destructive;
@@ -151,7 +178,10 @@ class _SToastState extends State<SToast> with SingleTickerProviderStateMixin {
           child: Dismissible(
             key: UniqueKey(),
             direction: DismissDirection.horizontal,
-            onDismissed: (_) => _closeToast(),
+            onDismissed: (_) {
+              developer.log('SToast: Toast dismissed by swipe', name: 'SToast');
+              _closeToast();
+            },
             child: Container(
               decoration: BoxDecoration(
                 color: backgroundColor,
@@ -191,7 +221,11 @@ class _SToastState extends State<SToast> with SingleTickerProviderStateMixin {
                         Icons.close,
                         color: textColor.withOpacity(0.7),
                       ),
-                      onPressed: _closeToast,
+                      onPressed: () {
+                        developer.log('SToast: Toast dismissed by close button',
+                            name: 'SToast');
+                        _closeToast();
+                      },
                     ),
                   ],
                 ),

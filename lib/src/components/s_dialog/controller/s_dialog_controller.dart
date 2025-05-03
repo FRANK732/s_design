@@ -9,9 +9,9 @@ class SDialogController extends ChangeNotifier {
 
   /// Shows the dialog described by [dialog].
   Future<void> show(
-      BuildContext context, {
-        required SDialog dialog,
-      }) async {
+    BuildContext context, {
+    required SDialog dialog,
+  }) async {
     if (_isOpen) return;
 
     _isOpen = true;

@@ -91,7 +91,6 @@ class _TabsPageState extends State<TabsPage> {
           orientation: STabOrientation.horizontal,
           mainAxisAlignment: MainAxisAlignment.center,
           onTabChanged: (index) {
-            // Optional: Handle tab change events
             print('Active Tab: $index');
           },
         );

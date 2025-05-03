@@ -369,7 +369,7 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
             ? widget.dismissBackgroundLabelStyle
             : widget.dismissSecondaryBackgroundLabelStyle) ??
         const TextStyle(
-          color: Colors.white,
+          color: Colors.black,
           fontSize: 16.0,
           fontWeight: FontWeight.bold,
         );
@@ -386,9 +386,15 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
             ? BorderRadius.circular(widget.borderRadius ?? 12.0)
             : null,
       ),
-      padding: widget.dismissBackgroundPadding ??
-          const EdgeInsets.symmetric(horizontal: 16.0),
-      alignment: alignment,
+      padding: widget.dismissBackgroundPadding,
+      alignment: direction == DismissDirection.endToStart
+          ? Alignment.centerLeft
+          : Alignment.centerRight,
+      // Ensure the container takes the full height of the card
+      constraints: BoxConstraints(
+        minHeight: widget.height ?? 0,
+        maxHeight: widget.maxHeight ?? double.infinity,
+      ),
       child: Row(
         mainAxisAlignment: direction == DismissDirection.endToStart
             ? MainAxisAlignment.end
@@ -565,18 +571,21 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
     }
 
     // Dismissible wrapper using Stack
+    // Dismissible wrapper using Stack
     if (widget.dismissKey != null && widget.enableInteractiveDismiss) {
       cardWidget = Stack(
         alignment: Alignment.center,
-        fit: StackFit.passthrough, // Let Dismissible dictate size
+        fit: StackFit.passthrough,
         children: [
-          // Background layer
-          AnimatedOpacity(
-            opacity: (widget.dismissBackgroundOpacity ?? 1.0) *
-                _dismissProgress.clamp(0.0, 1.0),
-            duration: widget.movementDuration,
-            curve: widget.dismissBackgroundAnimationCurve ?? Curves.linear,
-            child: _buildDismissBackground(_currentSwipeDirection),
+          // Background layer, filling the entire card size
+          Positioned.fill(
+            child: AnimatedOpacity(
+              opacity: (widget.dismissBackgroundOpacity ?? 1.0) *
+                  _dismissProgress.clamp(0.0, 1.0),
+              duration: widget.movementDuration,
+              curve: widget.dismissBackgroundAnimationCurve ?? Curves.linear,
+              child: _buildDismissBackground(_currentSwipeDirection),
+            ),
           ),
           // Dismissible card
           Dismissible(
