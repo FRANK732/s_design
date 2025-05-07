@@ -316,7 +316,6 @@ class _SScaffoldState extends State<SScaffold> {
   Widget _buildBody(BuildContext context, SLoadingIndicator? loadingIndicator) {
     final bodyContent = Consumer<LoadingProvider>(
       builder: (context, loadingProvider, child) {
-        // Apply shimmer effect during loading with shimmer loader type
         if (loadingProvider.isLoading &&
             loadingIndicator?.loaderType == SLoaderType.shimmer &&
             !_isRefreshing) {
@@ -329,7 +328,6 @@ class _SScaffoldState extends State<SScaffold> {
                     : _buildShimmerLoader(),
               );
         }
-        // Render body or empty widget if no body is provided
         return widget.renderBody != null
             ? widget.renderBody!(context)
             : const SizedBox.shrink();
@@ -428,7 +426,6 @@ class _SScaffoldState extends State<SScaffold> {
   }
 }
 
-/// Provider class to manage loading state and notify listeners.
 class LoadingProvider extends ChangeNotifier {
   // Current loading state
   bool _isLoading = false;

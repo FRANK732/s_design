@@ -4,10 +4,10 @@ This metadata file outlines essential details about the **sDesign** Flutter pack
 
 ## General Information
 
-- **Package Name:** `sDesign`
+- **Package Name:** `SDesign`
 - **Description:** A comprehensive Flutter UI component library offering customizable widgets such as buttons, modals, cards, and more to build consistent and professional user interfaces.
-- **Version:** `1.0.0`
-- **Author:** [Your Name or Organization]
+- **Version:** `0.5.0`
+- **Author:** Frank Addai
 - **License:** MIT
 - **Homepage:** [https://github.com/FRANK732/s_design](https://github.com/FRANK732/s_design)(https://github.com/yourusername/sDesign)
 
@@ -27,7 +27,6 @@ dependencies:
   flutter_spinkit: ^5.2.1
   provider: ^6.1.2
   intl: ^0.20.1
-  animated_text_kit: ^4.2.2
   shimmer: ^3.0.0
 
 dev_dependencies:
@@ -59,17 +58,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
+      home: SScaffold(
         appBar: AppBar(
-          title: Text('sDesign Example'),
+          title: Text('SDesign Example'),
         ),
-        body: Center(
+        renderBody:(context) {
+          return Center(
           child: SButton(
             onPressed: () {},
             label: 'Click Me',
             variant: SButtonVariant.primary,
           ),
-        ),
+        ),}
       ),
     );
   }
