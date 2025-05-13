@@ -1,4 +1,4 @@
-import 'package:example/pages/base_scaffold.dart';
+import 'package:example/pages/sscaffold/base_scaffold.dart';
 import 'package:example/pages/bottom_navigation.dart';
 import 'package:example/pages/card.dart';
 import 'package:example/pages/check_box.dart';

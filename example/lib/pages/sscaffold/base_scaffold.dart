@@ -43,6 +43,17 @@ class _BaseScaffoldPageState extends State<BaseScaffoldPage> {
   @override
   Widget build(BuildContext context) {
     return SScaffold(
+      centerBody: true,
+      scrollable: false,
+      enableRefresh: true,
+      onRefresh: () async {
+        setState(() => _isLoading = true);
+        await Future.delayed(const Duration(seconds: 2), () {
+          if (mounted) {
+            setState(() => _isLoading = false);
+          }
+        });
+      },
       loadingIndicator: SLoadingIndicator(
         loaderType: SLoaderType.shimmer,
         message: 'Loading will stop in $_start seconds',
@@ -61,6 +72,14 @@ class _BaseScaffoldPageState extends State<BaseScaffoldPage> {
           children: [
             const Center(
               child: Text('This is the body of the page'),
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              'Swipe down to refresh',
+              style: TextStyle(
+                color: Colors.grey,
+                fontStyle: FontStyle.italic,
+              ),
             ),
             const SizedBox(height: 16),
             SButton(
