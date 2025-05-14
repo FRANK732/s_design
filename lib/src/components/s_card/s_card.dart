@@ -267,15 +267,15 @@ class SCard extends StatefulWidget {
 class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
-  bool _isHovered = false;
-  double _currentElevation = 0;
+  // bool _isHovered = false;
+  // double _currentElevation = 0;
   double _dismissProgress = 0.0;
   DismissDirection _currentSwipeDirection = DismissDirection.none;
 
   @override
   void initState() {
     super.initState();
-    _currentElevation = widget.elevation ?? 1.0;
+    // _currentElevation = widget.elevation ?? 1.0;
     _controller = AnimationController(
       vsync: this,
       duration: widget.animationDuration,
@@ -305,22 +305,22 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
     );
   }
 
-  ShapeBorder _getEffectiveShape() {
-    switch (widget.shape) {
-      case SCardShape.rounded:
-        return RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius ?? 12.0),
-        );
-      case SCardShape.circular:
-        return const CircleBorder();
-      case SCardShape.beveled:
-        return BeveledRectangleBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius ?? 12.0),
-        );
-      case SCardShape.custom:
-        return widget.customShape!;
-    }
-  }
+  // ShapeBorder _getEffectiveShape() {
+  //   switch (widget.shape) {
+  //     case SCardShape.rounded:
+  //       return RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.circular(widget.borderRadius ?? 12.0),
+  //       );
+  //     case SCardShape.circular:
+  //       return const CircleBorder();
+  //     case SCardShape.beveled:
+  //       return BeveledRectangleBorder(
+  //         borderRadius: BorderRadius.circular(widget.borderRadius ?? 12.0),
+  //       );
+  //     case SCardShape.custom:
+  //       return widget.customShape!;
+  //   }
+  // }
 
   List<BoxShadow> _getShadows() {
     List<BoxShadow> shadows = [];
@@ -373,11 +373,11 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
           fontSize: 16.0,
           fontWeight: FontWeight.bold,
         );
-    Alignment alignment = widget.dismissBackgroundAlignment
-            ?.resolve(Directionality.of(context)) ??
-        (direction == DismissDirection.endToStart
-            ? Alignment.centerRight
-            : Alignment.centerLeft);
+    // Alignment alignment = widget.dismissBackgroundAlignment
+    //         ?.resolve(Directionality.of(context)) ??
+    //     (direction == DismissDirection.endToStart
+    //         ? Alignment.centerRight
+    //         : Alignment.centerLeft);
 
     return Container(
       decoration: BoxDecoration(
@@ -522,12 +522,12 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
         onLongPress: widget.onLongPress,
         onDoubleTap: widget.onDoubleTap,
         onHover: (hovered) {
-          setState(() {
-            _isHovered = hovered;
-            _currentElevation = hovered
-                ? (widget.hoverElevation ?? 4.0)
-                : (widget.elevation ?? 1.0);
-          });
+          // setState(() {
+          //   _isHovered = hovered;
+          //   _currentElevation = hovered
+          //       ? (widget.hoverElevation ?? 4.0)
+          //       : (widget.elevation ?? 1.0);
+          // });
           widget.onHover?.call(hovered);
         },
         splashColor:

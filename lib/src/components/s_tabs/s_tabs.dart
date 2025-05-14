@@ -144,7 +144,6 @@ class STabs extends StatefulWidget {
 class _STabsState extends State<STabs> with SingleTickerProviderStateMixin {
   late int _activeIndex;
   late AnimationController _controller;
-  late Animation<double> _animation;
 
   @override
   void initState() {
@@ -154,7 +153,6 @@ class _STabsState extends State<STabs> with SingleTickerProviderStateMixin {
       vsync: this,
       duration: widget.duration,
     );
-    _animation = CurvedAnimation(parent: _controller, curve: widget.curve);
   }
 
   @override

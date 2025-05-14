@@ -223,7 +223,6 @@ class SDropdownMenu extends StatefulWidget {
         'Checkbox check color must be a valid color.');
     assert(checkboxHoverColor == null || checkboxHoverColor != null,
         'Checkbox hover color must be a valid color.');
-    assert(onChanged != null, 'onChanged callback cannot be null.');
     assert(onClear == null || onClear != null,
         'onClear callback must be valid if provided.');
     assert(onMenuOpen == null || onMenuOpen != null,
@@ -316,14 +315,14 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
     });
   }
 
-  void _openMenu() {
-    _overlayEntry = _createOverlayEntry();
-    Overlay.of(context).insert(_overlayEntry!);
-    widget.onMenuOpen?.call();
-    setState(() {
-      _isMenuOpen = true;
-    });
-  }
+  // void _openMenu() {
+  //   _overlayEntry = _createOverlayEntry();
+  //   Overlay.of(context).insert(_overlayEntry!);
+  //   widget.onMenuOpen?.call();
+  //   setState(() {
+  //     _isMenuOpen = true;
+  //   });
+  // }
 
   void _closeMenu() {
     _overlayEntry?.remove();
@@ -631,10 +630,8 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
 
   Widget _buildSelectedItems() {
     final theme = Theme.of(context);
-    final chipHeight =
-        STriggerContainerSizeUtils.getChipHeight(widget.triggerSize);
-    final chipWidth =
-        STriggerContainerSizeUtils.getChipWidth(widget.triggerSize);
+    STriggerContainerSizeUtils.getChipHeight(widget.triggerSize);
+    STriggerContainerSizeUtils.getChipWidth(widget.triggerSize);
     final chipPadding =
         STriggerContainerSizeUtils.getChipPadding(widget.triggerSize);
     final chipIconSize =

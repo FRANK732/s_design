@@ -5,10 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.5.0] - 2025-05-04
+## [0.3.0] - 2025-05-14
 
 ### Refactor
 
+- Known Bug fixes
 - Renamed `TListTile` to `SListTile` and updated theme data references for improved consistency.
 - Refactored `base_scaffold` to use `final` for `isDark` variable, improving code reliability.
 - Converted `SCard` component to a `StatefulWidget`, adding new properties and dismissible features for enhanced interactivity.
@@ -25,7 +26,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Notes
 
-- This release introduces significant improvements to core components, focusing on usability, customization, and performance.  The removal of `flutter_svg` dependency reduces package size, and new features like shimmer effects and pull-to-refresh enhance the user experience.
+- Known Bug fixes
+- This release also introduces significant improvements to core components, focusing on usability, customization, and performance.  The removal of `flutter_svg` dependency reduces package size, and new features like shimmer effects and pull-to-refresh enhance the user experience.
 
 ## [0.2.1] - 2025-02-08
 

@@ -86,11 +86,6 @@ class TabsList extends StatelessWidget {
       }
     }
 
-    // Validate onTabSelected
-    if (onTabSelected == null) {
-      throw FlutterError('TabsList: onTabSelected callback cannot be null.');
-    }
-
     // Validate tabWidth
     if (tabWidth != null && (tabWidth! <= 0 || tabWidth!.isInfinite)) {
       throw FlutterError(

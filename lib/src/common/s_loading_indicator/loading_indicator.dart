@@ -267,8 +267,7 @@ class _SLoadingIndicatorState extends State<SLoadingIndicator>
                       if (widget.message.isNotEmpty) ...[
                         const SizedBox(height: 10),
                         Text(
-                          SLoadingIndicatorUtils.formatMessage(
-                              widget.message ?? ''),
+                          SLoadingIndicatorUtils.formatMessage(widget.message),
                           textAlign: TextAlign.center,
                           style: messageStyle,
                         ),
