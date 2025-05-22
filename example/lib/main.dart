@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
     {'title': 'Progress Indicators', 'page': '/progress_indicator_page'},
     {'title': 'Dialog', 'page': '/modal_page'},
     {'title': 'Tabs', 'page': '/tab_page'},
-    {'title': 'SFloating Action Button', 'page': '/s_fab_page'},
+    // {'title': 'SFloating Action Button', 'page': '/s_fab_page'},
     {'title': 'Switches', 'page': '/switch_page'},
     {'title': 'TextTile', 'page': '/list_tile_page'},
   ];
