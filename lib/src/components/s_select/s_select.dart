@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/src/components/s_select/enums/s_select_direction.dart';
 import 'package:s_design/src/components/s_select/utils/s_select_extension.dart';
+import 'dart:developer' as developer;
 
-/// An advanced select widget with customizable trigger and content.
+// An advanced select widget with customizable trigger and content, supporting single or multi-select dropdowns.
 class SSelect<T> extends StatefulWidget {
-  /// Creates an advanced select widget.
   const SSelect({
     super.key,
     required this.items,
@@ -21,53 +21,64 @@ class SSelect<T> extends StatefulWidget {
     this.dropdownIcon,
     this.isMultiSelect = false,
     this.dropdownMaxHeight = 300.0,
-  });
+  })  : assert(
+          dropdownMaxHeight > 0,
+          'Dropdown max height must be positive.',
+        ),
+        assert(
+          animationDuration >= Duration.zero,
+          'Animation duration must not be negative.',
+        ),
+        assert(
+          !isMultiSelect || value == null,
+          'Single value is not supported with multi-select. Use a list for multi-select values.',
+        );
 
-  /// The current selected value.
+  /// The current selected value for single-select mode.
   final T? value;
 
   /// The list of items to display in the dropdown.
   final List<SSelectItem<T>> items;
 
-  /// Callback when the value changes.
+  /// Callback invoked when the selected value changes.
   final ValueChanged<T?>? onChanged;
 
-  /// The trigger widget builder.
+  /// Custom builder for the trigger widget (e.g., the button that opens the dropdown).
   final Widget Function(BuildContext context, T? value)? triggerBuilder;
 
-  /// The content widget builder.
+  /// Custom builder for the dropdown content.
   final Widget Function(BuildContext context, SSelectContent<T> content)?
       contentBuilder;
 
-  /// Whether the select is disabled.
+  /// Whether the select widget is disabled. Defaults to false.
   final bool disabled;
 
-  /// Custom style for the trigger.
+  /// Custom style for the default trigger button.
   final ButtonStyle? style;
 
-  /// Placeholder text when no item is selected.
+  /// Placeholder text shown when no item is selected.
   final String? placeholder;
 
-  /// Direction in which the dropdown should open.
+  /// Direction in which the dropdown opens (up or down). Defaults to down.
   final SSelectDropdownDirection dropdownDirection;
 
-  /// Animation duration for the dropdown.
+  /// Duration of the dropdown animation. Defaults to 200ms.
   final Duration animationDuration;
 
-  /// Curve for the dropdown animation.
+  /// Curve for the dropdown animation. Defaults to Curves.easeInOut.
   final Curve animationCurve;
 
-  /// Custom icon for the dropdown.
+  /// Custom icon for the dropdown trigger. Defaults to an arrow drop-down icon.
   final Widget? dropdownIcon;
 
-  /// Whether multiple items can be selected.
+  /// Whether multiple items can be selected. Defaults to false.
   final bool isMultiSelect;
 
-  /// The maximum height of the dropdown.
+  /// Maximum height of the dropdown. Defaults to 300.0.
   final double dropdownMaxHeight;
 
   @override
-  _SSelectState<T> createState() => _SSelectState<T>();
+  State<SSelect> createState() => _SSelectState();
 }
 
 class _SSelectState<T> extends State<SSelect<T>> {
@@ -80,6 +91,10 @@ class _SSelectState<T> extends State<SSelect<T>> {
   void initState() {
     super.initState();
     _selectedValue = widget.value;
+    developer.log(
+      'SSelect: Initialized with value: $_selectedValue, items count: ${widget.items.length}',
+      name: 'SSelect',
+    );
   }
 
   @override
@@ -87,21 +102,35 @@ class _SSelectState<T> extends State<SSelect<T>> {
     super.didUpdateWidget(oldWidget);
     if (widget.value != oldWidget.value) {
       _selectedValue = widget.value;
+      developer.log(
+        'SSelect: Updated selected value to: $_selectedValue',
+        name: 'SSelect',
+      );
     }
   }
 
   @override
   void dispose() {
     _removeOverlay();
+    developer.log('SSelect: Disposed', name: 'SSelect');
     super.dispose();
   }
 
   void _toggleDropdown() {
+    if (widget.disabled) {
+      developer.log('SSelect: Toggle ignored, widget is disabled',
+          name: 'SSelect');
+      return;
+    }
     if (_isDropdownOpen) {
       _removeOverlay();
     } else {
       _showOverlay();
     }
+    developer.log(
+      'SSelect: Dropdown toggled, isOpen: $_isDropdownOpen',
+      name: 'SSelect',
+    );
   }
 
   void _showOverlay() {
@@ -153,6 +182,10 @@ class _SSelectState<T> extends State<SSelect<T>> {
                                   _selectedValue = value;
                                   widget.onChanged?.call(value);
                                   _removeOverlay();
+                                  developer.log(
+                                    'SSelect: Item selected: $value',
+                                    name: 'SSelect',
+                                  );
                                 });
                               },
                               isMultiSelect: widget.isMultiSelect,
@@ -166,6 +199,10 @@ class _SSelectState<T> extends State<SSelect<T>> {
                                 _selectedValue = value;
                                 widget.onChanged?.call(value);
                                 _removeOverlay();
+                                developer.log(
+                                  'SSelect: Item selected: $value',
+                                  name: 'SSelect',
+                                );
                               });
                             },
                             isMultiSelect: widget.isMultiSelect,
@@ -183,14 +220,21 @@ class _SSelectState<T> extends State<SSelect<T>> {
     setState(() {
       _isDropdownOpen = true;
     });
+    developer.log(
+      'SSelect: Overlay shown, direction: ${widget.dropdownDirection}',
+      name: 'SSelect',
+    );
   }
 
   void _removeOverlay() {
-    _overlayEntry?.remove();
-    _overlayEntry = null;
-    setState(() {
-      _isDropdownOpen = false;
-    });
+    if (_overlayEntry != null) {
+      _overlayEntry?.remove();
+      _overlayEntry = null;
+      setState(() {
+        _isDropdownOpen = false;
+      });
+      developer.log('SSelect: Overlay removed', name: 'SSelect');
+    }
   }
 
   @override
@@ -198,7 +242,7 @@ class _SSelectState<T> extends State<SSelect<T>> {
     return CompositedTransformTarget(
       link: _layerLink,
       child: GestureDetector(
-        onTap: widget.disabled ? null : _toggleDropdown,
+        onTap: _toggleDropdown,
         child: widget.triggerBuilder != null
             ? widget.triggerBuilder!(context, _selectedValue)
             : _defaultTrigger(context),

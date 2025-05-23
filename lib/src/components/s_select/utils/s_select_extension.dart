@@ -29,7 +29,7 @@ class SSelectContent<T> extends StatefulWidget {
   final double dropdownMaxHeight;
 
   @override
-  _SSelectContentState<T> createState() => _SSelectContentState<T>();
+  State<SSelectContent> createState() => _SSelectContentState();
 }
 
 class _SSelectContentState<T> extends State<SSelectContent<T>> {
