@@ -12,15 +12,27 @@ class SToast extends StatefulWidget {
     this.duration = const Duration(seconds: 5),
     this.onClose,
   });
+
+  /// The main text content of the toast notification.
   final String description;
+
+  /// Optional title text displayed above the description.
   final String? title;
+
+  /// Optional action widget (e.g., a button) displayed in the toast.
   final Widget? action;
+
+  /// The variant of the toast (e.g., default, destructive). Defaults to defaultVariant.
   final SToastVariant variant;
+
+  /// Duration the toast remains visible before auto-dismissing. Defaults to 5 seconds.
   final Duration duration;
+
+  /// Callback triggered when the toast is closed (manually or automatically).
   final VoidCallback? onClose;
 
   @override
-  _SToastState createState() => _SToastState();
+  State<SToast> createState() => _SToastState();
 
   static OverlayState? _overlayState;
   static final Map<String, OverlayEntry> _activeToasts = {};
@@ -60,7 +72,9 @@ class SToast extends StatefulWidget {
         onClose: () {
           developer.log('SToast: Removing toast with id: $id', name: 'SToast');
           overlayEntry.remove();
-          if (id != null) _activeToasts.remove(id);
+          if (id != null) {
+            _activeToasts.remove(id);
+          }
           onClose?.call();
         },
       ),

@@ -4,7 +4,7 @@ import 'utils/s_tabs_utils.dart';
 
 class TabsContent extends StatelessWidget {
   const TabsContent({
-    Key? key,
+    super.key,
     required this.index,
     required this.activeIndex,
     required this.contentMargin,
@@ -12,13 +12,27 @@ class TabsContent extends StatelessWidget {
     required this.duration,
     required this.curve,
     required this.child,
-  }) : super(key: key);
+  });
+
+  /// The index of the tab this content belongs to.
   final int index;
+
+  /// The index of the currently active tab.
   final int activeIndex;
+
+  /// The animation type for transitioning the content (e.g., fade, slide).
   final STabAnimationType animationType;
+
+  /// The duration of the content animation.
   final Duration duration;
+
+  /// The animation curve for content transitions.
   final Curve curve;
+
+  /// The content widget to display for the tab.
   final Widget child;
+
+  /// Margin around the content.
   final EdgeInsetsGeometry contentMargin;
 
   @override
