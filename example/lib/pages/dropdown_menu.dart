@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
+import 'dart:developer' as dev;
 
 class DropdownMenuPage extends StatefulWidget {
   const DropdownMenuPage({super.key});
@@ -27,21 +28,23 @@ class _DropdownMenuPageState extends State<DropdownMenuPage> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
-        child: Column(children: [
-          IconButton(
-            onPressed: _toggleIcon,
-            icon: Icon(_changeIcon ? Icons.abc : Icons.accessible_outlined),
-          ),
-          _buildSectionTitle('Searchable Dropdown Menu'),
-          SDropdownMenu(
-            items: ['Item 1', 'Item 2', 'Item 3'],
-            onChanged: (value) {
-              print('Selected: $value');
-            },
-            backgroundColor: const Color.fromARGB(255, 96, 104, 110),
-            menuType: SDropdownMenuItemType.multiSelect,
-          ),
-        ]),
+        child: Column(
+          children: [
+            IconButton(
+              onPressed: _toggleIcon,
+              icon: Icon(_changeIcon ? Icons.abc : Icons.accessible_outlined),
+            ),
+            _buildSectionTitle('Searchable Dropdown Menu'),
+            SDropdownMenu(
+              items: const ['Item 1', 'Item 2', 'Item 3'],
+              onChanged: (value) {
+                dev.log('Selected: $value');
+              },
+              backgroundColor: const Color.fromARGB(255, 96, 104, 110),
+              menuType: SDropdownMenuItemType.multiSelect,
+            ),
+          ],
+        ),
       ),
     );
   }

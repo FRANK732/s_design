@@ -54,7 +54,7 @@ class _ListTilePageState extends State<ListTilePage> {
             ),
             const SizedBox(height: 16),
             const SListTile(
-              title: const Text('Tile with No Action'),
+              title: Text('Tile with No Action'),
             ),
           ],
         );

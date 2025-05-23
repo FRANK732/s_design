@@ -5,7 +5,7 @@ class SwitchPage extends StatefulWidget {
   const SwitchPage({super.key});
 
   @override
-  _SwitchPageState createState() => _SwitchPageState();
+  State<SwitchPage> createState() => _SwitchPageState();
 }
 
 class _SwitchPageState extends State<SwitchPage> {
@@ -15,13 +15,12 @@ class _SwitchPageState extends State<SwitchPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return SScaffold(
       appBar: AppBar(
         title: const Text('SSwitch Showcase'),
       ),
-      renderBody:((context){
-        return  Padding(
+      renderBody: ((context) {
+        return Padding(
           padding: const EdgeInsets.all(30.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -40,7 +39,6 @@ class _SwitchPageState extends State<SwitchPage> {
                     variant: SSwitchVariant.filled,
                     semanticLabel: 'Filled Switch',
                   ),
-
                   const Text('Filled Variant'),
                 ],
               ),
@@ -84,12 +82,10 @@ class _SwitchPageState extends State<SwitchPage> {
                   const Text('Ghost Variant'),
                 ],
               ),
-
             ],
           ),
         );
       }),
-
     );
   }
 }

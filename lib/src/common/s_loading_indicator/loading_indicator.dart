@@ -7,6 +7,31 @@ import 'utils/loading_indicator_utils.dart';
 /// Displays a centered, compact container with a loading spinner and an optional message.
 /// Suitable for overlaying on existing content without covering the entire screen.
 class SLoadingIndicator extends StatefulWidget {
+  const SLoadingIndicator({
+    super.key,
+    this.message = 'Loading ...',
+    this.spinnerColor,
+    this.spinnerSize = 25.0,
+    this.messageColor,
+    this.loaderType = SLoaderType.fadingCircle,
+    this.showBackground = true,
+    this.backgroundOpacity = 0.5,
+    this.backgroundColor,
+    this.messageStyle,
+    this.barrierDismissible = false,
+    this.semanticLabel,
+    this.borderRadius,
+    this.animationDuration = const Duration(milliseconds: 300),
+    this.animationCurve = Curves.easeInOut,
+    this.spinnerSpeed = 1.0,
+    this.customIcon,
+    this.padding,
+    this.margin,
+  }) : assert(
+          (customIcon == null || loaderType == null),
+          'Use either a custom Icon or a loader type',
+        );
+
   /// The message to display below the loading spinner.
   final String message;
 
@@ -61,31 +86,8 @@ class SLoadingIndicator extends StatefulWidget {
   /// Margin around the loading indicator container.
   final EdgeInsetsGeometry? margin;
 
-  const SLoadingIndicator({
-    super.key,
-    this.message = "Loading ...",
-    this.spinnerColor,
-    this.spinnerSize = 25.0,
-    this.messageColor,
-    this.loaderType = SLoaderType.fadingCircle,
-    this.showBackground = true,
-    this.backgroundOpacity = 0.5,
-    this.backgroundColor,
-    this.messageStyle,
-    this.barrierDismissible = false,
-    this.semanticLabel,
-    this.borderRadius,
-    this.animationDuration = const Duration(milliseconds: 300),
-    this.animationCurve = Curves.easeInOut,
-    this.spinnerSpeed = 1.0,
-    this.customIcon,
-    this.padding,
-    this.margin,
-  }) : assert((customIcon == null || loaderType == null),
-            "Use either a custom Icon or a loader type");
-
   @override
-  _SLoadingIndicatorState createState() => _SLoadingIndicatorState();
+  State<SLoadingIndicator> createState() => _SLoadingIndicatorState();
 }
 
 class _SLoadingIndicatorState extends State<SLoadingIndicator>

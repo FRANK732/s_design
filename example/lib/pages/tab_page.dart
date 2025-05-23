@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
+import 'dart:developer' as dev;
 
 class TabsPage extends StatefulWidget {
   const TabsPage({super.key});
 
   @override
-  _TabsPageState createState() => _TabsPageState();
+  State<TabsPage> createState() => _TabsPageState();
 }
 
 class _TabsPageState extends State<TabsPage> {
@@ -91,7 +92,7 @@ class _TabsPageState extends State<TabsPage> {
           orientation: STabOrientation.horizontal,
           mainAxisAlignment: MainAxisAlignment.center,
           onTabChanged: (index) {
-            print('Active Tab: $index');
+            dev.log('Active Tab: $index');
           },
         );
       }),

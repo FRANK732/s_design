@@ -1,4 +1,4 @@
-include: package:flutter_lints/flutter.yaml
+include: package:lints/recommended.yaml
 
 analyzer:
   errors:
@@ -16,6 +16,8 @@ linter:
     - always_declare_return_types
     - prefer_single_quotes
     - unawaited_futures
+    - avoid_types_as_parameter_names
+    - prefer_const_constructors
 
     # Additional rules from https://github.com/flutter/flutter/blob/master/analysis_options.yaml
     # Not all rules are included

@@ -1,5 +1,3 @@
-library s_design;
-
 export 'src/common/s_loading_indicator/loading_indicator.dart';
 export 'src/components/s_button/enums/s_button_size.dart';
 export 'src/components/s_button/enums/s_button_state.dart';

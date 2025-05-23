@@ -1,17 +1,6 @@
 import 'package:flutter/material.dart';
 
 class SColorScheme extends ThemeExtension<SColorScheme> {
-  final Color primary;
-  final Color primaryAccent;
-  final Color secondary;
-  final Color secondaryAccent;
-  final Color background;
-  final Color surface;
-  final Color textPrimary;
-  final Color textSecondary;
-  final Color border;
-  final Color link;
-
   const SColorScheme({
     required this.primary,
     required this.primaryAccent,
@@ -24,6 +13,16 @@ class SColorScheme extends ThemeExtension<SColorScheme> {
     required this.border,
     required this.link,
   });
+  final Color primary;
+  final Color primaryAccent;
+  final Color secondary;
+  final Color secondaryAccent;
+  final Color background;
+  final Color surface;
+  final Color textPrimary;
+  final Color textSecondary;
+  final Color border;
+  final Color link;
 
   /// Light color scheme
   static const light = SColorScheme(
@@ -82,7 +81,9 @@ class SColorScheme extends ThemeExtension<SColorScheme> {
 
   @override
   SColorScheme lerp(ThemeExtension<SColorScheme>? other, double t) {
-    if (other is! SColorScheme) return this;
+    if (other is! SColorScheme) {
+      return this;
+    }
     return SColorScheme(
       primary: Color.lerp(primary, other.primary, t)!,
       primaryAccent: Color.lerp(primaryAccent, other.primaryAccent, t)!,

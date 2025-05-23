@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
 import 'package:intl/intl.dart';
+import 'dart:developer' as dev;
 
 class InputFieldPage extends StatefulWidget {
   const InputFieldPage({super.key});
@@ -14,7 +15,8 @@ class _InputFieldPageState extends State<InputFieldPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _iconController = TextEditingController();
   final TextEditingController _dateController = TextEditingController(
-      text: DateFormat('dd-MM-yyyy').format(DateTime.now()),);
+    text: DateFormat('dd-MM-yyyy').format(DateTime.now()),
+  );
   final TextEditingController _validationController = TextEditingController();
   final TextEditingController _customController = TextEditingController();
 
@@ -27,10 +29,8 @@ class _InputFieldPageState extends State<InputFieldPage> {
   final FocusNode _validationFocusNode = FocusNode();
   final FocusNode _customFocusNode = FocusNode();
 
-  _onSubmit() async {
-    if (_formKey.currentState!.validate()) {
-      // print('Form is valid');
-    }
+  void _onSubmit() async {
+    if (_formKey.currentState!.validate()) {}
   }
 
   @override
@@ -141,7 +141,7 @@ class _InputFieldPageState extends State<InputFieldPage> {
                 hintText: 'Custom',
                 validator: _validateNotEmpty,
                 onChanged: (value) {
-                  print('Value changed: $value');
+                  dev.log('Value changed: $value');
                 },
               ),
               const SizedBox(height: 20),
