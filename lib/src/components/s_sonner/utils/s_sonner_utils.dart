@@ -25,7 +25,7 @@ class SSonnerUtils {
       case SSonnerPosition.top:
         return const Offset(0.0, -1.0);
       case SSonnerPosition.center:
-        return const Offset(0.0, 0.0);
+        return Offset.zero;
       case SSonnerPosition.bottom:
       default:
         return const Offset(0.0, 1.0);
@@ -47,7 +47,7 @@ class SSonnerUtils {
     }
   }
 
-  static Color getBackgroundColor(SSonnerVariant type,BuildContext context) {
+  static Color getBackgroundColor(SSonnerVariant type, BuildContext context) {
     switch (type) {
       case SSonnerVariant.success:
         return context.primaryColor;

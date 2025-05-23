@@ -118,8 +118,10 @@ class _SSelectState<T> extends State<SSelect<T>> {
 
   void _toggleDropdown() {
     if (widget.disabled) {
-      developer.log('SSelect: Toggle ignored, widget is disabled',
-          name: 'SSelect');
+      developer.log(
+        'SSelect: Toggle ignored, widget is disabled',
+        name: 'SSelect',
+      );
       return;
     }
     if (_isDropdownOpen) {

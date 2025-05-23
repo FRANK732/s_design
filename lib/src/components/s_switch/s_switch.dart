@@ -46,7 +46,7 @@ class SSwitch extends StatefulWidget {
   final String? semanticLabel;
 
   @override
-  _SSwitchState createState() => _SSwitchState();
+  State<SSwitch> createState() => _SSwitchState();
 }
 
 class _SSwitchState extends State<SSwitch> with SingleTickerProviderStateMixin {
