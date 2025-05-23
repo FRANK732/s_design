@@ -8,7 +8,7 @@ A comprehensive Flutter UI component library offering customizable widgets to bu
 
 ```yaml
 dependencies:
-  s_design: ^0.3.0
+  s_design: ^0.3.1
 ```
 
 ### ⚡️ Import
