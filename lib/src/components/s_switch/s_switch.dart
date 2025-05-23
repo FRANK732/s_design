@@ -6,7 +6,7 @@ import 'utils/s_switch_utils.dart';
 class SSwitch extends StatefulWidget {
   /// Creates an [SSwitch].
   const SSwitch({
-    Key? key,
+    super.key,
     required this.value,
     required this.onChanged,
     this.size = SSwitchSize.medium,
@@ -16,7 +16,7 @@ class SSwitch extends StatefulWidget {
     this.inactiveColor,
     this.thumbColor,
     this.semanticLabel,
-  }) : super(key: key);
+  });
 
   /// The current state of the switch.
   final bool value;

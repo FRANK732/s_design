@@ -55,7 +55,9 @@ class SSonner {
   }
 
   void _displayNext() {
-    if (_isShowing || _queue.isEmpty || _overlayState == null) return;
+    if (_isShowing || _queue.isEmpty || _overlayState == null) {
+      return;
+    }
 
     _isShowing = true;
     final currentToast = _queue.removeAt(0);
