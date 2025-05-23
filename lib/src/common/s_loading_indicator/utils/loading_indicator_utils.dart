@@ -9,6 +9,6 @@ class SLoadingIndicatorUtils {
 
   /// Formats the loading message based on context or other parameters.
   static String formatMessage(String message) {
-    return message.trim().isEmpty ? "Loading..." : message;
+    return message.trim().isEmpty ? 'Loading...' : message;
   }
 }
