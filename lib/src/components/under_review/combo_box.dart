@@ -12,7 +12,7 @@ class ComboboxDemo extends StatefulWidget {
   const ComboboxDemo({super.key});
 
   @override
-  _ComboboxDemoState createState() => _ComboboxDemoState();
+  State<ComboboxDemo> createState() => _ComboboxDemoState();
 }
 
 class _ComboboxDemoState extends State<ComboboxDemo> {
@@ -71,13 +71,16 @@ class _ComboboxDemoState extends State<ComboboxDemo> {
 
 /// The popup dialog containing the search input and list of items.
 class ComboboxPopup extends StatefulWidget {
-  const ComboboxPopup(
-      {super.key, required this.frameworks, this.selectedValue});
+  const ComboboxPopup({
+    super.key,
+    required this.frameworks,
+    this.selectedValue,
+  });
   final List<Framework> frameworks;
   final String? selectedValue;
 
   @override
-  _ComboboxPopupState createState() => _ComboboxPopupState();
+  State<ComboboxPopup> createState() => _ComboboxPopupState();
 }
 
 class _ComboboxPopupState extends State<ComboboxPopup> {
