@@ -4,6 +4,20 @@ import 'utils/s_switch_utils.dart';
 
 /// A customizable and accessible switch component
 class SSwitch extends StatefulWidget {
+  /// Creates an [SSwitch].
+  const SSwitch({
+    Key? key,
+    required this.value,
+    required this.onChanged,
+    this.size = SSwitchSize.medium,
+    this.variant = SSwitchVariant.filled,
+    this.animationDuration,
+    this.activeColor,
+    this.inactiveColor,
+    this.thumbColor,
+    this.semanticLabel,
+  }) : super(key: key);
+
   /// The current state of the switch.
   final bool value;
 
@@ -30,20 +44,6 @@ class SSwitch extends StatefulWidget {
 
   /// Accessibility label for the switch.
   final String? semanticLabel;
-
-  /// Creates an [SSwitch].
-  const SSwitch({
-    Key? key,
-    required this.value,
-    required this.onChanged,
-    this.size = SSwitchSize.medium,
-    this.variant = SSwitchVariant.filled,
-    this.animationDuration,
-    this.activeColor,
-    this.inactiveColor,
-    this.thumbColor,
-    this.semanticLabel,
-  }) : super(key: key);
 
   @override
   _SSwitchState createState() => _SSwitchState();

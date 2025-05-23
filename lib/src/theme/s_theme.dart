@@ -3,14 +3,13 @@ import 's_colors.dart';
 import 's_typography.dart';
 
 class STheme {
-  final SColors sColors = SColors();
-  late final STypographyBase lightTypography;
-  late final STypographyBase darkTypography;
-
   STheme() {
     lightTypography = SLightTypography(colors: sColors.light);
     darkTypography = SDarkTypography(colors: sColors.dark);
   }
+  final SColors sColors = SColors();
+  late final STypographyBase lightTypography;
+  late final STypographyBase darkTypography;
 
   ThemeData getLightTheme() {
     final colors = sColors.light;

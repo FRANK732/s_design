@@ -3,48 +3,6 @@ import 'package:s_design/s_design.dart';
 import 'package:s_design/src/theme/s_spacers.dart';
 
 class SDialog extends StatelessWidget {
-  final String? title;
-  final String? description;
-  final Widget? content;
-  final List<Widget>? actions;
-  final bool barrierDismissible;
-  final Color barrierColor;
-  final Duration transitionDuration;
-  final ShapeDecoration? shapeDecoration;
-  final Color? backgroundColor;
-  final EdgeInsetsGeometry? contentPadding;
-  final String? semanticLabel;
-  final bool showCloseButton;
-  final double maxWidth;
-  final double maxHeight;
-  final Curve animationCurve;
-  final Duration animationDuration;
-  final TextStyle? titleStyle;
-  final TextStyle? descriptionStyle;
-  final BorderRadius? borderRadius;
-  final SDialogAnimationType animationType;
-  final bool showDivider;
-  final Color? dividerColor;
-  final double dividerThickness;
-  final EdgeInsetsGeometry? actionsPadding;
-  final MainAxisAlignment actionsAlignment;
-  final CrossAxisAlignment contentCrossAlignment;
-  final MainAxisAlignment contentMainAlignment;
-  final bool scrollable;
-  final ScrollController? scrollController;
-  final ScrollPhysics? scrollPhysics;
-  final double elevation;
-  final bool useSafeArea;
-  final bool showTitleDivider;
-  final Color? titleDividerColor;
-  final double titleDividerThickness;
-  final EdgeInsetsGeometry? titlePadding;
-  final EdgeInsetsGeometry? descriptionPadding;
-  final bool showDescriptionDivider;
-  final Color? descriptionDividerColor;
-  final double descriptionDividerThickness;
-  final bool hasActions;
-
   const SDialog({
     this.title,
     this.description,
@@ -89,6 +47,47 @@ class SDialog extends StatelessWidget {
     this.hasActions = false,
     Key? key,
   }) : super(key: key);
+  final String? title;
+  final String? description;
+  final Widget? content;
+  final List<Widget>? actions;
+  final bool barrierDismissible;
+  final Color barrierColor;
+  final Duration transitionDuration;
+  final ShapeDecoration? shapeDecoration;
+  final Color? backgroundColor;
+  final EdgeInsetsGeometry? contentPadding;
+  final String? semanticLabel;
+  final bool showCloseButton;
+  final double maxWidth;
+  final double maxHeight;
+  final Curve animationCurve;
+  final Duration animationDuration;
+  final TextStyle? titleStyle;
+  final TextStyle? descriptionStyle;
+  final BorderRadius? borderRadius;
+  final SDialogAnimationType animationType;
+  final bool showDivider;
+  final Color? dividerColor;
+  final double dividerThickness;
+  final EdgeInsetsGeometry? actionsPadding;
+  final MainAxisAlignment actionsAlignment;
+  final CrossAxisAlignment contentCrossAlignment;
+  final MainAxisAlignment contentMainAlignment;
+  final bool scrollable;
+  final ScrollController? scrollController;
+  final ScrollPhysics? scrollPhysics;
+  final double elevation;
+  final bool useSafeArea;
+  final bool showTitleDivider;
+  final Color? titleDividerColor;
+  final double titleDividerThickness;
+  final EdgeInsetsGeometry? titlePadding;
+  final EdgeInsetsGeometry? descriptionPadding;
+  final bool showDescriptionDivider;
+  final Color? descriptionDividerColor;
+  final double descriptionDividerThickness;
+  final bool hasActions;
 
   static Future<T?> show<T>({
     required BuildContext context,
@@ -160,7 +159,7 @@ class SDialog extends StatelessWidget {
     );
 
     if (hasActions) {
-      return await showDialog<T>(
+      return showDialog<T>(
         context: context,
         barrierDismissible: barrierDismissible,
         barrierColor: barrierColor,
@@ -287,7 +286,9 @@ class SDialog extends StatelessWidget {
   }
 
   Widget _buildAnimatedDialog(
-      Animation<double> animation, BuildContext context) {
+    Animation<double> animation,
+    BuildContext context,
+  ) {
     switch (animationType) {
       case SDialogAnimationType.zoomIn:
         return ScaleTransition(

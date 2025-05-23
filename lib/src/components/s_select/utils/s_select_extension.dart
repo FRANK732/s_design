@@ -2,25 +2,18 @@ import 'package:flutter/material.dart';
 
 /// Represents an item in the SSelect widget.
 class SSelectItem<T> {
-  final T value;
-  final String label;
-  final bool disabled;
-
   SSelectItem({
     required this.value,
     required this.label,
     this.disabled = false,
   });
+  final T value;
+  final String label;
+  final bool disabled;
 }
 
 /// The content of the SSelect dropdown.
 class SSelectContent<T> extends StatefulWidget {
-  final List<SSelectItem<T>> items;
-  final T? selectedValue;
-  final ValueChanged<T?> onItemSelected;
-  final bool isMultiSelect;
-  final double dropdownMaxHeight;
-
   const SSelectContent({
     super.key,
     required this.items,
@@ -29,6 +22,11 @@ class SSelectContent<T> extends StatefulWidget {
     this.isMultiSelect = false,
     this.dropdownMaxHeight = 300.0,
   });
+  final List<SSelectItem<T>> items;
+  final T? selectedValue;
+  final ValueChanged<T?> onItemSelected;
+  final bool isMultiSelect;
+  final double dropdownMaxHeight;
 
   @override
   _SSelectContentState<T> createState() => _SSelectContentState<T>();
@@ -53,9 +51,11 @@ class _SSelectContentState<T> extends State<SSelectContent<T>> {
   void _filterItems() {
     setState(() {
       _filteredItems = widget.items
-          .where((item) => item.label
-          .toLowerCase()
-          .contains(_searchController.text.toLowerCase()))
+          .where(
+            (item) => item.label
+                .toLowerCase()
+                .contains(_searchController.text.toLowerCase()),
+          )
           .toList();
     });
   }
@@ -69,9 +69,9 @@ class _SSelectContentState<T> extends State<SSelectContent<T>> {
           _multiSelectedValues.add(item.value);
         }
       });
-      widget.onItemSelected(_multiSelectedValues.isNotEmpty
-          ? _multiSelectedValues.last
-          : null as T);
+      widget.onItemSelected(
+        _multiSelectedValues.isNotEmpty ? _multiSelectedValues.last : null as T,
+      );
     } else {
       if (!item.disabled) {
         widget.onItemSelected(item.value);
@@ -94,11 +94,11 @@ class _SSelectContentState<T> extends State<SSelectContent<T>> {
       enabled: !item.disabled,
       leading: isSelected
           ? (widget.isMultiSelect
-          ? Icon(Icons.check_box, color: Theme.of(context).primaryColor)
-          : Icon(Icons.check, color: Theme.of(context).primaryColor))
+              ? Icon(Icons.check_box, color: Theme.of(context).primaryColor)
+              : Icon(Icons.check, color: Theme.of(context).primaryColor))
           : (widget.isMultiSelect
-          ? const Icon(Icons.check_box_outline_blank)
-          : const SizedBox(width: 24)),
+              ? const Icon(Icons.check_box_outline_blank)
+              : const SizedBox(width: 24)),
       title: Text(
         item.label,
         style: item.disabled
@@ -134,27 +134,28 @@ class _SSelectContentState<T> extends State<SSelectContent<T>> {
           Expanded(
             child: _filteredItems.isNotEmpty
                 ? Scrollbar(
-              controller: _scrollController,
-              child: ListView.separated(
-                controller: _scrollController,
-                itemCount: _filteredItems.length,
-                separatorBuilder: (context, index) =>
-                const Divider(height: 1),
-                itemBuilder: (context, index) {
-                  final item = _filteredItems[index];
-                  return _buildItem(item);
-                },
-              ),
-            )
+                    controller: _scrollController,
+                    child: ListView.separated(
+                      controller: _scrollController,
+                      itemCount: _filteredItems.length,
+                      separatorBuilder: (context, index) =>
+                          const Divider(height: 1),
+                      itemBuilder: (context, index) {
+                        final item = _filteredItems[index];
+                        return _buildItem(item);
+                      },
+                    ),
+                  )
                 : Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                'No options found.',
-                style: TextStyle(
-                    color: Theme.of(context).disabledColor,
-                    fontStyle: FontStyle.italic),
-              ),
-            ),
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      'No options found.',
+                      style: TextStyle(
+                        color: Theme.of(context).disabledColor,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                  ),
           ),
         ],
       ),

@@ -5,11 +5,6 @@ import 'package:s_design/src/components/s_card/enums/s_card_shadow.dart';
 import 'package:s_design/src/components/s_card/enums/s_card_shape.dart';
 
 // A customizable card widget with support for content sections, styling, animations, dismissible behavior, and accessibility features.
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:s_design/src/components/s_card/enums/s_card_shadow.dart';
-import 'package:s_design/src/components/s_card/enums/s_card_shape.dart';
 
 // A customizable card widget with support for content sections, styling, animations, dismissible behavior, and accessibility features.
 class SCard extends StatefulWidget {

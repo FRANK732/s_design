@@ -3,14 +3,6 @@ import 'enums/s_tabs_enums.dart';
 import 'utils/s_tabs_utils.dart';
 
 class TabsContent extends StatelessWidget {
-  final int index;
-  final int activeIndex;
-  final STabAnimationType animationType;
-  final Duration duration;
-  final Curve curve;
-  final Widget child;
-  final EdgeInsetsGeometry contentMargin;
-
   const TabsContent({
     Key? key,
     required this.index,
@@ -21,6 +13,13 @@ class TabsContent extends StatelessWidget {
     required this.curve,
     required this.child,
   }) : super(key: key);
+  final int index;
+  final int activeIndex;
+  final STabAnimationType animationType;
+  final Duration duration;
+  final Curve curve;
+  final Widget child;
+  final EdgeInsetsGeometry contentMargin;
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +34,10 @@ class TabsContent extends StatelessWidget {
       },
       child: activeIndex == index
           ? Container(
-        margin: contentMargin,
-        key: ValueKey<int>(index),
-        child: child,
-      )
+              margin: contentMargin,
+              key: ValueKey<int>(index),
+              child: child,
+            )
           : const SizedBox.shrink(),
     );
   }

@@ -6,6 +6,44 @@ import 's_tab_list.dart';
 import 's_tabs_content.dart';
 
 class STabs extends StatefulWidget {
+  const STabs({
+    Key? key,
+    required this.tabs,
+    this.initialIndex = 0,
+    this.animationType = STabAnimationType.fade,
+    this.duration = const Duration(milliseconds: 300),
+    this.curve = Curves.easeInOut,
+    this.orientation = STabOrientation.horizontal,
+    this.mainAxisAlignment = MainAxisAlignment.start,
+    this.crossAxisAlignment = CrossAxisAlignment.center,
+    this.onTabChanged,
+    this.tabListMargin = const EdgeInsets.symmetric(horizontal: 0.0),
+    this.tabListPadding = const EdgeInsets.all(3.0),
+    this.backgroundDecoration,
+    this.activeTabTextStyle,
+    this.inactiveTabTextStyle,
+    this.activeTabDecoration,
+    this.inactiveTabDecoration,
+    this.tabBorderRadius,
+    this.tabPadding = const EdgeInsets.symmetric(vertical: 3, horizontal: 55),
+    this.tabMargin = const EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.0),
+    this.tabWidth = 420,
+    this.tabHeight = 40.0,
+    this.tabTextAlign = TextAlign.center,
+    this.animationCurve = Curves.easeInOut,
+    this.animationDuration = const Duration(milliseconds: 300),
+    this.scrollPhysics,
+    this.isScrollable = true,
+    this.activeTabBackgroundColor,
+    this.inactiveTabBackgroundColor,
+    this.tabLeadingIcon,
+    this.tabTrailingIcon,
+    this.iconSpacing = 8.0,
+  })  : assert(tabs.length > 0, 'Tabs list cannot be empty.'),
+        assert(initialIndex >= 0 && initialIndex < tabs.length,
+            'Initial index must be within the range of tabs.'),
+        super(key: key);
+
   /// The list of tabs, each containing a label and corresponding content.
   final List<STabItem> tabs;
 
@@ -99,44 +137,6 @@ class STabs extends StatefulWidget {
   /// Spacing between icons and text in tabs.
   final double iconSpacing;
 
-  const STabs({
-    Key? key,
-    required this.tabs,
-    this.initialIndex = 0,
-    this.animationType = STabAnimationType.fade,
-    this.duration = const Duration(milliseconds: 300),
-    this.curve = Curves.easeInOut,
-    this.orientation = STabOrientation.horizontal,
-    this.mainAxisAlignment = MainAxisAlignment.start,
-    this.crossAxisAlignment = CrossAxisAlignment.center,
-    this.onTabChanged,
-    this.tabListMargin = const EdgeInsets.symmetric(horizontal: 0.0),
-    this.tabListPadding = const EdgeInsets.all(3.0),
-    this.backgroundDecoration,
-    this.activeTabTextStyle,
-    this.inactiveTabTextStyle,
-    this.activeTabDecoration,
-    this.inactiveTabDecoration,
-    this.tabBorderRadius,
-    this.tabPadding = const EdgeInsets.symmetric(vertical: 3, horizontal: 55),
-    this.tabMargin = const EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.0),
-    this.tabWidth = 420,
-    this.tabHeight = 40.0,
-    this.tabTextAlign = TextAlign.center,
-    this.animationCurve = Curves.easeInOut,
-    this.animationDuration = const Duration(milliseconds: 300),
-    this.scrollPhysics,
-    this.isScrollable = true,
-    this.activeTabBackgroundColor,
-    this.inactiveTabBackgroundColor,
-    this.tabLeadingIcon,
-    this.tabTrailingIcon,
-    this.iconSpacing = 8.0,
-  })  : assert(tabs.length > 0, 'Tabs list cannot be empty.'),
-        assert(initialIndex >= 0 && initialIndex < tabs.length,
-            'Initial index must be within the range of tabs.'),
-        super(key: key);
-
   @override
   _STabsState createState() => _STabsState();
 }
@@ -217,18 +217,20 @@ class _STabsState extends State<STabs> with SingleTickerProviderStateMixin {
           child: Stack(
             children: widget.tabs
                 .asMap()
-                .map((index, tab) => MapEntry(
-                      index,
-                      TabsContent(
-                        contentMargin: widget.tabListMargin,
-                        index: index,
-                        activeIndex: _activeIndex,
-                        animationType: widget.animationType,
-                        duration: widget.duration,
-                        curve: widget.curve,
-                        child: tab.content,
-                      ),
-                    ))
+                .map(
+                  (index, tab) => MapEntry(
+                    index,
+                    TabsContent(
+                      contentMargin: widget.tabListMargin,
+                      index: index,
+                      activeIndex: _activeIndex,
+                      animationType: widget.animationType,
+                      duration: widget.duration,
+                      curve: widget.curve,
+                      child: tab.content,
+                    ),
+                  ),
+                )
                 .values
                 .toList(),
           ),

@@ -8,7 +8,9 @@ import 'package:s_design/src/components/s_select/utils/s_select_extension.dart';
 class SSelectUtils {
   /// Filters the [items] based on the [query].
   static List<SSelectItem<T>> filterItems<T>(
-      List<SSelectItem<T>> items, String query) {
+    List<SSelectItem<T>> items,
+    String query,
+  ) {
     if (query.isEmpty) {
       return items;
     }
@@ -19,7 +21,10 @@ class SSelectUtils {
 
   /// Determines the position of the dropdown based on the available space.
   static SSelectDropdownDirection determineDropdownDirection(
-      BuildContext context, RenderBox renderBox, double dropdownHeight) {
+    BuildContext context,
+    RenderBox renderBox,
+    double dropdownHeight,
+  ) {
     final screenHeight = MediaQuery.of(context).size.height;
     final widgetPosition = renderBox.localToGlobal(Offset.zero);
     final spaceBelow = screenHeight - widgetPosition.dy - renderBox.size.height;

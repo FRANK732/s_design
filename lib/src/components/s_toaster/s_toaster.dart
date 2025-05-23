@@ -3,13 +3,6 @@ import '../../components/s_toaster/enums/s_toaster_enum.dart';
 import 'dart:developer' as developer;
 
 class SToast extends StatefulWidget {
-  final String description;
-  final String? title;
-  final Widget? action;
-  final SToastVariant variant;
-  final Duration duration;
-  final VoidCallback? onClose;
-
   const SToast({
     super.key,
     required this.description,
@@ -19,6 +12,12 @@ class SToast extends StatefulWidget {
     this.duration = const Duration(seconds: 5),
     this.onClose,
   });
+  final String description;
+  final String? title;
+  final Widget? action;
+  final SToastVariant variant;
+  final Duration duration;
+  final VoidCallback? onClose;
 
   @override
   _SToastState createState() => _SToastState();
@@ -41,8 +40,11 @@ class SToast extends StatefulWidget {
     String? id = 'default',
   }) {
     if (_overlayState == null) {
-      developer.log('SToast: Error: OverlayState not initialized',
-          name: 'SToast', error: 'Call initialize() first');
+      developer.log(
+        'SToast: Error: OverlayState not initialized',
+        name: 'SToast',
+        error: 'Call initialize() first',
+      );
       throw Exception('SToast is not initialized. Call initialize() first.');
     }
 
@@ -67,12 +69,16 @@ class SToast extends StatefulWidget {
     if (id != null) {
       _activeToasts[id]?.remove();
       _activeToasts[id] = overlayEntry;
-      developer.log('SToast: Active toasts: ${_activeToasts.keys}',
-          name: 'SToast');
+      developer.log(
+        'SToast: Active toasts: ${_activeToasts.keys}',
+        name: 'SToast',
+      );
     }
 
-    developer.log('SToast: Showing toast with id: $id, duration: $duration',
-        name: 'SToast');
+    developer.log(
+      'SToast: Showing toast with id: $id, duration: $duration',
+      name: 'SToast',
+    );
     _overlayState!.insert(overlayEntry);
   }
 
@@ -83,7 +89,9 @@ class SToast extends StatefulWidget {
       _activeToasts.remove(id);
     } else {
       developer.log('SToast: Dismissing all toasts', name: 'SToast');
-      _activeToasts.values.forEach((entry) => entry.remove());
+      for (var entry in _activeToasts.values) {
+        entry.remove();
+      }
       _activeToasts.clear();
     }
   }
@@ -108,20 +116,26 @@ class _SToastState extends State<SToast> with SingleTickerProviderStateMixin {
     _offsetAnimation = Tween<Offset>(
       begin: const Offset(0, -1),
       end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeOut,
-    ));
+    ).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeOut,
+      ),
+    );
 
     _animationController.forward();
 
     if (widget.duration != Duration.zero) {
-      developer.log('SToast: Scheduling auto-dismiss after ${widget.duration}',
-          name: 'SToast');
+      developer.log(
+        'SToast: Scheduling auto-dismiss after ${widget.duration}',
+        name: 'SToast',
+      );
       Future.delayed(widget.duration, _closeToast);
     } else {
-      developer.log('SToast: No auto-dismiss (duration is zero)',
-          name: 'SToast');
+      developer.log(
+        'SToast: No auto-dismiss (duration is zero)',
+        name: 'SToast',
+      );
     }
   }
 
@@ -149,8 +163,10 @@ class _SToastState extends State<SToast> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     if (!_isVisible) {
-      developer.log('SToast: Toast not visible, returning empty widget',
-          name: 'SToast');
+      developer.log(
+        'SToast: Toast not visible, returning empty widget',
+        name: 'SToast',
+      );
       return const SizedBox.shrink();
     }
 
@@ -222,8 +238,10 @@ class _SToastState extends State<SToast> with SingleTickerProviderStateMixin {
                         color: textColor.withOpacity(0.7),
                       ),
                       onPressed: () {
-                        developer.log('SToast: Toast dismissed by close button',
-                            name: 'SToast');
+                        developer.log(
+                          'SToast: Toast dismissed by close button',
+                          name: 'SToast',
+                        );
                         _closeToast();
                       },
                     ),

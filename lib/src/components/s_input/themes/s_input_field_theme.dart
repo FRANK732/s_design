@@ -73,24 +73,6 @@ import 'package:flutter/material.dart';
 /// A theme class for your SInputField.
 /// You can expand this with more styling options (colors, fonts, etc.).
 class SInputFieldTheme {
-  /// The border color in normal state.
-  final Color borderColor;
-
-  /// The border color when focused.
-  final Color focusedBorderColor;
-
-  /// The border color when disabled.
-  final Color disabledBorderColor;
-
-  /// The width of the border.
-  final double borderWidth;
-
-  /// The width of the border when focused.
-  final double focusedBorderWidth;
-
-  /// The corner radius of the field.
-  final double borderRadius;
-
   /// Default constructor for the theme.
   const SInputFieldTheme({
     required this.borderColor,
@@ -113,4 +95,22 @@ class SInputFieldTheme {
       borderRadius: 6.0,
     );
   }
+
+  /// The border color in normal state.
+  final Color borderColor;
+
+  /// The border color when focused.
+  final Color focusedBorderColor;
+
+  /// The border color when disabled.
+  final Color disabledBorderColor;
+
+  /// The width of the border.
+  final double borderWidth;
+
+  /// The width of the border when focused.
+  final double focusedBorderWidth;
+
+  /// The corner radius of the field.
+  final double borderRadius;
 }

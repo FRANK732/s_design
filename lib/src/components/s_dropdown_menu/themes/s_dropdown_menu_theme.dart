@@ -2,6 +2,15 @@ import 'package:flutter/material.dart';
 
 /// Theme data for [SDropdownMenu].
 class SDropdownMenuThemeData {
+  /// Creates an instance of [SDropdownMenuThemeData].
+  const SDropdownMenuThemeData({
+    this.backgroundColor = Colors.white,
+    this.textColor = Colors.black,
+    this.disabledTextColor = Colors.grey,
+    this.separatorColor = Colors.grey,
+    this.iconColor = Colors.black,
+  });
+
   /// Background color of the dropdown menu.
   final Color backgroundColor;
 
@@ -16,15 +25,6 @@ class SDropdownMenuThemeData {
 
   /// Icon color for menu items.
   final Color iconColor;
-
-  /// Creates an instance of [SDropdownMenuThemeData].
-  const SDropdownMenuThemeData({
-    this.backgroundColor = Colors.white,
-    this.textColor = Colors.black,
-    this.disabledTextColor = Colors.grey,
-    this.separatorColor = Colors.grey,
-    this.iconColor = Colors.black,
-  });
 
   /// Provides a light theme.
   static const SDropdownMenuThemeData light = SDropdownMenuThemeData();

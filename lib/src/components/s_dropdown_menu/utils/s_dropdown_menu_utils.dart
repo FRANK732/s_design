@@ -28,21 +28,24 @@ class STriggerContainerSizeUtils {
 
   // Container padding
   static EdgeInsetsGeometry getContainerPadding(STriggerContainerSize size) {
-    double padding = _getScalingFactor(size) * 0.05; // 5% of scaling factor
+    final double padding =
+        _getScalingFactor(size) * 0.05; // 5% of scaling factor
     return EdgeInsets.all(padding);
   }
 
   // Menu max height and width
   static double getMenuMaxHeight(
-      STriggerContainerSize size, BuildContext context) {
+    STriggerContainerSize size,
+    BuildContext context,
+  ) {
     final screenHeight = MediaQuery.of(context).size.height;
-    double maxHeight = screenHeight * 0.4; // 40% of screen height
+    final double maxHeight = screenHeight * 0.4; // 40% of screen height
     return maxHeight.clamp(100, 500); // Constrain between 100 and 500
   }
 
   static double getMenuWidth(STriggerContainerSize size, BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    double maxWidth = screenWidth * 0.5; // 50% of screen width
+    final double maxWidth = screenWidth * 0.5; // 50% of screen width
     return maxWidth.clamp(200, 600); // Constrain between 200 and 600
   }
 
@@ -56,7 +59,8 @@ class STriggerContainerSizeUtils {
   }
 
   static EdgeInsetsGeometry getChipPadding(STriggerContainerSize size) {
-    double padding = _getScalingFactor(size) * 0.03; // 3% of scaling factor
+    final double padding =
+        _getScalingFactor(size) * 0.03; // 3% of scaling factor
     return EdgeInsets.all(padding);
   }
 

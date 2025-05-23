@@ -4,14 +4,13 @@ import 'package:s_design/src/theme/theme_extension.dart';
 import '../../../s_design.dart';
 
 class SDialogContent extends StatefulWidget {
-  final SDialog dialog;
-  final SDialogController controller;
-
   const SDialogContent({
     Key? key,
     required this.dialog,
     required this.controller,
   }) : super(key: key);
+  final SDialog dialog;
+  final SDialogController controller;
 
   @override
   State<SDialogContent> createState() => _SDialogContentState();
@@ -21,9 +20,9 @@ class _SDialogContentState extends State<SDialogContent> {
   final FocusScopeNode _focusScopeNode = FocusScopeNode();
 
   ShapeDecoration mergeDecorations(
-      ShapeDecoration base,
-      ShapeDecoration? override,
-      ) {
+    ShapeDecoration base,
+    ShapeDecoration? override,
+  ) {
     if (override == null) {
       return base;
     }
@@ -32,11 +31,10 @@ class _SDialogContentState extends State<SDialogContent> {
       color: override.color ?? base.color,
       shape: override.shape,
       shadows: override.shadows ?? base.shadows,
-      image:override.image,
+      image: override.image,
       gradient: override.gradient,
     );
   }
-
 
   @override
   void dispose() {
@@ -50,7 +48,7 @@ class _SDialogContentState extends State<SDialogContent> {
 
     final ShapeDecoration defaultDecoration = ShapeDecoration(
       color: context.backgroundColor,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: Spacers.radiusMedium,
       ),
       shadows: const [
@@ -105,8 +103,8 @@ class _SDialogContentState extends State<SDialogContent> {
                             ),
                           ],
                         ),
-
-                      if (dialog.description != null && dialog.description!.isNotEmpty) ...[
+                      if (dialog.description != null &&
+                          dialog.description!.isNotEmpty) ...[
                         const SizedBox(height: 8),
                         Text(
                           dialog.description!,
@@ -114,12 +112,10 @@ class _SDialogContentState extends State<SDialogContent> {
                           textAlign: TextAlign.left,
                         ),
                       ],
-
                       if (dialog.content != null) ...[
                         const SizedBox(height: 16),
                         dialog.content!,
                       ],
-
                       if (dialog.actions != null && dialog.actions!.isNotEmpty)
                         Padding(
                           padding: const EdgeInsets.only(top: 20.0),

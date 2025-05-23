@@ -5,12 +5,11 @@ import 'enums/s_sonner_options.dart';
 import '../../components/s_sonner/utils/s_sonner_utils.dart';
 
 class SSonner {
+  SSonner._internal();
   static final SSonner _instance = SSonner._internal();
   OverlayState? _overlayState;
   final List<_ToastEntry> _queue = [];
   bool _isShowing = false;
-
-  SSonner._internal();
 
   static SSonner get instance => _instance;
 
@@ -77,15 +76,6 @@ class SSonner {
 }
 
 class _ToastEntry {
-  final String message;
-  final SSonnerVariant type;
-  final Duration duration;
-  final Color? backgroundColor;
-  final TextStyle? textStyle;
-  final IconData? icon;
-  final SSonnerPosition position;
-  final SSonnerSize size;
-
   _ToastEntry({
     required this.message,
     this.type = SSonnerVariant.info,
@@ -96,12 +86,19 @@ class _ToastEntry {
     this.position = SSonnerPosition.bottom,
     this.size = SSonnerSize.md,
   });
+  final String message;
+  final SSonnerVariant type;
+  final Duration duration;
+  final Color? backgroundColor;
+  final TextStyle? textStyle;
+  final IconData? icon;
+  final SSonnerPosition position;
+  final SSonnerSize size;
 }
 
 class _ToastWidget extends StatelessWidget {
-  final _ToastEntry entry;
-
   const _ToastWidget({required this.entry});
+  final _ToastEntry entry;
 
   @override
   Widget build(BuildContext context) {
@@ -111,9 +108,9 @@ class _ToastWidget extends StatelessWidget {
     // final spacers = context.spacers;
 
     // Determine background color and icon based on variant
-    Color backgroundColor = entry.backgroundColor ??
+    final Color backgroundColor = entry.backgroundColor ??
         SSonnerUtils.getBackgroundColor(entry.type, context);
-    IconData icon = entry.icon ?? SSonnerUtils.getIconData(entry.type);
+    final IconData icon = entry.icon ?? SSonnerUtils.getIconData(entry.type);
 
     Alignment alignment;
     double verticalOffset = 50.0;
@@ -205,7 +202,7 @@ class _ToastWidget extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(icon, color: Colors.white),
-                        SizedBox(width: 12),
+                        const SizedBox(width: 12),
                         Flexible(
                           child: Text(
                             entry.message,

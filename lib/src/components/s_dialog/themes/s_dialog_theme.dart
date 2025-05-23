@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 
 /// Theme data for [SDialog].
 class SDialogThemeData {
+  /// Creates an instance of [SDialogThemeData].
+  const SDialogThemeData({
+    this.backgroundColor = Colors.white,
+    this.titleColor = Colors.black,
+    this.descriptionColor = Colors.black54,
+    this.actionTextColor = Colors.blue,
+  });
+
   /// Background color of the dialog.
   final Color backgroundColor;
 
@@ -13,14 +21,6 @@ class SDialogThemeData {
 
   /// Color of the action buttons.
   final Color actionTextColor;
-
-  /// Creates an instance of [SDialogThemeData].
-  const SDialogThemeData({
-    this.backgroundColor = Colors.white,
-    this.titleColor = Colors.black,
-    this.descriptionColor = Colors.black54,
-    this.actionTextColor = Colors.blue,
-  });
 
   /// Provides a light theme.
   static const SDialogThemeData light = SDialogThemeData();

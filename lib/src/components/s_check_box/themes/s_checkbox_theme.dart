@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 
 /// Theme data for [SCheckbox].
 class SCheckboxThemeData {
+  /// Creates an instance of [SCheckboxThemeData].
+  const SCheckboxThemeData({
+    this.activeColor = Colors.teal,
+    this.checkColor = Colors.white,
+    this.borderColor = Colors.grey,
+  });
+
   /// Default active color when the checkbox is checked.
   final Color activeColor;
 
@@ -10,13 +17,6 @@ class SCheckboxThemeData {
 
   /// Default border color for the checkbox.
   final Color borderColor;
-
-  /// Creates an instance of [SCheckboxThemeData].
-  const SCheckboxThemeData({
-    this.activeColor = Colors.teal,
-    this.checkColor = Colors.white,
-    this.borderColor = Colors.grey,
-  });
 
   /// Provides a light theme.
   static const SCheckboxThemeData light = SCheckboxThemeData();

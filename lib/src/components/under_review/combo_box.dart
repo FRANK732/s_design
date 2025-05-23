@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 
 /// Represents a framework item with a value and label.
 class Framework {
+  Framework({required this.value, required this.label});
   final String value;
   final String label;
-
-  Framework({required this.value, required this.label});
 }
 
 /// The main ComboboxDemo widget.
@@ -47,7 +46,7 @@ class _ComboboxDemoState extends State<ComboboxDemo> {
 
   @override
   Widget build(BuildContext context) {
-    String buttonText = _selectedValue != null
+    final String buttonText = _selectedValue != null
         ? frameworks.firstWhere((f) => f.value == _selectedValue).label
         : 'Select framework...';
 
@@ -56,7 +55,8 @@ class _ComboboxDemoState extends State<ComboboxDemo> {
       style: ButtonStyle(
         minimumSize: WidgetStateProperty.all(const Size(200, 40)),
         alignment: Alignment.centerLeft,
-        padding: WidgetStateProperty.all(const EdgeInsets.symmetric(horizontal: 16)),
+        padding:
+            WidgetStateProperty.all(const EdgeInsets.symmetric(horizontal: 16)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -71,10 +71,10 @@ class _ComboboxDemoState extends State<ComboboxDemo> {
 
 /// The popup dialog containing the search input and list of items.
 class ComboboxPopup extends StatefulWidget {
+  const ComboboxPopup(
+      {super.key, required this.frameworks, this.selectedValue});
   final List<Framework> frameworks;
   final String? selectedValue;
-
-  const ComboboxPopup({super.key, required this.frameworks, this.selectedValue});
 
   @override
   _ComboboxPopupState createState() => _ComboboxPopupState();
@@ -94,9 +94,11 @@ class _ComboboxPopupState extends State<ComboboxPopup> {
   void _filterFrameworks() {
     setState(() {
       filteredFrameworks = widget.frameworks
-          .where((f) => f.label
-          .toLowerCase()
-          .contains(_searchController.text.toLowerCase()))
+          .where(
+            (f) => f.label
+                .toLowerCase()
+                .contains(_searchController.text.toLowerCase()),
+          )
           .toList();
     });
   }
@@ -111,7 +113,8 @@ class _ComboboxPopupState extends State<ComboboxPopup> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      insetPadding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
+      insetPadding:
+          const EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxHeight: 400),
         child: Column(
@@ -142,8 +145,7 @@ class _ComboboxPopupState extends State<ComboboxPopup> {
                     return ListTile(
                       leading: Icon(
                         Icons.check,
-                        color:
-                        isSelected ? Colors.blue : Colors.transparent,
+                        color: isSelected ? Colors.blue : Colors.transparent,
                       ),
                       title: Text(framework.label),
                       onTap: () {

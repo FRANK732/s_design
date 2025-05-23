@@ -2,109 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
 
 class SDropdownMenu extends StatefulWidget {
-  final List<String> items;
-  final ValueChanged<dynamic> onChanged;
-  final String? hintText;
-  final Widget? icon;
-  final EdgeInsetsGeometry? padding;
-  final EdgeInsetsGeometry? menuPadding;
-  final Color? backgroundColor;
-  final Color? hoverColor;
-  final Color? splashColor;
-  final Color? highlightColor;
-  final double? borderRadius;
-  final BorderRadius? menuBorderRadius;
-  final BoxShadow? shadow;
-  final List<BoxShadow>? menuShadows;
-  final TextStyle? textStyle;
-  final TextStyle? menuTextStyle;
-  final TextStyle? hintTextStyle;
-  final TextStyle? selectedTextStyle;
-  final Color? menuBackgroundColor;
-  final Color? menuItemBackgroundColor;
-  final Color? menuItemHoverColor;
-  final Color? menuItemSelectedColor;
-  final double? menuElevation;
-  final double? menuWidth;
-  final double? menuMaxHeight;
-  final double? menuItemHeight;
-  final double? menuItemPadding;
-  final SDropdownMenuItemType menuType;
-  final Duration animationDuration;
-  final Curve animationCurve;
-  final SDropdownMenuPosition preferredPosition;
-  final STriggerContainerSize triggerSize;
-  final bool showSelectedItemIcon;
-  final Widget? selectedItemIcon;
-  final bool showClearButton;
-  final Widget? clearButtonIcon;
-  final VoidCallback? onClear;
-  final bool showMenuIcon;
-  final Widget? menuIcon;
-  final bool showDivider;
-  final Color? dividerColor;
-  final double? dividerThickness;
-  final EdgeInsetsGeometry? dividerPadding;
-  final bool showScrollbar;
-  final ScrollbarThemeData? scrollbarTheme;
-  final bool showCheckbox;
-  final Color? checkboxActiveColor;
-  final Color? checkboxCheckColor;
-  final Color? checkboxHoverColor;
-
-  final Decoration? triggerDecoration;
-  final AlignmentGeometry? triggerAlignment;
-  final AlignmentGeometry? triggerIconAlignment;
-  final TextOverflow? triggerTextOverflow;
-  final int? maxSelectedItemsToShow;
-  final VoidCallback? onMenuOpen;
-  final VoidCallback? onMenuClose;
-  final EdgeInsetsGeometry? triggerMargin;
-  final Border? triggerBorder;
-  final Gradient? triggerGradient;
-  final ShapeBorder? triggerShape;
-  final BoxConstraints? triggerConstraints;
-  final EdgeInsetsGeometry? triggerContentPadding;
-
-  final EdgeInsetsGeometry? menuMargin;
-  final Border? menuBorder;
-  final Gradient? menuGradient;
-  final ShapeBorder? menuShape;
-  final BoxConstraints? menuConstraints;
-  final EdgeInsetsGeometry? menuContentPadding;
-
-  final Widget? chipAvatar;
-  final EdgeInsetsGeometry? chipLabelPadding;
-  final Widget? chipDeleteIcon;
-  final VoidCallback? chipOnDeleted;
-  final Color? chipDeleteIconColor;
-  final String? chipDeleteButtonTooltipMessage;
-  final BorderSide? chipSide;
-  final OutlinedBorder? chipShape;
-  final Clip clipBehavior;
-  final FocusNode? chipFocusNode;
-  final bool chipAutofocus;
-  final Color? chipBackgroundColor;
-  final EdgeInsetsGeometry? chipPadding;
-  final VisualDensity? chipVisualDensity;
-  final MaterialTapTargetSize? chipMaterialTapTargetSize;
-  final double? chipElevation;
-  final Color? chipShadowColor;
-  final Color? chipSurfaceTintColor;
-  final IconThemeData? chipIconTheme;
-  final BoxConstraints? chipAvatarBoxConstraints;
-  final BoxConstraints? chipDeleteIconBoxConstraints;
-  final ChipAnimationStyle? chipAnimationStyle;
-
-  final bool expandToMax;
-  final double? triggerMaxHeight;
-  final double? triggerMaxWidth;
-
-  final FocusNode? triggerFocus;
-  final bool readOnly;
-  final String? initialValue;
-  final List<String>? initialValues;
-
   SDropdownMenu({
     Key? key,
     required this.items,
@@ -243,6 +140,108 @@ class SDropdownMenu extends StatefulWidget {
         initialValues == null || menuType == SDropdownMenuItemType.multiSelect,
         'initialValues can only be used with SDropdownMenuItemType.multiSelect.');
   }
+  final List<String> items;
+  final ValueChanged<dynamic> onChanged;
+  final String? hintText;
+  final Widget? icon;
+  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? menuPadding;
+  final Color? backgroundColor;
+  final Color? hoverColor;
+  final Color? splashColor;
+  final Color? highlightColor;
+  final double? borderRadius;
+  final BorderRadius? menuBorderRadius;
+  final BoxShadow? shadow;
+  final List<BoxShadow>? menuShadows;
+  final TextStyle? textStyle;
+  final TextStyle? menuTextStyle;
+  final TextStyle? hintTextStyle;
+  final TextStyle? selectedTextStyle;
+  final Color? menuBackgroundColor;
+  final Color? menuItemBackgroundColor;
+  final Color? menuItemHoverColor;
+  final Color? menuItemSelectedColor;
+  final double? menuElevation;
+  final double? menuWidth;
+  final double? menuMaxHeight;
+  final double? menuItemHeight;
+  final double? menuItemPadding;
+  final SDropdownMenuItemType menuType;
+  final Duration animationDuration;
+  final Curve animationCurve;
+  final SDropdownMenuPosition preferredPosition;
+  final STriggerContainerSize triggerSize;
+  final bool showSelectedItemIcon;
+  final Widget? selectedItemIcon;
+  final bool showClearButton;
+  final Widget? clearButtonIcon;
+  final VoidCallback? onClear;
+  final bool showMenuIcon;
+  final Widget? menuIcon;
+  final bool showDivider;
+  final Color? dividerColor;
+  final double? dividerThickness;
+  final EdgeInsetsGeometry? dividerPadding;
+  final bool showScrollbar;
+  final ScrollbarThemeData? scrollbarTheme;
+  final bool showCheckbox;
+  final Color? checkboxActiveColor;
+  final Color? checkboxCheckColor;
+  final Color? checkboxHoverColor;
+
+  final Decoration? triggerDecoration;
+  final AlignmentGeometry? triggerAlignment;
+  final AlignmentGeometry? triggerIconAlignment;
+  final TextOverflow? triggerTextOverflow;
+  final int? maxSelectedItemsToShow;
+  final VoidCallback? onMenuOpen;
+  final VoidCallback? onMenuClose;
+  final EdgeInsetsGeometry? triggerMargin;
+  final Border? triggerBorder;
+  final Gradient? triggerGradient;
+  final ShapeBorder? triggerShape;
+  final BoxConstraints? triggerConstraints;
+  final EdgeInsetsGeometry? triggerContentPadding;
+
+  final EdgeInsetsGeometry? menuMargin;
+  final Border? menuBorder;
+  final Gradient? menuGradient;
+  final ShapeBorder? menuShape;
+  final BoxConstraints? menuConstraints;
+  final EdgeInsetsGeometry? menuContentPadding;
+
+  final Widget? chipAvatar;
+  final EdgeInsetsGeometry? chipLabelPadding;
+  final Widget? chipDeleteIcon;
+  final VoidCallback? chipOnDeleted;
+  final Color? chipDeleteIconColor;
+  final String? chipDeleteButtonTooltipMessage;
+  final BorderSide? chipSide;
+  final OutlinedBorder? chipShape;
+  final Clip clipBehavior;
+  final FocusNode? chipFocusNode;
+  final bool chipAutofocus;
+  final Color? chipBackgroundColor;
+  final EdgeInsetsGeometry? chipPadding;
+  final VisualDensity? chipVisualDensity;
+  final MaterialTapTargetSize? chipMaterialTapTargetSize;
+  final double? chipElevation;
+  final Color? chipShadowColor;
+  final Color? chipSurfaceTintColor;
+  final IconThemeData? chipIconTheme;
+  final BoxConstraints? chipAvatarBoxConstraints;
+  final BoxConstraints? chipDeleteIconBoxConstraints;
+  final ChipAnimationStyle? chipAnimationStyle;
+
+  final bool expandToMax;
+  final double? triggerMaxHeight;
+  final double? triggerMaxWidth;
+
+  final FocusNode? triggerFocus;
+  final bool readOnly;
+  final String? initialValue;
+  final List<String>? initialValues;
 
   @override
   _SDropdownMenuState createState() => _SDropdownMenuState();
@@ -253,7 +252,7 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
   bool _isMenuOpen = false;
   final LayerLink _layerLink = LayerLink();
   OverlayEntry? _overlayEntry;
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   List<String> _filteredItems = [];
   late FocusNode _focusNode;
 
@@ -286,8 +285,11 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
   void _onSearchChanged() {
     setState(() {
       _filteredItems = widget.items
-          .where((item) =>
-              item.toLowerCase().contains(_searchController.text.toLowerCase()))
+          .where(
+            (item) => item
+                .toLowerCase()
+                .contains(_searchController.text.toLowerCase()),
+          )
           .toList();
     });
   }
@@ -334,16 +336,21 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
   }
 
   OverlayEntry _createOverlayEntry() {
-    RenderBox renderBox = context.findRenderObject() as RenderBox;
-    var offset = renderBox.localToGlobal(Offset.zero);
-    var screenSize = MediaQuery.of(context).size;
+    final RenderBox renderBox = context.findRenderObject()! as RenderBox;
+    final offset = renderBox.localToGlobal(Offset.zero);
+    final screenSize = MediaQuery.of(context).size;
 
-    double menuWidth =
+    final double menuWidth =
         STriggerContainerSizeUtils.getMenuWidth(widget.triggerSize, context);
-    double menuHeight = _calculateMenuHeight();
+    final double menuHeight = _calculateMenuHeight();
 
-    Offset menuOffset = _calculateMenuPosition(
-        offset, screenSize, menuWidth, menuHeight, renderBox);
+    final Offset menuOffset = _calculateMenuPosition(
+      offset,
+      screenSize,
+      menuWidth,
+      menuHeight,
+      renderBox,
+    );
 
     return OverlayEntry(
       builder: (context) {
@@ -467,8 +474,13 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
     return baseHeight;
   }
 
-  Offset _calculateMenuPosition(Offset offset, Size screenSize,
-      double menuWidth, double menuHeight, RenderBox renderBox) {
+  Offset _calculateMenuPosition(
+    Offset offset,
+    Size screenSize,
+    double menuWidth,
+    double menuHeight,
+    RenderBox renderBox,
+  ) {
     double dx = offset.dx;
     double dy = offset.dy;
 
@@ -527,104 +539,107 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
         }
       },
       child: CompositedTransformTarget(
-          link: _layerLink,
-          child: GestureDetector(
-            onTap: () {
-              if (widget.readOnly) return;
-              _toggleMenu();
-            },
-            child: Focus(
-              focusNode: _focusNode,
-              child: Container(
-                margin: widget.triggerMargin,
-                constraints: widget.triggerConstraints,
-                decoration: widget.triggerDecoration,
-                child: AnimatedContainer(
-                  duration: widget.animationDuration,
-                  curve: widget.animationCurve,
-                  width: containerWidth,
-                  height: containerHeight,
-                  padding: containerPadding,
-                  decoration: widget.triggerDecoration ??
-                      BoxDecoration(
-                        color: widget.backgroundColor ??
-                            theme.inputDecorationTheme.focusColor,
-                        borderRadius:
-                            BorderRadius.circular(widget.borderRadius ?? 8),
-                        border: widget.triggerBorder,
-                        gradient: widget.triggerGradient,
-                        shape: widget.triggerShape != null
-                            ? BoxShape.rectangle
-                            : BoxShape.rectangle,
-                      ),
-                  alignment: widget.triggerAlignment ?? Alignment.centerLeft,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: widget.menuType ==
-                                SDropdownMenuItemType.multiSelect
-                            ? _selectedItems.isEmpty
-                                ? Text(
-                                    widget.hintText ?? 'Select an item',
-                                    style: widget.hintTextStyle ??
-                                        widget.textStyle ??
-                                        theme.textTheme.bodyMedium,
-                                    overflow: widget.triggerTextOverflow,
-                                  )
-                                : _buildSelectedItems()
-                            : Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 5.0),
-                                child: Text(
-                                  _selectedItems.isNotEmpty
-                                      ? _selectedItems.first
-                                      : widget.hintText ?? 'Select an item',
-                                  style: widget.textStyle ??
+        link: _layerLink,
+        child: GestureDetector(
+          onTap: () {
+            if (widget.readOnly) return;
+            _toggleMenu();
+          },
+          child: Focus(
+            focusNode: _focusNode,
+            child: Container(
+              margin: widget.triggerMargin,
+              constraints: widget.triggerConstraints,
+              decoration: widget.triggerDecoration,
+              child: AnimatedContainer(
+                duration: widget.animationDuration,
+                curve: widget.animationCurve,
+                width: containerWidth,
+                height: containerHeight,
+                padding: containerPadding,
+                decoration: widget.triggerDecoration ??
+                    BoxDecoration(
+                      color: widget.backgroundColor ??
+                          theme.inputDecorationTheme.focusColor,
+                      borderRadius:
+                          BorderRadius.circular(widget.borderRadius ?? 8),
+                      border: widget.triggerBorder,
+                      gradient: widget.triggerGradient,
+                      shape: widget.triggerShape != null
+                          ? BoxShape.rectangle
+                          : BoxShape.rectangle,
+                    ),
+                alignment: widget.triggerAlignment ?? Alignment.centerLeft,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: widget.menuType ==
+                              SDropdownMenuItemType.multiSelect
+                          ? _selectedItems.isEmpty
+                              ? Text(
+                                  widget.hintText ?? 'Select an item',
+                                  style: widget.hintTextStyle ??
+                                      widget.textStyle ??
                                       theme.textTheme.bodyMedium,
-                                  overflow: widget.triggerTextOverflow ??
-                                      TextOverflow.ellipsis,
-                                ),
+                                  overflow: widget.triggerTextOverflow,
+                                )
+                              : _buildSelectedItems()
+                          : Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5.0),
+                              child: Text(
+                                _selectedItems.isNotEmpty
+                                    ? _selectedItems.first
+                                    : widget.hintText ?? 'Select an item',
+                                style: widget.textStyle ??
+                                    theme.textTheme.bodyMedium,
+                                overflow: widget.triggerTextOverflow ??
+                                    TextOverflow.ellipsis,
                               ),
+                            ),
+                    ),
+                    if (widget.showClearButton && _selectedItems.isNotEmpty)
+                      IconButton(
+                        iconSize: STriggerContainerSizeUtils.getIconSize(
+                              widget.triggerSize,
+                            ) *
+                            0.7,
+                        icon: widget.clearButtonIcon ??
+                            Icon(
+                              Icons.clear,
+                              color: theme.iconTheme.color,
+                            ),
+                        onPressed: widget.readOnly
+                            ? null
+                            : () {
+                                setState(() {
+                                  _selectedItems.clear();
+                                  widget.onChanged(_selectedItems);
+                                  widget.onClear?.call();
+                                });
+                              },
                       ),
-                      if (widget.showClearButton && _selectedItems.isNotEmpty)
-                        IconButton(
-                          iconSize: STriggerContainerSizeUtils.getIconSize(
-                                  widget.triggerSize) *
-                              0.7,
-                          icon: widget.clearButtonIcon ??
-                              Icon(
-                                Icons.clear,
-                                color: theme.iconTheme.color,
+                    if (widget.showMenuIcon)
+                      Align(
+                        alignment: widget.triggerIconAlignment ??
+                            Alignment.centerRight,
+                        child: widget.menuIcon ??
+                            Icon(
+                              Icons.arrow_drop_down,
+                              size: STriggerContainerSizeUtils.getIconSize(
+                                widget.triggerSize,
                               ),
-                          onPressed: widget.readOnly
-                              ? null
-                              : () {
-                                  setState(() {
-                                    _selectedItems.clear();
-                                    widget.onChanged(_selectedItems);
-                                    widget.onClear?.call();
-                                  });
-                                },
-                        ),
-                      if (widget.showMenuIcon)
-                        Align(
-                          alignment: widget.triggerIconAlignment ??
-                              Alignment.centerRight,
-                          child: widget.menuIcon ??
-                              Icon(
-                                Icons.arrow_drop_down,
-                                size: STriggerContainerSizeUtils.getIconSize(
-                                    widget.triggerSize),
-                                color: theme.iconTheme.color,
-                              ),
-                        )
-                    ],
-                  ),
+                              color: theme.iconTheme.color,
+                            ),
+                      ),
+                  ],
                 ),
               ),
             ),
-          )),
+          ),
+        ),
+      ),
     );
   }
 
@@ -641,45 +656,46 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
 
     final selectedItems = _selectedItems
         .take(widget.maxSelectedItemsToShow ?? 3)
-        .map((item) => Padding(
-              padding: const EdgeInsets.only(right: 5.0),
-              child: Chip(
-                avatar: widget.chipAvatar,
-                label: Text(
-                  item,
-                  style: widget.selectedTextStyle ?? theme.textTheme.bodyMedium,
-                  overflow: widget.triggerTextOverflow,
-                ),
-                labelPadding: widget.chipLabelPadding ?? chipPadding,
-                deleteIcon: widget.chipDeleteIcon ??
-                    Icon(Icons.close, size: chipIconSize),
-                onDeleted: () {
-                  setState(() {
-                    _selectedItems.remove(item);
-                    widget.onChanged(_selectedItems);
-                  });
-                },
-                deleteIconColor: widget.chipDeleteIconColor,
-                deleteButtonTooltipMessage:
-                    widget.chipDeleteButtonTooltipMessage,
-                side: widget.chipSide,
-                shape: widget.chipShape,
-                clipBehavior: widget.clipBehavior,
-                focusNode: widget.chipFocusNode,
-                autofocus: widget.chipAutofocus,
-                backgroundColor: widget.chipBackgroundColor,
-                padding: widget.chipPadding ?? chipPadding,
-                visualDensity: widget.chipVisualDensity,
-                materialTapTargetSize: widget.chipMaterialTapTargetSize,
-                elevation: widget.chipElevation ?? chipElevation,
-                shadowColor: widget.chipShadowColor,
-                surfaceTintColor: widget.chipSurfaceTintColor,
-                iconTheme: widget.chipIconTheme,
-                avatarBoxConstraints: widget.chipAvatarBoxConstraints,
-                deleteIconBoxConstraints: widget.chipDeleteIconBoxConstraints,
-                chipAnimationStyle: widget.chipAnimationStyle,
+        .map(
+          (item) => Padding(
+            padding: const EdgeInsets.only(right: 5.0),
+            child: Chip(
+              avatar: widget.chipAvatar,
+              label: Text(
+                item,
+                style: widget.selectedTextStyle ?? theme.textTheme.bodyMedium,
+                overflow: widget.triggerTextOverflow,
               ),
-            ))
+              labelPadding: widget.chipLabelPadding ?? chipPadding,
+              deleteIcon: widget.chipDeleteIcon ??
+                  Icon(Icons.close, size: chipIconSize),
+              onDeleted: () {
+                setState(() {
+                  _selectedItems.remove(item);
+                  widget.onChanged(_selectedItems);
+                });
+              },
+              deleteIconColor: widget.chipDeleteIconColor,
+              deleteButtonTooltipMessage: widget.chipDeleteButtonTooltipMessage,
+              side: widget.chipSide,
+              shape: widget.chipShape,
+              clipBehavior: widget.clipBehavior,
+              focusNode: widget.chipFocusNode,
+              autofocus: widget.chipAutofocus,
+              backgroundColor: widget.chipBackgroundColor,
+              padding: widget.chipPadding ?? chipPadding,
+              visualDensity: widget.chipVisualDensity,
+              materialTapTargetSize: widget.chipMaterialTapTargetSize,
+              elevation: widget.chipElevation ?? chipElevation,
+              shadowColor: widget.chipShadowColor,
+              surfaceTintColor: widget.chipSurfaceTintColor,
+              iconTheme: widget.chipIconTheme,
+              avatarBoxConstraints: widget.chipAvatarBoxConstraints,
+              deleteIconBoxConstraints: widget.chipDeleteIconBoxConstraints,
+              chipAnimationStyle: widget.chipAnimationStyle,
+            ),
+          ),
+        )
         .toList();
 
     return ConstrainedBox(
@@ -690,9 +706,10 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: selectedItems),
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: selectedItems,
+        ),
       ),
     );
   }

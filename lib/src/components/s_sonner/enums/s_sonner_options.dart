@@ -1,5 +1,13 @@
 /// Represents the properties of a toast message.
 class SToastOptions {
+  /// Creates an instance of [SToastOptions].
+  const SToastOptions({
+    required this.message,
+    this.duration = const Duration(seconds: 3),
+    this.type = SSonnerVariant.info,
+    this.position = SSonnerPosition.bottom,
+  });
+
   /// The message to be displayed in the toast.
   final String message;
 
@@ -11,14 +19,6 @@ class SToastOptions {
 
   /// The position where the toast will appear on the screen.
   final SSonnerPosition position;
-
-  /// Creates an instance of [SToastOptions].
-  const SToastOptions({
-    required this.message,
-    this.duration = const Duration(seconds: 3),
-    this.type = SSonnerVariant.info,
-    this.position = SSonnerPosition.bottom,
-  });
 }
 
 /// Enumeration of possible toast types.

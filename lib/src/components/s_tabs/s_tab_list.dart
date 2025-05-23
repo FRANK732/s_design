@@ -133,7 +133,8 @@ class TabsList extends StatelessWidget {
     // Validate activeIndex
     if (activeIndex < 0 || activeIndex >= tabs.length) {
       throw FlutterError(
-          'TabsList: activeIndex ($activeIndex) is out of bounds for tabs list of length ${tabs.length}.');
+        'TabsList: activeIndex ($activeIndex) is out of bounds for tabs list of length ${tabs.length}.',
+      );
     }
 
     // Validate tab labels
@@ -146,19 +147,22 @@ class TabsList extends StatelessWidget {
     // Validate tabWidth
     if (tabWidth != null && (tabWidth! <= 0 || tabWidth!.isInfinite)) {
       throw FlutterError(
-          'TabsList: tabWidth must be a positive finite number if provided.');
+        'TabsList: tabWidth must be a positive finite number if provided.',
+      );
     }
 
     // Validate maxTabWidth
     if (maxTabWidth != null && (maxTabWidth! <= 0 || maxTabWidth!.isInfinite)) {
       throw FlutterError(
-          'TabsList: maxTabWidth must be a positive finite number if provided.');
+        'TabsList: maxTabWidth must be a positive finite number if provided.',
+      );
     }
 
     // Validate tabHeight
     if (tabHeight <= 0 || tabHeight.isInfinite) {
       throw FlutterError(
-          'TabsList: tabHeight must be a positive finite number.');
+        'TabsList: tabHeight must be a positive finite number.',
+      );
     }
 
     // Validate iconSpacing
@@ -180,7 +184,8 @@ class TabsList extends StatelessWidget {
     final widgetTabs = context.findAncestorWidgetOfExactType<STabs>();
     if (widgetTabs != null && widgetTabs.tabs != tabs) {
       throw FlutterError(
-          'TabsList must be a child of the corresponding Tabs widget.');
+        'TabsList must be a child of the corresponding Tabs widget.',
+      );
     }
 
     // Access the current theme: colorScheme, textTheme, etc.

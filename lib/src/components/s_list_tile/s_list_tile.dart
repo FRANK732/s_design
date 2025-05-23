@@ -4,6 +4,43 @@ import 'package:flutter/services.dart';
 /// An advanced ListTile widget built strictly on Flutter's ListTile.
 /// Enhances UI/UX with native properties and minimal external additions.
 class SListTile extends StatelessWidget {
+  /// Creates an [SListTile] with advanced features using only [ListTile] properties.
+  const SListTile({
+    super.key,
+    required this.title,
+    this.subtitle,
+    this.leading,
+    this.trailing,
+    this.onTap,
+    this.onLongPress,
+    this.onFocusChange,
+    this.tileColor,
+    this.selectedTileColor,
+    this.iconColor,
+    this.textColor,
+    this.titleTextStyle,
+    this.subtitleTextStyle,
+    this.contentPadding,
+    this.margin,
+    this.enabled = true,
+    this.showLoading = false,
+    this.animationDuration = const Duration(milliseconds: 200),
+    this.badge,
+    this.badgePosition,
+    this.vibrateOnTap = false,
+    this.isDense = false,
+    this.isThreeLine = false,
+    this.shape,
+    this.visualDensity,
+    this.splashColor,
+    this.hoverColor,
+    this.focusColor,
+    this.horizontalTitleGap,
+    this.minVerticalPadding,
+    this.minLeadingWidth,
+    this.minTileHeight,
+  }) : assert(!isThreeLine || subtitle != null);
+
   /// The title widget of the tile.
   final Widget title;
 
@@ -99,43 +136,6 @@ class SListTile extends StatelessWidget {
 
   /// Minimum height of the tile (optional).
   final double? minTileHeight;
-
-  /// Creates an [SListTile] with advanced features using only [ListTile] properties.
-  const SListTile({
-    super.key,
-    required this.title,
-    this.subtitle,
-    this.leading,
-    this.trailing,
-    this.onTap,
-    this.onLongPress,
-    this.onFocusChange,
-    this.tileColor,
-    this.selectedTileColor,
-    this.iconColor,
-    this.textColor,
-    this.titleTextStyle,
-    this.subtitleTextStyle,
-    this.contentPadding,
-    this.margin,
-    this.enabled = true,
-    this.showLoading = false,
-    this.animationDuration = const Duration(milliseconds: 200),
-    this.badge,
-    this.badgePosition,
-    this.vibrateOnTap = false,
-    this.isDense = false,
-    this.isThreeLine = false,
-    this.shape,
-    this.visualDensity,
-    this.splashColor,
-    this.hoverColor,
-    this.focusColor,
-    this.horizontalTitleGap,
-    this.minVerticalPadding,
-    this.minLeadingWidth,
-    this.minTileHeight,
-  }) : assert(!isThreeLine || subtitle != null);
 
   @override
   Widget build(BuildContext context) {
@@ -235,7 +235,7 @@ class SListTile extends StatelessWidget {
       iconColor: iconColor,
       textColor: textColor,
       shape: shape,
-      contentPadding: contentPadding ?? EdgeInsets.all(12.0),
+      contentPadding: contentPadding ?? const EdgeInsets.all(12.0),
       dense: isDense,
       isThreeLine: isThreeLine,
       enabled: enabled,
@@ -326,8 +326,7 @@ class SListTile extends StatelessWidget {
 
 /// Defines the position of a badge relative to the leading widget.
 class SBadgePosition {
+  const SBadgePosition({this.top, this.right});
   final double? top;
   final double? right;
-
-  const SBadgePosition({this.top, this.right});
 }

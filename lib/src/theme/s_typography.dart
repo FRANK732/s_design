@@ -25,9 +25,8 @@ abstract class STypographyBase {
 
 /// Light Theme Typography
 class SLightTypography extends STypographyBase {
-  final SColorsBase colors;
-
   SLightTypography({required this.colors});
+  final SColorsBase colors;
 
   @override
   TextStyle get displayLarge => TextStyle(
@@ -152,9 +151,8 @@ class SLightTypography extends STypographyBase {
 
 /// Dark Theme Typography
 class SDarkTypography extends STypographyBase {
-  final SColorsBase colors;
-
   SDarkTypography({required this.colors});
+  final SColorsBase colors;
 
   @override
   TextStyle get displayLarge => TextStyle(

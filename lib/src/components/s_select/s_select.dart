@@ -4,6 +4,25 @@ import 'package:s_design/src/components/s_select/utils/s_select_extension.dart';
 
 /// An advanced select widget with customizable trigger and content.
 class SSelect<T> extends StatefulWidget {
+  /// Creates an advanced select widget.
+  const SSelect({
+    super.key,
+    required this.items,
+    this.value,
+    this.onChanged,
+    this.triggerBuilder,
+    this.contentBuilder,
+    this.disabled = false,
+    this.style,
+    this.placeholder,
+    this.dropdownDirection = SSelectDropdownDirection.down,
+    this.animationDuration = const Duration(milliseconds: 200),
+    this.animationCurve = Curves.easeInOut,
+    this.dropdownIcon,
+    this.isMultiSelect = false,
+    this.dropdownMaxHeight = 300.0,
+  });
+
   /// The current selected value.
   final T? value;
 
@@ -47,25 +66,6 @@ class SSelect<T> extends StatefulWidget {
   /// The maximum height of the dropdown.
   final double dropdownMaxHeight;
 
-  /// Creates an advanced select widget.
-  const SSelect({
-    super.key,
-    required this.items,
-    this.value,
-    this.onChanged,
-    this.triggerBuilder,
-    this.contentBuilder,
-    this.disabled = false,
-    this.style,
-    this.placeholder,
-    this.dropdownDirection = SSelectDropdownDirection.down,
-    this.animationDuration = const Duration(milliseconds: 200),
-    this.animationCurve = Curves.easeInOut,
-    this.dropdownIcon,
-    this.isMultiSelect = false,
-    this.dropdownMaxHeight = 300.0,
-  });
-
   @override
   _SSelectState<T> createState() => _SSelectState<T>();
 }
@@ -108,7 +108,7 @@ class _SSelectState<T> extends State<SSelect<T>> {
     final overlay = Overlay.of(context);
     // if (overlay == null) return;
 
-    final renderBox = context.findRenderObject() as RenderBox;
+    final renderBox = context.findRenderObject()! as RenderBox;
     final size = renderBox.size;
     final offset = renderBox.localToGlobal(Offset.zero);
 
@@ -207,7 +207,7 @@ class _SSelectState<T> extends State<SSelect<T>> {
   }
 
   Widget _defaultTrigger(BuildContext context) {
-    String buttonText = _selectedValue != null
+    final String buttonText = _selectedValue != null
         ? widget.items.firstWhere((item) => item.value == _selectedValue).label
         : widget.placeholder ?? 'Select an option';
 

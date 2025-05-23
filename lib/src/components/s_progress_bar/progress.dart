@@ -7,6 +7,24 @@ import 'utils/s_progress_bar_utils.dart';
 /// It supports custom values, colors, sizes, animations, and theming via
 /// Flutter's built-in [Theme].
 class SProgressBar extends StatelessWidget {
+  /// Creates an [SProgressBar].
+  ///
+  /// * [value] must be non-negative.
+  /// * [max] must be greater than zero.
+  const SProgressBar({
+    super.key,
+    required this.value,
+    this.max = 100.0,
+    this.height = 8.0,
+    this.length,
+    this.backgroundColor,
+    this.progressColor,
+    this.borderRadius,
+    this.animationDuration,
+    this.animationCurve,
+  })  : assert(value >= 0),
+        assert(max > 0);
+
   /// The current value of the progress bar.
   final double value;
 
@@ -33,24 +51,6 @@ class SProgressBar extends StatelessWidget {
 
   /// The curve of the progress bar animation.
   final Curve? animationCurve;
-
-  /// Creates an [SProgressBar].
-  ///
-  /// * [value] must be non-negative.
-  /// * [max] must be greater than zero.
-  const SProgressBar({
-    super.key,
-    required this.value,
-    this.max = 100.0,
-    this.height = 8.0,
-    this.length,
-    this.backgroundColor,
-    this.progressColor,
-    this.borderRadius,
-    this.animationDuration,
-    this.animationCurve,
-  })  : assert(value >= 0),
-        assert(max > 0);
 
   @override
   Widget build(BuildContext context) {

@@ -5,131 +5,6 @@ import 'package:intl/intl.dart' hide TextDirection;
 import 'themes/s_input_field_theme.dart';
 
 class SInputField extends StatefulWidget {
-  /// High-level “type” of this field (e.g., password, email, etc.).
-  final SInputFieldType inputType;
-
-  /// Allows controlling the text programmatically.
-  final TextEditingController? controller;
-
-  /// For controlling focus programmatically.
-  final FocusNode? focusNode;
-
-  /// If provided, used as the initial text (ignored if [controller] is set).
-  final String? initialValue;
-
-  /// Whether the field is enabled or not.
-  final bool? enabled;
-
-  /// Whether to hide the text (e.g., for a password).
-  final bool obscureText;
-
-  /// The keyboard type (text, number, etc.).
-  /// If null, it’s inferred from [inputType].
-  final TextInputType? keyboardType;
-
-  /// Defines the action button (e.g., “search”, “done”).
-  final TextInputAction? textInputAction;
-
-  /// Validator for forms.
-  final FormFieldValidator<String>? validator;
-
-  /// Called when the text changes.
-  final ValueChanged<String>? onChanged;
-
-  /// Called when the user indicates submission (keyboard “enter”).
-  final ValueChanged<String>? onFieldSubmitted;
-
-  /// The label text to display.
-  final String? labelText;
-
-  /// The hint text to display.
-  final String? hintText;
-
-  /// Provides custom decoration, if you’d like to override all defaults.
-  final InputDecoration? decoration;
-
-  /// If true, auto-focusing the field when shown.
-  final bool autofocus;
-
-  /// If true, the field is read-only.
-  final bool readOnly;
-
-  /// The maximum number of lines. Defaults to 1.
-  final int? maxLines;
-
-  /// The minimum number of lines.
-  final int? minLines;
-
-  /// The maximum length, if not null.
-  final int? maxLength;
-
-  /// The style to use inside the field.
-  final TextStyle? style;
-
-  /// Aligns the text in the field (start, center, end).
-  final TextAlign textAlign;
-
-  /// If true, the field will fill the parent vertically if possible.
-  final bool expands;
-
-  /// Whether to show the cursor.
-  final bool showCursor;
-
-  /// Whether the user can interactively select text.
-  final bool enableInteractiveSelection;
-
-  /// How to capitalize the text (none, words, sentences, etc.).
-  final TextCapitalization textCapitalization;
-
-  /// Forces a certain text direction (LTR or RTL).
-  final TextDirection? textDirection;
-
-  /// Called when the user taps the “done” button.
-  final VoidCallback? onEditingComplete;
-
-  /// Called when the field is tapped.
-  final VoidCallback? onTap;
-
-  /// Whether to enable suggestions in the keyboard.
-  final bool? enableSuggestions;
-
-  /// Whether to enable auto-correction.
-  final bool autocorrect;
-
-  /// Padding inside the field.
-  final EdgeInsetsGeometry? contentPadding;
-
-  /// The size of the field (small, medium, large).
-  /// We can interpret this to adjust font size, padding, etc.
-  final SInputFieldSize size;
-
-  /// The widget to display at the start of the input field.
-  final Widget? startIcon;
-
-  /// The widget to display at the end of the input field.
-  final Widget? endIcon;
-
-  /// The amount of space by which to inset the TextFormField when scrolling.
-  final EdgeInsets scrollPadding;
-
-  /// The ScrollPhysics to use for the TextFormField.
-  final ScrollPhysics? scrollPhysics;
-
-  /// The autofill hints for the TextFormField.
-  final Iterable<String>? autofillHints;
-
-  /// The mouse cursor for the TextFormField.
-  final MouseCursor? mouseCursor;
-
-  /// The context menu builder for the TextFormField.
-  final EditableTextContextMenuBuilder? contextMenuBuilder;
-
-  /// The restoration ID for the TextFormField.
-  final String? restorationId;
-
-  /// Whether to enable IME personalized learning.
-  final bool enableIMEPersonalizedLearning;
-
   /// Main constructor (use the factories below for specialized input “types”).
   const SInputField({
     super.key,
@@ -622,6 +497,131 @@ class SInputField extends StatefulWidget {
     );
   }
 
+  /// High-level “type” of this field (e.g., password, email, etc.).
+  final SInputFieldType inputType;
+
+  /// Allows controlling the text programmatically.
+  final TextEditingController? controller;
+
+  /// For controlling focus programmatically.
+  final FocusNode? focusNode;
+
+  /// If provided, used as the initial text (ignored if [controller] is set).
+  final String? initialValue;
+
+  /// Whether the field is enabled or not.
+  final bool? enabled;
+
+  /// Whether to hide the text (e.g., for a password).
+  final bool obscureText;
+
+  /// The keyboard type (text, number, etc.).
+  /// If null, it’s inferred from [inputType].
+  final TextInputType? keyboardType;
+
+  /// Defines the action button (e.g., “search”, “done”).
+  final TextInputAction? textInputAction;
+
+  /// Validator for forms.
+  final FormFieldValidator<String>? validator;
+
+  /// Called when the text changes.
+  final ValueChanged<String>? onChanged;
+
+  /// Called when the user indicates submission (keyboard “enter”).
+  final ValueChanged<String>? onFieldSubmitted;
+
+  /// The label text to display.
+  final String? labelText;
+
+  /// The hint text to display.
+  final String? hintText;
+
+  /// Provides custom decoration, if you’d like to override all defaults.
+  final InputDecoration? decoration;
+
+  /// If true, auto-focusing the field when shown.
+  final bool autofocus;
+
+  /// If true, the field is read-only.
+  final bool readOnly;
+
+  /// The maximum number of lines. Defaults to 1.
+  final int? maxLines;
+
+  /// The minimum number of lines.
+  final int? minLines;
+
+  /// The maximum length, if not null.
+  final int? maxLength;
+
+  /// The style to use inside the field.
+  final TextStyle? style;
+
+  /// Aligns the text in the field (start, center, end).
+  final TextAlign textAlign;
+
+  /// If true, the field will fill the parent vertically if possible.
+  final bool expands;
+
+  /// Whether to show the cursor.
+  final bool showCursor;
+
+  /// Whether the user can interactively select text.
+  final bool enableInteractiveSelection;
+
+  /// How to capitalize the text (none, words, sentences, etc.).
+  final TextCapitalization textCapitalization;
+
+  /// Forces a certain text direction (LTR or RTL).
+  final TextDirection? textDirection;
+
+  /// Called when the user taps the “done” button.
+  final VoidCallback? onEditingComplete;
+
+  /// Called when the field is tapped.
+  final VoidCallback? onTap;
+
+  /// Whether to enable suggestions in the keyboard.
+  final bool? enableSuggestions;
+
+  /// Whether to enable auto-correction.
+  final bool autocorrect;
+
+  /// Padding inside the field.
+  final EdgeInsetsGeometry? contentPadding;
+
+  /// The size of the field (small, medium, large).
+  /// We can interpret this to adjust font size, padding, etc.
+  final SInputFieldSize size;
+
+  /// The widget to display at the start of the input field.
+  final Widget? startIcon;
+
+  /// The widget to display at the end of the input field.
+  final Widget? endIcon;
+
+  /// The amount of space by which to inset the TextFormField when scrolling.
+  final EdgeInsets scrollPadding;
+
+  /// The ScrollPhysics to use for the TextFormField.
+  final ScrollPhysics? scrollPhysics;
+
+  /// The autofill hints for the TextFormField.
+  final Iterable<String>? autofillHints;
+
+  /// The mouse cursor for the TextFormField.
+  final MouseCursor? mouseCursor;
+
+  /// The context menu builder for the TextFormField.
+  final EditableTextContextMenuBuilder? contextMenuBuilder;
+
+  /// The restoration ID for the TextFormField.
+  final String? restorationId;
+
+  /// Whether to enable IME personalized learning.
+  final bool enableIMEPersonalizedLearning;
+
   @override
   State<SInputField> createState() => _SInputFieldState();
 }
@@ -669,7 +669,9 @@ class _SInputFieldState extends State<SInputField> {
         getContentPadding(widget.size);
 
     InputDecoration mergeDecorations(
-        InputDecoration base, InputDecoration? override) {
+      InputDecoration base,
+      InputDecoration? override,
+    ) {
       return base.copyWith(
         hintText: override?.hintText ?? base.hintText,
         hintStyle: override?.hintStyle ?? base.hintStyle,
@@ -686,7 +688,7 @@ class _SInputFieldState extends State<SInputField> {
     }
 
     // Base or user-provided InputDecoration.
-    InputDecoration effectiveDecoration = widget.decoration ??
+    final InputDecoration effectiveDecoration = widget.decoration ??
         InputDecoration(
           isDense: true,
           labelText: widget.labelText,
