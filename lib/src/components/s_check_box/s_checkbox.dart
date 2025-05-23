@@ -8,6 +8,18 @@ import 'package:s_design/src/components/s_check_box/utils/s_checkbox_util.dart';
 /// It supports customization of colors, sizes, and integrates with theming for consistent styling.
 ///
 class SCheckbox extends StatefulWidget {
+  const SCheckbox({
+    super.key,
+    required this.value,
+    required this.onChanged,
+    this.intermediate = true,
+    this.size = 18.0,
+    this.activeColor,
+    this.checkColor,
+    this.borderColor,
+    this.isDisabled = false,
+  });
+
   /// The current state of the checkbox.
   final SCheckboxState value;
 
@@ -31,18 +43,6 @@ class SCheckbox extends StatefulWidget {
 
   /// Whether the checkbox is disabled.
   final bool isDisabled;
-
-  const SCheckbox({
-    super.key,
-    required this.value,
-    required this.onChanged,
-    this.intermediate = true,
-    this.size = 18.0,
-    this.activeColor,
-    this.checkColor,
-    this.borderColor,
-    this.isDisabled = false,
-  });
 
   @override
   _SCheckboxState createState() => _SCheckboxState();

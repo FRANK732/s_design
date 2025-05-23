@@ -4,136 +4,15 @@ import 'package:flutter/rendering.dart';
 import 'package:s_design/src/components/s_card/enums/s_card_shadow.dart';
 import 'package:s_design/src/components/s_card/enums/s_card_shape.dart';
 
+// A customizable card widget with support for content sections, styling, animations, dismissible behavior, and accessibility features.
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:s_design/src/components/s_card/enums/s_card_shadow.dart';
+import 'package:s_design/src/components/s_card/enums/s_card_shape.dart';
+
+// A customizable card widget with support for content sections, styling, animations, dismissible behavior, and accessibility features.
 class SCard extends StatefulWidget {
-  // Core Content
-  final String? title;
-  final TextStyle? titleStyle;
-  final String? description;
-  final TextStyle? descriptionStyle;
-  final Widget? header;
-  final Widget? body;
-  final Widget? actions;
-  final Widget? footer;
-
-  // Layout & Spacing
-  final EdgeInsetsGeometry? margin;
-  final EdgeInsetsGeometry? padding;
-  final EdgeInsetsGeometry? headerPadding;
-  final EdgeInsetsGeometry? bodyPadding;
-  final EdgeInsetsGeometry? actionsPadding;
-  final EdgeInsetsGeometry? footerPadding;
-  final double? elevation;
-  final double? height;
-  final double? width;
-  final double? maxWidth;
-  final double? maxHeight;
-  final AlignmentGeometry? alignment;
-
-  // Appearance
-  final Color? color;
-  final Gradient? gradient;
-  final ImageProvider? backgroundImage;
-  final BoxFit? backgroundFit;
-  final BlendMode? backgroundBlendMode;
-  final SCardShape shape;
-  final ShapeBorder? customShape;
-  final SCardShadow shadowStyle;
-  final BoxShadow? customShadow;
-  final Color? borderColor;
-  final double? borderWidth;
-  final double? borderRadius;
-  final Color? shadowColor;
-  final Offset? shadowOffset;
-  final double? blurRadius;
-  final double? spreadRadius;
-
-  // Interactions
-  final VoidCallback? onTap;
-  final VoidCallback? onLongPress;
-  final ValueChanged<bool>? onHover;
-  final ScrollPhysics? onScroll;
-  final GestureTapCallback? onDoubleTap;
-  final bool enableFeedback;
-  final bool enableInteractiveDismiss;
-
-  // Animation
-  final Duration? animationDuration;
-  final Curve? animationCurve;
-  final bool animateOnLoad;
-  final double? hoverElevation;
-  final Color? hoverColor;
-  final double? tapScale;
-
-  // Dismissible Properties
-  final Key? dismissKey;
-  final Widget? dismissBackground;
-  final Widget? dismissSecondaryBackground;
-  final Future<bool?> Function(DismissDirection)? confirmDismiss;
-  final Function(DismissDirection)? onDismissed;
-  final DismissDirection direction;
-  final Duration resizeDuration;
-  final Map<DismissDirection, double> dismissThresholds;
-  final Duration movementDuration;
-  final double crossAxisEndOffset;
-  final DragStartBehavior dragStartBehavior;
-  final HitTestBehavior behavior;
-  final IconData? dismissIcon;
-  final IconData? dismissSecondaryIcon;
-
-  // Dismissible Background Customization
-  final Color? dismissBackgroundColor;
-  final Color? dismissSecondaryBackgroundColor;
-  final String? dismissBackgroundLabel;
-  final String? dismissSecondaryBackgroundLabel;
-  final TextStyle? dismissBackgroundLabelStyle;
-  final TextStyle? dismissSecondaryBackgroundLabelStyle;
-  final double? dismissBackgroundOpacity;
-  final Curve? dismissBackgroundAnimationCurve;
-  final EdgeInsetsGeometry? dismissBackgroundPadding;
-  final AlignmentGeometry? dismissBackgroundAlignment;
-
-  // Advanced Features
-  final bool isDraggable;
-  final ScrollController? scrollController;
-  final Border? customBorder;
-  final Clip clipBehavior;
-  final MaterialType materialType;
-  final List<BoxShadow>? additionalShadows;
-  final BlendMode? colorBlendMode;
-
-  // Enhanced Semantics Properties
-  final String? semanticLabel;
-  final String? semanticValue;
-  final String? semanticHint;
-  final String? semanticTooltip;
-  final bool? semanticEnabled;
-  final bool? semanticChecked;
-  final bool? semanticSelected;
-  final bool? semanticToggled;
-  final bool? semanticButton;
-  final bool? semanticHeader;
-  final int? semanticHeadingLevel;
-  final bool? semanticTextField;
-  final bool? semanticReadOnly;
-  final bool? semanticFocusable;
-  final bool? semanticFocused;
-  final bool? semanticHidden;
-  final bool? semanticImage;
-  final bool? semanticLiveRegion;
-  final String? onTapHint;
-  final String? onLongPressHint;
-  final VoidCallback? onScrollLeft;
-  final VoidCallback? onScrollRight;
-  final VoidCallback? onScrollUp;
-  final VoidCallback? onScrollDown;
-  final VoidCallback? onIncrease;
-  final VoidCallback? onDecrease;
-  final VoidCallback? onDismissSemantics;
-  final Map<CustomSemanticsAction, VoidCallback>? customSemanticsActions;
-  final TextDirection? textDirection;
-  final FocusNode? focusNode;
-  final bool canRequestFocus;
-
   const SCard({
     super.key,
     this.title,
@@ -260,6 +139,348 @@ class SCard extends StatefulWidget {
           'customShadow must be provided when shadowStyle is SCardShadow.custom.',
         );
 
+  // Core Content
+  /// Title text displayed in the card's header.
+  final String? title;
+
+  /// Custom text style for the title.
+  final TextStyle? titleStyle;
+
+  /// Description text shown below the title in the header.
+  final String? description;
+
+  /// Custom text style for the description.
+  final TextStyle? descriptionStyle;
+
+  /// Custom widget for the card's header section.
+  final Widget? header;
+
+  /// Main content widget of the card.
+  final Widget? body;
+
+  /// Widget for action buttons or controls.
+  final Widget? actions;
+
+  /// Custom widget for the card's footer section.
+  final Widget? footer;
+
+  // Layout & Spacing
+  /// Margin around the card.
+  final EdgeInsetsGeometry? margin;
+
+  /// Padding inside the card for all content.
+  final EdgeInsetsGeometry? padding;
+
+  /// Padding specifically for the header section.
+  final EdgeInsetsGeometry? headerPadding;
+
+  /// Padding specifically for the body section.
+  final EdgeInsetsGeometry? bodyPadding;
+
+  /// Padding specifically for the actions section.
+  final EdgeInsetsGeometry? actionsPadding;
+
+  /// Padding specifically for the footer section.
+  final EdgeInsetsGeometry? footerPadding;
+
+  /// Elevation for the card's shadow depth. Defaults to 1.0.
+  final double? elevation;
+
+  /// Fixed height of the card. Defaults to 100.
+  final double? height;
+
+  /// Fixed width of the card.
+  final double? width;
+
+  /// Maximum width constraint for the card.
+  final double? maxWidth;
+
+  /// Maximum height constraint for the card.
+  final double? maxHeight;
+
+  /// Alignment of the card's content.
+  final AlignmentGeometry? alignment;
+
+  // Appearance
+  /// Background color of the card. Defaults to white.
+  final Color? color;
+
+  /// Gradient background for the card. Cannot be used with backgroundImage.
+  final Gradient? gradient;
+
+  /// Background image for the card. Cannot be used with gradient.
+  final ImageProvider? backgroundImage;
+
+  /// Fit style for the background image. Defaults to BoxFit.cover.
+  final BoxFit? backgroundFit;
+
+  /// Blend mode for the background image.
+  final BlendMode? backgroundBlendMode;
+
+  /// Shape style of the card (e.g., rounded, circular). Defaults to rounded.
+  final SCardShape shape;
+
+  /// Custom shape border when shape is SCardShape.custom.
+  final ShapeBorder? customShape;
+
+  /// Shadow style of the card (e.g., none, subtle). Defaults to subtle.
+  final SCardShadow shadowStyle;
+
+  /// Custom shadow when shadowStyle is SCardShadow.custom.
+  final BoxShadow? customShadow;
+
+  /// Color of the card's border.
+  final Color? borderColor;
+
+  /// Width of the card's border. Defaults to 1.0.
+  final double? borderWidth;
+
+  /// Radius for rounded corners when shape is rounded. Defaults to 12.0.
+  final double? borderRadius;
+
+  /// Color of the card's shadow.
+  final Color? shadowColor;
+
+  /// Offset for the card's shadow.
+  final Offset? shadowOffset;
+
+  /// Blur radius for the card's shadow.
+  final double? blurRadius;
+
+  /// Spread radius for the card's shadow.
+  final double? spreadRadius;
+
+  // Interactions
+  /// Callback triggered on tap.
+  final VoidCallback? onTap;
+
+  /// Callback triggered on long press.
+  final VoidCallback? onLongPress;
+
+  /// Callback triggered on hover, passing hover state.
+  final ValueChanged<bool>? onHover;
+
+  /// Scroll physics for the card's content.
+  final ScrollPhysics? onScroll;
+
+  /// Callback triggered on double tap.
+  final GestureTapCallback? onDoubleTap;
+
+  /// Enables haptic and sound feedback for interactions. Defaults to true.
+  final bool enableFeedback;
+
+  /// Enables swipe-to-dismiss functionality. Defaults to true.
+  final bool enableInteractiveDismiss;
+
+  // Animation
+  /// Duration of animations (e.g., scale, dismiss). Defaults to 200ms.
+  final Duration? animationDuration;
+
+  /// Curve for animations. Defaults to Curves.easeInOut.
+  final Curve? animationCurve;
+
+  /// Triggers animation when the card loads. Defaults to false.
+  final bool animateOnLoad;
+
+  /// Elevation when the card is hovered. Defaults to 4.0.
+  final double? hoverElevation;
+
+  /// Background color when the card is hovered.
+  final Color? hoverColor;
+
+  /// Scale factor when the card is tapped. Defaults to 0.95.
+  final double? tapScale;
+
+  // Dismissible Properties
+  /// Unique key for dismissible functionality.
+  final Key? dismissKey;
+
+  /// Custom background widget for dismissible (end-to-start swipe).
+  final Widget? dismissBackground;
+
+  /// Custom secondary background widget for dismissible (start-to-end swipe).
+  final Widget? dismissSecondaryBackground;
+
+  /// Callback to confirm dismiss action.
+  final Future<bool?> Function(DismissDirection)? confirmDismiss;
+
+  /// Callback triggered when the card is dismissed.
+  final Function(DismissDirection)? onDismissed;
+
+  /// Direction for dismissible swipe (e.g., horizontal, vertical). Defaults to horizontal.
+  final DismissDirection direction;
+
+  /// Duration for resizing during dismiss animation. Defaults to 300ms.
+  final Duration resizeDuration;
+
+  /// Thresholds for dismiss sensitivity by direction. Defaults to empty map.
+  final Map<DismissDirection, double> dismissThresholds;
+
+  /// Duration for dismiss movement animation. Defaults to 200ms.
+  final Duration movementDuration;
+
+  /// Offset for cross-axis movement during dismiss. Defaults to 0.0.
+  final double crossAxisEndOffset;
+
+  /// Behavior for starting drag gestures. Defaults to DragStartBehavior.start.
+  final DragStartBehavior dragStartBehavior;
+
+  /// Hit test behavior for interactions. Defaults to HitTestBehavior.opaque.
+  final HitTestBehavior behavior;
+
+  /// Icon for the dismissible background (end-to-start swipe).
+  final IconData? dismissIcon;
+
+  /// Icon for the secondary dismissible background (start-to-end swipe).
+  final IconData? dismissSecondaryIcon;
+
+  // Dismissible Background Customization
+  /// Background color for dismissible (end-to-start swipe). Defaults to red.
+  final Color? dismissBackgroundColor;
+
+  /// Background color for secondary dismissible (start-to-end swipe). Defaults to green.
+  final Color? dismissSecondaryBackgroundColor;
+
+  /// Label text for dismissible background (end-to-start swipe). Defaults to 'Delete'.
+  final String? dismissBackgroundLabel;
+
+  /// Label text for secondary dismissible background (start-to-end swipe). Defaults to 'Confirm'.
+  final String? dismissSecondaryBackgroundLabel;
+
+  /// Text style for dismissible background label.
+  final TextStyle? dismissBackgroundLabelStyle;
+
+  /// Text style for secondary dismissible background label.
+  final TextStyle? dismissSecondaryBackgroundLabelStyle;
+
+  /// Opacity for dismissible background. Defaults to 1.0.
+  final double? dismissBackgroundOpacity;
+
+  /// Animation curve for dismissible background. Defaults to Curves.linear.
+  final Curve? dismissBackgroundAnimationCurve;
+
+  /// Padding for dismissible background.
+  final EdgeInsetsGeometry? dismissBackgroundPadding;
+
+  /// Alignment for dismissible background content.
+  final AlignmentGeometry? dismissBackgroundAlignment;
+
+  // Advanced Features
+  /// Enables drag-and-drop functionality. Defaults to false.
+  final bool isDraggable;
+
+  /// Controller for scrolling behavior.
+  final ScrollController? scrollController;
+
+  /// Custom border for the card.
+  final Border? customBorder;
+
+  /// Clipping behavior for the card's content. Defaults to Clip.antiAlias.
+  final Clip clipBehavior;
+
+  /// Material type for the card (e.g., card, canvas). Defaults to MaterialType.card.
+  final MaterialType materialType;
+
+  /// Additional shadows for the card.
+  final List<BoxShadow>? additionalShadows;
+
+  /// Blend mode for the card's color.
+  final BlendMode? colorBlendMode;
+
+  // Enhanced Semantics Properties
+  /// Semantic label for accessibility, typically the title.
+  final String? semanticLabel;
+
+  /// Semantic value for accessibility.
+  final String? semanticValue;
+
+  /// Semantic hint for accessibility, typically the description.
+  final String? semanticHint;
+
+  /// Semantic tooltip for accessibility.
+  final String? semanticTooltip;
+
+  /// Indicates if the card is enabled for accessibility. Defaults to true if onTap is set.
+  final bool? semanticEnabled;
+
+  /// Indicates if the card is checked for accessibility.
+  final bool? semanticChecked;
+
+  /// Indicates if the card is selected for accessibility.
+  final bool? semanticSelected;
+
+  /// Indicates if the card is toggled for accessibility.
+  final bool? semanticToggled;
+
+  /// Indicates if the card is a button for accessibility. Defaults to true if onTap is set.
+  final bool? semanticButton;
+
+  /// Indicates if the card is a header for accessibility.
+  final bool? semanticHeader;
+
+  /// Heading level for accessibility (e.g., 1 to 6).
+  final int? semanticHeadingLevel;
+
+  /// Indicates if the card is a text field for accessibility.
+  final bool? semanticTextField;
+
+  /// Indicates if the card is read-only for accessibility.
+  final bool? semanticReadOnly;
+
+  /// Indicates if the card is focusable for accessibility. Defaults to true.
+  final bool? semanticFocusable;
+
+  /// Indicates if the card is focused for accessibility.
+  final bool? semanticFocused;
+
+  /// Indicates if the card is hidden for accessibility.
+  final bool? semanticHidden;
+
+  /// Indicates if the card is an image for accessibility.
+  final bool? semanticImage;
+
+  /// Indicates if the card is a live region for accessibility.
+  final bool? semanticLiveRegion;
+
+  /// Hint for tap action for accessibility. Defaults to 'Tap to interact'.
+  final String? onTapHint;
+
+  /// Hint for long press action for accessibility.
+  final String? onLongPressHint;
+
+  /// Callback for scrolling left.
+  final VoidCallback? onScrollLeft;
+
+  /// Callback for scrolling right.
+  final VoidCallback? onScrollRight;
+
+  /// Callback for scrolling up.
+  final VoidCallback? onScrollUp;
+
+  /// Callback for scrolling down.
+  final VoidCallback? onScrollDown;
+
+  /// Callback for increasing a value.
+  final VoidCallback? onIncrease;
+
+  /// Callback for decreasing a value.
+  final VoidCallback? onDecrease;
+
+  /// Callback for dismiss action for accessibility.
+  final VoidCallback? onDismissSemantics;
+
+  /// Custom semantic actions for accessibility.
+  final Map<CustomSemanticsAction, VoidCallback>? customSemanticsActions;
+
+  /// Text direction for content (e.g., left-to-right, right-to-left).
+  final TextDirection? textDirection;
+
+  /// Focus node for managing focus.
+  final FocusNode? focusNode;
+
+  /// Determines if the card can request focus. Defaults to true.
+  final bool canRequestFocus;
+
   @override
   State<SCard> createState() => _SCardState();
 }
@@ -280,11 +501,12 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
       vsync: this,
       duration: widget.animationDuration,
     );
-    _scaleAnimation =
-        Tween<double>(begin: 1.0, end: widget.tapScale).animate(CurvedAnimation(
-      parent: _controller,
-      curve: widget.animationCurve ?? Curves.easeInOut,
-    ));
+    _scaleAnimation = Tween<double>(begin: 1.0, end: widget.tapScale).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: widget.animationCurve ?? Curves.easeInOut,
+      ),
+    );
 
     if (widget.animateOnLoad) {
       _controller.forward();
@@ -298,7 +520,9 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildSection(Widget? content, EdgeInsetsGeometry? padding) {
-    if (content == null) return const SizedBox.shrink();
+    if (content == null) {
+      return const SizedBox.shrink();
+    }
     return Padding(
       padding: padding ?? const EdgeInsets.all(16.0),
       child: content,
@@ -323,15 +547,17 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
   // }
 
   List<BoxShadow> _getShadows() {
-    List<BoxShadow> shadows = [];
+    final List<BoxShadow> shadows = [];
     if (widget.shadowStyle != SCardShadow.none) {
-      shadows.add(widget.customShadow ??
-          BoxShadow(
-            color: widget.shadowColor ?? Colors.grey.withOpacity(0.2),
-            offset: widget.shadowOffset ?? const Offset(0, 2),
-            blurRadius: widget.blurRadius ?? 4.0,
-            spreadRadius: widget.spreadRadius ?? 0.0,
-          ));
+      shadows.add(
+        widget.customShadow ??
+            BoxShadow(
+              color: widget.shadowColor ?? Colors.grey.withOpacity(0.2),
+              offset: widget.shadowOffset ?? const Offset(0, 2),
+              blurRadius: widget.blurRadius ?? 4.0,
+              spreadRadius: widget.spreadRadius ?? 0.0,
+            ),
+      );
     }
     if (widget.additionalShadows != null) {
       shadows.addAll(widget.additionalShadows!);
@@ -351,21 +577,21 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
     }
 
     // Default background properties
-    Color backgroundColor = (direction == DismissDirection.endToStart
+    final Color backgroundColor = (direction == DismissDirection.endToStart
             ? widget.dismissBackgroundColor
             : widget.dismissSecondaryBackgroundColor) ??
         (direction == DismissDirection.endToStart ? Colors.red : Colors.green);
-    IconData icon = (direction == DismissDirection.endToStart
+    final IconData icon = (direction == DismissDirection.endToStart
             ? widget.dismissIcon
             : widget.dismissSecondaryIcon) ??
         (direction == DismissDirection.endToStart
             ? Icons.delete
             : Icons.check_circle);
-    String label = (direction == DismissDirection.endToStart
+    final String label = (direction == DismissDirection.endToStart
             ? widget.dismissBackgroundLabel
             : widget.dismissSecondaryBackgroundLabel) ??
         (direction == DismissDirection.endToStart ? 'Delete' : 'Confirm');
-    TextStyle labelStyle = (direction == DismissDirection.endToStart
+    final TextStyle labelStyle = (direction == DismissDirection.endToStart
             ? widget.dismissBackgroundLabelStyle
             : widget.dismissSecondaryBackgroundLabelStyle) ??
         const TextStyle(
@@ -513,7 +739,7 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
     );
 
     // Interactive wrapper
-    Widget interactiveContent = Material(
+    final Widget interactiveContent = Material(
       type: widget.materialType,
       color: Colors.transparent,
       clipBehavior: widget.clipBehavior,
@@ -540,7 +766,7 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
     );
 
     // Animation wrapper
-    Widget animatedContent = AnimatedBuilder(
+    final Widget animatedContent = AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
         return Transform.scale(

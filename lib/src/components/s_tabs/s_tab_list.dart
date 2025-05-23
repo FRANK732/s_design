@@ -4,38 +4,8 @@ import 'package:s_design/src/theme/s_spacers.dart';
 import '../../../s_design.dart';
 
 class TabsList extends StatelessWidget {
-  final Axis direction;
-  final MainAxisAlignment mainAxisAlignment;
-  final CrossAxisAlignment crossAxisAlignment;
-  final List<STabItem> tabs;
-  final Function(int) onTabSelected;
-  final int activeIndex;
-  final EdgeInsetsGeometry tabListMargin;
-  final EdgeInsetsGeometry tabListPadding;
-  final Decoration? backgroundDecoration;
-  final TextStyle? activeTabTextStyle;
-  final TextStyle? inactiveTabTextStyle;
-  final Decoration? activeTabDecoration;
-  final Decoration? inactiveTabDecoration;
-  final BorderRadius? tabBorderRadius;
-  final EdgeInsetsGeometry tabPadding;
-  final EdgeInsetsGeometry tabMargin;
-  final double? tabWidth; // Optional fixed width for tabs
-  final double? maxTabWidth; // New: Maximum width for tabs
-  final double tabHeight;
-  final TextAlign tabTextAlign;
-  final Curve animationCurve;
-  final Duration animationDuration;
-  final ScrollPhysics? scrollPhysics;
-  final bool isScrollable;
-  final Color? activeTabBackgroundColor;
-  final Color? inactiveTabBackgroundColor;
-  final Widget? tabLeadingIcon;
-  final Widget? tabTrailingIcon;
-  final double iconSpacing;
-
   const TabsList({
-    Key? key,
+    super.key,
     this.direction = Axis.horizontal,
     this.mainAxisAlignment = MainAxisAlignment.center,
     this.crossAxisAlignment = CrossAxisAlignment.center,
@@ -65,7 +35,94 @@ class TabsList extends StatelessWidget {
     this.tabLeadingIcon,
     this.tabTrailingIcon,
     this.iconSpacing = 8.0,
-  }) : super(key: key);
+  });
+
+  /// The axis along which tabs are arranged (horizontal or vertical). Defaults to horizontal.
+  final Axis direction;
+
+  /// Main axis alignment for the tab list. Defaults to center.
+  final MainAxisAlignment mainAxisAlignment;
+
+  /// Cross axis alignment for the tab list. Defaults to center.
+  final CrossAxisAlignment crossAxisAlignment;
+
+  /// List of tab items to display.
+  final List<STabItem> tabs;
+
+  /// Callback triggered when a tab is selected, passing the selected tab's index.
+  final Function(int) onTabSelected;
+
+  /// Index of the currently active tab.
+  final int activeIndex;
+
+  /// Margin around the entire tab list.
+  final EdgeInsetsGeometry tabListMargin;
+
+  /// Padding inside the tab list container. Defaults to 3.0 on all sides.
+  final EdgeInsetsGeometry tabListPadding;
+
+  /// Background decoration for the tab list container.
+  final Decoration? backgroundDecoration;
+
+  /// Text style for the active tab.
+  final TextStyle? activeTabTextStyle;
+
+  /// Text style for inactive tabs.
+  final TextStyle? inactiveTabTextStyle;
+
+  /// Decoration for the active tab.
+  final Decoration? activeTabDecoration;
+
+  /// Decoration for inactive tabs.
+  final Decoration? inactiveTabDecoration;
+
+  /// Border radius for tabs.
+  final BorderRadius? tabBorderRadius;
+
+  /// Padding inside each tab. Defaults to 3 vertical and 16 horizontal.
+  final EdgeInsetsGeometry tabPadding;
+
+  /// Margin around each tab. Defaults to 5 horizontal and 2 vertical.
+  final EdgeInsetsGeometry tabMargin;
+
+  /// Fixed width for each tab.
+  final double? tabWidth;
+
+  /// Maximum width for each tab to prevent overflow. Defaults to 200.0.
+  final double? maxTabWidth;
+
+  /// Height of each tab. Defaults to 40.0.
+  final double tabHeight;
+
+  /// Text alignment within each tab. Defaults to center.
+  final TextAlign tabTextAlign;
+
+  /// Animation curve for tab transitions. Defaults to Curves.easeInOut.
+  final Curve animationCurve;
+
+  /// Duration of tab selection animations. Defaults to 300ms.
+  final Duration animationDuration;
+
+  /// Scroll physics for the tab list when scrollable.
+  final ScrollPhysics? scrollPhysics;
+
+  /// Enables scrolling for the tab list. Defaults to true.
+  final bool isScrollable;
+
+  /// Background color for the active tab.
+  final Color? activeTabBackgroundColor;
+
+  /// Background color for inactive tabs.
+  final Color? inactiveTabBackgroundColor;
+
+  /// Leading icon displayed before the tab text.
+  final Widget? tabLeadingIcon;
+
+  /// Trailing icon displayed after the tab text.
+  final Widget? tabTrailingIcon;
+
+  /// Spacing between icons and text in tabs. Defaults to 8.0.
+  final double iconSpacing;
 
   void _validateProps() {
     // Validate tabs list
