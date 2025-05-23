@@ -10,6 +10,27 @@ import 'package:s_design/src/components/s_button/themes/s_button_theme.dart';
 /// current theme and provided customization parameters.
 ///
 class SButton extends StatelessWidget {
+  ///
+
+  /// Creates an [SButton] widget.
+  const SButton({
+    super.key,
+    this.variant = SButtonVariant.defaultVariant,
+    this.size = SButtonSize.defaultSize,
+    this.state,
+    this.icon,
+    this.backgroundColor,
+    this.foregroundColor,
+    this.loading = false,
+    required this.onPressed,
+    this.child,
+    this.height,
+    this.buttonStyle,
+    this.width,
+    this.padding,
+    this.borderRadius,
+  });
+
   /// The variant of the button, determining its style.
   final SButtonVariant variant;
 
@@ -51,26 +72,6 @@ class SButton extends StatelessWidget {
 
   /// Border radius
   final BorderRadiusGeometry? borderRadius;
-
-  ///
-
-  /// Creates an [SButton] widget.
-  const SButton(
-      {super.key,
-      this.variant = SButtonVariant.defaultVariant,
-      this.size = SButtonSize.defaultSize,
-      this.state,
-      this.icon,
-      this.backgroundColor,
-      this.foregroundColor,
-      this.loading = false,
-      required this.onPressed,
-      this.child,
-      this.height,
-      this.buttonStyle,
-      this.width,
-      this.padding,
-      this.borderRadius});
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +154,10 @@ class SButton extends StatelessWidget {
 
   /// Retrieves the appropriate background color based on variant and state.
   Color _getBackgroundColor(
-      SButtonThemeData theme, bool isDisabled, BuildContext context) {
+    SButtonThemeData theme,
+    bool isDisabled,
+    BuildContext context,
+  ) {
     if (_isOutlineVariant()) {
       return Colors.transparent;
     }
@@ -176,7 +180,10 @@ class SButton extends StatelessWidget {
 
   /// Retrieves the appropriate foreground (text and icon) color based on variant and state.
   Color _getForegroundColor(
-      SButtonThemeData theme, bool isDisabled, BuildContext context) {
+    SButtonThemeData theme,
+    bool isDisabled,
+    BuildContext context,
+  ) {
     if (_isOutlineVariant()) {
       switch (variant) {
         case SButtonVariant.outline:
@@ -205,7 +212,10 @@ class SButton extends StatelessWidget {
 
   /// Retrieves the appropriate border side based on variant and state.
   BorderSide? _getBorderSide(
-      SButtonThemeData theme, bool isDisabled, BuildContext context) {
+    SButtonThemeData theme,
+    bool isDisabled,
+    BuildContext context,
+  ) {
     if (_isOutlineVariant()) {
       switch (variant) {
         case SButtonVariant.outline:
@@ -231,7 +241,10 @@ class SButton extends StatelessWidget {
 
   /// Retrieves the appropriate padding based on size.
   EdgeInsetsGeometry _getPadding(
-      SButtonThemeData theme, bool isDisabled, BuildContext context) {
+    SButtonThemeData theme,
+    bool isDisabled,
+    BuildContext context,
+  ) {
     switch (size) {
       case SButtonSize.defaultSize:
         return const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0);
@@ -287,7 +300,7 @@ class SButton extends StatelessWidget {
 
   /// Builds the button content, including icon and child.
   Widget _buildContent(SButtonThemeData theme) {
-    List<Widget> contentWidgets =
+    final List<Widget> contentWidgets =
         SButtonUtils.formatContent(icon: icon, child: child);
 
     return Row(

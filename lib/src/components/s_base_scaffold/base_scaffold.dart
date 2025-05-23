@@ -7,6 +7,102 @@ import 'package:shimmer/shimmer.dart';
 /// A reusable scaffold widget that provides a customizable page structure with
 /// support for pull-to-refresh, loading indicators, and shimmer effects.
 class SScaffold extends StatefulWidget {
+  SScaffold({
+    super.key,
+    this.appBar,
+    this.renderBody,
+    this.centerBody = false,
+    this.drawer,
+    this.renderFooter,
+    this.scrollable = false,
+    this.isLoading = false,
+    this.loadingIndicator,
+    this.floatingActionButton,
+    this.floatingActionButtonLocation,
+    this.floatingActionButtonAnimator,
+    this.persistentFooterButtons,
+    this.persistentFooterAlignment = AlignmentDirectional.centerEnd,
+    this.onDrawerChanged,
+    this.endDrawer,
+    this.onEndDrawerChanged,
+    this.bodyShimmer,
+    this.bottomNavigationBar,
+    this.bottomSheet,
+    this.backgroundColor,
+    this.resizeToAvoidBottomInset,
+    this.primary = true,
+    this.drawerDragStartBehavior = DragStartBehavior.start,
+    this.extendBody = false,
+    this.extendBodyBehindAppBar = false,
+    this.drawerScrimColor,
+    this.drawerEdgeDragWidth,
+    this.drawerEnableOpenDragGesture = true,
+    this.endDrawerEnableOpenDragGesture = true,
+    this.restorationId,
+    this.enableRefresh = false,
+    this.onRefresh,
+    this.refreshIndicatorColor,
+    this.refreshIndicatorBackgroundColor,
+    this.minimumRefreshDuration = 1000,
+  })  :
+        // Ensure shimmer is only used with shimmer loader type
+        assert(
+          bodyShimmer == null ||
+              loadingIndicator?.loaderType == SLoaderType.shimmer,
+          'Shimmer should only be used with shimmer loader type.',
+        ),
+        // Require onRefresh callback when refresh is enabled
+        assert(
+          !enableRefresh || onRefresh != null,
+          'onRefresh must be provided when enableRefresh is true',
+        ),
+        // Ensure refresh duration is non-negative
+        assert(
+          minimumRefreshDuration >= 0,
+          'minimumRefreshDuration must be non-negative',
+        ),
+        // Validate drawer drag width is positive
+        assert(
+          drawerEdgeDragWidth == null || drawerEdgeDragWidth > 0,
+          'drawerEdgeDragWidth must be positive if provided',
+        ),
+        // Prevent conflicting footer widgets
+        assert(
+          !(renderFooter != null && bottomNavigationBar != null),
+          'Cannot provide both renderFooter and bottomNavigationBar',
+        ),
+        // Prevent persistent footer buttons with custom footer
+        assert(
+          !(persistentFooterButtons != null && renderFooter != null),
+          'Cannot use persistentFooterButtons with renderFooter',
+        ),
+        // Prevent bottom sheet with custom footer
+        assert(
+          !(bottomSheet != null && renderFooter != null),
+          'Cannot use bottomSheet with renderFooter',
+        ),
+        // Ensure drawer callback is only used when drawer is interactive
+        assert(
+          !(drawer != null &&
+              !drawerEnableOpenDragGesture &&
+              onDrawerChanged != null),
+          'onDrawerChanged is unnecessary when drawerEnableOpenDragGesture is false',
+        ),
+        // Ensure end drawer callback is only used when end drawer is interactive
+        assert(
+          !(endDrawer != null &&
+              !endDrawerEnableOpenDragGesture &&
+              onEndDrawerChanged != null),
+          'onEndDrawerChanged is unnecessary when endDrawerEnableOpenDragGesture is false',
+        ),
+        // Require FAB when its location or animator is specified
+        assert(
+          !(floatingActionButton == null &&
+              (floatingActionButtonLocation != null ||
+                  floatingActionButtonAnimator != null)),
+          'floatingActionButton must be provided when floatingActionButtonLocation or floatingActionButtonAnimator is set',
+        );
+
   /// Function to build the body of the page.
   final Widget Function(BuildContext context)? renderBody;
 
@@ -112,88 +208,8 @@ class SScaffold extends StatefulWidget {
   /// Minimum duration of the refresh animation in milliseconds.
   final int minimumRefreshDuration;
 
-  SScaffold({
-    super.key,
-    this.appBar,
-    this.renderBody,
-    this.centerBody = false,
-    this.drawer,
-    this.renderFooter,
-    this.scrollable = false,
-    this.isLoading = false,
-    this.loadingIndicator,
-    this.floatingActionButton,
-    this.floatingActionButtonLocation,
-    this.floatingActionButtonAnimator,
-    this.persistentFooterButtons,
-    this.persistentFooterAlignment = AlignmentDirectional.centerEnd,
-    this.onDrawerChanged,
-    this.endDrawer,
-    this.onEndDrawerChanged,
-    this.bodyShimmer,
-    this.bottomNavigationBar,
-    this.bottomSheet,
-    this.backgroundColor,
-    this.resizeToAvoidBottomInset,
-    this.primary = true,
-    this.drawerDragStartBehavior = DragStartBehavior.start,
-    this.extendBody = false,
-    this.extendBodyBehindAppBar = false,
-    this.drawerScrimColor,
-    this.drawerEdgeDragWidth,
-    this.drawerEnableOpenDragGesture = true,
-    this.endDrawerEnableOpenDragGesture = true,
-    this.restorationId,
-    this.enableRefresh = false,
-    this.onRefresh,
-    this.refreshIndicatorColor,
-    this.refreshIndicatorBackgroundColor,
-    this.minimumRefreshDuration = 1000,
-  })  :
-        // Ensure shimmer is only used with shimmer loader type
-        assert(
-            bodyShimmer == null ||
-                loadingIndicator?.loaderType == SLoaderType.shimmer,
-            "Shimmer should only be used with shimmer loader type."),
-        // Require onRefresh callback when refresh is enabled
-        assert(!enableRefresh || onRefresh != null,
-            "onRefresh must be provided when enableRefresh is true"),
-        // Ensure refresh duration is non-negative
-        assert(minimumRefreshDuration >= 0,
-            "minimumRefreshDuration must be non-negative"),
-        // Validate drawer drag width is positive
-        assert(drawerEdgeDragWidth == null || drawerEdgeDragWidth > 0,
-            "drawerEdgeDragWidth must be positive if provided"),
-        // Prevent conflicting footer widgets
-        assert(!(renderFooter != null && bottomNavigationBar != null),
-            "Cannot provide both renderFooter and bottomNavigationBar"),
-        // Prevent persistent footer buttons with custom footer
-        assert(!(persistentFooterButtons != null && renderFooter != null),
-            "Cannot use persistentFooterButtons with renderFooter"),
-        // Prevent bottom sheet with custom footer
-        assert(!(bottomSheet != null && renderFooter != null),
-            "Cannot use bottomSheet with renderFooter"),
-        // Ensure drawer callback is only used when drawer is interactive
-        assert(
-            !(drawer != null &&
-                !drawerEnableOpenDragGesture &&
-                onDrawerChanged != null),
-            "onDrawerChanged is unnecessary when drawerEnableOpenDragGesture is false"),
-        // Ensure end drawer callback is only used when end drawer is interactive
-        assert(
-            !(endDrawer != null &&
-                !endDrawerEnableOpenDragGesture &&
-                onEndDrawerChanged != null),
-            "onEndDrawerChanged is unnecessary when endDrawerEnableOpenDragGesture is false"),
-        // Require FAB when its location or animator is specified
-        assert(
-            !(floatingActionButton == null &&
-                (floatingActionButtonLocation != null ||
-                    floatingActionButtonAnimator != null)),
-            "floatingActionButton must be provided when floatingActionButtonLocation or floatingActionButtonAnimator is set");
-
   @override
-  _SScaffoldState createState() => _SScaffoldState();
+  State<SScaffold> createState() => _SScaffoldState();
 }
 
 /// State class for [SScaffold] that manages loading and refresh states.
@@ -335,7 +351,7 @@ class _SScaffoldState extends State<SScaffold> {
     );
 
     // Center content if centerBody is true
-    Widget content =
+    final Widget content =
         widget.centerBody ? Center(child: bodyContent) : bodyContent;
 
     // Wrap in scroll view and refresh indicator if scrollable or refresh enabled
@@ -394,7 +410,7 @@ class _SScaffoldState extends State<SScaffold> {
 
   /// Builds the default loading indicator.
   Widget _buildLoadingIndicator() {
-    return SLoadingIndicator(
+    return const SLoadingIndicator(
       showBackground: true,
       spinnerColor: Colors.teal,
     );

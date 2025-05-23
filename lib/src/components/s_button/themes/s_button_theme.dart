@@ -2,6 +2,18 @@ import 'package:flutter/material.dart';
 
 /// Theme data for [SButton].
 class SButtonThemeData {
+  /// Creates an instance of [SButtonThemeData].
+  const SButtonThemeData({
+    this.defaultBackgroundColor = Colors.teal,
+    this.defaultForegroundColor = Colors.white,
+    this.outlineBackgroundColor = Colors.transparent,
+    this.outlineForegroundColor = Colors.teal,
+    this.outlineBorderColor = Colors.teal,
+    this.ghostBackgroundColor = Colors.transparent,
+    this.ghostForegroundColor = Colors.teal,
+    this.linkForegroundColor = Colors.blue,
+  });
+
   /// Default background color for filled variants.
   final Color defaultBackgroundColor;
 
@@ -25,18 +37,6 @@ class SButtonThemeData {
 
   /// Default foreground color for link variants.
   final Color linkForegroundColor;
-
-  /// Creates an instance of [SButtonThemeData].
-  const SButtonThemeData({
-    this.defaultBackgroundColor = Colors.teal,
-    this.defaultForegroundColor = Colors.white,
-    this.outlineBackgroundColor = Colors.transparent,
-    this.outlineForegroundColor = Colors.teal,
-    this.outlineBorderColor = Colors.teal,
-    this.ghostBackgroundColor = Colors.transparent,
-    this.ghostForegroundColor = Colors.teal,
-    this.linkForegroundColor = Colors.blue,
-  });
 
   /// Provides a light theme.
   static const SButtonThemeData light = SButtonThemeData();
@@ -64,18 +64,16 @@ class SButtonThemeData {
   }) {
     return SButtonThemeData(
       defaultBackgroundColor:
-      defaultBackgroundColor ?? this.defaultBackgroundColor,
+          defaultBackgroundColor ?? this.defaultBackgroundColor,
       defaultForegroundColor:
-      defaultForegroundColor ?? this.defaultForegroundColor,
+          defaultForegroundColor ?? this.defaultForegroundColor,
       outlineBackgroundColor:
-      outlineBackgroundColor ?? this.outlineBackgroundColor,
+          outlineBackgroundColor ?? this.outlineBackgroundColor,
       outlineForegroundColor:
-      outlineForegroundColor ?? this.outlineForegroundColor,
+          outlineForegroundColor ?? this.outlineForegroundColor,
       outlineBorderColor: outlineBorderColor ?? this.outlineBorderColor,
-      ghostBackgroundColor:
-      ghostBackgroundColor ?? this.ghostBackgroundColor,
-      ghostForegroundColor:
-      ghostForegroundColor ?? this.ghostForegroundColor,
+      ghostBackgroundColor: ghostBackgroundColor ?? this.ghostBackgroundColor,
+      ghostForegroundColor: ghostForegroundColor ?? this.ghostForegroundColor,
       linkForegroundColor: linkForegroundColor ?? this.linkForegroundColor,
     );
   }

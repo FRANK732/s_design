@@ -10,7 +10,7 @@ class SButtonUtils {
 
   /// Formats the button's content based on the presence of an icon and child.
   static List<Widget> formatContent({Widget? icon, Widget? child}) {
-    List<Widget> contentWidgets = [];
+    final List<Widget> contentWidgets = [];
     if (icon != null) {
       contentWidgets.add(icon);
     }
