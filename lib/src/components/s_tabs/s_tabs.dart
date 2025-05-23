@@ -7,7 +7,7 @@ import 's_tabs_content.dart';
 
 class STabs extends StatefulWidget {
   const STabs({
-    Key? key,
+    super.key,
     required this.tabs,
     this.initialIndex = 0,
     this.animationType = STabAnimationType.fade,
@@ -17,7 +17,7 @@ class STabs extends StatefulWidget {
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.crossAxisAlignment = CrossAxisAlignment.center,
     this.onTabChanged,
-    this.tabListMargin = const EdgeInsets.symmetric(horizontal: 0.0),
+    this.tabListMargin = EdgeInsets.zero,
     this.tabListPadding = const EdgeInsets.all(3.0),
     this.backgroundDecoration,
     this.activeTabTextStyle,
@@ -39,10 +39,14 @@ class STabs extends StatefulWidget {
     this.tabLeadingIcon,
     this.tabTrailingIcon,
     this.iconSpacing = 8.0,
-  })  : assert(tabs.length > 0, 'Tabs list cannot be empty.'),
-        assert(initialIndex >= 0 && initialIndex < tabs.length,
-            'Initial index must be within the range of tabs.'),
-        super(key: key);
+  })  : assert(
+          tabs.length > 0,
+          'Tabs list cannot be empty.',
+        ),
+        assert(
+          initialIndex >= 0 && initialIndex < tabs.length,
+          'Initial index must be within the range of tabs.',
+        );
 
   /// The list of tabs, each containing a label and corresponding content.
   final List<STabItem> tabs;
@@ -138,7 +142,7 @@ class STabs extends StatefulWidget {
   final double iconSpacing;
 
   @override
-  _STabsState createState() => _STabsState();
+  State<STabs> createState() => _STabsState();
 }
 
 class _STabsState extends State<STabs> with SingleTickerProviderStateMixin {

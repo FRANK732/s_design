@@ -45,7 +45,7 @@ class SCheckbox extends StatefulWidget {
   final bool isDisabled;
 
   @override
-  _SCheckboxState createState() => _SCheckboxState();
+  State<SCheckbox> createState() => _SCheckboxState();
 }
 
 class _SCheckboxState extends State<SCheckbox>

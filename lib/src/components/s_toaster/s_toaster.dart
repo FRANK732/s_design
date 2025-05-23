@@ -103,7 +103,7 @@ class SToast extends StatefulWidget {
       _activeToasts.remove(id);
     } else {
       developer.log('SToast: Dismissing all toasts', name: 'SToast');
-      for (var entry in _activeToasts.values) {
+      for (final entry in _activeToasts.values) {
         entry.remove();
       }
       _activeToasts.clear();
