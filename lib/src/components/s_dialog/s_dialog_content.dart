@@ -5,10 +5,10 @@ import '../../../s_design.dart';
 
 class SDialogContent extends StatefulWidget {
   const SDialogContent({
-    Key? key,
+    super.key,
     required this.dialog,
     required this.controller,
-  }) : super(key: key);
+  });
   final SDialog dialog;
   final SDialogController controller;
 

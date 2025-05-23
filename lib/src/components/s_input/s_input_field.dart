@@ -398,7 +398,7 @@ class SInputField extends StatefulWidget {
       focusNode: focusNode,
       initialValue: initialValue,
       enabled: enabled,
-      startIcon: Icon(Icons.email),
+      startIcon: const Icon(Icons.email),
       textInputAction: textInputAction,
       validator: validator,
       onChanged: onChanged,

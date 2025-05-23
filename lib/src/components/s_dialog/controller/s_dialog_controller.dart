@@ -12,7 +12,9 @@ class SDialogController extends ChangeNotifier {
     BuildContext context, {
     required SDialog dialog,
   }) async {
-    if (_isOpen) return;
+    if (_isOpen) {
+      return;
+    }
 
     _isOpen = true;
     notifyListeners();

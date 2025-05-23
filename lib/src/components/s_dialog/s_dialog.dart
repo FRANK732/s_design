@@ -45,8 +45,8 @@ class SDialog extends StatelessWidget {
     this.descriptionDividerColor,
     this.descriptionDividerThickness = 1.0,
     this.hasActions = false,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   final String? title;
   final String? description;
   final Widget? content;
