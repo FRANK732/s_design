@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-/// An advanced ListTile widget built strictly on Flutter's ListTile.
+/// An SListTile widget built strictly on Flutter's ListTile.
 /// Enhances UI/UX with native properties and minimal external additions.
 class SListTile extends StatelessWidget {
   /// Creates an [SListTile] with advanced features using only [ListTile] properties.
