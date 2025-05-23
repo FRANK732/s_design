@@ -2,25 +2,25 @@ import 'package:flutter/material.dart';
 
 /// A self-contained form widget that manages form state, validation,
 /// and displays form fields with labels, inputs, and error messages.
-class AdvancedFormWidget extends StatefulWidget {
+class SFormWidget extends StatefulWidget {
+  /// Creates an instance of SFormWidget.
+  const SFormWidget({
+    super.key,
+    required this.onSubmit,
+    required this.fields,
+  });
+
   /// A callback function that receives the form values when the form is submitted.
   final void Function(Map<String, dynamic> values) onSubmit;
 
   /// A list of fields to be rendered in the form.
   final List<FormFieldData> fields;
 
-  /// Creates an instance of AdvancedFormWidget.
-  const AdvancedFormWidget({
-    super.key,
-    required this.onSubmit,
-    required this.fields,
-  });
-
   @override
-  _AdvancedFormWidgetState createState() => _AdvancedFormWidgetState();
+  State<SFormWidget> createState() => _SFormWidgetState();
 }
 
-class _AdvancedFormWidgetState extends State<AdvancedFormWidget> {
+class _SFormWidgetState extends State<SFormWidget> {
   final _formKey = GlobalKey<FormState>();
   final Map<String, dynamic> _values = {};
   final Map<String, String?> _errors = {};
@@ -29,7 +29,7 @@ class _AdvancedFormWidgetState extends State<AdvancedFormWidget> {
   void initState() {
     super.initState();
     // Initialize field values with initialValue if provided.
-    for (var field in widget.fields) {
+    for (final field in widget.fields) {
       _values[field.name] = field.initialValue;
     }
   }
@@ -91,7 +91,7 @@ class _AdvancedFormWidgetState extends State<AdvancedFormWidget> {
             field.label!,
             style: TextStyle(
               fontWeight: FontWeight.w600,
-              color: error != null ? Colors.redAccent[100]: null,
+              color: error != null ? Colors.redAccent[100] : null,
             ),
           ),
         const SizedBox(height: 8),
@@ -127,6 +127,18 @@ class _AdvancedFormWidgetState extends State<AdvancedFormWidget> {
 
 /// Represents the data for a form field.
 class FormFieldData {
+  /// Creates an instance of FormFieldData.
+  FormFieldData({
+    required this.name,
+    this.label,
+    this.hintText,
+    this.description,
+    this.initialValue,
+    this.obscureText = false,
+    this.keyboardType = TextInputType.text,
+    this.validator,
+  });
+
   /// The name of the field, used as a key in the form values map.
   final String name;
 
@@ -150,16 +162,4 @@ class FormFieldData {
 
   /// A validator function that returns an error message if the input is invalid.
   final String? Function(String?)? validator;
-
-  /// Creates an instance of FormFieldData.
-  FormFieldData({
-    required this.name,
-    this.label,
-    this.hintText,
-    this.description,
-    this.initialValue,
-    this.obscureText = false,
-    this.keyboardType = TextInputType.text,
-    this.validator,
-  });
 }

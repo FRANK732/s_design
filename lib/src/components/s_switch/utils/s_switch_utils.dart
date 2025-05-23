@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import '../enums/s_switch_enums.dart';
 
@@ -7,19 +6,22 @@ class SSwitchUtils {
   static Size getSwitchSize(SSwitchSize size) {
     switch (size) {
       case SSwitchSize.small:
-        return Size(40.0, 20.0);
+        return const Size(40.0, 20.0);
       case SSwitchSize.medium:
-        return Size(50.0, 30.0);
+        return const Size(50.0, 30.0);
       case SSwitchSize.large:
-        return Size(60.0, 35.0);
+        return const Size(60.0, 35.0);
       default:
-        return Size(50.0, 30.0);
+        return const Size(50.0, 30.0);
     }
   }
 
   /// Variant decoration based on SSwitchVariant.
   static BoxDecoration getVariantDecoration(
-      SSwitchVariant variant, Color activeColor, Color inactiveColor) {
+    SSwitchVariant variant,
+    Color activeColor,
+    Color inactiveColor,
+  ) {
     switch (variant) {
       case SSwitchVariant.filled:
         return BoxDecoration(
