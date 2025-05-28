@@ -6,30 +6,34 @@ import 'package:s_design/src/components/s_button/themes/s_button_theme.dart';
 /// A customizable and versatile button widget for Flutter applications.
 ///
 /// The [SButton] widget supports various styles, sizes, states, and includes options
-/// for displaying icons and loading indicators. It adapts its appearance based on the
-/// current theme and provided customization parameters.
-///
+/// for displaying icons, loading indicators, focus effects, elevation, shadow, and animations.
+/// It adapts its appearance based on the current theme and provided customization parameters.
 class SButton extends StatelessWidget {
-  ///
-
   /// Creates an [SButton] widget.
-  const SButton({
-    super.key,
-    this.variant = SButtonVariant.defaultVariant,
-    this.size = SButtonSize.defaultSize,
-    this.state,
-    this.icon,
-    this.backgroundColor,
-    this.foregroundColor,
-    this.loading = false,
-    required this.onPressed,
-    this.child,
-    this.height,
-    this.buttonStyle,
-    this.width,
-    this.padding,
-    this.borderRadius,
-  });
+  const SButton(
+      {super.key,
+      this.variant = SButtonVariant.defaultVariant,
+      this.size = SButtonSize.defaultSize,
+      this.state,
+      this.icon,
+      this.backgroundColor,
+      this.foregroundColor,
+      this.loading = false,
+      required this.onPressed,
+      this.onLongPress,
+      this.child,
+      this.height,
+      this.width,
+      this.padding,
+      this.borderRadius,
+      this.elevation,
+      this.shadowColor,
+      this.focusNode,
+      this.autofocus = false,
+      this.textStyle,
+      this.animationDuration,
+      this.tooltip,
+      this.buttonStyle});
 
   /// The variant of the button, determining its style.
   final SButtonVariant variant;
@@ -49,6 +53,9 @@ class SButton extends StatelessWidget {
   /// The callback invoked when the button is pressed.
   final VoidCallback? onPressed;
 
+  /// The callback invoked when the button is long-pressed.
+  final VoidCallback? onLongPress;
+
   /// The fixed height of the button.
   final double? height;
 
@@ -61,17 +68,38 @@ class SButton extends StatelessWidget {
   /// The padding inside the button.
   final EdgeInsetsGeometry? padding;
 
-  /// Changes the background color of the button
+  /// Changes the background color of the button.
   final Color? backgroundColor;
 
-  /// Changes the foreground color of the button
+  /// Changes the foreground color of the button.
   final Color? foregroundColor;
 
-  /// Custom you own button style
+  /// Custom button style.
   final ButtonStyle? buttonStyle;
 
-  /// Border radius
+  /// Border radius of the button.
   final BorderRadiusGeometry? borderRadius;
+
+  /// Elevation of the button (applies to ElevatedButton).
+  final double? elevation;
+
+  /// Shadow color of the button (applies to ElevatedButton).
+  final Color? shadowColor;
+
+  /// Focus node for handling focus events.
+  final FocusNode? focusNode;
+
+  /// Whether the button should automatically gain focus.
+  final bool autofocus;
+
+  /// Custom text style for the button's child text.
+  final TextStyle? textStyle;
+
+  /// Duration of button animations (e.g., hover, press).
+  final Duration? animationDuration;
+
+  /// Tooltip message shown on long press or hover.
+  final String? tooltip;
 
   @override
   Widget build(BuildContext context) {
@@ -103,6 +131,7 @@ class SButton extends StatelessWidget {
       foregroundColor ?? defaultForegroundColor,
       defaultBorderSide,
       computedPadding,
+      context,
     );
 
     Widget buttonWidget;
@@ -113,7 +142,10 @@ class SButton extends StatelessWidget {
       case SButtonVariant.secondary:
         buttonWidget = ElevatedButton(
           onPressed: isDisabled ? null : onPressed,
+          onLongPress: isDisabled ? null : onLongPress,
           style: buttonStyle ?? defaultStyle,
+          focusNode: focusNode,
+          autofocus: autofocus,
           child: content,
         );
         break;
@@ -121,7 +153,10 @@ class SButton extends StatelessWidget {
       case SButtonVariant.destructiveOutline:
         buttonWidget = OutlinedButton(
           onPressed: isDisabled ? null : onPressed,
+          onLongPress: isDisabled ? null : onLongPress,
           style: buttonStyle ?? defaultStyle,
+          focusNode: focusNode,
+          autofocus: autofocus,
           child: content,
         );
         break;
@@ -129,17 +164,26 @@ class SButton extends StatelessWidget {
       case SButtonVariant.link:
         buttonWidget = TextButton(
           onPressed: isDisabled ? null : onPressed,
+          onLongPress: isDisabled ? null : onLongPress,
           style: buttonStyle ?? defaultStyle,
+          focusNode: focusNode,
+          autofocus: autofocus,
           child: content,
         );
         break;
     }
 
-    // Wrap the button in a SizedBox if height or width is specified
     if (height != null || width != null) {
       buttonWidget = SizedBox(
         height: height,
         width: width,
+        child: buttonWidget,
+      );
+    }
+
+    if (tooltip != null) {
+      buttonWidget = Tooltip(
+        message: tooltip!,
         child: buttonWidget,
       );
     }
@@ -263,7 +307,8 @@ class SButton extends StatelessWidget {
       child: SpinKitThreeBounce(
         color: _getLoaderColor(theme),
         size: _getLoaderSize(),
-        duration: Duration(milliseconds: (1000 / 1.0).round()),
+        duration:
+            animationDuration ?? Duration(milliseconds: (1000 / 1.0).round()),
       ),
     );
   }
@@ -298,10 +343,17 @@ class SButton extends StatelessWidget {
     }
   }
 
-  /// Builds the button content, including icon and child.
+  /// Builds the button content, including icon and child with custom text style.
   Widget _buildContent(SButtonThemeData theme) {
-    final List<Widget> contentWidgets =
-        SButtonUtils.formatContent(icon: icon, child: child);
+    final List<Widget> contentWidgets = SButtonUtils.formatContent(
+      icon: icon,
+      child: child != null && textStyle != null && child is Text
+          ? Text(
+              (child as Text).data ?? '',
+              style: textStyle,
+            )
+          : child,
+    );
 
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -316,6 +368,7 @@ class SButton extends StatelessWidget {
     Color foregroundColor,
     BorderSide? borderSide,
     EdgeInsetsGeometry padding,
+    BuildContext context,
   ) {
     return ButtonStyle(
       backgroundColor: WidgetStateProperty.all(backgroundColor),
@@ -324,6 +377,9 @@ class SButton extends StatelessWidget {
         (Set<WidgetState> states) {
           if (states.contains(WidgetState.pressed)) {
             return foregroundColor.withOpacity(0.12);
+          }
+          if (states.contains(WidgetState.focused)) {
+            return foregroundColor.withOpacity(0.2);
           }
           return null;
         },

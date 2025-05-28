@@ -218,6 +218,7 @@ class SInputField extends StatefulWidget {
     bool? enabled,
     FormFieldValidator<String>? validator,
     ValueChanged<String>? onChanged,
+    Function? onClear,
     ValueChanged<String>? onFieldSubmitted,
     String? labelText,
     String? hintText,
@@ -283,6 +284,9 @@ class SInputField extends StatefulWidget {
           controller?.clear();
           if (onChanged != null) {
             onChanged('');
+          }
+          if (onClear != null) {
+            onClear();
           }
         },
       ),

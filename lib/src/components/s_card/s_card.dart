@@ -524,23 +524,6 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
     );
   }
 
-  // ShapeBorder _getEffectiveShape() {
-  //   switch (widget.shape) {
-  //     case SCardShape.rounded:
-  //       return RoundedRectangleBorder(
-  //         borderRadius: BorderRadius.circular(widget.borderRadius ?? 12.0),
-  //       );
-  //     case SCardShape.circular:
-  //       return const CircleBorder();
-  //     case SCardShape.beveled:
-  //       return BeveledRectangleBorder(
-  //         borderRadius: BorderRadius.circular(widget.borderRadius ?? 12.0),
-  //       );
-  //     case SCardShape.custom:
-  //       return widget.customShape!;
-  //   }
-  // }
-
   List<BoxShadow> _getShadows() {
     final List<BoxShadow> shadows = [];
     if (widget.shadowStyle != SCardShadow.none) {
@@ -686,28 +669,25 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
       widget.headerPadding,
     );
 
-    // Card content
-    Widget cardContent = SingleChildScrollView(
-      controller: widget.scrollController,
-      physics: widget.onScroll,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          headerContent,
-          _buildSection(widget.body, widget.bodyPadding),
-          _buildSection(widget.actions, widget.actionsPadding),
-          _buildSection(widget.footer, widget.footerPadding),
-        ],
-      ),
+    // Card content without SingleChildScrollView
+    Widget cardContent = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        headerContent,
+        _buildSection(widget.body, widget.bodyPadding),
+        _buildSection(widget.actions, widget.actionsPadding),
+        _buildSection(widget.footer, widget.footerPadding),
+      ],
     );
 
-    // Apply maxWidth constraint if provided
-    if (widget.maxWidth != null) {
-      cardContent = ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: widget.maxWidth!),
-        child: cardContent,
-      );
-    }
+    // Apply maxWidth and maxHeight constraints if provided
+    cardContent = ConstrainedBox(
+      constraints: BoxConstraints(
+        maxWidth: widget.maxWidth ?? double.infinity,
+        maxHeight: widget.maxHeight ?? double.infinity,
+      ),
+      child: cardContent,
+    );
 
     // Decoration
     final decoration = BoxDecoration(
@@ -734,7 +714,7 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
     );
 
     // Interactive wrapper
-    final Widget interactiveContent = Material(
+    Widget interactiveContent = Material(
       type: widget.materialType,
       color: Colors.transparent,
       clipBehavior: widget.clipBehavior,
@@ -742,15 +722,7 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
         onTap: widget.onTap,
         onLongPress: widget.onLongPress,
         onDoubleTap: widget.onDoubleTap,
-        onHover: (hovered) {
-          // setState(() {
-          //   _isHovered = hovered;
-          //   _currentElevation = hovered
-          //       ? (widget.hoverElevation ?? 4.0)
-          //       : (widget.elevation ?? 1.0);
-          // });
-          widget.onHover?.call(hovered);
-        },
+        onHover: widget.onHover,
         splashColor:
             widget.hoverColor ?? theme.colorScheme.primary.withOpacity(0.1),
         highlightColor: Colors.transparent,
@@ -777,28 +749,17 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
       margin: widget.margin ?? const EdgeInsets.all(8.0),
       padding: widget.padding ?? EdgeInsets.zero,
       width: widget.width,
-      height: widget.height,
       decoration: decoration,
       alignment: widget.alignment,
       child: animatedContent,
     );
 
-    // Apply maxHeight constraint if provided
-    if (widget.maxHeight != null) {
-      cardWidget = ConstrainedBox(
-        constraints: BoxConstraints(maxHeight: widget.maxHeight!),
-        child: cardWidget,
-      );
-    }
-
-    // Dismissible wrapper using Stack
-    // Dismissible wrapper using Stack
+    // Dismissible wrapper
     if (widget.dismissKey != null && widget.enableInteractiveDismiss) {
       cardWidget = Stack(
         alignment: Alignment.center,
         fit: StackFit.passthrough,
         children: [
-          // Background layer, filling the entire card size
           Positioned.fill(
             child: AnimatedOpacity(
               opacity: (widget.dismissBackgroundOpacity ?? 1.0) *
@@ -808,7 +769,6 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
               child: _buildDismissBackground(_currentSwipeDirection),
             ),
           ),
-          // Dismissible card
           Dismissible(
             key: widget.dismissKey!,
             confirmDismiss: widget.confirmDismiss,
