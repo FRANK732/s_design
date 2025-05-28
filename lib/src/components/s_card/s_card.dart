@@ -714,7 +714,7 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
     );
 
     // Interactive wrapper
-    Widget interactiveContent = Material(
+    final Widget interactiveContent = Material(
       type: widget.materialType,
       color: Colors.transparent,
       clipBehavior: widget.clipBehavior,

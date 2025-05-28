@@ -10,30 +10,31 @@ import 'package:s_design/src/components/s_button/themes/s_button_theme.dart';
 /// It adapts its appearance based on the current theme and provided customization parameters.
 class SButton extends StatelessWidget {
   /// Creates an [SButton] widget.
-  const SButton(
-      {super.key,
-      this.variant = SButtonVariant.defaultVariant,
-      this.size = SButtonSize.defaultSize,
-      this.state,
-      this.icon,
-      this.backgroundColor,
-      this.foregroundColor,
-      this.loading = false,
-      required this.onPressed,
-      this.onLongPress,
-      this.child,
-      this.height,
-      this.width,
-      this.padding,
-      this.borderRadius,
-      this.elevation,
-      this.shadowColor,
-      this.focusNode,
-      this.autofocus = false,
-      this.textStyle,
-      this.animationDuration,
-      this.tooltip,
-      this.buttonStyle});
+  const SButton({
+    super.key,
+    this.variant = SButtonVariant.defaultVariant,
+    this.size = SButtonSize.defaultSize,
+    this.state,
+    this.icon,
+    this.backgroundColor,
+    this.foregroundColor,
+    this.loading = false,
+    required this.onPressed,
+    this.onLongPress,
+    this.child,
+    this.height,
+    this.width,
+    this.padding,
+    this.borderRadius,
+    this.elevation,
+    this.shadowColor,
+    this.focusNode,
+    this.autofocus = false,
+    this.textStyle,
+    this.animationDuration,
+    this.tooltip,
+    this.buttonStyle,
+  });
 
   /// The variant of the button, determining its style.
   final SButtonVariant variant;
@@ -183,7 +184,7 @@ class SButton extends StatelessWidget {
 
     if (tooltip != null) {
       buttonWidget = Tooltip(
-        message: tooltip!,
+        message: tooltip,
         child: buttonWidget,
       );
     }
@@ -349,6 +350,8 @@ class SButton extends StatelessWidget {
       icon: icon,
       child: child != null && textStyle != null && child is Text
           ? Text(
+              //TODO: check child nullability
+              // ignore: cast_nullable_to_non_nullable
               (child as Text).data ?? '',
               style: textStyle,
             )
