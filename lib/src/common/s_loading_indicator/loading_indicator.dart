@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:s_design/src/common/s_loading_indicator/themes/s_loading_indicator_theme.dart';
+
 import 'enums/s_loading_types.dart';
+import 'themes/s_loading_indicator_theme.dart';
 import 'utils/loading_indicator_utils.dart';
 
 /// Displays a centered, compact container with a loading spinner and an optional message.
@@ -28,7 +29,7 @@ class SLoadingIndicator extends StatefulWidget {
     this.padding,
     this.margin,
   }) : assert(
-          (customIcon == null || loaderType == null),
+          customIcon == null || loaderType == null,
           'Use either a custom Icon or a loader type',
         );
 
@@ -119,7 +120,7 @@ class _SLoadingIndicatorState extends State<SLoadingIndicator>
       return widget.customIcon!;
     }
 
-    final spinner = (SLoaderType? type) {
+    final StatefulWidget spinner = (SLoaderType? type) {
       switch (type) {
         case SLoaderType.chasingDots:
           return SpinKitChasingDots(
@@ -200,9 +201,9 @@ class _SLoadingIndicatorState extends State<SLoadingIndicator>
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).sLoadingIndicatorTheme;
+    final SLoadingIndicatorThemeData theme = Theme.of(context).sLoadingIndicatorTheme;
 
-    final messageStyle = widget.messageStyle ??
+    final TextStyle messageStyle = widget.messageStyle ??
         theme.messageStyle.copyWith(color: widget.messageColor);
 
     return FadeTransition(
@@ -210,7 +211,7 @@ class _SLoadingIndicatorState extends State<SLoadingIndicator>
       child: Material(
         color: Colors.transparent,
         child: Stack(
-          children: [
+          children: <Widget>[
             if (widget.showBackground)
               GestureDetector(
                 onTap: widget.barrierDismissible
@@ -234,7 +235,7 @@ class _SLoadingIndicatorState extends State<SLoadingIndicator>
                   decoration: BoxDecoration(
                     gradient: theme.useGradient
                         ? LinearGradient(
-                            colors: [
+                            colors: <Color>[
                               widget.backgroundColor ?? Colors.white,
                               (widget.backgroundColor ?? Colors.white)
                                   .withOpacity(0.9),
@@ -248,7 +249,7 @@ class _SLoadingIndicatorState extends State<SLoadingIndicator>
                         : (widget.backgroundColor ?? Colors.white),
                     borderRadius:
                         widget.borderRadius ?? BorderRadius.circular(20),
-                    boxShadow: [
+                    boxShadow: <BoxShadow>[
                       BoxShadow(
                         color: theme.shadowColor,
                         blurRadius: theme.shadowBlurRadius,
@@ -264,9 +265,9 @@ class _SLoadingIndicatorState extends State<SLoadingIndicator>
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: [
+                    children: <Widget>[
                       RepaintBoundary(child: _buildSpinner()),
-                      if (widget.message.isNotEmpty) ...[
+                      if (widget.message.isNotEmpty) ...<Widget>[
                         const SizedBox(height: 10),
                         Text(
                           SLoadingIndicatorUtils.formatMessage(widget.message),

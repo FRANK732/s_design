@@ -43,8 +43,6 @@ class SButtonThemeData {
 
   /// Provides a dark theme.
   static const SButtonThemeData dark = SButtonThemeData(
-    defaultBackgroundColor: Colors.teal,
-    defaultForegroundColor: Colors.white,
     outlineForegroundColor: Colors.tealAccent,
     outlineBorderColor: Colors.tealAccent,
     ghostForegroundColor: Colors.tealAccent,
