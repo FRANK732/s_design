@@ -16,7 +16,7 @@ class _BaseScaffoldPageState extends State<BaseScaffoldPage> {
   int _start = 5;
 
   void startTimer() {
-    const oneSec = Duration(seconds: 1);
+    const Duration oneSec = Duration(seconds: 1);
     _timer = Timer.periodic(
       oneSec,
       (Timer timer) {
@@ -44,11 +44,10 @@ class _BaseScaffoldPageState extends State<BaseScaffoldPage> {
   Widget build(BuildContext context) {
     return SScaffold(
       centerBody: true,
-      scrollable: false,
       enableRefresh: true,
       onRefresh: () async {
         setState(() => _isLoading = true);
-        await Future.delayed(const Duration(seconds: 2), () {
+        await Future<void>.delayed(const Duration(seconds: 2), () {
           if (mounted) {
             setState(() => _isLoading = false);
           }
@@ -66,10 +65,10 @@ class _BaseScaffoldPageState extends State<BaseScaffoldPage> {
         onPressed: () {},
         child: const Icon(Icons.add),
       ),
-      renderBody: (context) {
+      renderBody: (BuildContext context) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: <Widget>[
             const Center(
               child: Text('This is the body of the page'),
             ),
@@ -86,7 +85,7 @@ class _BaseScaffoldPageState extends State<BaseScaffoldPage> {
               onPressed: () {
                 setState(() => _isLoading = true);
                 startTimer();
-                Future.delayed(const Duration(seconds: 5), () {
+                Future<void>.delayed(const Duration(seconds: 5), () {
                   if (mounted) {
                     setState(() => _isLoading = false);
                   }
@@ -97,7 +96,7 @@ class _BaseScaffoldPageState extends State<BaseScaffoldPage> {
           ],
         );
       },
-      renderFooter: (context) {
+      renderFooter: (BuildContext context) {
         return const Center(child: Text('This is the footer'));
       },
     );

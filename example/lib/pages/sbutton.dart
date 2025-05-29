@@ -35,7 +35,7 @@ class _ButtonPageState extends State<ButtonPage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             // Section: Variants
             const Text(
               'Variants',
@@ -45,9 +45,8 @@ class _ButtonPageState extends State<ButtonPage> {
             Wrap(
               spacing: 10,
               runSpacing: 10,
-              children: [
+              children: <Widget>[
                 SButton(
-                  variant: SButtonVariant.defaultVariant,
                   onPressed: () {
                     // Handle default button press
                   },
@@ -108,14 +107,13 @@ class _ButtonPageState extends State<ButtonPage> {
             Wrap(
               spacing: 10,
               runSpacing: 10,
-              children: [
+              children: <Widget>[
                 SButton(
                   size: SButtonSize.sm,
                   onPressed: () {},
                   child: const Text('Small'),
                 ),
                 SButton(
-                  size: SButtonSize.defaultSize,
                   onPressed: () {},
                   child: const Text('Default'),
                 ),
@@ -143,7 +141,7 @@ class _ButtonPageState extends State<ButtonPage> {
             Wrap(
               spacing: 10,
               runSpacing: 10,
-              children: [
+              children: <Widget>[
                 SButton(
                   onPressed: _toggleLoading,
                   child: Text(_isLoading ? 'Stop Loading' : 'Start Loading'),
@@ -186,7 +184,7 @@ class _ButtonPageState extends State<ButtonPage> {
             Wrap(
               spacing: 10,
               runSpacing: 10,
-              children: [
+              children: <Widget>[
                 SButton(
                   icon: const Icon(Icons.add),
                   onPressed: () {},
@@ -208,7 +206,6 @@ class _ButtonPageState extends State<ButtonPage> {
                   size: SButtonSize.icon,
                   icon: const Icon(Icons.favorite),
                   onPressed: () {},
-                  child: null,
                 ),
               ],
             ),
@@ -223,7 +220,7 @@ class _ButtonPageState extends State<ButtonPage> {
             Wrap(
               spacing: 10,
               runSpacing: 10,
-              children: [
+              children: <Widget>[
                 SButton(
                   height: 50,
                   width: 150,
@@ -256,7 +253,7 @@ class _ButtonPageState extends State<ButtonPage> {
             Wrap(
               spacing: 10,
               runSpacing: 10,
-              children: [
+              children: <Widget>[
                 SButton(
                   backgroundColor: const Color.fromARGB(170, 98, 25, 187),
                   onPressed: () {},
@@ -277,7 +274,6 @@ class _ButtonPageState extends State<ButtonPage> {
                     ),
                     elevation: WidgetStateProperty.all(5),
                   ),
-                  variant: SButtonVariant.defaultVariant,
                   onPressed: () {},
                   child: const Text('Custom Styling'),
                 ),
