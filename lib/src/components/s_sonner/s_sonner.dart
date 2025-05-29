@@ -69,8 +69,8 @@ class SSonner {
 
     _overlayState?.insert(overlayEntry);
 
-    Future.delayed(currentToast.duration + const Duration(milliseconds: 300),
-        () {
+    Future<void>.delayed(
+        currentToast.duration + const Duration(milliseconds: 300), () {
       overlayEntry.remove();
       _isShowing = false;
       _displayNext();
@@ -125,9 +125,7 @@ class _ToastWidget extends StatelessWidget {
         alignment = Alignment.center;
         verticalOffset = 0;
       case SSonnerPosition.bottom:
-      default:
         alignment = Alignment.bottomCenter;
-        break;
     }
 
     double paddingValue;
@@ -141,10 +139,8 @@ class _ToastWidget extends StatelessWidget {
         paddingValue = 16.0;
         textStyle = entry.textStyle ?? textTheme.bodyLarge!;
       case SSonnerSize.md:
-      default:
         paddingValue = 12.0;
         textStyle = entry.textStyle ?? textTheme.bodyMedium!;
-        break;
     }
 
     EdgeInsetsGeometry? margin;
@@ -156,9 +152,6 @@ class _ToastWidget extends StatelessWidget {
         margin = const EdgeInsets.symmetric(horizontal: 12);
       case SSonnerSize.lg:
         margin = const EdgeInsets.symmetric(horizontal: 18);
-      default:
-        margin = const EdgeInsets.symmetric(horizontal: 12);
-        break;
     }
 
     return Stack(

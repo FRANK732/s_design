@@ -11,8 +11,6 @@ class SSwitchUtils {
         return const Size(50.0, 30.0);
       case SSwitchSize.large:
         return const Size(60.0, 35.0);
-      default:
-        return const Size(50.0, 30.0);
     }
   }
 
@@ -36,11 +34,6 @@ class SSwitchUtils {
       case SSwitchVariant.ghost:
         return BoxDecoration(
           color: Colors.transparent,
-          borderRadius: BorderRadius.circular(999),
-        );
-      default:
-        return BoxDecoration(
-          color: activeColor,
           borderRadius: BorderRadius.circular(999),
         );
     }
