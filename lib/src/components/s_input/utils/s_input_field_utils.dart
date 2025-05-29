@@ -1,5 +1,6 @@
-import '../../../components/s_input/enums/s_input_field_size.dart';
 import 'package:flutter/material.dart';
+
+import '../../../components/s_input/enums/s_input_field_size.dart';
 
 /// Helper function that maps an [SInputFieldType] to a
 /// suitable [TextInputType] in Flutter.
@@ -37,13 +38,10 @@ TextStyle? buildSizedTextStyle(TextStyle? base, SInputFieldSize size) {
   switch (size) {
     case SInputFieldSize.small:
       fontSize = 13;
-      break;
     case SInputFieldSize.medium:
       fontSize = 16;
-      break;
     case SInputFieldSize.large:
       fontSize = 20;
-      break;
     default:
       fontSize = 10;
   }

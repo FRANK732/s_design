@@ -33,8 +33,6 @@ class SDropdownMenuThemeData {
   static const SDropdownMenuThemeData dark = SDropdownMenuThemeData(
     backgroundColor: Colors.grey,
     textColor: Colors.white,
-    disabledTextColor: Colors.grey,
-    separatorColor: Colors.grey,
     iconColor: Colors.white,
   );
 
