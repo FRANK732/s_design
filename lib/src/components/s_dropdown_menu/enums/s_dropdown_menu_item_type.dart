@@ -21,7 +21,7 @@ class STriggerContainerSize {
   final double height;
   final double width;
 
-  static const sm = STriggerContainerSize._(30, 100);
-  static const md = STriggerContainerSize._(50, 150);
-  static const lg = STriggerContainerSize._(60, 200);
+  static const STriggerContainerSize sm = STriggerContainerSize._(30, 100);
+  static const STriggerContainerSize md = STriggerContainerSize._(50, 150);
+  static const STriggerContainerSize lg = STriggerContainerSize._(60, 200);
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/s_design.dart';
+import '../../../../s_design.dart';
 
 class STriggerContainerSizeUtils {
   // Base scaling factor for responsiveness
@@ -38,13 +38,13 @@ class STriggerContainerSizeUtils {
     STriggerContainerSize size,
     BuildContext context,
   ) {
-    final screenHeight = MediaQuery.of(context).size.height;
+    final double screenHeight = MediaQuery.of(context).size.height;
     final double maxHeight = screenHeight * 0.4; // 40% of screen height
     return maxHeight.clamp(100, 500); // Constrain between 100 and 500
   }
 
   static double getMenuWidth(STriggerContainerSize size, BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
+    final double screenWidth = MediaQuery.of(context).size.width;
     final double maxWidth = screenWidth * 0.5; // 50% of screen width
     return maxWidth.clamp(200, 600); // Constrain between 200 and 600
   }
