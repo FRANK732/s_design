@@ -1,6 +1,7 @@
+import 'dart:developer' as dev;
+
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
-import 'dart:developer' as dev;
 
 class TabsPage extends StatefulWidget {
   const TabsPage({super.key});
@@ -10,12 +11,11 @@ class TabsPage extends StatefulWidget {
 }
 
 class _TabsPageState extends State<TabsPage> {
-  final List<STabItem> _tabs = [
+  final List<STabItem> _tabs = <STabItem>[
     STabItem(
       label: 'Login',
       content: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
+        children: <Widget>[
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 8.0),
             child: SInputField(
@@ -42,8 +42,7 @@ class _TabsPageState extends State<TabsPage> {
     STabItem(
       label: 'SignUp',
       content: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
+        children: <Widget>[
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 8.0),
             child: SInputField(
@@ -82,20 +81,15 @@ class _TabsPageState extends State<TabsPage> {
       appBar: AppBar(
         title: const Text('Tabs Showcase'),
       ),
-      renderBody: ((context) {
+      renderBody: (BuildContext context) {
         return STabs(
           tabs: _tabs,
-          initialIndex: 0,
-          animationType: STabAnimationType.fade,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-          orientation: STabOrientation.horizontal,
           mainAxisAlignment: MainAxisAlignment.center,
-          onTabChanged: (index) {
+          onTabChanged: (int index) {
             dev.log('Active Tab: $index');
           },
         );
-      }),
+      },
     );
   }
 }

@@ -186,6 +186,7 @@ class _SLoadingIndicatorState extends State<SLoadingIndicator>
                 Duration(milliseconds: (1000 / widget.spinnerSpeed).round()),
           );
         case SLoaderType.fadingCircle:
+        // ignore: no_default_cases
         default:
           return SpinKitFadingCircle(
             color: widget.spinnerColor ?? Colors.teal,
@@ -201,7 +202,8 @@ class _SLoadingIndicatorState extends State<SLoadingIndicator>
 
   @override
   Widget build(BuildContext context) {
-    final SLoadingIndicatorThemeData theme = Theme.of(context).sLoadingIndicatorTheme;
+    final SLoadingIndicatorThemeData theme =
+        Theme.of(context).sLoadingIndicatorTheme;
 
     final TextStyle messageStyle = widget.messageStyle ??
         theme.messageStyle.copyWith(color: widget.messageColor);
