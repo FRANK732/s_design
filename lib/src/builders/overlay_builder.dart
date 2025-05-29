@@ -8,7 +8,7 @@ Widget Function(BuildContext, Widget?) sOverlayBuilder({
 }) {
   return (BuildContext context, Widget? child) {
     return Stack(
-      children: [
+      children: <Widget>[
         child ?? const SizedBox.shrink(),
         Overlay(
           initialEntries: overlays,

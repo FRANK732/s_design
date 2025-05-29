@@ -25,7 +25,7 @@ class SColorScheme extends ThemeExtension<SColorScheme> {
   final Color link;
 
   /// Light color scheme
-  static const light = SColorScheme(
+  static const SColorScheme light = SColorScheme(
     primary: Colors.teal,
     primaryAccent: Colors.tealAccent,
     secondary: Colors.blue,
@@ -39,7 +39,7 @@ class SColorScheme extends ThemeExtension<SColorScheme> {
   );
 
   /// Dark color scheme
-  static const dark = SColorScheme(
+  static const SColorScheme dark = SColorScheme(
     primary: Colors.teal,
     primaryAccent: Colors.tealAccent,
     secondary: Colors.blue,
