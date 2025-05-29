@@ -35,8 +35,8 @@ class SSelectContent<T> extends StatefulWidget {
 class _SSelectContentState<T> extends State<SSelectContent<T>> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _searchController = TextEditingController();
-  List<SSelectItem<T>> _filteredItems = [];
-  List<T> _multiSelectedValues = [];
+  List<SSelectItem<T>> _filteredItems = <SSelectItem<T>>[];
+  List<T> _multiSelectedValues = <T>[];
 
   @override
   void initState() {
@@ -44,7 +44,7 @@ class _SSelectContentState<T> extends State<SSelectContent<T>> {
     _filteredItems = widget.items;
     _searchController.addListener(_filterItems);
     if (widget.isMultiSelect && widget.selectedValue != null) {
-      _multiSelectedValues = [widget.selectedValue as T];
+      _multiSelectedValues = <T>[widget.selectedValue as T];
     }
   }
 
@@ -52,7 +52,7 @@ class _SSelectContentState<T> extends State<SSelectContent<T>> {
     setState(() {
       _filteredItems = widget.items
           .where(
-            (item) => item.label
+            (SSelectItem<T> item) => item.label
                 .toLowerCase()
                 .contains(_searchController.text.toLowerCase()),
           )
@@ -87,7 +87,7 @@ class _SSelectContentState<T> extends State<SSelectContent<T>> {
   }
 
   Widget _buildItem(SSelectItem<T> item) {
-    final isSelected = widget.isMultiSelect
+    final bool isSelected = widget.isMultiSelect
         ? _multiSelectedValues.contains(item.value)
         : widget.selectedValue == item.value;
     return ListTile(
@@ -117,7 +117,7 @@ class _SSelectContentState<T> extends State<SSelectContent<T>> {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: [
+        children: <Widget>[
           // Search input
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -138,10 +138,10 @@ class _SSelectContentState<T> extends State<SSelectContent<T>> {
                     child: ListView.separated(
                       controller: _scrollController,
                       itemCount: _filteredItems.length,
-                      separatorBuilder: (context, index) =>
+                      separatorBuilder: (BuildContext context, int index) =>
                           const Divider(height: 1),
-                      itemBuilder: (context, index) {
-                        final item = _filteredItems[index];
+                      itemBuilder: (BuildContext context, int index) {
+                        final SSelectItem<T> item = _filteredItems[index];
                         return _buildItem(item);
                       },
                     ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/s_design.dart';
+import '../../../s_design.dart';
 
 class SDropdownMenu extends StatefulWidget {
   SDropdownMenu({
@@ -278,12 +278,12 @@ class SDropdownMenu extends StatefulWidget {
 }
 
 class _SDropdownMenuState extends State<SDropdownMenu> {
-  List<String> _selectedItems = [];
+  List<String> _selectedItems = <String>[];
   bool _isMenuOpen = false;
   final LayerLink _layerLink = LayerLink();
   OverlayEntry? _overlayEntry;
   final TextEditingController _searchController = TextEditingController();
-  List<String> _filteredItems = [];
+  List<String> _filteredItems = <String>[];
   late FocusNode _focusNode;
 
   @override
@@ -294,10 +294,10 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
 
     // Initialize selected items based on initial values
     if (widget.menuType == SDropdownMenuItemType.multiSelect) {
-      _selectedItems = widget.initialValues ?? [];
+      _selectedItems = widget.initialValues ?? <String>[];
     } else {
       if (widget.initialValue != null) {
-        _selectedItems = [widget.initialValue!];
+        _selectedItems = <String>[widget.initialValue!];
       }
     }
 
@@ -316,7 +316,7 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
     setState(() {
       _filteredItems = widget.items
           .where(
-            (item) => item
+            (String item) => item
                 .toLowerCase()
                 .contains(_searchController.text.toLowerCase()),
           )
@@ -367,8 +367,8 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
 
   OverlayEntry _createOverlayEntry() {
     final RenderBox renderBox = context.findRenderObject()! as RenderBox;
-    final offset = renderBox.localToGlobal(Offset.zero);
-    final screenSize = MediaQuery.of(context).size;
+    final Offset offset = renderBox.localToGlobal(Offset.zero);
+    final Size screenSize = MediaQuery.of(context).size;
 
     final double menuWidth =
         STriggerContainerSizeUtils.getMenuWidth(widget.triggerSize, context);
@@ -383,10 +383,10 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
     );
 
     return OverlayEntry(
-      builder: (context) {
-        final theme = Theme.of(context);
+      builder: (BuildContext context) {
+        final ThemeData theme = Theme.of(context);
         return Stack(
-          children: [
+          children: <Widget>[
             Positioned.fill(
               child: GestureDetector(
                 onTap: _toggleMenu,
@@ -420,7 +420,7 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
                       border: widget.menuBorder,
                     ),
                     child: Column(
-                      children: [
+                      children: <Widget>[
                         if (widget.menuType == SDropdownMenuItemType.searchable)
                           Padding(
                             padding: const EdgeInsets.all(8),
@@ -441,7 +441,7 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
                           ),
                           child: SingleChildScrollView(
                             child: Column(
-                              children: _filteredItems.map((item) {
+                              children: _filteredItems.map((String item) {
                                 return widget.menuType ==
                                         SDropdownMenuItemType.multiSelect
                                     ? CheckboxListTile(
@@ -451,7 +451,7 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
                                               theme.textTheme.bodyMedium,
                                         ),
                                         value: _selectedItems.contains(item),
-                                        onChanged: (value) {
+                                        onChanged: (bool? value) {
                                           setState(() {
                                             if (value == true) {
                                               _selectedItems.add(item);
@@ -474,7 +474,7 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
                                         ),
                                         onTap: () {
                                           setState(() {
-                                            _selectedItems = [item];
+                                            _selectedItems = <String>[item];
                                             widget.onChanged(item);
                                           });
                                           _toggleMenu();
@@ -521,28 +521,24 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
         } else {
           dy = offset.dy + renderBox.size.height;
         }
-        break;
       case SDropdownMenuPosition.top:
         if (dy - menuHeight < 0) {
           dy = offset.dy + renderBox.size.height;
         } else {
           dy = offset.dy - menuHeight;
         }
-        break;
       case SDropdownMenuPosition.left:
         if (dx - menuWidth < 0) {
           dx = offset.dx + renderBox.size.width;
         } else {
           dx = offset.dx - menuWidth;
         }
-        break;
       case SDropdownMenuPosition.right:
         if (dx + menuWidth > screenSize.width) {
           dx = offset.dx - menuWidth;
         } else {
           dx = offset.dx + renderBox.size.width;
         }
-        break;
     }
 
     dx = dx.clamp(0, screenSize.width - menuWidth);
@@ -553,17 +549,16 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final containerHeight =
+    final ThemeData theme = Theme.of(context);
+    final double containerHeight =
         STriggerContainerSizeUtils.getContainerHeight(widget.triggerSize);
-    final containerWidth =
+    final double containerWidth =
         STriggerContainerSizeUtils.getContainerWidth(widget.triggerSize);
-    final containerPadding =
+    final EdgeInsetsGeometry containerPadding =
         STriggerContainerSizeUtils.getContainerPadding(widget.triggerSize);
 
     return PopScope(
-      canPop: true,
-      onPopInvokedWithResult: (popped, result) {
+      onPopInvokedWithResult: (bool popped, Object? result) {
         if (_isMenuOpen) {
           _closeMenu();
         }
@@ -604,7 +599,7 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
                 alignment: widget.triggerAlignment ?? Alignment.centerLeft,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: <Widget>[
                     Expanded(
                       child: widget.menuType ==
                               SDropdownMenuItemType.multiSelect
@@ -676,20 +671,20 @@ class _SDropdownMenuState extends State<SDropdownMenu> {
   }
 
   Widget _buildSelectedItems() {
-    final theme = Theme.of(context);
+    final ThemeData theme = Theme.of(context);
     STriggerContainerSizeUtils.getChipHeight(widget.triggerSize);
     STriggerContainerSizeUtils.getChipWidth(widget.triggerSize);
-    final chipPadding =
+    final EdgeInsetsGeometry chipPadding =
         STriggerContainerSizeUtils.getChipPadding(widget.triggerSize);
-    final chipIconSize =
+    final double chipIconSize =
         STriggerContainerSizeUtils.getChipIconSize(widget.triggerSize);
-    final chipElevation =
+    final double chipElevation =
         STriggerContainerSizeUtils.getChipElevation(widget.triggerSize);
 
-    final selectedItems = _selectedItems
+    final List<Padding> selectedItems = _selectedItems
         .take(widget.maxSelectedItemsToShow ?? 3)
         .map(
-          (item) => Padding(
+          (String item) => Padding(
             padding: const EdgeInsets.only(right: 5.0),
             child: Chip(
               avatar: widget.chipAvatar,

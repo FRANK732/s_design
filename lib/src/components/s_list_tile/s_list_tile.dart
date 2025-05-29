@@ -139,9 +139,9 @@ class SListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final listTileTheme = ListTileTheme.of(context);
-    final iconTheme = theme.iconTheme;
+    final ThemeData theme = Theme.of(context);
+    final ListTileThemeData listTileTheme = ListTileTheme.of(context);
+    final IconThemeData iconTheme = theme.iconTheme;
 
     // Apply margin via Padding if provided
     Widget tile = ListTile(
@@ -290,7 +290,7 @@ class SListTile extends StatelessWidget {
       child: Stack(
         clipBehavior: Clip.none,
         alignment: Alignment.center,
-        children: [
+        children: <Widget>[
           IconTheme(
             data: IconThemeData(
               color: showLoading
