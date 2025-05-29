@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:s_design/src/components/s_card/enums/s_card_shadow.dart';
-import 'package:s_design/src/components/s_card/enums/s_card_shape.dart';
+import 'enums/s_card_shadow.dart';
+import 'enums/s_card_shape.dart';
 
 // A customizable card widget with support for content sections, styling, animations, dismissible behavior, and accessibility features.
 
@@ -525,7 +525,7 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
   }
 
   List<BoxShadow> _getShadows() {
-    final List<BoxShadow> shadows = [];
+    final List<BoxShadow> shadows = <BoxShadow>[];
     if (widget.shadowStyle != SCardShadow.none) {
       shadows.add(
         widget.customShadow ??
@@ -603,8 +603,8 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
         mainAxisAlignment: direction == DismissDirection.endToStart
             ? MainAxisAlignment.end
             : MainAxisAlignment.start,
-        children: [
-          if (direction == DismissDirection.startToEnd) ...[
+        children: <Widget>[
+          if (direction == DismissDirection.startToEnd) ...<Widget>[
             Icon(
               icon,
               color: Colors.white,
@@ -616,7 +616,7 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
               style: labelStyle,
             ),
           ],
-          if (direction == DismissDirection.endToStart) ...[
+          if (direction == DismissDirection.endToStart) ...<Widget>[
             Text(
               label,
               style: labelStyle,
@@ -635,15 +635,15 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final ThemeData theme = Theme.of(context);
 
     // Header content
-    final headerContent = _buildSection(
+    final Widget headerContent = _buildSection(
       widget.header ??
           (widget.title != null || widget.description != null
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: <Widget>[
                     if (widget.title != null)
                       Text(
                         widget.title!,
@@ -652,7 +652,7 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
                               fontWeight: FontWeight.bold,
                             ),
                       ),
-                    if (widget.description != null) ...[
+                    if (widget.description != null) ...<Widget>[
                       const SizedBox(height: 8),
                       Text(
                         widget.description!,
@@ -672,7 +672,7 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
     // Card content without SingleChildScrollView
     Widget cardContent = Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
+      children: <Widget>[
         headerContent,
         _buildSection(widget.body, widget.bodyPadding),
         _buildSection(widget.actions, widget.actionsPadding),
@@ -690,7 +690,7 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
     );
 
     // Decoration
-    final decoration = BoxDecoration(
+    final BoxDecoration decoration = BoxDecoration(
       color: widget.color,
       gradient: widget.gradient,
       image: widget.backgroundImage != null
@@ -735,7 +735,7 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
     // Animation wrapper
     final Widget animatedContent = AnimatedBuilder(
       animation: _controller,
-      builder: (context, child) {
+      builder: (BuildContext context, Widget? child) {
         return Transform.scale(
           scale: _scaleAnimation.value,
           child: child,
@@ -759,7 +759,7 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
       cardWidget = Stack(
         alignment: Alignment.center,
         fit: StackFit.passthrough,
-        children: [
+        children: <Widget>[
           Positioned.fill(
             child: AnimatedOpacity(
               opacity: (widget.dismissBackgroundOpacity ?? 1.0) *
@@ -780,7 +780,7 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
             crossAxisEndOffset: widget.crossAxisEndOffset,
             dragStartBehavior: widget.dragStartBehavior,
             behavior: widget.behavior,
-            onUpdate: (details) {
+            onUpdate: (DismissUpdateDetails details) {
               setState(() {
                 _dismissProgress = details.progress;
                 _currentSwipeDirection = details.direction;

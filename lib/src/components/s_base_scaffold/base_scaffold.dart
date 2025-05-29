@@ -43,6 +43,7 @@ class SScaffold extends StatefulWidget {
     this.onRefresh,
     this.refreshIndicatorColor,
     this.refreshIndicatorBackgroundColor,
+    this.refreshIndicatorTriggerMode = RefreshIndicatorTriggerMode.onEdge,
     this.minimumRefreshDuration = 1000,
   })  :
         // Ensure shimmer is only used with shimmer loader type
@@ -205,6 +206,9 @@ class SScaffold extends StatefulWidget {
   /// Background color of the refresh indicator.
   final Color? refreshIndicatorBackgroundColor;
 
+  /// Refresh trigger node
+  final RefreshIndicatorTriggerMode refreshIndicatorTriggerMode;
+
   /// Minimum duration of the refresh animation in milliseconds.
   final int minimumRefreshDuration;
 
@@ -283,8 +287,7 @@ class _SScaffoldState extends State<SScaffold> {
     return ChangeNotifierProvider<LoadingProvider>.value(
       value: _loadingProvider,
       child: Stack(
-        children: [
-          // Main scaffold with configured properties
+        children: <Widget>[
           Scaffold(
             appBar: widget.appBar,
             drawer: widget.drawer,
@@ -317,7 +320,8 @@ class _SScaffoldState extends State<SScaffold> {
           // Display loading indicator (non-shimmer) when loading and not refreshing
           if (widget.loadingIndicator?.loaderType != SLoaderType.shimmer)
             Consumer<LoadingProvider>(
-              builder: (context, loadingProvider, child) {
+              builder: (BuildContext context, LoadingProvider loadingProvider,
+                  Widget? child) {
                 return loadingProvider.isLoading && !_isRefreshing
                     ? widget.loadingIndicator ?? _buildLoadingIndicator()
                     : const SizedBox.shrink();
@@ -330,8 +334,9 @@ class _SScaffoldState extends State<SScaffold> {
 
   /// Builds the body content with support for loading, shimmer, and refresh.
   Widget _buildBody(BuildContext context, SLoadingIndicator? loadingIndicator) {
-    final bodyContent = Consumer<LoadingProvider>(
-      builder: (context, loadingProvider, child) {
+    final Consumer<LoadingProvider> bodyContent = Consumer<LoadingProvider>(
+      builder: (BuildContext context, LoadingProvider loadingProvider,
+          Widget? child) {
         if (loadingProvider.isLoading &&
             loadingIndicator?.loaderType == SLoaderType.shimmer &&
             !_isRefreshing) {
@@ -360,8 +365,7 @@ class _SScaffoldState extends State<SScaffold> {
         onRefresh: _handleRefresh,
         color: widget.refreshIndicatorColor ?? Theme.of(context).primaryColor,
         backgroundColor: widget.refreshIndicatorBackgroundColor ?? Colors.white,
-        triggerMode: RefreshIndicatorTriggerMode.onEdge,
-        displacement: 40.0,
+        triggerMode: widget.refreshIndicatorTriggerMode,
         edgeOffset: widget.appBar?.preferredSize.height ?? 0.0,
         child: SingleChildScrollView(
           // Ensure scrollability for refresh even if content is short
@@ -389,7 +393,7 @@ class _SScaffoldState extends State<SScaffold> {
 
   /// Builds the footer with proper constraints and padding.
   Widget _buildFooter(BuildContext context) {
-    final footerWidget = widget.renderFooter?.call(context);
+    final Widget? footerWidget = widget.renderFooter?.call(context);
     final double additionalBottomPadding =
         MediaQuery.viewPaddingOf(context).bottom;
 
@@ -411,7 +415,6 @@ class _SScaffoldState extends State<SScaffold> {
   /// Builds the default loading indicator.
   Widget _buildLoadingIndicator() {
     return const SLoadingIndicator(
-      showBackground: true,
       spinnerColor: Colors.teal,
     );
   }
@@ -425,8 +428,8 @@ class _SScaffoldState extends State<SScaffold> {
         baseColor: Colors.grey[300]!,
         highlightColor: Colors.grey[100]!,
         child: ListView.builder(
-          itemCount: 10,
-          itemBuilder: (context, index) => Padding(
+          itemCount: 5,
+          itemBuilder: (BuildContext context, int index) => Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
               height: 80,
