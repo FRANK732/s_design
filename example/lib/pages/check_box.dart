@@ -25,11 +25,11 @@ class _CheckboxPageState extends State<CheckboxPage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             _buildSectionTitle('Default Checkbox'),
             const SizedBox(height: 8),
             Row(
-              children: [
+              children: <Widget>[
                 SCheckbox(
                   value: _defaultCheckboxState,
                   onChanged: (SCheckboxState newState) {
@@ -46,7 +46,7 @@ class _CheckboxPageState extends State<CheckboxPage> {
             _buildSectionTitle('Custom Colored Checkbox'),
             const SizedBox(height: 8),
             Row(
-              children: [
+              children: <Widget>[
                 SCheckbox(
                   value: _customColoredCheckboxState,
                   onChanged: (SCheckboxState newState) {
@@ -67,7 +67,7 @@ class _CheckboxPageState extends State<CheckboxPage> {
             _buildSectionTitle('Large Sized Checkbox with Custom Styling'),
             const SizedBox(height: 8),
             Row(
-              children: [
+              children: <Widget>[
                 SCheckbox(
                   value: _largeStyledCheckboxState,
                   onChanged: (SCheckboxState newState) {
@@ -88,7 +88,7 @@ class _CheckboxPageState extends State<CheckboxPage> {
             _buildSectionTitle('Disabled Checkbox'),
             const SizedBox(height: 8),
             Row(
-              children: [
+              children: <Widget>[
                 SCheckbox(
                   value: _disabledCheckboxState,
                   onChanged: null,
@@ -106,7 +106,7 @@ class _CheckboxPageState extends State<CheckboxPage> {
             _buildSectionTitle('Determinate Checkbox'),
             const SizedBox(height: 8),
             Row(
-              children: [
+              children: <Widget>[
                 SCheckbox(
                   intermediate: false,
                   value: _indeterminateCheckboxState,

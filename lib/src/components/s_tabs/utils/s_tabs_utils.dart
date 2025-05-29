@@ -20,7 +20,5 @@ Widget getTabTransition({
       );
     case STabAnimationType.scale:
       return ScaleTransition(scale: animation, child: child);
-    default:
-      return child;
   }
 }
