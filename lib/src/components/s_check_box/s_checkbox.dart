@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/src/components/s_check_box/enums/s_checkbox_state.dart';
-import 'package:s_design/src/components/s_check_box/themes/s_checkbox_theme.dart';
-import 'package:s_design/src/components/s_check_box/utils/s_checkbox_util.dart';
+import 'enums/s_checkbox_state.dart';
+import 'themes/s_checkbox_theme.dart';
+import 'utils/s_checkbox_util.dart';
 
 ///
 /// The [SCheckbox] widget allows for two or three states: unchecked, checked, and optionally indeterminate.
@@ -123,7 +123,7 @@ class _SCheckboxState extends State<SCheckbox>
       onTap: _handleTap,
       child: AnimatedBuilder(
         animation: _animationController,
-        builder: (context, child) {
+        builder: (BuildContext context, Widget? child) {
           return Container(
             width: widget.size,
             height: widget.size,
