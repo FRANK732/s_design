@@ -256,7 +256,8 @@ class _SScaffoldState extends State<SScaffold> {
       // Run refresh callback and enforce minimum duration concurrently
       await Future.wait([
         widget.onRefresh!(),
-        Future.delayed(Duration(milliseconds: widget.minimumRefreshDuration)),
+        Future<void>.delayed(
+            Duration(milliseconds: widget.minimumRefreshDuration)),
       ]);
     } catch (e, stackTrace) {
       // Log errors for debugging in production

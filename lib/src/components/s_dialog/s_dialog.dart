@@ -427,8 +427,6 @@ class SDialog extends StatelessWidget {
           ).animate(animation),
           child: _buildDialogContent(context),
         );
-      default:
-        return _buildDialogContent(context);
     }
   }
 
@@ -516,7 +514,8 @@ class SDialog extends StatelessWidget {
                             ),
                         ],
                       ),
-                    if (description != null && description!.isNotEmpty) ...<Widget>[
+                    if (description != null &&
+                        description!.isNotEmpty) ...<Widget>[
                       Padding(
                         padding:
                             descriptionPadding ?? const EdgeInsets.only(top: 8),
