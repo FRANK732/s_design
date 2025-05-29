@@ -13,7 +13,7 @@ class UnderConstruction extends StatelessWidget {
       body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: <Widget>[
             Icon(
               Icons.construction,
               size: 100,
