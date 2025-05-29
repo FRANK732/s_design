@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/src/components/s_button/enums/s_button_state.dart';
+import '../enums/s_button_state.dart';
 
 /// Utility functions for [SButton].
 class SButtonUtils {
@@ -10,7 +10,7 @@ class SButtonUtils {
 
   /// Formats the button's content based on the presence of an icon and child.
   static List<Widget> formatContent({Widget? icon, Widget? child}) {
-    final List<Widget> contentWidgets = [];
+    final List<Widget> contentWidgets = <Widget>[];
     if (icon != null) {
       contentWidgets.add(icon);
     }
