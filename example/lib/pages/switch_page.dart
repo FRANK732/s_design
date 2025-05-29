@@ -19,24 +19,23 @@ class _SwitchPageState extends State<SwitchPage> {
       appBar: AppBar(
         title: const Text('SSwitch Showcase'),
       ),
-      renderBody: ((context) {
+      renderBody: (BuildContext context) {
         return Padding(
           padding: const EdgeInsets.all(30.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: <Widget>[
               // Filled Variant
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
+                children: <Widget>[
                   SSwitch(
                     value: _filledSwitch,
-                    onChanged: (value) {
+                    onChanged: (bool value) {
                       setState(() {
                         _filledSwitch = value;
                       });
                     },
-                    variant: SSwitchVariant.filled,
                     semanticLabel: 'Filled Switch',
                   ),
                   const Text('Filled Variant'),
@@ -47,10 +46,10 @@ class _SwitchPageState extends State<SwitchPage> {
               // Outlined Variant
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
+                children: <Widget>[
                   SSwitch(
                     value: _outlinedSwitch,
-                    onChanged: (value) {
+                    onChanged: (bool value) {
                       setState(() {
                         _outlinedSwitch = value;
                       });
@@ -65,10 +64,10 @@ class _SwitchPageState extends State<SwitchPage> {
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
+                children: <Widget>[
                   SSwitch(
                     value: _ghostSwitch,
-                    onChanged: (value) {
+                    onChanged: (bool value) {
                       setState(() {
                         _ghostSwitch = value;
                       });
@@ -85,7 +84,7 @@ class _SwitchPageState extends State<SwitchPage> {
             ],
           ),
         );
-      }),
+      },
     );
   }
 }

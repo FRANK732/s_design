@@ -22,7 +22,7 @@ class _DialogPageState extends State<DialogPage> {
       appBar: AppBar(
         title: const Text('Dialog Showcase'),
       ),
-      renderBody:((context){
+      renderBody:(BuildContext context){
 
         return Center(
           child: SButton(
@@ -36,7 +36,7 @@ class _DialogPageState extends State<DialogPage> {
                   semanticLabel: 'Edit',
                   content: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       // Name Field
                       const Text(
                         'Name',
@@ -57,7 +57,7 @@ class _DialogPageState extends State<DialogPage> {
                     ],
                   ),
                   // Action buttons at bottom-right
-                  actions: [
+                  actions: <Widget>[
                     SButton(
                       variant: SButtonVariant.secondary,
                       onPressed: () {
@@ -72,7 +72,7 @@ class _DialogPageState extends State<DialogPage> {
             child: const Text('Show Dialog'),
           ),
         );
-      }),
+      },
     );
   }
 }
