@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/src/theme/s_spacers.dart';
 
 import '../../../s_design.dart';
+import '../../theme/s_spacers.dart';
 
 class TabsList extends StatelessWidget {
   const TabsList({
@@ -138,7 +138,7 @@ class TabsList extends StatelessWidget {
     }
 
     // Validate tab labels
-    for (var i = 0; i < tabs.length; i++) {
+    for (int i = 0; i < tabs.length; i++) {
       if (tabs[i].label.isEmpty) {
         throw FlutterError('TabsList: Tab at index $i has an empty label.');
       }
@@ -181,7 +181,7 @@ class TabsList extends StatelessWidget {
     // Perform validations
     _validateProps();
 
-    final widgetTabs = context.findAncestorWidgetOfExactType<STabs>();
+    final STabs? widgetTabs = context.findAncestorWidgetOfExactType<STabs>();
     if (widgetTabs != null && widgetTabs.tabs != tabs) {
       throw FlutterError(
         'TabsList must be a child of the corresponding Tabs widget.',
@@ -189,15 +189,15 @@ class TabsList extends StatelessWidget {
     }
 
     // Access the current theme: colorScheme, textTheme, etc.
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final ThemeData theme = Theme.of(context);
+    final ColorScheme colorScheme = theme.colorScheme;
 
-    final containerColor = colorScheme.outline.withOpacity(0.15);
-    final defaultActiveTabColor =
+    final Color containerColor = colorScheme.outline.withOpacity(0.15);
+    final Color defaultActiveTabColor =
         activeTabBackgroundColor ?? colorScheme.primary.withOpacity(0.2);
-    final defaultInactiveTabColor =
+    final Color defaultInactiveTabColor =
         inactiveTabBackgroundColor ?? Colors.transparent;
-    final borderRadius = tabBorderRadius ?? Spacers.radiusSmall;
+    final BorderRadiusGeometry borderRadius = tabBorderRadius ?? Spacers.radiusSmall;
 
     return Container(
       padding: tabListPadding,
@@ -217,9 +217,9 @@ class TabsList extends StatelessWidget {
             direction: direction,
             mainAxisAlignment: mainAxisAlignment,
             crossAxisAlignment: crossAxisAlignment,
-            children: List.generate(tabs.length, (index) {
-              final tab = tabs[index];
-              final isActive = (index == activeIndex);
+            children: List.generate(tabs.length, (int index) {
+              final STabItem tab = tabs[index];
+              final bool isActive = (index == activeIndex);
 
               return Padding(
                 padding: tabMargin,
@@ -255,8 +255,8 @@ class TabsList extends StatelessWidget {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              if (tabLeadingIcon != null) ...[
+                            children: <Widget>[
+                              if (tabLeadingIcon != null) ...<Widget>[
                                 tabLeadingIcon!,
                                 SizedBox(width: iconSpacing),
                               ],
@@ -269,7 +269,7 @@ class TabsList extends StatelessWidget {
                                       : inactiveTabTextStyle,
                                 ),
                               ),
-                              if (tabTrailingIcon != null) ...[
+                              if (tabTrailingIcon != null) ...<Widget>[
                                 SizedBox(width: iconSpacing),
                                 tabTrailingIcon!,
                               ],

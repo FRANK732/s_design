@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/src/theme/s_spacers.dart';
+import '../../theme/s_spacers.dart';
 import 'enums/s_tabs_enums.dart';
 import 'models/s_tabs_model.dart';
 import 's_tab_list.dart';
@@ -182,7 +182,7 @@ class _STabsState extends State<STabs> with SingleTickerProviderStateMixin {
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+      children: <Widget>[
         Spacers.mediumHeight,
         TabsList(
           direction: widget.orientation == STabOrientation.horizontal
@@ -222,7 +222,7 @@ class _STabsState extends State<STabs> with SingleTickerProviderStateMixin {
             children: widget.tabs
                 .asMap()
                 .map(
-                  (index, tab) => MapEntry(
+                  (int index, STabItem tab) => MapEntry(
                     index,
                     TabsContent(
                       contentMargin: widget.tabListMargin,
