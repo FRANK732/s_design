@@ -1,7 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:s_design/src/components/s_select/enums/s_select_direction.dart';
-import 'package:s_design/src/components/s_select/utils/s_select_extension.dart';
 import 'dart:developer' as developer;
+
+import 'package:flutter/material.dart';
+
+import 'enums/s_select_direction.dart';
+import 'utils/s_select_extension.dart';
 
 // An advanced select widget with customizable trigger and content, supporting single or multi-select dropdowns.
 class SSelect<T> extends StatefulWidget {
@@ -136,19 +138,19 @@ class _SSelectState<T> extends State<SSelect<T>> {
   }
 
   void _showOverlay() {
-    final overlay = Overlay.of(context);
+    final OverlayState overlay = Overlay.of(context);
     // if (overlay == null) return;
 
-    final renderBox = context.findRenderObject()! as RenderBox;
-    final size = renderBox.size;
-    final offset = renderBox.localToGlobal(Offset.zero);
+    final RenderBox renderBox = context.findRenderObject()! as RenderBox;
+    final Size size = renderBox.size;
+    final Offset offset = renderBox.localToGlobal(Offset.zero);
 
     _overlayEntry = OverlayEntry(
-      builder: (context) => GestureDetector(
+      builder: (BuildContext context) => GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: _removeOverlay,
         child: Stack(
-          children: [
+          children: <Widget>[
             Positioned(
               width: size.width,
               left: offset.dx,
@@ -254,7 +256,7 @@ class _SSelectState<T> extends State<SSelect<T>> {
 
   Widget _defaultTrigger(BuildContext context) {
     final String buttonText = _selectedValue != null
-        ? widget.items.firstWhere((item) => item.value == _selectedValue).label
+        ? widget.items.firstWhere((SSelectItem<T> item) => item.value == _selectedValue).label
         : widget.placeholder ?? 'Select an option';
 
     return OutlinedButton(
@@ -267,7 +269,7 @@ class _SSelectState<T> extends State<SSelect<T>> {
           ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
+        children: <Widget>[
           Text(buttonText),
           widget.dropdownIcon ?? const Icon(Icons.arrow_drop_down, size: 24),
         ],

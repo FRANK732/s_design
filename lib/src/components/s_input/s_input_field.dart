@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../s_design.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 
+import '../../../s_design.dart';
 import 'themes/s_input_field_theme.dart';
 
 class SInputField extends StatefulWidget {
@@ -42,7 +42,6 @@ class SInputField extends StatefulWidget {
     this.autocorrect = true,
     this.contentPadding,
     this.size = SInputFieldSize.small,
-    SInputFieldTheme? theme,
     this.scrollPadding = const EdgeInsets.all(20.0),
     this.scrollPhysics,
     this.autofillHints,
@@ -87,7 +86,6 @@ class SInputField extends StatefulWidget {
     bool autocorrect = false,
     EdgeInsetsGeometry? contentPadding,
     SInputFieldSize size = SInputFieldSize.small,
-    SInputFieldTheme? theme,
   }) {
     return SInputField(
       key: key,
@@ -121,7 +119,6 @@ class SInputField extends StatefulWidget {
       autocorrect: autocorrect,
       contentPadding: contentPadding,
       size: size,
-      theme: theme,
     );
   }
 
@@ -147,9 +144,9 @@ class SInputField extends StatefulWidget {
     DateTime? initialDate,
     String? dateFormat,
   }) {
-    final effectiveDate = initialDate ?? DateTime.now();
+    final DateTime effectiveDate = initialDate ?? DateTime.now();
 
-    final formattedDate = dateFormat != null
+    final String formattedDate = dateFormat != null
         ? DateFormat(dateFormat).format(effectiveDate)
         : '${effectiveDate.day.toString().padLeft(2, '0')}-'
             '${effectiveDate.month.toString().padLeft(2, '0')}-'
@@ -180,7 +177,7 @@ class SInputField extends StatefulWidget {
           return IconButton(
             icon: const Icon(Icons.calendar_today),
             onPressed: () async {
-              final pickedDate = await showDatePicker(
+              final DateTime? pickedDate = await showDatePicker(
                 context: context,
                 initialDate: effectiveDate,
                 firstDate: DateTime(1900),
@@ -188,7 +185,7 @@ class SInputField extends StatefulWidget {
               );
               if (pickedDate != null) {
                 // Reformat the picked date
-                final pickedDateStr = dateFormat != null
+                final String pickedDateStr = dateFormat != null
                     ? DateFormat(dateFormat).format(pickedDate)
                     : '${pickedDate.day.toString().padLeft(2, '0')}-'
                         '${pickedDate.month.toString().padLeft(2, '0')}-'
@@ -242,7 +239,6 @@ class SInputField extends StatefulWidget {
     EdgeInsetsGeometry contentPadding =
         const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
     SInputFieldSize size = SInputFieldSize.small,
-    SInputFieldTheme? theme,
   }) {
     return SInputField(
       key: key,
@@ -276,7 +272,6 @@ class SInputField extends StatefulWidget {
       autocorrect: autocorrect,
       contentPadding: contentPadding,
       size: size,
-      theme: theme,
       startIcon: const Icon(Icons.search),
       endIcon: IconButton(
         icon: const Icon(Icons.clear),
@@ -324,7 +319,6 @@ class SInputField extends StatefulWidget {
     bool autocorrect = true,
     EdgeInsetsGeometry? contentPadding,
     SInputFieldSize size = SInputFieldSize.small,
-    SInputFieldTheme? theme,
   }) {
     return SInputField(
       key: key,
@@ -358,7 +352,6 @@ class SInputField extends StatefulWidget {
       autocorrect: autocorrect,
       contentPadding: contentPadding,
       size: size,
-      theme: theme,
     );
   }
 
@@ -393,7 +386,6 @@ class SInputField extends StatefulWidget {
     bool autocorrect = true,
     EdgeInsetsGeometry? contentPadding,
     SInputFieldSize size = SInputFieldSize.small,
-    SInputFieldTheme? theme,
   }) {
     return SInputField(
       key: key,
@@ -428,7 +420,6 @@ class SInputField extends StatefulWidget {
       autocorrect: autocorrect,
       contentPadding: contentPadding,
       size: size,
-      theme: theme,
     );
   }
 
@@ -463,7 +454,6 @@ class SInputField extends StatefulWidget {
     bool autocorrect = true,
     EdgeInsetsGeometry? contentPadding,
     SInputFieldSize size = SInputFieldSize.small,
-    SInputFieldTheme? theme,
   }) {
     return SInputField(
       key: key,
@@ -497,7 +487,6 @@ class SInputField extends StatefulWidget {
       autocorrect: autocorrect,
       contentPadding: contentPadding,
       size: size,
-      theme: theme,
     );
   }
 
@@ -661,7 +650,7 @@ class _SInputFieldState extends State<SInputField> {
 
   @override
   Widget build(BuildContext context) {
-    final effectiveKeyboardType =
+    final TextInputType effectiveKeyboardType =
         widget.keyboardType ?? mapInputTypeToKeyboard(widget.inputType);
 
     final SInputFieldTheme theme = SInputFieldTheme.defaults();
@@ -737,7 +726,8 @@ class _SInputFieldState extends State<SInputField> {
               : widget.endIcon,
         );
 
-    final sizeAdjustedStyle = buildSizedTextStyle(widget.style, widget.size);
+    final TextStyle? sizeAdjustedStyle =
+        buildSizedTextStyle(widget.style, widget.size);
 
     final InputDecoration finalDecoration =
         mergeDecorations(effectiveDecoration, widget.decoration);

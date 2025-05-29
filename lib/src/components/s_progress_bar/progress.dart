@@ -54,25 +54,25 @@ class SProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final progressTheme = theme.progressIndicatorTheme;
+    final ThemeData theme = Theme.of(context);
+    final ColorScheme colorScheme = theme.colorScheme;
+    final ProgressIndicatorThemeData progressTheme = theme.progressIndicatorTheme;
 
     // Calculate progress fraction (0.0 -> 1.0).
     final double percentage = SProgressBarUtils.valueToPercentage(value, max);
 
-    final trackColor = backgroundColor ??
+    final Color trackColor = backgroundColor ??
         progressTheme.linearTrackColor ??
         colorScheme.surfaceContainerHighest;
-    final fillColor =
+    final Color fillColor =
         progressColor ?? progressTheme.color ?? colorScheme.primary;
 
-    final usedBorderRadius = borderRadius ?? BorderRadius.circular(4.0);
-    final usedAnimationDuration =
+    final BorderRadiusGeometry usedBorderRadius = borderRadius ?? BorderRadius.circular(4.0);
+    final Duration usedAnimationDuration =
         animationDuration ?? const Duration(milliseconds: 300);
-    final usedCurve = animationCurve ?? Curves.linear;
+    final Curve usedCurve = animationCurve ?? Curves.linear;
 
-    final usedHeight = height < 1.0 ? 8.0 : height;
+    final double usedHeight = height < 1.0 ? 8.0 : height;
 
     return ClipRRect(
       borderRadius: usedBorderRadius,
@@ -81,9 +81,9 @@ class SProgressBar extends StatelessWidget {
         width: length ?? double.infinity,
         color: trackColor,
         child: LayoutBuilder(
-          builder: (context, constraints) {
+          builder: (BuildContext context, BoxConstraints constraints) {
             return Stack(
-              children: [
+              children: <Widget>[
                 AnimatedContainer(
                   duration: usedAnimationDuration,
                   curve: usedCurve,
