@@ -1,22 +1,23 @@
-import 'package:example/pages/sscaffold/base_scaffold.dart';
-import 'package:example/pages/bottom_navigation.dart';
-import 'package:example/pages/card.dart';
-import 'package:example/pages/check_box.dart';
-import 'package:example/pages/dropdown_menu.dart';
-import 'package:example/pages/inputs_page.dart';
-import 'package:example/pages/list_tile_page.dart';
-import 'package:example/pages/s_modal_page.dart';
-import 'package:example/pages/sbutton.dart';
-import 'package:example/pages/sonner_page.dart';
-import 'package:example/pages/toast_page.dart';
-import 'package:example/pages/progress_indicator_page.dart';
-import 'package:example/pages/tab_page.dart';
-import 'package:example/pages/slider_page.dart';
-import 'package:example/pages/switch_page.dart';
 import 'package:get/get.dart';
 
+import 'pages/bottom_navigation.dart';
+import 'pages/card.dart';
+import 'pages/check_box.dart';
+import 'pages/dropdown_menu.dart';
+import 'pages/inputs_page.dart';
+import 'pages/list_tile_page.dart';
+import 'pages/progress_indicator_page.dart';
+import 'pages/s_modal_page.dart';
+import 'pages/sbutton.dart';
+import 'pages/slider_page.dart';
+import 'pages/sonner_page.dart';
+import 'pages/sscaffold/base_scaffold.dart';
+import 'pages/switch_page.dart';
+import 'pages/tab_page.dart';
+import 'pages/toast_page.dart';
+
 class AppRoutes {
-  static final List<GetPage<dynamic>> routes = [
+  static final List<GetPage<dynamic>> routes = <GetPage>[
     GetPage(name: '/button_page', page: () => const ButtonPage()),
     GetPage(name: '/card_page', page: () => const CardPage()),
     GetPage(
