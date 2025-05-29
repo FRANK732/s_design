@@ -1,7 +1,8 @@
-import 'package:example/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:s_design/s_design.dart';
+
+import 'app_routes.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,11 +17,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final STheme sTheme = STheme();
 
-    final myOverlays = [
+    final List<OverlayEntry> myOverlays = <OverlayEntry>[
       OverlayEntry(
-        builder: (overlayContext) {
+        builder: (BuildContext overlayContext) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            final overlay = Overlay.of(overlayContext);
+            final OverlayState overlay = Overlay.of(overlayContext);
 
             SSonner.instance.initialize(overlay);
 
@@ -40,7 +41,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: sTheme.getLightTheme(),
       darkTheme: sTheme.getDarkTheme(),
-      themeMode: ThemeMode.system,
       home: const MyHomePage(title: 'SDesign '),
       builder: sOverlayBuilder(overlays: myOverlays),
     );
@@ -57,21 +57,24 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  static const List<Map<String, String>> _widgets = [
-    {'title': 'S Scaffold', 'page': '/base_scaffold_page'},
-    {'title': 'Buttons', 'page': '/button_page'},
-    {'title': 'Inputs', 'page': '/inputs_page'},
-    {'title': 'Sonner', 'page': '/sonner_page'},
-    {'title': 'Toasts', 'page': '/toast_page'},
-    {'title': 'Cards', 'page': '/card_page'},
-    {'title': 'Check Boxes', 'page': '/check_box_page'},
-    {'title': 'DropDown Menu', 'page': '/dropdown_menu_page'},
-    {'title': 'Progress Indicators', 'page': '/progress_indicator_page'},
-    {'title': 'Dialog', 'page': '/modal_page'},
-    {'title': 'Tabs', 'page': '/tab_page'},
+  static const List<Map<String, String>> _widgets = <Map<String, String>>[
+    <String, String>{'title': 'S Scaffold', 'page': '/base_scaffold_page'},
+    <String, String>{'title': 'Buttons', 'page': '/button_page'},
+    <String, String>{'title': 'Inputs', 'page': '/inputs_page'},
+    <String, String>{'title': 'Sonner', 'page': '/sonner_page'},
+    <String, String>{'title': 'Toasts', 'page': '/toast_page'},
+    <String, String>{'title': 'Cards', 'page': '/card_page'},
+    <String, String>{'title': 'Check Boxes', 'page': '/check_box_page'},
+    <String, String>{'title': 'DropDown Menu', 'page': '/dropdown_menu_page'},
+    <String, String>{
+      'title': 'Progress Indicators',
+      'page': '/progress_indicator_page'
+    },
+    <String, String>{'title': 'Dialog', 'page': '/modal_page'},
+    <String, String>{'title': 'Tabs', 'page': '/tab_page'},
     // {'title': 'SFloating Action Button', 'page': '/s_fab_page'},
-    {'title': 'Switches', 'page': '/switch_page'},
-    {'title': 'TextTile', 'page': '/list_tile_page'},
+    <String, String>{'title': 'Switches', 'page': '/switch_page'},
+    <String, String>{'title': 'TextTile', 'page': '/list_tile_page'},
   ];
 
   @override
@@ -81,17 +84,17 @@ class _MyHomePageState extends State<MyHomePage> {
         // backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      renderBody: ((context) {
+      renderBody: (BuildContext context) {
         return ListView(
-          children: [
-            for (final widget in _widgets)
+          children: <Widget>[
+            for (final Map<String, String> widget in _widgets)
               ListTile(
                 title: Text(widget['title']!),
-                onTap: () => Get.toNamed(widget['page']!),
+                onTap: () => Get.toNamed<dynamic>(widget['page']!),
               ),
           ],
         );
-      }),
+      },
     );
   }
 }
