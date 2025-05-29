@@ -184,7 +184,7 @@ class _STabsState extends State<STabs> with SingleTickerProviderStateMixin {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Spacers.mediumHeight,
-        TabsList(
+        STabsList(
           direction: widget.orientation == STabOrientation.horizontal
               ? Axis.horizontal
               : Axis.vertical,

@@ -37,7 +37,8 @@ class SToast extends StatefulWidget {
   State<SToast> createState() => _SToastState();
 
   static OverlayState? _overlayState;
-  static final Map<String, OverlayEntry> _activeToasts = <String, OverlayEntry>{};
+  static final Map<String, OverlayEntry> _activeToasts =
+      <String, OverlayEntry>{};
 
   static void initialize(OverlayState overlayState) {
     developer.log('SToast: Initializing with OverlayState', name: 'SToast');
@@ -146,7 +147,7 @@ class _SToastState extends State<SToast> with SingleTickerProviderStateMixin {
         'SToast: Scheduling auto-dismiss after ${widget.duration}',
         name: 'SToast',
       );
-      Future.delayed(widget.duration, _closeToast);
+      Future<void>.delayed(widget.duration, _closeToast);
     } else {
       developer.log(
         'SToast: No auto-dismiss (duration is zero)',
