@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/src/components/s_select/enums/s_select_direction.dart';
-import 'package:s_design/src/components/s_select/utils/s_select_extension.dart';
+import '../enums/s_select_direction.dart';
+import 's_select_extension.dart';
 
 /// Utility class for filtering select items based on a search query.
 class SSelectUtils {
@@ -13,7 +13,7 @@ class SSelectUtils {
       return items;
     }
     return items
-        .where((item) => item.label.toLowerCase().contains(query.toLowerCase()))
+        .where((SSelectItem<T> item) => item.label.toLowerCase().contains(query.toLowerCase()))
         .toList();
   }
 
@@ -23,9 +23,9 @@ class SSelectUtils {
     RenderBox renderBox,
     double dropdownHeight,
   ) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final widgetPosition = renderBox.localToGlobal(Offset.zero);
-    final spaceBelow = screenHeight - widgetPosition.dy - renderBox.size.height;
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final Offset widgetPosition = renderBox.localToGlobal(Offset.zero);
+    final double spaceBelow = screenHeight - widgetPosition.dy - renderBox.size.height;
     if (spaceBelow < dropdownHeight && widgetPosition.dy > dropdownHeight) {
       return SSelectDropdownDirection.up;
     }

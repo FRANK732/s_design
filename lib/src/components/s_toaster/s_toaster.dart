@@ -1,6 +1,8 @@
-import 'package:flutter/material.dart';
-import '../../components/s_toaster/enums/s_toaster_enum.dart';
 import 'dart:developer' as developer;
+
+import 'package:flutter/material.dart';
+
+import '../../components/s_toaster/enums/s_toaster_enum.dart';
 
 class SToast extends StatefulWidget {
   const SToast({
@@ -35,7 +37,7 @@ class SToast extends StatefulWidget {
   State<SToast> createState() => _SToastState();
 
   static OverlayState? _overlayState;
-  static final Map<String, OverlayEntry> _activeToasts = {};
+  static final Map<String, OverlayEntry> _activeToasts = <String, OverlayEntry>{};
 
   static void initialize(OverlayState overlayState) {
     developer.log('SToast: Initializing with OverlayState', name: 'SToast');
@@ -63,7 +65,7 @@ class SToast extends StatefulWidget {
     late OverlayEntry overlayEntry;
 
     overlayEntry = OverlayEntry(
-      builder: (context) => SToast(
+      builder: (BuildContext context) => SToast(
         description: description,
         title: title,
         action: action,
@@ -103,7 +105,7 @@ class SToast extends StatefulWidget {
       _activeToasts.remove(id);
     } else {
       developer.log('SToast: Dismissing all toasts', name: 'SToast');
-      for (final entry in _activeToasts.values) {
+      for (final OverlayEntry entry in _activeToasts.values) {
         entry.remove();
       }
       _activeToasts.clear();
@@ -184,18 +186,18 @@ class _SToastState extends State<SToast> with SingleTickerProviderStateMixin {
       return const SizedBox.shrink();
     }
 
-    final mediaQuery = MediaQuery.of(context);
-    final topPadding = mediaQuery.viewPadding.top;
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+    final double topPadding = mediaQuery.viewPadding.top;
 
-    final colorScheme = Theme.of(context).colorScheme;
-    final dividerColor = Theme.of(context).dividerColor;
-    final isDestructive = widget.variant == SToastVariant.destructive;
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final Color dividerColor = Theme.of(context).dividerColor;
+    final bool isDestructive = widget.variant == SToastVariant.destructive;
 
-    final backgroundColor =
+    final Color backgroundColor =
         isDestructive ? colorScheme.errorContainer : colorScheme.surface;
-    final textColor =
+    final Color textColor =
         isDestructive ? colorScheme.onErrorContainer : colorScheme.onSurface;
-    final borderColor = isDestructive ? colorScheme.error : dividerColor;
+    final Color borderColor = isDestructive ? colorScheme.error : dividerColor;
 
     return Positioned(
       top: topPadding,
@@ -207,7 +209,6 @@ class _SToastState extends State<SToast> with SingleTickerProviderStateMixin {
           color: Colors.transparent,
           child: Dismissible(
             key: UniqueKey(),
-            direction: DismissDirection.horizontal,
             onDismissed: (_) {
               developer.log('SToast: Toast dismissed by swipe', name: 'SToast');
               _closeToast();
@@ -217,7 +218,7 @@ class _SToastState extends State<SToast> with SingleTickerProviderStateMixin {
                 color: backgroundColor,
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: borderColor),
-                boxShadow: const [
+                boxShadow: const <BoxShadow>[
                   BoxShadow(
                     color: Colors.black26,
                     blurRadius: 6,
@@ -244,7 +245,7 @@ class _SToastState extends State<SToast> with SingleTickerProviderStateMixin {
                 ),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: [
+                  children: <Widget>[
                     if (widget.action != null) widget.action!,
                     IconButton(
                       icon: Icon(
