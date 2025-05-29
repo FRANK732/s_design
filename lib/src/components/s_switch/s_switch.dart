@@ -121,18 +121,18 @@ class _SSwitchState extends State<SSwitch> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final ThemeData theme = Theme.of(context);
+    final ColorScheme colorScheme = theme.colorScheme;
 
     // Determine final colors from props or fallback to theme
-    final switchSize = SSwitchUtils.getSwitchSize(widget.size);
+    final Size switchSize = SSwitchUtils.getSwitchSize(widget.size);
 
-    final activeColor = widget.activeColor ?? colorScheme.primary;
-    final inactiveColor =
+    final Color activeColor = widget.activeColor ?? colorScheme.primary;
+    final Color inactiveColor =
         widget.inactiveColor ?? colorScheme.onSurface.withOpacity(0.4);
-    final thumbColor = widget.thumbColor ?? colorScheme.onSecondaryFixedVariant;
+    final Color thumbColor = widget.thumbColor ?? colorScheme.onSecondaryFixedVariant;
 
-    final variant = widget.variant;
+    final SSwitchVariant variant = widget.variant;
 
     return Semantics(
       label: widget.semanticLabel ?? 'Switch',
@@ -141,8 +141,8 @@ class _SSwitchState extends State<SSwitch> with SingleTickerProviderStateMixin {
         onTap: toggleSwitch,
         child: AnimatedBuilder(
           animation: _animationController,
-          builder: (context, child) {
-            final backgroundColor = _value ? activeColor : inactiveColor;
+          builder: (BuildContext context, Widget? child) {
+            final Color backgroundColor = _value ? activeColor : inactiveColor;
             return Container(
               width: switchSize.width,
               height: switchSize.height,
@@ -152,7 +152,7 @@ class _SSwitchState extends State<SSwitch> with SingleTickerProviderStateMixin {
                 inactiveColor,
               ),
               child: Stack(
-                children: [
+                children: <Widget>[
                   Positioned(
                     left: _thumbAnimation.value *
                         (switchSize.width - switchSize.height),
@@ -164,7 +164,7 @@ class _SSwitchState extends State<SSwitch> with SingleTickerProviderStateMixin {
                       decoration: BoxDecoration(
                         color: thumbColor,
                         shape: BoxShape.circle,
-                        boxShadow: const [
+                        boxShadow: const <BoxShadow>[
                           BoxShadow(
                             color: Colors.black26,
                             blurRadius: 2,

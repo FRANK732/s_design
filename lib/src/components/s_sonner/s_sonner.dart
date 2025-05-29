@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/src/theme/theme_extension.dart';
-import '../../theme/s_dimension.dart';
-import 'enums/s_sonner_options.dart';
+
 import '../../components/s_sonner/utils/s_sonner_utils.dart';
+import '../../theme/s_dimension.dart';
+import '../../theme/theme_extension.dart';
+import 'enums/s_sonner_options.dart';
 
 class SSonner {
   SSonner._internal();
   static final SSonner _instance = SSonner._internal();
   OverlayState? _overlayState;
-  final List<_ToastEntry> _queue = [];
+  final List<_ToastEntry> _queue = <_ToastEntry>[];
   bool _isShowing = false;
 
   static SSonner get instance => _instance;
@@ -39,7 +40,7 @@ class SSonner {
       throw Exception('SSonner is not initialized. Call initialize() first.');
     }
 
-    final entry = _ToastEntry(
+    final _ToastEntry entry = _ToastEntry(
       message: message,
       type: variant,
       duration: duration,
@@ -60,10 +61,10 @@ class SSonner {
     }
 
     _isShowing = true;
-    final currentToast = _queue.removeAt(0);
+    final _ToastEntry currentToast = _queue.removeAt(0);
 
-    final overlayEntry = OverlayEntry(
-      builder: (context) => _ToastWidget(entry: currentToast),
+    final OverlayEntry overlayEntry = OverlayEntry(
+      builder: (BuildContext context) => _ToastWidget(entry: currentToast),
     );
 
     _overlayState?.insert(overlayEntry);
@@ -106,7 +107,7 @@ class _ToastWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // final colors = context.primaryColor;
     // final onPrimary = context.textOnPrimaryColor;
-    final textTheme = context.textThemeStyles;
+    final TextTheme textTheme = context.textThemeStyles;
     // final spacers = context.spacers;
 
     // Determine background color and icon based on variant
@@ -120,11 +121,9 @@ class _ToastWidget extends StatelessWidget {
     switch (entry.position) {
       case SSonnerPosition.top:
         alignment = Alignment.topCenter;
-        break;
       case SSonnerPosition.center:
         alignment = Alignment.center;
         verticalOffset = 0;
-        break;
       case SSonnerPosition.bottom:
       default:
         alignment = Alignment.bottomCenter;
@@ -138,11 +137,9 @@ class _ToastWidget extends StatelessWidget {
       case SSonnerSize.sm:
         paddingValue = 8.0;
         textStyle = entry.textStyle ?? textTheme.bodySmall!;
-        break;
       case SSonnerSize.lg:
         paddingValue = 16.0;
         textStyle = entry.textStyle ?? textTheme.bodyLarge!;
-        break;
       case SSonnerSize.md:
       default:
         paddingValue = 12.0;
@@ -155,20 +152,17 @@ class _ToastWidget extends StatelessWidget {
     switch (entry.size) {
       case SSonnerSize.sm:
         margin = const EdgeInsets.symmetric(horizontal: 6);
-        break;
       case SSonnerSize.md:
         margin = const EdgeInsets.symmetric(horizontal: 12);
-        break;
       case SSonnerSize.lg:
         margin = const EdgeInsets.symmetric(horizontal: 18);
-        break;
       default:
         margin = const EdgeInsets.symmetric(horizontal: 12);
         break;
     }
 
     return Stack(
-      children: [
+      children: <Widget>[
         Align(
           alignment: alignment,
           child: Padding(
@@ -192,7 +186,7 @@ class _ToastWidget extends StatelessWidget {
                       color: backgroundColor,
                       borderRadius:
                           BorderRadius.circular(SDimensions.borderRadiusMedium),
-                      boxShadow: const [
+                      boxShadow: const <BoxShadow>[
                         BoxShadow(
                           color: Colors.black26,
                           blurRadius: 10,
@@ -202,7 +196,7 @@ class _ToastWidget extends StatelessWidget {
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
-                      children: [
+                      children: <Widget>[
                         Icon(icon, color: Colors.white),
                         const SizedBox(width: 12),
                         Flexible(

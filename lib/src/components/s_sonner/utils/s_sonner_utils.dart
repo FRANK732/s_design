@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/src/components/s_sonner/enums/s_sonner_options.dart';
-import 'package:s_design/src/theme/theme_extension.dart';
+
+import '../../../theme/theme_extension.dart';
+import '../enums/s_sonner_options.dart';
 
 /// Utility functions for [SToasterService] and [SToastWidget].
 class SSonnerUtils {
