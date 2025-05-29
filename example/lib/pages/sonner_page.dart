@@ -19,7 +19,7 @@ class _SonnerPageState extends State<SonnerPage> {
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20.0),
           child: Column(
-            children: [
+            children: <Widget>[
               // Success Sonner Button
               SButton(
                 onPressed: () {

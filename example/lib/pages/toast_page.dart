@@ -14,7 +14,7 @@ class ToastPage extends StatelessWidget {
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20.0),
           child: Column(
-            children: [
+            children: <Widget>[
               SButton(
                 onPressed: () {
                   // Show a Default Toast
