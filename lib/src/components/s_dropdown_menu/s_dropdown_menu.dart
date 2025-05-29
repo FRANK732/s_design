@@ -101,75 +101,52 @@ class SDropdownMenu extends StatefulWidget {
     this.initialValues,
     this.triggerFocus,
     this.readOnly = false,
-  }) {
-    assert(items.isNotEmpty, 'Items list cannot be empty.');
-    assert(menuWidth == null || menuWidth! > 0, 'Menu width must be positive.');
-    assert(
-      menuMaxHeight == null || menuMaxHeight! > 0,
-      'Menu max height must be positive.',
-    );
-    assert(
-      maxSelectedItemsToShow == null || maxSelectedItemsToShow! > 0,
-      'Max selected items to show must be positive.',
-    );
-    assert(
-      borderRadius == null || borderRadius! >= 0,
-      'Border radius must be non-negative.',
-    );
-    assert(
-      menuBorderRadius == null || menuBorderRadius!.topLeft.x >= 0,
-      'Menu border radius must be non-negative.',
-    );
-    assert(
-      dividerThickness == null || dividerThickness! >= 0,
-      'Divider thickness must be non-negative.',
-    );
-    assert(
-      checkboxActiveColor == null || checkboxActiveColor != null,
-      'Checkbox active color must be a valid color.',
-    );
-    assert(
-      checkboxCheckColor == null || checkboxCheckColor != null,
-      'Checkbox check color must be a valid color.',
-    );
-    assert(
-      checkboxHoverColor == null || checkboxHoverColor != null,
-      'Checkbox hover color must be a valid color.',
-    );
-    assert(
-      onClear == null || onClear != null,
-      'onClear callback must be valid if provided.',
-    );
-    assert(
-      onMenuOpen == null || onMenuOpen != null,
-      'onMenuOpen callback must be valid if provided.',
-    );
-    assert(
-      onMenuClose == null || onMenuClose != null,
-      'onMenuClose callback must be valid if provided.',
-    );
-    assert(
-      triggerMaxHeight == null || triggerMaxHeight! > 0,
-      'Trigger max height must be positive.',
-    );
-    assert(
-      triggerMaxWidth == null || triggerMaxWidth! > 0,
-      'Trigger max width must be positive.',
-    );
-    assert(
-      initialValue == null || initialValues == null,
-      'Cannot provide both initialValue and initialValues. '
-      'Use initialValue for single selection and initialValues for multi-selection.',
-    );
-    assert(
-      initialValue == null || menuType == SDropdownMenuItemType.normal,
-      'initialValue can only be used with SDropdownMenuItemType.normal.',
-    );
-    assert(
-      initialValues == null || menuType == SDropdownMenuItemType.multiSelect,
-      'initialValues can only be used with SDropdownMenuItemType.multiSelect.',
-    );
-  }
+  })  : assert(items.isNotEmpty, 'Items list cannot be empty.'),
+        assert(
+            menuWidth == null || menuWidth > 0, 'Menu width must be positive.'),
+        assert(
+          menuMaxHeight == null || menuMaxHeight > 0,
+          'Menu max height must be positive.',
+        ),
+        assert(
+          maxSelectedItemsToShow == null || maxSelectedItemsToShow > 0,
+          'Max selected items to show must be positive.',
+        ),
+        assert(
+          borderRadius == null || borderRadius >= 0,
+          'Border radius must be non-negative.',
+        ),
+        assert(
+          menuBorderRadius == null || menuBorderRadius.topLeft.x >= 0,
+          'Menu border radius must be non-negative.',
+        ),
+        assert(
+          dividerThickness == null || dividerThickness >= 0,
+          'Divider thickness must be non-negative.',
+        ),
+        assert(
+          triggerMaxHeight == null || triggerMaxHeight > 0,
+          'Trigger max height must be positive.',
+        ),
+        assert(
+          triggerMaxWidth == null || triggerMaxWidth > 0,
+          'Trigger max width must be positive.',
+        ),
+        assert(
+          initialValue == null || initialValues == null,
+          'Cannot provide both initialValue and initialValues. '
+          'Use initialValue for single selection and initialValues for multi-selection.',
+        ),
+        assert(
+          initialValue == null || menuType == SDropdownMenuItemType.normal,
+          'initialValue can only be used with SDropdownMenuItemType.normal.',
+        ),
+        assert(
+          initialValues == null ||
+              menuType == SDropdownMenuItemType.multiSelect,
+          'initialValues can only be used with SDropdownMenuItemType.multiSelect.',
+        );
+
   final List<String> items;
   final ValueChanged<dynamic> onChanged;
   final String? hintText;
