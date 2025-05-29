@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:s_design/s_design.dart';
-import 'package:s_design/src/components/s_button/themes/s_button_theme.dart';
+import '../../../s_design.dart';
+import 'themes/s_button_theme.dart';
 
 /// A customizable and versatile button widget for Flutter applications.
 ///
@@ -149,7 +149,6 @@ class SButton extends StatelessWidget {
           autofocus: autofocus,
           child: content,
         );
-        break;
       case SButtonVariant.outline:
       case SButtonVariant.destructiveOutline:
         buttonWidget = OutlinedButton(
@@ -160,7 +159,6 @@ class SButton extends StatelessWidget {
           autofocus: autofocus,
           child: content,
         );
-        break;
       case SButtonVariant.ghost:
       case SButtonVariant.link:
         buttonWidget = TextButton(
@@ -171,7 +169,6 @@ class SButton extends StatelessWidget {
           autofocus: autofocus,
           child: content,
         );
-        break;
     }
 
     if (height != null || width != null) {

@@ -1,7 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:s_design/s_design.dart';
-import 'package:s_design/src/theme/s_spacers.dart';
 import 'dart:developer' as developer;
+
+import 'package:flutter/material.dart';
+
+import '../../../s_design.dart';
+import '../../theme/s_spacers.dart';
 
 // A customizable dialog widget with support for title, description, content, actions, animations, and accessibility.
 class SDialog extends StatelessWidget {
@@ -252,7 +254,7 @@ class SDialog extends StatelessWidget {
         context: context,
         barrierDismissible: barrierDismissible,
         barrierColor: barrierColor,
-        builder: (context) {
+        builder: (BuildContext context) {
           return SDialog(
             title: title,
             description: description,
@@ -303,7 +305,7 @@ class SDialog extends StatelessWidget {
         context: context,
         barrierDismissible: barrierDismissible,
         barrierColor: barrierColor,
-        builder: (context) {
+        builder: (BuildContext context) {
           return SDialog(
             title: title,
             description: description,
@@ -366,8 +368,8 @@ class SDialog extends StatelessWidget {
       elevation: elevation,
       child: AnimatedBuilder(
         animation: ModalRoute.of(context)!.animation!,
-        builder: (context, child) {
-          final animation = CurvedAnimation(
+        builder: (BuildContext context, Widget? child) {
+          final CurvedAnimation animation = CurvedAnimation(
             parent: ModalRoute.of(context)!.animation!,
             curve: animationCurve,
             reverseCurve: Curves.easeInOut,
@@ -441,7 +443,7 @@ class SDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: borderRadius ?? Spacers.radiusMedium,
       ),
-      shadows: const [
+      shadows: const <BoxShadow>[
         BoxShadow(
           color: Colors.black26,
           blurRadius: 10.0,
@@ -473,16 +475,16 @@ class SDialog extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: contentCrossAlignment,
                   mainAxisAlignment: contentMainAlignment,
-                  children: [
+                  children: <Widget>[
                     if (title != null)
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: <Widget>[
                           Padding(
                             padding: titlePadding ?? EdgeInsets.zero,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
+                              children: <Widget>[
                                 Expanded(
                                   child: Text(
                                     title!,
@@ -514,13 +516,13 @@ class SDialog extends StatelessWidget {
                             ),
                         ],
                       ),
-                    if (description != null && description!.isNotEmpty) ...[
+                    if (description != null && description!.isNotEmpty) ...<Widget>[
                       Padding(
                         padding:
                             descriptionPadding ?? const EdgeInsets.only(top: 8),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children: <Widget>[
                             Text(
                               description!,
                               style: descriptionStyle ??
@@ -537,7 +539,7 @@ class SDialog extends StatelessWidget {
                         ),
                       ),
                     ],
-                    if (content != null) ...[
+                    if (content != null) ...<Widget>[
                       const SizedBox(height: 16),
                       content!,
                     ],
