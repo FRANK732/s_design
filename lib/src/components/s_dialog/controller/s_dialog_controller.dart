@@ -25,18 +25,18 @@ class SDialogController extends ChangeNotifier {
       barrierLabel: dialog.semanticLabel ?? 'Dialog',
       barrierColor: dialog.barrierColor,
       transitionDuration: dialog.transitionDuration,
-      pageBuilder: (ctx, animation, secondaryAnimation) {
+      pageBuilder: (BuildContext ctx, Animation<double> animation, Animation<double> secondaryAnimation) {
         return SDialogContent(
           dialog: dialog,
           controller: this,
         );
       },
-      transitionBuilder: (context, animation, secondaryAnimation, child) {
-        final fadeAnimation = CurvedAnimation(
+      transitionBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+        final CurvedAnimation fadeAnimation = CurvedAnimation(
           parent: animation,
           curve: Curves.easeInOut,
         );
-        final scaleAnimation = CurvedAnimation(
+        final CurvedAnimation scaleAnimation = CurvedAnimation(
           parent: animation,
           curve: Curves.easeInOutBack,
         );

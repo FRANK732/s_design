@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/src/theme/s_spacers.dart';
-import 'package:s_design/src/theme/theme_extension.dart';
+
 import '../../../s_design.dart';
+import '../../theme/s_spacers.dart';
+import '../../theme/theme_extension.dart';
 
 class SDialogContent extends StatefulWidget {
   const SDialogContent({
@@ -44,14 +45,14 @@ class _SDialogContentState extends State<SDialogContent> {
 
   @override
   Widget build(BuildContext context) {
-    final dialog = widget.dialog;
+    final SDialog dialog = widget.dialog;
 
     final ShapeDecoration defaultDecoration = ShapeDecoration(
       color: context.backgroundColor,
       shape: const RoundedRectangleBorder(
         borderRadius: Spacers.radiusMedium,
       ),
-      shadows: const [
+      shadows: const <BoxShadow>[
         BoxShadow(
           color: Colors.black26,
           blurRadius: 10.0,
@@ -85,11 +86,11 @@ class _SDialogContentState extends State<SDialogContent> {
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: [
+                    children: <Widget>[
                       if (dialog.title != null || true)
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
+                          children: <Widget>[
                             if (dialog.title != null)
                               Expanded(
                                 child: Text(
@@ -104,7 +105,7 @@ class _SDialogContentState extends State<SDialogContent> {
                           ],
                         ),
                       if (dialog.description != null &&
-                          dialog.description!.isNotEmpty) ...[
+                          dialog.description!.isNotEmpty) ...<Widget>[
                         const SizedBox(height: 8),
                         Text(
                           dialog.description!,
@@ -112,7 +113,7 @@ class _SDialogContentState extends State<SDialogContent> {
                           textAlign: TextAlign.left,
                         ),
                       ],
-                      if (dialog.content != null) ...[
+                      if (dialog.content != null) ...<Widget>[
                         const SizedBox(height: 16),
                         dialog.content!,
                       ],
