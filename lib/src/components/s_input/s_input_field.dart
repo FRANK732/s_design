@@ -215,7 +215,7 @@ class SInputField extends StatefulWidget {
     bool? enabled,
     FormFieldValidator<String>? validator,
     ValueChanged<String>? onChanged,
-    Function? onClear,
+    VoidCallback? onClear,
     ValueChanged<String>? onFieldSubmitted,
     String? labelText,
     String? hintText,
@@ -275,15 +275,13 @@ class SInputField extends StatefulWidget {
       startIcon: const Icon(Icons.search),
       endIcon: IconButton(
         icon: const Icon(Icons.clear),
-        onPressed: () {
-          controller?.clear();
-          if (onChanged != null) {
-            onChanged('');
-          }
-          if (onClear != null) {
-            onClear();
-          }
-        },
+        onPressed: onClear ??
+            () {
+              controller?.clear();
+              if (onChanged != null) {
+                onChanged('');
+              }
+            },
       ),
     );
   }
