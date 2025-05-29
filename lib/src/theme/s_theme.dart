@@ -12,8 +12,8 @@ class STheme {
   late final STypographyBase darkTypography;
 
   ThemeData getLightTheme() {
-    final colors = sColors.light;
-    final typography = lightTypography;
+    final SColorsBase colors = sColors.light;
+    final STypographyBase typography = lightTypography;
 
     return ThemeData(
       brightness: Brightness.light,
@@ -179,7 +179,7 @@ class STheme {
       // Switch
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.all(colors.switchActive),
-        trackColor: WidgetStateProperty.resolveWith((states) {
+        trackColor: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
           return states.contains(WidgetState.selected)
               ? colors.switchActive.withOpacity(0.5)
               : colors.switchInactive;
@@ -227,8 +227,8 @@ class STheme {
   }
 
   ThemeData getDarkTheme() {
-    final colors = sColors.dark; // SDarkColors
-    final typography = darkTypography;
+    final SColorsBase colors = sColors.dark; // SDarkColors
+    final STypographyBase typography = darkTypography;
 
     return ThemeData(
       brightness: Brightness.dark,
@@ -381,7 +381,7 @@ class STheme {
 
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.all(colors.switchActive),
-        trackColor: WidgetStateProperty.resolveWith((states) {
+        trackColor: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
           return states.contains(WidgetState.selected)
               ? colors.switchActive.withOpacity(0.5)
               : colors.switchInactive;
