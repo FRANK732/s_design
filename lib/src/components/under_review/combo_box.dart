@@ -19,7 +19,7 @@ class _ComboboxDemoState extends State<ComboboxDemo> {
   String? _selectedValue;
 
   /// List of available frameworks.
-  final List<Framework> frameworks = [
+  final List<Framework> frameworks = <Framework>[
     Framework(value: 'next.js', label: 'Next.js'),
     Framework(value: 'sveltekit', label: 'SvelteKit'),
     Framework(value: 'nuxt.js', label: 'Nuxt.js'),
@@ -27,7 +27,7 @@ class _ComboboxDemoState extends State<ComboboxDemo> {
     Framework(value: 'astro', label: 'Astro'),
   ];
 
-  void _openPopup() async {
+  Future<void> _openPopup() async {
     final String? selectedValue = await showDialog<String>(
       context: context,
       builder: (BuildContext context) {
@@ -47,7 +47,7 @@ class _ComboboxDemoState extends State<ComboboxDemo> {
   @override
   Widget build(BuildContext context) {
     final String buttonText = _selectedValue != null
-        ? frameworks.firstWhere((f) => f.value == _selectedValue).label
+        ? frameworks.firstWhere((Framework f) => f.value == _selectedValue).label
         : 'Select framework...';
 
     return OutlinedButton(
@@ -60,7 +60,7 @@ class _ComboboxDemoState extends State<ComboboxDemo> {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
+        children: <Widget>[
           Text(buttonText),
           Icon(Icons.unfold_more, size: 20, color: Colors.grey.shade600),
         ],
@@ -85,7 +85,7 @@ class ComboboxPopup extends StatefulWidget {
 
 class _ComboboxPopupState extends State<ComboboxPopup> {
   final TextEditingController _searchController = TextEditingController();
-  List<Framework> filteredFrameworks = [];
+  List<Framework> filteredFrameworks = <Framework>[];
 
   @override
   void initState() {
@@ -98,7 +98,7 @@ class _ComboboxPopupState extends State<ComboboxPopup> {
     setState(() {
       filteredFrameworks = widget.frameworks
           .where(
-            (f) => f.label
+            (Framework f) => f.label
                 .toLowerCase()
                 .contains(_searchController.text.toLowerCase()),
           )
@@ -122,7 +122,7 @@ class _ComboboxPopupState extends State<ComboboxPopup> {
         constraints: const BoxConstraints(maxHeight: 400),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children: <Widget>[
             // Search Input
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -141,7 +141,7 @@ class _ComboboxPopupState extends State<ComboboxPopup> {
               Expanded(
                 child: ListView.builder(
                   itemCount: filteredFrameworks.length,
-                  itemBuilder: (context, index) {
+                  itemBuilder: (BuildContext context, int index) {
                     final Framework framework = filteredFrameworks[index];
                     final bool isSelected =
                         widget.selectedValue == framework.value;

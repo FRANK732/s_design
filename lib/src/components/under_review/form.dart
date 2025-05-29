@@ -21,15 +21,15 @@ class SFormWidget extends StatefulWidget {
 }
 
 class _SFormWidgetState extends State<SFormWidget> {
-  final _formKey = GlobalKey<FormState>();
-  final Map<String, dynamic> _values = {};
-  final Map<String, String?> _errors = {};
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final Map<String, dynamic> _values = <String, dynamic>{};
+  final Map<String, String?> _errors = <String, String?>{};
 
   @override
   void initState() {
     super.initState();
     // Initialize field values with initialValue if provided.
-    for (final field in widget.fields) {
+    for (final FormFieldData field in widget.fields) {
       _values[field.name] = field.initialValue;
     }
   }
@@ -44,7 +44,7 @@ class _SFormWidgetState extends State<SFormWidget> {
     return _values[name];
   }
 
-  String? _validateField(FormFieldData field, dynamic value) {
+  String? _validateField(FormFieldData field, String value) {
     if (field.validator != null) {
       return field.validator!(value);
     }
@@ -52,7 +52,7 @@ class _SFormWidgetState extends State<SFormWidget> {
   }
 
   void _submitForm() {
-    final isValid = _formKey.currentState?.validate() ?? false;
+    final bool isValid = _formKey.currentState?.validate() ?? false;
     if (isValid) {
       widget.onSubmit(_values);
     }
@@ -63,10 +63,10 @@ class _SFormWidgetState extends State<SFormWidget> {
     return Form(
       key: _formKey,
       child: Column(
-        children: [
+        children: <Widget>[
           // Spread the list of field widgets into the children list
-          ...widget.fields.map((field) {
-            final error = _errors[field.name];
+          ...widget.fields.map((FormFieldData field) {
+            final String? error = _errors[field.name];
             return Padding(
               padding: const EdgeInsets.only(bottom: 16.0),
               child: _buildFormField(field, error),
@@ -85,7 +85,7 @@ class _SFormWidgetState extends State<SFormWidget> {
   Widget _buildFormField(FormFieldData field, String? error) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+      children: <Widget>[
         if (field.label != null)
           Text(
             field.label!,
@@ -103,14 +103,14 @@ class _SFormWidgetState extends State<SFormWidget> {
           ),
           obscureText: field.obscureText,
           keyboardType: field.keyboardType,
-          onChanged: (value) {
+          onChanged: (String value) {
             _setFieldValue(field.name, value);
-            final validationError = _validateField(field, value);
+            final String? validationError = _validateField(field, value);
             setState(() {
               _errors[field.name] = validationError;
             });
           },
-          validator: (value) => _validateField(field, value),
+          validator: (String? value) => _validateField(field, value ?? ''),
         ),
         if (field.description != null)
           Padding(
