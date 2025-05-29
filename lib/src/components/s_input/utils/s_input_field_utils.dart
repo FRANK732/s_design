@@ -27,8 +27,6 @@ EdgeInsetsGeometry getContentPadding(SInputFieldSize size) {
       return const EdgeInsets.all(15.0);
     case SInputFieldSize.large:
       return const EdgeInsets.all(17.0);
-    default:
-      return const EdgeInsets.all(12.0);
   }
 }
 
@@ -42,8 +40,6 @@ TextStyle? buildSizedTextStyle(TextStyle? base, SInputFieldSize size) {
       fontSize = 16;
     case SInputFieldSize.large:
       fontSize = 20;
-    default:
-      fontSize = 10;
   }
   return (base ?? const TextStyle()).copyWith(fontSize: fontSize);
 }

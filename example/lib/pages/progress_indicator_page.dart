@@ -17,7 +17,7 @@ class _ProgressIndicatorPageState extends State<ProgressIndicatorPage> {
 
   void _startProgress() {
     _disable = true;
-    const duration = Duration(seconds: 1);
+    const Duration duration = Duration(seconds: 1);
     _timer = Timer.periodic(duration, (Timer timer) {
       if (_progressValue == 100.0) {
         SSonner.instance.show(
@@ -57,12 +57,12 @@ class _ProgressIndicatorPageState extends State<ProgressIndicatorPage> {
       appBar: AppBar(
         title: const Text('Progress Indicators'),
       ),
-      renderBody: (context) {
+      renderBody: (BuildContext context) {
         return Padding(
           padding: const EdgeInsets.all(18.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: <Widget>[
               const SizedBox(height: 16),
               const Center(
                 child: Text('This is the body of the page'),
