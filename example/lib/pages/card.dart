@@ -13,18 +13,12 @@ class CardPage extends StatelessWidget {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          children: [
+          children: <Widget>[
             // Card 1: With Linear Gradient Background
             const SCard(
               title: 'Gradient Background',
               description: 'This card has a linear gradient background.',
               color: Color.fromARGB(255, 50, 206, 74),
-              // gradient: LinearGradient(
-              //   colors: [Colors.blueAccent, Colors.purpleAccent],
-              //   begin: Alignment.topLeft,
-              //   end: Alignment.bottomRight,
-              // ),
-              shape: SCardShape.rounded,
               borderRadius: 16,
               shadowStyle: SCardShadow.moderate,
               body: Padding(
@@ -44,7 +38,6 @@ class CardPage extends StatelessWidget {
               backgroundImage: const NetworkImage(
                 'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?auto=format&fit=crop&w=800&q=60',
               ),
-              shape: SCardShape.rounded,
               borderRadius: 16,
               shadowStyle: SCardShadow.prominent,
               body: Container(
@@ -64,9 +57,7 @@ class CardPage extends StatelessWidget {
               dismissKey: Key('Default Card'),
               description:
                   'This card uses the default styling without any background customization.',
-              shape: SCardShape.rounded,
               borderRadius: 10,
-              shadowStyle: SCardShadow.subtle,
               body: Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(

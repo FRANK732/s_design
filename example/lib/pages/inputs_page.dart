@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:s_design/s_design.dart';
-import 'package:intl/intl.dart';
 import 'dart:developer' as dev;
+
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:s_design/s_design.dart';
 
 class InputFieldPage extends StatefulWidget {
   const InputFieldPage({super.key});
@@ -29,7 +30,7 @@ class _InputFieldPageState extends State<InputFieldPage> {
   final FocusNode _validationFocusNode = FocusNode();
   final FocusNode _customFocusNode = FocusNode();
 
-  void _onSubmit() async {
+  Future<void> _onSubmit() async {
     if (_formKey.currentState!.validate()) {}
   }
 
@@ -68,11 +69,11 @@ class _InputFieldPageState extends State<InputFieldPage> {
         child: Form(
           key: _formKey,
           child: Column(
-            children: [
+            children: <Widget>[
               _buildSectionTitle('Default Input Field'),
               const SizedBox(height: 8),
               SInputField.number(
-                validator: (val) {
+                validator: (String? val) {
                   if (val!.isEmpty || val.length < 10) {
                     return 'Please enter a valid number';
                   }
@@ -98,13 +99,13 @@ class _InputFieldPageState extends State<InputFieldPage> {
                 controller: _iconController,
                 focusNode: _iconFocusNode,
                 hintText: 'Search',
-                validator: (data) {
+                validator: (String? data) {
                   if (data!.isEmpty) {
                     return 'This field cannot be empty';
                   }
                   return null;
                 },
-                onChanged: (value) {
+                onChanged: (String value) {
                   if (value.isEmpty) {
                     _iconController.clear();
                   }
@@ -126,7 +127,7 @@ class _InputFieldPageState extends State<InputFieldPage> {
                 focusNode: _validationFocusNode,
                 hintText: 'Enter your email',
                 validator: _validateNotEmpty,
-                onChanged: (value) {
+                onChanged: (String value) {
                   // Handle saved value
                 },
               ),
@@ -140,7 +141,7 @@ class _InputFieldPageState extends State<InputFieldPage> {
                 focusNode: _customFocusNode,
                 hintText: 'Custom',
                 validator: _validateNotEmpty,
-                onChanged: (value) {
+                onChanged: (String value) {
                   dev.log('Value changed: $value');
                 },
               ),
