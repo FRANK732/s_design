@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../s_design.dart';
 import '../../theme/s_spacers.dart';
 
-class TabsList extends StatelessWidget {
-  const TabsList({
+class STabsList extends StatelessWidget {
+  STabsList({
     super.key,
     this.direction = Axis.horizontal,
     this.mainAxisAlignment = MainAxisAlignment.center,
@@ -23,7 +23,7 @@ class TabsList extends StatelessWidget {
     this.tabPadding = const EdgeInsets.symmetric(vertical: 3, horizontal: 16),
     this.tabMargin = const EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.0),
     this.tabWidth,
-    this.maxTabWidth = 200.0, // Default max width to prevent overflow
+    this.maxTabWidth = 200.0,
     this.tabHeight = 40.0,
     this.tabTextAlign = TextAlign.center,
     this.animationCurve = Curves.easeInOut,
@@ -50,7 +50,7 @@ class TabsList extends StatelessWidget {
   final List<STabItem> tabs;
 
   /// Callback triggered when a tab is selected, passing the selected tab's index.
-  final Function(int) onTabSelected;
+  void Function(int) onTabSelected;
 
   /// Index of the currently active tab.
   final int activeIndex;
@@ -197,7 +197,8 @@ class TabsList extends StatelessWidget {
         activeTabBackgroundColor ?? colorScheme.primary.withOpacity(0.2);
     final Color defaultInactiveTabColor =
         inactiveTabBackgroundColor ?? Colors.transparent;
-    final BorderRadiusGeometry borderRadius = tabBorderRadius ?? Spacers.radiusSmall;
+    final BorderRadiusGeometry borderRadius =
+        tabBorderRadius ?? Spacers.radiusSmall;
 
     return Container(
       padding: tabListPadding,
@@ -239,7 +240,7 @@ class TabsList extends StatelessWidget {
                           duration: animationDuration,
                           curve: animationCurve,
                           padding: tabPadding,
-                          width: tabWidth, // Only applied if provided
+                          width: tabWidth,
                           height: tabHeight,
                           decoration: isActive
                               ? (activeTabDecoration ??

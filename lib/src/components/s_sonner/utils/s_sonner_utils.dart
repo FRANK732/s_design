@@ -14,7 +14,6 @@ class SSonnerUtils {
       case SSonnerPosition.center:
         return Alignment.center;
       case SSonnerPosition.bottom:
-      default:
         return Alignment.bottomCenter;
     }
   }
@@ -28,7 +27,6 @@ class SSonnerUtils {
       case SSonnerPosition.center:
         return Offset.zero;
       case SSonnerPosition.bottom:
-      default:
         return const Offset(0.0, 1.0);
     }
   }
@@ -43,7 +41,6 @@ class SSonnerUtils {
       case SSonnerVariant.warning:
         return Icons.warning;
       case SSonnerVariant.info:
-      default:
         return Icons.info;
     }
   }
@@ -57,7 +54,6 @@ class SSonnerUtils {
       case SSonnerVariant.warning:
         return context.secondaryColor;
       case SSonnerVariant.info:
-      default:
         return context.primaryColor;
     }
   }
