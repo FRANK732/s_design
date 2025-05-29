@@ -15,10 +15,10 @@ class _ListTilePageState extends State<ListTilePage> {
       appBar: AppBar(
         title: const Text('STextTile Showcase'),
       ),
-      renderBody: ((context) {
+      renderBody: (BuildContext context) {
         return ListView(
           padding: const EdgeInsets.all(16),
-          children: [
+          children: <Widget>[
             SListTile(
               title: const Text('Tile with Leading Icon'),
               leading: const Icon(Icons.star),
@@ -58,7 +58,7 @@ class _ListTilePageState extends State<ListTilePage> {
             ),
           ],
         );
-      }),
+      },
     );
   }
 }
