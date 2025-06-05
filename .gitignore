@@ -29,3 +29,6 @@ migrate_working_dir/
 build/
 
 .codegpt
+
+# FVM Version Cache
+.fvm/

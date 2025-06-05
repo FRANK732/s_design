@@ -81,6 +81,16 @@ class AppRoutes {
       transition: Transition.rightToLeft,
     ),
     GetPage<dynamic>(
+      name: '/scaffold_page',
+      page: () => const ScaffoldPage(),
+      transition: Transition.rightToLeft,
+    ),
+    GetPage<dynamic>(
+      name: '/useSafe_scaffold_page',
+      page: () => const SafeAreaScaffoldPage(),
+      transition: Transition.rightToLeft,
+    ),
+    GetPage<dynamic>(
       name: '/list_tile_page',
       page: () => const ListTilePage(),
       transition: Transition.rightToLeft,
