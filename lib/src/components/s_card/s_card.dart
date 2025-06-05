@@ -649,18 +649,16 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
                         widget.title!,
                         style: widget.titleStyle ??
                             theme.textTheme.headlineSmall?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
                       ),
                     if (widget.description != null) ...<Widget>[
                       const SizedBox(height: 8),
                       Text(
                         widget.description!,
                         style: widget.descriptionStyle ??
-                            theme.textTheme.bodyMedium?.copyWith(
-                              color: theme.textTheme.bodyMedium?.color
-                                  ?.withOpacity(0.7),
-                            ),
+                            theme.textTheme.bodyMedium
+                                ?.copyWith(color: Colors.black),
                       ),
                     ],
                   ],
@@ -799,7 +797,7 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
 
     // Draggable wrapper
     if (widget.isDraggable) {
-      cardWidget = Draggable(
+      cardWidget = Draggable<SCard>(
         data: widget,
         feedback: Material(
           elevation: widget.hoverElevation ?? 4.0,
