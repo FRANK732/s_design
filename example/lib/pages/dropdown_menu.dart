@@ -23,29 +23,27 @@ class _DropdownMenuPageState extends State<DropdownMenuPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SScaffold(
+      scrollable: true,
       appBar: AppBar(
         title: const Text('SDropdownMenu Showcase'),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: <Widget>[
-            IconButton(
-              onPressed: _toggleIcon,
-              icon: Icon(_changeIcon ? Icons.abc : Icons.accessible_outlined),
-            ),
-            _buildSectionTitle('Searchable Dropdown Menu'),
-            SDropdownMenu(
-              items: const <String>['Item 1', 'Item 2', 'Item 3'],
-              onChanged: (value) {
-                dev.log('Selected: $value');
-              },
-              backgroundColor: const Color.fromARGB(255, 96, 104, 110),
-              menuType: SDropdownMenuItemType.multiSelect,
-            ),
-          ],
-        ),
+      renderBody: (BuildContext context) => Column(
+        children: <Widget>[
+          IconButton(
+            onPressed: _toggleIcon,
+            icon: Icon(_changeIcon ? Icons.abc : Icons.accessible_outlined),
+          ),
+          _buildSectionTitle('Searchable Dropdown Menu'),
+          SDropdownMenu(
+            items: const <String>['Item 1', 'Item 2', 'Item 3'],
+            onChanged: (value) {
+              dev.log('Selected: $value');
+            },
+            backgroundColor: const Color.fromARGB(255, 96, 104, 110),
+            menuType: SDropdownMenuItemType.multiSelect,
+          ),
+        ],
       ),
     );
   }
