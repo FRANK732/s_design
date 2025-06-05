@@ -19,6 +19,8 @@ class SScaffold extends StatefulWidget {
     this.renderFooter,
     this.scrollable = false,
     FloatingActionButtonConfig? floatingActionButtonConfig,
+    this.bodyPadding = EdgeInsets.zero,
+    this.useSafeArea = true,
     @Deprecated('Use floatingActionButtonConfig instead')
     this.floatingActionButton,
     @Deprecated('Use floatingActionButtonConfig instead')
@@ -188,6 +190,10 @@ class SScaffold extends StatefulWidget {
   /// no FAB is displayed.
   final FloatingActionButtonConfig? floatingActionButtonConfig;
 
+  /// Whether to wrap the body content in a [SafeArea] widget.
+  /// Defaults to true. When true, ensures content avoids notches, status bars, or navigation bars.
+  final bool useSafeArea;
+
   /// The floating action button widget.
   /// Deprecated: Use [floatingActionButtonConfig] instead.
   /// If [floatingActionButtonConfig] is not provided, this is used to construct
@@ -263,6 +269,10 @@ class SScaffold extends StatefulWidget {
   /// Whether the scaffold is the primary scrollable widget in the view hierarchy.
   /// Defaults to true. Affects scroll behavior, particularly with nested scrollable.
   final bool primary;
+
+  /// The padding to apply to the body content.
+  /// Defaults to [EdgeInsets.zero]. Wraps the body content in a [Padding] widget.
+  final EdgeInsets bodyPadding;
 
   /// The drag behavior for opening the [drawer].
   /// Defaults to [DragStartBehavior.start].
@@ -523,8 +533,16 @@ class _SScaffoldState extends State<SScaffold> {
       },
     );
 
+    final Widget paddedContent = Padding(
+      padding: widget.bodyPadding,
+      child: bodyContent,
+    );
+
+    final Widget safeContent =
+        widget.useSafeArea ? SafeArea(child: paddedContent) : paddedContent;
+
     final Widget content =
-        widget.centerBody ? Center(child: bodyContent) : bodyContent;
+        widget.centerBody ? Center(child: safeContent) : safeContent;
 
     if (widget.scrollable ||
         (widget.refreshConfig?.enabled ?? widget.enableRefresh)) {
