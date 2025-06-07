@@ -300,7 +300,7 @@ class SCard extends StatefulWidget {
   final Future<bool?> Function(DismissDirection)? confirmDismiss;
 
   /// Callback triggered when the card is dismissed.
-  final Function(DismissDirection)? onDismissed;
+  final void Function(DismissDirection)? onDismissed;
 
   /// Direction for dismissible swipe (e.g., horizontal, vertical). Defaults to horizontal.
   final DismissDirection direction;

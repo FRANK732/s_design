@@ -37,7 +37,7 @@ class _DropdownMenuPageState extends State<DropdownMenuPage> {
           _buildSectionTitle('Searchable Dropdown Menu'),
           SDropdownMenu(
             items: const <String>['Item 1', 'Item 2', 'Item 3'],
-            onChanged: (value) {
+            onChanged: (dynamic value) {
               dev.log('Selected: $value');
             },
             backgroundColor: const Color.fromARGB(255, 96, 104, 110),

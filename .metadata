@@ -6,7 +6,7 @@ This metadata file outlines essential details about the **sDesign** Flutter pack
 
 - **Package Name:** `SDesign`
 - **Description:** A comprehensive Flutter UI component library offering customizable widgets such as buttons, modals, cards, and more to build consistent and professional user interfaces.
-- **Version:** `0.5.0`
+- **Version:** `0.3.2+1`
 - **Author:** Frank Addai
 - **License:** MIT
 - **Homepage:** [https://github.com/FRANK732/s_design](https://github.com/FRANK732/s_design)(https://github.com/yourusername/sDesign)
@@ -32,7 +32,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  flutter_lints: ^6.0.0
   test: ^1.25.7
 ```
 

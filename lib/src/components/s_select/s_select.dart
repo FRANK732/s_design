@@ -80,7 +80,7 @@ class SSelect<T> extends StatefulWidget {
   final double dropdownMaxHeight;
 
   @override
-  State<SSelect> createState() => _SSelectState();
+  State<SSelect<dynamic>> createState() => _SSelectState<dynamic>();
 }
 
 class _SSelectState<T> extends State<SSelect<T>> {
@@ -181,7 +181,7 @@ class _SSelectState<T> extends State<SSelect<T>> {
                             SSelectContent<T>(
                               items: widget.items,
                               selectedValue: _selectedValue,
-                              onItemSelected: (value) {
+                              onItemSelected: (T? value) {
                                 setState(() {
                                   _selectedValue = value;
                                   widget.onChanged?.call(value);
@@ -198,7 +198,7 @@ class _SSelectState<T> extends State<SSelect<T>> {
                         : SSelectContent<T>(
                             items: widget.items,
                             selectedValue: _selectedValue,
-                            onItemSelected: (value) {
+                            onItemSelected: (T? value) {
                               setState(() {
                                 _selectedValue = value;
                                 widget.onChanged?.call(value);
@@ -256,7 +256,9 @@ class _SSelectState<T> extends State<SSelect<T>> {
 
   Widget _defaultTrigger(BuildContext context) {
     final String buttonText = _selectedValue != null
-        ? widget.items.firstWhere((SSelectItem<T> item) => item.value == _selectedValue).label
+        ? widget.items
+            .firstWhere((SSelectItem<T> item) => item.value == _selectedValue)
+            .label
         : widget.placeholder ?? 'Select an option';
 
     return OutlinedButton(

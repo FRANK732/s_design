@@ -2,13 +2,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../../s_design.dart';
-import 'widgets/floating_action_button_config.dart';
-import 'widgets/loading_config.dart';
-import 'widgets/loading_provider.dart';
-import 'widgets/persistent_footer_config.dart';
-import 'widgets/refresh_config.dart';
 
+import '../../../s_design.dart';
+
+/// A reusable scaffold widget that provides a customizable page structure with
+/// support for pull-to-refresh, loading indicators, and shimmer effects.
 class SScaffold extends StatefulWidget {
   SScaffold({
     super.key,
@@ -18,23 +16,17 @@ class SScaffold extends StatefulWidget {
     this.drawer,
     this.renderFooter,
     this.scrollable = false,
-    FloatingActionButtonConfig? floatingActionButtonConfig,
-    this.bodyPadding = EdgeInsets.zero,
-    this.useSafeArea = true,
-    @Deprecated('Use floatingActionButtonConfig instead')
+    this.isLoading = false,
+    this.loadingIndicator,
     this.floatingActionButton,
-    @Deprecated('Use floatingActionButtonConfig instead')
     this.floatingActionButtonLocation,
-    @Deprecated('Use floatingActionButtonConfig instead')
     this.floatingActionButtonAnimator,
-    PersistentFooterConfig? persistentFooterConfig,
-    @Deprecated('Use persistentFooterConfig instead')
     this.persistentFooterButtons,
-    @Deprecated('Use persistentFooterConfig instead')
     this.persistentFooterAlignment = AlignmentDirectional.centerEnd,
     this.onDrawerChanged,
     this.endDrawer,
     this.onEndDrawerChanged,
+    this.bodyShimmer,
     this.bottomNavigationBar,
     this.bottomSheet,
     this.backgroundColor,
@@ -48,368 +40,211 @@ class SScaffold extends StatefulWidget {
     this.drawerEnableOpenDragGesture = true,
     this.endDrawerEnableOpenDragGesture = true,
     this.restorationId,
-    RefreshConfig? refreshConfig,
-    @Deprecated('Use refreshConfig instead') this.enableRefresh = false,
-    @Deprecated('Use refreshConfig instead') this.onRefresh,
-    @Deprecated('Use refreshConfig instead') this.refreshIndicatorColor,
-    @Deprecated('Use refreshConfig instead')
+    this.enableRefresh = false,
+    this.onRefresh,
+    this.refreshIndicatorColor,
     this.refreshIndicatorBackgroundColor,
-    @Deprecated('Use refreshConfig instead')
     this.refreshIndicatorTriggerMode = RefreshIndicatorTriggerMode.onEdge,
-    @Deprecated('Use refreshConfig instead') this.minimumRefreshDuration = 1000,
-    LoadingConfig? loadingConfig,
-    @Deprecated('Use loadingConfig instead') this.isLoading = false,
-    @Deprecated('Use loadingConfig instead') this.loadingIndicator,
-    @Deprecated('Use loadingConfig instead') this.bodyShimmer,
-  })  : floatingActionButtonConfig = floatingActionButtonConfig ??
-            (floatingActionButton != null ||
-                    floatingActionButtonLocation != null ||
-                    floatingActionButtonAnimator != null
-                ? FloatingActionButtonConfig(
-                    floatingActionButton: floatingActionButton,
-                    location: floatingActionButtonLocation,
-                    animator: floatingActionButtonAnimator,
-                  )
-                : null),
-        persistentFooterConfig = persistentFooterConfig ??
-            (persistentFooterButtons != null
-                ? PersistentFooterConfig(
-                    buttons: persistentFooterButtons,
-                    alignment: persistentFooterAlignment,
-                  )
-                : null),
-        refreshConfig = refreshConfig ??
-            (enableRefresh || onRefresh != null
-                ? RefreshConfig(
-                    enabled: enableRefresh,
-                    onRefresh: onRefresh,
-                    indicatorColor: refreshIndicatorColor,
-                    indicatorBackgroundColor: refreshIndicatorBackgroundColor,
-                    triggerMode: refreshIndicatorTriggerMode,
-                    minimumDuration: minimumRefreshDuration,
-                  )
-                : null),
-        loadingConfig = loadingConfig ??
-            (isLoading || loadingIndicator != null || bodyShimmer != null
-                ? LoadingConfig(
-                    isLoading: isLoading,
-                    indicator: loadingIndicator,
-                    bodyShimmer: bodyShimmer,
-                  )
-                : null),
+    this.minimumRefreshDuration = 1000,
+  })  :
+        // Ensure shimmer is only used with shimmer loader type
         assert(
-          (loadingConfig?.bodyShimmer ?? bodyShimmer) == null ||
-              (loadingConfig?.indicator?.loaderType ??
-                      loadingIndicator?.loaderType) ==
-                  SLoaderType.shimmer,
+          bodyShimmer == null ||
+              loadingIndicator?.loaderType == SLoaderType.shimmer,
           'Shimmer should only be used with shimmer loader type.',
         ),
+        // Require onRefresh callback when refresh is enabled
         assert(
-          !(refreshConfig?.enabled ?? enableRefresh) ||
-              (refreshConfig?.onRefresh ?? onRefresh) != null,
+          !enableRefresh || onRefresh != null,
           'onRefresh must be provided when enableRefresh is true',
         ),
+        // Ensure refresh duration is non-negative
         assert(
-          (refreshConfig?.minimumDuration ?? minimumRefreshDuration) >= 0,
+          minimumRefreshDuration >= 0,
           'minimumRefreshDuration must be non-negative',
         ),
+        // Validate drawer drag width is positive
         assert(
           drawerEdgeDragWidth == null || drawerEdgeDragWidth > 0,
           'drawerEdgeDragWidth must be positive if provided',
         ),
+        // Prevent conflicting footer widgets
         assert(
           !(renderFooter != null && bottomNavigationBar != null),
           'Cannot provide both renderFooter and bottomNavigationBar',
         ),
+        // Prevent persistent footer buttons with custom footer
         assert(
-          !((persistentFooterConfig?.buttons ?? persistentFooterButtons) !=
-                  null &&
-              renderFooter != null),
+          !(persistentFooterButtons != null && renderFooter != null),
           'Cannot use persistentFooterButtons with renderFooter',
         ),
+        // Prevent bottom sheet with custom footer
         assert(
           !(bottomSheet != null && renderFooter != null),
           'Cannot use bottomSheet with renderFooter',
         ),
+        // Ensure drawer callback is only used when drawer is interactive
         assert(
           !(drawer != null &&
               !drawerEnableOpenDragGesture &&
               onDrawerChanged != null),
           'onDrawerChanged is unnecessary when drawerEnableOpenDragGesture is false',
         ),
+        // Ensure end drawer callback is only used when end drawer is interactive
         assert(
           !(endDrawer != null &&
               !endDrawerEnableOpenDragGesture &&
               onEndDrawerChanged != null),
           'onEndDrawerChanged is unnecessary when endDrawerEnableOpenDragGesture is false',
         ),
+        // Require FAB when its location or animator is specified
         assert(
-          !((floatingActionButtonConfig?.floatingActionButton ??
-                      floatingActionButton) ==
-                  null &&
-              ((floatingActionButtonConfig?.location ??
-                          floatingActionButtonLocation) !=
-                      null ||
-                  (floatingActionButtonConfig?.animator ??
-                          floatingActionButtonAnimator) !=
-                      null)),
-          'floatingActionButton must be provided when location or animator is set',
+          !(floatingActionButton == null &&
+              (floatingActionButtonLocation != null ||
+                  floatingActionButtonAnimator != null)),
+          'floatingActionButton must be provided when floatingActionButtonLocation or floatingActionButtonAnimator is set',
         );
 
-  /// The app bar to display at the top of the scaffold.
-  /// If null, no app bar is shown. Typically an [AppBar] widget.
-  final PreferredSizeWidget? appBar;
-
-  /// A function that builds the main content of the scaffold's body.
-  /// Called with the current [BuildContext] to construct the body widget.
-  /// If null, an empty [SizedBox.shrink] is displayed.
+  /// Function to build the body of the page.
   final Widget Function(BuildContext context)? renderBody;
 
-  /// Whether to center the body content vertically and horizontally.
-  /// Defaults to false. When true, wraps the body in a [Center] widget.
-  final bool centerBody;
-
-  /// The drawer widget to display on the left side of the scaffold.
-  /// Typically a [Drawer] widget. If null, no drawer is available.
-  final Widget? drawer;
-
-  /// A function that builds the footer content of the scaffold.
-  /// Called with the current [BuildContext] to construct the footer widget.
-  /// Mutually exclusive with [bottomNavigationBar] and [bottomSheet].
-  /// If provided, takes precedence over [bottomNavigationBar].
+  /// Function to build the footer of the page.
   final Widget Function(BuildContext context)? renderFooter;
 
-  /// Whether the body content is scrollable.
-  /// Defaults to false. When true, wraps the body in a [SingleChildScrollView].
-  /// Also enables scroll physics for pull-to-refresh if [refreshConfig] is enabled.
+  /// Whether the body is scrollable.
   final bool scrollable;
 
-  /// Configuration for the floating action button (FAB).
-  /// Preferred over deprecated props [floatingActionButton], [floatingActionButtonLocation],
-  /// and [floatingActionButtonAnimator]. If null and no deprecated FAB props are set,
-  /// no FAB is displayed.
-  final FloatingActionButtonConfig? floatingActionButtonConfig;
+  /// Whether to center the body content vertically and horizontally.
+  final bool centerBody;
 
-  /// Whether to wrap the body content in a [SafeArea] widget.
-  /// Defaults to true. When true, ensures content avoids notches, status bars, or navigation bars.
-  final bool useSafeArea;
+  /// Whether to show a loading indicator.
+  final bool isLoading;
 
-  /// The floating action button widget.
-  /// Deprecated: Use [floatingActionButtonConfig] instead.
-  /// If [floatingActionButtonConfig] is not provided, this is used to construct
-  /// a [FloatingActionButtonConfig] internally.
-  @Deprecated('Use floatingActionButtonConfig instead')
+  /// Customizes the appearance of the loading indicator.
+  final SLoadingIndicator? loadingIndicator;
+
+  /// Custom shimmer widget to display during loading with shimmer loader type.
+  final Widget? bodyShimmer;
+
+  /// Optional app bar widget.
+  final PreferredSizeWidget? appBar;
+
+  /// Drawer widget for the scaffold.
+  final Widget? drawer;
+
+  /// Floating action button widget.
   final Widget? floatingActionButton;
 
-  /// The position of the floating action button.
-  /// Deprecated: Use [floatingActionButtonConfig] instead.
-  /// If [floatingActionButtonConfig] is not provided, this is used to construct
-  /// a [FloatingActionButtonConfig] internally.
-  @Deprecated('Use floatingActionButtonConfig instead')
-  final FloatingActionButtonLocation? floatingActionButtonLocation;
-
-  /// The animator for the floating action button's transitions.
-  /// Deprecated: Use [floatingActionButtonConfig] instead.
-  /// If [floatingActionButtonConfig] is not provided, this is used to construct
-  /// a [FloatingActionButtonConfig] internally.
-  @Deprecated('Use floatingActionButtonConfig instead')
-  final FloatingActionButtonAnimator? floatingActionButtonAnimator;
-
-  /// Configuration for persistent footer buttons.
-  /// Preferred over deprecated props [persistentFooterButtons] and [persistentFooterAlignment].
-  /// If null and no deprecated footer props are set, no persistent footer is displayed.
-  final PersistentFooterConfig? persistentFooterConfig;
-
-  /// The list of buttons to display in the persistent footer.
-  /// Deprecated: Use [persistentFooterConfig] instead.
-  /// If [persistentFooterConfig] is not provided, this is used to construct
-  /// a [PersistentFooterConfig] internally.
-  @Deprecated('Use persistentFooterConfig instead')
-  final List<Widget>? persistentFooterButtons;
-
-  /// The alignment of persistent footer buttons.
-  /// Deprecated: Use [persistentFooterConfig] instead.
-  /// Defaults to [AlignmentDirectional.centerEnd].
-  /// If [persistentFooterConfig] is not provided, this is used to construct
-  /// a [PersistentFooterConfig] internally.
-  @Deprecated('Use persistentFooterConfig instead')
-  final AlignmentDirectional persistentFooterAlignment;
-
-  /// Callback invoked when the [drawer] is opened or closed.
-  /// Called with true when the drawer is opened, false when closed.
-  /// Unnecessary if [drawerEnableOpenDragGesture] is false.
+  /// Callback triggered when the drawer state changes.
   final DrawerCallback? onDrawerChanged;
 
-  /// The drawer widget to display on the right side of the scaffold.
-  /// Typically a [Drawer] widget. If null, no end drawer is available.
+  /// Position of the floating action button.
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
+
+  /// List of buttons to display in the persistent footer.
+  final List<Widget>? persistentFooterButtons;
+
+  /// Alignment for persistent footer buttons.
+  final AlignmentDirectional persistentFooterAlignment;
+
+  /// End drawer widget for the scaffold.
   final Widget? endDrawer;
 
-  /// Callback invoked when the [endDrawer] is opened or closed.
-  /// Called with true when the end drawer is opened, false when closed.
-  /// Unnecessary if [endDrawerEnableOpenDragGesture] is false.
+  /// Callback triggered when the end drawer state changes.
   final DrawerCallback? onEndDrawerChanged;
 
-  /// The bottom navigation bar widget to display at the bottom of the scaffold.
-  /// Typically a [BottomNavigationBar]. Mutually exclusive with [renderFooter].
-  /// If [renderFooter] is provided, this is ignored.
+  /// Bottom navigation bar widget.
   final Widget? bottomNavigationBar;
 
-  /// The bottom sheet widget to display at the bottom of the scaffold.
-  /// Mutually exclusive with [renderFooter]. If [renderFooter] is provided, this is ignored.
+  /// Bottom sheet widget.
   final Widget? bottomSheet;
 
-  /// The background color of the scaffold.
-  /// If null, defaults to the theme's scaffold background color.
+  /// Background color of the scaffold.
   final Color? backgroundColor;
 
   /// Whether to resize the scaffold to avoid the bottom inset (e.g., keyboard).
-  /// If null, the default behavior is determined by the platform.
   final bool? resizeToAvoidBottomInset;
 
-  /// Whether the scaffold is the primary scrollable widget in the view hierarchy.
-  /// Defaults to true. Affects scroll behavior, particularly with nested scrollable.
+  /// Whether the scaffold is primary (affects scroll behavior).
   final bool primary;
 
-  /// The padding to apply to the body content.
-  /// Defaults to [EdgeInsets.zero]. Wraps the body content in a [Padding] widget.
-  final EdgeInsets bodyPadding;
-
-  /// The drag behavior for opening the [drawer].
-  /// Defaults to [DragStartBehavior.start].
+  /// Drag behavior for opening the drawer.
   final DragStartBehavior drawerDragStartBehavior;
 
-  /// Whether to extend the body content to the bottom of the scaffold.
-  /// Defaults to false. Useful for allowing content to appear behind [bottomNavigationBar].
+  /// Whether to extend the body to the bottom of the scaffold.
   final bool extendBody;
 
-  /// Whether to extend the body content behind the [appBar].
-  /// Defaults to false. Useful for transparent or translucent app bars.
+  /// Whether to extend the body behind the app bar.
   final bool extendBodyBehindAppBar;
 
-  /// The color of the scrim displayed when the [drawer] is open.
-  /// If null, defaults to a semi-transparent black color.
+  /// Scrim color for the drawer.
   final Color? drawerScrimColor;
 
-  /// The width of the edge area that triggers the [drawer] drag gesture.
-  /// If null, uses the default system value. Must be positive if provided.
+  /// Width of the edge that triggers the drawer drag gesture.
   final double? drawerEdgeDragWidth;
 
-  /// Whether to enable the drag gesture to open the [drawer].
-  /// Defaults to true. If false, the drawer can only be opened programmatically.
+  /// Whether to enable the open drag gesture for the drawer.
   final bool drawerEnableOpenDragGesture;
 
-  /// Whether to enable the drag gesture to open the [endDrawer].
-  /// Defaults to true. If false, the end drawer can only be opened programmatically.
+  /// Whether to enable the open drag gesture for the end drawer.
   final bool endDrawerEnableOpenDragGesture;
 
-  /// The restoration ID for state restoration of the scaffold.
-  /// If null, state restoration is not enabled.
+  /// Animator for the floating action button.
+  final FloatingActionButtonAnimator? floatingActionButtonAnimator;
+
+  /// Restoration ID for state restoration.
   final String? restorationId;
 
-  /// Configuration for pull-to-refresh functionality.
-  /// Preferred over deprecated props [enableRefresh], [onRefresh], [refreshIndicatorColor],
-  /// [refreshIndicatorBackgroundColor], [refreshIndicatorTriggerMode], and [minimumRefreshDuration].
-  /// If null and no deprecated refresh props are set, pull-to-refresh is disabled.
-  final RefreshConfig? refreshConfig;
-
-  /// Whether pull-to-refresh is enabled.
-  /// Deprecated: Use [refreshConfig] instead.
-  /// Defaults to false. If [refreshConfig] is not provided, this is used to construct
-  /// a [RefreshConfig] internally.
-  @Deprecated('Use refreshConfig instead')
+  /// Enables pull-to-refresh functionality.
   final bool enableRefresh;
 
-  /// Callback invoked when the user triggers a pull-to-refresh.
-  /// Deprecated: Use [refreshConfig] instead.
-  /// Required if [enableRefresh] is true. If [refreshConfig] is not provided, this is used
-  /// to construct a [RefreshConfig] internally.
-  @Deprecated('Use refreshConfig instead')
+  /// Callback triggered when the user pulls to refresh.
   final Future<void> Function()? onRefresh;
 
-  /// The color of the refresh indicator.
-  /// Deprecated: Use [refreshConfig] instead.
-  /// If [refreshConfig] is not provided, this is used to construct a [RefreshConfig] internally.
-  /// Defaults to the theme's primary color if not set.
-  @Deprecated('Use refreshConfig instead')
+  /// Color of the refresh indicator.
   final Color? refreshIndicatorColor;
 
-  /// The background color of the refresh indicator.
-  /// Deprecated: Use [refreshConfig] instead.
-  /// If [refreshConfig] is not provided, this is used to construct a [RefreshConfig] internally.
-  /// Defaults to white if not set.
-  @Deprecated('Use refreshConfig instead')
+  /// Background color of the refresh indicator.
   final Color? refreshIndicatorBackgroundColor;
 
-  /// The trigger mode for the refresh indicator.
-  /// Deprecated: Use [refreshConfig] instead.
-  /// Defaults to [RefreshIndicatorTriggerMode.onEdge].
-  /// If [refreshConfig] is not provided, this is used to construct a [RefreshConfig] internally.
-  @Deprecated('Use refreshConfig instead')
+  /// Refresh trigger node
   final RefreshIndicatorTriggerMode refreshIndicatorTriggerMode;
 
-  /// The minimum duration of the refresh animation in milliseconds.
-  /// Deprecated: Use [refreshConfig] instead.
-  /// Defaults to 1000. Must be non-negative.
-  /// If [refreshConfig] is not provided, this is used to construct a [RefreshConfig] internally.
-  @Deprecated('Use refreshConfig instead')
+  /// Minimum duration of the refresh animation in milliseconds.
   final int minimumRefreshDuration;
-
-  /// Configuration for the loading state and indicator.
-  /// Preferred over deprecated props [isLoading], [loadingIndicator], and [bodyShimmer].
-  /// If null and no deprecated loading props are set, no loading indicator is displayed.
-  final LoadingConfig? loadingConfig;
-
-  /// Whether to show a loading indicator.
-  /// Deprecated: Use [loadingConfig] instead.
-  /// Defaults to false. If [loadingConfig] is not provided, this is used to construct
-  /// a [LoadingConfig] internally.
-  @Deprecated('Use loadingConfig instead')
-  final bool isLoading;
-
-  /// The custom loading indicator widget.
-  /// Deprecated: Use [loadingConfig] instead.
-  /// Typically an [SLoadingIndicator]. If [loadingConfig] is not provided, this is used
-  /// to construct a [LoadingConfig] internally.
-  @Deprecated('Use loadingConfig instead')
-  final SLoadingIndicator? loadingIndicator;
-
-  /// The custom shimmer widget to display during loading with shimmer loader type.
-  /// Deprecated: Use [loadingConfig] instead.
-  /// Only used when [loadingIndicator]'s [loaderType] is [SLoaderType.shimmer].
-  /// If [loadingConfig] is not provided, this is used to construct a [LoadingConfig] internally.
-  @Deprecated('Use loadingConfig instead')
-  final Widget? bodyShimmer;
 
   @override
   State<SScaffold> createState() => _SScaffoldState();
 }
 
+/// State class for [SScaffold] that manages loading and refresh states.
 class _SScaffoldState extends State<SScaffold> {
+  // Provider for managing loading state
   late LoadingProvider _loadingProvider;
+  // Tracks whether a refresh is in progress
   bool _isRefreshing = false;
 
   @override
   void initState() {
     super.initState();
+    // Initialize loading provider with initial isLoading state
     _loadingProvider = LoadingProvider();
-    _loadingProvider
-        .setLoading(widget.loadingConfig?.isLoading ?? widget.isLoading);
+    _loadingProvider.setLoading(widget.isLoading);
   }
 
   @override
   void didUpdateWidget(covariant SScaffold oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if ((oldWidget.loadingConfig?.isLoading ?? oldWidget.isLoading) !=
-        (widget.loadingConfig?.isLoading ?? widget.isLoading)) {
-      _loadingProvider
-          .setLoading(widget.loadingConfig?.isLoading ?? widget.isLoading);
+    // Update loading state if isLoading changes
+    if (oldWidget.isLoading != widget.isLoading) {
+      _loadingProvider.setLoading(widget.isLoading);
     }
   }
 
+  /// Handles the pull-to-refresh action, ensuring minimum duration and error handling.
   Future<void> _handleRefresh() async {
-    if (_isRefreshing ||
-        (widget.refreshConfig?.enabled ?? widget.enableRefresh) != true ||
-        (widget.refreshConfig?.onRefresh ?? widget.onRefresh) == null) {
+    // Prevent concurrent refreshes or invalid refresh configurations
+    if (_isRefreshing || !widget.enableRefresh || widget.onRefresh == null) {
       return;
     }
 
@@ -419,14 +254,16 @@ class _SScaffoldState extends State<SScaffold> {
     });
 
     try {
+      // Run refresh callback and enforce minimum duration concurrently
       await Future.wait(<Future<void>>[
-        (widget.refreshConfig?.onRefresh ?? widget.onRefresh)!(),
-        Future<void>.delayed(Duration(
-            milliseconds: widget.refreshConfig?.minimumDuration ??
-                widget.minimumRefreshDuration)),
+        widget.onRefresh!(),
+        Future<void>.delayed(
+            Duration(milliseconds: widget.minimumRefreshDuration)),
       ]);
     } catch (e, stackTrace) {
+      // Log errors for debugging in production
       debugPrint('Refresh error: $e\n$stackTrace');
+      // Show error feedback to user
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -436,11 +273,11 @@ class _SScaffoldState extends State<SScaffold> {
         );
       }
     } finally {
+      // Reset refresh and loading states if widget is still mounted
       if (mounted) {
         setState(() {
           _isRefreshing = false;
-          _loadingProvider
-              .setLoading(widget.loadingConfig?.isLoading ?? widget.isLoading);
+          _loadingProvider.setLoading(widget.isLoading);
         });
       }
     }
@@ -448,6 +285,7 @@ class _SScaffoldState extends State<SScaffold> {
 
   @override
   Widget build(BuildContext context) {
+    // Provide loading state to descendants
     return ChangeNotifierProvider<LoadingProvider>.value(
       value: _loadingProvider,
       child: Stack(
@@ -456,20 +294,11 @@ class _SScaffoldState extends State<SScaffold> {
             appBar: widget.appBar,
             drawer: widget.drawer,
             onDrawerChanged: widget.onDrawerChanged,
-            floatingActionButton:
-                widget.floatingActionButtonConfig?.floatingActionButton ??
-                    widget.floatingActionButton,
-            floatingActionButtonLocation:
-                widget.floatingActionButtonConfig?.location ??
-                    widget.floatingActionButtonLocation,
-            floatingActionButtonAnimator:
-                widget.floatingActionButtonConfig?.animator ??
-                    widget.floatingActionButtonAnimator,
-            persistentFooterButtons: widget.persistentFooterConfig?.buttons ??
-                widget.persistentFooterButtons,
-            persistentFooterAlignment:
-                widget.persistentFooterConfig?.alignment ??
-                    widget.persistentFooterAlignment,
+            floatingActionButton: widget.floatingActionButton,
+            floatingActionButtonLocation: widget.floatingActionButtonLocation,
+            floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
+            persistentFooterButtons: widget.persistentFooterButtons,
+            persistentFooterAlignment: widget.persistentFooterAlignment,
             endDrawer: widget.endDrawer,
             onEndDrawerChanged: widget.onEndDrawerChanged,
             bottomSheet: widget.bottomSheet,
@@ -485,22 +314,18 @@ class _SScaffoldState extends State<SScaffold> {
             endDrawerEnableOpenDragGesture:
                 widget.endDrawerEnableOpenDragGesture,
             restorationId: widget.restorationId,
-            body: _buildBody(context,
-                widget.loadingConfig?.indicator ?? widget.loadingIndicator),
+            body: _buildBody(context, widget.loadingIndicator),
             bottomNavigationBar: widget.renderFooter != null
                 ? _buildFooter(context)
                 : widget.bottomNavigationBar,
           ),
-          if ((widget.loadingConfig?.indicator?.loaderType ??
-                  widget.loadingIndicator?.loaderType) !=
-              SLoaderType.shimmer)
+          // Display loading indicator (non-shimmer) when loading and not refreshing
+          if (widget.loadingIndicator?.loaderType != SLoaderType.shimmer)
             Consumer<LoadingProvider>(
               builder: (BuildContext context, LoadingProvider loadingProvider,
                   Widget? child) {
                 return loadingProvider.isLoading && !_isRefreshing
-                    ? (widget.loadingConfig?.indicator ??
-                        widget.loadingIndicator ??
-                        _buildLoadingIndicator())
+                    ? widget.loadingIndicator ?? _buildLoadingIndicator()
                     : const SizedBox.shrink();
               },
             ),
@@ -509,16 +334,15 @@ class _SScaffoldState extends State<SScaffold> {
     );
   }
 
+  /// Builds the body content with support for loading, shimmer, and refresh.
   Widget _buildBody(BuildContext context, SLoadingIndicator? loadingIndicator) {
     final Consumer<LoadingProvider> bodyContent = Consumer<LoadingProvider>(
       builder: (BuildContext context, LoadingProvider loadingProvider,
           Widget? child) {
         if (loadingProvider.isLoading &&
-            (widget.loadingConfig?.indicator?.loaderType ??
-                    widget.loadingIndicator?.loaderType) ==
-                SLoaderType.shimmer &&
+            loadingIndicator?.loaderType == SLoaderType.shimmer &&
             !_isRefreshing) {
-          return (widget.loadingConfig?.bodyShimmer ?? widget.bodyShimmer) ??
+          return widget.bodyShimmer ??
               Shimmer.fromColors(
                 baseColor: const Color.fromARGB(255, 118, 111, 111),
                 highlightColor: Colors.grey[100]!,
@@ -533,37 +357,27 @@ class _SScaffoldState extends State<SScaffold> {
       },
     );
 
-    final Widget paddedContent = Padding(
-      padding: widget.bodyPadding,
-      child: bodyContent,
-    );
-
-    final Widget safeContent =
-        widget.useSafeArea ? SafeArea(child: paddedContent) : paddedContent;
-
+    // Center content if centerBody is true
     final Widget content =
-        widget.centerBody ? Center(child: safeContent) : safeContent;
+        widget.centerBody ? Center(child: bodyContent) : bodyContent;
 
-    if (widget.scrollable ||
-        (widget.refreshConfig?.enabled ?? widget.enableRefresh)) {
+    // Wrap in scroll view and refresh indicator if scrollable or refresh enabled
+    if (widget.scrollable || widget.enableRefresh) {
       return RefreshIndicator(
         onRefresh: _handleRefresh,
-        color: widget.refreshConfig?.indicatorColor ??
-            widget.refreshIndicatorColor ??
-            Theme.of(context).primaryColor,
-        backgroundColor: widget.refreshConfig?.indicatorBackgroundColor ??
-            widget.refreshIndicatorBackgroundColor ??
-            Colors.white,
-        triggerMode: widget.refreshConfig?.triggerMode ??
-            widget.refreshIndicatorTriggerMode,
+        color: widget.refreshIndicatorColor ?? Theme.of(context).primaryColor,
+        backgroundColor: widget.refreshIndicatorBackgroundColor ?? Colors.white,
+        triggerMode: widget.refreshIndicatorTriggerMode,
         edgeOffset: widget.appBar?.preferredSize.height ?? 0.0,
         child: SingleChildScrollView(
-          physics: (widget.refreshConfig?.enabled ?? widget.enableRefresh)
+          // Ensure scrollability for refresh even if content is short
+          physics: widget.enableRefresh
               ? const AlwaysScrollableScrollPhysics()
               : null,
           child: widget.centerBody
               ? ConstrainedBox(
                   constraints: BoxConstraints(
+                    // Ensure content fills available height
                     minHeight: MediaQuery.of(context).size.height -
                         (widget.appBar?.preferredSize.height ?? 0) -
                         (widget.renderFooter != null
@@ -579,15 +393,18 @@ class _SScaffoldState extends State<SScaffold> {
     return content;
   }
 
+  /// Builds the footer with proper constraints and padding.
   Widget _buildFooter(BuildContext context) {
     final Widget? footerWidget = widget.renderFooter?.call(context);
     final double additionalBottomPadding =
         MediaQuery.viewPaddingOf(context).bottom;
 
+    // Use provided footer directly if it's a BottomNavigationBar
     if (footerWidget is BottomNavigationBar) {
       return widget.renderFooter!(context);
     }
 
+    // Apply constraints for custom footer
     return ConstrainedBox(
       constraints: BoxConstraints(
         minHeight: kBottomNavigationBarHeight + additionalBottomPadding,
@@ -597,12 +414,14 @@ class _SScaffoldState extends State<SScaffold> {
     );
   }
 
+  /// Builds the default loading indicator.
   Widget _buildLoadingIndicator() {
     return const SLoadingIndicator(
       spinnerColor: Colors.teal,
     );
   }
 
+  /// Builds a default shimmer loader with a list view of placeholder cards.
   Widget _buildShimmerLoader() {
     return SizedBox(
       width: double.infinity,
@@ -625,5 +444,21 @@ class _SScaffoldState extends State<SScaffold> {
         ),
       ),
     );
+  }
+}
+
+class LoadingProvider extends ChangeNotifier {
+  // Current loading state
+  bool _isLoading = false;
+
+  /// Gets the current loading state.
+  bool get isLoading => _isLoading;
+
+  /// Sets the loading state and notifies listeners if changed.
+  void setLoading(bool value) {
+    if (_isLoading != value) {
+      _isLoading = value;
+      notifyListeners();
+    }
   }
 }

@@ -301,7 +301,7 @@ class SDialog extends StatelessWidget {
         },
       );
     } else {
-      await showDialog(
+      await showDialog<T>(
         context: context,
         barrierDismissible: barrierDismissible,
         barrierColor: barrierColor,

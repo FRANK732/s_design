@@ -4,7 +4,7 @@ import '../../../s_design.dart';
 import '../../theme/s_spacers.dart';
 
 class STabsList extends StatelessWidget {
-  STabsList({
+  const STabsList({
     super.key,
     this.direction = Axis.horizontal,
     this.mainAxisAlignment = MainAxisAlignment.center,
@@ -50,7 +50,7 @@ class STabsList extends StatelessWidget {
   final List<STabItem> tabs;
 
   /// Callback triggered when a tab is selected, passing the selected tab's index.
-  void Function(int) onTabSelected;
+  final void Function(int) onTabSelected;
 
   /// Index of the currently active tab.
   final int activeIndex;
@@ -218,7 +218,7 @@ class STabsList extends StatelessWidget {
             direction: direction,
             mainAxisAlignment: mainAxisAlignment,
             crossAxisAlignment: crossAxisAlignment,
-            children: List.generate(tabs.length, (int index) {
+            children: List<Widget>.generate(tabs.length, (int index) {
               final STabItem tab = tabs[index];
               final bool isActive = (index == activeIndex);
 

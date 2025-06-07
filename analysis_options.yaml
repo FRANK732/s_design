@@ -107,7 +107,7 @@ linter:
     - eol_at_end_of_file
     - exhaustive_cases
     - file_names
-    - flutter_style_todos
+#    - flutter_style_todos
     - hash_and_equals
     - implementation_imports
     - implicit_call_tearoffs
@@ -126,7 +126,7 @@ linter:
     - missing_code_block_language_in_doc_comment
     - missing_whitespace_between_adjacent_strings
     - no_adjacent_strings_in_list
-    - no_default_cases
+#    - no_default_cases
     - no_duplicate_case_values
     - no_leading_underscores_for_library_prefixes
     - no_leading_underscores_for_local_identifiers
@@ -201,7 +201,7 @@ linter:
     - sort_unnamed_constructors_first
     # - specify_nonobvious_local_variable_types # not yet tested
     # - specify_nonobvious_property_types # not yet tested
-    # - strict_top_level_inference
+#    - strict_top_level_inference
     - test_types_in_equals
     - throw_in_finally
     - tighten_type_of_initializing_formals

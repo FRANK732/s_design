@@ -222,7 +222,7 @@ class _STabsState extends State<STabs> with SingleTickerProviderStateMixin {
             children: widget.tabs
                 .asMap()
                 .map(
-                  (int index, STabItem tab) => MapEntry(
+                  (int index, STabItem tab) => MapEntry<int, TabsContent>(
                     index,
                     TabsContent(
                       contentMargin: widget.tabListMargin,
