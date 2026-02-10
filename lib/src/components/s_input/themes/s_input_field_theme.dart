@@ -1,116 +1,212 @@
-// import 'package:flutter/material.dart';
-
-// /// A theming model for controlling color, spacing, shapes, etc.
-// /// You can expand this with more fields (e.g., shadows, icon size, etc.)
-// class SInputFieldTheme {
-//   /// Outline border radius for the input
-//   final BorderRadius borderRadius;
-
-//   /// TextStyle for the input text
-//   final TextStyle textStyle;
-
-//   /// TextStyle for label
-//   final TextStyle labelStyle;
-
-//   /// TextStyle for error text
-//   final TextStyle errorStyle;
-
-//   /// Padding for small, medium, large variants
-//   final EdgeInsets paddingSm;
-//   final EdgeInsets paddingMd;
-//   final EdgeInsets paddingLg;
-
-//   /// Colors used across states (hover, focus, disabled, error, etc.)
-//   final Color fillColor;
-//   final Color hoverColor;
-//   final Color focusColor;
-//   final Color disabledColor;
-//   final Color borderColor;
-//   final Color focusedBorderColor;
-//   final Color errorBorderColor;
-
-//   /// Example factory for default theme styling based on a Material [ThemeData].
-//   factory SInputFieldTheme.defaults(ThemeData theme) {
-//     return SInputFieldTheme._(
-//       borderRadius: BorderRadius.circular(8),
-//       textStyle: theme.textTheme.bodyMedium ?? const TextStyle(fontSize: 16),
-//       labelStyle: theme.textTheme.labelLarge ?? const TextStyle(fontSize: 14),
-//       errorStyle:
-//           theme.textTheme.bodySmall!.copyWith(color: theme.colorScheme.error),
-//       paddingSm: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-//       paddingMd: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-//       paddingLg: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-//       fillColor: theme.colorScheme.surfaceContainerHighest,
-//       hoverColor: theme.hoverColor,
-//       focusColor: theme.focusColor,
-//       disabledColor: theme.disabledColor,
-//       borderColor: theme.dividerColor,
-//       focusedBorderColor: theme.colorScheme.primary,
-//       errorBorderColor: theme.colorScheme.error,
-//     );
-//   }
-
-//   const SInputFieldTheme._({
-//     required this.borderRadius,
-//     required this.textStyle,
-//     required this.labelStyle,
-//     required this.errorStyle,
-//     required this.paddingSm,
-//     required this.paddingMd,
-//     required this.paddingLg,
-//     required this.fillColor,
-//     required this.hoverColor,
-//     required this.focusColor,
-//     required this.disabledColor,
-//     required this.borderColor,
-//     required this.focusedBorderColor,
-//     required this.errorBorderColor,
-//   });
-// }
-
 import 'package:flutter/material.dart';
+import '../../../theme/s_colors.dart';
 
-/// A theme class for your SInputField.
-/// You can expand this with more styling options (colors, fonts, etc.).
-class SInputFieldTheme {
-  /// Default constructor for the theme.
-  const SInputFieldTheme({
+/// Theme data for [SInputField].
+class SInputFieldThemeData
+    extends ThemeExtension<
+        SInputFieldThemeData> {
+  /// Creates an instance of [SInputFieldThemeData].
+  const SInputFieldThemeData({
+    required this.backgroundColor,
     required this.borderColor,
     required this.focusedBorderColor,
+    required this.errorBorderColor,
     required this.disabledBorderColor,
+    required this.hintTextColor,
+    required this.labelColor,
+    required this.textColor,
+    required this.borderRadius,
     required this.borderWidth,
     required this.focusedBorderWidth,
-    required this.borderRadius,
   });
 
-  /// A factory constructor providing a nice set of defaults
-  /// that you might use for a “shadcn-like” field look.
-  factory SInputFieldTheme.defaults() {
-    return const SInputFieldTheme(
-      borderColor: Colors.grey,
-      focusedBorderColor: Colors.blueAccent,
-      disabledBorderColor: Colors.grey,
-      borderWidth: 1.0,
-      focusedBorderWidth: 1.5,
-      borderRadius: 6.0,
+  /// Creates a [SInputFieldThemeData] from [SColorsBase].
+  factory SInputFieldThemeData.fromColors(
+      SColorsBase
+          colors) {
+    return SInputFieldThemeData(
+      backgroundColor:
+          colors.inputBackground,
+      borderColor:
+          colors.inputBorder,
+      focusedBorderColor:
+          colors.inputFocusBorder,
+      errorBorderColor:
+          colors.inputErrorBorder,
+      disabledBorderColor:
+          colors.disabled,
+      hintTextColor:
+          colors.inputHintText,
+      labelColor:
+          colors.textPrimary,
+      textColor:
+          colors.textPrimary,
+      borderRadius:
+          6.0,
+      borderWidth:
+          1.0,
+      focusedBorderWidth:
+          1.5,
     );
   }
 
-  /// The border color in normal state.
-  final Color borderColor;
+  /// Background color of the input field.
+  final Color
+      backgroundColor;
 
-  /// The border color when focused.
-  final Color focusedBorderColor;
+  /// Border color in normal state.
+  final Color
+      borderColor;
 
-  /// The border color when disabled.
-  final Color disabledBorderColor;
+  /// Border color when focused.
+  final Color
+      focusedBorderColor;
 
-  /// The width of the border.
-  final double borderWidth;
+  /// Border color when there's an error.
+  final Color
+      errorBorderColor;
 
-  /// The width of the border when focused.
-  final double focusedBorderWidth;
+  /// Border color when disabled.
+  final Color
+      disabledBorderColor;
 
-  /// The corner radius of the field.
-  final double borderRadius;
+  /// Color of hint text.
+  final Color
+      hintTextColor;
+
+  /// Color of label text.
+  final Color
+      labelColor;
+
+  /// Color of input text.
+  final Color
+      textColor;
+
+  /// Corner radius of the input field.
+  final double
+      borderRadius;
+
+  /// Width of the border.
+  final double
+      borderWidth;
+
+  /// Width of the border when focused.
+  final double
+      focusedBorderWidth;
+
+  @override
+  SInputFieldThemeData
+      copyWith({
+    Color?
+        backgroundColor,
+    Color?
+        borderColor,
+    Color?
+        focusedBorderColor,
+    Color?
+        errorBorderColor,
+    Color?
+        disabledBorderColor,
+    Color?
+        hintTextColor,
+    Color?
+        labelColor,
+    Color?
+        textColor,
+    double?
+        borderRadius,
+    double?
+        borderWidth,
+    double?
+        focusedBorderWidth,
+  }) {
+    return SInputFieldThemeData(
+      backgroundColor:
+          backgroundColor ?? this.backgroundColor,
+      borderColor:
+          borderColor ?? this.borderColor,
+      focusedBorderColor:
+          focusedBorderColor ?? this.focusedBorderColor,
+      errorBorderColor:
+          errorBorderColor ?? this.errorBorderColor,
+      disabledBorderColor:
+          disabledBorderColor ?? this.disabledBorderColor,
+      hintTextColor:
+          hintTextColor ?? this.hintTextColor,
+      labelColor:
+          labelColor ?? this.labelColor,
+      textColor:
+          textColor ?? this.textColor,
+      borderRadius:
+          borderRadius ?? this.borderRadius,
+      borderWidth:
+          borderWidth ?? this.borderWidth,
+      focusedBorderWidth:
+          focusedBorderWidth ?? this.focusedBorderWidth,
+    );
+  }
+
+  @override
+  SInputFieldThemeData lerp(
+      ThemeExtension<SInputFieldThemeData>?
+          other,
+      double
+          t) {
+    if (other
+        is! SInputFieldThemeData) {
+      return this;
+    }
+    return SInputFieldThemeData(
+      backgroundColor: Color.lerp(
+          backgroundColor,
+          other.backgroundColor,
+          t)!,
+      borderColor: Color.lerp(
+          borderColor,
+          other.borderColor,
+          t)!,
+      focusedBorderColor: Color.lerp(
+          focusedBorderColor,
+          other.focusedBorderColor,
+          t)!,
+      errorBorderColor: Color.lerp(
+          errorBorderColor,
+          other.errorBorderColor,
+          t)!,
+      disabledBorderColor: Color.lerp(
+          disabledBorderColor,
+          other.disabledBorderColor,
+          t)!,
+      hintTextColor: Color.lerp(
+          hintTextColor,
+          other.hintTextColor,
+          t)!,
+      labelColor: Color.lerp(
+          labelColor,
+          other.labelColor,
+          t)!,
+      textColor: Color.lerp(
+          textColor,
+          other.textColor,
+          t)!,
+      borderRadius: t < 0.5
+          ? borderRadius
+          : other.borderRadius,
+      borderWidth: t < 0.5
+          ? borderWidth
+          : other.borderWidth,
+      focusedBorderWidth: t < 0.5
+          ? focusedBorderWidth
+          : other.focusedBorderWidth,
+    );
+  }
+}
+
+/// Extension to access [SInputFieldThemeData] from [ThemeData].
+extension SInputFieldThemeExtension
+    on ThemeData {
+  /// Retrieves the current [SInputFieldThemeData].
+  SInputFieldThemeData get sInputFieldTheme =>
+      extension<SInputFieldThemeData>() ??
+      SInputFieldThemeData.fromColors(SLightColors());
 }

@@ -1,25 +1,52 @@
 import 'package:flutter/material.dart';
 import 's_colors.dart';
 import 's_typography.dart';
+import '../components/s_button/themes/s_button_theme.dart';
+import '../components/s_card/themes/s_card_theme.dart';
+import '../components/s_check_box/themes/s_checkbox_theme.dart';
+import '../components/s_dialog/themes/s_dialog_theme.dart';
+import '../components/s_dropdown_menu/themes/s_dropdown_menu_theme.dart';
+import '../components/s_input/themes/s_input_field_theme.dart';
+import '../components/s_list_tile/themes/s_list_tile_theme.dart';
+import '../components/s_progress_bar/themes/s_progress_bar_theme.dart';
+import '../components/s_select/themes/s_select_theme.dart';
+import '../components/s_sonner/themes/s_sonner_theme.dart';
+import '../components/s_switch/themes/s_switch_theme.dart';
+import '../components/s_tabs/themes/s_tabs_theme.dart';
+import '../components/s_toaster/themes/s_toast_theme.dart';
 
 class STheme {
   STheme() {
-    lightTypography = SLightTypography(colors: sColors.light);
-    darkTypography = SDarkTypography(colors: sColors.dark);
+    lightTypography =
+        SLightTypography(colors: sColors.light);
+    darkTypography =
+        SDarkTypography(colors: sColors.dark);
   }
-  final SColors sColors = SColors();
-  late final STypographyBase lightTypography;
-  late final STypographyBase darkTypography;
+  final SColors
+      sColors =
+      SColors();
+  late final STypographyBase
+      lightTypography;
+  late final STypographyBase
+      darkTypography;
 
-  ThemeData getLightTheme() {
-    final SColorsBase colors = sColors.light;
-    final STypographyBase typography = lightTypography;
+  ThemeData
+      getLightTheme() {
+    final SColorsBase
+        colors =
+        sColors.light;
+    final STypographyBase
+        typography =
+        lightTypography;
 
     return ThemeData(
-      brightness: Brightness.light,
-      primaryColor: colors.primary,
+      brightness:
+          Brightness.light,
+      primaryColor:
+          colors.primary,
       // Core color scheme
-      colorScheme: ColorScheme.light(
+      colorScheme:
+          ColorScheme.light(
         primary: colors.primary,
         secondary: colors.secondary,
         surface: colors.surface,
@@ -29,25 +56,34 @@ class STheme {
         onSurface: colors.textPrimary,
         onError: colors.textOnPrimary,
       ),
-      scaffoldBackgroundColor: colors.background,
-      cardColor: colors.cardBackground,
-      dialogBackgroundColor: colors.dialogBackground,
-      disabledColor: colors.disabled,
-      dividerColor: colors.divider,
-      shadowColor: colors.shadow,
+      scaffoldBackgroundColor:
+          colors.background,
+      cardColor:
+          colors.cardBackground,
+      dialogBackgroundColor:
+          colors.dialogBackground,
+      disabledColor:
+          colors.disabled,
+      dividerColor:
+          colors.divider,
+      shadowColor:
+          colors.shadow,
 
       // ICON THEME
-      iconTheme: IconThemeData(
+      iconTheme:
+          IconThemeData(
         color: colors.textPrimary,
         size: 24,
       ),
-      primaryIconTheme: IconThemeData(
+      primaryIconTheme:
+          IconThemeData(
         color: colors.primary,
         size: 24,
       ),
 
       // TEXT THEME
-      textTheme: TextTheme(
+      textTheme:
+          TextTheme(
         displayLarge: typography.displayLarge,
         displayMedium: typography.displayMedium,
         displaySmall: typography.displaySmall,
@@ -68,7 +104,8 @@ class STheme {
       // COMPONENT THEMES
 
       // AppBar
-      appBarTheme: AppBarTheme(
+      appBarTheme:
+          AppBarTheme(
         color: colors.primary,
         foregroundColor: colors.textOnPrimary,
         elevation: 0,
@@ -79,27 +116,31 @@ class STheme {
       ),
 
       // Buttons: Text, Elevated, Outlined, Filled
-      textButtonTheme: TextButtonThemeData(
+      textButtonTheme:
+          TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: colors.primary,
           textStyle: typography.labelLarge,
         ),
       ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
+      elevatedButtonTheme:
+          ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: colors.buttonBackground,
           foregroundColor: colors.buttonText,
           textStyle: typography.labelLarge,
         ),
       ),
-      outlinedButtonTheme: OutlinedButtonThemeData(
+      outlinedButtonTheme:
+          OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: colors.primary,
           side: BorderSide(color: colors.primary),
           textStyle: typography.labelLarge,
         ),
       ),
-      filledButtonTheme: FilledButtonThemeData(
+      filledButtonTheme:
+          FilledButtonThemeData(
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.all(colors.buttonBackground),
           foregroundColor: WidgetStateProperty.all(colors.buttonText),
@@ -108,7 +149,8 @@ class STheme {
       ),
 
       // Old ButtonTheme (optional)
-      buttonTheme: ButtonThemeData(
+      buttonTheme:
+          ButtonThemeData(
         buttonColor: colors.buttonBackground,
         disabledColor: colors.buttonDisabledBackground,
         textTheme: ButtonTextTheme.primary,
@@ -126,7 +168,8 @@ class STheme {
       // ),
 
       // Checkbox
-      checkboxTheme: CheckboxThemeData(
+      checkboxTheme:
+          CheckboxThemeData(
         fillColor: WidgetStateProperty.all(colors.checkboxActive),
         checkColor: WidgetStateProperty.all(colors.textOnPrimary),
       ),
@@ -147,7 +190,8 @@ class STheme {
       // ),
 
       // Input / TextField
-      inputDecorationTheme: InputDecorationTheme(
+      inputDecorationTheme:
+          InputDecorationTheme(
         filled: true,
         fillColor: colors.inputBackground,
         hintStyle: typography.bodySmall.copyWith(color: colors.inputHintText),
@@ -167,24 +211,25 @@ class STheme {
       ),
 
       // ListTile
-      listTileTheme: ListTileThemeData(
+      listTileTheme:
+          ListTileThemeData(
         iconColor: colors.textPrimary,
         textColor: colors.textPrimary,
       ),
 
       // Progress Indicators
-      progressIndicatorTheme: ProgressIndicatorThemeData(
+      progressIndicatorTheme:
+          ProgressIndicatorThemeData(
         color: colors.progressValue,
         circularTrackColor: colors.progressBackground,
       ),
 
       // Switch
-      switchTheme: SwitchThemeData(
+      switchTheme:
+          SwitchThemeData(
         thumbColor: WidgetStateProperty.all(colors.switchActive),
         trackColor: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
-          return states.contains(WidgetState.selected)
-              ? colors.switchActive.withOpacity(0.5)
-              : colors.switchInactive;
+          return states.contains(WidgetState.selected) ? colors.switchActive.withOpacity(0.5) : colors.switchInactive;
         }),
       ),
 
@@ -201,15 +246,16 @@ class STheme {
       // ),
 
       // Snackbar
-      snackBarTheme: SnackBarThemeData(
+      snackBarTheme:
+          SnackBarThemeData(
         backgroundColor: colors.surface,
-        contentTextStyle:
-            typography.bodyMedium.copyWith(color: colors.textPrimary),
+        contentTextStyle: typography.bodyMedium.copyWith(color: colors.textPrimary),
         actionTextColor: colors.primary,
       ),
 
       // Tooltip
-      tooltipTheme: TooltipThemeData(
+      tooltipTheme:
+          TooltipThemeData(
         decoration: BoxDecoration(
           color: colors.cardBackground,
           borderRadius: BorderRadius.circular(4),
@@ -218,7 +264,8 @@ class STheme {
       ),
 
       // Dropdown (Flutter 3.7+)
-      dropdownMenuTheme: DropdownMenuThemeData(
+      dropdownMenuTheme:
+          DropdownMenuThemeData(
         inputDecorationTheme: const InputDecorationTheme(
           border: OutlineInputBorder(),
         ),
@@ -226,18 +273,43 @@ class STheme {
           backgroundColor: WidgetStateProperty.all(colors.dropdownBackground),
         ),
       ),
+
+      // COMPONENT THEME EXTENSIONS
+      extensions: <ThemeExtension<dynamic>>[
+        SButtonThemeData.fromColors(colors),
+        SCardThemeData.fromColors(colors),
+        SCheckboxThemeData.fromColors(colors),
+        SDialogThemeData.fromColors(colors),
+        SDropdownMenuThemeData.fromColors(colors),
+        SInputFieldThemeData.fromColors(colors),
+        SListTileThemeData.fromColors(colors),
+        SProgressBarThemeData.fromColors(colors),
+        SSelectThemeData.fromColors(colors),
+        SSonnerThemeData.fromColors(colors),
+        SSwitchThemeData.fromColors(colors),
+        STabsThemeData.fromColors(colors),
+        SToastThemeData.fromColors(colors),
+      ],
     );
   }
 
-  ThemeData getDarkTheme() {
-    final SColorsBase colors = sColors.dark; // SDarkColors
-    final STypographyBase typography = darkTypography;
+  ThemeData
+      getDarkTheme() {
+    final SColorsBase
+        colors =
+        sColors.dark; // SDarkColors
+    final STypographyBase
+        typography =
+        darkTypography;
 
     return ThemeData(
-      brightness: Brightness.dark,
-      primaryColor: colors.primary,
+      brightness:
+          Brightness.dark,
+      primaryColor:
+          colors.primary,
       // Core color scheme
-      colorScheme: ColorScheme.dark(
+      colorScheme:
+          ColorScheme.dark(
         primary: colors.primary,
         secondary: colors.secondary,
         surface: colors.surface,
@@ -247,23 +319,32 @@ class STheme {
         onSurface: colors.textPrimary,
         onError: colors.textOnPrimary,
       ),
-      scaffoldBackgroundColor: colors.background,
-      cardColor: colors.cardBackground,
-      dialogBackgroundColor: colors.dialogBackground,
-      disabledColor: colors.disabled,
-      dividerColor: colors.divider,
-      shadowColor: colors.shadow,
+      scaffoldBackgroundColor:
+          colors.background,
+      cardColor:
+          colors.cardBackground,
+      dialogBackgroundColor:
+          colors.dialogBackground,
+      disabledColor:
+          colors.disabled,
+      dividerColor:
+          colors.divider,
+      shadowColor:
+          colors.shadow,
 
-      iconTheme: IconThemeData(
+      iconTheme:
+          IconThemeData(
         color: colors.textPrimary,
         size: 24,
       ),
-      primaryIconTheme: IconThemeData(
+      primaryIconTheme:
+          IconThemeData(
         color: colors.primary,
         size: 24,
       ),
 
-      textTheme: TextTheme(
+      textTheme:
+          TextTheme(
         displayLarge: typography.displayLarge,
         displayMedium: typography.displayMedium,
         displaySmall: typography.displaySmall,
@@ -283,7 +364,8 @@ class STheme {
 
       // COMPONENT THEMES
 
-      appBarTheme: AppBarTheme(
+      appBarTheme:
+          AppBarTheme(
         color: colors.primary,
         foregroundColor: colors.textOnPrimary,
         elevation: 0,
@@ -293,34 +375,39 @@ class STheme {
         ),
       ),
 
-      textButtonTheme: TextButtonThemeData(
+      textButtonTheme:
+          TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: colors.primary,
           textStyle: typography.labelLarge,
         ),
       ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
+      elevatedButtonTheme:
+          ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: colors.buttonBackground,
           foregroundColor: colors.buttonText,
           textStyle: typography.labelLarge,
         ),
       ),
-      outlinedButtonTheme: OutlinedButtonThemeData(
+      outlinedButtonTheme:
+          OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: colors.primary,
           side: BorderSide(color: colors.primary),
           textStyle: typography.labelLarge,
         ),
       ),
-      filledButtonTheme: FilledButtonThemeData(
+      filledButtonTheme:
+          FilledButtonThemeData(
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.all(colors.buttonBackground),
           foregroundColor: WidgetStateProperty.all(colors.buttonText),
           textStyle: WidgetStateProperty.all(typography.labelLarge),
         ),
       ),
-      buttonTheme: ButtonThemeData(
+      buttonTheme:
+          ButtonThemeData(
         buttonColor: colors.buttonBackground,
         disabledColor: colors.buttonDisabledBackground,
         textTheme: ButtonTextTheme.primary,
@@ -336,7 +423,8 @@ class STheme {
       //   ),
       // ),
 
-      checkboxTheme: CheckboxThemeData(
+      checkboxTheme:
+          CheckboxThemeData(
         fillColor: WidgetStateProperty.all(colors.checkboxActive),
         checkColor: WidgetStateProperty.all(colors.textOnPrimary),
       ),
@@ -355,7 +443,8 @@ class STheme {
       //   ),
       // ),
 
-      inputDecorationTheme: InputDecorationTheme(
+      inputDecorationTheme:
+          InputDecorationTheme(
         filled: true,
         fillColor: colors.inputBackground,
         hintStyle: typography.bodySmall.copyWith(color: colors.inputHintText),
@@ -374,22 +463,23 @@ class STheme {
         ),
       ),
 
-      listTileTheme: ListTileThemeData(
+      listTileTheme:
+          ListTileThemeData(
         iconColor: colors.textPrimary,
         textColor: colors.textPrimary,
       ),
 
-      progressIndicatorTheme: ProgressIndicatorThemeData(
+      progressIndicatorTheme:
+          ProgressIndicatorThemeData(
         color: colors.progressValue,
         circularTrackColor: colors.progressBackground,
       ),
 
-      switchTheme: SwitchThemeData(
+      switchTheme:
+          SwitchThemeData(
         thumbColor: WidgetStateProperty.all(colors.switchActive),
         trackColor: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
-          return states.contains(WidgetState.selected)
-              ? colors.switchActive.withOpacity(0.5)
-              : colors.switchInactive;
+          return states.contains(WidgetState.selected) ? colors.switchActive.withOpacity(0.5) : colors.switchInactive;
         }),
       ),
 
@@ -404,14 +494,15 @@ class STheme {
       //   ),
       // ),
 
-      snackBarTheme: SnackBarThemeData(
+      snackBarTheme:
+          SnackBarThemeData(
         backgroundColor: colors.surface,
-        contentTextStyle:
-            typography.bodyMedium.copyWith(color: colors.textPrimary),
+        contentTextStyle: typography.bodyMedium.copyWith(color: colors.textPrimary),
         actionTextColor: colors.primary,
       ),
 
-      tooltipTheme: TooltipThemeData(
+      tooltipTheme:
+          TooltipThemeData(
         decoration: BoxDecoration(
           color: colors.cardBackground,
           borderRadius: BorderRadius.circular(4),
@@ -419,11 +510,29 @@ class STheme {
         textStyle: typography.bodySmall.copyWith(color: colors.textPrimary),
       ),
 
-      dropdownMenuTheme: DropdownMenuThemeData(
+      dropdownMenuTheme:
+          DropdownMenuThemeData(
         menuStyle: MenuStyle(
           backgroundColor: WidgetStateProperty.all(colors.dropdownBackground),
         ),
       ),
+
+      // COMPONENT THEME EXTENSIONS
+      extensions: <ThemeExtension<dynamic>>[
+        SButtonThemeData.fromColors(colors),
+        SCardThemeData.fromColors(colors),
+        SCheckboxThemeData.fromColors(colors),
+        SDialogThemeData.fromColors(colors),
+        SDropdownMenuThemeData.fromColors(colors),
+        SInputFieldThemeData.fromColors(colors),
+        SListTileThemeData.fromColors(colors),
+        SProgressBarThemeData.fromColors(colors),
+        SSelectThemeData.fromColors(colors),
+        SSonnerThemeData.fromColors(colors),
+        SSwitchThemeData.fromColors(colors),
+        STabsThemeData.fromColors(colors),
+        SToastThemeData.fromColors(colors),
+      ],
     );
   }
 }

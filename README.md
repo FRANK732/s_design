@@ -359,7 +359,148 @@ class _ButtonPageState extends State<ButtonPage> {
 }
 ```
 
-## 🌟 Key Components in sDesign 🛠️
+## � Theming & Customization 🌈
+
+sDesign provides a **production-ready, centralized theming system** that makes it easy to customize the entire library's appearance. All 13 components use a consistent color palette and typography system with full dark mode support.
+
+### Quick Start with Themes
+
+sDesign comes with built-in light and dark themes that you can use immediately:
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:s_design/s_design.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final sTheme = STheme();
+
+    return MaterialApp(
+      title: 'sDesign App',
+      theme: sTheme.getLightTheme(),        // Light theme ☀️
+      darkTheme: sTheme.getDarkTheme(),     // Dark theme 🌙
+      themeMode: ThemeMode.system,          // Follows system preference
+      home: MyHomePage(),
+    );
+  }
+}
+```
+
+### Accessing Component Themes
+
+Every sDesign component has its own theme that you can access via convenient extension methods:
+
+```dart
+// In any widget's build method
+final buttonTheme = Theme.of(context).sButtonTheme;
+final checkboxTheme = Theme.of(context).sCheckboxTheme;
+final dialogTheme = Theme.of(context).sDialogTheme;
+final inputTheme = Theme.of(context).sInputFieldTheme;
+// ... and 9 more component themes!
+```
+
+### Custom Color Scheme 🎨
+
+Want to brand sDesign with your own colors? Create a custom color scheme by extending `SColorsBase`:
+
+```dart
+import 'package:s_design/s_design.dart';
+import 'package:flutter/material.dart';
+
+class MyBrandColors extends SColorsBase {
+  const MyBrandColors();
+
+  @override
+  Color get primary => const Color(0xFF6366F1);  // Indigo
+
+  @override
+  Color get secondary => const Color(0xFF8B5CF6);  // Purple
+
+  @override
+  Color get background => const Color(0xFFFAFAFA);
+
+  @override
+  Color get surface => Colors.white;
+
+  @override
+  Color get error => const Color(0xFFEF4444);
+
+  @override
+  Color get textPrimary => const Color(0xFF1F2937);
+
+  @override
+  Color get textSecondary => const Color(0xFF6B7280);
+
+  // Implement all other required color properties...
+  // See SColorsBase for the full list
+}
+
+// Apply your custom colors
+void main() {
+  final customTheme = STheme().getLightTheme().copyWith(
+    extensions: [
+      SButtonThemeData.fromColors(const MyBrandColors()),
+      SCardThemeData.fromColors(const MyBrandColors()),
+      SCheckboxThemeData.fromColors(const MyBrandColors()),
+      // ... register all component themes with your colors
+    ],
+  );
+
+  runApp(MaterialApp(
+    theme: customTheme,
+    home: MyApp(),
+  ));
+}
+```
+
+### Available Component Themes
+
+sDesign includes theme data classes for all components:
+
+- **SButtonThemeData** - Button colors and styles 🎨
+- **SCardThemeData** - Card appearance 🃏
+- **SCheckboxThemeData** - Checkbox colors ✅
+- **SDialogThemeData** - Dialog styling 💬
+- **SDropdownMenuThemeData** - Dropdown menus ⬇️
+- **SInputFieldThemeData** - Input fields 📝
+- **SListTileThemeData** - List items 📋
+- **SProgressBarThemeData** - Progress indicators ⏳
+- **SSelectThemeData** - Selection components 🔘
+- **SSonnerThemeData** - Toast notifications 📢
+- **SSwitchThemeData** - Toggle switches 🔛
+- **STabsThemeData** - Tab bars 📑
+- **SToastThemeData** - Toast messages 🍞
+
+### Dark Mode Support 🌙
+
+All component themes automatically support dark mode:
+
+```dart
+MaterialApp(
+  theme: STheme().getLightTheme(),
+  darkTheme: STheme().getDarkTheme(),
+  themeMode: ThemeMode.system,  // Automatically switches based on system
+  home: MyApp(),
+);
+```
+
+The theme system uses smooth color interpolation (`lerp` methods) for seamless transitions between light and dark modes.
+
+### Typography
+
+sDesign also includes a comprehensive typography system (`STypography`) that's automatically integrated into the theme. Access text styles via:
+
+```dart
+final typography = Theme.of(context).textTheme;
+// Uses sDesign's typography system under the hood
+```
+
+## �🌟 Key Components in sDesign 🛠️
 
 ### SScaffold 🏗️
 

@@ -1,50 +1,125 @@
 import 'package:flutter/material.dart';
+import '../../../theme/s_colors.dart';
 
 /// Theme data for [SCheckbox].
-class SCheckboxThemeData {
+class SCheckboxThemeData
+    extends ThemeExtension<
+        SCheckboxThemeData> {
   /// Creates an instance of [SCheckboxThemeData].
   const SCheckboxThemeData({
-    this.activeColor = Colors.teal,
-    this.checkColor = Colors.white,
-    this.borderColor = Colors.grey,
+    required this.activeColor,
+    required this.checkColor,
+    required this.borderColor,
+    required this.inactiveColor,
+    required this.disabledColor,
   });
 
+  /// Creates a [SCheckboxThemeData] from [SColorsBase].
+  factory SCheckboxThemeData.fromColors(
+      SColorsBase
+          colors) {
+    return SCheckboxThemeData(
+      activeColor:
+          colors.checkboxActive,
+      checkColor:
+          colors.textOnPrimary,
+      borderColor:
+          colors.checkboxInactive,
+      inactiveColor:
+          colors.checkboxInactive,
+      disabledColor:
+          colors.checkboxDisabled,
+    );
+  }
+
   /// Default active color when the checkbox is checked.
-  final Color activeColor;
+  final Color
+      activeColor;
 
   /// Default color for the check mark or indeterminate line.
-  final Color checkColor;
+  final Color
+      checkColor;
 
   /// Default border color for the checkbox.
-  final Color borderColor;
+  final Color
+      borderColor;
 
-  /// Provides a light theme.
-  static const SCheckboxThemeData light = SCheckboxThemeData();
+  /// Color when checkbox is unchecked.
+  final Color
+      inactiveColor;
 
-  /// Provides a dark theme.
-  static const SCheckboxThemeData dark = SCheckboxThemeData(
-    activeColor: Colors.lightBlueAccent,
-    checkColor: Colors.black,
-    borderColor: Colors.white70,
-  );
+  /// Color when checkbox is disabled.
+  final Color
+      disabledColor;
 
-  /// Creates a copy of this theme with the given fields replaced with the new values.
-  SCheckboxThemeData copyWith({
-    Color? activeColor,
-    Color? checkColor,
-    Color? borderColor,
+  @override
+  SCheckboxThemeData
+      copyWith({
+    Color?
+        activeColor,
+    Color?
+        checkColor,
+    Color?
+        borderColor,
+    Color?
+        inactiveColor,
+    Color?
+        disabledColor,
   }) {
     return SCheckboxThemeData(
-      activeColor: activeColor ?? this.activeColor,
-      checkColor: checkColor ?? this.checkColor,
-      borderColor: borderColor ?? this.borderColor,
+      activeColor:
+          activeColor ?? this.activeColor,
+      checkColor:
+          checkColor ?? this.checkColor,
+      borderColor:
+          borderColor ?? this.borderColor,
+      inactiveColor:
+          inactiveColor ?? this.inactiveColor,
+      disabledColor:
+          disabledColor ?? this.disabledColor,
+    );
+  }
+
+  @override
+  SCheckboxThemeData lerp(
+      ThemeExtension<SCheckboxThemeData>?
+          other,
+      double
+          t) {
+    if (other
+        is! SCheckboxThemeData) {
+      return this;
+    }
+    return SCheckboxThemeData(
+      activeColor: Color.lerp(
+          activeColor,
+          other.activeColor,
+          t)!,
+      checkColor: Color.lerp(
+          checkColor,
+          other.checkColor,
+          t)!,
+      borderColor: Color.lerp(
+          borderColor,
+          other.borderColor,
+          t)!,
+      inactiveColor: Color.lerp(
+          inactiveColor,
+          other.inactiveColor,
+          t)!,
+      disabledColor: Color.lerp(
+          disabledColor,
+          other.disabledColor,
+          t)!,
     );
   }
 }
 
 /// Extension to access [SCheckboxThemeData] from [ThemeData].
-extension SCheckboxThemeExtension on ThemeData {
+extension SCheckboxThemeExtension
+    on ThemeData {
   /// Retrieves the current [SCheckboxThemeData].
   SCheckboxThemeData get sCheckboxTheme =>
-      extension<SCheckboxThemeData>() ?? SCheckboxThemeData.light;
+      extension<SCheckboxThemeData>() ??
+      SCheckboxThemeData.fromColors(SLightColors());
 }

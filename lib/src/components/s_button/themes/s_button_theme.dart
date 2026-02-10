@@ -1,64 +1,133 @@
 import 'package:flutter/material.dart';
+import '../../../theme/s_colors.dart';
 
 /// Theme data for [SButton].
-class SButtonThemeData {
+class SButtonThemeData
+    extends ThemeExtension<
+        SButtonThemeData> {
   /// Creates an instance of [SButtonThemeData].
   const SButtonThemeData({
-    this.defaultBackgroundColor = Colors.teal,
-    this.defaultForegroundColor = Colors.white,
-    this.outlineBackgroundColor = Colors.transparent,
-    this.outlineForegroundColor = Colors.teal,
-    this.outlineBorderColor = Colors.teal,
-    this.ghostBackgroundColor = Colors.transparent,
-    this.ghostForegroundColor = Colors.teal,
-    this.linkForegroundColor = Colors.blue,
+    required this.defaultBackgroundColor,
+    required this.defaultForegroundColor,
+    required this.outlineBackgroundColor,
+    required this.outlineForegroundColor,
+    required this.outlineBorderColor,
+    required this.ghostBackgroundColor,
+    required this.ghostForegroundColor,
+    required this.linkForegroundColor,
+    required this.secondaryBackgroundColor,
+    required this.secondaryForegroundColor,
+    required this.destructiveBackgroundColor,
+    required this.destructiveForegroundColor,
   });
 
+  /// Creates a [SButtonThemeData] from [SColorsBase].
+  factory SButtonThemeData.fromColors(
+      SColorsBase
+          colors) {
+    return SButtonThemeData(
+      defaultBackgroundColor:
+          colors.primary,
+      defaultForegroundColor:
+          colors.textOnPrimary,
+      outlineBackgroundColor:
+          Colors.transparent,
+      outlineForegroundColor:
+          colors.primary,
+      outlineBorderColor:
+          colors.primary,
+      ghostBackgroundColor:
+          Colors.transparent,
+      ghostForegroundColor:
+          colors.primary,
+      linkForegroundColor:
+          colors.primary,
+      secondaryBackgroundColor:
+          colors.secondary,
+      secondaryForegroundColor:
+          colors.textOnSecondary,
+      destructiveBackgroundColor:
+          colors.error,
+      destructiveForegroundColor:
+          colors.textOnPrimary,
+    );
+  }
+
   /// Default background color for filled variants.
-  final Color defaultBackgroundColor;
+  final Color
+      defaultBackgroundColor;
 
   /// Default foreground (text and icon) color for filled variants.
-  final Color defaultForegroundColor;
+  final Color
+      defaultForegroundColor;
 
   /// Default background color for outlined variants.
-  final Color outlineBackgroundColor;
+  final Color
+      outlineBackgroundColor;
 
   /// Default foreground color for outlined variants.
-  final Color outlineForegroundColor;
+  final Color
+      outlineForegroundColor;
 
   /// Default border color for outlined variants.
-  final Color outlineBorderColor;
+  final Color
+      outlineBorderColor;
 
   /// Default background color for ghost variants.
-  final Color ghostBackgroundColor;
+  final Color
+      ghostBackgroundColor;
 
   /// Default foreground color for ghost variants.
-  final Color ghostForegroundColor;
+  final Color
+      ghostForegroundColor;
 
   /// Default foreground color for link variants.
-  final Color linkForegroundColor;
+  final Color
+      linkForegroundColor;
 
-  /// Provides a light theme.
-  static const SButtonThemeData light = SButtonThemeData();
+  /// Background color for secondary variant.
+  final Color
+      secondaryBackgroundColor;
 
-  /// Provides a dark theme.
-  static const SButtonThemeData dark = SButtonThemeData(
-    outlineForegroundColor: Colors.tealAccent,
-    outlineBorderColor: Colors.tealAccent,
-    ghostForegroundColor: Colors.tealAccent,
-    linkForegroundColor: Colors.lightBlueAccent,
-  );
+  /// Foreground color for secondary variant.
+  final Color
+      secondaryForegroundColor;
 
-  /// Creates a copy of this theme with the given fields replaced with the new values.
-  SButtonThemeData copyWith({
-    Color? defaultBackgroundColor,
-    Color? defaultForegroundColor,
-    Color? outlineBackgroundColor,
-    Color? outlineForegroundColor,
-    Color? outlineBorderColor,
-    Color? ghostBackgroundColor,
-    Color? ghostForegroundColor,
-    Color? linkForegroundColor,
+  /// Background color for destructive variant.
+  final Color
+      destructiveBackgroundColor;
+
+  /// Foreground color for destructive variant.
+  final Color
+      destructiveForegroundColor;
+
+  @override
+  SButtonThemeData
+      copyWith({
+    Color?
+        defaultBackgroundColor,
+    Color?
+        defaultForegroundColor,
+    Color?
+        outlineBackgroundColor,
+    Color?
+        outlineForegroundColor,
+    Color?
+        outlineBorderColor,
+    Color?
+        ghostBackgroundColor,
+    Color?
+        ghostForegroundColor,
+    Color?
+        linkForegroundColor,
+    Color?
+        secondaryBackgroundColor,
+    Color?
+        secondaryForegroundColor,
+    Color?
+        destructiveBackgroundColor,
+    Color?
+        destructiveForegroundColor,
   }) {
     return SButtonThemeData(
       defaultBackgroundColor:
@@ -69,17 +138,93 @@ class SButtonThemeData {
           outlineBackgroundColor ?? this.outlineBackgroundColor,
       outlineForegroundColor:
           outlineForegroundColor ?? this.outlineForegroundColor,
-      outlineBorderColor: outlineBorderColor ?? this.outlineBorderColor,
-      ghostBackgroundColor: ghostBackgroundColor ?? this.ghostBackgroundColor,
-      ghostForegroundColor: ghostForegroundColor ?? this.ghostForegroundColor,
-      linkForegroundColor: linkForegroundColor ?? this.linkForegroundColor,
+      outlineBorderColor:
+          outlineBorderColor ?? this.outlineBorderColor,
+      ghostBackgroundColor:
+          ghostBackgroundColor ?? this.ghostBackgroundColor,
+      ghostForegroundColor:
+          ghostForegroundColor ?? this.ghostForegroundColor,
+      linkForegroundColor:
+          linkForegroundColor ?? this.linkForegroundColor,
+      secondaryBackgroundColor:
+          secondaryBackgroundColor ?? this.secondaryBackgroundColor,
+      secondaryForegroundColor:
+          secondaryForegroundColor ?? this.secondaryForegroundColor,
+      destructiveBackgroundColor:
+          destructiveBackgroundColor ?? this.destructiveBackgroundColor,
+      destructiveForegroundColor:
+          destructiveForegroundColor ?? this.destructiveForegroundColor,
+    );
+  }
+
+  @override
+  SButtonThemeData lerp(
+      ThemeExtension<SButtonThemeData>?
+          other,
+      double
+          t) {
+    if (other
+        is! SButtonThemeData) {
+      return this;
+    }
+    return SButtonThemeData(
+      defaultBackgroundColor: Color.lerp(
+          defaultBackgroundColor,
+          other.defaultBackgroundColor,
+          t)!,
+      defaultForegroundColor: Color.lerp(
+          defaultForegroundColor,
+          other.defaultForegroundColor,
+          t)!,
+      outlineBackgroundColor: Color.lerp(
+          outlineBackgroundColor,
+          other.outlineBackgroundColor,
+          t)!,
+      outlineForegroundColor: Color.lerp(
+          outlineForegroundColor,
+          other.outlineForegroundColor,
+          t)!,
+      outlineBorderColor: Color.lerp(
+          outlineBorderColor,
+          other.outlineBorderColor,
+          t)!,
+      ghostBackgroundColor: Color.lerp(
+          ghostBackgroundColor,
+          other.ghostBackgroundColor,
+          t)!,
+      ghostForegroundColor: Color.lerp(
+          ghostForegroundColor,
+          other.ghostForegroundColor,
+          t)!,
+      linkForegroundColor: Color.lerp(
+          linkForegroundColor,
+          other.linkForegroundColor,
+          t)!,
+      secondaryBackgroundColor: Color.lerp(
+          secondaryBackgroundColor,
+          other.secondaryBackgroundColor,
+          t)!,
+      secondaryForegroundColor: Color.lerp(
+          secondaryForegroundColor,
+          other.secondaryForegroundColor,
+          t)!,
+      destructiveBackgroundColor: Color.lerp(
+          destructiveBackgroundColor,
+          other.destructiveBackgroundColor,
+          t)!,
+      destructiveForegroundColor: Color.lerp(
+          destructiveForegroundColor,
+          other.destructiveForegroundColor,
+          t)!,
     );
   }
 }
 
 /// Extension to access [SButtonThemeData] from [ThemeData].
-extension SButtonThemeExtension on ThemeData {
+extension SButtonThemeExtension
+    on ThemeData {
   /// Retrieves the current [SButtonThemeData].
   SButtonThemeData get sButtonTheme =>
-      extension<SButtonThemeData>() ?? SButtonThemeData.light;
+      extension<SButtonThemeData>() ??
+      SButtonThemeData.fromColors(SLightColors());
 }
