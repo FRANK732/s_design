@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 
+import 'pages/S_floating_panel_page.dart';
 import 'pages/bottom_navigation.dart';
 import 'pages/card.dart';
 import 'pages/check_box.dart';
@@ -80,11 +81,11 @@ class AppRoutes {
       page: () => const BaseScaffoldPage(),
       transition: Transition.rightToLeft,
     ),
-    // GetPage<dynamic>(
-    //   name: '/scaffold_page',
-    //   page: () => const ScaffoldPage(),
-    //   transition: Transition.rightToLeft,
-    // ),
+    GetPage<dynamic>(
+      name: '/s_floating_panel_page',
+      page: () => const SFloatingPanelPage(),
+      transition: Transition.rightToLeft,
+    ),
     // GetPage<dynamic>(
     //   name: '/useSafe_scaffold_page',
     //   page: () => const SafeAreaScaffoldPage(),

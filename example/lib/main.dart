@@ -27,6 +27,8 @@ class MyApp extends StatelessWidget {
 
             /// You can initialize other instance here as well
             SToast.initialize(overlay);
+
+            // SFloatingPanel.initialize(overlay);
           });
           return const SizedBox.shrink();
         },
@@ -66,6 +68,10 @@ class _MyHomePageState extends State<MyHomePage> {
     <String, String>{'title': 'Cards', 'page': '/card_page'},
     <String, String>{'title': 'Check Boxes', 'page': '/check_box_page'},
     <String, String>{'title': 'DropDown Menu', 'page': '/dropdown_menu_page'},
+    <String, String>{
+      'title': 'Floating Panel',
+      'page': '/s_floating_panel_page'
+    },
     <String, String>{
       'title': 'Progress Indicators',
       'page': '/progress_indicator_page'

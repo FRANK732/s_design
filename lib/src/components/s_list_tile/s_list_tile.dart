@@ -191,27 +191,7 @@ class SListTile extends StatelessWidget {
             )
           : null,
       // Trailing
-      trailing: trailing ??
-          (enabled
-              ? Icon(
-                  Icons.arrow_forward_ios,
-                  size: iconTheme.size ?? 16.0,
-                  color: showLoading
-                      ? Colors.transparent
-                      : (iconColor ??
-                          listTileTheme.iconColor ??
-                          iconTheme.color),
-                )
-              : Icon(
-                  Icons.arrow_forward_ios,
-                  size: iconTheme.size ?? 16.0,
-                  color: showLoading
-                      ? Colors.transparent
-                      : (iconColor ??
-                              listTileTheme.iconColor ??
-                              iconTheme.color)
-                          ?.withOpacity(0.5),
-                )),
+      trailing: trailing,
       // Interactivity
       onTap: enabled && onTap != null
           ? () {

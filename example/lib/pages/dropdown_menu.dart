@@ -1,34 +1,59 @@
-import 'dart:developer' as dev;
+import 'dart:developer'
+    as dev;
 
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
 
-class DropdownMenuPage extends StatefulWidget {
-  const DropdownMenuPage({super.key});
+class DropdownMenuPage
+    extends StatefulWidget {
+  const DropdownMenuPage(
+      {super.key});
 
   @override
-  State<DropdownMenuPage> createState() => _DropdownMenuPageState();
+  State<DropdownMenuPage>
+      createState() =>
+          _DropdownMenuPageState();
 }
 
-class _DropdownMenuPageState extends State<DropdownMenuPage> {
-  bool _changeIcon = false;
+class _DropdownMenuPageState
+    extends State<
+        DropdownMenuPage> {
+  bool
+      _changeIcon =
+      false;
 
-  String? dropdownValue;
-  final List<String> dropdownItems = <String>['One', 'Two', 'Free', 'Four'];
-  void _toggleIcon() {
-    setState(() {
-      _changeIcon = !_changeIcon;
+  String?
+      dropdownValue;
+  final List<String>
+      dropdownItems =
+      <String>[
+    'One',
+    'Two',
+    'Free',
+    'Four'
+  ];
+  void
+      _toggleIcon() {
+    setState(
+        () {
+      _changeIcon =
+          !_changeIcon;
     });
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+      BuildContext
+          context) {
     return SScaffold(
-      scrollable: true,
-      appBar: AppBar(
+      scrollable:
+          true,
+      appBar:
+          AppBar(
         title: const Text('SDropdownMenu Showcase'),
       ),
-      renderBody: (BuildContext context) => Column(
+      renderBody: (BuildContext context) =>
+          Column(
         children: <Widget>[
           IconButton(
             onPressed: _toggleIcon,
@@ -36,22 +61,30 @@ class _DropdownMenuPageState extends State<DropdownMenuPage> {
           ),
           _buildSectionTitle('Searchable Dropdown Menu'),
           SDropdownMenu(
-            items: const <String>['Item 1', 'Item 2', 'Item 3'],
+            items: const <String>[
+              'Item 1',
+              'Item 2',
+              'Item 3'
+            ],
             onChanged: (dynamic value) {
               dev.log('Selected: $value');
             },
             backgroundColor: const Color.fromARGB(255, 96, 104, 110),
-            menuType: SDropdownMenuItemType.multiSelect,
+            menuType: SDropdownMenuItemType.searchable,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildSectionTitle(String title) {
+  Widget _buildSectionTitle(
+      String
+          title) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Text(
+      padding:
+          const EdgeInsets.symmetric(vertical: 8.0),
+      child:
+          Text(
         title,
         style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       ),

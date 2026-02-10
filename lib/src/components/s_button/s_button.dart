@@ -9,6 +9,57 @@ import 'themes/s_button_theme.dart';
 /// for displaying icons, loading indicators, focus effects, elevation, shadow, and animations.
 /// It adapts its appearance based on the current theme and provided customization parameters.
 class SButton extends StatelessWidget {
+  factory SButton.icon({
+    Key? key,
+    required Widget icon,
+    Widget? label,
+    SButtonVariant variant = SButtonVariant.defaultVariant,
+    SButtonState? state,
+    Color? backgroundColor,
+    Color? foregroundColor,
+    bool loading = false,
+    required VoidCallback? onPressed,
+    VoidCallback? onLongPress,
+    double? height,
+    double? width,
+    EdgeInsetsGeometry? padding,
+    BorderRadiusGeometry? borderRadius,
+    double? elevation,
+    Color? shadowColor,
+    FocusNode? focusNode,
+    bool autofocus = false,
+    TextStyle? textStyle,
+    Duration? animationDuration,
+    String? tooltip,
+    ButtonStyle? buttonStyle,
+  }) {
+    return SButton(
+      key: key,
+      variant: variant,
+      size: SButtonSize.icon,
+      state: state,
+      icon: icon,
+      child: label,
+      backgroundColor: backgroundColor,
+      foregroundColor: foregroundColor,
+      loading: loading,
+      onPressed: onPressed,
+      onLongPress: onLongPress,
+      height: height,
+      width: width,
+      padding: padding,
+      borderRadius: borderRadius,
+      elevation: elevation,
+      shadowColor: shadowColor,
+      focusNode: focusNode,
+      autofocus: autofocus,
+      textStyle: textStyle,
+      animationDuration: animationDuration,
+      tooltip: tooltip,
+      buttonStyle: buttonStyle,
+    );
+  }
+
   /// Creates an [SButton] widget.
   const SButton({
     super.key,
