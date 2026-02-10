@@ -22,6 +22,65 @@ class STheme {
     darkTypography =
         SDarkTypography(colors: sColors.dark);
   }
+
+  /// Builds a custom theme using the provided color scheme.
+  ///
+  /// This is the **recommended way** for consuming apps to override
+  /// sDesign's default theming with their own brand colors.
+  ///
+  /// Example:
+  /// ```dart
+  /// class MyAppColors extends SColorsBase {
+  ///   // ... implement your custom colors
+  /// }
+  ///
+  /// final myTheme = STheme.buildCustomTheme(
+  ///   colors: MyAppColors(),
+  ///   baseTheme: ThemeData.light(), // optional
+  /// );
+  ///
+  /// MaterialApp(theme: myTheme, home: MyApp());
+  /// ```
+  static ThemeData
+      buildCustomTheme({
+    required SColorsBase
+        colors,
+    ThemeData?
+        baseTheme,
+  }) {
+    final theme =
+        baseTheme ?? ThemeData.light();
+
+    return theme
+        .copyWith(
+      // Register ALL sDesign component themes with custom colors
+      extensions: [
+        SButtonThemeData.fromColors(colors),
+        SCardThemeData.fromColors(colors),
+        SCheckboxThemeData.fromColors(colors),
+        SDialogThemeData.fromColors(colors),
+        SDropdownMenuThemeData.fromColors(colors),
+        SInputFieldThemeData.fromColors(colors),
+        SListTileThemeData.fromColors(colors),
+        SProgressBarThemeData.fromColors(colors),
+        SSelectThemeData.fromColors(colors),
+        SSonnerThemeData.fromColors(colors),
+        SSwitchThemeData.fromColors(colors),
+        STabsThemeData.fromColors(colors),
+        SToastThemeData.fromColors(colors),
+      ],
+      // Apply primary colors to Flutter's theme as well
+      colorScheme:
+          theme.colorScheme.copyWith(
+        primary: colors.primary,
+        secondary: colors.secondary,
+        surface: colors.surface,
+        background: colors.background,
+        error: colors.error,
+      ),
+    );
+  }
+
   final SColors
       sColors =
       SColors();
@@ -157,15 +216,15 @@ class STheme {
       ),
 
       // Card
-      // cardTheme:
-      //     CardThemeData(
-      //   color: colors.cardBackground,
-      //   shadowColor: colors.cardShadow,
-      //   elevation: 2,
-      //   shape: RoundedRectangleBorder(
-      //     borderRadius: BorderRadius.circular(8),
-      //   ),
-      // ),
+      cardTheme:
+          CardThemeData(
+        color: colors.cardBackground,
+        shadowColor: colors.cardShadow,
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
 
       // Checkbox
       checkboxTheme:
@@ -175,19 +234,19 @@ class STheme {
       ),
 
       // Dialog
-      // dialogTheme:
-      //     DialogThemeData(
-      //   backgroundColor: colors.dialogBackground,
-      //   shape: RoundedRectangleBorder(
-      //     borderRadius: BorderRadius.circular(12),
-      //   ),
-      //   titleTextStyle: typography.headlineSmall.copyWith(
-      //     color: colors.dialogTitle,
-      //   ),
-      //   contentTextStyle: typography.bodyMedium.copyWith(
-      //     color: colors.dialogContent,
-      //   ),
-      // ),
+      dialogTheme:
+          DialogThemeData(
+        backgroundColor: colors.dialogBackground,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        titleTextStyle: typography.headlineSmall.copyWith(
+          color: colors.dialogTitle,
+        ),
+        contentTextStyle: typography.bodyMedium.copyWith(
+          color: colors.dialogContent,
+        ),
+      ),
 
       // Input / TextField
       inputDecorationTheme:
@@ -234,16 +293,16 @@ class STheme {
       ),
 
       // Tabs
-      // tabBarTheme:
-      //     TabBarThemeData(
-      //   labelStyle: typography.labelLarge,
-      //   unselectedLabelStyle: typography.labelLarge,
-      //   labelColor: colors.tabsLabel,
-      //   unselectedLabelColor: colors.tabsUnselectedLabel,
-      //   indicator: UnderlineTabIndicator(
-      //     borderSide: BorderSide(color: colors.tabsIndicator, width: 2),
-      //   ),
-      // ),
+      tabBarTheme:
+          TabBarThemeData(
+        labelStyle: typography.labelLarge,
+        unselectedLabelStyle: typography.labelLarge,
+        labelColor: colors.tabsLabel,
+        unselectedLabelColor: colors.tabsUnselectedLabel,
+        indicator: UnderlineTabIndicator(
+          borderSide: BorderSide(color: colors.tabsIndicator, width: 2),
+        ),
+      ),
 
       // Snackbar
       snackBarTheme:
@@ -412,36 +471,36 @@ class STheme {
         disabledColor: colors.buttonDisabledBackground,
         textTheme: ButtonTextTheme.primary,
       ),
-
-      // cardTheme:
-      //     CardThemeData(
-      //   color: colors.cardBackground,
-      //   shadowColor: colors.cardShadow,
-      //   elevation: 2,
-      //   shape: RoundedRectangleBorder(
-      //     borderRadius: BorderRadius.circular(8),
-      //   ),
-      // ),
+      // Card
+      cardTheme:
+          CardThemeData(
+        color: colors.cardBackground,
+        shadowColor: colors.cardShadow,
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
 
       checkboxTheme:
           CheckboxThemeData(
         fillColor: WidgetStateProperty.all(colors.checkboxActive),
         checkColor: WidgetStateProperty.all(colors.textOnPrimary),
       ),
-
-      // dialogTheme:
-      //     DialogThemeData(
-      //   backgroundColor: colors.dialogBackground,
-      //   shape: RoundedRectangleBorder(
-      //     borderRadius: BorderRadius.circular(12),
-      //   ),
-      //   titleTextStyle: typography.headlineSmall.copyWith(
-      //     color: colors.dialogTitle,
-      //   ),
-      //   contentTextStyle: typography.bodyMedium.copyWith(
-      //     color: colors.dialogContent,
-      //   ),
-      // ),
+      // Dialog
+      dialogTheme:
+          DialogThemeData(
+        backgroundColor: colors.dialogBackground,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        titleTextStyle: typography.headlineSmall.copyWith(
+          color: colors.dialogTitle,
+        ),
+        contentTextStyle: typography.bodyMedium.copyWith(
+          color: colors.dialogContent,
+        ),
+      ),
 
       inputDecorationTheme:
           InputDecorationTheme(
@@ -483,17 +542,19 @@ class STheme {
         }),
       ),
 
-      // tabBarTheme:
-      //     TabBarThemeData(
-      //   labelStyle: typography.labelLarge,
-      //   unselectedLabelStyle: typography.labelLarge,
-      //   labelColor: colors.tabsLabel,
-      //   unselectedLabelColor: colors.tabsUnselectedLabel,
-      //   indicator: UnderlineTabIndicator(
-      //     borderSide: BorderSide(color: colors.tabsIndicator, width: 2),
-      //   ),
-      // ),
+      // Tabs
+      tabBarTheme:
+          TabBarThemeData(
+        labelStyle: typography.labelLarge,
+        unselectedLabelStyle: typography.labelLarge,
+        labelColor: colors.tabsLabel,
+        unselectedLabelColor: colors.tabsUnselectedLabel,
+        indicator: UnderlineTabIndicator(
+          borderSide: BorderSide(color: colors.tabsIndicator, width: 2),
+        ),
+      ),
 
+      // Snackbar
       snackBarTheme:
           SnackBarThemeData(
         backgroundColor: colors.surface,
@@ -501,6 +562,7 @@ class STheme {
         actionTextColor: colors.primary,
       ),
 
+      // Tooltip
       tooltipTheme:
           TooltipThemeData(
         decoration: BoxDecoration(
@@ -510,6 +572,7 @@ class STheme {
         textStyle: typography.bodySmall.copyWith(color: colors.textPrimary),
       ),
 
+      // Drop down menu
       dropdownMenuTheme:
           DropdownMenuThemeData(
         menuStyle: MenuStyle(

@@ -361,7 +361,7 @@ class _ButtonPageState extends State<ButtonPage> {
 
 ## � Theming & Customization 🌈
 
-sDesign provides a **production-ready, centralized theming system** that makes it easy to customize the entire library's appearance. All 13 components use a consistent color palette and typography system with full dark mode support.
+sDesign provides a **production-ready, centralized theming system** that makes it easy to customize the entire library's appearance. All components use a consistent color palette and typography system with full dark mode support.
 
 ### Quick Start with Themes
 
@@ -406,17 +406,18 @@ final inputTheme = Theme.of(context).sInputFieldTheme;
 
 ### Custom Color Scheme 🎨
 
-Want to brand sDesign with your own colors? Create a custom color scheme by extending `SColorsBase`:
+Want to brand sDesign with your own colors? Here's the **easiest way** (recommended for production apps):
 
 ```dart
 import 'package:s_design/s_design.dart';
 import 'package:flutter/material.dart';
 
+// 1. Extend SColorsBase with your brand colors
 class MyBrandColors extends SColorsBase {
   const MyBrandColors();
 
   @override
-  Color get primary => const Color(0xFF6366F1);  // Indigo
+  Color get primary => const Color(0xFF6366F1);  // Your brand indigo
 
   @override
   Color get secondary => const Color(0xFF8B5CF6);  // Purple
@@ -437,26 +438,32 @@ class MyBrandColors extends SColorsBase {
   Color get textSecondary => const Color(0xFF6B7280);
 
   // Implement all other required color properties...
-  // See SColorsBase for the full list
+  // See SColorsBase for the full list or check the example
 }
 
-// Apply your custom colors
+// 2. Use the helper method to build your custom theme
 void main() {
-  final customTheme = STheme().getLightTheme().copyWith(
-    extensions: [
-      SButtonThemeData.fromColors(const MyBrandColors()),
-      SCardThemeData.fromColors(const MyBrandColors()),
-      SCheckboxThemeData.fromColors(const MyBrandColors()),
-      // ... register all component themes with your colors
-    ],
+  final myTheme = STheme.buildCustomTheme(
+    colors: MyBrandColors(),
+    baseTheme: ThemeData.light(), // optional
+  );
+
+  final myDarkTheme = STheme.buildCustomTheme(
+    colors: MyBrandColorsDark(),
+    baseTheme: ThemeData.dark(),
   );
 
   runApp(MaterialApp(
-    theme: customTheme,
+    theme: myTheme,           // Your brand in light mode
+    darkTheme: myDarkTheme,   // Your brand in dark mode
     home: MyApp(),
   ));
 }
 ```
+
+✨ **That's it!** All sDesign components now use YOUR brand colors automatically.
+
+📖 **See the complete example:** Check [`example/lib/custom_theme_example.dart`](example/lib/custom_theme_example.dart) for a full working example with both light and dark mode implementations.
 
 ### Available Component Themes
 
