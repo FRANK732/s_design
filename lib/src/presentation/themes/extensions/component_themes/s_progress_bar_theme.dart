@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../theme/s_colors.dart';
 
 /// Theme data for [SProgressBar].
 class SProgressBarThemeData
@@ -12,9 +13,9 @@ class SProgressBarThemeData
     required this.height,
   });
 
-  /// Creates a [SProgressBarThemeData] from [ColorScheme].
-  factory SProgressBarThemeData.fromColorScheme(
-      ColorScheme
+  /// Creates a [SProgressBarThemeData] from [SColorsBase].
+  factory SProgressBarThemeData.fromColors(
+      SColorsBase
           colors) {
     return SProgressBarThemeData(
       backgroundColor:
@@ -103,5 +104,5 @@ extension SProgressBarThemeExtension
   /// Retrieves the current [SProgressBarThemeData].
   SProgressBarThemeData get sProgressBarTheme =>
       extension<SProgressBarThemeData>() ??
-      SProgressBarThemeData.fromColorScheme(colorScheme);
+      SProgressBarThemeData.fromColors(SLightColors());
 }
