@@ -16,18 +16,18 @@ class SCheckboxThemeData
   /// Creates a [SCheckboxThemeData] from [ColorScheme].
   factory SCheckboxThemeData.fromColorScheme(
       ColorScheme
-          colors) {
+          colorScheme) {
     return SCheckboxThemeData(
       activeColor:
-          colors.checkboxActive,
+          colorScheme.primary,
       checkColor:
           colorScheme.onPrimary,
       borderColor:
-          colors.checkboxInactive,
+          colorScheme.outline,
       inactiveColor:
-          colors.checkboxInactive,
+          colorScheme.outline,
       disabledColor:
-          colors.checkboxDisabled,
+          colorScheme.onSurface.withOpacity(0.38),
     );
   }
 
