@@ -16,14 +16,14 @@ class SCardThemeData
   /// Creates a [SCardThemeData] from [ColorScheme].
   factory SCardThemeData.fromColorScheme(
       ColorScheme
-          colors) {
+          colorScheme) {
     return SCardThemeData(
       backgroundColor:
-          colors.cardBackground,
+          colorScheme.surface,
       shadowColor:
-          colors.cardShadow,
+          colorScheme.shadow,
       borderColor:
-          colors.divider,
+          colorScheme.outlineVariant,
       elevation:
           2.0,
       borderRadius:
