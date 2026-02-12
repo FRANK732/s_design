@@ -17,20 +17,20 @@ class SDialogThemeData
   /// Creates a [SDialogThemeData] from [ColorScheme].
   factory SDialogThemeData.fromColorScheme(
       ColorScheme
-          colors) {
+          colorScheme) {
     return SDialogThemeData(
       backgroundColor:
-          colors.dialogBackground,
+          colorScheme.surface,
       titleColor:
-          colors.dialogTitle,
+          colorScheme.onSurface,
       descriptionColor:
-          colors.dialogContent,
+          colorScheme.onSurfaceVariant,
       actionTextColor:
           colorScheme.primary,
       buttonBackgroundColor:
-          colors.dialogButtonBackground,
+          colorScheme.primaryContainer,
       buttonTextColor:
-          colors.dialogButtonText,
+          colorScheme.onPrimaryContainer,
     );
   }
 
