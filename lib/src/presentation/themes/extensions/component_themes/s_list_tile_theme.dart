@@ -18,22 +18,22 @@ class SListTileThemeData
   /// Creates a [SListTileThemeData] from [ColorScheme].
   factory SListTileThemeData.fromColorScheme(
       ColorScheme
-          colors) {
+          colorScheme) {
     return SListTileThemeData(
       textColor:
-          colors.textPrimary,
+          colorScheme.onSurface,
       subtitleColor:
-          colors.textSecondary,
+          colorScheme.onSurfaceVariant,
       iconColor:
-          colors.textSecondary,
+          colorScheme.onSurfaceVariant,
       backgroundColor:
           Colors.transparent,
       selectedColor:
           colorScheme.primary,
       selectedBackgroundColor:
-          colorScheme.primary.withOpacity(0.1),
+          colorScheme.primaryContainer,
       hoverColor:
-          colors.surface,
+          colorScheme.surfaceVariant,
     );
   }
 
