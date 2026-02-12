@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../theme/s_colors.dart';
 
 /// Theme data for [SSelect].
 class SSelectThemeData
@@ -15,9 +16,9 @@ class SSelectThemeData
     required this.borderColor,
   });
 
-  /// Creates a [SSelectThemeData] from [ColorScheme].
-  factory SSelectThemeData.fromColorScheme(
-      ColorScheme
+  /// Creates a [SSelectThemeData] from [SColorsBase].
+  factory SSelectThemeData.fromColors(
+      SColorsBase
           colors) {
     return SSelectThemeData(
       backgroundColor:
@@ -25,9 +26,9 @@ class SSelectThemeData
       itemColor:
           colors.textPrimary,
       selectedItemColor:
-          colorScheme.primary,
+          colors.primary,
       selectedItemBackgroundColor:
-          colorScheme.primary.withOpacity(0.1),
+          colors.primary.withOpacity(0.1),
       disabledColor:
           colors.disabled,
       iconColor:
@@ -150,5 +151,5 @@ extension SSelectThemeExtension
   /// Retrieves the current [SSelectThemeData].
   SSelectThemeData get sSelectTheme =>
       extension<SSelectThemeData>() ??
-      SSelectThemeData.fromColorScheme(colorScheme);
+      SSelectThemeData.fromColors(SLightColors());
 }
