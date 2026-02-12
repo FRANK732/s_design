@@ -1,0 +1,601 @@
+import 'package:flutter/material.dart';
+import 's_colors.dart';
+import 's_typography.dart';
+import '../components/s_button/themes/s_button_theme.dart';
+import '../components/s_card/themes/s_card_theme.dart';
+import '../components/s_check_box/themes/s_checkbox_theme.dart';
+import '../components/s_dialog/themes/s_dialog_theme.dart';
+import '../components/s_dropdown_menu/themes/s_dropdown_menu_theme.dart';
+import '../components/s_input/themes/s_input_field_theme.dart';
+import '../components/s_list_tile/themes/s_list_tile_theme.dart';
+import '../components/s_progress_bar/themes/s_progress_bar_theme.dart';
+import '../components/s_select/themes/s_select_theme.dart';
+import '../components/s_sonner/themes/s_sonner_theme.dart';
+import '../components/s_switch/themes/s_switch_theme.dart';
+import '../components/s_tabs/themes/s_tabs_theme.dart';
+import '../components/s_toaster/themes/s_toast_theme.dart';
+
+class STheme {
+  STheme() {
+    lightTypography =
+        SLightTypography(colors: sColors.light);
+    darkTypography =
+        SDarkTypography(colors: sColors.dark);
+  }
+
+  /// Builds a custom theme using the provided color scheme.
+  ///
+  /// This is the **recommended way** for consuming apps to override
+  /// sDesign's default theming with their own brand colors.
+  ///
+  /// Example:
+  /// ```dart
+  /// class MyAppColors extends SColorsBase {
+  ///   // ... implement your custom colors
+  /// }
+  ///
+  /// final myTheme = STheme.buildCustomTheme(
+  ///   colors: MyAppColors(),
+  ///   baseTheme: ThemeData.light(), // optional
+  /// );
+  ///
+  /// MaterialApp(theme: myTheme, home: MyApp());
+  /// ```
+  static ThemeData
+      buildCustomTheme({
+    required SColorsBase
+        colors,
+    ThemeData?
+        baseTheme,
+  }) {
+    final theme =
+        baseTheme ?? ThemeData.light();
+
+    return theme
+        .copyWith(
+      // Register ALL sDesign component themes with custom colors
+      extensions: [
+        SButtonThemeData.fromColors(colors),
+        SCardThemeData.fromColors(colors),
+        SCheckboxThemeData.fromColors(colors),
+        SDialogThemeData.fromColors(colors),
+        SDropdownMenuThemeData.fromColors(colors),
+        SInputFieldThemeData.fromColors(colors),
+        SListTileThemeData.fromColors(colors),
+        SProgressBarThemeData.fromColors(colors),
+        SSelectThemeData.fromColors(colors),
+        SSonnerThemeData.fromColors(colors),
+        SSwitchThemeData.fromColors(colors),
+        STabsThemeData.fromColors(colors),
+        SToastThemeData.fromColors(colors),
+      ],
+      // Apply primary colors to Flutter's theme as well
+      colorScheme:
+          theme.colorScheme.copyWith(
+        primary: colors.primary,
+        secondary: colors.secondary,
+        surface: colors.surface,
+        background: colors.background,
+        error: colors.error,
+      ),
+    );
+  }
+
+  final SColors
+      sColors =
+      SColors();
+  late final STypographyBase
+      lightTypography;
+  late final STypographyBase
+      darkTypography;
+
+  ThemeData
+      getLightTheme() {
+    final SColorsBase
+        colors =
+        sColors.light;
+    final STypographyBase
+        typography =
+        lightTypography;
+
+    return ThemeData(
+      brightness:
+          Brightness.light,
+      primaryColor:
+          colors.primary,
+      // Core color scheme
+      colorScheme:
+          ColorScheme.light(
+        primary: colors.primary,
+        secondary: colors.secondary,
+        surface: colors.surface,
+        error: colors.error,
+        onPrimary: colors.textOnPrimary,
+        onSecondary: colors.textOnSecondary,
+        onSurface: colors.textPrimary,
+        onError: colors.textOnPrimary,
+      ),
+      scaffoldBackgroundColor:
+          colors.background,
+      cardColor:
+          colors.cardBackground,
+      dialogBackgroundColor:
+          colors.dialogBackground,
+      disabledColor:
+          colors.disabled,
+      dividerColor:
+          colors.divider,
+      shadowColor:
+          colors.shadow,
+
+      // ICON THEME
+      iconTheme:
+          IconThemeData(
+        color: colors.textPrimary,
+        size: 24,
+      ),
+      primaryIconTheme:
+          IconThemeData(
+        color: colors.primary,
+        size: 24,
+      ),
+
+      // TEXT THEME
+      textTheme:
+          TextTheme(
+        displayLarge: typography.displayLarge,
+        displayMedium: typography.displayMedium,
+        displaySmall: typography.displaySmall,
+        headlineLarge: typography.headlineLarge,
+        headlineMedium: typography.headlineMedium,
+        headlineSmall: typography.headlineSmall,
+        titleLarge: typography.titleLarge,
+        titleMedium: typography.titleMedium,
+        titleSmall: typography.titleSmall,
+        bodyLarge: typography.bodyLarge,
+        bodyMedium: typography.bodyMedium,
+        bodySmall: typography.bodySmall,
+        labelLarge: typography.labelLarge,
+        labelMedium: typography.labelMedium,
+        labelSmall: typography.labelSmall,
+      ),
+
+      // COMPONENT THEMES
+
+      // AppBar
+      appBarTheme:
+          AppBarTheme(
+        color: colors.primary,
+        foregroundColor: colors.textOnPrimary,
+        elevation: 0,
+        iconTheme: IconThemeData(color: colors.textOnPrimary),
+        titleTextStyle: typography.titleLarge.copyWith(
+          color: colors.textOnPrimary,
+        ),
+      ),
+
+      // Buttons: Text, Elevated, Outlined, Filled
+      textButtonTheme:
+          TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: colors.primary,
+          textStyle: typography.labelLarge,
+        ),
+      ),
+      elevatedButtonTheme:
+          ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: colors.buttonBackground,
+          foregroundColor: colors.buttonText,
+          textStyle: typography.labelLarge,
+        ),
+      ),
+      outlinedButtonTheme:
+          OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: colors.primary,
+          side: BorderSide(color: colors.primary),
+          textStyle: typography.labelLarge,
+        ),
+      ),
+      filledButtonTheme:
+          FilledButtonThemeData(
+        style: ButtonStyle(
+          backgroundColor: WidgetStateProperty.all(colors.buttonBackground),
+          foregroundColor: WidgetStateProperty.all(colors.buttonText),
+          textStyle: WidgetStateProperty.all(typography.labelLarge),
+        ),
+      ),
+
+      // Old ButtonTheme (optional)
+      buttonTheme:
+          ButtonThemeData(
+        buttonColor: colors.buttonBackground,
+        disabledColor: colors.buttonDisabledBackground,
+        textTheme: ButtonTextTheme.primary,
+      ),
+
+      // Card
+      cardTheme:
+          CardThemeData(
+        color: colors.cardBackground,
+        shadowColor: colors.cardShadow,
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
+
+      // Checkbox
+      checkboxTheme:
+          CheckboxThemeData(
+        fillColor: WidgetStateProperty.all(colors.checkboxActive),
+        checkColor: WidgetStateProperty.all(colors.textOnPrimary),
+      ),
+
+      // Dialog
+      dialogTheme:
+          DialogThemeData(
+        backgroundColor: colors.dialogBackground,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        titleTextStyle: typography.headlineSmall.copyWith(
+          color: colors.dialogTitle,
+        ),
+        contentTextStyle: typography.bodyMedium.copyWith(
+          color: colors.dialogContent,
+        ),
+      ),
+
+      // Input / TextField
+      inputDecorationTheme:
+          InputDecorationTheme(
+        filled: true,
+        fillColor: colors.inputBackground,
+        hintStyle: typography.bodySmall.copyWith(color: colors.inputHintText),
+        labelStyle: typography.bodyMedium.copyWith(color: colors.textPrimary),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: colors.inputBorder),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: colors.inputFocusBorder),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: colors.inputErrorBorder),
+          borderRadius: BorderRadius.circular(4),
+        ),
+      ),
+
+      // ListTile
+      listTileTheme:
+          ListTileThemeData(
+        iconColor: colors.textPrimary,
+        textColor: colors.textPrimary,
+      ),
+
+      // Progress Indicators
+      progressIndicatorTheme:
+          ProgressIndicatorThemeData(
+        color: colors.progressValue,
+        circularTrackColor: colors.progressBackground,
+      ),
+
+      // Switch
+      switchTheme:
+          SwitchThemeData(
+        thumbColor: WidgetStateProperty.all(colors.switchActive),
+        trackColor: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+          return states.contains(WidgetState.selected) ? colors.switchActive.withOpacity(0.5) : colors.switchInactive;
+        }),
+      ),
+
+      // Tabs
+      tabBarTheme:
+          TabBarThemeData(
+        labelStyle: typography.labelLarge,
+        unselectedLabelStyle: typography.labelLarge,
+        labelColor: colors.tabsLabel,
+        unselectedLabelColor: colors.tabsUnselectedLabel,
+        indicator: UnderlineTabIndicator(
+          borderSide: BorderSide(color: colors.tabsIndicator, width: 2),
+        ),
+      ),
+
+      // Snackbar
+      snackBarTheme:
+          SnackBarThemeData(
+        backgroundColor: colors.surface,
+        contentTextStyle: typography.bodyMedium.copyWith(color: colors.textPrimary),
+        actionTextColor: colors.primary,
+      ),
+
+      // Tooltip
+      tooltipTheme:
+          TooltipThemeData(
+        decoration: BoxDecoration(
+          color: colors.cardBackground,
+          borderRadius: BorderRadius.circular(4),
+        ),
+        textStyle: typography.bodySmall.copyWith(color: colors.textPrimary),
+      ),
+
+      // Dropdown (Flutter 3.7+)
+      dropdownMenuTheme:
+          DropdownMenuThemeData(
+        inputDecorationTheme: const InputDecorationTheme(
+          border: OutlineInputBorder(),
+        ),
+        menuStyle: MenuStyle(
+          backgroundColor: WidgetStateProperty.all(colors.dropdownBackground),
+        ),
+      ),
+
+      // COMPONENT THEME EXTENSIONS
+      extensions: <ThemeExtension<dynamic>>[
+        SButtonThemeData.fromColors(colors),
+        SCardThemeData.fromColors(colors),
+        SCheckboxThemeData.fromColors(colors),
+        SDialogThemeData.fromColors(colors),
+        SDropdownMenuThemeData.fromColors(colors),
+        SInputFieldThemeData.fromColors(colors),
+        SListTileThemeData.fromColors(colors),
+        SProgressBarThemeData.fromColors(colors),
+        SSelectThemeData.fromColors(colors),
+        SSonnerThemeData.fromColors(colors),
+        SSwitchThemeData.fromColors(colors),
+        STabsThemeData.fromColors(colors),
+        SToastThemeData.fromColors(colors),
+      ],
+    );
+  }
+
+  ThemeData
+      getDarkTheme() {
+    final SColorsBase
+        colors =
+        sColors.dark; // SDarkColors
+    final STypographyBase
+        typography =
+        darkTypography;
+
+    return ThemeData(
+      brightness:
+          Brightness.dark,
+      primaryColor:
+          colors.primary,
+      // Core color scheme
+      colorScheme:
+          ColorScheme.dark(
+        primary: colors.primary,
+        secondary: colors.secondary,
+        surface: colors.surface,
+        error: colors.error,
+        onPrimary: colors.textOnPrimary,
+        onSecondary: colors.textOnSecondary,
+        onSurface: colors.textPrimary,
+        onError: colors.textOnPrimary,
+      ),
+      scaffoldBackgroundColor:
+          colors.background,
+      cardColor:
+          colors.cardBackground,
+      dialogBackgroundColor:
+          colors.dialogBackground,
+      disabledColor:
+          colors.disabled,
+      dividerColor:
+          colors.divider,
+      shadowColor:
+          colors.shadow,
+
+      iconTheme:
+          IconThemeData(
+        color: colors.textPrimary,
+        size: 24,
+      ),
+      primaryIconTheme:
+          IconThemeData(
+        color: colors.primary,
+        size: 24,
+      ),
+
+      textTheme:
+          TextTheme(
+        displayLarge: typography.displayLarge,
+        displayMedium: typography.displayMedium,
+        displaySmall: typography.displaySmall,
+        headlineLarge: typography.headlineLarge,
+        headlineMedium: typography.headlineMedium,
+        headlineSmall: typography.headlineSmall,
+        titleLarge: typography.titleLarge,
+        titleMedium: typography.titleMedium,
+        titleSmall: typography.titleSmall,
+        bodyLarge: typography.bodyLarge,
+        bodyMedium: typography.bodyMedium,
+        bodySmall: typography.bodySmall,
+        labelLarge: typography.labelLarge,
+        labelMedium: typography.labelMedium,
+        labelSmall: typography.labelSmall,
+      ),
+
+      // COMPONENT THEMES
+
+      appBarTheme:
+          AppBarTheme(
+        color: colors.primary,
+        foregroundColor: colors.textOnPrimary,
+        elevation: 0,
+        iconTheme: IconThemeData(color: colors.textOnPrimary),
+        titleTextStyle: typography.titleLarge.copyWith(
+          color: colors.textOnPrimary,
+        ),
+      ),
+
+      textButtonTheme:
+          TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: colors.primary,
+          textStyle: typography.labelLarge,
+        ),
+      ),
+      elevatedButtonTheme:
+          ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: colors.buttonBackground,
+          foregroundColor: colors.buttonText,
+          textStyle: typography.labelLarge,
+        ),
+      ),
+      outlinedButtonTheme:
+          OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: colors.primary,
+          side: BorderSide(color: colors.primary),
+          textStyle: typography.labelLarge,
+        ),
+      ),
+      filledButtonTheme:
+          FilledButtonThemeData(
+        style: ButtonStyle(
+          backgroundColor: WidgetStateProperty.all(colors.buttonBackground),
+          foregroundColor: WidgetStateProperty.all(colors.buttonText),
+          textStyle: WidgetStateProperty.all(typography.labelLarge),
+        ),
+      ),
+      buttonTheme:
+          ButtonThemeData(
+        buttonColor: colors.buttonBackground,
+        disabledColor: colors.buttonDisabledBackground,
+        textTheme: ButtonTextTheme.primary,
+      ),
+      // Card
+      cardTheme:
+          CardThemeData(
+        color: colors.cardBackground,
+        shadowColor: colors.cardShadow,
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
+
+      checkboxTheme:
+          CheckboxThemeData(
+        fillColor: WidgetStateProperty.all(colors.checkboxActive),
+        checkColor: WidgetStateProperty.all(colors.textOnPrimary),
+      ),
+      // Dialog
+      dialogTheme:
+          DialogThemeData(
+        backgroundColor: colors.dialogBackground,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        titleTextStyle: typography.headlineSmall.copyWith(
+          color: colors.dialogTitle,
+        ),
+        contentTextStyle: typography.bodyMedium.copyWith(
+          color: colors.dialogContent,
+        ),
+      ),
+
+      inputDecorationTheme:
+          InputDecorationTheme(
+        filled: true,
+        fillColor: colors.inputBackground,
+        hintStyle: typography.bodySmall.copyWith(color: colors.inputHintText),
+        labelStyle: typography.bodyMedium.copyWith(color: colors.textPrimary),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: colors.inputBorder),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: colors.inputFocusBorder),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: colors.inputErrorBorder),
+          borderRadius: BorderRadius.circular(4),
+        ),
+      ),
+
+      listTileTheme:
+          ListTileThemeData(
+        iconColor: colors.textPrimary,
+        textColor: colors.textPrimary,
+      ),
+
+      progressIndicatorTheme:
+          ProgressIndicatorThemeData(
+        color: colors.progressValue,
+        circularTrackColor: colors.progressBackground,
+      ),
+
+      switchTheme:
+          SwitchThemeData(
+        thumbColor: WidgetStateProperty.all(colors.switchActive),
+        trackColor: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+          return states.contains(WidgetState.selected) ? colors.switchActive.withOpacity(0.5) : colors.switchInactive;
+        }),
+      ),
+
+      // Tabs
+      tabBarTheme:
+          TabBarThemeData(
+        labelStyle: typography.labelLarge,
+        unselectedLabelStyle: typography.labelLarge,
+        labelColor: colors.tabsLabel,
+        unselectedLabelColor: colors.tabsUnselectedLabel,
+        indicator: UnderlineTabIndicator(
+          borderSide: BorderSide(color: colors.tabsIndicator, width: 2),
+        ),
+      ),
+
+      // Snackbar
+      snackBarTheme:
+          SnackBarThemeData(
+        backgroundColor: colors.surface,
+        contentTextStyle: typography.bodyMedium.copyWith(color: colors.textPrimary),
+        actionTextColor: colors.primary,
+      ),
+
+      // Tooltip
+      tooltipTheme:
+          TooltipThemeData(
+        decoration: BoxDecoration(
+          color: colors.cardBackground,
+          borderRadius: BorderRadius.circular(4),
+        ),
+        textStyle: typography.bodySmall.copyWith(color: colors.textPrimary),
+      ),
+
+      // Drop down menu
+      dropdownMenuTheme:
+          DropdownMenuThemeData(
+        menuStyle: MenuStyle(
+          backgroundColor: WidgetStateProperty.all(colors.dropdownBackground),
+        ),
+      ),
+
+      // COMPONENT THEME EXTENSIONS
+      extensions: <ThemeExtension<dynamic>>[
+        SButtonThemeData.fromColors(colors),
+        SCardThemeData.fromColors(colors),
+        SCheckboxThemeData.fromColors(colors),
+        SDialogThemeData.fromColors(colors),
+        SDropdownMenuThemeData.fromColors(colors),
+        SInputFieldThemeData.fromColors(colors),
+        SListTileThemeData.fromColors(colors),
+        SProgressBarThemeData.fromColors(colors),
+        SSelectThemeData.fromColors(colors),
+        SSonnerThemeData.fromColors(colors),
+        SSwitchThemeData.fromColors(colors),
+        STabsThemeData.fromColors(colors),
+        SToastThemeData.fromColors(colors),
+      ],
+    );
+  }
+}
