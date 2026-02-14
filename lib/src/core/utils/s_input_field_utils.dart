@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../domain/entities/config/input_enums.dart';
+import '../../domain/entities/config/s_input_field_size.dart';
 
 /// Helper function that maps an [SInputFieldType] to a
 /// suitable [TextInputType] in Flutter.
