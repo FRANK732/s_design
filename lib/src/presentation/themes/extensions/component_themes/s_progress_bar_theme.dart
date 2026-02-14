@@ -103,5 +103,10 @@ extension SProgressBarThemeExtension
   /// Retrieves the current [SProgressBarThemeData].
   SProgressBarThemeData get sProgressBarTheme =>
       extension<SProgressBarThemeData>() ??
-      SProgressBarThemeData.fromColors(SLightColors());
+      SProgressBarThemeData(
+        backgroundColor: colorScheme.surfaceContainerHighest,
+        valueColor: colorScheme.primary,
+        borderRadius: 4.0,
+        height: 8.0,
+      );
 }

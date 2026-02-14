@@ -135,5 +135,12 @@ extension SDropdownMenuThemeExtension
   /// Retrieves the current [SDropdownMenuThemeData].
   SDropdownMenuThemeData get sDropdownMenuTheme =>
       extension<SDropdownMenuThemeData>() ??
-      SDropdownMenuThemeData.fromColors(SLightColors());
+      SDropdownMenuThemeData(
+        backgroundColor: colorScheme.surfaceContainerHighest,
+        textColor: colorScheme.onSurface,
+        disabledTextColor: colorScheme.onSurface.with Opacity(0.38),
+        separatorColor: colorScheme.outlineVariant,
+        iconColor: colorScheme.onSurfaceVariant,
+        selectedItemColor: colorScheme.primary,
+      );
 }
