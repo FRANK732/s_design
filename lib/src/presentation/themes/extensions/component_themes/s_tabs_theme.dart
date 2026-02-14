@@ -12,6 +12,22 @@ class STabsThemeData
     required this.backgroundColor,
   });
 
+  /// Creates an [STabsThemeData] from a [ColorScheme].
+  factory STabsThemeData.fromColorScheme(
+      ColorScheme
+          colorScheme) {
+    return STabsThemeData(
+      indicatorColor:
+          colorScheme.primary,
+      labelColor:
+          colorScheme.primary,
+      unselectedLabelColor:
+          colorScheme.onSurfaceVariant,
+      backgroundColor:
+          Colors.transparent,
+    );
+  }
+
   /// Color of the tab indicator.
   final Color
       indicatorColor;

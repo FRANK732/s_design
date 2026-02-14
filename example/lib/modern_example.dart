@@ -1,6 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
 
+import 'pages/bottom_navigation.dart';
+import 'pages/card.dart';
+import 'pages/check_box.dart';
+import 'pages/dropdown_menu.dart';
+import 'pages/inputs_page.dart';
+import 'pages/list_tile_page.dart';
+import 'pages/progress_indicator_page.dart';
+import 'pages/s_floating_panel_page.dart';
+import 'pages/s_modal_page.dart';
+import 'pages/sbutton.dart';
+import 'pages/slider_page.dart';
+import 'pages/sonner_page.dart';
+import 'pages/sscaffold/base_scaffold.dart';
+import 'pages/switch_page.dart';
+import 'pages/tab_page.dart';
+import 'pages/toast_page.dart';
+
 void
     main() {
   runApp(
@@ -53,6 +70,8 @@ class ModernSDesignExample
           SDialogThemeData.fromColorScheme(lightColorScheme),
           SProgressBarThemeData.fromColorScheme(lightColorScheme),
           SSwitchThemeData.fromColorScheme(lightColorScheme),
+          STabsThemeData.fromColorScheme(lightColorScheme),
+          SDropdownMenuThemeData.fromColorScheme(lightColorScheme),
         ],
       ),
 
@@ -70,227 +89,73 @@ class ModernSDesignExample
           SDialogThemeData.fromColorScheme(darkColorScheme),
           SProgressBarThemeData.fromColorScheme(darkColorScheme),
           SSwitchThemeData.fromColorScheme(darkColorScheme),
+          STabsThemeData.fromColorScheme(darkColorScheme),
+          SDropdownMenuThemeData.fromColorScheme(darkColorScheme),
         ],
       ),
       home:
-          const ComponentShowcase(),
+          const HomePage(),
     );
   }
 }
 
-class ComponentShowcase
-    extends StatefulWidget {
-  const ComponentShowcase(
+class HomePage
+    extends StatelessWidget {
+  const HomePage(
       {super.key});
-
-  @override
-  State<ComponentShowcase>
-      createState() =>
-          _ComponentShowcaseState();
-}
-
-class _ComponentShowcaseState
-    extends State<
-        ComponentShowcase> {
-  bool
-      _checkboxValue =
-      false;
-  bool
-      _switchValue =
-      false;
-  final TextEditingController
-      _inputController =
-      TextEditingController();
-
-  @override
-  void
-      dispose() {
-    _inputController
-        .dispose();
-    super
-        .dispose();
-  }
 
   @override
   Widget build(
       BuildContext
           context) {
+    // Initialize overlays
+    final OverlayState
+        overlayState =
+        Overlay.of(context);
+    SFloatingPanel.initialize(
+        overlayState);
+    SSonner
+        .instance
+        .initialize(overlayState);
+    SToast.initialize(
+        overlayState);
+
     final ColorScheme
         colorScheme =
         Theme.of(context).colorScheme;
 
-    return SScaffold(
+    return Scaffold(
       appBar:
           AppBar(
-        title: const Text('sDesign - Clean Architecture'),
-        backgroundColor: colorScheme.primaryContainer,
-        foregroundColor: colorScheme.onPrimaryContainer,
+        title: const Text('sDesign Component Gallery'),
+        backgroundColor: colorScheme.surface,
+        scrolledUnderElevation: 2.0,
       ),
-      renderBody: (BuildContext context) =>
-          SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            // Header
-            Text(
-              'Modern Component Library',
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: colorScheme.primary,
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Clean Architecture with ColorScheme Theming',
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-            ),
-            const SizedBox(height: 24),
-
-            // Input Components Section
-            _buildSectionHeader('Input Components', colorScheme),
-            const SizedBox(height: 16),
-
-            SCard(
-              body: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Wrap(
-                      spacing: 12,
-                      runSpacing: 12,
-                      children: <Widget>[
-                        SButton(
-                          onPressed: () => _showSnackBar(context, 'Primary button pressed!'),
-                          child: const Text('Primary Button'),
-                        ),
-                        SButton(
-                          onPressed: () => _showSnackBar(context, 'Secondary button pressed!'),
-                          variant: ButtonVariant.secondary,
-                          child: const Text('Secondary Button'),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    SInputField(
-                      controller: _inputController,
-                      hintText: 'Enter text here...',
-                      labelText: 'Input Field',
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: <Widget>[
-                        SCheckbox(
-                          value: _checkboxValue ? SCheckboxState.checked : SCheckboxState.unchecked,
-                          onChanged: (SCheckboxState? value) {
-                            setState(() => _checkboxValue = value == SCheckboxState.checked);
-                          },
-                        ),
-                        const SizedBox(width: 8),
-                        const Text('Checkbox with ColorScheme theming'),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: <Widget>[
-                        SSwitch(
-                          value: _switchValue,
-                          onChanged: (bool value) {
-                            setState(() => _switchValue = value);
-                          },
-                        ),
-                        const SizedBox(width: 8),
-                        const Text('Switch Component'),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 24),
-
-            // Layout Components Section
-            _buildSectionHeader('Layout Components', colorScheme),
-            const SizedBox(height: 16),
-
-            SCard(
-              color: colorScheme.surfaceContainerHighest,
-              body: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Text(
-                  'This is an SCard with custom styling',
-                  style: TextStyle(color: colorScheme.onSurface),
-                ),
-              ),
-            ),
-            const SizedBox(height: 12),
-
-            SListTile(
-              title: const Text('List Tile Example'),
-              subtitle: const Text('With ColorScheme integration'),
-              leading: Icon(Icons.star, color: colorScheme.primary),
-              trailing: Icon(Icons.chevron_right, color: colorScheme.onSurfaceVariant),
-              onTap: () => _showSnackBar(context, 'List tile tapped!'),
-            ),
-            const SizedBox(height: 24),
-
-            // Feedback Components Section
-            _buildSectionHeader('Feedback Components', colorScheme),
-            const SizedBox(height: 16),
-
-            SCard(
-              body: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    SButton(
-                      onPressed: () => _showExampleDialog(context),
-                      variant: ButtonVariant.secondary,
-                      child: const Text('Show Dialog'),
-                    ),
-                    const SizedBox(height: 12),
-                    const Text('Progress Bar:'),
-                    const SizedBox(height: 8),
-                    const SProgressBar(value: 0.65),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 24),
-
-            // Theme Information
-            _buildSectionHeader('Theme Information', colorScheme),
-            const SizedBox(height: 16),
-
-            SCard(
-              body: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    _buildThemeInfo('Primary', colorScheme.primary),
-                    _buildThemeInfo('Secondary', colorScheme.secondary),
-                    _buildThemeInfo('Surface', colorScheme.surface),
-                    _buildThemeInfo('Error', colorScheme.error),
-                    const SizedBox(height: 12),
-                    Text(
-                      '✨ All components automatically adapt to your ColorScheme!',
-                      style: TextStyle(
-                        color: colorScheme.primary,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 32),
-          ],
-        ),
+      body:
+          ListView(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        children: <Widget>[
+          _buildSectionHeader('Inputs', colorScheme),
+          _buildListTile(context, 'Buttons', const ButtonPage(), Icons.touch_app),
+          _buildListTile(context, 'Input Fields', const InputFieldPage(), Icons.text_fields),
+          _buildListTile(context, 'Checkbox', const CheckboxPage(), Icons.check_box),
+          _buildListTile(context, 'Switch', const SwitchPage(), Icons.toggle_on),
+          _buildListTile(context, 'Dropdown Menu', const DropdownMenuPage(), Icons.arrow_drop_down_circle),
+          _buildListTile(context, 'Slider', const SliderPage(), Icons.linear_scale),
+          _buildSectionHeader('Layout & Surfaces', colorScheme),
+          _buildListTile(context, 'Card', const CardPage(), Icons.dashboard),
+          _buildListTile(context, 'List Tile', const ListTilePage(), Icons.list),
+          _buildListTile(context, 'SScaffold', const BaseScaffoldPage(), Icons.web_asset),
+          _buildSectionHeader('Navigation', colorScheme),
+          _buildListTile(context, 'Tabs', const TabsPage(), Icons.tab),
+          _buildListTile(context, 'Bottom Navigation', const BottomNavigationPage(), Icons.call_to_action),
+          _buildSectionHeader('Feedback & Overlays', colorScheme),
+          _buildListTile(context, 'Dialog / Modal', const DialogPage(), Icons.chat_bubble_outline),
+          _buildListTile(context, 'Floating Panel', const SFloatingPanelPage(), Icons.layers),
+          _buildListTile(context, 'Toast', const ToastPage(), Icons.announcement),
+          _buildListTile(context, 'Sonner', const SonnerPage(), Icons.notifications_active),
+          _buildListTile(context, 'Progress Indicator', const ProgressIndicatorPage(), Icons.refresh),
+        ],
       ),
     );
   }
@@ -300,87 +165,47 @@ class _ComponentShowcaseState
           title,
       ColorScheme
           colorScheme) {
-    return Container(
-      padding:
-          const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration:
-          BoxDecoration(
-        color: colorScheme.primaryContainer,
-        borderRadius: BorderRadius.circular(8),
-      ),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+          16,
+          24,
+          16,
+          8),
       child:
           Text(
         title,
         style: TextStyle(
-          color: colorScheme.onPrimaryContainer,
-          fontSize: 16,
+          color: colorScheme.primary,
+          fontSize: 14,
           fontWeight: FontWeight.bold,
+          letterSpacing: 1.0,
         ),
       ),
     );
   }
 
-  Widget _buildThemeInfo(
-      String
-          name,
-      Color
-          color) {
-    return Padding(
-      padding:
-          const EdgeInsets.only(bottom: 8),
-      child:
-          Row(
-        children: <Widget>[
-          Container(
-            width: 24,
-            height: 24,
-            decoration: BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.circular(4),
-              border: Border.all(color: Colors.grey.shade300),
-            ),
-          ),
-          const SizedBox(width: 12),
-          Text('$name: ${_colorToHex(color)}'),
-        ],
-      ),
-    );
-  }
-
-  String _colorToHex(
-      Color
-          color) {
-    return '#${color.value.toRadixString(16).substring(2).toUpperCase()}';
-  }
-
-  void _showSnackBar(
+  Widget _buildListTile(
       BuildContext
           context,
       String
-          message) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(
-      SnackBar(content: Text(message)),
-    );
-  }
-
-  void _showExampleDialog(
-      BuildContext
-          context) {
-    SDialog.show<
-        void>(
-      context:
-          context,
+          title,
+      Widget
+          page,
+      IconData
+          icon) {
+    return ListTile(
+      leading:
+          Icon(icon),
       title:
-          'Example Dialog',
-      content:
-          const Text('This dialog uses ColorScheme theming automatically!'),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Close'),
-        ),
-      ],
+          Text(title),
+      trailing:
+          const Icon(Icons.chevron_right, size: 20),
+      onTap:
+          () {
+        Navigator.of(context).push(
+          MaterialPageRoute<void>(builder: (context) => page),
+        );
+      },
     );
   }
 }

@@ -238,6 +238,11 @@ class _SToastState
           name: 'SToast');
       return;
     }
+    if (!mounted) {
+      developer.log('SToast: Widget not mounted, skipping close animation',
+          name: 'SToast');
+      return;
+    }
     developer.log(
         'SToast: Closing toast',
         name: 'SToast');

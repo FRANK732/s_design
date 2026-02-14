@@ -14,6 +14,26 @@ class SDropdownMenuThemeData
     required this.selectedItemColor,
   });
 
+  /// Creates an [SDropdownMenuThemeData] from a [ColorScheme].
+  factory SDropdownMenuThemeData.fromColorScheme(
+      ColorScheme
+          colorScheme) {
+    return SDropdownMenuThemeData(
+      backgroundColor:
+          colorScheme.surfaceContainerHighest,
+      textColor:
+          colorScheme.onSurface,
+      disabledTextColor:
+          colorScheme.onSurface.withOpacity(0.38),
+      separatorColor:
+          colorScheme.outlineVariant,
+      iconColor:
+          colorScheme.onSurfaceVariant,
+      selectedItemColor:
+          colorScheme.primaryContainer,
+    );
+  }
+
   /// Background color of the dropdown menu.
   final Color
       backgroundColor;
