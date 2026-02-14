@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../theme/s_colors.dart';
 
 /// Theme data for [SProgressBar].
 class SProgressBarThemeData
