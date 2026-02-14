@@ -97,7 +97,9 @@ export 'src/presentation/builders/overlay_builder.dart';
 // ============================================================================
 // PRESENTATION LAYER - Themes
 // ============================================================================
-export 'src/presentation/themes/s_theme.dart';
+// DEPRECATED: s_theme.dart uses old SColorsBase system
+// New components use ColorScheme with ThemeExtension instead
+// export 'src/presentation/themes/s_theme.dart';
 
 // Theme Tokens
 export 'src/presentation/themes/tokens/colors.dart';
