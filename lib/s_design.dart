@@ -44,6 +44,10 @@ export 'src/presentation/components/inputs/s_dropdown/s_dropdown_form_field.dart
 export 'src/presentation/components/inputs/s_dropdown/s_dropdown_menu.dart';
 export 'src/presentation/components/inputs/s_input/s_input_field.dart';
 export 'src/presentation/components/inputs/s_select/s_select.dart';
+export 'src/presentation/components/inputs/s_select/s_multi_select.dart';
+export 'src/presentation/components/inputs/s_select/s_multi_select_form_field.dart';
+export 'src/presentation/components/inputs/s_select/s_select_form_field.dart';
+export 'src/presentation/components/inputs/s_select/widgets/s_select_item.dart';
 export 'src/presentation/components/inputs/s_switch/s_switch.dart';
 export 'src/presentation/components/layout/s_card/s_card.dart';
 export 'src/presentation/components/layout/s_list_tile/s_list_tile.dart';

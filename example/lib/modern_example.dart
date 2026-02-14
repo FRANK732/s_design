@@ -11,6 +11,7 @@ import 'pages/progress_indicator_page.dart';
 import 'pages/s_floating_panel_page.dart';
 import 'pages/s_modal_page.dart';
 import 'pages/sbutton.dart';
+import 'pages/select_page.dart';
 import 'pages/slider_page.dart';
 import 'pages/sonner_page.dart';
 import 'pages/sscaffold/base_scaffold.dart';
@@ -141,6 +142,7 @@ class HomePage
           _buildListTile(context, 'Checkbox', const CheckboxPage(), Icons.check_box),
           _buildListTile(context, 'Switch', const SwitchPage(), Icons.toggle_on),
           _buildListTile(context, 'Dropdown Menu', const DropdownMenuPage(), Icons.arrow_drop_down_circle),
+          _buildListTile(context, 'SSelect (New)', const SelectPage(), Icons.list_alt),
           _buildListTile(context, 'Slider', const SliderPage(), Icons.linear_scale),
           _buildSectionHeader('Layout & Surfaces', colorScheme),
           _buildListTile(context, 'Card', const CardPage(), Icons.dashboard),

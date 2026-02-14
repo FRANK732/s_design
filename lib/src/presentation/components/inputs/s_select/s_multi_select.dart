@@ -9,14 +9,14 @@ import 'widgets/s_select_menu.dart';
 import 'widgets/s_select_sheet.dart';
 import 'widgets/s_select_trigger.dart';
 
-/// An advanced select widget supporting strict single selection, async search, and adaptive UI.
-class SSelect<
+/// An advanced select widget supporting multiple selection, async search, and adaptive UI.
+class SMultiSelect<
         T>
     extends StatefulWidget {
-  const SSelect({
+  const SMultiSelect({
     super.key,
     required this.items,
-    this.value,
+    this.values,
     this.onChanged,
     this.triggerBuilder,
     this.contentBuilder,
@@ -50,23 +50,24 @@ class SSelect<
           'Animation duration must not be negative.',
         );
 
-  /// The current selected value.
-  final T?
-      value;
+  /// The current selected values.
+  final List<T>?
+      values;
 
   /// The list of items to display in the dropdown.
   final List<SSelectItem<T>>
       items;
 
-  /// Callback invoked when the selected value changes.
-  final ValueChanged<T?>?
+  /// Callback invoked when the selected values change.
+  final ValueChanged<List<T>>?
       onChanged;
 
   /// Custom builder for the trigger widget.
   final Widget Function(
       BuildContext
           context,
-      T? value)? triggerBuilder;
+      List<T>
+          values)? triggerBuilder;
 
   /// Custom builder for the dropdown content.
   final Widget Function(
@@ -130,16 +131,18 @@ class SSelect<
 
   @override
   State<
-      SSelect<
+      SMultiSelect<
           T>> createState() =>
-      _SSelectState<T>();
+      _SMultiSelectState<T>();
 }
 
-class _SSelectState<
+class _SMultiSelectState<
         T>
     extends State<
-        SSelect<T>> {
-  T? _selectedValue;
+        SMultiSelect<T>> {
+  List<T>
+      _selectedValues =
+      [];
   OverlayEntry?
       _overlayEntry;
   final LayerLink
@@ -154,20 +157,20 @@ class _SSelectState<
       initState() {
     super
         .initState();
-    _selectedValue =
-        widget.value;
+    _selectedValues =
+        widget.values ?? [];
   }
 
   @override
   void didUpdateWidget(
-      covariant SSelect<T>
+      covariant SMultiSelect<T>
           oldWidget) {
     super.didUpdateWidget(
         oldWidget);
-    if (widget.value !=
-        oldWidget.value) {
-      _selectedValue =
-          widget.value;
+    if (widget.values !=
+        oldWidget.values) {
+      _selectedValues =
+          widget.values ?? [];
     }
   }
 
@@ -204,17 +207,17 @@ class _SSelectState<
       context,
       items:
           widget.items,
-      singleValue:
-          _selectedValue,
-      onSingleSelect:
-          (value) {
+      multiValues:
+          _selectedValues,
+      onMultiSelect:
+          (values) {
         setState(() {
-          _selectedValue = value;
-          widget.onChanged?.call(value);
+          _selectedValues = values;
+          widget.onChanged?.call(values);
         });
       },
       isMultiSelect:
-          false,
+          true,
       searchPlaceholder:
           widget.searchPlaceholder,
       title:
@@ -300,19 +303,18 @@ class _SSelectState<
         T>(
       items:
           widget.items,
-      singleValue:
-          _selectedValue,
-      onSingleSelect:
-          (T value) {
+      multiValues:
+          _selectedValues,
+      onMultiSelect:
+          (List<T> values) {
         setState(() {
-          _selectedValue = value;
-          widget.onChanged?.call(value);
-          _removeOverlay();
-          developer.log('SSelect: Item selected: $value', name: 'SSelect');
+          _selectedValues = values;
+          widget.onChanged?.call(values);
+          developer.log('SMultiSelect: Items selected: $values', name: 'SMultiSelect');
         });
       },
       isMultiSelect:
-          false,
+          true,
       dropdownMaxHeight:
           widget.dropdownMaxHeight,
       searchPlaceholder:
@@ -347,7 +349,7 @@ class _SSelectState<
       child:
           GestureDetector(
         onTap: _onTrigger,
-        child: widget.triggerBuilder != null ? widget.triggerBuilder!(context, _selectedValue) : _defaultTrigger(context),
+        child: widget.triggerBuilder != null ? widget.triggerBuilder!(context, _selectedValues) : _defaultTrigger(context),
       ),
     );
   }
@@ -357,12 +359,17 @@ class _SSelectState<
           context) {
     String?
         label;
-    if (_selectedValue !=
-        null) {
-      try {
-        label = widget.items.firstWhere((SSelectItem<T> item) => item.value == _selectedValue).label;
-      } catch (_) {
-        label = _selectedValue.toString();
+    if (_selectedValues
+        .isNotEmpty) {
+      if (_selectedValues.length ==
+          1) {
+        try {
+          label = widget.items.firstWhere((SSelectItem<T> item) => item.value == _selectedValues.first).label;
+        } catch (_) {
+          label = _selectedValues.first.toString();
+        }
+      } else {
+        label = '${_selectedValues.length} items selected';
       }
     }
 
