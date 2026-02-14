@@ -18,6 +18,15 @@ class ButtonConfigEntity {
     this.autofocus =
         false,
     this.tooltip,
+    this.isFullWidth =
+        false,
+    this.debounceDuration,
+    this.enableHapticFeedback =
+        false,
+    this.loadingText,
+    this.disabledTooltip,
+    this.isSelected =
+        false,
   });
 
   /// The variant of the button (default, destructive, outline, etc.)
@@ -68,6 +77,30 @@ class ButtonConfigEntity {
   final String?
       tooltip;
 
+  /// Whether the button should stretch to fill the available width.
+  final bool
+      isFullWidth;
+
+  /// Duration to debounce the button press.
+  final Duration?
+      debounceDuration;
+
+  /// Whether to trigger haptic feedback on press.
+  final bool
+      enableHapticFeedback;
+
+  /// Text to show alongside the spinner when loading.
+  final String?
+      loadingText;
+
+  /// Tooltip to show when the button is disabled.
+  final String?
+      disabledTooltip;
+
+  /// Whether the button is in a selected/toggled state.
+  final bool
+      isSelected;
+
   /// Creates a copy with modified properties
   ButtonConfigEntity
       copyWith({
@@ -95,6 +128,18 @@ class ButtonConfigEntity {
         autofocus,
     String?
         tooltip,
+    bool?
+        isFullWidth,
+    Duration?
+        debounceDuration,
+    bool?
+        enableHapticFeedback,
+    String?
+        loadingText,
+    String?
+        disabledTooltip,
+    bool?
+        isSelected,
   }) {
     return ButtonConfigEntity(
       variant:
@@ -121,6 +166,18 @@ class ButtonConfigEntity {
           autofocus ?? this.autofocus,
       tooltip:
           tooltip ?? this.tooltip,
+      isFullWidth:
+          isFullWidth ?? this.isFullWidth,
+      debounceDuration:
+          debounceDuration ?? this.debounceDuration,
+      enableHapticFeedback:
+          enableHapticFeedback ?? this.enableHapticFeedback,
+      loadingText:
+          loadingText ?? this.loadingText,
+      disabledTooltip:
+          disabledTooltip ?? this.disabledTooltip,
+      isSelected:
+          isSelected ?? this.isSelected,
     );
   }
 }

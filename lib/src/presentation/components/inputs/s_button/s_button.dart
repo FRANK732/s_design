@@ -1,9 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'dart:async';
 
-import '../../../../core/constants/design_constants.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import '../../../../domain/entities/config/button_config_entity.dart';
 import '../../../themes/extensions/component_themes/s_button_theme.dart';
+import 's_button_content.dart';
+import 's_button_style_helper.dart';
 
 /// Presentation layer button widget following clean architecture.
 ///
@@ -11,8 +14,7 @@ import '../../../themes/extensions/component_themes/s_button_theme.dart';
 /// business logic to the domain layer. It uses domain entities for
 /// configuration and has no knowledge of data sources.
 class SButton
-    extends StatelessWidget {
-
+    extends StatefulWidget {
   /// Creates a button widget.
   const SButton({
     super.key,
@@ -42,7 +44,21 @@ class SButton
     this.animationDuration,
     this.tooltip,
     this.buttonStyle,
+    this.isFullWidth =
+        false,
+    this.debounceDuration,
+    this.enableHapticFeedback =
+        false,
+    this.leadingIcon,
+    this.trailingIcon,
+    this.loadingText,
+    this.disabledTooltip,
+    this.isSelected =
+        false,
+    this.badge,
+    this.shortcut,
   });
+
   /// Creates an icon button variant.
   factory SButton.icon({
     Key?
@@ -89,6 +105,26 @@ class SButton
         tooltip,
     ButtonStyle?
         buttonStyle,
+    bool isFullWidth =
+        false,
+    Duration?
+        debounceDuration,
+    bool enableHapticFeedback =
+        false,
+    Widget?
+        leadingIcon,
+    Widget?
+        trailingIcon,
+    String?
+        loadingText,
+    String?
+        disabledTooltip,
+    bool isSelected =
+        false,
+    Widget?
+        badge,
+    SingleActivator?
+        shortcut,
   }) {
     return SButton(
       key:
@@ -135,6 +171,26 @@ class SButton
           tooltip,
       buttonStyle:
           buttonStyle,
+      isFullWidth:
+          isFullWidth,
+      debounceDuration:
+          debounceDuration,
+      enableHapticFeedback:
+          enableHapticFeedback,
+      leadingIcon:
+          leadingIcon,
+      trailingIcon:
+          trailingIcon,
+      loadingText:
+          loadingText,
+      disabledTooltip:
+          disabledTooltip,
+      isSelected:
+          isSelected,
+      badge:
+          badge,
+      shortcut:
+          shortcut,
       child:
           label,
     );
@@ -147,6 +203,46 @@ class SButton
       size;
   final ButtonState?
       state;
+
+  /// Whether the button should stretch to fill the available width.
+  final bool
+      isFullWidth;
+
+  /// Duration to debounce the button press.
+  final Duration?
+      debounceDuration;
+
+  /// Whether to trigger haptic feedback on press.
+  final bool
+      enableHapticFeedback;
+
+  /// Icon to display before the label.
+  final Widget?
+      leadingIcon;
+
+  /// Icon to display after the label.
+  final Widget?
+      trailingIcon;
+
+  /// Text to show alongside the spinner when loading.
+  final String?
+      loadingText;
+
+  /// Tooltip to show when the button is disabled.
+  final String?
+      disabledTooltip;
+
+  /// Whether the button is in a selected/toggled state.
+  final bool
+      isSelected;
+
+  /// Badge to display on the button (usually a count or status).
+  final Widget?
+      badge;
+
+  /// Keyboard shortcut to trigger the button.
+  final SingleActivator?
+      shortcut;
 
   // UI-specific properties (presentation layer)
   final Widget?
@@ -189,6 +285,67 @@ class SButton
       tooltip;
 
   @override
+  State<SButton>
+      createState() =>
+          _SButtonState();
+}
+
+class _SButtonState
+    extends State<
+        SButton> {
+  Timer?
+      _debounceTimer;
+  bool
+      _isDebouncing =
+      false;
+
+  @override
+  void
+      dispose() {
+    _debounceTimer
+        ?.cancel();
+    super
+        .dispose();
+  }
+
+  void
+      _handlePressed() {
+    if (widget.onPressed ==
+        null)
+      return;
+
+    if (widget.debounceDuration !=
+        null) {
+      if (_isDebouncing)
+        return;
+
+      setState(() =>
+          _isDebouncing = true);
+      _executeWithHaptics();
+
+      _debounceTimer =
+          Timer(widget.debounceDuration!, () {
+        if (mounted) {
+          setState(() => _isDebouncing = false);
+        }
+      });
+    } else {
+      _executeWithHaptics();
+    }
+  }
+
+  void
+      _executeWithHaptics() {
+    if (widget
+        .enableHapticFeedback) {
+      HapticFeedback.lightImpact();
+    }
+    widget
+        .onPressed
+        ?.call();
+  }
+
+  @override
   Widget build(
       BuildContext
           context) {
@@ -203,70 +360,170 @@ class SButton
         Theme.of(context).sButtonTheme;
 
     // Get colors based on variant and state
-    final Color defaultBackgroundColor = _getBackgroundColor(
-        theme,
-        isDisabled,
-        context);
-    final Color defaultForegroundColor = _getForegroundColor(
-        theme,
-        isDisabled,
-        context);
-    final BorderSide? defaultBorderSide = _getBorderSide(
-        theme,
-        isDisabled,
-        context);
+    final Color
+        defaultBackgroundColor =
+        SButtonStyleHelper.getBackgroundColor(
+      theme:
+          theme,
+      variant:
+          widget.variant,
+      isDisabled:
+          isDisabled,
+    );
+    final Color
+        defaultForegroundColor =
+        SButtonStyleHelper.getForegroundColor(
+      theme:
+          theme,
+      variant:
+          widget.variant,
+      isDisabled:
+          isDisabled,
+    );
+    final BorderSide?
+        defaultBorderSide =
+        SButtonStyleHelper.getBorderSide(
+      theme:
+          theme,
+      variant:
+          widget.variant,
+      isDisabled:
+          isDisabled,
+    );
 
     // Get padding
     final EdgeInsetsGeometry
         computedPadding =
-        padding ?? _getPaddingForSize(size);
+        widget.padding ?? SButtonStyleHelper.getPaddingForSize(widget.size);
 
     // Build content
-    final Widget content = loading
-        ? _buildLoader(theme)
-        : _buildContent(theme);
+    final Widget
+        content =
+        SButtonContent(
+      theme:
+          theme,
+      variant:
+          widget.variant,
+      size:
+          widget.size,
+      loading:
+          widget.loading,
+      loadingText:
+          widget.loadingText,
+      child:
+          widget.child,
+      leadingIcon:
+          widget.leadingIcon,
+      trailingIcon:
+          widget.trailingIcon,
+      icon:
+          widget.icon,
+      badge:
+          widget.badge,
+      textStyle:
+          widget.textStyle,
+      animationDuration:
+          widget.animationDuration,
+    );
 
     // Create button style
     final ButtonStyle
         defaultStyle =
-        _getButtonStyle(
-      theme,
-      backgroundColor ??
-          defaultBackgroundColor,
-      foregroundColor ??
-          defaultForegroundColor,
-      defaultBorderSide,
-      computedPadding,
-      context,
+        SButtonStyleHelper.getButtonStyle(
+      theme:
+          theme,
+      variant:
+          widget.variant,
+      isDisabled:
+          isDisabled,
+      isSelected:
+          widget.isSelected,
+      backgroundColor:
+          widget.backgroundColor ?? defaultBackgroundColor,
+      foregroundColor:
+          widget.foregroundColor ?? defaultForegroundColor,
+      borderSide:
+          defaultBorderSide,
+      padding:
+          computedPadding,
+      elevation:
+          widget.elevation,
+      shadowColor:
+          widget.shadowColor,
+      borderRadius:
+          widget.borderRadius,
     );
 
     // Select button type based on variant
+    final VoidCallback? effectiveOnPressed = isDisabled
+        ? null
+        : _handlePressed;
+    final VoidCallback? effectiveOnLongPress = isDisabled
+        ? null
+        : widget.onLongPress;
+
     Widget
         buttonWidget =
-        _buildButtonByVariant(
-      variant,
-      isDisabled,
-      defaultStyle,
-      content,
+        SButtonStyleHelper.createButtonWidget(
+      variant:
+          widget.variant,
+      content:
+          content,
+      style:
+          widget.buttonStyle ?? defaultStyle,
+      onPressed:
+          effectiveOnPressed,
+      onLongPress:
+          effectiveOnLongPress,
+      focusNode:
+          widget.focusNode,
+      autofocus:
+          widget.autofocus,
     );
 
     // Apply sizing
-    if (height != null ||
-        width != null) {
+    double?
+        effectiveWidth =
+        widget.width;
+    if (widget
+        .isFullWidth) {
+      effectiveWidth =
+          double.infinity;
+    }
+
+    if (widget.height != null ||
+        effectiveWidth != null) {
       buttonWidget =
           SizedBox(
-        height: height,
-        width: width,
+        height: widget.height,
+        width: effectiveWidth,
         child: buttonWidget,
       );
     }
 
     // Apply tooltip
-    if (tooltip !=
+    final String? effectiveTooltip = isDisabled
+        ? (widget.disabledTooltip ?? widget.tooltip)
+        : widget.tooltip;
+
+    if (effectiveTooltip !=
         null) {
       buttonWidget =
           Tooltip(
-        message: tooltip,
+        message: effectiveTooltip,
+        child: buttonWidget,
+      );
+    }
+
+    // Apply shortcut
+    if (widget.shortcut != null &&
+        !isDisabled &&
+        widget.onPressed != null) {
+      buttonWidget =
+          CallbackShortcuts(
+        bindings: {
+          widget.shortcut!: _handlePressed,
+        },
         child: buttonWidget,
       );
     }
@@ -274,325 +531,11 @@ class SButton
     return buttonWidget;
   }
 
-  /// Builds the appropriate button widget based on variant
-  Widget
-      _buildButtonByVariant(
-    ButtonVariant
-        variant,
-    bool
-        isDisabled,
-    ButtonStyle
-        style,
-    Widget
-        content,
-  ) {
-    switch (
-        variant) {
-      case ButtonVariant.defaultVariant:
-      case ButtonVariant.destructive:
-      case ButtonVariant.secondary:
-        return ElevatedButton(
-          onPressed: isDisabled ? null : onPressed,
-          onLongPress: isDisabled ? null : onLongPress,
-          style: buttonStyle ?? style,
-          focusNode: focusNode,
-          autofocus: autofocus,
-          child: content,
-        );
-      case ButtonVariant.outline:
-      case ButtonVariant.destructiveOutline:
-        return OutlinedButton(
-          onPressed: isDisabled ? null : onPressed,
-          onLongPress: isDisabled ? null : onLongPress,
-          style: buttonStyle ?? style,
-          focusNode: focusNode,
-          autofocus: autofocus,
-          child: content,
-        );
-      case ButtonVariant.ghost:
-      case ButtonVariant.link:
-        return TextButton(
-          onPressed: isDisabled ? null : onPressed,
-          onLongPress: isDisabled ? null : onLongPress,
-          style: buttonStyle ?? style,
-          focusNode: focusNode,
-          autofocus: autofocus,
-          child: content,
-        );
-    }
-  }
-
   /// Determines if button is disabled
   bool
       _isDisabled() {
-    return (state == ButtonState.disabled) ||
-        loading ||
-        onPressed == null;
-  }
-
-  /// Gets background color based on variant
-  Color
-      _getBackgroundColor(
-    SButtonThemeData
-        theme,
-    bool
-        isDisabled,
-    BuildContext
-        context,
-  ) {
-    if (_isOutlineVariant()) {
-      return Colors.transparent;
-    }
-
-    switch (
-        variant) {
-      case ButtonVariant.defaultVariant:
-        return isDisabled ? Colors.grey.shade400 : theme.defaultBackgroundColor;
-      case ButtonVariant.destructive:
-        return isDisabled ? Colors.grey.shade400 : Colors.red;
-      case ButtonVariant.secondary:
-        return isDisabled ? Colors.grey.shade400 : Colors.grey.shade400;
-      case ButtonVariant.ghost:
-      case ButtonVariant.link:
-        return Colors.transparent;
-      case ButtonVariant.outline:
-      case ButtonVariant.destructiveOutline:
-        return Colors.transparent;
-    }
-  }
-
-  /// Gets foreground color based on variant
-  Color
-      _getForegroundColor(
-    SButtonThemeData
-        theme,
-    bool
-        isDisabled,
-    BuildContext
-        context,
-  ) {
-    if (_isOutlineVariant()) {
-      switch (variant) {
-        case ButtonVariant.outline:
-          return isDisabled ? Colors.grey : theme.outlineForegroundColor;
-        case ButtonVariant.destructiveOutline:
-          return isDisabled ? Colors.grey : Colors.red;
-        default:
-          return theme.outlineForegroundColor;
-      }
-    }
-
-    switch (
-        variant) {
-      case ButtonVariant.defaultVariant:
-      case ButtonVariant.destructive:
-      case ButtonVariant.secondary:
-        return theme.defaultForegroundColor;
-      case ButtonVariant.ghost:
-        return isDisabled ? Colors.grey : theme.ghostForegroundColor;
-      case ButtonVariant.link:
-        return isDisabled ? Colors.grey : theme.linkForegroundColor;
-      case ButtonVariant.outline:
-      case ButtonVariant.destructiveOutline:
-        return isDisabled ? Colors.grey : theme.outlineForegroundColor;
-    }
-  }
-
-  /// Gets border side for outline variants
-  BorderSide?
-      _getBorderSide(
-    SButtonThemeData
-        theme,
-    bool
-        isDisabled,
-    BuildContext
-        context,
-  ) {
-    if (_isOutlineVariant()) {
-      switch (variant) {
-        case ButtonVariant.outline:
-          return BorderSide(
-            color: isDisabled ? Colors.grey : theme.outlineBorderColor,
-          );
-        case ButtonVariant.destructiveOutline:
-          return BorderSide(
-            color: isDisabled ? Colors.grey : Colors.red,
-          );
-        default:
-          return null;
-      }
-    }
-    return null;
-  }
-
-  /// Checks if variant is outline
-  bool
-      _isOutlineVariant() {
-    return variant == ButtonVariant.outline ||
-        variant == ButtonVariant.destructiveOutline;
-  }
-
-  /// Gets padding for the given size (using domain constants)
-  EdgeInsetsGeometry
-      _getPaddingForSize(ButtonSize size) {
-    switch (
-        size) {
-      case ButtonSize.defaultSize:
-        return const EdgeInsets.symmetric(
-          horizontal: DesignConstants.buttonPaddingHorizontalDefault,
-          vertical: DesignConstants.buttonPaddingVerticalDefault,
-        );
-      case ButtonSize.sm:
-        return const EdgeInsets.symmetric(
-          horizontal: DesignConstants.buttonPaddingHorizontalSm,
-          vertical: DesignConstants.buttonPaddingVerticalSm,
-        );
-      case ButtonSize.lg:
-        return const EdgeInsets.symmetric(
-          horizontal: DesignConstants.buttonPaddingHorizontalLg,
-          vertical: DesignConstants.buttonPaddingVerticalLg,
-        );
-      case ButtonSize.icon:
-        return const EdgeInsets.all(DesignConstants.buttonPaddingIcon);
-    }
-  }
-
-  /// Builds loading indicator
-  Widget _buildLoader(
-      SButtonThemeData
-          theme) {
-    return Center(
-      child:
-          SpinKitThreeBounce(
-        color: _getLoaderColor(theme),
-        size: _getLoaderSize(),
-        duration: animationDuration ?? const Duration(milliseconds: DesignConstants.animationDurationMs),
-      ),
-    );
-  }
-
-  /// Gets loader size based on button size
-  double
-      _getLoaderSize() {
-    switch (
-        size) {
-      case ButtonSize.sm:
-        return DesignConstants.loaderSizeSm;
-      case ButtonSize.defaultSize:
-        return DesignConstants.loaderSizeDefault;
-      case ButtonSize.lg:
-        return DesignConstants.loaderSizeLg;
-      case ButtonSize.icon:
-        return DesignConstants.loaderSizeDefault;
-    }
-  }
-
-  /// Gets loader color
-  Color _getLoaderColor(
-      SButtonThemeData
-          theme) {
-    switch (
-        variant) {
-      case ButtonVariant.destructive:
-      case ButtonVariant.destructiveOutline:
-        return Colors.white;
-      case ButtonVariant.secondary:
-        return Colors.black;
-      case ButtonVariant.link:
-        return theme.linkForegroundColor;
-      default:
-        return theme.defaultForegroundColor;
-    }
-  }
-
-  /// Builds button content
-  Widget _buildContent(
-      SButtonThemeData
-          theme) {
-    final List<Widget>
-        contentWidgets =
-        <Widget>[];
-
-    if (icon !=
-        null) {
-      contentWidgets.add(icon!);
-      if (child !=
-          null) {
-        contentWidgets.add(const SizedBox(width: 8));
-      }
-    }
-
-    if (child !=
-        null) {
-      if (textStyle != null &&
-          child is Text) {
-        contentWidgets.add(
-          Text(
-            (child! as Text).data ?? '',
-            style: textStyle,
-          ),
-        );
-      } else {
-        contentWidgets.add(child!);
-      }
-    }
-
-    return Row(
-      mainAxisSize:
-          MainAxisSize.min,
-      children:
-          contentWidgets,
-    );
-  }
-
-  /// Creates button style
-  ButtonStyle
-      _getButtonStyle(
-    SButtonThemeData
-        theme,
-    Color
-        backgroundColor,
-    Color
-        foregroundColor,
-    BorderSide?
-        borderSide,
-    EdgeInsetsGeometry
-        padding,
-    BuildContext
-        context,
-  ) {
-    return ButtonStyle(
-      backgroundColor:
-          WidgetStateProperty.all(backgroundColor),
-      foregroundColor:
-          WidgetStateProperty.all(foregroundColor),
-      overlayColor:
-          WidgetStateProperty.resolveWith<Color?>(
-        (Set<WidgetState> states) {
-          if (states.contains(WidgetState.pressed)) {
-            return foregroundColor.withOpacity(DesignConstants.opacityPressed);
-          }
-          if (states.contains(WidgetState.focused)) {
-            return foregroundColor.withOpacity(DesignConstants.opacityFocused);
-          }
-          return null;
-        },
-      ),
-      padding:
-          WidgetStateProperty.all(padding),
-      side: borderSide != null
-          ? WidgetStateProperty.all(borderSide)
-          : null,
-      shape:
-          WidgetStateProperty.all(
-        RoundedRectangleBorder(
-          borderRadius: borderRadius as BorderRadius? ?? BorderRadius.circular(DesignConstants.buttonBorderRadiusDefault),
-        ),
-      ),
-      minimumSize:
-          WidgetStateProperty.all(Size.zero),
-      tapTargetSize:
-          MaterialTapTargetSize.shrinkWrap,
-    );
+    return (widget.state == ButtonState.disabled) ||
+        widget.loading ||
+        widget.onPressed == null;
   }
 }

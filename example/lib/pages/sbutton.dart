@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:s_design/s_design.dart';
 
 class ButtonPage
@@ -296,6 +297,115 @@ class _ButtonPageState
                   child: const Text('Custom Styling'),
                 ),
               ],
+            ),
+            const Divider(height: 40),
+
+            // Section: Advanced Features
+            const Text(
+              'Advanced Features',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 16),
+            const Text('Leading & Trailing Icons:', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            SButton(
+              onPressed: () {},
+              leadingIcon: const Icon(Icons.arrow_back, size: 18),
+              trailingIcon: const Icon(Icons.arrow_forward, size: 18),
+              child: const Text('Navigation'),
+            ),
+            const SizedBox(height: 16),
+            const Text('Full Width:', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            SButton(
+              onPressed: () {},
+              isFullWidth: true,
+              child: const Text('Full Width Button'),
+            ),
+            const SizedBox(height: 16),
+            const Text('Debounced (1s):', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            SButton(
+              onPressed: () {
+                debugPrint('Debounced button pressed!');
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Action Executed!'),
+                    duration: Duration(milliseconds: 500),
+                  ),
+                );
+              },
+              debounceDuration: const Duration(seconds: 1),
+              child: const Text('Press Repeatedly'),
+            ),
+            const SizedBox(height: 16),
+            const Text('Haptic Feedback:', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            SButton(
+              onPressed: () {},
+              enableHapticFeedback: true,
+              variant: ButtonVariant.secondary,
+              child: const Text('Press for Haptics'),
+            ),
+            const Divider(height: 40),
+
+            // Section: UX & Interaction
+            const Text(
+              'UX & Interaction',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 16),
+            const Text('Loading with Text:', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 10,
+              children: [
+                SButton(
+                  onPressed: _toggleLoading,
+                  loading: _isLoading,
+                  loadingText: 'Saving...',
+                  child: const Text('Save Record'),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            const Text('Disabled with Tooltip:', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            SButton(
+              onPressed: null, // Disabled
+              disabledTooltip: 'Permission required to delete',
+              variant: ButtonVariant.destructive,
+              child: const Text('Delete Account'),
+            ),
+            const SizedBox(height: 16),
+            const Text('Badge / Notification:', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            SButton(
+              onPressed: () {},
+              variant: ButtonVariant.secondary,
+              badge: const Text('3'),
+              child: const Text('Inbox'),
+            ),
+            const SizedBox(height: 16),
+            const Text('Toggle Button (Selected State):', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            SButton(
+              onPressed: _toggleEnabled, // Reusing toggle for demo
+              isSelected: !_isEnabled, // Using !_isEnabled as selected state for demo
+              variant: ButtonVariant.outline,
+              child: Text(!_isEnabled ? 'Selected' : 'Not Selected'),
+            ),
+            const SizedBox(height: 16),
+            const Text('Keyboard Shortcut (Ctrl+S):', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            SButton(
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Shortcut Triggered!')),
+                );
+              },
+              shortcut: const SingleActivator(LogicalKeyboardKey.keyS, control: true),
+              child: const Text('Save (Ctrl+S)'),
             ),
           ],
         ),
