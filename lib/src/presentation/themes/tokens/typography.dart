@@ -1,35 +1,54 @@
 import 'package:flutter/material.dart';
-import 's_colors.dart';
+import 'colors.dart';
 
 abstract class STypographyBase {
-  TextStyle get displayLarge;
-  TextStyle get displayMedium;
-  TextStyle get displaySmall;
+  TextStyle
+      get displayLarge;
+  TextStyle
+      get displayMedium;
+  TextStyle
+      get displaySmall;
 
-  TextStyle get headlineLarge;
-  TextStyle get headlineMedium;
-  TextStyle get headlineSmall;
+  TextStyle
+      get headlineLarge;
+  TextStyle
+      get headlineMedium;
+  TextStyle
+      get headlineSmall;
 
-  TextStyle get titleLarge;
-  TextStyle get titleMedium;
-  TextStyle get titleSmall;
+  TextStyle
+      get titleLarge;
+  TextStyle
+      get titleMedium;
+  TextStyle
+      get titleSmall;
 
-  TextStyle get bodyLarge;
-  TextStyle get bodyMedium;
-  TextStyle get bodySmall;
+  TextStyle
+      get bodyLarge;
+  TextStyle
+      get bodyMedium;
+  TextStyle
+      get bodySmall;
 
-  TextStyle get labelLarge;
-  TextStyle get labelMedium;
-  TextStyle get labelSmall;
+  TextStyle
+      get labelLarge;
+  TextStyle
+      get labelMedium;
+  TextStyle
+      get labelSmall;
 }
 
 /// Light Theme Typography
-class SLightTypography extends STypographyBase {
-  SLightTypography({required this.colors});
-  final SColorsBase colors;
+class SLightTypography
+    extends STypographyBase {
+  SLightTypography(
+      {required this.colors});
+  final SColorsBase
+      colors;
 
   @override
-  TextStyle get displayLarge => TextStyle(
+  TextStyle get displayLarge =>
+      TextStyle(
         fontSize: 57,
         fontWeight: FontWeight.w300,
         letterSpacing: -0.25,
@@ -37,7 +56,8 @@ class SLightTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get displayMedium => TextStyle(
+  TextStyle get displayMedium =>
+      TextStyle(
         fontSize: 45,
         fontWeight: FontWeight.w300,
         letterSpacing: 0,
@@ -45,7 +65,8 @@ class SLightTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get displaySmall => TextStyle(
+  TextStyle get displaySmall =>
+      TextStyle(
         fontSize: 36,
         fontWeight: FontWeight.w400,
         letterSpacing: 0,
@@ -53,7 +74,8 @@ class SLightTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get headlineLarge => TextStyle(
+  TextStyle get headlineLarge =>
+      TextStyle(
         fontSize: 32,
         fontWeight: FontWeight.w400,
         letterSpacing: 0.25,
@@ -61,7 +83,8 @@ class SLightTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get headlineMedium => TextStyle(
+  TextStyle get headlineMedium =>
+      TextStyle(
         fontSize: 28,
         fontWeight: FontWeight.w400,
         letterSpacing: 0,
@@ -69,7 +92,8 @@ class SLightTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get headlineSmall => TextStyle(
+  TextStyle get headlineSmall =>
+      TextStyle(
         fontSize: 24,
         fontWeight: FontWeight.w400,
         letterSpacing: 0,
@@ -77,7 +101,8 @@ class SLightTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get titleLarge => TextStyle(
+  TextStyle get titleLarge =>
+      TextStyle(
         fontSize: 22,
         fontWeight: FontWeight.w500,
         letterSpacing: 0.1,
@@ -85,7 +110,8 @@ class SLightTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get titleMedium => TextStyle(
+  TextStyle get titleMedium =>
+      TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w500,
         letterSpacing: 0.15,
@@ -93,7 +119,8 @@ class SLightTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get titleSmall => TextStyle(
+  TextStyle get titleSmall =>
+      TextStyle(
         fontSize: 14,
         fontWeight: FontWeight.w500,
         letterSpacing: 0.1,
@@ -101,7 +128,8 @@ class SLightTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get bodyLarge => TextStyle(
+  TextStyle get bodyLarge =>
+      TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w400,
         letterSpacing: 0.5,
@@ -109,7 +137,8 @@ class SLightTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get bodyMedium => TextStyle(
+  TextStyle get bodyMedium =>
+      TextStyle(
         fontSize: 14,
         fontWeight: FontWeight.w400,
         letterSpacing: 0.25,
@@ -117,7 +146,8 @@ class SLightTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get bodySmall => TextStyle(
+  TextStyle get bodySmall =>
+      TextStyle(
         fontSize: 12,
         fontWeight: FontWeight.w400,
         letterSpacing: 0.4,
@@ -125,7 +155,8 @@ class SLightTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get labelLarge => TextStyle(
+  TextStyle get labelLarge =>
+      TextStyle(
         fontSize: 14,
         fontWeight: FontWeight.w500,
         letterSpacing: 1.25,
@@ -133,7 +164,8 @@ class SLightTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get labelMedium => TextStyle(
+  TextStyle get labelMedium =>
+      TextStyle(
         fontSize: 12,
         fontWeight: FontWeight.w500,
         letterSpacing: 1.0,
@@ -141,7 +173,8 @@ class SLightTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get labelSmall => TextStyle(
+  TextStyle get labelSmall =>
+      TextStyle(
         fontSize: 11,
         fontWeight: FontWeight.w500,
         letterSpacing: 1.5,
@@ -150,12 +183,16 @@ class SLightTypography extends STypographyBase {
 }
 
 /// Dark Theme Typography
-class SDarkTypography extends STypographyBase {
-  SDarkTypography({required this.colors});
-  final SColorsBase colors;
+class SDarkTypography
+    extends STypographyBase {
+  SDarkTypography(
+      {required this.colors});
+  final SColorsBase
+      colors;
 
   @override
-  TextStyle get displayLarge => TextStyle(
+  TextStyle get displayLarge =>
+      TextStyle(
         fontSize: 57,
         fontWeight: FontWeight.w300,
         letterSpacing: -0.25,
@@ -163,7 +200,8 @@ class SDarkTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get displayMedium => TextStyle(
+  TextStyle get displayMedium =>
+      TextStyle(
         fontSize: 45,
         fontWeight: FontWeight.w300,
         letterSpacing: 0,
@@ -171,7 +209,8 @@ class SDarkTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get displaySmall => TextStyle(
+  TextStyle get displaySmall =>
+      TextStyle(
         fontSize: 36,
         fontWeight: FontWeight.w400,
         letterSpacing: 0,
@@ -179,7 +218,8 @@ class SDarkTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get headlineLarge => TextStyle(
+  TextStyle get headlineLarge =>
+      TextStyle(
         fontSize: 32,
         fontWeight: FontWeight.w400,
         letterSpacing: 0.25,
@@ -187,7 +227,8 @@ class SDarkTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get headlineMedium => TextStyle(
+  TextStyle get headlineMedium =>
+      TextStyle(
         fontSize: 28,
         fontWeight: FontWeight.w400,
         letterSpacing: 0,
@@ -195,7 +236,8 @@ class SDarkTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get headlineSmall => TextStyle(
+  TextStyle get headlineSmall =>
+      TextStyle(
         fontSize: 24,
         fontWeight: FontWeight.w400,
         letterSpacing: 0,
@@ -203,7 +245,8 @@ class SDarkTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get titleLarge => TextStyle(
+  TextStyle get titleLarge =>
+      TextStyle(
         fontSize: 22,
         fontWeight: FontWeight.w500,
         letterSpacing: 0.1,
@@ -211,7 +254,8 @@ class SDarkTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get titleMedium => TextStyle(
+  TextStyle get titleMedium =>
+      TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w500,
         letterSpacing: 0.15,
@@ -219,7 +263,8 @@ class SDarkTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get titleSmall => TextStyle(
+  TextStyle get titleSmall =>
+      TextStyle(
         fontSize: 14,
         fontWeight: FontWeight.w500,
         letterSpacing: 0.1,
@@ -227,7 +272,8 @@ class SDarkTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get bodyLarge => TextStyle(
+  TextStyle get bodyLarge =>
+      TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w400,
         letterSpacing: 0.5,
@@ -235,7 +281,8 @@ class SDarkTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get bodyMedium => TextStyle(
+  TextStyle get bodyMedium =>
+      TextStyle(
         fontSize: 14,
         fontWeight: FontWeight.w400,
         letterSpacing: 0.25,
@@ -243,7 +290,8 @@ class SDarkTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get bodySmall => TextStyle(
+  TextStyle get bodySmall =>
+      TextStyle(
         fontSize: 12,
         fontWeight: FontWeight.w400,
         letterSpacing: 0.4,
@@ -251,7 +299,8 @@ class SDarkTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get labelLarge => TextStyle(
+  TextStyle get labelLarge =>
+      TextStyle(
         fontSize: 14,
         fontWeight: FontWeight.w500,
         letterSpacing: 1.25,
@@ -259,7 +308,8 @@ class SDarkTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get labelMedium => TextStyle(
+  TextStyle get labelMedium =>
+      TextStyle(
         fontSize: 12,
         fontWeight: FontWeight.w500,
         letterSpacing: 1.0,
@@ -267,7 +317,8 @@ class SDarkTypography extends STypographyBase {
       );
 
   @override
-  TextStyle get labelSmall => TextStyle(
+  TextStyle get labelSmall =>
+      TextStyle(
         fontSize: 11,
         fontWeight: FontWeight.w500,
         letterSpacing: 1.5,
