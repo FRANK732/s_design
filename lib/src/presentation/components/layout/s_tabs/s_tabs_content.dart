@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'enums/s_tabs_enums.dart';
+import 'package:s_design/s_design.dart';
 import 'utils/s_tabs_utils.dart';
 
-class TabsContent extends StatelessWidget {
+class TabsContent
+    extends StatelessWidget {
   const TabsContent({
     super.key,
     required this.index,
@@ -15,31 +16,42 @@ class TabsContent extends StatelessWidget {
   });
 
   /// The index of the tab this content belongs to.
-  final int index;
+  final int
+      index;
 
   /// The index of the currently active tab.
-  final int activeIndex;
+  final int
+      activeIndex;
 
   /// The animation type for transitioning the content (e.g., fade, slide).
-  final STabAnimationType animationType;
+  final STabAnimationType
+      animationType;
 
   /// The duration of the content animation.
-  final Duration duration;
+  final Duration
+      duration;
 
   /// The animation curve for content transitions.
-  final Curve curve;
+  final Curve
+      curve;
 
   /// The content widget to display for the tab.
-  final Widget child;
+  final Widget
+      child;
 
   /// Margin around the content.
-  final EdgeInsetsGeometry contentMargin;
+  final EdgeInsetsGeometry
+      contentMargin;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+      BuildContext
+          context) {
     return AnimatedSwitcher(
-      duration: duration,
-      transitionBuilder: (Widget child, Animation<double> animation) {
+      duration:
+          duration,
+      transitionBuilder:
+          (Widget child, Animation<double> animation) {
         return getTabTransition(
           type: animationType,
           child: child,
