@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../theme/s_colors.dart';
 
 /// Theme data for [SDropdownMenu].
 class SDropdownMenuThemeData
@@ -14,9 +15,9 @@ class SDropdownMenuThemeData
     required this.selectedItemColor,
   });
 
-  /// Creates a [SDropdownMenuThemeData] from [ColorScheme].
-  factory SDropdownMenuThemeData.fromColorScheme(
-      ColorScheme
+  /// Creates a [SDropdownMenuThemeData] from [SColorsBase].
+  factory SDropdownMenuThemeData.fromColors(
+      SColorsBase
           colors) {
     return SDropdownMenuThemeData(
       backgroundColor:
@@ -135,5 +136,5 @@ extension SDropdownMenuThemeExtension
   /// Retrieves the current [SDropdownMenuThemeData].
   SDropdownMenuThemeData get sDropdownMenuTheme =>
       extension<SDropdownMenuThemeData>() ??
-      SDropdownMenuThemeData.fromColorScheme(colorScheme);
+      SDropdownMenuThemeData.fromColors(SLightColors());
 }
