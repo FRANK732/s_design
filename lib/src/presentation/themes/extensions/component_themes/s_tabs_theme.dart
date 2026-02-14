@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../theme/s_colors.dart';
 
 /// Theme data for [STabs].
 class STabsThemeData
@@ -12,9 +13,9 @@ class STabsThemeData
     required this.backgroundColor,
   });
 
-  /// Creates a [STabsThemeData] from [ColorScheme].
-  factory STabsThemeData.fromColorScheme(
-      ColorScheme
+  /// Creates a [STabsThemeData] from [SColorsBase].
+  factory STabsThemeData.fromColors(
+      SColorsBase
           colors) {
     return STabsThemeData(
       indicatorColor:
@@ -105,5 +106,5 @@ extension STabsThemeExtension
   /// Retrieves the current [STabsThemeData].
   STabsThemeData get sTabsTheme =>
       extension<STabsThemeData>() ??
-      STabsThemeData.fromColorScheme(colorScheme);
+      STabsThemeData.fromColors(SLightColors());
 }
