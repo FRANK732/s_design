@@ -14,26 +14,6 @@ class SDropdownMenuThemeData
     required this.selectedItemColor,
   });
 
-  /// Creates a [SDropdownMenuThemeData] from [SColorsBase].
-  factory SDropdownMenuThemeData.fromColors(
-      SColorsBase
-          colors) {
-    return SDropdownMenuThemeData(
-      backgroundColor:
-          colors.dropdownBackground,
-      textColor:
-          colors.dropdownItemUnselected,
-      disabledTextColor:
-          colors.disabled,
-      separatorColor:
-          colors.divider,
-      iconColor:
-          colors.textPrimary,
-      selectedItemColor:
-          colors.dropdownItemSelected,
-    );
-  }
-
   /// Background color of the dropdown menu.
   final Color
       backgroundColor;
@@ -138,7 +118,7 @@ extension SDropdownMenuThemeExtension
       SDropdownMenuThemeData(
         backgroundColor: colorScheme.surfaceContainerHighest,
         textColor: colorScheme.onSurface,
-        disabledTextColor: colorScheme.onSurface.with Opacity(0.38),
+        disabledTextColor: colorScheme.onSurface.withOpacity(0.38),
         separatorColor: colorScheme.outlineVariant,
         iconColor: colorScheme.onSurfaceVariant,
         selectedItemColor: colorScheme.primary,

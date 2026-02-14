@@ -12,22 +12,6 @@ class SProgressBarThemeData
     required this.height,
   });
 
-  /// Creates a [SProgressBarThemeData] from [SColorsBase].
-  factory SProgressBarThemeData.fromColors(
-      SColorsBase
-          colors) {
-    return SProgressBarThemeData(
-      backgroundColor:
-          colors.progressBackground,
-      valueColor:
-          colors.progressValue,
-      borderRadius:
-          4.0,
-      height:
-          8.0,
-    );
-  }
-
   /// Background color of the progress bar.
   final Color
       backgroundColor;
