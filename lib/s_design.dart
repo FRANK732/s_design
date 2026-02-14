@@ -80,9 +80,7 @@ export 'src/presentation/components/layout/s_tabs/s_tabs.dart';
 export 'src/presentation/components/layout/s_tabs/s_tab_list.dart';
 export 'src/presentation/components/layout/s_tabs/s_tabs_content.dart';
 
-// Feedback Components
 export 'src/presentation/components/feedback/s_dialog/s_dialog.dart';
-export 'src/presentation/components/feedback/s_dialog/s_dialog_controller.dart';
 export 'src/presentation/components/feedback/s_progress_bar/progress.dart';
 export 'src/presentation/components/feedback/s_sonner/s_sonner.dart';
 export 'src/presentation/components/feedback/s_toaster/s_toaster.dart';
@@ -126,11 +124,5 @@ export 'src/presentation/themes/extensions/component_themes/s_toast_theme.dart';
 // ============================================================================
 // UTILITIES (for convenience)
 // ============================================================================
-export 'src/core/utils/s_button_util.dart';
 export 'src/core/utils/s_input_field_utils.dart';
 export 'src/core/utils/s_progress_bar_utils.dart';
-export 'src/presentation/components/inputs/s_select/s_select_extension.dart';
-export 'src/presentation/components/inputs/s_select/s_select_utils.dart';
-export 'src/presentation/components/inputs/s_dropdown/s_dropdown_menu_utils.dart';
-export 'src/presentation/components/feedback/s_sonner/s_sonner_utils.dart';
-export 'src/presentation/components/layout/s_tabs/s_tabs_utils.dart';
