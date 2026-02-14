@@ -20,8 +20,15 @@ class SCheckbox
     this.activeColor,
     this.checkColor,
     this.borderColor,
+    this.disabledColor,
     this.isDisabled =
         false,
+    this.isError =
+        false,
+    this.focusNode,
+    this.autofocus =
+        false,
+    this.semanticLabel,
   });
 
   /// The current state of the checkbox.
@@ -53,8 +60,28 @@ class SCheckbox
       borderColor;
 
   /// Whether the checkbox is disabled.
+  final Color?
+      disabledColor;
+
+  /// Whether the checkbox is disabled.
   final bool
       isDisabled;
+
+  /// Whether the checkbox is in an error state.
+  final bool
+      isError;
+
+  /// {@macro flutter.widgets.Focus.focusNode}
+  final FocusNode?
+      focusNode;
+
+  /// {@macro flutter.widgets.Focus.autofocus}
+  final bool
+      autofocus;
+
+  /// The semantic label for the checkbox.
+  final String?
+      semanticLabel;
 
   @override
   State<SCheckbox>
@@ -73,6 +100,17 @@ class _SCheckboxState
       _animationController;
   late Animation<double>
       _scaleAnimation;
+  late Map<
+      Type,
+      Action<Intent>> _actionMap;
+
+  FocusNode?
+      _focusNode;
+
+  FocusNode get _effectiveFocusNode =>
+      widget.focusNode ??
+      (_focusNode ??=
+          FocusNode());
 
   @override
   void
@@ -102,6 +140,14 @@ class _SCheckboxState
         SCheckboxState.unchecked) {
       _animationController.forward();
     }
+
+    _actionMap =
+        <Type, Action<Intent>>{
+      ActivateIntent:
+          CallbackAction<ActivateIntent>(
+        onInvoke: (ActivateIntent intent) => _handleTap(),
+      ),
+    };
   }
 
   @override
@@ -168,33 +214,69 @@ class _SCheckboxState
     final Color
         effectiveCheckColor =
         widget.checkColor ?? theme.checkColor;
-    final Color
-        effectiveBorderColor =
-        widget.borderColor ?? theme.borderColor;
+    final Color effectiveBorderColor = widget.isError
+        ? theme.errorColor
+        : (widget.borderColor ?? theme.borderColor);
 
-    return GestureDetector(
-      onTap:
-          _handleTap,
+    // Determine overlay color for focus/hover - handled by InkResponse splash/highlight
+    // but we might want to keep focus ring logic if InkResponse doesn't do it perfectly for non-touch focus.
+    // However, InkResponse handles focusColor/hoverColor if configured.
+    // Let's rely on InkResponse for hover/splash, but keep focus ring on the container if needed.
+    // Actually, SCheckbox usually has a custom focus ring.
+
+    return Semantics(
+      checked:
+          _currentValue == SCheckboxState.checked,
+      label:
+          widget.semanticLabel,
+      enabled:
+          !widget.isDisabled,
+      button:
+          true,
       child:
-          AnimatedBuilder(
-        animation: _animationController,
-        builder: (BuildContext context, Widget? child) {
-          return Container(
-            width: widget.size,
-            height: widget.size,
+          FocusableActionDetector(
+        focusNode: _effectiveFocusNode,
+        autofocus: widget.autofocus,
+        actions: _actionMap,
+        mouseCursor: widget.isDisabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
+        child: InkResponse(
+          onTap: _handleTap,
+          canRequestFocus: false,
+          radius: widget.size,
+          containedInkWell: false,
+          highlightShape: BoxShape.circle,
+          splashColor: theme.activeColor.withOpacity(0.1),
+          highlightColor: theme.activeColor.withOpacity(0.1),
+          hoverColor: theme.hoverColor,
+          focusColor: theme.focusColor,
+          child: Container(
+            padding: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
-              color: _currentValue != SCheckboxState.unchecked ? effectiveActiveColor : Colors.transparent,
-              borderRadius: BorderRadius.circular(4.0),
-              border: Border.all(
-                color: _currentValue != SCheckboxState.unchecked ? effectiveActiveColor : effectiveBorderColor,
-                width: 2.0,
-              ),
+              // visual focus ring could be here if needed, or rely on InkResponse focusColor
+              borderRadius: BorderRadius.circular(20),
             ),
-            child: Center(
-              child: _buildInnerIcon(effectiveCheckColor),
+            child: AnimatedBuilder(
+              animation: _animationController,
+              builder: (BuildContext context, Widget? child) {
+                return Container(
+                  width: widget.size,
+                  height: widget.size,
+                  decoration: BoxDecoration(
+                    color: _currentValue != SCheckboxState.unchecked ? effectiveActiveColor : Colors.transparent,
+                    borderRadius: BorderRadius.circular(4.0),
+                    border: Border.all(
+                      color: _currentValue != SCheckboxState.unchecked ? effectiveActiveColor : effectiveBorderColor,
+                      width: 2.0,
+                    ),
+                  ),
+                  child: Center(
+                    child: _buildInnerIcon(effectiveCheckColor),
+                  ),
+                );
+              },
             ),
-          );
-        },
+          ),
+        ),
       ),
     );
   }
@@ -227,6 +309,8 @@ class _SCheckboxState
       dispose() {
     _animationController
         .dispose();
+    _focusNode
+        ?.dispose();
     super
         .dispose();
   }

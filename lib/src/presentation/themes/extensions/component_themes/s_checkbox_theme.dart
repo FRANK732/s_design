@@ -11,6 +11,9 @@ class SCheckboxThemeData
     required this.borderColor,
     required this.inactiveColor,
     required this.disabledColor,
+    required this.errorColor,
+    required this.focusColor,
+    required this.hoverColor,
   });
 
   /// Creates a [SCheckboxThemeData] from [ColorScheme].
@@ -28,6 +31,12 @@ class SCheckboxThemeData
           colorScheme.outline,
       disabledColor:
           colorScheme.onSurface.withOpacity(0.38),
+      errorColor:
+          colorScheme.error,
+      focusColor:
+          colorScheme.primary.withOpacity(0.12),
+      hoverColor:
+          colorScheme.primary.withOpacity(0.08),
     );
   }
 
@@ -51,6 +60,18 @@ class SCheckboxThemeData
   final Color
       disabledColor;
 
+  /// Color for the checkbox border in error state.
+  final Color
+      errorColor;
+
+  /// Color for the focus overlay.
+  final Color
+      focusColor;
+
+  /// Color for the hover overlay.
+  final Color
+      hoverColor;
+
   @override
   SCheckboxThemeData
       copyWith({
@@ -64,6 +85,12 @@ class SCheckboxThemeData
         inactiveColor,
     Color?
         disabledColor,
+    Color?
+        errorColor,
+    Color?
+        focusColor,
+    Color?
+        hoverColor,
   }) {
     return SCheckboxThemeData(
       activeColor:
@@ -76,6 +103,12 @@ class SCheckboxThemeData
           inactiveColor ?? this.inactiveColor,
       disabledColor:
           disabledColor ?? this.disabledColor,
+      errorColor:
+          errorColor ?? this.errorColor,
+      focusColor:
+          focusColor ?? this.focusColor,
+      hoverColor:
+          hoverColor ?? this.hoverColor,
     );
   }
 
@@ -109,6 +142,18 @@ class SCheckboxThemeData
       disabledColor: Color.lerp(
           disabledColor,
           other.disabledColor,
+          t)!,
+      errorColor: Color.lerp(
+          errorColor,
+          other.errorColor,
+          t)!,
+      focusColor: Color.lerp(
+          focusColor,
+          other.focusColor,
+          t)!,
+      hoverColor: Color.lerp(
+          hoverColor,
+          other.hoverColor,
           t)!,
     );
   }

@@ -37,6 +37,8 @@ export 'src/presentation/components/feedback/s_toaster/s_toaster.dart';
 export 'src/presentation/components/inputs/s_button/s_button.dart';
 export 'src/presentation/components/inputs/s_button/s_button_poc.dart';
 export 'src/presentation/components/inputs/s_checkbox/s_checkbox.dart';
+export 'src/presentation/components/inputs/s_checkbox/s_checkbox_form_field.dart';
+export 'src/presentation/components/inputs/s_checkbox/s_checkbox_list_tile.dart';
 export 'src/presentation/components/inputs/s_dropdown/s_dropdown_controller.dart';
 export 'src/presentation/components/inputs/s_dropdown/s_dropdown_menu.dart';
 export 'src/presentation/components/inputs/s_input/s_input_field.dart';
