@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../theme/s_colors.dart';
 
 /// Theme data for [SToast].
 class SToastThemeData
@@ -14,9 +15,9 @@ class SToastThemeData
     required this.warningColor,
   });
 
-  /// Creates a [SToastThemeData] from [ColorScheme].
-  factory SToastThemeData.fromColorScheme(
-      ColorScheme
+  /// Creates a [SToastThemeData] from [SColorsBase].
+  factory SToastThemeData.fromColors(
+      SColorsBase
           colors) {
     return SToastThemeData(
       backgroundColor:
@@ -24,11 +25,11 @@ class SToastThemeData
       textColor:
           colors.toasterText,
       successColor:
-          colorScheme.primary,
+          colors.primary,
       errorColor:
-          colorScheme.error,
+          colors.error,
       infoColor:
-          colorScheme.secondary,
+          colors.secondary,
       warningColor:
           const Color(0xFFFFA726), // Orange warning color
     );
@@ -135,5 +136,5 @@ extension SToastThemeExtension
   /// Retrieves the current [SToastThemeData].
   SToastThemeData get sToastTheme =>
       extension<SToastThemeData>() ??
-      SToastThemeData.fromColorScheme(colorScheme);
+      SToastThemeData.fromColors(SLightColors());
 }

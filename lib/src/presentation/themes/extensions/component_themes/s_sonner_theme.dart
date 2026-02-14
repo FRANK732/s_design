@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../theme/s_colors.dart';
 
 /// Theme data for [SSonner].
 class SSonnerThemeData
@@ -15,9 +16,9 @@ class SSonnerThemeData
     required this.iconColor,
   });
 
-  /// Creates a [SSonnerThemeData] from [ColorScheme].
-  factory SSonnerThemeData.fromColorScheme(
-      ColorScheme
+  /// Creates a [SSonnerThemeData] from [SColorsBase].
+  factory SSonnerThemeData.fromColors(
+      SColorsBase
           colors) {
     return SSonnerThemeData(
       backgroundColor:
@@ -25,11 +26,11 @@ class SSonnerThemeData
       textColor:
           colors.toasterText,
       successColor:
-          colorScheme.primary,
+          colors.primary,
       errorColor:
-          colorScheme.error,
+          colors.error,
       infoColor:
-          colorScheme.secondary,
+          colors.secondary,
       warningColor:
           const Color(0xFFFFA726), // Orange warning color
       iconColor:
@@ -150,5 +151,5 @@ extension SSonnerThemeExtension
   /// Retrieves the current [SSonnerThemeData].
   SSonnerThemeData get sSonnerTheme =>
       extension<SSonnerThemeData>() ??
-      SSonnerThemeData.fromColorScheme(colorScheme);
+      SSonnerThemeData.fromColors(SLightColors());
 }
