@@ -2,7 +2,7 @@ import 'dart:developer'
     as developer;
 
 import 'package:flutter/material.dart';
-import 'package:s_design/s_design.dart';
+import '../../../../../s_design.dart';
 import 'utils/s_select_extension.dart';
 
 // An advanced select widget with customizable trigger and content, supporting single or multi-select dropdowns.

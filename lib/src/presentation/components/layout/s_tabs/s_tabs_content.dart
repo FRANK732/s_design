@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/s_design.dart';
+import '../../../../../s_design.dart';
 import 'utils/s_tabs_utils.dart';
 
 class TabsContent

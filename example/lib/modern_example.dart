@@ -16,6 +16,23 @@ class ModernSDesignExample
   Widget build(
       BuildContext
           context) {
+    // Define ColorSchemes
+    final ColorScheme
+        lightColorScheme =
+        ColorScheme.fromSeed(
+      seedColor:
+          const Color(0xFF6366F1), // Indigo brand color
+    );
+
+    final ColorScheme
+        darkColorScheme =
+        ColorScheme.fromSeed(
+      seedColor:
+          const Color(0xFF6366F1),
+      brightness:
+          Brightness.dark,
+    );
+
     return MaterialApp(
       title:
           'sDesign Modern Example',
@@ -26,19 +43,16 @@ class ModernSDesignExample
       theme:
           ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF6366F1), // Indigo brand color
-          brightness: Brightness.light,
-        ),
-        // Apply component themes
-        extensions: const <ThemeExtension<dynamic>>[
-          SButtonTheme(),
-          SInputTheme(),
-          SCheckboxTheme(),
-          SCardTheme(),
-          SListTileTheme(),
-          SDialogTheme(),
-          SProgressBarTheme(),
+        colorScheme: lightColorScheme,
+        extensions: <ThemeExtension<dynamic>>[
+          SButtonThemeData.fromColorScheme(lightColorScheme),
+          SInputFieldThemeData.fromColorScheme(lightColorScheme),
+          SCheckboxThemeData.fromColorScheme(lightColorScheme),
+          SCardThemeData.fromColorScheme(lightColorScheme),
+          SListTileThemeData.fromColorScheme(lightColorScheme),
+          SDialogThemeData.fromColorScheme(lightColorScheme),
+          SProgressBarThemeData.fromColorScheme(lightColorScheme),
+          SSwitchThemeData.fromColorScheme(lightColorScheme),
         ],
       ),
 
@@ -46,23 +60,18 @@ class ModernSDesignExample
       darkTheme:
           ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF6366F1),
-          brightness: Brightness.dark,
-        ),
-        extensions: const <ThemeExtension<dynamic>>[
-          SButtonTheme(),
-          SInputTheme(),
-          SCheckboxTheme(),
-          SCardTheme(),
-          SListTileTheme(),
-          SDialogTheme(),
-          SProgressBarTheme(),
+        colorScheme: darkColorScheme,
+        extensions: <ThemeExtension<dynamic>>[
+          SButtonThemeData.fromColorScheme(darkColorScheme),
+          SInputFieldThemeData.fromColorScheme(darkColorScheme),
+          SCheckboxThemeData.fromColorScheme(darkColorScheme),
+          SCardThemeData.fromColorScheme(darkColorScheme),
+          SListTileThemeData.fromColorScheme(darkColorScheme),
+          SDialogThemeData.fromColorScheme(darkColorScheme),
+          SProgressBarThemeData.fromColorScheme(darkColorScheme),
+          SSwitchThemeData.fromColorScheme(darkColorScheme),
         ],
       ),
-
-      themeMode:
-          ThemeMode.system,
       home:
           const ComponentShowcase(),
     );
@@ -117,7 +126,7 @@ class _ComponentShowcaseState
         backgroundColor: colorScheme.primaryContainer,
         foregroundColor: colorScheme.onPrimaryContainer,
       ),
-      renderBody: (_) =>
+      renderBody: (BuildContext context) =>
           SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -145,43 +154,57 @@ class _ComponentShowcaseState
             const SizedBox(height: 16),
 
             SCard(
-              child: Padding(
+              body: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    SButton(
-                      label: 'Primary Button',
-                      onPressed: () => _showSnackBar(context, 'Primary button pressed!'),
-                      buttonType: SButtonType.primary,
-                    ),
-                    const SizedBox(height: 12),
-                    SButton(
-                      label: 'Secondary Button',
-                      onPressed: () => _showSnackBar(context, 'Secondary button pressed!'),
-                      buttonType: SButtonType.secondary,
+                    Wrap(
+                      spacing: 12,
+                      runSpacing: 12,
+                      children: <Widget>[
+                        SButton(
+                          onPressed: () => _showSnackBar(context, 'Primary button pressed!'),
+                          child: const Text('Primary Button'),
+                        ),
+                        SButton(
+                          onPressed: () => _showSnackBar(context, 'Secondary button pressed!'),
+                          variant: ButtonVariant.secondary,
+                          child: const Text('Secondary Button'),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 12),
                     SInputField(
                       controller: _inputController,
-                      placeholder: 'Enter text here...',
-                      label: 'Input Field',
+                      hintText: 'Enter text here...',
+                      labelText: 'Input Field',
                     ),
                     const SizedBox(height: 12),
-                    SCheckbox(
-                      value: _checkboxValue,
-                      onChanged: (bool? value) {
-                        setState(() => _checkboxValue = value ?? false);
-                      },
-                      label: 'Checkbox with ColorScheme theming',
+                    Row(
+                      children: <Widget>[
+                        SCheckbox(
+                          value: _checkboxValue ? SCheckboxState.checked : SCheckboxState.unchecked,
+                          onChanged: (SCheckboxState? value) {
+                            setState(() => _checkboxValue = value == SCheckboxState.checked);
+                          },
+                        ),
+                        const SizedBox(width: 8),
+                        const Text('Checkbox with ColorScheme theming'),
+                      ],
                     ),
                     const SizedBox(height: 12),
-                    SSwitch(
-                      value: _switchValue,
-                      onChanged: (bool value) {
-                        setState(() => _switchValue = value);
-                      },
-                      label: 'Switch Component',
+                    Row(
+                      children: <Widget>[
+                        SSwitch(
+                          value: _switchValue,
+                          onChanged: (bool value) {
+                            setState(() => _switchValue = value);
+                          },
+                        ),
+                        const SizedBox(width: 8),
+                        const Text('Switch Component'),
+                      ],
                     ),
                   ],
                 ),
@@ -194,8 +217,8 @@ class _ComponentShowcaseState
             const SizedBox(height: 16),
 
             SCard(
-              backgroundColor: colorScheme.surfaceContainerHighest,
-              child: Padding(
+              color: colorScheme.surfaceContainerHighest,
+              body: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Text(
                   'This is an SCard with custom styling',
@@ -206,8 +229,8 @@ class _ComponentShowcaseState
             const SizedBox(height: 12),
 
             SListTile(
-              title: 'List Tile Example',
-              subtitle: 'With ColorScheme integration',
+              title: const Text('List Tile Example'),
+              subtitle: const Text('With ColorScheme integration'),
               leading: Icon(Icons.star, color: colorScheme.primary),
               trailing: Icon(Icons.chevron_right, color: colorScheme.onSurfaceVariant),
               onTap: () => _showSnackBar(context, 'List tile tapped!'),
@@ -219,15 +242,15 @@ class _ComponentShowcaseState
             const SizedBox(height: 16),
 
             SCard(
-              child: Padding(
+              body: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     SButton(
-                      label: 'Show Dialog',
                       onPressed: () => _showExampleDialog(context),
-                      buttonType: SButtonType.secondary,
+                      variant: ButtonVariant.secondary,
+                      child: const Text('Show Dialog'),
                     ),
                     const SizedBox(height: 12),
                     const Text('Progress Bar:'),
@@ -244,7 +267,7 @@ class _ComponentShowcaseState
             const SizedBox(height: 16),
 
             SCard(
-              child: Padding(
+              body: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -344,21 +367,20 @@ class _ComponentShowcaseState
   void _showExampleDialog(
       BuildContext
           context) {
-    showDialog<
+    SDialog.show<
         void>(
       context:
           context,
-      builder: (BuildContext context) =>
-          SDialog(
-        title: 'Example Dialog',
-        content: const Text('This dialog uses ColorScheme theming automatically!'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Close'),
-          ),
-        ],
-      ),
+      title:
+          'Example Dialog',
+      content:
+          const Text('This dialog uses ColorScheme theming automatically!'),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('Close'),
+        ),
+      ],
     );
   }
 }

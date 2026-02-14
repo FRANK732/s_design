@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:s_design/s_design.dart';
+import '../../../../../s_design.dart';
 
 // A customizable card widget with support for content sections, styling, animations, dismissible behavior, and accessibility features.
 

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'package:s_design/s_design.dart';
-import '../enums/s_sonner_options.dart';
+import '../../../../../domain/entities/config/s_sonner_options.dart';
 
 /// Utility functions for [SToasterService] and [SToastWidget].
 class SSonnerUtils {
   /// Determines the alignment based on [SSonnerPosition].
-  /// Determines the alignment based on [SSonnerPosition].
-  static Alignment getAlignment(SSonnerPosition position) {
-    switch (position) {
+  static Alignment
+      getAlignment(SSonnerPosition position) {
+    switch (
+        position) {
       case SSonnerPosition.top:
         return Alignment.topCenter;
       case SSonnerPosition.center:
@@ -19,9 +19,10 @@ class SSonnerUtils {
   }
 
   /// Determines the offset animation begin based on [SSonnerPosition].
-  /// Made public by removing the leading underscore.
-  static Offset getOffsetBegin(SSonnerPosition position) {
-    switch (position) {
+  static Offset
+      getOffsetBegin(SSonnerPosition position) {
+    switch (
+        position) {
       case SSonnerPosition.top:
         return const Offset(0.0, -1.0);
       case SSonnerPosition.center:
@@ -32,8 +33,10 @@ class SSonnerUtils {
   }
 
   /// Provides icon data based on [SSonnerVariant].
-  static IconData getIconData(SSonnerVariant type) {
-    switch (type) {
+  static IconData
+      getIconData(SSonnerVariant type) {
+    switch (
+        type) {
       case SSonnerVariant.success:
         return Icons.check_circle;
       case SSonnerVariant.error:
@@ -45,16 +48,25 @@ class SSonnerUtils {
     }
   }
 
-  static Color getBackgroundColor(SSonnerVariant type, BuildContext context) {
-    switch (type) {
+  /// Helper to get background color from ColorScheme based on variant.
+  static Color getBackgroundColor(
+      SSonnerVariant
+          type,
+      BuildContext
+          context) {
+    final ColorScheme
+        colorScheme =
+        Theme.of(context).colorScheme;
+    switch (
+        type) {
       case SSonnerVariant.success:
-        return context.primaryColor;
+        return colorScheme.primary; // Or a specific success color
       case SSonnerVariant.error:
-        return context.errorColor;
+        return colorScheme.error;
       case SSonnerVariant.warning:
-        return context.secondaryColor;
+        return colorScheme.tertiary; // Often used for warning/attention
       case SSonnerVariant.info:
-        return context.primaryColor;
+        return colorScheme.secondary;
     }
   }
 }

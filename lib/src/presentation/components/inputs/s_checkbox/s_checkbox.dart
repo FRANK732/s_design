@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/s_design.dart';
-import '../../../themes/extensions/component_themes/s_checkbox_theme.dart';
+
+import '../../../../../s_design.dart';
 import 'utils/s_checkbox_util.dart';
 
 ///

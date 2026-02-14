@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/s_design.dart';
-import 's_tab_list.dart';
-import 's_tabs_content.dart';
+import '../../../../../s_design.dart';
 
 class STabs
     extends StatefulWidget {

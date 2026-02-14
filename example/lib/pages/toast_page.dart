@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
 
-class ToastPage extends StatelessWidget {
-  const ToastPage({super.key});
+class ToastPage
+    extends StatelessWidget {
+  const ToastPage(
+      {super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+      BuildContext
+          context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar:
+          AppBar(
         title: const Text('Toast Showcase'),
       ),
-      body: Center(
+      body:
+          Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20.0),
           child: Column(
@@ -53,7 +59,7 @@ class ToastPage extends StatelessWidget {
                     variant: SToastVariant.destructive,
                     action: SButton(
                       onPressed: () {},
-                      size: SButtonSize.sm,
+                      size: ButtonSize.sm,
                       child: const Text('action'),
                     ),
                   );

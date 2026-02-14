@@ -10,8 +10,7 @@ analyzer:
     todo: ignore
     deprecated_member_use: ignore
     deprecated_member_use_from_same_package: ignore
-  
-  
+
   exclude:
     - "bin/cache/**"
       # Ignore protoc generated files
@@ -23,19 +22,17 @@ analyzer:
     strict-inference: true
     strict-raw-types: true
 
-
 formatter:
   page_width: 10
 
-
 linter:
-   rules:
+  rules:
     # This list is derived from the list of all available lints located at
     # https://github.com/dart-lang/sdk/blob/main/pkg/linter/example/all.yaml
     - always_declare_return_types
     - always_put_control_body_on_new_line
     # - always_put_required_named_parameters_first # we prefer having parameters in the same order as fields https://github.com/flutter/flutter/issues/10219
-    - always_specify_types
+    # - always_specify_types
     # - always_use_package_imports # we do this commonly
     - annotate_overrides
     - annotate_redeclares

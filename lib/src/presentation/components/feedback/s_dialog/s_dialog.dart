@@ -2,7 +2,7 @@ import 'dart:developer'
     as developer;
 
 import 'package:flutter/material.dart';
-import 'package:s_design/s_design.dart';
+import '../../../../../s_design.dart';
 
 // A customizable dialog widget with support for title, description, content, actions, animations, and accessibility.
 class SDialog

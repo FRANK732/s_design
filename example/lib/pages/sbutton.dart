@@ -1,37 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
 
-class ButtonPage extends StatefulWidget {
-  const ButtonPage({super.key});
+class ButtonPage
+    extends StatefulWidget {
+  const ButtonPage(
+      {super.key});
 
   @override
-  State<ButtonPage> createState() => _ButtonPageState();
+  State<ButtonPage>
+      createState() =>
+          _ButtonPageState();
 }
 
-class _ButtonPageState extends State<ButtonPage> {
+class _ButtonPageState
+    extends State<
+        ButtonPage> {
   // Example state variables to demonstrate button states
-  bool _isLoading = false;
-  bool _isEnabled = true;
+  bool
+      _isLoading =
+      false;
+  bool
+      _isEnabled =
+      true;
 
-  void _toggleLoading() {
-    setState(() {
-      _isLoading = !_isLoading;
+  void
+      _toggleLoading() {
+    setState(
+        () {
+      _isLoading =
+          !_isLoading;
     });
   }
 
-  void _toggleEnabled() {
-    setState(() {
-      _isEnabled = !_isEnabled;
+  void
+      _toggleEnabled() {
+    setState(
+        () {
+      _isEnabled =
+          !_isEnabled;
     });
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+      BuildContext
+          context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar:
+          AppBar(
         title: const Text('SButton Showcase'),
       ),
-      body: SingleChildScrollView(
+      body:
+          SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,42 +73,42 @@ class _ButtonPageState extends State<ButtonPage> {
                   child: const Text('Default'),
                 ),
                 SButton(
-                  variant: SButtonVariant.destructive,
+                  variant: ButtonVariant.destructive,
                   onPressed: () {
                     // Handle destructive button press
                   },
                   child: const Text('Destructive'),
                 ),
                 SButton(
-                  variant: SButtonVariant.secondary,
+                  variant: ButtonVariant.secondary,
                   onPressed: () {
                     // Handle secondary button press
                   },
                   child: const Text('Secondary'),
                 ),
                 SButton(
-                  variant: SButtonVariant.outline,
+                  variant: ButtonVariant.outline,
                   onPressed: () {
                     // Handle outline button press
                   },
                   child: const Text('Outline'),
                 ),
                 SButton(
-                  variant: SButtonVariant.destructiveOutline,
+                  variant: ButtonVariant.destructiveOutline,
                   onPressed: () {
                     // Handle destructive outline button press
                   },
                   child: const Text('Destructive Outline'),
                 ),
                 SButton(
-                  variant: SButtonVariant.ghost,
+                  variant: ButtonVariant.ghost,
                   onPressed: () {
                     // Handle ghost button press
                   },
                   child: const Text('Ghost'),
                 ),
                 SButton(
-                  variant: SButtonVariant.link,
+                  variant: ButtonVariant.link,
                   onPressed: () {
                     // Handle link button press
                   },
@@ -109,7 +129,7 @@ class _ButtonPageState extends State<ButtonPage> {
               runSpacing: 10,
               children: <Widget>[
                 SButton(
-                  size: SButtonSize.sm,
+                  size: ButtonSize.sm,
                   onPressed: () {},
                   child: const Text('Small'),
                 ),
@@ -118,12 +138,12 @@ class _ButtonPageState extends State<ButtonPage> {
                   child: const Text('Default'),
                 ),
                 SButton(
-                  size: SButtonSize.lg,
+                  size: ButtonSize.lg,
                   onPressed: () {},
                   child: const Text('Large'),
                 ),
                 SButton(
-                  size: SButtonSize.icon,
+                  size: ButtonSize.icon,
                   onPressed: () {},
                   icon: const Icon(Icons.thumb_up),
                   child: const Text('Icon'),
@@ -152,18 +172,17 @@ class _ButtonPageState extends State<ButtonPage> {
                   child: const Text('Loading'),
                 ),
                 SButton(
-                  state: SButtonState.enabled,
+                  state: ButtonState.enabled,
                   onPressed: () {},
                   child: const Text('Enabled'),
                 ),
                 SButton(
-                  state: SButtonState.disabled,
+                  state: ButtonState.disabled,
                   onPressed: () {},
                   child: const Text('Disabled'),
                 ),
                 SButton(
-                  state:
-                      _isEnabled ? SButtonState.enabled : SButtonState.disabled,
+                  state: _isEnabled ? ButtonState.enabled : ButtonState.disabled,
                   onPressed: _isEnabled ? () {} : null,
                   child: Text(_isEnabled ? 'Enabled' : 'Disabled'),
                 ),
@@ -191,19 +210,19 @@ class _ButtonPageState extends State<ButtonPage> {
                   child: const Text('Add'),
                 ),
                 SButton(
-                  variant: SButtonVariant.destructive,
+                  variant: ButtonVariant.destructive,
                   icon: const Icon(Icons.delete),
                   onPressed: () {},
                   child: const Text('Delete'),
                 ),
                 SButton(
-                  variant: SButtonVariant.secondary,
+                  variant: ButtonVariant.secondary,
                   icon: const Icon(Icons.edit),
                   onPressed: () {},
                   child: const Text('Edit'),
                 ),
                 SButton(
-                  size: SButtonSize.icon,
+                  size: ButtonSize.icon,
                   icon: const Icon(Icons.favorite),
                   onPressed: () {},
                 ),
@@ -230,13 +249,12 @@ class _ButtonPageState extends State<ButtonPage> {
                 SButton(
                   height: 60,
                   width: 200,
-                  variant: SButtonVariant.destructive,
+                  variant: ButtonVariant.destructive,
                   onPressed: () {},
                   child: const Text('Large Fixed'),
                 ),
                 SButton(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                   onPressed: () {},
                   child: const Text('Custom Padding'),
                 ),

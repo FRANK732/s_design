@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
-import '../enums/s_tabs_enums.dart';
+import '../../../../../domain/entities/config/s_tabs_enums.dart';
 
 /// Utility to get the transition based on the TabAnimationType.
-Widget getTabTransition({
-  required STabAnimationType type,
-  required Widget child,
-  required Animation<double> animation,
+Widget
+    getTabTransition({
+  required STabAnimationType
+      type,
+  required Widget
+      child,
+  required Animation<double>
+      animation,
 }) {
-  switch (type) {
+  switch (
+      type) {
     case STabAnimationType.fade:
-      return FadeTransition(opacity: animation, child: child);
+      return FadeTransition(
+          opacity: animation,
+          child: child);
     case STabAnimationType.slide:
       return SlideTransition(
         position: Tween<Offset>(
@@ -19,6 +26,8 @@ Widget getTabTransition({
         child: child,
       );
     case STabAnimationType.scale:
-      return ScaleTransition(scale: animation, child: child);
+      return ScaleTransition(
+          scale: animation,
+          child: child);
   }
 }

@@ -134,7 +134,7 @@ class SFloatingPanel {
                 position: slideAnimation,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: [
+                  children: <Widget>[
                     Material(
                       key: _contentKey,
                       elevation: 8,
@@ -142,7 +142,7 @@ class SFloatingPanel {
                       clipBehavior: Clip.antiAlias,
                       child: _currentContent,
                     ),
-                    if (_currentBottomWidget != null) ...[
+                    if (_currentBottomWidget != null) ...<Widget>[
                       SizedBox(height: panelSpacing),
                       KeyedSubtree(
                         key: _bottomWidgetKey,
@@ -196,13 +196,13 @@ class SFloatingPanel {
       try {
         await animationController.reverse();
       } catch (e) {
-        dev.log("Animation reverse cancelled: $e", name: "SFloatingPanel");
+        dev.log('Animation reverse cancelled: $e', name: 'SFloatingPanel');
       }
 
       // GUARD: If global controller has changed (due to new 'show'), abort cleanup
       if (_animationController != animationController) {
-        dev.log("Close preempted by new Show. Aborting old cleanup.",
-            name: "SFloatingPanel");
+        dev.log('Close preempted by new Show. Aborting old cleanup.',
+            name: 'SFloatingPanel');
         try {
           animationController.dispose();
         } catch (_) {}

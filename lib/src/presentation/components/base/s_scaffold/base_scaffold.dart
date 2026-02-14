@@ -2,9 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:s_design/s_design.dart';
+import '../../../../../s_design.dart';
 import 'widgets/floating_action_button_config.dart';
-import 'widgets/loading_config.dart';
 import 'widgets/loading_provider.dart';
 
 class SScaffold
@@ -523,7 +522,7 @@ class _SScaffoldState
   Future<void>
       _handleRefresh() async {
     if (_isRefreshing ||
-        (widget.refreshConfig?.enabled ?? widget.enableRefresh) != true ||
+        !(widget.refreshConfig?.enabled ?? widget.enableRefresh) ||
         (widget.refreshConfig?.onRefresh ?? widget.onRefresh) == null) {
       return;
     }

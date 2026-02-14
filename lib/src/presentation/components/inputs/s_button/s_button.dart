@@ -12,6 +12,37 @@ import '../../../themes/extensions/component_themes/s_button_theme.dart';
 /// configuration and has no knowledge of data sources.
 class SButton
     extends StatelessWidget {
+
+  /// Creates a button widget.
+  const SButton({
+    super.key,
+    this.variant =
+        ButtonVariant.defaultVariant,
+    this.size =
+        ButtonSize.defaultSize,
+    this.state,
+    this.icon,
+    this.backgroundColor,
+    this.foregroundColor,
+    this.loading =
+        false,
+    required this.onPressed,
+    this.onLongPress,
+    this.child,
+    this.height,
+    this.width,
+    this.padding,
+    this.borderRadius,
+    this.elevation,
+    this.shadowColor,
+    this.focusNode,
+    this.autofocus =
+        false,
+    this.textStyle,
+    this.animationDuration,
+    this.tooltip,
+    this.buttonStyle,
+  });
   /// Creates an icon button variant.
   factory SButton.icon({
     Key?
@@ -70,8 +101,6 @@ class SButton
           state,
       icon:
           icon,
-      child:
-          label,
       backgroundColor:
           backgroundColor,
       foregroundColor:
@@ -106,39 +135,10 @@ class SButton
           tooltip,
       buttonStyle:
           buttonStyle,
+      child:
+          label,
     );
   }
-
-  /// Creates a button widget.
-  const SButton({
-    super.key,
-    this.variant =
-        ButtonVariant.defaultVariant,
-    this.size =
-        ButtonSize.defaultSize,
-    this.state,
-    this.icon,
-    this.backgroundColor,
-    this.foregroundColor,
-    this.loading =
-        false,
-    required this.onPressed,
-    this.onLongPress,
-    this.child,
-    this.height,
-    this.width,
-    this.padding,
-    this.borderRadius,
-    this.elevation,
-    this.shadowColor,
-    this.focusNode,
-    this.autofocus =
-        false,
-    this.textStyle,
-    this.animationDuration,
-    this.tooltip,
-    this.buttonStyle,
-  });
 
   // Configuration from domain layer
   final ButtonVariant
@@ -511,7 +511,7 @@ class SButton
           theme) {
     final List<Widget>
         contentWidgets =
-        [];
+        <Widget>[];
 
     if (icon !=
         null) {
@@ -528,7 +528,7 @@ class SButton
           child is Text) {
         contentWidgets.add(
           Text(
-            (child as Text).data ?? '',
+            (child! as Text).data ?? '',
             style: textStyle,
           ),
         );

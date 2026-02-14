@@ -1,78 +1,122 @@
 import 'package:flutter/material.dart';
-
-import '../../components/s_sonner/utils/s_sonner_utils.dart';
-import 'package:s_design/s_design.dart';
-import 'package:s_design/s_design.dart';
-
+import '../../../../../s_design.dart';
+import 'utils/s_sonner_utils.dart';
 
 class SSonner {
   SSonner._internal();
-  static final SSonner _instance = SSonner._internal();
-  OverlayState? _overlayState;
-  final List<_ToastEntry> _queue = <_ToastEntry>[];
-  bool _isShowing = false;
+  static final SSonner
+      _instance =
+      SSonner._internal();
+  OverlayState?
+      _overlayState;
+  final List<_ToastEntry>
+      _queue =
+      <_ToastEntry>[];
+  bool
+      _isShowing =
+      false;
 
-  static SSonner get instance => _instance;
+  static SSonner
+      get instance =>
+          _instance;
 
-  void initialize(OverlayState? overlayState) {
-    if (overlayState == null) {
+  void initialize(
+      OverlayState?
+          overlayState) {
+    if (overlayState ==
+        null) {
       throw Exception('OverlayState cannot be null');
     }
-    if (_overlayState != null) {
+    if (_overlayState !=
+        null) {
       // Prevent reinitialization
       return;
     }
-    _overlayState = overlayState;
+    _overlayState =
+        overlayState;
   }
 
   /// Show a sonner
-  void show({
-    required String message,
-    SSonnerVariant variant = SSonnerVariant.info,
-    Duration duration = const Duration(seconds: 3),
-    Color? backgroundColor,
-    TextStyle? textStyle,
-    IconData? icon,
-    SSonnerPosition position = SSonnerPosition.bottom,
-    SSonnerSize size = SSonnerSize.md,
+  void
+      show({
+    required String
+        message,
+    SSonnerVariant variant =
+        SSonnerVariant.info,
+    Duration duration =
+        const Duration(seconds: 3),
+    Color?
+        backgroundColor,
+    TextStyle?
+        textStyle,
+    IconData?
+        icon,
+    SSonnerPosition position =
+        SSonnerPosition.bottom,
+    SSonnerSize size =
+        SSonnerSize.md,
   }) {
-    if (_overlayState == null) {
+    if (_overlayState ==
+        null) {
       throw Exception('SSonner is not initialized. Call initialize() first.');
     }
 
-    final _ToastEntry entry = _ToastEntry(
-      message: message,
-      type: variant,
-      duration: duration,
-      backgroundColor: backgroundColor,
-      textStyle: textStyle,
-      icon: icon,
-      position: position,
-      size: size,
+    final _ToastEntry
+        entry =
+        _ToastEntry(
+      message:
+          message,
+      type:
+          variant,
+      duration:
+          duration,
+      backgroundColor:
+          backgroundColor,
+      textStyle:
+          textStyle,
+      icon:
+          icon,
+      position:
+          position,
+      size:
+          size,
     );
 
-    _queue.add(entry);
+    _queue
+        .add(entry);
     _displayNext();
   }
 
-  void _displayNext() {
-    if (_isShowing || _queue.isEmpty || _overlayState == null) {
+  void
+      _displayNext() {
+    if (_isShowing ||
+        _queue.isEmpty ||
+        _overlayState == null) {
       return;
     }
 
-    _isShowing = true;
-    final _ToastEntry currentToast = _queue.removeAt(0);
+    _isShowing =
+        true;
+    final _ToastEntry
+        currentToast =
+        _queue.removeAt(0);
 
-    final OverlayEntry overlayEntry = OverlayEntry(
-      builder: (BuildContext context) => _ToastWidget(entry: currentToast),
+    final OverlayEntry
+        overlayEntry =
+        OverlayEntry(
+      builder: (BuildContext context) =>
+          _ToastWidget(entry: currentToast),
     );
 
-    _overlayState?.insert(overlayEntry);
+    _overlayState
+        ?.insert(overlayEntry);
 
     Future<void>.delayed(
-        currentToast.duration + const Duration(milliseconds: 300), () {
+        currentToast.duration + const Duration(milliseconds: 300),
+        () {
       overlayEntry.remove();
-      _isShowing = false;
+      _isShowing =
+          false;
       _displayNext();
     });
   }
@@ -81,44 +125,67 @@ class SSonner {
 class _ToastEntry {
   _ToastEntry({
     required this.message,
-    this.type = SSonnerVariant.info,
-    this.duration = const Duration(seconds: 3),
+    this.type =
+        SSonnerVariant.info,
+    this.duration =
+        const Duration(seconds: 3),
     this.backgroundColor,
     this.textStyle,
     this.icon,
-    this.position = SSonnerPosition.bottom,
-    this.size = SSonnerSize.md,
+    this.position =
+        SSonnerPosition.bottom,
+    this.size =
+        SSonnerSize.md,
   });
-  final String message;
-  final SSonnerVariant type;
-  final Duration duration;
-  final Color? backgroundColor;
-  final TextStyle? textStyle;
-  final IconData? icon;
-  final SSonnerPosition position;
-  final SSonnerSize size;
+  final String
+      message;
+  final SSonnerVariant
+      type;
+  final Duration
+      duration;
+  final Color?
+      backgroundColor;
+  final TextStyle?
+      textStyle;
+  final IconData?
+      icon;
+  final SSonnerPosition
+      position;
+  final SSonnerSize
+      size;
 }
 
-class _ToastWidget extends StatelessWidget {
-  const _ToastWidget({required this.entry});
-  final _ToastEntry entry;
+class _ToastWidget
+    extends StatelessWidget {
+  const _ToastWidget(
+      {required this.entry});
+  final _ToastEntry
+      entry;
 
   @override
-  Widget build(BuildContext context) {
-    // final colors = context.primaryColor;
-    // final onPrimary = context.textOnPrimaryColor;
-    final TextTheme textTheme = context.textThemeStyles;
-    // final spacers = context.spacers;
+  Widget build(
+      BuildContext
+          context) {
+    final TextTheme
+        textTheme =
+        Theme.of(context).textTheme;
 
     // Determine background color and icon based on variant
-    final Color backgroundColor = entry.backgroundColor ??
-        SSonnerUtils.getBackgroundColor(entry.type, context);
-    final IconData icon = entry.icon ?? SSonnerUtils.getIconData(entry.type);
+    final Color
+        backgroundColor =
+        entry.backgroundColor ?? SSonnerUtils.getBackgroundColor(entry.type, context);
+    final IconData
+        icon =
+        entry.icon ?? SSonnerUtils.getIconData(entry.type);
 
-    Alignment alignment;
-    double verticalOffset = 50.0;
+    Alignment
+        alignment;
+    double
+        verticalOffset =
+        50.0;
 
-    switch (entry.position) {
+    switch (
+        entry.position) {
       case SSonnerPosition.top:
         alignment = Alignment.topCenter;
       case SSonnerPosition.center:
@@ -128,10 +195,13 @@ class _ToastWidget extends StatelessWidget {
         alignment = Alignment.bottomCenter;
     }
 
-    double paddingValue;
-    TextStyle textStyle;
+    double
+        paddingValue;
+    TextStyle
+        textStyle;
 
-    switch (entry.size) {
+    switch (
+        entry.size) {
       case SSonnerSize.sm:
         paddingValue = 8.0;
         textStyle = entry.textStyle ?? textTheme.bodySmall!;
@@ -143,9 +213,11 @@ class _ToastWidget extends StatelessWidget {
         textStyle = entry.textStyle ?? textTheme.bodyMedium!;
     }
 
-    EdgeInsetsGeometry? margin;
+    EdgeInsetsGeometry?
+        margin;
 
-    switch (entry.size) {
+    switch (
+        entry.size) {
       case SSonnerSize.sm:
         margin = const EdgeInsets.symmetric(horizontal: 6);
       case SSonnerSize.md:
@@ -177,8 +249,7 @@ class _ToastWidget extends StatelessWidget {
                     margin: margin,
                     decoration: BoxDecoration(
                       color: backgroundColor,
-                      borderRadius:
-                          BorderRadius.circular(SDimensions.borderRadiusMedium),
+                      borderRadius: BorderRadius.circular(8.0), // Hardcoded for simplified dependency
                       boxShadow: const <BoxShadow>[
                         BoxShadow(
                           color: Colors.black26,

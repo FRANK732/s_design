@@ -1,4 +1,0 @@
-enum SToastVariant {
-  defaultVariant,
-  destructive,
-}

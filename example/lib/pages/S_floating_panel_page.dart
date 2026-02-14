@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
 
-class SFloatingPanelPage extends StatefulWidget {
-  const SFloatingPanelPage({super.key});
+class SFloatingPanelPage
+    extends StatefulWidget {
+  const SFloatingPanelPage(
+      {super.key});
 
   @override
-  State<SFloatingPanelPage> createState() => _SFloatingPanelPageState();
+  State<SFloatingPanelPage>
+      createState() =>
+          _SFloatingPanelPageState();
 }
 
-class _SFloatingPanelPageState extends State<SFloatingPanelPage> {
-  void _showSimplePanel(BuildContext context) async {
-    await SFloatingPanel.show(
-      content: Container(
+class _SFloatingPanelPageState
+    extends State<
+        SFloatingPanelPage> {
+  Future<void> _showSimplePanel(
+      BuildContext
+          context) async {
+    await SFloatingPanel
+        .show(
+      content:
+          Container(
         padding: const EdgeInsets.all(24),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -24,7 +34,7 @@ class _SFloatingPanelPageState extends State<SFloatingPanelPage> {
             ),
             const SizedBox(height: 24),
             ElevatedButton(
-              onPressed: SFloatingPanel.close,
+              onPressed: () => SFloatingPanel.close(),
               child: const Text('OK'),
             ),
           ],
@@ -33,9 +43,13 @@ class _SFloatingPanelPageState extends State<SFloatingPanelPage> {
     );
   }
 
-  void _showAdvancedPanel(BuildContext context) async {
-    await SFloatingPanel.show(
-      content: Container(
+  Future<void> _showAdvancedPanel(
+      BuildContext
+          context) async {
+    await SFloatingPanel
+        .show(
+      content:
+          Container(
         padding: const EdgeInsets.all(24),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -65,7 +79,7 @@ class _SFloatingPanelPageState extends State<SFloatingPanelPage> {
               children: [
                 Expanded(
                   child: OutlinedButton(
-                    onPressed: SFloatingPanel.close,
+                    onPressed: () => SFloatingPanel.close(),
                     child: const Text('Cancel'),
                   ),
                 ),
@@ -86,13 +100,18 @@ class _SFloatingPanelPageState extends State<SFloatingPanelPage> {
           ],
         ),
       ),
-      barrierColor: Colors.black.withOpacity(0.7),
+      barrierColor:
+          Colors.black.withOpacity(0.7),
     );
   }
 
-  void _showCustomBottomPanel(BuildContext context) async {
-    await SFloatingPanel.show(
-      content: Container(
+  Future<void> _showCustomBottomPanel(
+      BuildContext
+          context) async {
+    await SFloatingPanel
+        .show(
+      content:
+          Container(
         padding: const EdgeInsets.all(24),
         child: const Column(
           mainAxisSize: MainAxisSize.min,
@@ -106,7 +125,8 @@ class _SFloatingPanelPageState extends State<SFloatingPanelPage> {
           ],
         ),
       ),
-      customBottomWidget: Container(
+      customBottomWidget:
+          Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Colors.amber[100],
@@ -115,9 +135,9 @@ class _SFloatingPanelPageState extends State<SFloatingPanelPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            TextButton(
+            const TextButton(
               onPressed: null,
-              child: const Text('Maybe Later'),
+              child: Text('Maybe Later'),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -138,12 +158,16 @@ class _SFloatingPanelPageState extends State<SFloatingPanelPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+      BuildContext
+          context) {
     return SScaffold(
-      appBar: AppBar(
+      appBar:
+          AppBar(
         title: const Text('Floating Panel Demo'),
       ),
-      renderBody: (BuildContext context) => Center(
+      renderBody: (BuildContext context) =>
+          Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

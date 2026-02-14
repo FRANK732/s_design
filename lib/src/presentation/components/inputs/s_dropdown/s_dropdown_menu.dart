@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/s_design.dart';
+import '../../../../domain/entities/config/s_dropdown_menu_item_type.dart';
+import '../s_input/s_input_field.dart';
+import 'utils/s_dropdown_menu_utils.dart';
 
 class SDropdownMenu
     extends StatefulWidget {
@@ -589,7 +591,7 @@ class _SDropdownMenuState
                                         value: _selectedItems.contains(item),
                                         onChanged: (bool? value) {
                                           setState(() {
-                                            if (value == true) {
+                                            if (value ?? false) {
                                               _selectedItems.add(item);
                                             } else {
                                               _selectedItems.remove(item);

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:s_design/s_design.dart';
+import '../../../../../s_design.dart';
 import 'utils/s_switch_utils.dart';
 
 /// A customizable and accessible switch component

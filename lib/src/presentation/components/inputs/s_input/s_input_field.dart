@@ -3,8 +3,7 @@ import 'package:intl/intl.dart'
     hide
         TextDirection;
 
-import 'package:s_design/s_design.dart';
-import '../../../themes/extensions/component_themes/s_input_field_theme.dart';
+import '../../../../../s_design.dart';
 
 class SInputField
     extends StatefulWidget {

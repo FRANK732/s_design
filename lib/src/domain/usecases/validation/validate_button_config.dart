@@ -13,10 +13,10 @@ class ValidateButtonConfig {
       validate(ButtonConfigEntity config) {
     final List<String>
         errors =
-        [];
+        <String>[];
     final List<String>
         warnings =
-        [];
+        <String>[];
 
     // Validate dimensions
     if (config.height != null &&
@@ -55,7 +55,7 @@ class ValidateButtonConfig {
     // Validate color if present
     if (config.shadowColor !=
         null) {
-      final color =
+      final ColorConfig color =
           config.shadowColor!;
       if (color.red < 0 ||
           color.red > 255 ||
@@ -112,7 +112,7 @@ class ValidationResult {
   @override
   String
       toString() {
-    final buffer =
+    final StringBuffer buffer =
         StringBuffer();
     buffer
         .writeln('Valid: $isValid');
@@ -120,7 +120,7 @@ class ValidationResult {
     if (errors
         .isNotEmpty) {
       buffer.writeln('Errors:');
-      for (final error
+      for (final String error
           in errors) {
         buffer.writeln('  - $error');
       }
@@ -129,7 +129,7 @@ class ValidationResult {
     if (warnings
         .isNotEmpty) {
       buffer.writeln('Warnings:');
-      for (final warning
+      for (final String warning
           in warnings) {
         buffer.writeln('  - $warning');
       }

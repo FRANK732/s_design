@@ -3,25 +3,45 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
 
-class ProgressIndicatorPage extends StatefulWidget {
-  const ProgressIndicatorPage({super.key});
+class ProgressIndicatorPage
+    extends StatefulWidget {
+  const ProgressIndicatorPage(
+      {super.key});
 
   @override
-  State<ProgressIndicatorPage> createState() => _ProgressIndicatorPageState();
+  State<ProgressIndicatorPage>
+      createState() =>
+          _ProgressIndicatorPageState();
 }
 
-class _ProgressIndicatorPageState extends State<ProgressIndicatorPage> {
-  double _progressValue = 0.0;
-  Timer? _timer;
-  bool _disable = false;
+class _ProgressIndicatorPageState
+    extends State<
+        ProgressIndicatorPage> {
+  double
+      _progressValue =
+      0.0;
+  Timer?
+      _timer;
+  bool
+      _disable =
+      false;
 
-  void _startProgress() {
-    _disable = true;
-    const Duration duration = Duration(seconds: 1);
-    _timer = Timer.periodic(duration, (Timer timer) {
-      if (_progressValue == 100.0) {
+  void
+      _startProgress() {
+    _disable =
+        true;
+    const Duration
+        duration =
+        Duration(seconds: 1);
+    _timer = Timer.periodic(
+        duration,
+        (Timer timer) {
+      if (_progressValue ==
+          100.0) {
         SSonner.instance.show(
-            message: 'Progress Completed', variant: SSonnerVariant.success,);
+          message: 'Progress Completed',
+          variant: SSonnerVariant.success,
+        );
         setState(() {
           _disable = false;
           timer.cancel();
@@ -34,8 +54,10 @@ class _ProgressIndicatorPageState extends State<ProgressIndicatorPage> {
     });
   }
 
-  void _updateProgress() {
-    if (_progressValue == 100) {
+  void
+      _updateProgress() {
+    if (_progressValue ==
+        100) {
       setState(() {
         _progressValue = 0.0;
       });
@@ -45,19 +67,27 @@ class _ProgressIndicatorPageState extends State<ProgressIndicatorPage> {
   }
 
   @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
+  void
+      dispose() {
+    _timer
+        ?.cancel();
+    super
+        .dispose();
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+      BuildContext
+          context) {
     return SScaffold(
-      centerBody: true,
-      appBar: AppBar(
+      centerBody:
+          true,
+      appBar:
+          AppBar(
         title: const Text('Progress Indicators'),
       ),
-      renderBody: (BuildContext context) {
+      renderBody:
+          (BuildContext context) {
         return Padding(
           padding: const EdgeInsets.all(18.0),
           child: Column(
@@ -75,22 +105,20 @@ class _ProgressIndicatorPageState extends State<ProgressIndicatorPage> {
               ),
               const SizedBox(height: 16),
               SButton(
-                size: SButtonSize.sm,
-                variant: _progressValue != 100
-                    ? SButtonVariant.defaultVariant
-                    : SButtonVariant.destructiveOutline,
-                state: _disable ? SButtonState.disabled : null,
+                size: ButtonSize.sm,
+                variant: _progressValue != 100 ? ButtonVariant.defaultVariant : ButtonVariant.destructiveOutline,
+                state: _disable ? ButtonState.disabled : null,
                 onPressed: () {
                   _updateProgress();
                 },
                 child: Text(
-                    _progressValue != 100 ? 'Run Progress' : 'Reset Progress',),
+                  _progressValue != 100 ? 'Run Progress' : 'Reset Progress',
+                ),
               ),
             ],
           ),
         );
       },
-
     );
   }
 }

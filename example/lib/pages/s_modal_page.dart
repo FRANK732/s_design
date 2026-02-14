@@ -1,38 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
 
-class DialogPage extends StatefulWidget {
-  const DialogPage({super.key});
+class DialogPage
+    extends StatefulWidget {
+  const DialogPage(
+      {super.key});
 
   @override
-  State<DialogPage> createState() => _DialogPageState();
+  State<DialogPage>
+      createState() =>
+          _DialogPageState();
 }
 
-class _DialogPageState extends State<DialogPage> {
-  final SDialogController _dialogController = SDialogController();
-  final TextEditingController _nameController =
-  TextEditingController(text: 'Schrift');
-  final TextEditingController _usernameController =
-  TextEditingController(text: 'schrift');
-
+class _DialogPageState
+    extends State<
+        DialogPage> {
+  final TextEditingController
+      _nameController =
+      TextEditingController(text: 'Schrift');
+  final TextEditingController
+      _usernameController =
+      TextEditingController(text: 'schrift');
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+      BuildContext
+          context) {
     return SScaffold(
-      appBar: AppBar(
+      appBar:
+          AppBar(
         title: const Text('Dialog Showcase'),
       ),
-      renderBody:(BuildContext context){
-
+      renderBody:
+          (BuildContext context) {
         return Center(
           child: SButton(
             onPressed: () {
-              _dialogController.show(
-                context,
-                dialog:SDialog(
+              showDialog<void>(
+                context: context,
+                builder: (context) => SDialog(
                   title: 'Edit profile',
-                  description:
-                  'Make changes to your profile here',
+                  description: 'Make changes to your profile here',
                   semanticLabel: 'Edit',
                   content: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,22 +54,21 @@ class _DialogPageState extends State<DialogPage> {
                         controller: _nameController,
                       ),
                       const SizedBox(height: 16),
-                     const Text(
+                      const Text(
                         'Nick Name',
                       ),
                       const SizedBox(height: 6),
                       SInputField(
                         controller: _usernameController,
                       ),
-
                     ],
                   ),
                   // Action buttons at bottom-right
                   actions: <Widget>[
                     SButton(
-                      variant: SButtonVariant.secondary,
+                      variant: ButtonVariant.secondary,
                       onPressed: () {
-                        _dialogController.close(context);
+                        Navigator.of(context).pop();
                       },
                       child: const Text('Save changes'),
                     ),
