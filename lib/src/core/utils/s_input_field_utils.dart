@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
-import '../../../components/s_input/enums/s_input_field_size.dart';
+import '../../domain/entities/config/input_enums.dart';
 
 /// Helper function that maps an [SInputFieldType] to a
 /// suitable [TextInputType] in Flutter.
-TextInputType mapInputTypeToKeyboard(SInputFieldType type) {
-  switch (type) {
+TextInputType
+    mapInputTypeToKeyboard(
+        SInputFieldType type) {
+  switch (
+      type) {
     case SInputFieldType.password:
     case SInputFieldType.search:
     case SInputFieldType.text:
@@ -19,8 +22,11 @@ TextInputType mapInputTypeToKeyboard(SInputFieldType type) {
   }
 }
 
-EdgeInsetsGeometry getContentPadding(SInputFieldSize size) {
-  switch (size) {
+EdgeInsetsGeometry
+    getContentPadding(
+        SInputFieldSize size) {
+  switch (
+      size) {
     case SInputFieldSize.small:
       return const EdgeInsets.all(12.0);
     case SInputFieldSize.medium:
@@ -31,15 +37,26 @@ EdgeInsetsGeometry getContentPadding(SInputFieldSize size) {
 }
 
 /// Text style depending on the [size].
-TextStyle? buildSizedTextStyle(TextStyle? base, SInputFieldSize size) {
-  double fontSize;
-  switch (size) {
+TextStyle? buildSizedTextStyle(
+    TextStyle?
+        base,
+    SInputFieldSize
+        size) {
+  double
+      fontSize;
+  switch (
+      size) {
     case SInputFieldSize.small:
-      fontSize = 13;
+      fontSize =
+          13;
     case SInputFieldSize.medium:
-      fontSize = 16;
+      fontSize =
+          16;
     case SInputFieldSize.large:
-      fontSize = 20;
+      fontSize =
+          20;
   }
-  return (base ?? const TextStyle()).copyWith(fontSize: fontSize);
+  return (base ??
+          const TextStyle())
+      .copyWith(fontSize: fontSize);
 }
