@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart'
     hide
         TextDirection;
-
 import '../../../../../s_design.dart';
+
+import 'utils/s_input_decoration_helper.dart';
+import 'utils/s_input_interaction_helper.dart';
+import 'utils/s_input_style_helper.dart';
+
+part 's_input_field_state.dart';
 
 class SInputField
     extends StatefulWidget {
@@ -26,8 +32,17 @@ class SInputField
     this.onChanged,
     this.onFieldSubmitted,
     this.labelText,
+    this.helperText,
+    this.errorText,
     this.hintText,
+    this.prefixText,
+    this.prefixStyle,
+    this.suffixText,
+    this.suffixStyle,
+    this.isLoading =
+        false,
     this.decoration,
+    this.inputFormatters,
     this.autofocus =
         false,
     this.readOnly =
@@ -297,30 +312,13 @@ class SInputField
         builder: (BuildContext context) {
           return IconButton(
             icon: const Icon(Icons.calendar_today),
-            onPressed: () async {
-              final DateTime? pickedDate = await showDatePicker(
-                context: context,
-                initialDate: effectiveDate,
-                firstDate: DateTime(1900),
-                lastDate: DateTime.now().add(const Duration(days: 365 * 100)),
-              );
-              if (pickedDate != null) {
-                // Reformat the picked date
-                final String pickedDateStr = dateFormat != null
-                    ? DateFormat(dateFormat).format(pickedDate)
-                    : '${pickedDate.day.toString().padLeft(2, '0')}-'
-                        '${pickedDate.month.toString().padLeft(2, '0')}-'
-                        '${pickedDate.year}';
-
-                // Update controller.text
-                controller.text = pickedDateStr;
-
-                // Trigger onChanged, if any
-                if (onChanged != null) {
-                  onChanged(pickedDateStr);
-                }
-              }
-            },
+            onPressed: () => SInputInteractionHelper.handleDatePicker(
+              context: context,
+              controller: controller,
+              onChanged: onChanged,
+              initialDate: effectiveDate,
+              dateFormat: dateFormat,
+            ),
           );
         },
       ),
@@ -461,12 +459,10 @@ class SInputField
           IconButton(
         icon: const Icon(Icons.clear),
         onPressed: onClear ??
-            () {
-              controller?.clear();
-              if (onChanged != null) {
-                onChanged('');
-              }
-            },
+            () => SInputInteractionHelper.handleSearchClear(
+                  controller: controller,
+                  onChanged: onChanged,
+                ),
       ),
     );
   }
@@ -869,6 +865,10 @@ class SInputField
   final FocusNode?
       focusNode;
 
+  /// Optional input formatters (e.g., masking).
+  final List<TextInputFormatter>?
+      inputFormatters;
+
   /// If provided, used as the initial text (ignored if [controller] is set).
   final String?
       initialValue;
@@ -905,6 +905,34 @@ class SInputField
   /// The label text to display.
   final String?
       labelText;
+
+  /// Helper text to display below the input.
+  final String?
+      helperText;
+
+  /// Error text to display (overrides validator error if present).
+  final String?
+      errorText;
+
+  /// Prefix text (e.g. currency symbol).
+  final String?
+      prefixText;
+
+  /// Style for prefix text.
+  final TextStyle?
+      prefixStyle;
+
+  /// Suffix text (e.g. unit).
+  final String?
+      suffixText;
+
+  /// Style for suffix text.
+  final TextStyle?
+      suffixStyle;
+
+  /// Whether to show a loading indicator.
+  final bool
+      isLoading;
 
   /// The hint text to display.
   final String?
@@ -1027,222 +1055,4 @@ class SInputField
   State<SInputField>
       createState() =>
           _SInputFieldState();
-}
-
-class _SInputFieldState
-    extends State<
-        SInputField> {
-  late TextEditingController
-      _controller;
-  late FocusNode
-      _focusNode;
-  bool
-      _obscureText =
-      false;
-  bool
-      _showObscureToggle =
-      false;
-
-  @override
-  void
-      initState() {
-    super
-        .initState();
-
-    _obscureText =
-        widget.obscureText;
-    _showObscureToggle =
-        widget.obscureText;
-
-    _controller =
-        widget.controller ?? TextEditingController(text: widget.initialValue);
-    _focusNode =
-        widget.focusNode ?? FocusNode();
-  }
-
-  @override
-  void
-      dispose() {
-    if (widget.controller ==
-        null) {
-      _controller.dispose();
-    }
-    if (widget.focusNode ==
-        null) {
-      _focusNode.dispose();
-    }
-    super
-        .dispose();
-  }
-
-  @override
-  Widget build(
-      BuildContext
-          context) {
-    final TextInputType
-        effectiveKeyboardType =
-        widget.keyboardType ?? mapInputTypeToKeyboard(widget.inputType);
-
-    final SInputFieldThemeData
-        theme =
-        Theme.of(context).sInputFieldTheme;
-    final OutlineInputBorder
-        inputBorder =
-        OutlineInputBorder(
-      borderRadius:
-          BorderRadius.circular(theme.borderRadius),
-    );
-
-    final EdgeInsetsGeometry
-        defaultContentPadding =
-        getContentPadding(widget.size);
-
-    InputDecoration
-        mergeDecorations(
-      InputDecoration
-          base,
-      InputDecoration?
-          override,
-    ) {
-      return base.copyWith(
-        hintText: override?.hintText ?? base.hintText,
-        hintStyle: override?.hintStyle ?? base.hintStyle,
-        filled: override?.filled ?? base.filled,
-        fillColor: override?.fillColor ?? base.fillColor,
-        contentPadding: override?.contentPadding ?? base.contentPadding,
-        enabledBorder: override?.enabledBorder ?? base.enabledBorder,
-        focusedBorder: override?.focusedBorder ?? base.focusedBorder,
-        errorBorder: override?.errorBorder ?? base.errorBorder,
-        disabledBorder: override?.disabledBorder ?? base.disabledBorder,
-        prefixIcon: override?.prefixIcon ?? base.prefixIcon,
-        suffixIcon: override?.suffixIcon ?? base.suffixIcon,
-      );
-    }
-
-    // Base or user-provided InputDecoration.
-    final InputDecoration effectiveDecoration = widget.decoration ??
-        InputDecoration(
-          isDense: true,
-          labelText: widget.labelText,
-          hintText: widget.hintText,
-          contentPadding: widget.contentPadding ?? defaultContentPadding,
-          border: inputBorder.copyWith(
-            borderRadius: BorderRadius.circular(theme.borderRadius),
-          ),
-          enabledBorder: inputBorder.copyWith(
-            borderSide: BorderSide(
-              color: theme.borderColor,
-              width: theme.borderWidth,
-            ),
-          ),
-          focusedBorder: inputBorder.copyWith(
-            borderSide: BorderSide(
-              color: theme.focusedBorderColor,
-              width: theme.focusedBorderWidth,
-            ),
-          ),
-          disabledBorder: inputBorder.copyWith(
-            borderSide: BorderSide(
-              color: theme.disabledBorderColor,
-              width: theme.borderWidth,
-            ),
-          ),
-          prefixIcon: widget.startIcon,
-          suffixIcon: _showObscureToggle
-              ? IconButton(
-                  padding: EdgeInsets.zero,
-                  icon: Icon(
-                    _obscureText ? Icons.visibility_off : Icons.visibility,
-                    size: 20.0,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _obscureText = !_obscureText;
-                    });
-                  },
-                  tooltip: _obscureText ? 'Show Password' : 'Hide Password',
-                )
-              : widget.endIcon,
-        );
-
-    final TextStyle?
-        sizeAdjustedStyle =
-        buildSizedTextStyle(widget.style, widget.size);
-
-    final InputDecoration
-        finalDecoration =
-        mergeDecorations(effectiveDecoration, widget.decoration);
-
-    return TextFormField(
-      controller:
-          _controller,
-      focusNode:
-          _focusNode,
-      initialValue: widget.controller == null
-          ? widget.initialValue
-          : null,
-      enabled:
-          widget.enabled,
-      obscureText:
-          _obscureText,
-      keyboardType:
-          effectiveKeyboardType,
-      textInputAction:
-          widget.textInputAction,
-      validator:
-          widget.validator,
-      onChanged:
-          widget.onChanged,
-      onFieldSubmitted:
-          widget.onFieldSubmitted,
-      autofocus:
-          widget.autofocus,
-      readOnly:
-          widget.readOnly,
-      maxLines:
-          widget.maxLines,
-      minLines:
-          widget.minLines,
-      maxLength:
-          widget.maxLength,
-      style:
-          widget.style ?? sizeAdjustedStyle,
-      textAlign:
-          widget.textAlign,
-      expands:
-          widget.expands,
-      showCursor:
-          widget.showCursor,
-      enableInteractiveSelection:
-          widget.enableInteractiveSelection,
-      textCapitalization:
-          widget.textCapitalization,
-      textDirection:
-          widget.textDirection,
-      onEditingComplete:
-          widget.onEditingComplete,
-      onTap:
-          widget.onTap,
-      enableSuggestions:
-          widget.enableSuggestions ?? false,
-      autocorrect:
-          widget.autocorrect,
-      decoration:
-          finalDecoration,
-      scrollPadding:
-          widget.scrollPadding,
-      scrollPhysics:
-          widget.scrollPhysics,
-      autofillHints:
-          widget.autofillHints,
-      mouseCursor:
-          widget.mouseCursor,
-      contextMenuBuilder:
-          widget.contextMenuBuilder,
-      restorationId:
-          widget.restorationId,
-      enableIMEPersonalizedLearning:
-          widget.enableIMEPersonalizedLearning,
-    );
-  }
 }

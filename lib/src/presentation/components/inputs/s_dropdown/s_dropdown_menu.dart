@@ -1,14 +1,26 @@
+import 'dart:async';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import '../../../../domain/entities/config/s_dropdown_menu_item_type.dart';
 import '../s_input/s_input_field.dart';
 import 'utils/s_dropdown_menu_utils.dart';
 
-class SDropdownMenu
+class SDropdownMenu<
+        T>
     extends StatefulWidget {
   SDropdownMenu({
     super.key,
     required this.items,
     required this.onChanged,
+    this.itemLabel,
+    this.itemBuilder,
+    this.selectedItemBuilder,
+    this.searchMatchFn,
+    this.asyncItems,
+    this.itemDisabled,
+    this.emptyBuilder,
+    this.loadingBuilder,
+    this.errorBuilder,
     this.hintText,
     this.icon,
     this.padding,
@@ -163,10 +175,38 @@ class SDropdownMenu
           'initialValues can only be used with SDropdownMenuItemType.multiSelect.',
         );
 
-  final List<String>
+  final List<T>
       items;
   final ValueChanged<dynamic>
       onChanged;
+  final String
+          Function(T)?
+      itemLabel;
+  final Widget Function(
+      BuildContext,
+      T,
+      bool
+          isSelected)? itemBuilder;
+  final Widget Function(
+      BuildContext,
+      T)? selectedItemBuilder;
+  final bool Function(
+      T item,
+      String searchValue)? searchMatchFn;
+  final Future<List<T>>
+          Function(String query)?
+      asyncItems;
+  final bool
+          Function(T)?
+      itemDisabled;
+  final WidgetBuilder?
+      emptyBuilder;
+  final WidgetBuilder?
+      loadingBuilder;
+  final Widget Function(
+      BuildContext,
+      Object
+          error)? errorBuilder;
   final String?
       hintText;
   final Widget?
@@ -358,23 +398,25 @@ class SDropdownMenu
       triggerFocus;
   final bool
       readOnly;
-  final String?
+  final T?
       initialValue;
-  final List<String>?
+  final List<T>?
       initialValues;
 
   @override
-  State<SDropdownMenu>
-      createState() =>
-          _SDropdownMenuState();
+  State<
+      SDropdownMenu<
+          T>> createState() =>
+      _SDropdownMenuState<T>();
 }
 
-class _SDropdownMenuState
+class _SDropdownMenuState<
+        T>
     extends State<
-        SDropdownMenu> {
-  List<String>
+        SDropdownMenu<T>> {
+  List<T>
       _selectedItems =
-      <String>[];
+      <T>[];
   bool
       _isMenuOpen =
       false;
@@ -386,11 +428,18 @@ class _SDropdownMenuState
   final TextEditingController
       _searchController =
       TextEditingController();
-  List<String>
+  List<T>
       _filteredItems =
-      <String>[];
+      <T>[];
   late FocusNode
       _focusNode;
+  bool
+      _isLoading =
+      false;
+  Object?
+      _error;
+  Timer?
+      _debounceTimer;
 
   @override
   void
@@ -406,11 +455,11 @@ class _SDropdownMenuState
     if (widget.menuType ==
         SDropdownMenuItemType.multiSelect) {
       _selectedItems =
-          widget.initialValues ?? <String>[];
+          widget.initialValues ?? <T>[];
     } else {
       if (widget.initialValue !=
           null) {
-        _selectedItems = <String>[
+        _selectedItems = <T>[
           widget.initialValue!
         ];
       }
@@ -433,14 +482,45 @@ class _SDropdownMenuState
 
   void
       _onSearchChanged() {
-    setState(
-        () {
-      _filteredItems = widget.items
-          .where(
-            (String item) => item.toLowerCase().contains(_searchController.text.toLowerCase()),
-          )
-          .toList();
-    });
+    if (widget.asyncItems !=
+        null) {
+      if (_debounceTimer?.isActive ??
+          false)
+        _debounceTimer!.cancel();
+      _debounceTimer =
+          Timer(const Duration(milliseconds: 500), () async {
+        setState(() {
+          _isLoading = true;
+          _error = null;
+        });
+        try {
+          final List<T> result = await widget.asyncItems!(_searchController.text);
+          if (mounted) {
+            setState(() {
+              _filteredItems = result;
+              _isLoading = false;
+            });
+          }
+        } catch (e) {
+          if (mounted) {
+            setState(() {
+              _isLoading = false;
+              _error = e;
+            });
+          }
+        }
+      });
+    } else {
+      setState(() {
+        _filteredItems = widget.items.where((T item) {
+          if (widget.searchMatchFn != null) {
+            return widget.searchMatchFn!(item, _searchController.text);
+          }
+          final String label = widget.itemLabel?.call(item) ?? item.toString();
+          return label.toLowerCase().contains(_searchController.text.toLowerCase());
+        }).toList();
+      });
+    }
   }
 
   // void _toggleMenu() {
@@ -575,52 +655,108 @@ class _SDropdownMenuState
                             thickness: widget.dividerThickness ?? 1,
                             height: widget.dividerPadding?.vertical ?? 8,
                           ),
-                        Container(
-                          constraints: BoxConstraints(
-                            maxHeight: menuHeight,
-                          ),
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: _filteredItems.map((String item) {
+                        if (_error != null)
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: widget.errorBuilder?.call(context, _error!) ??
+                                Center(
+                                  child: Text(
+                                    'Error loading items',
+                                    style: theme.textTheme.bodyMedium?.copyWith(
+                                      color: theme.colorScheme.error,
+                                    ),
+                                  ),
+                                ),
+                          )
+                        else if (_isLoading)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: widget.loadingBuilder?.call(context) ??
+                                const Center(
+                                  child: SizedBox(
+                                    width: 24,
+                                    height: 24,
+                                    child: CircularProgressIndicator(strokeWidth: 2),
+                                  ),
+                                ),
+                          )
+                        else if (_filteredItems.isEmpty)
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: widget.emptyBuilder?.call(context) ??
+                                Center(
+                                  child: Text(
+                                    'No items found',
+                                    style: theme.textTheme.bodyMedium?.copyWith(
+                                      color: theme.disabledColor,
+                                    ),
+                                  ),
+                                ),
+                          )
+                        else
+                          Container(
+                            constraints: BoxConstraints(
+                              maxHeight: menuHeight,
+                            ),
+                            child: ListView.builder(
+                              padding: EdgeInsets.zero,
+                              shrinkWrap: true,
+                              itemCount: _filteredItems.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                final T item = _filteredItems[index];
+                                final String label = widget.itemLabel?.call(item) ?? item.toString();
+                                final bool isDisabled = widget.itemDisabled?.call(item) ?? false;
+
                                 return widget.menuType == SDropdownMenuItemType.multiSelect
                                     ? CheckboxListTile(
-                                        title: Text(
-                                          item,
-                                          style: widget.menuTextStyle ?? theme.textTheme.bodyMedium,
-                                        ),
+                                        title: widget.itemBuilder?.call(context, item, _selectedItems.contains(item)) ??
+                                            Text(
+                                              label,
+                                              style: (widget.menuTextStyle ?? theme.textTheme.bodyMedium)?.copyWith(
+                                                color: isDisabled ? theme.disabledColor : null,
+                                              ),
+                                            ),
                                         value: _selectedItems.contains(item),
-                                        onChanged: (bool? value) {
-                                          setState(() {
-                                            if (value ?? false) {
-                                              _selectedItems.add(item);
-                                            } else {
-                                              _selectedItems.remove(item);
-                                            }
-                                            widget.onChanged(_selectedItems);
-                                          });
-                                          _overlayEntry?.markNeedsBuild();
-                                        },
+                                        onChanged: isDisabled
+                                            ? null
+                                            : (bool? value) {
+                                                setState(() {
+                                                  if (value ?? false) {
+                                                    _selectedItems.add(item);
+                                                  } else {
+                                                    _selectedItems.remove(item);
+                                                  }
+                                                  widget.onChanged(_selectedItems);
+                                                });
+                                                _overlayEntry?.markNeedsBuild();
+                                              },
                                         activeColor: widget.checkboxActiveColor,
                                         checkColor: widget.checkboxCheckColor,
                                         hoverColor: widget.checkboxHoverColor,
+                                        enabled: !isDisabled,
                                       )
                                     : ListTile(
-                                        title: Text(
-                                          item,
-                                          style: widget.menuTextStyle ?? theme.textTheme.bodyMedium,
-                                        ),
-                                        onTap: () {
-                                          setState(() {
-                                            _selectedItems = <String>[item];
-                                            widget.onChanged(item);
-                                          });
-                                          _toggleMenu();
-                                        },
+                                        title: widget.itemBuilder?.call(context, item, _selectedItems.contains(item)) ??
+                                            Text(
+                                              label,
+                                              style: (widget.menuTextStyle ?? theme.textTheme.bodyMedium)?.copyWith(
+                                                color: isDisabled ? theme.disabledColor : null,
+                                              ),
+                                            ),
+                                        onTap: isDisabled
+                                            ? null
+                                            : () {
+                                                setState(() {
+                                                  _selectedItems = <T>[item];
+                                                  widget.onChanged(item);
+                                                });
+                                                _toggleMenu();
+                                              },
+                                        enabled: !isDisabled,
                                       );
-                              }).toList(),
+                              },
                             ),
                           ),
-                        ),
                       ],
                     ),
                   ),
@@ -742,6 +878,34 @@ class _SDropdownMenuState
           },
           child: Focus(
             focusNode: _focusNode,
+            onKey: (FocusNode node, RawKeyEvent event) {
+              if (event is RawKeyDownEvent) {
+                if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+                  if (!_isMenuOpen) {
+                    _toggleMenu();
+                  } else {
+                    // Navigate down
+                    // This requires tracking a 'highlighted' index separately from selectedItems
+                    // For now, let's just use it to open/toggle or maybe cycle selection if single select?
+                    // Proper keyboard nav usually requires a highlightedIndex state.
+                  }
+                  return KeyEventResult.handled;
+                } else if (event.logicalKey == LogicalKeyboardKey.escape) {
+                  if (_isMenuOpen) {
+                    _closeMenu();
+                    return KeyEventResult.handled;
+                  }
+                } else if (event.logicalKey == LogicalKeyboardKey.enter) {
+                  if (_isMenuOpen) {
+                    // Select highlighted
+                  } else {
+                    _toggleMenu();
+                  }
+                  return KeyEventResult.handled;
+                }
+              }
+              return KeyEventResult.ignored;
+            },
             child: Container(
               margin: widget.triggerMargin,
               constraints: widget.triggerConstraints,
@@ -775,11 +939,13 @@ class _SDropdownMenuState
                               : _buildSelectedItems()
                           : Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                              child: Text(
-                                _selectedItems.isNotEmpty ? _selectedItems.first : widget.hintText ?? 'Select an item',
-                                style: widget.textStyle ?? theme.textTheme.bodyMedium,
-                                overflow: widget.triggerTextOverflow ?? TextOverflow.ellipsis,
-                              ),
+                              child: widget.selectedItemBuilder != null && _selectedItems.isNotEmpty
+                                  ? widget.selectedItemBuilder!(context, _selectedItems.first)
+                                  : Text(
+                                      _selectedItems.isNotEmpty ? (widget.itemLabel?.call(_selectedItems.first) ?? _selectedItems.first.toString()) : widget.hintText ?? 'Select an item',
+                                      style: widget.textStyle ?? theme.textTheme.bodyMedium,
+                                      overflow: widget.triggerTextOverflow ?? TextOverflow.ellipsis,
+                                    ),
                             ),
                     ),
                     if (widget.showClearButton && _selectedItems.isNotEmpty)
@@ -847,12 +1013,12 @@ class _SDropdownMenuState
     final List<Padding> selectedItems = _selectedItems
         .take(widget.maxSelectedItemsToShow ?? 3)
         .map(
-          (String item) => Padding(
+          (T item) => Padding(
             padding: const EdgeInsets.only(right: 5.0),
             child: Chip(
               avatar: widget.chipAvatar,
               label: Text(
-                item,
+                widget.itemLabel?.call(item) ?? item.toString(),
                 style: widget.selectedTextStyle ?? theme.textTheme.bodyMedium,
                 overflow: widget.triggerTextOverflow,
               ),
@@ -910,6 +1076,8 @@ class _SDropdownMenuState
       dispose() {
     _searchController
         .dispose();
+    _debounceTimer
+        ?.cancel();
     _focusNode
         .removeListener(_onFocusChange);
     if (widget.triggerFocus ==

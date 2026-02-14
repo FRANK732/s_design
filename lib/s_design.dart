@@ -40,6 +40,7 @@ export 'src/presentation/components/inputs/s_checkbox/s_checkbox.dart';
 export 'src/presentation/components/inputs/s_checkbox/s_checkbox_form_field.dart';
 export 'src/presentation/components/inputs/s_checkbox/s_checkbox_list_tile.dart';
 export 'src/presentation/components/inputs/s_dropdown/s_dropdown_controller.dart';
+export 'src/presentation/components/inputs/s_dropdown/s_dropdown_form_field.dart';
 export 'src/presentation/components/inputs/s_dropdown/s_dropdown_menu.dart';
 export 'src/presentation/components/inputs/s_input/s_input_field.dart';
 export 'src/presentation/components/inputs/s_select/s_select.dart';
