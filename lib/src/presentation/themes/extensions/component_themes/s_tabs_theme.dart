@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../theme/s_colors.dart';
 
 /// Theme data for [STabs].
 class STabsThemeData
@@ -12,22 +11,6 @@ class STabsThemeData
     required this.unselectedLabelColor,
     required this.backgroundColor,
   });
-
-  /// Creates a [STabsThemeData] from [SColorsBase].
-  factory STabsThemeData.fromColors(
-      SColorsBase
-          colors) {
-    return STabsThemeData(
-      indicatorColor:
-          colors.tabsIndicator,
-      labelColor:
-          colors.tabsLabel,
-      unselectedLabelColor:
-          colors.tabsUnselectedLabel,
-      backgroundColor:
-          colors.surface,
-    );
-  }
 
   /// Color of the tab indicator.
   final Color
@@ -106,5 +89,10 @@ extension STabsThemeExtension
   /// Retrieves the current [STabsThemeData].
   STabsThemeData get sTabsTheme =>
       extension<STabsThemeData>() ??
-      STabsThemeData.fromColors(SLightColors());
+      STabsThemeData(
+        indicatorColor: colorScheme.primary,
+        labelColor: colorScheme.primary,
+        unselectedLabelColor: colorScheme.onSurfaceVariant,
+        backgroundColor: colorScheme.surface,
+      );
 }
