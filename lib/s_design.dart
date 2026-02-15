@@ -3,7 +3,6 @@
 // CORE LAYER
 export 'src/core/constants/design_constants.dart';
 export 'src/core/utils/s_input_field_utils.dart';
-
 // DOMAIN LAYER
 export 'src/domain/entities/config/button_config_entity.dart';
 export 'src/domain/entities/config/s_card_shadow.dart';
@@ -13,7 +12,7 @@ export 'src/domain/entities/config/s_dialog_type.dart';
 export 'src/domain/entities/config/s_dropdown_menu_item_type.dart';
 export 'src/domain/entities/config/s_input_field_size.dart';
 export 'src/domain/entities/config/s_loading_types.dart';
-export 'src/domain/entities/config/s_select_direction.dart';
+export 'src/domain/entities/config/s_select_enums.dart';
 export 'src/domain/entities/config/s_select_type.dart';
 export 'src/domain/entities/config/s_sonner_options.dart';
 export 'src/domain/entities/config/s_switch_enums.dart';
@@ -21,7 +20,6 @@ export 'src/domain/entities/config/s_tabs_enums.dart';
 export 'src/domain/entities/config/s_tabs_model.dart';
 export 'src/domain/entities/config/s_toaster_enum.dart';
 export 'src/domain/usecases/validation/validate_button_config.dart';
-
 // PRESENTATION LAYER
 export 'src/presentation/builders/overlay_builder.dart';
 export 'src/presentation/common/loading/loading_indicator.dart';
@@ -31,12 +29,12 @@ export 'src/presentation/components/base/s_scaffold/widgets/floating_action_butt
 export 'src/presentation/components/base/s_scaffold/widgets/loading_config.dart';
 export 'src/presentation/components/base/s_scaffold/widgets/persistent_footer_config.dart';
 export 'src/presentation/components/base/s_scaffold/widgets/refresh_config.dart';
+export 'src/presentation/components/display/s_slider/s_slider.dart';
 export 'src/presentation/components/feedback/s_dialog/s_dialog.dart';
 export 'src/presentation/components/feedback/s_dialog/s_dialog_config.dart';
+export 'src/presentation/components/feedback/s_progress/s_progress.dart';
 export 'src/presentation/components/feedback/s_progress_bar/s_progress_bar.dart';
 export 'src/presentation/components/feedback/s_progress_bar/s_progress_bar_config.dart';
-export 'src/presentation/components/feedback/s_progress/s_progress.dart';
-export 'src/presentation/components/display/s_slider/s_slider.dart';
 export 'src/presentation/components/feedback/s_sonner/s_sonner.dart';
 export 'src/presentation/components/feedback/s_sonner/s_sonner_config.dart';
 export 'src/presentation/components/feedback/s_toaster/s_toaster.dart';
@@ -49,8 +47,6 @@ export 'src/presentation/components/inputs/s_dropdown/s_dropdown_controller.dart
 export 'src/presentation/components/inputs/s_dropdown/s_dropdown_form_field.dart';
 export 'src/presentation/components/inputs/s_dropdown/s_dropdown_menu.dart';
 export 'src/presentation/components/inputs/s_input/s_input_field.dart';
-export 'src/presentation/components/inputs/s_select/s_multi_select.dart';
-export 'src/presentation/components/inputs/s_select/s_multi_select_form_field.dart';
 export 'src/presentation/components/inputs/s_select/s_select.dart';
 export 'src/presentation/components/inputs/s_select/s_select_form_field.dart';
 export 'src/presentation/components/inputs/s_select/widgets/s_select_item.dart';
@@ -58,11 +54,10 @@ export 'src/presentation/components/inputs/s_switch/s_switch.dart';
 export 'src/presentation/components/layout/s_card/s_card.dart';
 export 'src/presentation/components/layout/s_list_tile/s_list_tile.dart';
 export 'src/presentation/components/layout/s_list_tile/s_list_tile_group.dart';
-export 'src/presentation/components/layout/s_tabs/s_tab_nav_bar.dart';
-export 'src/presentation/components/layout/s_tabs/s_tabs.dart';
-export 'src/presentation/components/layout/s_tabs/s_tab_view.dart';
 export 'src/presentation/components/layout/s_tabs/s_sliver_tabs.dart';
-
+export 'src/presentation/components/layout/s_tabs/s_tab_nav_bar.dart';
+export 'src/presentation/components/layout/s_tabs/s_tab_view.dart';
+export 'src/presentation/components/layout/s_tabs/s_tabs.dart';
 export 'src/presentation/components/overlays/s_bottom_sheet/s_floating_panel.dart';
 export 'src/presentation/components/overlays/s_bottom_sheet/s_floating_panel_config.dart';
 export 'src/presentation/themes/extensions/component_themes/s_button_theme.dart';

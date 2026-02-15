@@ -10,6 +10,7 @@ class SSelectItem<
         false,
     this.subtitle,
     this.icon,
+    this.groupLabel,
   });
 
   /// The value of the item.
@@ -32,4 +33,8 @@ class SSelectItem<
   final Widget
           Function(bool selected)?
       icon;
+
+  /// Optional group label for grouped options (OptGroup).
+  final String?
+      groupLabel;
 }

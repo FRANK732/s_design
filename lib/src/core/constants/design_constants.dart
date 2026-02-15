@@ -16,6 +16,17 @@ class DesignConstants {
       buttonAnimationDuration =
       Duration(milliseconds: 200);
 
+  // Border Radii
+  static const double
+      borderRadiusSmall =
+      4.0;
+  static const double
+      borderRadiusMedium =
+      8.0;
+  static const double
+      borderRadiusLarge =
+      12.0;
+
   // Button Padding - Default Size
   static const double
       buttonPaddingHorizontalDefault =

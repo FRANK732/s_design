@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../../../s_design.dart';
 
 /// A [FormField] that wraps [SSelect].
@@ -23,24 +24,24 @@ class SSelectFormField<
         placeholder,
     bool disabled =
         false,
-    SSelectDropdownDirection dropdownDirection =
+    SSelectDropdownDirection placement =
         SSelectDropdownDirection.down,
-    Duration animationDuration =
-        const Duration(milliseconds: 200),
-    Curve animationCurve =
-        Curves.easeInOut,
-    Widget?
-        dropdownIcon,
     double dropdownMaxHeight =
-        300.0,
-    String searchPlaceholder =
-        'Search...',
-    ButtonStyle?
-        style,
+        256.0,
+    bool showSearch =
+        false,
+    SSelectSize size =
+        SSelectSize.middle,
+    SSelectStatus status =
+        SSelectStatus.none,
+    SSelectVariant variant =
+        SSelectVariant.outlined,
+    bool allowClear =
+        false,
   }) : super(
           builder: (FormFieldState<T> field) {
-            void onChangedHandler(T? value) {
-              field.didChange(value);
+            void onChangedHandler(dynamic value) {
+              field.didChange(value as T?);
               onChanged?.call(value);
             }
 
@@ -53,13 +54,13 @@ class SSelectFormField<
                   onChanged: onChangedHandler,
                   placeholder: placeholder,
                   disabled: disabled || !enabled,
-                  dropdownDirection: dropdownDirection,
-                  animationDuration: animationDuration,
-                  animationCurve: animationCurve,
-                  dropdownIcon: dropdownIcon,
+                  placement: placement,
                   dropdownMaxHeight: dropdownMaxHeight,
-                  searchPlaceholder: searchPlaceholder,
-                  style: style,
+                  showSearch: showSearch,
+                  size: size,
+                  status: field.hasError ? SSelectStatus.error : status,
+                  variant: variant,
+                  allowClear: allowClear,
                 ),
                 if (field.hasError)
                   Padding(

@@ -116,29 +116,37 @@ class _SelectPageState
                   items: _fruits,
                   value: _selectedFruit,
                   placeholder: 'Pick a fruit',
-                  onChanged: (value) => setState(() => _selectedFruit = value),
+                  onChanged: (value) => setState(() => _selectedFruit = value as String?),
                 ),
               ),
               const SizedBox(height: 24),
               _buildSection(
                 'Basic Multi Select',
-                SMultiSelect<String>(
+                SSelect<String>(
+                  mode: SSelectMode.multiple,
                   items: _frameworks,
-                  values: _selectedFrameworks,
+                  value: _selectedFrameworks,
                   placeholder: 'Select frameworks',
-                  onChanged: (values) => setState(() => _selectedFrameworks = values),
+                  onChanged: (values) => setState(() => _selectedFrameworks = List<String>.from(values as List)),
                 ),
               ),
               const SizedBox(height: 24),
               _buildSection(
                 'Async Search (Cities)',
                 SSelect<String>(
-                  items: const [], // Initial items empty
+                  items: const [],
+                  // Initial items empty - in a real app, these would be populated by search results
                   value: _selectedCity,
-                  isAsync: true,
-                  onSearch: _searchCities,
+                  showSearch: true,
+                  onSearch: (query) {
+                    // In a real app, trigger a search here and update items
+                    _searchCities(query).then((items) {
+                      // Update items via state if we were keeping them in state
+                      // For this demo we just showing the API
+                    });
+                  },
                   placeholder: 'Search for a city...',
-                  onChanged: (value) => setState(() => _selectedCity = value),
+                  onChanged: (value) => setState(() => _selectedCity = value as String?),
                 ),
               ),
               const SizedBox(height: 24),
@@ -152,14 +160,17 @@ class _SelectPageState
               ),
               const SizedBox(height: 24),
               _buildSection(
-                'Adaptive UI (Sheet)',
+                'Tags Mode',
                 SSelect<String>(
+                  mode: SSelectMode.tags,
                   items: _fruits,
-                  value: _selectedFruit,
-                  isAdaptive: true, // Will show sheet on mobile emulator/device
-                  sheetTitle: 'Select your favorite fruit',
-                  placeholder: 'Adaptive Select',
-                  onChanged: (value) => setState(() => _selectedFruit = value),
+                  value: _selectedFruit != null
+                      ? [
+                          _selectedFruit!
+                        ]
+                      : <String>[],
+                  placeholder: 'Type to create tags',
+                  onChanged: (value) {}, // Demo only
                 ),
               ),
               const SizedBox(height: 32),
