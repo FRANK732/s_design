@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'pages/bottom_navigation.dart';
 import 'pages/card.dart';
 import 'pages/check_box.dart';
+import 'pages/date_picker_page.dart';
 import 'pages/dropdown_menu.dart';
 import 'pages/inputs_page.dart';
 import 'pages/list_tile_page.dart';
@@ -13,6 +14,7 @@ import 'pages/sbutton.dart';
 import 'pages/slider_page.dart';
 import 'pages/sonner_page.dart';
 import 'pages/sscaffold/base_scaffold.dart';
+import 'pages/steps_page.dart';
 import 'pages/switch_page.dart';
 import 'pages/tab_page.dart';
 import 'pages/tabs_demo_v3.dart';
@@ -165,6 +167,24 @@ class AppRoutes {
           '/list_tile_page',
       page: () =>
           const ListTilePage(),
+      transition:
+          Transition.rightToLeft,
+    ),
+    GetPage<
+        dynamic>(
+      name:
+          '/steps_page',
+      page: () =>
+          const StepsPage(),
+      transition:
+          Transition.rightToLeft,
+    ),
+    GetPage<
+        dynamic>(
+      name:
+          '/date_picker_page',
+      page: () =>
+          const DatePickerPage(),
       transition:
           Transition.rightToLeft,
     ),

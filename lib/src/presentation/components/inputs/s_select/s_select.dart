@@ -361,6 +361,8 @@ class _SSelectState<
 
   void
       _openDropdown() {
+    if (_isOpen)
+      return;
     final RenderBox?
         renderBox =
         context.findRenderObject() as RenderBox?;

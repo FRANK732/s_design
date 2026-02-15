@@ -3,27 +3,29 @@ import 'package:s_design/s_design.dart';
 
 import 'pages/bottom_navigation.dart';
 import 'pages/card.dart';
+import 'pages/card_demo.dart';
 import 'pages/check_box.dart';
+import 'pages/date_picker_page.dart';
 import 'pages/dropdown_menu.dart';
 import 'pages/inputs_page.dart';
 import 'pages/list_tile_page.dart';
+import 'pages/progress_demo.dart';
 import 'pages/progress_indicator_page.dart';
 import 'pages/s_floating_panel_page.dart';
 import 'pages/s_modal_page.dart';
 import 'pages/sbutton.dart';
 import 'pages/scaffold_page.dart';
 import 'pages/select_page.dart';
+import 'pages/slider_demo.dart';
 import 'pages/slider_page.dart';
 import 'pages/sonner_page.dart';
 import 'pages/sscaffold/base_scaffold.dart';
+import 'pages/steps_page.dart';
+import 'pages/switch_demo.dart';
 import 'pages/switch_page.dart';
 // import 'pages/tab_page.dart';
 import 'pages/tabs_demo_v3.dart';
 import 'pages/toast_page.dart';
-import 'pages/progress_demo.dart';
-import 'pages/card_demo.dart';
-import 'pages/slider_demo.dart';
-import 'pages/switch_demo.dart';
 
 void
     main() {
@@ -170,6 +172,8 @@ class HomePage
           _buildListTile(context, 'SCard (Ant Design)', const SCardDemoPage(), Icons.chrome_reader_mode),
           _buildListTile(context, 'SSlider (Ant Design)', const SSliderDemoPage(), Icons.tune),
           _buildListTile(context, 'SSwitch (Ant Design)', const SSwitchDemoPage(), Icons.toggle_on),
+          _buildListTile(context, 'SSteps (Ant Design)', const StepsPage(), Icons.format_list_numbered),
+          _buildListTile(context, 'SDatePicker (Ant Design)', const DatePickerPage(), Icons.calendar_today),
         ],
       ),
     );

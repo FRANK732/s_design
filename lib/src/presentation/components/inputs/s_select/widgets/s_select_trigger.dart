@@ -35,6 +35,7 @@ class SSelectTrigger<
     this.suffixIcon,
     this.prefix,
     this.onItemRemove,
+    this.onInputTap,
   });
 
   final List<T>
@@ -77,6 +78,8 @@ class SSelectTrigger<
       prefix;
   final ValueChanged<T>?
       onItemRemove;
+  final VoidCallback?
+      onInputTap;
 
   @override
   State<
@@ -279,19 +282,27 @@ class _SSelectTriggerState<
   Widget _buildSearchInput(
       TextStyle
           textStyle) {
-    return EditableText(
+    return TextField(
       controller:
           _searchController,
       focusNode:
-          widget.focusNode ?? FocusNode(),
+          widget.focusNode,
       style:
           textStyle,
       cursorColor:
           Theme.of(context).primaryColor,
-      backgroundCursorColor:
-          Colors.transparent,
       onChanged:
           widget.onSearch,
+      decoration:
+          const InputDecoration(
+        isDense: true,
+        contentPadding: EdgeInsets.zero,
+        border: InputBorder.none,
+        focusedBorder: InputBorder.none,
+        enabledBorder: InputBorder.none,
+        errorBorder: InputBorder.none,
+        disabledBorder: InputBorder.none,
+      ),
       maxLines:
           1,
     );
@@ -348,18 +359,24 @@ class _SSelectTriggerState<
         ConstrainedBox(
           constraints: const BoxConstraints(minWidth: 4, maxWidth: double.infinity),
           child: IntrinsicWidth(
-            child: EditableText(
+            child: TextField(
               controller: _searchController,
-              focusNode: widget.focusNode ?? FocusNode(),
+              focusNode: widget.focusNode,
               style: textStyle,
               cursorColor: Theme.of(context).primaryColor,
-              backgroundCursorColor: Colors.transparent,
               onChanged: widget.onSearch,
+              onTap: widget.onInputTap,
+              decoration: const InputDecoration(
+                isDense: true,
+                contentPadding: EdgeInsets.zero,
+                border: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                errorBorder: InputBorder.none,
+                disabledBorder: InputBorder.none,
+              ),
               maxLines: 1,
               minLines: 1,
-              // We need a subtle placeholder if empty and no values?
-              // Actually, the main placeholder handles "empty and no values".
-              // This input is explicitly for "typing to search".
             ),
           ),
         ),
@@ -414,6 +431,15 @@ class _SSelectTriggerState<
           size: 14,
           color: Color(0xFFBFBFBF),
         ),
+      );
+    }
+
+    if (widget
+        .showSearch) {
+      return Icon(
+        Icons.search,
+        size: 16,
+        color: Colors.grey.shade400,
       );
     }
 
