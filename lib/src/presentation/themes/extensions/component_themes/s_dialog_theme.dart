@@ -1,9 +1,11 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 
 /// Theme data for [SDialog].
 class SDialogThemeData
     extends ThemeExtension<
         SDialogThemeData> {
+  /// Creates an instance of [SDialogThemeData].
   /// Creates an instance of [SDialogThemeData].
   const SDialogThemeData({
     required this.backgroundColor,
@@ -12,9 +14,24 @@ class SDialogThemeData
     required this.actionTextColor,
     required this.buttonBackgroundColor,
     required this.buttonTextColor,
+    this.borderRadius,
+    this.elevation,
+    this.contentPadding,
+    this.actionsPadding,
+    this.titleStyle,
+    this.descriptionStyle,
+    this.dividerColor,
+    this.dividerThickness,
+    this.showDivider,
+    this.shape,
+    this.insetPadding,
+    this.alignment,
+    this.actionsAlignment,
+    this.shadowColor,
+    this.surfaceTintColor,
+    this.clipBehavior,
   });
 
-  /// Creates a [SDialogThemeData] from [ColorScheme].
   factory SDialogThemeData.fromColorScheme(
       ColorScheme
           colorScheme) {
@@ -31,32 +48,69 @@ class SDialogThemeData
           colorScheme.primaryContainer,
       buttonTextColor:
           colorScheme.onPrimaryContainer,
+      borderRadius:
+          BorderRadius.circular(16),
+      elevation:
+          6.0,
+      contentPadding:
+          const EdgeInsets.all(24.0),
+      actionsPadding:
+          const EdgeInsets.all(16.0),
+      insetPadding:
+          const EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
+      alignment:
+          Alignment.center,
+      actionsAlignment:
+          MainAxisAlignment.end,
+      clipBehavior:
+          Clip.none,
     );
   }
 
-  /// Background color of the dialog.
   final Color
       backgroundColor;
-
-  /// Color of the title text.
   final Color
       titleColor;
-
-  /// Color of the description text.
   final Color
       descriptionColor;
-
-  /// Color of the action buttons text.
   final Color
       actionTextColor;
-
-  /// Background color of dialog buttons.
   final Color
       buttonBackgroundColor;
-
-  /// Text color of dialog buttons.
   final Color
       buttonTextColor;
+  final BorderRadiusGeometry?
+      borderRadius;
+  final double?
+      elevation;
+  final EdgeInsetsGeometry?
+      contentPadding;
+  final EdgeInsetsGeometry?
+      actionsPadding;
+  final TextStyle?
+      titleStyle;
+  final TextStyle?
+      descriptionStyle;
+  final Color?
+      dividerColor;
+  final double?
+      dividerThickness;
+  final bool?
+      showDivider;
+  final ShapeBorder?
+      shape;
+  final EdgeInsets?
+      insetPadding;
+  final AlignmentGeometry?
+      alignment;
+  final MainAxisAlignment?
+      actionsAlignment;
+  final Color?
+      shadowColor;
+  final Color?
+      surfaceTintColor;
+  final Clip?
+      clipBehavior;
 
   @override
   SDialogThemeData
@@ -73,6 +127,38 @@ class SDialogThemeData
         buttonBackgroundColor,
     Color?
         buttonTextColor,
+    BorderRadiusGeometry?
+        borderRadius,
+    double?
+        elevation,
+    EdgeInsetsGeometry?
+        contentPadding,
+    EdgeInsetsGeometry?
+        actionsPadding,
+    TextStyle?
+        titleStyle,
+    TextStyle?
+        descriptionStyle,
+    Color?
+        dividerColor,
+    double?
+        dividerThickness,
+    bool?
+        showDivider,
+    ShapeBorder?
+        shape,
+    EdgeInsets?
+        insetPadding,
+    AlignmentGeometry?
+        alignment,
+    MainAxisAlignment?
+        actionsAlignment,
+    Color?
+        shadowColor,
+    Color?
+        surfaceTintColor,
+    Clip?
+        clipBehavior,
   }) {
     return SDialogThemeData(
       backgroundColor:
@@ -87,12 +173,44 @@ class SDialogThemeData
           buttonBackgroundColor ?? this.buttonBackgroundColor,
       buttonTextColor:
           buttonTextColor ?? this.buttonTextColor,
+      borderRadius:
+          borderRadius ?? this.borderRadius,
+      elevation:
+          elevation ?? this.elevation,
+      contentPadding:
+          contentPadding ?? this.contentPadding,
+      actionsPadding:
+          actionsPadding ?? this.actionsPadding,
+      titleStyle:
+          titleStyle ?? this.titleStyle,
+      descriptionStyle:
+          descriptionStyle ?? this.descriptionStyle,
+      dividerColor:
+          dividerColor ?? this.dividerColor,
+      dividerThickness:
+          dividerThickness ?? this.dividerThickness,
+      showDivider:
+          showDivider ?? this.showDivider,
+      shape:
+          shape ?? this.shape,
+      insetPadding:
+          insetPadding ?? this.insetPadding,
+      alignment:
+          alignment ?? this.alignment,
+      actionsAlignment:
+          actionsAlignment ?? this.actionsAlignment,
+      shadowColor:
+          shadowColor ?? this.shadowColor,
+      surfaceTintColor:
+          surfaceTintColor ?? this.surfaceTintColor,
+      clipBehavior:
+          clipBehavior ?? this.clipBehavior,
     );
   }
 
   @override
   SDialogThemeData lerp(
-      ThemeExtension<SDialogThemeData>?
+      SDialogThemeData?
           other,
       double
           t) {
@@ -125,6 +243,67 @@ class SDialogThemeData
           buttonTextColor,
           other.buttonTextColor,
           t)!,
+      borderRadius: BorderRadiusGeometry.lerp(
+          borderRadius,
+          other.borderRadius,
+          t),
+      elevation: lerpDouble(
+          elevation,
+          other.elevation,
+          t),
+      contentPadding: EdgeInsetsGeometry.lerp(
+          contentPadding,
+          other.contentPadding,
+          t),
+      actionsPadding: EdgeInsetsGeometry.lerp(
+          actionsPadding,
+          other.actionsPadding,
+          t),
+      titleStyle: TextStyle.lerp(
+          titleStyle,
+          other.titleStyle,
+          t),
+      descriptionStyle: TextStyle.lerp(
+          descriptionStyle,
+          other.descriptionStyle,
+          t),
+      dividerColor: Color.lerp(
+          dividerColor,
+          other.dividerColor,
+          t),
+      dividerThickness: lerpDouble(
+          dividerThickness,
+          other.dividerThickness,
+          t),
+      showDivider: t < 0.5
+          ? showDivider
+          : other.showDivider,
+      shape: ShapeBorder.lerp(
+          shape,
+          other.shape,
+          t),
+      insetPadding: EdgeInsets.lerp(
+          insetPadding,
+          other.insetPadding,
+          t),
+      alignment: AlignmentGeometry.lerp(
+          alignment,
+          other.alignment,
+          t),
+      actionsAlignment: t < 0.5
+          ? actionsAlignment
+          : other.actionsAlignment,
+      shadowColor: Color.lerp(
+          shadowColor,
+          other.shadowColor,
+          t),
+      surfaceTintColor: Color.lerp(
+          surfaceTintColor,
+          other.surfaceTintColor,
+          t),
+      clipBehavior: t < 0.5
+          ? clipBehavior
+          : other.clipBehavior,
     );
   }
 }

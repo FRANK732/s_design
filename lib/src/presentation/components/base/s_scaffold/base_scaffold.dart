@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../s_design.dart';
+import 's_scaffold_config.dart';
 import 'widgets/floating_action_button_config.dart';
 import 'widgets/loading_provider.dart';
 
@@ -12,6 +13,7 @@ class SScaffold
     super.key,
     this.appBar,
     this.renderBody,
+    this.slivers,
     this.centerBody =
         false,
     this.drawer,
@@ -103,7 +105,11 @@ class SScaffold
     @Deprecated(
         'Use loadingConfig instead')
     this.bodyShimmer,
-  })  : floatingActionButtonConfig = floatingActionButtonConfig ??
+  })  : assert(
+          renderBody == null || slivers == null,
+          'Cannot provide both renderBody and slivers.',
+        ),
+        floatingActionButtonConfig = floatingActionButtonConfig ??
             (floatingActionButton != null || floatingActionButtonLocation != null || floatingActionButtonAnimator != null
                 ? FloatingActionButtonConfig(
                     floatingActionButton: floatingActionButton,
@@ -177,6 +183,228 @@ class SScaffold
           !((floatingActionButtonConfig?.floatingActionButton ?? floatingActionButton) == null && ((floatingActionButtonConfig?.location ?? floatingActionButtonLocation) != null || (floatingActionButtonConfig?.animator ?? floatingActionButtonAnimator) != null)),
           'floatingActionButton must be provided when location or animator is set',
         );
+
+  /// Creates a scaffold with a list of slivers.
+  ///
+  /// This constructor is useful for implementing complex scrolling interfaces
+  /// using [CustomScrollView].
+  SScaffold.slivers({
+    Key?
+        key,
+    required List<Widget> Function(BuildContext context)
+        slivers,
+    PreferredSizeWidget?
+        appBar,
+    Widget?
+        drawer,
+    PersistentFooterConfig?
+        persistentFooterConfig,
+    DrawerCallback?
+        onDrawerChanged,
+    Widget?
+        endDrawer,
+    DrawerCallback?
+        onEndDrawerChanged,
+    Widget?
+        bottomNavigationBar,
+    Widget?
+        bottomSheet,
+    Widget? Function(BuildContext, Animation<double>)?
+        bottomSheetScrimBuilder,
+    Color?
+        backgroundColor,
+    bool?
+        resizeToAvoidBottomInset,
+    bool primary =
+        true,
+    DragStartBehavior drawerDragStartBehavior =
+        DragStartBehavior.start,
+    bool extendBody =
+        false,
+    bool extendBodyBehindAppBar =
+        false,
+    Color?
+        drawerScrimColor,
+    double?
+        drawerEdgeDragWidth,
+    bool drawerEnableOpenDragGesture =
+        true,
+    bool endDrawerEnableOpenDragGesture =
+        true,
+    bool drawerBarrierDismissible =
+        true,
+    String?
+        restorationId,
+    RefreshConfig?
+        refreshConfig,
+    LoadingConfig?
+        loadingConfig,
+    FloatingActionButtonConfig?
+        floatingActionButtonConfig,
+    bool centerBody =
+        false,
+    EdgeInsets bodyPadding =
+        EdgeInsets.zero,
+    bool useSafeArea =
+        true,
+    @Deprecated(
+        'Use persistentFooterConfig instead')
+    List<Widget>?
+        persistentFooterButtons,
+    @Deprecated(
+        'Use persistentFooterConfig instead')
+    AlignmentDirectional persistentFooterAlignment =
+        AlignmentDirectional.centerEnd,
+    BoxDecoration?
+        persistentFooterDecoration,
+    Widget Function(BuildContext context)?
+        renderFooter,
+  }) : this(
+          key: key,
+          appBar: appBar,
+          slivers: slivers,
+          drawer: drawer,
+          persistentFooterConfig: persistentFooterConfig,
+          onDrawerChanged: onDrawerChanged,
+          endDrawer: endDrawer,
+          onEndDrawerChanged: onEndDrawerChanged,
+          bottomNavigationBar: bottomNavigationBar,
+          bottomSheet: bottomSheet,
+          bottomSheetScrimBuilder: bottomSheetScrimBuilder,
+          backgroundColor: backgroundColor,
+          resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+          primary: primary,
+          drawerDragStartBehavior: drawerDragStartBehavior,
+          extendBody: extendBody,
+          extendBodyBehindAppBar: extendBodyBehindAppBar,
+          drawerScrimColor: drawerScrimColor,
+          drawerEdgeDragWidth: drawerEdgeDragWidth,
+          drawerEnableOpenDragGesture: drawerEnableOpenDragGesture,
+          endDrawerEnableOpenDragGesture: endDrawerEnableOpenDragGesture,
+          drawerBarrierDismissible: drawerBarrierDismissible,
+          restorationId: restorationId,
+          refreshConfig: refreshConfig,
+          loadingConfig: loadingConfig,
+          floatingActionButtonConfig: floatingActionButtonConfig,
+          centerBody: centerBody,
+          bodyPadding: bodyPadding,
+          useSafeArea: useSafeArea,
+          persistentFooterButtons: persistentFooterButtons,
+          persistentFooterAlignment: persistentFooterAlignment,
+          persistentFooterDecoration: persistentFooterDecoration,
+          renderFooter: renderFooter,
+        );
+
+  /// Creates a scaffold from a configuration object.
+  factory SScaffold.fromConfig({
+    Key?
+        key,
+    required SScaffoldConfig
+        config,
+  }) {
+    if (config.slivers !=
+        null) {
+      return SScaffold.slivers(
+        key: key,
+        slivers: config.slivers!,
+        appBar: config.appBar,
+        drawer: config.drawer,
+        persistentFooterConfig: config.persistentFooterConfig,
+        onDrawerChanged: config.onDrawerChanged,
+        endDrawer: config.endDrawer,
+        onEndDrawerChanged: config.onEndDrawerChanged,
+        bottomNavigationBar: config.bottomNavigationBar,
+        bottomSheet: config.bottomSheet,
+        bottomSheetScrimBuilder: config.bottomSheetScrimBuilder,
+        backgroundColor: config.backgroundColor,
+        resizeToAvoidBottomInset: config.resizeToAvoidBottomInset,
+        primary: config.primary,
+        drawerDragStartBehavior: config.drawerDragStartBehavior,
+        extendBody: config.extendBody,
+        extendBodyBehindAppBar: config.extendBodyBehindAppBar,
+        drawerScrimColor: config.drawerScrimColor,
+        drawerEdgeDragWidth: config.drawerEdgeDragWidth,
+        drawerEnableOpenDragGesture: config.drawerEnableOpenDragGesture,
+        endDrawerEnableOpenDragGesture: config.endDrawerEnableOpenDragGesture,
+        drawerBarrierDismissible: config.drawerBarrierDismissible,
+        restorationId: config.restorationId,
+        refreshConfig: config.refreshConfig,
+        loadingConfig: config.loadingConfig,
+        floatingActionButtonConfig: config.floatingActionButtonConfig,
+        centerBody: config.centerBody,
+        bodyPadding: config.bodyPadding,
+        useSafeArea: config.useSafeArea,
+        persistentFooterDecoration: config.persistentFooterDecoration,
+        renderFooter: config.renderFooter,
+      );
+    }
+    return SScaffold(
+      key:
+          key,
+      appBar:
+          config.appBar,
+      renderBody:
+          config.renderBody,
+      centerBody:
+          config.centerBody,
+      drawer:
+          config.drawer,
+      renderFooter:
+          config.renderFooter,
+      scrollable:
+          config.scrollable,
+      floatingActionButtonConfig:
+          config.floatingActionButtonConfig,
+      bodyPadding:
+          config.bodyPadding,
+      useSafeArea:
+          config.useSafeArea,
+      persistentFooterConfig:
+          config.persistentFooterConfig,
+      persistentFooterDecoration:
+          config.persistentFooterDecoration,
+      onDrawerChanged:
+          config.onDrawerChanged,
+      endDrawer:
+          config.endDrawer,
+      onEndDrawerChanged:
+          config.onEndDrawerChanged,
+      bottomNavigationBar:
+          config.bottomNavigationBar,
+      bottomSheet:
+          config.bottomSheet,
+      bottomSheetScrimBuilder:
+          config.bottomSheetScrimBuilder,
+      backgroundColor:
+          config.backgroundColor,
+      resizeToAvoidBottomInset:
+          config.resizeToAvoidBottomInset,
+      primary:
+          config.primary,
+      drawerDragStartBehavior:
+          config.drawerDragStartBehavior,
+      extendBody:
+          config.extendBody,
+      extendBodyBehindAppBar:
+          config.extendBodyBehindAppBar,
+      drawerScrimColor:
+          config.drawerScrimColor,
+      drawerEdgeDragWidth:
+          config.drawerEdgeDragWidth,
+      drawerEnableOpenDragGesture:
+          config.drawerEnableOpenDragGesture,
+      endDrawerEnableOpenDragGesture:
+          config.endDrawerEnableOpenDragGesture,
+      drawerBarrierDismissible:
+          config.drawerBarrierDismissible,
+      restorationId:
+          config.restorationId,
+      refreshConfig:
+          config.refreshConfig,
+      loadingConfig:
+          config.loadingConfig,
+    );
+  }
 
   /// The app bar to display at the top of the scaffold.
   /// If null, no app bar is shown. Typically an [AppBar] widget.
@@ -252,6 +480,13 @@ class SScaffold
       'Use floatingActionButtonConfig instead')
   final FloatingActionButtonAnimator?
       floatingActionButtonAnimator;
+
+  /// A function that builds the list of slivers for the scaffold's body.
+  /// Called with the current [BuildContext] to construct the sslivers.
+  /// If provided, [renderBody] must be null.
+  final List<Widget>
+          Function(BuildContext context)?
+      slivers;
 
   /// Configuration for persistent footer buttons.
   /// Preferred over deprecated props [persistentFooterButtons] and [persistentFooterAlignment].
@@ -649,41 +884,23 @@ class _SScaffoldState
         ? Center(child: safeContent)
         : safeContent;
 
-    if (widget.refreshConfig?.enabled ??
-        widget.enableRefresh) {
-      return RefreshIndicator(
-          onRefresh: _handleRefresh,
-          color: widget.refreshConfig?.indicatorColor ?? widget.refreshIndicatorColor ?? Theme.of(context).primaryColor,
-          backgroundColor: widget.refreshConfig?.indicatorBackgroundColor ?? widget.refreshIndicatorBackgroundColor ?? Colors.white,
-          triggerMode: widget.refreshConfig?.triggerMode ?? widget.refreshIndicatorTriggerMode,
-          edgeOffset: widget.appBar?.preferredSize.height ?? 0.0,
-          child: widget.scrollable
-              ? SingleChildScrollView(
-                  // Ensure scrollability for refresh even if content is short
-                  physics: widget.enableRefresh ? const AlwaysScrollableScrollPhysics() : null,
-                  child: widget.centerBody
-                      ? ConstrainedBox(
-                          constraints: BoxConstraints(
-                            // Ensure content fills available height
-                            minHeight: MediaQuery.of(context).size.height - (widget.appBar?.preferredSize.height ?? 0) - (widget.renderFooter != null ? kBottomNavigationBarHeight : 0),
-                          ),
-                          child: content,
-                        )
-                      : content,
-                )
-              : ConstrainedBox(
-                  constraints: BoxConstraints(
-                    // Ensure content fills available height
-                    minHeight: MediaQuery.of(context).size.height - (widget.appBar?.preferredSize.height ?? 0) - (widget.renderFooter != null ? kBottomNavigationBarHeight : 0),
-                  ),
-                  child: content,
-                ));
-    }
+    Widget
+        bodyWidget;
 
-    // For scrollable content without refresh
-    if (widget
+    if (widget.slivers !=
+        null) {
+      bodyWidget =
+          CustomScrollView(
+        physics: (widget.refreshConfig?.enabled ?? widget.enableRefresh) ? const AlwaysScrollableScrollPhysics() : null,
+        slivers: [
+          ...widget.slivers!(context),
+          if (content is! SizedBox) SliverToBoxAdapter(child: content),
+        ],
+      );
+    } else if (widget
         .scrollable) {
-      return SingleChildScrollView(
+      bodyWidget =
+          SingleChildScrollView(
         physics: (widget.refreshConfig?.enabled ?? widget.enableRefresh) ? const AlwaysScrollableScrollPhysics() : null,
         child: widget.centerBody
             ? ConstrainedBox(
@@ -694,42 +911,43 @@ class _SScaffoldState
               )
             : content,
       );
+    } else {
+      // Non-scrollable content.
+      // If refresh is enabled, we still need a scrollable for RefreshIndicator to work broadly?
+      // Existing logic seemed to imply wrapping in ConstrainedBox if refresh enabled?
+      // If not scrollable and not refresh, just return content.
+      if (widget.refreshConfig?.enabled ??
+          widget.enableRefresh) {
+        // Attempt to make it scrollable for refresh?
+        // Converting to SingleChildScrollView to support pull-to-refresh
+        bodyWidget = SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: widget.centerBody
+              ? ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: MediaQuery.of(context).size.height - (widget.appBar?.preferredSize.height ?? 0) - (widget.renderFooter != null ? kBottomNavigationBarHeight : 0),
+                  ),
+                  child: content,
+                )
+              : content,
+        );
+      } else {
+        bodyWidget = content;
+      }
     }
 
-    // if (widget.scrollable ||
-    //     (widget.refreshConfig?.enabled ?? widget.enableRefresh)) {
-    //   return RefreshIndicator(
-    //     onRefresh: _handleRefresh,
-    //     color: widget.refreshConfig?.indicatorColor ??
-    //         widget.refreshIndicatorColor ??
-    //         Theme.of(context).primaryColor,
-    //     backgroundColor: widget.refreshConfig?.indicatorBackgroundColor ??
-    //         widget.refreshIndicatorBackgroundColor ??
-    //         Colors.white,
-    //     triggerMode: widget.refreshConfig?.triggerMode ??
-    //         widget.refreshIndicatorTriggerMode,
-    //     edgeOffset: widget.appBar?.preferredSize.height ?? 0.0,
-    //     child: SingleChildScrollView(
-    //       physics: (widget.refreshConfig?.enabled ?? widget.enableRefresh)
-    //           ? const AlwaysScrollableScrollPhysics()
-    //           : null,
-    //       child: widget.centerBody
-    //           ? ConstrainedBox(
-    //               constraints: BoxConstraints(
-    //                 minHeight: MediaQuery.of(context).size.height -
-    //                     (widget.appBar?.preferredSize.height ?? 0) -
-    //                     (widget.renderFooter != null
-    //                         ? kBottomNavigationBarHeight
-    //                         : 0),
-    //               ),
-    //               child: content,
-    //             )
-    //           : content,
-    //     ),
-    //   );
-    // }
+    if (widget.refreshConfig?.enabled ??
+        widget.enableRefresh) {
+      return RefreshIndicator(
+          onRefresh: _handleRefresh,
+          color: widget.refreshConfig?.indicatorColor ?? widget.refreshIndicatorColor ?? Theme.of(context).primaryColor,
+          backgroundColor: widget.refreshConfig?.indicatorBackgroundColor ?? widget.refreshIndicatorBackgroundColor ?? Colors.white,
+          triggerMode: widget.refreshConfig?.triggerMode ?? widget.refreshIndicatorTriggerMode,
+          edgeOffset: widget.appBar?.preferredSize.height ?? 0.0,
+          child: bodyWidget);
+    }
 
-    return content;
+    return bodyWidget;
   }
 
   Widget _buildFooter(

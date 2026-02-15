@@ -2,284 +2,489 @@ import 'package:flutter/material.dart';
 import '../../../../../s_design.dart';
 import 'utils/s_sonner_utils.dart';
 
+/// A toast notification system inspired by the Sonner library.
 class SSonner {
   SSonner._internal();
   static final SSonner
       _instance =
       SSonner._internal();
+
   OverlayState?
       _overlayState;
-  final List<_ToastEntry>
-      _queue =
-      <_ToastEntry>[];
-  bool
-      _isShowing =
-      false;
+  OverlayEntry?
+      _overlayEntry;
 
+  // ignore: prefer_final_fields
+  final ValueNotifier<List<SSonnerConfig>>
+      _toastsNotifier =
+      ValueNotifier<List<SSonnerConfig>>(<SSonnerConfig>[]);
+
+  /// Singleton instance of [SSonner].
   static SSonner
       get instance =>
           _instance;
 
+  /// Initializes the [SSonner] with the [OverlayState].
+  /// This must be called before showing any toasts.
+  // ignore: use_setters_to_change_properties
   void initialize(
-      OverlayState?
+      OverlayState
           overlayState) {
-    if (overlayState ==
-        null) {
-      throw Exception('OverlayState cannot be null');
-    }
-    if (_overlayState !=
-        null) {
-      // Prevent reinitialization
-      return;
-    }
     _overlayState =
         overlayState;
   }
 
-  /// Show a sonner
-  void
+  /// Shows a toast notification.
+  ///
+  /// Returns the unique ID of the toast.
+  String
       show({
-    required String
+    String?
         message,
+    SSonnerConfig?
+        config,
     SSonnerVariant variant =
         SSonnerVariant.info,
     Duration duration =
-        const Duration(seconds: 3),
-    Color?
-        backgroundColor,
-    TextStyle?
-        textStyle,
-    IconData?
-        icon,
+        const Duration(seconds: 4),
     SSonnerPosition position =
         SSonnerPosition.bottom,
-    SSonnerSize size =
-        SSonnerSize.md,
+    Widget?
+        action,
+    bool showCloseButton =
+        false,
+    VoidCallback?
+        onTap,
+    VoidCallback?
+        onDismiss,
+    IconData?
+        icon,
+    String?
+        id,
   }) {
     if (_overlayState ==
         null) {
-      throw Exception('SSonner is not initialized. Call initialize() first.');
+      debugPrint('SSonner: Warning - OverlayState not initialized.');
+      return '';
     }
 
-    final _ToastEntry
-        entry =
-        _ToastEntry(
-      message:
-          message,
-      type:
-          variant,
-      duration:
-          duration,
-      backgroundColor:
-          backgroundColor,
-      textStyle:
-          textStyle,
-      icon:
-          icon,
-      position:
-          position,
-      size:
-          size,
-    );
+    final String
+        toastId =
+        id ?? DateTime.now().microsecondsSinceEpoch.toString();
 
-    _queue
-        .add(entry);
-    _displayNext();
+    final SSonnerConfig effectiveConfig = config?.copyWith(id: toastId) ??
+        SSonnerConfig(
+          id: toastId,
+          message: message ?? '',
+          variant: variant,
+          duration: duration,
+          position: position,
+          action: action,
+          showCloseButton: showCloseButton,
+          onTap: onTap,
+          onDismiss: onDismiss,
+          icon: icon,
+        );
+
+    // Add to list
+    final List<SSonnerConfig>
+        currentToasts =
+        List<SSonnerConfig>.from(_toastsNotifier.value);
+    currentToasts
+        .add(effectiveConfig);
+    _toastsNotifier.value =
+        currentToasts;
+
+    // Ensure overlay is present
+    _ensureOverlay();
+
+    return toastId;
+  }
+
+  /// Dismisses a toast by its ID.
+  void dismiss(
+      String
+          id) {
+    final List<SSonnerConfig>
+        currentToasts =
+        List<SSonnerConfig>.from(_toastsNotifier.value);
+    final int
+        index =
+        currentToasts.indexWhere((SSonnerConfig t) => t.id == id);
+
+    if (index !=
+        -1) {
+      // Trigger callback if exists
+      currentToasts[index].onDismiss?.call();
+
+      currentToasts.removeAt(index);
+      _toastsNotifier.value =
+          currentToasts;
+
+      if (currentToasts.isEmpty) {
+        // We could remove the overlay here, but keeping it is fine for performance
+        // if we expect more toasts. For now, leave it.
+      }
+    }
   }
 
   void
-      _displayNext() {
-    if (_isShowing ||
-        _queue.isEmpty ||
-        _overlayState == null) {
+      _ensureOverlay() {
+    if (_overlayEntry !=
+        null) {
       return;
     }
 
-    _isShowing =
-        true;
-    final _ToastEntry
-        currentToast =
-        _queue.removeAt(0);
-
-    final OverlayEntry
-        overlayEntry =
+    _overlayEntry =
         OverlayEntry(
-      builder: (BuildContext context) =>
-          _ToastWidget(entry: currentToast),
+      builder:
+          (BuildContext context) {
+        return _SonnerOverlay(
+          toastsNotifier: _toastsNotifier,
+          onDismiss: dismiss,
+        );
+      },
     );
 
     _overlayState
-        ?.insert(overlayEntry);
-
-    Future<void>.delayed(
-        currentToast.duration + const Duration(milliseconds: 300),
-        () {
-      overlayEntry.remove();
-      _isShowing =
-          false;
-      _displayNext();
-    });
+        ?.insert(_overlayEntry!);
   }
 }
 
-class _ToastEntry {
-  _ToastEntry({
-    required this.message,
-    this.type =
-        SSonnerVariant.info,
-    this.duration =
-        const Duration(seconds: 3),
-    this.backgroundColor,
-    this.textStyle,
-    this.icon,
-    this.position =
-        SSonnerPosition.bottom,
-    this.size =
-        SSonnerSize.md,
-  });
-  final String
-      message;
-  final SSonnerVariant
-      type;
-  final Duration
-      duration;
-  final Color?
-      backgroundColor;
-  final TextStyle?
-      textStyle;
-  final IconData?
-      icon;
-  final SSonnerPosition
-      position;
-  final SSonnerSize
-      size;
-}
-
-class _ToastWidget
+class _SonnerOverlay
     extends StatelessWidget {
-  const _ToastWidget(
-      {required this.entry});
-  final _ToastEntry
-      entry;
+  const _SonnerOverlay({
+    required this.toastsNotifier,
+    required this.onDismiss,
+  });
+
+  final ValueNotifier<List<SSonnerConfig>>
+      toastsNotifier;
+  final void
+          Function(String id)
+      onDismiss;
 
   @override
   Widget build(
       BuildContext
           context) {
-    final TextTheme
-        textTheme =
-        Theme.of(context).textTheme;
+    return ValueListenableBuilder<
+        List<SSonnerConfig>>(
+      valueListenable:
+          toastsNotifier,
+      builder: (BuildContext context,
+          List<SSonnerConfig> toasts,
+          Widget? child) {
+        // We need to render toasts in different positions
+        // For simplicity, we'll support Top and Bottom stacks.
 
-    // Determine background color and icon based on variant
+        final List<SSonnerConfig> topToasts = toasts.where((SSonnerConfig t) => t.position == SSonnerPosition.top).toList();
+        final List<SSonnerConfig> bottomToasts = toasts.where((SSonnerConfig t) => t.position == SSonnerPosition.bottom || t.position == SSonnerPosition.center).toList();
+
+        return SafeArea(
+          child: Stack(
+            children: <Widget>[
+              // Top Stack
+              if (topToasts.isNotEmpty)
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  child: _ToastStack(
+                    toasts: topToasts,
+                    isTop: true,
+                    onDismiss: onDismiss,
+                  ),
+                ),
+
+              // Bottom Stack
+              if (bottomToasts.isNotEmpty)
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: _ToastStack(
+                    toasts: bottomToasts,
+                    isTop: false,
+                    onDismiss: onDismiss,
+                  ),
+                ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _ToastStack
+    extends StatelessWidget {
+  const _ToastStack({
+    required this.toasts,
+    required this.isTop,
+    required this.onDismiss,
+  });
+
+  final List<SSonnerConfig>
+      toasts;
+  final bool
+      isTop;
+  final void
+          Function(String id)
+      onDismiss;
+
+  @override
+  Widget build(
+      BuildContext
+          context) {
+    return Padding(
+      padding:
+          const EdgeInsets.all(16.0),
+      child:
+          Column(
+        mainAxisSize: MainAxisSize.min,
+        verticalDirection: isTop ? VerticalDirection.down : VerticalDirection.up,
+        children: toasts.map((SSonnerConfig toast) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: _ToastWidget(
+              key: ValueKey<String>(toast.id ?? ''),
+              config: toast,
+              onDismiss: () => onDismiss(toast.id ?? ''),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+}
+
+class _ToastWidget
+    extends StatefulWidget {
+  const _ToastWidget({
+    super.key,
+    required this.config,
+    required this.onDismiss,
+  });
+
+  final SSonnerConfig
+      config;
+  final VoidCallback
+      onDismiss;
+
+  @override
+  State<_ToastWidget>
+      createState() =>
+          _ToastWidgetState();
+}
+
+class _ToastWidgetState
+    extends State<
+        _ToastWidget>
+    with
+        SingleTickerProviderStateMixin {
+  late AnimationController
+      _controller;
+  late Animation<double>
+      _opacity;
+  late Animation<Offset>
+      _offset;
+
+  @override
+  void
+      initState() {
+    super
+        .initState();
+    _controller = AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 300));
+
+    _opacity =
+        Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+          parent: _controller,
+          curve: Curves.easeOut),
+    );
+
+    _offset = Tween<
+        Offset>(
+      begin:
+          _getBeginOffset(widget.config.position),
+      end:
+          Offset.zero,
+    ).animate(CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeOutBack));
+
+    _controller
+        .forward();
+
+    // Auto dismiss
+    Future<void>.delayed(
+        widget.config.duration,
+        () {
+      if (mounted) {
+        // Trigger exit animation
+        _dismiss();
+      }
+    });
+  }
+
+  Offset _getBeginOffset(
+      SSonnerPosition
+          position) {
+    switch (
+        position) {
+      case SSonnerPosition.top:
+        return const Offset(0, -0.5);
+      case SSonnerPosition.bottom:
+      case SSonnerPosition.center:
+        return const Offset(0, 0.5);
+    }
+  }
+
+  Future<void>
+      _dismiss() async {
+    await _controller
+        .reverse();
+    widget
+        .onDismiss();
+  }
+
+  @override
+  void
+      dispose() {
+    _controller
+        .dispose();
+    super
+        .dispose();
+  }
+
+  @override
+  Widget build(
+      BuildContext
+          context) {
+    final SSonnerThemeData
+        theme =
+        Theme.of(context).sSonnerTheme;
+    final SSonnerConfig
+        config =
+        widget.config;
+
+    // Resolve styles
     final Color
         backgroundColor =
-        entry.backgroundColor ?? SSonnerUtils.getBackgroundColor(entry.type, context);
-    final IconData
-        icon =
-        entry.icon ?? SSonnerUtils.getIconData(entry.type);
+        theme.backgroundColor;
+    final Color
+        textColor =
+        theme.textColor;
+    final Color iconColor = config.variant == SSonnerVariant.info
+        ? theme.iconColor
+        : SSonnerUtils.getIconColor(config.variant, context);
 
-    Alignment
-        alignment;
-    double
-        verticalOffset =
-        50.0;
-
-    switch (
-        entry.position) {
-      case SSonnerPosition.top:
-        alignment = Alignment.topCenter;
-      case SSonnerPosition.center:
-        alignment = Alignment.center;
-        verticalOffset = 0;
-      case SSonnerPosition.bottom:
-        alignment = Alignment.bottomCenter;
-    }
-
-    double
-        paddingValue;
-    TextStyle
-        textStyle;
-
-    switch (
-        entry.size) {
-      case SSonnerSize.sm:
-        paddingValue = 8.0;
-        textStyle = entry.textStyle ?? textTheme.bodySmall!;
-      case SSonnerSize.lg:
-        paddingValue = 16.0;
-        textStyle = entry.textStyle ?? textTheme.bodyLarge!;
-      case SSonnerSize.md:
-        paddingValue = 12.0;
-        textStyle = entry.textStyle ?? textTheme.bodyMedium!;
-    }
-
-    EdgeInsetsGeometry?
-        margin;
-
-    switch (
-        entry.size) {
-      case SSonnerSize.sm:
-        margin = const EdgeInsets.symmetric(horizontal: 6);
-      case SSonnerSize.md:
-        margin = const EdgeInsets.symmetric(horizontal: 12);
-      case SSonnerSize.lg:
-        margin = const EdgeInsets.symmetric(horizontal: 18);
-    }
-
-    return Stack(
-      children: <Widget>[
-        Align(
-          alignment: alignment,
-          child: Padding(
-            padding: EdgeInsets.only(
-              top: alignment == Alignment.topCenter ? verticalOffset : 0,
-              bottom: alignment == Alignment.bottomCenter ? verticalOffset : 0,
-            ),
-            child: AnimatedOpacity(
-              opacity: 1.0,
-              duration: const Duration(milliseconds: 300),
-              child: Material(
-                color: Colors.transparent,
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * 0.8,
+    return Dismissible(
+      key:
+          ValueKey<String>(config.id ?? ''),
+      onDismissed: (_) =>
+          widget.onDismiss(),
+      child:
+          SlideTransition(
+        position: _offset,
+        child: FadeTransition(
+          opacity: _opacity,
+          child: Material(
+            color: Colors.transparent,
+            child: Container(
+              margin: theme.margin, // Applies consistent margin
+              width: MediaQuery.of(context).size.width > 600 ? 400 : double.infinity,
+              decoration: BoxDecoration(
+                color: backgroundColor,
+                borderRadius: theme.borderRadius,
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color: theme.shadowColor ?? Colors.black12,
+                    blurRadius: theme.elevation * 2,
+                    offset: Offset(0, theme.elevation),
                   ),
-                  child: Container(
-                    padding: EdgeInsets.all(paddingValue),
-                    margin: margin,
-                    decoration: BoxDecoration(
-                      color: backgroundColor,
-                      borderRadius: BorderRadius.circular(8.0), // Hardcoded for simplified dependency
-                      boxShadow: const <BoxShadow>[
-                        BoxShadow(
-                          color: Colors.black26,
-                          blurRadius: 10,
-                          offset: Offset(0, 4),
+                ],
+              ),
+              child: InkWell(
+                onTap: config.onTap,
+                borderRadius: theme.borderRadius as BorderRadius?,
+                child: Padding(
+                  padding: theme.padding ?? const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      if (config.leading != null)
+                        Padding(
+                          padding: const EdgeInsets.only(right: 12.0),
+                          child: config.leading,
+                        )
+                      else if (config.icon != null || config.variant != SSonnerVariant.info)
+                        Padding(
+                          padding: const EdgeInsets.only(right: 12.0),
+                          child: Icon(
+                            config.icon ?? SSonnerUtils.getIconData(config.variant),
+                            color: iconColor,
+                            size: 20,
+                          ),
                         ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Icon(icon, color: Colors.white),
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            if (config.title != null)
+                              Text(
+                                config.title!,
+                                style: theme.titleStyle?.copyWith(
+                                  color: textColor,
+                                ),
+                              ),
+                            if (config.title != null && config.message.isNotEmpty) const SizedBox(height: 4),
+                            if (config.message.isNotEmpty)
+                              Text(
+                                config.message,
+                                style: theme.descriptionStyle?.copyWith(
+                                  color: config.title != null
+                                      ? textColor.opacity < 1.0
+                                          ? textColor
+                                          : textColor.withOpacity(0.8)
+                                      : textColor,
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                      if (config.action != null) ...<Widget>[
                         const SizedBox(width: 12),
-                        Flexible(
-                          child: Text(
-                            entry.message,
-                            style: textStyle.copyWith(color: Colors.white),
-                            softWrap: true,
-                            overflow: TextOverflow.visible,
+                        config.action!,
+                      ],
+                      if (config.showCloseButton) ...<Widget>[
+                        const SizedBox(width: 8),
+                        InkWell(
+                          onTap: _dismiss,
+                          borderRadius: BorderRadius.circular(16),
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Icon(
+                              Icons.close,
+                              size: 16,
+                              color: theme.closeIconColor ?? textColor,
+                            ),
                           ),
                         ),
                       ],
-                    ),
+                    ],
                   ),
                 ),
               ),
             ),
           ),
         ),
-      ],
+      ),
     );
   }
 }

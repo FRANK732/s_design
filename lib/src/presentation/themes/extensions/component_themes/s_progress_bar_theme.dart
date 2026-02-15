@@ -7,9 +7,12 @@ class SProgressBarThemeData
   /// Creates an instance of [SProgressBarThemeData].
   const SProgressBarThemeData({
     required this.backgroundColor,
-    required this.valueColor,
+    required this.progressColor,
+    required this.bufferColor,
     required this.borderRadius,
     required this.height,
+    this.animationDuration,
+    this.animationCurve,
   });
 
   /// Creates a [SProgressBarThemeData] from [ColorScheme].
@@ -19,30 +22,48 @@ class SProgressBarThemeData
     return SProgressBarThemeData(
       backgroundColor:
           colorScheme.surfaceContainerHighest,
-      valueColor:
+      progressColor:
           colorScheme.primary,
+      bufferColor:
+          colorScheme.primary.withOpacity(0.3),
       borderRadius:
-          4.0,
+          BorderRadius.circular(4.0),
       height:
           8.0,
+      animationDuration:
+          const Duration(milliseconds: 300),
+      animationCurve:
+          Curves.linear,
     );
   }
 
-  /// Background color of the progress bar.
+  /// Background color of the progress bar track.
   final Color
       backgroundColor;
 
-  /// Color of the progress value/fill.
+  /// Color of the filled progress portion.
   final Color
-      valueColor;
+      progressColor;
 
-  /// Corner radius of the progress bar.
-  final double
+  /// Color of the buffered portion.
+  final Color
+      bufferColor;
+
+  /// Borader radius of the progress bar.
+  final BorderRadiusGeometry
       borderRadius;
 
-  /// Height of the progress bar.
+  /// Height of the progress bar track.
   final double
       height;
+
+  /// Duration of the progress animation.
+  final Duration?
+      animationDuration;
+
+  /// Curve of the progress animation.
+  final Curve?
+      animationCurve;
 
   @override
   SProgressBarThemeData
@@ -50,21 +71,33 @@ class SProgressBarThemeData
     Color?
         backgroundColor,
     Color?
-        valueColor,
-    double?
+        progressColor,
+    Color?
+        bufferColor,
+    BorderRadiusGeometry?
         borderRadius,
     double?
         height,
+    Duration?
+        animationDuration,
+    Curve?
+        animationCurve,
   }) {
     return SProgressBarThemeData(
       backgroundColor:
           backgroundColor ?? this.backgroundColor,
-      valueColor:
-          valueColor ?? this.valueColor,
+      progressColor:
+          progressColor ?? this.progressColor,
+      bufferColor:
+          bufferColor ?? this.bufferColor,
       borderRadius:
           borderRadius ?? this.borderRadius,
       height:
           height ?? this.height,
+      animationDuration:
+          animationDuration ?? this.animationDuration,
+      animationCurve:
+          animationCurve ?? this.animationCurve,
     );
   }
 
@@ -83,16 +116,59 @@ class SProgressBarThemeData
           backgroundColor,
           other.backgroundColor,
           t)!,
-      valueColor: Color.lerp(
-          valueColor,
-          other.valueColor,
+      progressColor: Color.lerp(
+          progressColor,
+          other.progressColor,
           t)!,
-      borderRadius: t < 0.5
-          ? borderRadius
-          : other.borderRadius,
-      height: t < 0.5
-          ? height
-          : other.height,
+      bufferColor: Color.lerp(
+          bufferColor,
+          other.bufferColor,
+          t)!,
+      borderRadius: BorderRadiusGeometry.lerp(
+          borderRadius,
+          other.borderRadius,
+          t)!,
+      height:
+          (height + (other.height - height) * t),
+      animationDuration:
+          other.animationDuration,
+      animationCurve:
+          other.animationCurve,
+    );
+  }
+
+  @override
+  bool operator ==(
+      Object
+          other) {
+    if (identical(
+        this,
+        other))
+      return true;
+    if (other.runtimeType !=
+        runtimeType)
+      return false;
+    return other is SProgressBarThemeData &&
+        other.backgroundColor == backgroundColor &&
+        other.progressColor == progressColor &&
+        other.bufferColor == bufferColor &&
+        other.borderRadius == borderRadius &&
+        other.height == height &&
+        other.animationDuration == animationDuration &&
+        other.animationCurve == animationCurve;
+  }
+
+  @override
+  int get hashCode {
+    return Object
+        .hash(
+      backgroundColor,
+      progressColor,
+      bufferColor,
+      borderRadius,
+      height,
+      animationDuration,
+      animationCurve,
     );
   }
 }
@@ -103,10 +179,5 @@ extension SProgressBarThemeExtension
   /// Retrieves the current [SProgressBarThemeData].
   SProgressBarThemeData get sProgressBarTheme =>
       extension<SProgressBarThemeData>() ??
-      SProgressBarThemeData(
-        backgroundColor: colorScheme.surfaceContainerHighest,
-        valueColor: colorScheme.primary,
-        borderRadius: 4.0,
-        height: 8.0,
-      );
+      SProgressBarThemeData.fromColorScheme(colorScheme);
 }

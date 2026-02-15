@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:ui';
 import 'dart:developer'
     as dev;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import '../../../../../s_design.dart';
+import 's_floating_panel_config.dart';
 
 class SFloatingPanel {
   static OverlayState?
@@ -38,72 +41,128 @@ class SFloatingPanel {
     );
   }
 
-  static Widget?
-      _currentContent;
-  static Widget?
-      _currentBottomWidget;
-  static GlobalKey
-      _contentKey =
-      GlobalKey();
-  static GlobalKey
-      _bottomWidgetKey =
-      GlobalKey();
-
   static Future<void>
       show({
-    required Widget
+    required BuildContext
+        context,
+    SFloatingPanelConfig?
+        config,
+    Widget?
         content,
-    Color barrierColor =
-        const Color(0x80000000),
-    double horizontalMargin =
-        16.0,
-    double bottomMargin =
-        16.0,
-    double panelSpacing =
-        15.0,
+    Color?
+        barrierColor,
+    double?
+        horizontalMargin,
+    double?
+        bottomMargin,
+    double?
+        panelSpacing,
     VoidCallback?
         onClose,
     Widget?
         customBottomWidget,
-    Duration animationDuration =
-        const Duration(milliseconds: 300),
+    Duration?
+        animationDuration,
     bool isDismissable =
         true,
+    BoxConstraints?
+        constraints,
+    EdgeInsetsGeometry?
+        contentPadding,
+    double?
+        backdropBlur,
+    Color?
+        shadowColor,
+    ShapeBorder?
+        shape,
   }) async {
-    assert(
-        horizontalMargin >= 0,
-        'Horizontal margin must be non-negative');
-    assert(
-        bottomMargin >= 0,
-        'Bottom margin must be non-negative');
-    assert(
-        panelSpacing >= 0,
-        'Panel spacing must be non-negative');
+    // If not initialized, try to use context (though initialize is preferred for global usage)
+    _overlayState ??=
+        Overlay.of(context);
 
-    if (_overlayState ==
-        null) {
-      dev.log(
-        'Error: Attempted to show panel without initializing overlay state',
-        name: 'SFloatingPanel',
-        level: 1000,
-        time: DateTime.now(),
-      );
-      throw FlutterError(
-        'SFloatingPanel not initialized. Call SFloatingPanel.initialize() first.',
-      );
+    final SFloatingPanelThemeData
+        theme =
+        Theme.of(context).sFloatingPanelTheme;
+
+    // Remove existing panel if open
+    if (_isPanelOpen) {
+      close();
     }
 
-    _currentContent =
-        content;
-    _currentBottomWidget =
-        customBottomWidget;
+    // Resolve effective values
+    final double effectiveHorizontalMargin = horizontalMargin ??
+        config?.horizontalMargin ??
+        (theme.margin as EdgeInsets?)?.horizontal ??
+        16.0 * 2; // Assuming symmetrical margin
+
+    final double effectiveBottomMargin = bottomMargin ??
+        config?.bottomMargin ??
+        (theme.margin as EdgeInsets?)?.bottom ??
+        16.0;
+
+    final SFloatingPanelConfig
+        effectiveConfig =
+        SFloatingPanelConfig(
+      content: content ??
+          config?.content ??
+          const SizedBox(),
+      barrierColor: barrierColor ??
+          config?.barrierColor ??
+          theme.barrierColor ??
+          const Color(0x80000000),
+      horizontalMargin:
+          effectiveHorizontalMargin,
+      bottomMargin:
+          effectiveBottomMargin,
+      panelSpacing: panelSpacing ??
+          config?.panelSpacing ??
+          theme.panelSpacing ??
+          15.0,
+      onClose:
+          onClose ?? config?.onClose,
+      customBottomWidget:
+          customBottomWidget ?? config?.customBottomWidget,
+      animationDuration: animationDuration ??
+          config?.animationDuration ??
+          theme.animationDuration ??
+          const Duration(milliseconds: 300),
+      isDismissable:
+          isDismissable, // Logic, not typically themed but can be in config
+      constraints: constraints ??
+          config?.constraints ??
+          theme.constraints,
+      contentPadding: contentPadding ??
+          config?.contentPadding ??
+          theme.contentPadding,
+      backdropBlur: backdropBlur ??
+          config?.backdropBlur ??
+          theme.backdropBlur ??
+          0.0,
+      shadowColor: shadowColor ??
+          config?.shadowColor ??
+          theme.shadowColor,
+      shape: shape ??
+          config?.shape ??
+          theme.shape,
+    );
+
+    assert(
+        (effectiveConfig.horizontalMargin ?? 0) >= 0,
+        'Horizontal margin must be non-negative');
+    assert(
+        (effectiveConfig.bottomMargin ?? 0) >= 0,
+        'Bottom margin must be non-negative');
+    assert(
+        (effectiveConfig.panelSpacing ?? 0) >= 0,
+        'Panel spacing must be non-negative');
+
     _onCloseCallback =
-        onClose;
+        effectiveConfig.onClose;
 
     dev.log(
-      'Showing panel (Hot Swap: $_isPanelOpen) with horizontalMargin: $horizontalMargin, bottomMargin: $bottomMargin, '
-      'panelSpacing: $panelSpacing, animationDuration: ${animationDuration.inMilliseconds}ms, '
-      'hasCustomBottomWidget: ${customBottomWidget != null}, isDismissable: $isDismissable',
+      'Showing panel (Hot Swap: $_isPanelOpen) with horizontalMargin: ${effectiveConfig.horizontalMargin}, bottomMargin: ${effectiveConfig.bottomMargin}, '
+      'panelSpacing: ${effectiveConfig.panelSpacing}, animationDuration: ${effectiveConfig.animationDuration?.inMilliseconds}ms, '
+      'hasCustomBottomWidget: ${effectiveConfig.customBottomWidget != null}, isDismissable: ${effectiveConfig.isDismissable}',
       name:
           'SFloatingPanel',
       time:
@@ -118,28 +177,21 @@ class SFloatingPanel {
 
       // Remeasure after build
       WidgetsBinding.instance.addPostFrameCallback((_) async {
-        await _measureWidgetSizes();
+        // No longer need to measure widget sizes as the layout is handled by Positioned and Column
       });
       return _completer?.future ??
           Future.value();
     }
 
     // New Open
-    // Create a Completer to control when the Future completes
-    // Create a Completer to control when the Future completes
     _hideOverlay();
     _completer =
         Completer<void>();
 
-    _contentKey =
-        GlobalKey();
-    _bottomWidgetKey =
-        GlobalKey();
-
     _animationController =
         AnimationController(
       duration:
-          animationDuration,
+          effectiveConfig.animationDuration,
       vsync:
           TickerProviderImpl(),
     );
@@ -159,63 +211,87 @@ class SFloatingPanel {
     );
 
     final Animation<double>
-        fadeAnimation =
-        Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-          parent: _animationController!,
-          curve: Curves.easeIn),
-    );
+        opacityAnimation =
+        CurvedAnimation(parent: _animationController!, curve: Curves.easeIn);
 
     _overlayEntry =
         OverlayEntry(
-      builder: (BuildContext overlayContext) =>
-          PopScope(
-        canPop: false,
-        onPopInvokedWithResult: (bool didPop, Object? result) {
-          if (!didPop && _isPanelOpen && isDismissable) {
-            _closePanel(_animationController, _completer);
-          }
-        },
-        child: Stack(
-          children: <Widget>[
-            FadeTransition(
-              opacity: fadeAnimation,
-              child: GestureDetector(
-                onTap: isDismissable ? () => _closePanel(_animationController, _completer) : null,
-                behavior: HitTestBehavior.opaque,
-                child: Container(color: barrierColor),
+      builder:
+          (context) {
+        return Stack(
+          children: [
+            // Barrier
+            GestureDetector(
+              onTap: effectiveConfig.isDismissable ? close : null,
+              child: AnimatedBuilder(
+                animation: _animationController!,
+                builder: (context, child) {
+                  final color = ColorTween(
+                    begin: Colors.transparent,
+                    end: effectiveConfig.barrierColor,
+                  ).evaluate(_animationController!);
+
+                  Widget barrier = Container(color: color);
+                  if ((effectiveConfig.backdropBlur ?? 0) > 0) {
+                    barrier = BackdropFilter(
+                      filter: ImageFilter.blur(
+                        sigmaX: (effectiveConfig.backdropBlur ?? 0) * _animationController!.value,
+                        sigmaY: (effectiveConfig.backdropBlur ?? 0) * _animationController!.value,
+                      ),
+                      child: barrier,
+                    );
+                  }
+                  return barrier;
+                },
               ),
             ),
+            // Floating Panel
             Positioned(
-              left: horizontalMargin,
-              right: horizontalMargin,
-              bottom: bottomMargin,
+              left: (effectiveConfig.horizontalMargin ?? 0) / 2,
+              right: (effectiveConfig.horizontalMargin ?? 0) / 2,
+              bottom: effectiveConfig.bottomMargin ?? 16.0,
               child: SlideTransition(
                 position: slideAnimation,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Material(
-                      key: _contentKey,
-                      elevation: 8,
-                      borderRadius: BorderRadius.circular(16),
-                      clipBehavior: Clip.antiAlias,
-                      child: _currentContent,
+                child: FadeTransition(
+                  opacity: opacityAnimation,
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: effectiveConfig.constraints ?? BoxConstraints.tightFor(width: double.infinity),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            padding: effectiveConfig.contentPadding,
+                            decoration: ShapeDecoration(
+                              color: theme.backgroundColor ?? Colors.white,
+                              shape: effectiveConfig.shape ??
+                                  RoundedRectangleBorder(
+                                    borderRadius: theme.borderRadius ?? BorderRadius.circular(16),
+                                  ),
+                              shadows: [
+                                BoxShadow(
+                                  color: effectiveConfig.shadowColor ?? Colors.black12,
+                                  blurRadius: theme.elevation ?? 8,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: effectiveConfig.content,
+                          ),
+                          if (effectiveConfig.customBottomWidget != null) ...[
+                            SizedBox(height: effectiveConfig.panelSpacing),
+                            effectiveConfig.customBottomWidget!,
+                          ],
+                        ],
+                      ),
                     ),
-                    if (_currentBottomWidget != null) ...<Widget>[
-                      SizedBox(height: panelSpacing),
-                      KeyedSubtree(
-                        key: _bottomWidgetKey,
-                        child: _currentBottomWidget!,
-                      )
-                    ]
-                  ],
+                  ),
                 ),
               ),
             ),
           ],
-        ),
-      ),
+        );
+      },
     );
 
     _overlayState!
@@ -225,34 +301,8 @@ class SFloatingPanel {
     _animationController!
         .forward();
 
-    WidgetsBinding
-        .instance
-        .addPostFrameCallback((_) async {
-      await _measureWidgetSizes();
-    });
-
     return _completer!
         .future;
-  }
-
-  static Future<void>
-      _measureWidgetSizes() async {
-    final RenderBox?
-        contentRenderBox =
-        _contentKey.currentContext?.findRenderObject() as RenderBox?;
-    if (contentRenderBox !=
-        null) {
-      dev.log('Content height: ${contentRenderBox.size.height}',
-          name: 'SFloatingPanel');
-    }
-    final RenderBox?
-        bottomRenderBox =
-        _bottomWidgetKey.currentContext?.findRenderObject() as RenderBox?;
-    if (bottomRenderBox !=
-        null) {
-      dev.log('Bottom widget height: ${bottomRenderBox.size.height}',
-          name: 'SFloatingPanel');
-    }
   }
 
   static Future<void> _closePanel(
@@ -310,10 +360,6 @@ class SFloatingPanel {
       completer.complete();
     }
     _completer =
-        null;
-    _currentContent =
-        null;
-    _currentBottomWidget =
         null;
   }
 

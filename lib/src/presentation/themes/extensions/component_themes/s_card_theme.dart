@@ -11,6 +11,15 @@ class SCardThemeData
     required this.borderColor,
     required this.elevation,
     required this.borderRadius,
+    this.dividerColor,
+    this.selectedBorderColor,
+    this.selectedBackgroundColor,
+    this.filledColor,
+    this.outlinedBorderColor,
+    this.frostedOpacity =
+        0.2, // Default opacity for glassmorphism
+    this.frostedBlur =
+        10.0, // Default blur for glassmorphism
   });
 
   /// Creates a [SCardThemeData] from [ColorScheme].
@@ -27,7 +36,17 @@ class SCardThemeData
       elevation:
           2.0,
       borderRadius:
-          8.0,
+          12.0,
+      dividerColor:
+          colorScheme.outlineVariant.withOpacity(0.5),
+      selectedBorderColor:
+          colorScheme.primary,
+      selectedBackgroundColor:
+          colorScheme.primaryContainer.withOpacity(0.1),
+      filledColor:
+          colorScheme.surfaceContainerHighest,
+      outlinedBorderColor:
+          colorScheme.outline,
     );
   }
 
@@ -51,6 +70,34 @@ class SCardThemeData
   final double
       borderRadius;
 
+  /// Color of the dividers inside the card.
+  final Color?
+      dividerColor;
+
+  /// Border color when the card is selected.
+  final Color?
+      selectedBorderColor;
+
+  /// Background color when the card is selected.
+  final Color?
+      selectedBackgroundColor;
+
+  /// Background color for [SCardVariant.filled].
+  final Color?
+      filledColor;
+
+  /// Border color for [SCardVariant.outlined].
+  final Color?
+      outlinedBorderColor;
+
+  /// Opacity for [SCardVariant.frosted].
+  final double
+      frostedOpacity;
+
+  /// Blur amount for [SCardVariant.frosted].
+  final double
+      frostedBlur;
+
   @override
   SCardThemeData
       copyWith({
@@ -64,6 +111,20 @@ class SCardThemeData
         elevation,
     double?
         borderRadius,
+    Color?
+        dividerColor,
+    Color?
+        selectedBorderColor,
+    Color?
+        selectedBackgroundColor,
+    Color?
+        filledColor,
+    Color?
+        outlinedBorderColor,
+    double?
+        frostedOpacity,
+    double?
+        frostedBlur,
   }) {
     return SCardThemeData(
       backgroundColor:
@@ -76,6 +137,20 @@ class SCardThemeData
           elevation ?? this.elevation,
       borderRadius:
           borderRadius ?? this.borderRadius,
+      dividerColor:
+          dividerColor ?? this.dividerColor,
+      selectedBorderColor:
+          selectedBorderColor ?? this.selectedBorderColor,
+      selectedBackgroundColor:
+          selectedBackgroundColor ?? this.selectedBackgroundColor,
+      filledColor:
+          filledColor ?? this.filledColor,
+      outlinedBorderColor:
+          outlinedBorderColor ?? this.outlinedBorderColor,
+      frostedOpacity:
+          frostedOpacity ?? this.frostedOpacity,
+      frostedBlur:
+          frostedBlur ?? this.frostedBlur,
     );
   }
 
@@ -108,6 +183,32 @@ class SCardThemeData
       borderRadius: t < 0.5
           ? borderRadius
           : other.borderRadius,
+      dividerColor: Color.lerp(
+          dividerColor,
+          other.dividerColor,
+          t),
+      selectedBorderColor: Color.lerp(
+          selectedBorderColor,
+          other.selectedBorderColor,
+          t),
+      selectedBackgroundColor: Color.lerp(
+          selectedBackgroundColor,
+          other.selectedBackgroundColor,
+          t),
+      filledColor: Color.lerp(
+          filledColor,
+          other.filledColor,
+          t),
+      outlinedBorderColor: Color.lerp(
+          outlinedBorderColor,
+          other.outlinedBorderColor,
+          t),
+      frostedOpacity: t < 0.5
+          ? frostedOpacity
+          : other.frostedOpacity,
+      frostedBlur: t < 0.5
+          ? frostedBlur
+          : other.frostedBlur,
     );
   }
 }

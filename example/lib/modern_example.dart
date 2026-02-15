@@ -11,6 +11,7 @@ import 'pages/progress_indicator_page.dart';
 import 'pages/s_floating_panel_page.dart';
 import 'pages/s_modal_page.dart';
 import 'pages/sbutton.dart';
+import 'pages/scaffold_page.dart';
 import 'pages/select_page.dart';
 import 'pages/slider_page.dart';
 import 'pages/sonner_page.dart';
@@ -143,6 +144,8 @@ class HomePage
           _buildListTile(context, 'Switch', const SwitchPage(), Icons.toggle_on),
           _buildListTile(context, 'Dropdown Menu', const DropdownMenuPage(), Icons.arrow_drop_down_circle),
           _buildListTile(context, 'SSelect (New)', const SelectPage(), Icons.list_alt),
+          _buildListTile(context, 'SScaffold (Slivers)', const ScaffoldPage(), Icons.view_quilt),
+          const Divider(),
           _buildListTile(context, 'Slider', const SliderPage(), Icons.linear_scale),
           _buildSectionHeader('Layout & Surfaces', colorScheme),
           _buildListTile(context, 'Card', const CardPage(), Icons.dashboard),
@@ -157,6 +160,7 @@ class HomePage
           _buildListTile(context, 'Toast', const ToastPage(), Icons.announcement),
           _buildListTile(context, 'Sonner', const SonnerPage(), Icons.notifications_active),
           _buildListTile(context, 'Progress Indicator', const ProgressIndicatorPage(), Icons.refresh),
+          _buildListTile(context, 'SProgressBar (New)', const ModernExamplePage(), Icons.linear_scale),
         ],
       ),
     );
@@ -208,6 +212,347 @@ class HomePage
           MaterialPageRoute<void>(builder: (context) => page),
         );
       },
+    );
+  }
+}
+
+class ModernExamplePage
+    extends StatefulWidget {
+  const ModernExamplePage(
+      {super.key});
+
+  @override
+  State<ModernExamplePage>
+      createState() =>
+          _ModernExamplePageState();
+}
+
+class _ModernExamplePageState
+    extends State<
+        ModernExamplePage> {
+  double
+      _progressValue =
+      0.3;
+
+  @override
+  Widget build(
+      BuildContext
+          context) {
+    return Scaffold(
+      appBar:
+          AppBar(title: const Text('Modern SProgressBar & Card Example')),
+      body:
+          SingleChildScrollView(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('Default Progress Bar', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            SProgressBar(value: _progressValue),
+            const SizedBox(height: 24),
+            const Text('Buffered Progress Bar', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            SProgressBar(
+              value: _progressValue,
+              bufferValue: _progressValue + 0.2,
+              progressColor: Colors.blue,
+              bufferColor: Colors.blue.withOpacity(0.3),
+            ),
+            const SizedBox(height: 24),
+            const Text('Indeterminate Progress', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            const SProgressBar(
+              indeterminate: true,
+              progressColor: Colors.purple,
+            ),
+            const SizedBox(height: 24),
+            const Text('Custom styled with Config', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            SProgressBar(
+              value: 0.7,
+              config: SProgressBarConfig(
+                height: 20,
+                borderRadius: BorderRadius.circular(10),
+                progressColor: Colors.orange,
+                backgroundColor: Colors.orange.withOpacity(0.2),
+                label: const Text('70%', style: TextStyle(color: Colors.white, fontSize: 12)),
+              ),
+            ),
+            const SizedBox(height: 24),
+            const Text('Vertical Progress', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            SizedBox(
+              height: 150,
+              child: Row(
+                children: [
+                  const SProgressBar(
+                    value: 0.4,
+                    vertical: true,
+                    width: 12,
+                    progressColor: Colors.green,
+                  ),
+                  const SizedBox(width: 20),
+                  SProgressBar(
+                    value: 0.8,
+                    vertical: true,
+                    width: 24,
+                    borderRadius: BorderRadius.circular(12),
+                    progressColor: Colors.red,
+                    backgroundColor: Colors.red.withOpacity(0.1),
+                    bufferValue: 0.9,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 32),
+            SButton(
+              onPressed: () {
+                setState(() {
+                  _progressValue += 0.1;
+                  if (_progressValue > 1.0) {
+                    _progressValue = 0.0;
+                  }
+                });
+              },
+              child: const Text('Increase Progress'),
+            ),
+            const SizedBox(height: 48),
+
+            // SCard Demo
+            const Text('Enhanced SCard Examples', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            const SizedBox(height: 16),
+            Wrap(
+              spacing: 16,
+              runSpacing: 16,
+              children: [
+                // standard card with divider
+                SCard(
+                  title: 'Card with Divider',
+                  description: 'Separates header, body,',
+                  showDivider: true,
+                  width: 300,
+                  body: const Text('This is the body content.'),
+                  footer: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(onPressed: () {}, child: const Text('Action')),
+                    ],
+                  ),
+                ),
+                // loading state
+                const SCard(
+                  title: 'Loading Card',
+                  description: 'Simulates data fetching.',
+                  isLoading: true,
+                  width: 300,
+                  height: 150,
+                  body: Text('Content hidden by loader'),
+                ),
+                // selectable card
+                StatefulBuilder(
+                  builder: (context, setState) {
+                    bool isSelected = false;
+                    return SCard(
+                      title: 'Selectable Card',
+                      description: 'Tap to toggle selection.',
+                      width: 300,
+                      isSelected: isSelected,
+                      onSelectionChanged: (value) {
+                        setState(() => isSelected = value);
+                      },
+                      body: const Text('Click me!'),
+                    );
+                  },
+                ),
+                // header trailing
+                SCard(
+                  title: 'Header Slot',
+                  description: 'Custom trailing widget.',
+                  width: 300,
+                  headerTrailing: IconButton(
+                    icon: const Icon(Icons.more_vert),
+                    onPressed: () {},
+                  ),
+                  body: const Text('Flexible header layout.'),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 32),
+            const Text('Advanced "Future-Ready" Cards', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            const SizedBox(height: 16),
+            Wrap(
+              spacing: 16,
+              runSpacing: 16,
+              children: [
+                // Filled Variant
+                const SCard(
+                  title: 'Filled Variant',
+                  description: 'Flat background style.',
+                  variant: SCardVariant.filled,
+                  width: 300,
+                  body: Text('Uses surface container color.'),
+                ),
+                // Outlined Variant
+                const SCard(
+                  title: 'Outlined Variant',
+                  description: 'Transparent with border.',
+                  variant: SCardVariant.outlined,
+                  width: 300,
+                  body: Text('Clean and minimal look.'),
+                ),
+                // Frosted Glass
+                Stack(
+                  children: [
+                    Container(height: 150, width: 300, color: Colors.purple.withOpacity(0.5)),
+                    const SCard(
+                      title: 'Frosted Glass',
+                      description: 'Blur effect on background.',
+                      variant: SCardVariant.frosted,
+                      width: 300,
+                      body: Text('Renders on top of content.'),
+                    ),
+                  ],
+                ),
+                // Horizontal Card with Media
+                SCard(
+                  title: 'Horizontal Product',
+                  description: '\$299.00',
+                  axis: Axis.horizontal,
+                  width: 400,
+                  height: 150,
+                  media: Container(
+                    color: Colors.blueAccent,
+                    child: const Center(child: Icon(Icons.shopping_bag, color: Colors.white, size: 40)),
+                  ),
+                  mediaWidth: 120, // Content takes remaining width
+                  body: const Text('Great product description goes here.'),
+                  footer: Row(
+                    children: [
+                      SButton(onPressed: () {}, child: const Text('Buy Now')),
+                    ],
+                  ),
+                ),
+                // Card with Badge
+                SCard(
+                  title: 'Media & Badge',
+                  width: 300,
+                  media: Container(
+                    height: 120,
+                    color: Colors.orangeAccent,
+                    child: const Center(child: Icon(Icons.image, color: Colors.white, size: 48)),
+                  ),
+                  badge: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(12)),
+                    child: const Text('NEW', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
+                  ),
+                  body: const Text('Card with top media and badge overlay.'),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 48),
+            const Divider(),
+            const SizedBox(height: 24),
+            const Text('SSonner Examples', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            const SizedBox(height: 16),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                SButton(
+                  onPressed: () => SSonner.instance.show(message: 'Default Toast Information'),
+                  child: const Text('Default'),
+                ),
+                SButton(
+                  onPressed: () => SSonner.instance.show(
+                    message: 'Operation Successful!',
+                    variant: SSonnerVariant.success,
+                  ),
+                  child: const Text('Success'),
+                ),
+                SButton(
+                  onPressed: () => SSonner.instance.show(
+                    message: 'Something went wrong.',
+                    variant: SSonnerVariant.error,
+                  ),
+                  child: const Text('Error'),
+                ),
+                SButton(
+                  onPressed: () => SSonner.instance.show(
+                    message: 'Warning: Battery Low',
+                    variant: SSonnerVariant.warning,
+                  ),
+                  child: const Text('Warning'),
+                ),
+                SButton(
+                  onPressed: () => SSonner.instance.show(
+                    message: 'Item deleted.',
+                    action: InkWell(
+                      onTap: () => debugPrint('Undo tapped'),
+                      child: const Text('Undo', style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+                    ),
+                  ),
+                  child: const Text('With Action'),
+                ),
+                SButton(
+                  onPressed: () => SSonner.instance.show(
+                    message: 'This toast can be dismissed by clicking the X.',
+                    showCloseButton: true,
+                    duration: const Duration(seconds: 10),
+                  ),
+                  child: const Text('With Close Button'),
+                ),
+                SButton(
+                  onPressed: () => SSonner.instance.show(
+                    config: const SSonnerConfig(
+                      message: 'Detailed description of the event that just happened.',
+                      title: 'Event Triggered',
+                      position: SSonnerPosition.top,
+                      icon: Icons.notifications_active,
+                    ),
+                  ),
+                  child: const Text('Rich Content (Top)'),
+                ),
+                SButton(
+                  onPressed: () {
+                    for (int i = 0; i < 3; i++) {
+                      Future.delayed(Duration(milliseconds: i * 300), () {
+                        SSonner.instance.show(
+                          message: 'Stacked Toast ${i + 1}',
+                        );
+                      });
+                    }
+                  },
+                  child: const Text('Show Stacked (3)'),
+                ),
+                SButton(
+                  onPressed: () {
+                    final id = SSonner.instance.show(
+                      message: 'Dismissing in 3 seconds...',
+                      duration: const Duration(seconds: 10), // Long duration
+                    );
+
+                    Future.delayed(const Duration(seconds: 3), () {
+                      SSonner.instance.dismiss(id);
+                    });
+                  },
+                  child: const Text('Programmatic Dismiss'),
+                ),
+                SButton(
+                  onPressed: () => SSonner.instance.show(
+                    message: 'Swipe me away! ->',
+                    duration: const Duration(seconds: 5),
+                  ),
+                  child: const Text('Swipe to Dismiss'),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

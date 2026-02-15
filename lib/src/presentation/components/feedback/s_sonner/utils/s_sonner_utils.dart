@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../domain/entities/config/s_sonner_options.dart';
+import '../../../../themes/extensions/component_themes/s_sonner_theme.dart';
 
 /// Utility functions for [SToasterService] and [SToastWidget].
 class SSonnerUtils {
@@ -67,6 +68,28 @@ class SSonnerUtils {
         return colorScheme.tertiary; // Often used for warning/attention
       case SSonnerVariant.info:
         return colorScheme.secondary;
+    }
+  }
+
+  /// Returns the color associated with the variant.
+  static Color getIconColor(
+      SSonnerVariant
+          variant,
+      BuildContext
+          context) {
+    final SSonnerThemeData
+        theme =
+        Theme.of(context).sSonnerTheme;
+    switch (
+        variant) {
+      case SSonnerVariant.info:
+        return theme.infoColor;
+      case SSonnerVariant.success:
+        return theme.successColor;
+      case SSonnerVariant.error:
+        return theme.errorColor;
+      case SSonnerVariant.warning:
+        return theme.warningColor;
     }
   }
 }

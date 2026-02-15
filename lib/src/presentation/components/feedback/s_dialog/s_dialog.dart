@@ -4,6 +4,8 @@ import 'dart:developer'
 import 'package:flutter/material.dart';
 import '../../../../../s_design.dart';
 
+import 's_dialog_config.dart';
+
 // A customizable dialog widget with support for title, description, content, actions, animations, and accessibility.
 class SDialog
     extends StatelessWidget {
@@ -14,34 +16,26 @@ class SDialog
     this.actions,
     this.barrierDismissible =
         true,
-    this.barrierColor =
-        Colors.black54,
-    this.transitionDuration =
-        const Duration(milliseconds: 300),
+    this.barrierColor,
+    this.transitionDuration,
     this.shapeDecoration,
     this.backgroundColor,
     this.contentPadding,
     this.semanticLabel,
-    this.showCloseButton =
-        true,
-    this.maxWidth =
-        250,
-    this.maxHeight =
-        350,
+    this.showCloseButton,
+    this.maxWidth,
+    this.maxHeight,
     this.animationCurve =
         Curves.easeInOut,
-    this.animationDuration =
-        const Duration(milliseconds: 300),
+    this.animationDuration,
     this.titleStyle,
     this.descriptionStyle,
     this.borderRadius,
     this.animationType =
         SDialogAnimationType.zoomIn,
-    this.showDivider =
-        false,
+    this.showDivider,
     this.dividerColor,
-    this.dividerThickness =
-        1.0,
+    this.dividerThickness,
     this.actionsPadding,
     this.actionsAlignment =
         MainAxisAlignment.end,
@@ -53,26 +47,130 @@ class SDialog
         false,
     this.scrollController,
     this.scrollPhysics,
-    this.elevation =
-        0,
+    this.elevation,
     this.useSafeArea =
         false,
-    this.showTitleDivider =
-        false,
+    this.showTitleDivider,
     this.titleDividerColor,
-    this.titleDividerThickness =
-        1.0,
+    this.titleDividerThickness,
     this.titlePadding,
     this.descriptionPadding,
-    this.showDescriptionDivider =
-        false,
+    this.showDescriptionDivider,
     this.descriptionDividerColor,
-    this.descriptionDividerThickness =
-        1.0,
+    this.descriptionDividerThickness,
     this.hasActions =
         false,
+    this.insetPadding,
+    this.alignment,
+    this.shadowColor,
+    this.surfaceTintColor,
+    this.clipBehavior,
     super.key,
   });
+
+  /// Creates an SDialog from an SDialogConfig object.
+  factory SDialog.fromConfig(
+      SDialogConfig
+          config,
+      {Key?
+          key}) {
+    return SDialog(
+      key:
+          key,
+      title:
+          config.title,
+      description:
+          config.description,
+      content:
+          config.content,
+      actions:
+          config.actions,
+      barrierDismissible:
+          config.barrierDismissible,
+      barrierColor:
+          config.barrierColor,
+      transitionDuration:
+          config.transitionDuration,
+      shapeDecoration:
+          config.shapeDecoration,
+      backgroundColor:
+          config.backgroundColor,
+      contentPadding:
+          config.contentPadding,
+      semanticLabel:
+          config.semanticLabel,
+      showCloseButton:
+          config.showCloseButton,
+      maxWidth:
+          config.maxWidth,
+      maxHeight:
+          config.maxHeight,
+      animationCurve:
+          config.animationCurve,
+      animationDuration:
+          config.animationDuration,
+      titleStyle:
+          config.titleStyle,
+      descriptionStyle:
+          config.descriptionStyle,
+      borderRadius:
+          config.borderRadius,
+      animationType:
+          config.animationType,
+      showDivider:
+          config.showDivider,
+      dividerColor:
+          config.dividerColor,
+      dividerThickness:
+          config.dividerThickness,
+      actionsPadding:
+          config.actionsPadding,
+      actionsAlignment:
+          config.actionsAlignment ?? MainAxisAlignment.end,
+      contentCrossAlignment:
+          config.contentCrossAlignment,
+      contentMainAlignment:
+          config.contentMainAlignment,
+      scrollable:
+          config.scrollable,
+      scrollController:
+          config.scrollController,
+      scrollPhysics:
+          config.scrollPhysics,
+      elevation:
+          config.elevation,
+      useSafeArea:
+          config.useSafeArea,
+      showTitleDivider:
+          config.showTitleDivider,
+      titleDividerColor:
+          config.titleDividerColor,
+      titleDividerThickness:
+          config.titleDividerThickness,
+      titlePadding:
+          config.titlePadding,
+      descriptionPadding:
+          config.descriptionPadding,
+      showDescriptionDivider:
+          config.showDescriptionDivider,
+      descriptionDividerColor:
+          config.descriptionDividerColor,
+      descriptionDividerThickness:
+          config.descriptionDividerThickness,
+      hasActions:
+          config.hasActions,
+      insetPadding:
+          config.insetPadding,
+      alignment:
+          config.alignment,
+      shadowColor:
+          config.shadowColor,
+      surfaceTintColor:
+          config.surfaceTintColor,
+      clipBehavior:
+          config.clipBehavior,
+    );
+  }
 
   /// The title text displayed at the top of the dialog.
   final String?
@@ -94,12 +192,12 @@ class SDialog
   final bool
       barrierDismissible;
 
-  /// Color of the barrier behind the dialog. Defaults to black54.
-  final Color
+  /// Color of the barrier behind the dialog.
+  final Color?
       barrierColor;
 
-  /// Duration of the dialog's entry/exit transition. Defaults to 300ms.
-  final Duration
+  /// Duration of the dialog's entry/exit transition.
+  final Duration?
       transitionDuration;
 
   /// Custom shape decoration for the dialog (e.g., border, shadow).
@@ -110,7 +208,7 @@ class SDialog
   final Color?
       backgroundColor;
 
-  /// Padding around the dialog's content. Defaults to 20.0 on all sides.
+  /// Padding around the dialog's content.
   final EdgeInsetsGeometry?
       contentPadding;
 
@@ -118,24 +216,24 @@ class SDialog
   final String?
       semanticLabel;
 
-  /// Whether to show a close button in the title area. Defaults to true.
-  final bool
+  /// Whether to show a close button in the title area.
+  final bool?
       showCloseButton;
 
-  /// Maximum width of the dialog. Defaults to 250.
-  final double
+  /// Maximum width of the dialog.
+  final double?
       maxWidth;
 
-  /// Maximum height of the dialog. Defaults to 350.
-  final double
+  /// Maximum height of the dialog.
+  final double?
       maxHeight;
 
   /// Animation curve for dialog entry/exit. Defaults to Curves.easeInOut.
   final Curve
       animationCurve;
 
-  /// Duration of the dialog's animation. Defaults to 300ms.
-  final Duration
+  /// Duration of the dialog's animation.
+  final Duration?
       animationDuration;
 
   /// Custom text style for the title.
@@ -154,19 +252,19 @@ class SDialog
   final SDialogAnimationType
       animationType;
 
-  /// Whether to show a divider between content and actions. Defaults to false.
-  final bool
+  /// Whether to show a divider between content and actions.
+  final bool?
       showDivider;
 
   /// Color of the divider between content and actions. Defaults to theme's dividerColor.
   final Color?
       dividerColor;
 
-  /// Thickness of the divider between content and actions. Defaults to 1.0.
-  final double
+  /// Thickness of the divider between content and actions.
+  final double?
       dividerThickness;
 
-  /// Padding around the actions area. Defaults to 20.0 top padding.
+  /// Padding around the actions area.
   final EdgeInsetsGeometry?
       actionsPadding;
 
@@ -194,54 +292,76 @@ class SDialog
   final ScrollPhysics?
       scrollPhysics;
 
-  /// Elevation of the dialog for shadow effect. Defaults to 0.
-  final double
+  /// Elevation of the dialog for shadow effect.
+  final double?
       elevation;
 
   /// Whether to respect safe area insets. Defaults to false.
   final bool
       useSafeArea;
 
-  /// Whether to show a divider below the title. Defaults to false.
-  final bool
+  /// Whether to show a divider below the title.
+  final bool?
       showTitleDivider;
 
   /// Color of the title divider. Defaults to theme's dividerColor.
   final Color?
       titleDividerColor;
 
-  /// Thickness of the title divider. Defaults to 1.0.
-  final double
+  /// Thickness of the title divider.
+  final double?
       titleDividerThickness;
 
   /// Padding around the title. Defaults to zero.
   final EdgeInsetsGeometry?
       titlePadding;
 
-  /// Padding around the description. Defaults to 8.0 top padding.
+  /// Padding around the description.
   final EdgeInsetsGeometry?
       descriptionPadding;
 
-  /// Whether to show a divider below the description. Defaults to false.
-  final bool
+  /// Whether to show a divider below the description.
+  final bool?
       showDescriptionDivider;
 
   /// Color of the description divider. Defaults to theme's dividerColor.
   final Color?
       descriptionDividerColor;
 
-  /// Thickness of the description divider. Defaults to 1.0.
-  final double
+  /// Thickness of the description divider.
+  final double?
       descriptionDividerThickness;
 
   /// Whether the dialog expects action results (returns bool). Defaults to false.
   final bool
       hasActions;
 
+  /// The amount of padding added to [MediaQueryData.viewInsets] on the outside of the dialog.
+  final EdgeInsets?
+      insetPadding;
+
+  /// The alignment of the dialog.
+  final AlignmentGeometry?
+      alignment;
+
+  /// The color of the shadow.
+  final Color?
+      shadowColor;
+
+  /// The surface tint color.
+  final Color?
+      surfaceTintColor;
+
+  /// The clip behavior.
+  final Clip?
+      clipBehavior;
+
   static Future<T?>
       show<T>({
     required BuildContext
         context,
+    SDialogConfig?
+        config,
     String?
         title,
     String?
@@ -252,10 +372,10 @@ class SDialog
         actions,
     bool barrierDismissible =
         true,
-    Color barrierColor =
-        Colors.black54,
-    Duration transitionDuration =
-        const Duration(milliseconds: 300),
+    Color?
+        barrierColor,
+    Duration?
+        transitionDuration,
     ShapeDecoration?
         shapeDecoration,
     Color?
@@ -264,16 +384,16 @@ class SDialog
         contentPadding,
     String?
         semanticLabel,
-    bool showCloseButton =
-        true,
-    double maxWidth =
-        250,
-    double maxHeight =
-        350,
+    bool?
+        showCloseButton,
+    double?
+        maxWidth,
+    double?
+        maxHeight,
     Curve animationCurve =
         Curves.easeInOut,
-    Duration animationDuration =
-        const Duration(milliseconds: 300),
+    Duration?
+        animationDuration,
     TextStyle?
         titleStyle,
     TextStyle?
@@ -282,12 +402,12 @@ class SDialog
         borderRadius,
     SDialogAnimationType animationType =
         SDialogAnimationType.zoomIn,
-    bool showDivider =
-        false,
+    bool?
+        showDivider,
     Color?
         dividerColor,
-    double dividerThickness =
-        1.0,
+    double?
+        dividerThickness,
     EdgeInsetsGeometry?
         actionsPadding,
     MainAxisAlignment actionsAlignment =
@@ -302,167 +422,144 @@ class SDialog
         scrollController,
     ScrollPhysics?
         scrollPhysics,
-    double elevation =
-        0,
+    double?
+        elevation,
     bool useSafeArea =
         false,
-    bool showTitleDivider =
-        false,
+    bool?
+        showTitleDivider,
     Color?
         titleDividerColor,
-    double titleDividerThickness =
-        1.0,
+    double?
+        titleDividerThickness,
     EdgeInsetsGeometry?
         titlePadding,
     EdgeInsetsGeometry?
         descriptionPadding,
-    bool showDescriptionDivider =
-        false,
+    bool?
+        showDescriptionDivider,
     Color?
         descriptionDividerColor,
-    double descriptionDividerThickness =
-        1.0,
+    double?
+        descriptionDividerThickness,
     bool hasActions =
         false,
+    EdgeInsets?
+        insetPadding,
+    AlignmentGeometry?
+        alignment,
+    Color?
+        shadowColor,
+    Color?
+        surfaceTintColor,
+    Clip?
+        clipBehavior,
   }) async {
+    final SDialogConfig effectiveConfig = config ??
+        SDialogConfig(
+          title: title,
+          description: description,
+          content: content,
+          actions: actions,
+          barrierDismissible: barrierDismissible,
+          barrierColor: barrierColor,
+          transitionDuration: transitionDuration,
+          shapeDecoration: shapeDecoration,
+          backgroundColor: backgroundColor,
+          contentPadding: contentPadding,
+          semanticLabel: semanticLabel,
+          showCloseButton: showCloseButton,
+          maxWidth: maxWidth,
+          maxHeight: maxHeight,
+          animationCurve: animationCurve,
+          animationDuration: animationDuration,
+          titleStyle: titleStyle,
+          descriptionStyle: descriptionStyle,
+          borderRadius: borderRadius,
+          animationType: animationType,
+          showDivider: showDivider,
+          dividerColor: dividerColor,
+          dividerThickness: dividerThickness,
+          actionsPadding: actionsPadding,
+          actionsAlignment: actionsAlignment,
+          contentCrossAlignment: contentCrossAlignment,
+          contentMainAlignment: contentMainAlignment,
+          scrollable: scrollable,
+          scrollController: scrollController,
+          scrollPhysics: scrollPhysics,
+          elevation: elevation,
+          useSafeArea: useSafeArea,
+          showTitleDivider: showTitleDivider,
+          titleDividerColor: titleDividerColor,
+          titleDividerThickness: titleDividerThickness,
+          titlePadding: titlePadding,
+          descriptionPadding: descriptionPadding,
+          showDescriptionDivider: showDescriptionDivider,
+          descriptionDividerColor: descriptionDividerColor,
+          descriptionDividerThickness: descriptionDividerThickness,
+          hasActions: hasActions,
+          insetPadding: insetPadding,
+          alignment: alignment,
+          shadowColor: shadowColor,
+          surfaceTintColor: surfaceTintColor,
+          clipBehavior: clipBehavior,
+        );
+
     assert(
-      !hasActions ||
-          actions != null,
+      !effectiveConfig.hasActions ||
+          effectiveConfig.actions != null,
       'If `hasActions` is true, `actions` must be provided.',
     );
     assert(
-      !hasActions ||
+      !effectiveConfig.hasActions ||
           T == bool,
       'If `hasActions` is true, the return type must be `Future<bool?>`.',
     );
     assert(
-      maxWidth >
+      (effectiveConfig.maxWidth ?? 250) >
           0,
       '`maxWidth` must be greater than 0.',
     );
     assert(
-      maxHeight >
+      (effectiveConfig.maxHeight ?? 350) >
           0,
       '`maxHeight` must be greater than 0.',
     );
     assert(
-      transitionDuration >=
+      (effectiveConfig.transitionDuration ?? Duration.zero) >=
           Duration.zero,
       '`transitionDuration` must be a non-negative duration.',
     );
     assert(
-      animationDuration >=
+      (effectiveConfig.animationDuration ?? Duration.zero) >=
           Duration.zero,
       '`animationDuration` must be a non-negative duration.',
     );
 
     developer
         .log(
-      'SDialog: Showing dialog with title: $title, hasActions: $hasActions',
+      'SDialog: Showing dialog with title: ${effectiveConfig.title}, hasActions: ${effectiveConfig.hasActions}',
       name:
           'SDialog',
     );
 
-    if (hasActions) {
+    if (effectiveConfig
+        .hasActions) {
       return showDialog<T>(
         context: context,
-        barrierDismissible: barrierDismissible,
-        barrierColor: barrierColor,
+        barrierDismissible: effectiveConfig.barrierDismissible,
+        barrierColor: effectiveConfig.barrierColor,
         builder: (BuildContext context) {
-          return SDialog(
-            title: title,
-            description: description,
-            content: content,
-            actions: actions,
-            barrierDismissible: barrierDismissible,
-            barrierColor: barrierColor,
-            transitionDuration: transitionDuration,
-            shapeDecoration: shapeDecoration,
-            backgroundColor: backgroundColor,
-            contentPadding: contentPadding,
-            semanticLabel: semanticLabel,
-            showCloseButton: showCloseButton,
-            maxWidth: maxWidth,
-            maxHeight: maxHeight,
-            animationCurve: animationCurve,
-            animationDuration: animationDuration,
-            titleStyle: titleStyle,
-            descriptionStyle: descriptionStyle,
-            borderRadius: borderRadius,
-            animationType: animationType,
-            showDivider: showDivider,
-            dividerColor: dividerColor,
-            dividerThickness: dividerThickness,
-            actionsPadding: actionsPadding,
-            actionsAlignment: actionsAlignment,
-            contentCrossAlignment: contentCrossAlignment,
-            contentMainAlignment: contentMainAlignment,
-            scrollable: scrollable,
-            scrollController: scrollController,
-            scrollPhysics: scrollPhysics,
-            elevation: elevation,
-            useSafeArea: useSafeArea,
-            showTitleDivider: showTitleDivider,
-            titleDividerColor: titleDividerColor,
-            titleDividerThickness: titleDividerThickness,
-            titlePadding: titlePadding,
-            descriptionPadding: descriptionPadding,
-            showDescriptionDivider: showDescriptionDivider,
-            descriptionDividerColor: descriptionDividerColor,
-            descriptionDividerThickness: descriptionDividerThickness,
-            hasActions: hasActions,
-          );
+          return SDialog.fromConfig(effectiveConfig);
         },
       );
     } else {
       await showDialog<T>(
         context: context,
-        barrierDismissible: barrierDismissible,
-        barrierColor: barrierColor,
+        barrierDismissible: effectiveConfig.barrierDismissible,
+        barrierColor: effectiveConfig.barrierColor,
         builder: (BuildContext context) {
-          return SDialog(
-            title: title,
-            description: description,
-            content: content,
-            actions: actions,
-            barrierDismissible: barrierDismissible,
-            barrierColor: barrierColor,
-            transitionDuration: transitionDuration,
-            shapeDecoration: shapeDecoration,
-            backgroundColor: backgroundColor,
-            contentPadding: contentPadding,
-            semanticLabel: semanticLabel,
-            showCloseButton: showCloseButton,
-            maxWidth: maxWidth,
-            maxHeight: maxHeight,
-            animationCurve: animationCurve,
-            animationDuration: animationDuration,
-            titleStyle: titleStyle,
-            descriptionStyle: descriptionStyle,
-            borderRadius: borderRadius,
-            animationType: animationType,
-            showDivider: showDivider,
-            dividerColor: dividerColor,
-            dividerThickness: dividerThickness,
-            actionsPadding: actionsPadding,
-            actionsAlignment: actionsAlignment,
-            contentCrossAlignment: contentCrossAlignment,
-            contentMainAlignment: contentMainAlignment,
-            scrollable: scrollable,
-            scrollController: scrollController,
-            scrollPhysics: scrollPhysics,
-            elevation: elevation,
-            useSafeArea: useSafeArea,
-            showTitleDivider: showTitleDivider,
-            titleDividerColor: titleDividerColor,
-            titleDividerThickness: titleDividerThickness,
-            titlePadding: titlePadding,
-            descriptionPadding: descriptionPadding,
-            showDescriptionDivider: showDescriptionDivider,
-            descriptionDividerColor: descriptionDividerColor,
-            descriptionDividerThickness: descriptionDividerThickness,
-            hasActions: hasActions,
-          );
+          return SDialog.fromConfig(effectiveConfig);
         },
       );
       developer.log('SDialog: Dialog closed without actions',
@@ -486,8 +583,9 @@ class SDialog
           backgroundColor ?? Colors.tealAccent,
       insetPadding:
           EdgeInsets.zero,
-      elevation:
-          elevation,
+      elevation: elevation ??
+          Theme.of(context).sDialogTheme.elevation ??
+          0,
       child:
           AnimatedBuilder(
         animation: ModalRoute.of(context)!.animation!,
@@ -569,20 +667,24 @@ class SDialog
           'SDialog',
     );
 
+    final SDialogThemeData
+        dialogTheme =
+        Theme.of(context).sDialogTheme;
+
     final ShapeDecoration
         defaultDecoration =
         ShapeDecoration(
       color:
-          backgroundColor ?? Theme.of(context).dialogBackgroundColor,
-      shape:
+          backgroundColor ?? dialogTheme.backgroundColor,
+      shape: (shapeDecoration?.shape ?? dialogTheme.shape) ??
           RoundedRectangleBorder(
-        borderRadius: borderRadius ?? Spacers.radiusMedium,
-      ),
-      shadows: const <BoxShadow>[
+            borderRadius: borderRadius ?? dialogTheme.borderRadius ?? Spacers.radiusMedium,
+          ),
+      shadows: <BoxShadow>[
         BoxShadow(
-          color: Colors.black26,
-          blurRadius: 10.0,
-          offset: Offset(0, 10),
+          color: shadowColor ?? dialogTheme.shadowColor ?? Colors.black.withOpacity(0.2),
+          blurRadius: elevation ?? dialogTheme.elevation ?? 6.0,
+          offset: const Offset(0, 10),
         ),
       ],
     );
@@ -594,17 +696,22 @@ class SDialog
     return Material(
       color:
           Colors.transparent,
+      surfaceTintColor:
+          surfaceTintColor ?? dialogTheme.surfaceTintColor,
+      clipBehavior: clipBehavior ??
+          dialogTheme.clipBehavior ??
+          Clip.none,
       child:
           FocusScope(
         child: Semantics(
           label: semanticLabel ?? title,
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: maxWidth,
-              maxHeight: maxHeight,
+              maxWidth: maxWidth ?? 250,
+              maxHeight: maxHeight ?? 350,
             ),
             child: Container(
-              padding: contentPadding ?? const EdgeInsets.all(20.0),
+              padding: contentPadding ?? dialogTheme.contentPadding ?? const EdgeInsets.all(24.0),
               decoration: effectiveDecoration,
               child: SingleChildScrollView(
                 controller: scrollController,
@@ -626,10 +733,14 @@ class SDialog
                                 Expanded(
                                   child: Text(
                                     title!,
-                                    style: titleStyle ?? Theme.of(context).textTheme.headlineMedium,
+                                    style: titleStyle ??
+                                        dialogTheme.titleStyle?.copyWith(color: dialogTheme.titleColor) ??
+                                        Theme.of(context).textTheme.headlineMedium?.copyWith(
+                                              color: dialogTheme.titleColor,
+                                            ),
                                   ),
                                 ),
-                                if (showCloseButton)
+                                if (showCloseButton ?? true)
                                   IconButton(
                                     icon: const Icon(Icons.close, size: 24),
                                     onPressed: () {
@@ -643,10 +754,10 @@ class SDialog
                               ],
                             ),
                           ),
-                          if (showTitleDivider)
+                          if (showTitleDivider ?? false)
                             Divider(
-                              color: titleDividerColor ?? Theme.of(context).dividerColor,
-                              thickness: titleDividerThickness,
+                              color: titleDividerColor ?? dialogTheme.dividerColor ?? Theme.of(context).dividerColor,
+                              thickness: titleDividerThickness ?? dialogTheme.dividerThickness ?? 1.0,
                             ),
                         ],
                       ),
@@ -658,13 +769,17 @@ class SDialog
                           children: <Widget>[
                             Text(
                               description!,
-                              style: descriptionStyle ?? Theme.of(context).textTheme.bodyMedium,
+                              style: descriptionStyle ??
+                                  dialogTheme.descriptionStyle?.copyWith(color: dialogTheme.descriptionColor) ??
+                                  Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                        color: dialogTheme.descriptionColor,
+                                      ),
                               textAlign: TextAlign.left,
                             ),
-                            if (showDescriptionDivider)
+                            if (showDescriptionDivider ?? false)
                               Divider(
-                                color: descriptionDividerColor ?? Theme.of(context).dividerColor,
-                                thickness: descriptionDividerThickness,
+                                color: descriptionDividerColor ?? dialogTheme.dividerColor ?? Theme.of(context).dividerColor,
+                                thickness: descriptionDividerThickness ?? dialogTheme.dividerThickness ?? 1.0,
                               ),
                           ],
                         ),
@@ -674,14 +789,14 @@ class SDialog
                       const SizedBox(height: 16),
                       content!,
                     ],
-                    if (showDivider)
+                    if (showDivider ?? dialogTheme.showDivider ?? false)
                       Divider(
-                        color: dividerColor ?? Theme.of(context).dividerColor,
-                        thickness: dividerThickness,
+                        color: dividerColor ?? dialogTheme.dividerColor ?? Theme.of(context).dividerColor,
+                        thickness: dividerThickness ?? dialogTheme.dividerThickness ?? 1.0,
                       ),
                     if (actions != null && actions!.isNotEmpty)
                       Padding(
-                        padding: actionsPadding ?? const EdgeInsets.only(top: 20.0),
+                        padding: actionsPadding ?? dialogTheme.actionsPadding ?? const EdgeInsets.only(top: 24.0),
                         child: Row(
                           mainAxisAlignment: actionsAlignment,
                           children: actions!,

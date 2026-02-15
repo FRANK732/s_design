@@ -38,41 +38,43 @@ class _DialogPageState
             onPressed: () {
               showDialog<void>(
                 context: context,
-                builder: (context) => SDialog(
-                  title: 'Edit profile',
-                  description: 'Make changes to your profile here',
-                  semanticLabel: 'Edit',
-                  content: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      // Name Field
-                      const Text(
-                        'Name',
-                      ),
-                      const SizedBox(height: 6),
-                      SInputField(
-                        controller: _nameController,
-                      ),
-                      const SizedBox(height: 16),
-                      const Text(
-                        'Nick Name',
-                      ),
-                      const SizedBox(height: 6),
-                      SInputField(
-                        controller: _usernameController,
+                builder: (context) => SDialog.fromConfig(
+                  SDialogConfig(
+                    title: 'Edit profile',
+                    description: 'Make changes to your profile here',
+                    semanticLabel: 'Edit',
+                    content: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        // Name Field
+                        const Text(
+                          'Name',
+                        ),
+                        const SizedBox(height: 6),
+                        SInputField(
+                          controller: _nameController,
+                        ),
+                        const SizedBox(height: 16),
+                        const Text(
+                          'Nick Name',
+                        ),
+                        const SizedBox(height: 6),
+                        SInputField(
+                          controller: _usernameController,
+                        ),
+                      ],
+                    ),
+                    // Action buttons at bottom-right
+                    actions: <Widget>[
+                      SButton(
+                        variant: ButtonVariant.secondary,
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Save changes'),
                       ),
                     ],
                   ),
-                  // Action buttons at bottom-right
-                  actions: <Widget>[
-                    SButton(
-                      variant: ButtonVariant.secondary,
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('Save changes'),
-                    ),
-                  ],
                 ),
               );
             },

@@ -1,11 +1,44 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import '../../../../../s_design.dart';
 
-// A customizable card widget with support for content sections, styling, animations, dismissible behavior, and accessibility features.
+import 'dart:ui'; // For BackdropFilter
+import 'package:flutter/semantics.dart';
 
-// A customizable card widget with support for content sections, styling, animations, dismissible behavior, and accessibility features.
+/// Variants involved in the visual style of [SCard].
+enum SCardVariant {
+  /// Default elevated card with shadow.
+  elevated,
+
+  /// Flat card with a solid background color (usually surface container).
+  filled,
+
+  /// Transparent card with a visible border.
+  outlined,
+
+  /// Glassmorphism style with blur and semi-transparency.
+  frosted,
+}
+
+/// Position of the media widget within [SCard].
+enum SCardImagePosition {
+  start,
+  end,
+  top,
+  bottom,
+}
+
+/// Position of the badge widget on [SCard].
+enum SCardBadgePosition {
+  topLeft,
+  topRight,
+  bottomLeft,
+  bottomRight,
+}
+
+/// A customizable card widget with support for content sections, styling, animations, dismissible behavior, and accessibility features.
+///
+/// Enhanced with "Future-Ready" features: Variants, Horizontal Layout, Media Slots, and Badges.
 class SCard
     extends StatefulWidget {
   const SCard({
@@ -15,6 +48,7 @@ class SCard
     this.description,
     this.descriptionStyle,
     this.header,
+    this.headerTrailing,
     this.body,
     this.actions,
     this.footer,
@@ -24,16 +58,13 @@ class SCard
     this.bodyPadding,
     this.actionsPadding,
     this.footerPadding,
-    this.elevation =
-        1.0,
-    this.height =
-        100,
+    this.elevation,
+    this.height,
     this.width,
     this.maxWidth,
     this.maxHeight,
     this.alignment,
-    this.color =
-        Colors.white,
+    this.color,
     this.gradient,
     this.backgroundImage,
     this.backgroundFit =
@@ -48,10 +79,8 @@ class SCard
     this.dismissIcon,
     this.dismissSecondaryIcon,
     this.borderColor,
-    this.borderWidth =
-        1.0,
-    this.borderRadius =
-        12.0,
+    this.borderWidth,
+    this.borderRadius,
     this.shadowColor,
     this.shadowOffset,
     this.blurRadius,
@@ -149,6 +178,28 @@ class SCard
         MaterialType.card,
     this.additionalShadows,
     this.colorBlendMode,
+    this.showDivider =
+        false,
+    this.dividerColor,
+    this.isLoading =
+        false,
+    this.isSelected =
+        false,
+    this.selectionColor,
+    this.onSelectionChanged,
+    this.variant =
+        SCardVariant.elevated,
+    this.axis =
+        Axis.vertical,
+    this.media,
+    this.mediaHeight,
+    this.mediaWidth,
+    this.mediaPosition =
+        SCardImagePosition.top,
+    this.badge,
+    this.badgePosition =
+        SCardBadgePosition.topRight,
+    this.badgeOffset,
   })  : assert(
           !(gradient != null && backgroundImage != null),
           'Cannot provide both gradient and backgroundImage.',
@@ -163,461 +214,299 @@ class SCard
         );
 
   // Core Content
-  /// Title text displayed in the card's header.
   final String?
       title;
-
-  /// Custom text style for the title.
   final TextStyle?
       titleStyle;
-
-  /// Description text shown below the title in the header.
   final String?
       description;
-
-  /// Custom text style for the description.
   final TextStyle?
       descriptionStyle;
-
-  /// Custom widget for the card's header section.
   final Widget?
       header;
-
-  /// Main content widget of the card.
+  final Widget?
+      headerTrailing;
   final Widget?
       body;
-
-  /// Widget for action buttons or controls.
   final Widget?
       actions;
-
-  /// Custom widget for the card's footer section.
   final Widget?
       footer;
 
   // Layout & Spacing
-  /// Margin around the card.
   final EdgeInsetsGeometry?
       margin;
-
-  /// Padding inside the card for all content.
   final EdgeInsetsGeometry?
       padding;
-
-  /// Padding specifically for the header section.
   final EdgeInsetsGeometry?
       headerPadding;
-
-  /// Padding specifically for the body section.
   final EdgeInsetsGeometry?
       bodyPadding;
-
-  /// Padding specifically for the actions section.
   final EdgeInsetsGeometry?
       actionsPadding;
-
-  /// Padding specifically for the footer section.
   final EdgeInsetsGeometry?
       footerPadding;
-
-  /// Elevation for the card's shadow depth. Defaults to 1.0.
   final double?
       elevation;
-
-  /// Fixed height of the card. Defaults to 100.
   final double?
       height;
-
-  /// Fixed width of the card.
   final double?
       width;
-
-  /// Maximum width constraint for the card.
   final double?
       maxWidth;
-
-  /// Maximum height constraint for the card.
   final double?
       maxHeight;
-
-  /// Alignment of the card's content.
   final AlignmentGeometry?
       alignment;
 
   // Appearance
-  /// Background color of the card. Defaults to white.
   final Color?
       color;
-
-  /// Gradient background for the card. Cannot be used with backgroundImage.
   final Gradient?
       gradient;
-
-  /// Background image for the card. Cannot be used with gradient.
   final ImageProvider?
       backgroundImage;
-
-  /// Fit style for the background image. Defaults to BoxFit.cover.
   final BoxFit?
       backgroundFit;
-
-  /// Blend mode for the background image.
   final BlendMode?
       backgroundBlendMode;
-
-  /// Shape style of the card (e.g., rounded, circular). Defaults to rounded.
   final SCardShape
       shape;
-
-  /// Custom shape border when shape is SCardShape.custom.
   final ShapeBorder?
       customShape;
-
-  /// Shadow style of the card (e.g., none, subtle). Defaults to subtle.
   final SCardShadow
       shadowStyle;
-
-  /// Custom shadow when shadowStyle is SCardShadow.custom.
   final BoxShadow?
       customShadow;
-
-  /// Color of the card's border.
   final Color?
       borderColor;
-
-  /// Width of the card's border. Defaults to 1.0.
   final double?
       borderWidth;
-
-  /// Radius for rounded corners when shape is rounded. Defaults to 12.0.
   final double?
       borderRadius;
-
-  /// Color of the card's shadow.
   final Color?
       shadowColor;
-
-  /// Offset for the card's shadow.
   final Offset?
       shadowOffset;
-
-  /// Blur radius for the card's shadow.
   final double?
       blurRadius;
-
-  /// Spread radius for the card's shadow.
   final double?
       spreadRadius;
 
   // Interactions
-  /// Callback triggered on tap.
   final VoidCallback?
       onTap;
-
-  /// Callback triggered on long press.
   final VoidCallback?
       onLongPress;
-
-  /// Callback triggered on hover, passing hover state.
   final ValueChanged<bool>?
       onHover;
-
-  /// Scroll physics for the card's content.
   final ScrollPhysics?
       onScroll;
-
-  /// Callback triggered on double tap.
   final GestureTapCallback?
       onDoubleTap;
-
-  /// Enables haptic and sound feedback for interactions. Defaults to true.
   final bool
       enableFeedback;
-
-  /// Enables swipe-to-dismiss functionality. Defaults to true.
   final bool
       enableInteractiveDismiss;
 
   // Animation
-  /// Duration of animations (e.g., scale, dismiss). Defaults to 200ms.
   final Duration?
       animationDuration;
-
-  /// Curve for animations. Defaults to Curves.easeInOut.
   final Curve?
       animationCurve;
-
-  /// Triggers animation when the card loads. Defaults to false.
   final bool
       animateOnLoad;
-
-  /// Elevation when the card is hovered. Defaults to 4.0.
   final double?
       hoverElevation;
-
-  /// Background color when the card is hovered.
   final Color?
       hoverColor;
-
-  /// Scale factor when the card is tapped. Defaults to 0.95.
   final double?
       tapScale;
 
   // Dismissible Properties
-  /// Unique key for dismissible functionality.
   final Key?
       dismissKey;
-
-  /// Custom background widget for dismissible (end-to-start swipe).
   final Widget?
       dismissBackground;
-
-  /// Custom secondary background widget for dismissible (start-to-end swipe).
   final Widget?
       dismissSecondaryBackground;
-
-  /// Callback to confirm dismiss action.
   final Future<bool?>
           Function(DismissDirection)?
       confirmDismiss;
-
-  /// Callback triggered when the card is dismissed.
   final void
           Function(DismissDirection)?
       onDismissed;
-
-  /// Direction for dismissible swipe (e.g., horizontal, vertical). Defaults to horizontal.
   final DismissDirection
       direction;
-
-  /// Duration for resizing during dismiss animation. Defaults to 300ms.
   final Duration
       resizeDuration;
-
-  /// Thresholds for dismiss sensitivity by direction. Defaults to empty map.
   final Map<
       DismissDirection,
       double> dismissThresholds;
-
-  /// Duration for dismiss movement animation. Defaults to 200ms.
   final Duration
       movementDuration;
-
-  /// Offset for cross-axis movement during dismiss. Defaults to 0.0.
   final double
       crossAxisEndOffset;
-
-  /// Behavior for starting drag gestures. Defaults to DragStartBehavior.start.
   final DragStartBehavior
       dragStartBehavior;
-
-  /// Hit test behavior for interactions. Defaults to HitTestBehavior.opaque.
   final HitTestBehavior
       behavior;
-
-  /// Icon for the dismissible background (end-to-start swipe).
   final IconData?
       dismissIcon;
-
-  /// Icon for the secondary dismissible background (start-to-end swipe).
   final IconData?
       dismissSecondaryIcon;
-
-  // Dismissible Background Customization
-  /// Background color for dismissible (end-to-start swipe). Defaults to red.
   final Color?
       dismissBackgroundColor;
-
-  /// Background color for secondary dismissible (start-to-end swipe). Defaults to green.
   final Color?
       dismissSecondaryBackgroundColor;
-
-  /// Label text for dismissible background (end-to-start swipe). Defaults to 'Delete'.
   final String?
       dismissBackgroundLabel;
-
-  /// Label text for secondary dismissible background (start-to-end swipe). Defaults to 'Confirm'.
   final String?
       dismissSecondaryBackgroundLabel;
-
-  /// Text style for dismissible background label.
   final TextStyle?
       dismissBackgroundLabelStyle;
-
-  /// Text style for secondary dismissible background label.
   final TextStyle?
       dismissSecondaryBackgroundLabelStyle;
-
-  /// Opacity for dismissible background. Defaults to 1.0.
   final double?
       dismissBackgroundOpacity;
-
-  /// Animation curve for dismissible background. Defaults to Curves.linear.
   final Curve?
       dismissBackgroundAnimationCurve;
-
-  /// Padding for dismissible background.
   final EdgeInsetsGeometry?
       dismissBackgroundPadding;
-
-  /// Alignment for dismissible background content.
   final AlignmentGeometry?
       dismissBackgroundAlignment;
 
   // Advanced Features
-  /// Enables drag-and-drop functionality. Defaults to false.
   final bool
       isDraggable;
-
-  /// Controller for scrolling behavior.
   final ScrollController?
       scrollController;
-
-  /// Custom border for the card.
   final Border?
       customBorder;
-
-  /// Clipping behavior for the card's content. Defaults to Clip.antiAlias.
   final Clip
       clipBehavior;
-
-  /// Material type for the card (e.g., card, canvas). Defaults to MaterialType.card.
   final MaterialType
       materialType;
-
-  /// Additional shadows for the card.
   final List<BoxShadow>?
       additionalShadows;
-
-  /// Blend mode for the card's color.
   final BlendMode?
       colorBlendMode;
 
-  // Enhanced Semantics Properties
-  /// Semantic label for accessibility, typically the title.
+  // Semantics
   final String?
       semanticLabel;
-
-  /// Semantic value for accessibility.
   final String?
       semanticValue;
-
-  /// Semantic hint for accessibility, typically the description.
   final String?
       semanticHint;
-
-  /// Semantic tooltip for accessibility.
   final String?
       semanticTooltip;
-
-  /// Indicates if the card is enabled for accessibility. Defaults to true if onTap is set.
   final bool?
       semanticEnabled;
-
-  /// Indicates if the card is checked for accessibility.
   final bool?
       semanticChecked;
-
-  /// Indicates if the card is selected for accessibility.
   final bool?
       semanticSelected;
-
-  /// Indicates if the card is toggled for accessibility.
   final bool?
       semanticToggled;
-
-  /// Indicates if the card is a button for accessibility. Defaults to true if onTap is set.
   final bool?
       semanticButton;
-
-  /// Indicates if the card is a header for accessibility.
   final bool?
       semanticHeader;
-
-  /// Heading level for accessibility (e.g., 1 to 6).
   final int?
       semanticHeadingLevel;
-
-  /// Indicates if the card is a text field for accessibility.
   final bool?
       semanticTextField;
-
-  /// Indicates if the card is read-only for accessibility.
   final bool?
       semanticReadOnly;
-
-  /// Indicates if the card is focusable for accessibility. Defaults to true.
   final bool?
       semanticFocusable;
-
-  /// Indicates if the card is focused for accessibility.
   final bool?
       semanticFocused;
-
-  /// Indicates if the card is hidden for accessibility.
   final bool?
       semanticHidden;
-
-  /// Indicates if the card is an image for accessibility.
   final bool?
       semanticImage;
-
-  /// Indicates if the card is a live region for accessibility.
   final bool?
       semanticLiveRegion;
-
-  /// Hint for tap action for accessibility. Defaults to 'Tap to interact'.
   final String?
       onTapHint;
-
-  /// Hint for long press action for accessibility.
   final String?
       onLongPressHint;
-
-  /// Callback for scrolling left.
   final VoidCallback?
       onScrollLeft;
-
-  /// Callback for scrolling right.
   final VoidCallback?
       onScrollRight;
-
-  /// Callback for scrolling up.
   final VoidCallback?
       onScrollUp;
-
-  /// Callback for scrolling down.
   final VoidCallback?
       onScrollDown;
-
-  /// Callback for increasing a value.
   final VoidCallback?
       onIncrease;
-
-  /// Callback for decreasing a value.
   final VoidCallback?
       onDecrease;
-
-  /// Callback for dismiss action for accessibility.
   final VoidCallback?
       onDismissSemantics;
-
-  /// Custom semantic actions for accessibility.
   final Map<
       CustomSemanticsAction,
       VoidCallback>? customSemanticsActions;
-
-  /// Text direction for content (e.g., left-to-right, right-to-left).
   final TextDirection?
       textDirection;
-
-  /// Focus node for managing focus.
   final FocusNode?
       focusNode;
-
-  /// Determines if the card can request focus. Defaults to true.
   final bool
       canRequestFocus;
+
+  // Wave 17 Features
+  final bool
+      showDivider;
+  final Color?
+      dividerColor;
+  final bool
+      isLoading;
+  final bool
+      isSelected;
+  final Color?
+      selectionColor;
+  final ValueChanged<bool>?
+      onSelectionChanged;
+
+  // Wave 18 Advanced Features
+  /// The visual style variant of the card (elevated, filled, outlined, frosted).
+  final SCardVariant
+      variant;
+
+  /// The layout axis of the card (vertical or horizontal).
+  final Axis
+      axis;
+
+  /// Dedicated slot for hero media (image/video).
+  final Widget?
+      media;
+
+  /// Fixed height for the media slot.
+  final double?
+      mediaHeight;
+
+  /// Fixed width for the media slot.
+  final double?
+      mediaWidth;
+
+  /// Position of the media relative to content.
+  final SCardImagePosition
+      mediaPosition;
+
+  /// Badge widget overlaid on the card.
+  final Widget?
+      badge;
+
+  /// Position of the badge.
+  final SCardBadgePosition
+      badgePosition;
+
+  /// Custom offset for the badge.
+  final Offset?
+      badgeOffset;
 
   @override
   State<SCard>
@@ -634,30 +523,17 @@ class _SCardState
       _controller;
   late Animation<double>
       _scaleAnimation;
-  // bool _isHovered = false;
-  // double _currentElevation = 0;
-  double
-      _dismissProgress =
-      0.0;
-  DismissDirection
-      _currentSwipeDirection =
-      DismissDirection.none;
 
   @override
   void
       initState() {
     super
         .initState();
-    // _currentElevation = widget.elevation ?? 1.0;
-    _controller =
-        AnimationController(
-      vsync:
-          this,
-      duration:
-          widget.animationDuration,
-    );
+    _controller = AnimationController(
+        vsync: this,
+        duration: widget.animationDuration ?? const Duration(milliseconds: 200));
     _scaleAnimation =
-        Tween<double>(begin: 1.0, end: widget.tapScale).animate(
+        Tween<double>(begin: 1.0, end: widget.tapScale ?? 0.95).animate(
       CurvedAnimation(
         parent: _controller,
         curve: widget.animationCurve ?? Curves.easeInOut,
@@ -697,16 +573,25 @@ class _SCardState
   }
 
   List<BoxShadow>
-      _getShadows() {
+      _getShadows(SCardThemeData theme) {
+    // No shadows for filled or outlined variants unless explicitly requested?
+    // Actually, usually filled/outlined have no shadow. Elevated has shadow.
+    if (widget.variant == SCardVariant.filled ||
+        widget.variant == SCardVariant.outlined ||
+        widget.variant == SCardVariant.frosted) {
+      return widget.additionalShadows ??
+          [];
+    }
+
     final List<BoxShadow>
         shadows =
         <BoxShadow>[];
-    if (widget.shadowStyle !=
-        SCardShadow.none) {
+    if (widget.shadowStyle != SCardShadow.none &&
+        !widget.isLoading) {
       shadows.add(
         widget.customShadow ??
             BoxShadow(
-              color: widget.shadowColor ?? Colors.grey.withOpacity(0.2),
+              color: widget.shadowColor ?? theme.shadowColor,
               offset: widget.shadowOffset ?? const Offset(0, 2),
               blurRadius: widget.blurRadius ?? 4.0,
               spreadRadius: widget.spreadRadius ?? 0.0,
@@ -720,88 +605,354 @@ class _SCardState
     return shadows;
   }
 
-  Widget _buildDismissBackground(
-      DismissDirection
-          direction) {
-    // Use provided backgrounds if available
-    if (widget.dismissBackground != null &&
-        direction == DismissDirection.endToStart) {
-      return widget.dismissBackground!;
-    }
-    if (widget.dismissSecondaryBackground != null &&
-        direction == DismissDirection.startToEnd) {
-      return widget.dismissSecondaryBackground!;
-    }
+  Widget _buildDivider(
+      SCardThemeData
+          theme) {
+    if (!widget
+        .showDivider)
+      return const SizedBox.shrink();
+    return Divider(
+      height:
+          1,
+      thickness:
+          1,
+      color:
+          widget.dividerColor ?? theme.dividerColor,
+    );
+  }
 
-    // Default background properties
-    final Color
-        backgroundColor =
-        (direction == DismissDirection.endToStart ? widget.dismissBackgroundColor : widget.dismissSecondaryBackgroundColor) ?? (direction == DismissDirection.endToStart ? Colors.red : Colors.green);
-    final IconData
-        icon =
-        (direction == DismissDirection.endToStart ? widget.dismissIcon : widget.dismissSecondaryIcon) ?? (direction == DismissDirection.endToStart ? Icons.delete : Icons.check_circle);
-    final String
-        label =
-        (direction == DismissDirection.endToStart ? widget.dismissBackgroundLabel : widget.dismissSecondaryBackgroundLabel) ?? (direction == DismissDirection.endToStart ? 'Delete' : 'Confirm');
-    final TextStyle labelStyle = (direction == DismissDirection.endToStart ? widget.dismissBackgroundLabelStyle : widget.dismissSecondaryBackgroundLabelStyle) ??
-        const TextStyle(
-          color: Colors.black,
-          fontSize: 16.0,
-          fontWeight: FontWeight.bold,
-        );
-    // Alignment alignment = widget.dismissBackgroundAlignment
-    //         ?.resolve(Directionality.of(context)) ??
-    //     (direction == DismissDirection.endToStart
-    //         ? Alignment.centerRight
-    //         : Alignment.centerLeft);
-
+  Widget
+      _buildLoader() {
     return Container(
-      decoration:
-          BoxDecoration(
-        color: backgroundColor,
-        borderRadius: widget.shape == SCardShape.rounded ? BorderRadius.circular(widget.borderRadius ?? 12.0) : null,
-      ),
-      padding:
-          widget.dismissBackgroundPadding,
-      alignment: direction == DismissDirection.endToStart
-          ? Alignment.centerLeft
-          : Alignment.centerRight,
-      // Ensure the container takes the full height of the card
-      constraints:
-          BoxConstraints(
-        minHeight: widget.height ?? 0,
-        maxHeight: widget.maxHeight ?? double.infinity,
-      ),
+      color:
+          Colors.white.withOpacity(0.5),
       child:
-          Row(
-        mainAxisAlignment: direction == DismissDirection.endToStart ? MainAxisAlignment.end : MainAxisAlignment.start,
-        children: <Widget>[
-          if (direction == DismissDirection.startToEnd) ...<Widget>[
-            Icon(
-              icon,
-              color: Colors.white,
-              size: 32.0,
-            ),
-            const SizedBox(width: 8.0),
-            Text(
-              label,
-              style: labelStyle,
-            ),
-          ],
-          if (direction == DismissDirection.endToStart) ...<Widget>[
-            Text(
-              label,
-              style: labelStyle,
-            ),
-            const SizedBox(width: 8.0),
-            Icon(
-              icon,
-              color: Colors.white,
-              size: 32.0,
-            ),
-          ],
-        ],
+          const Center(
+        child: SizedBox(
+          width: 24,
+          height: 24,
+          child: CircularProgressIndicator(strokeWidth: 2),
+        ),
       ),
+    );
+  }
+
+  Color _resolveBackgroundColor(
+      SCardThemeData
+          theme) {
+    if (widget
+        .isSelected) {
+      return widget.selectionColor?.withOpacity(0.1) ??
+          theme.selectedBackgroundColor ??
+          theme.backgroundColor;
+    }
+    if (widget.color !=
+        null)
+      return widget.color!;
+
+    switch (
+        widget.variant) {
+      case SCardVariant.filled:
+        return theme.filledColor ?? theme.backgroundColor;
+      case SCardVariant.outlined:
+        return Colors.transparent; // Outlined usually transparent bg
+      case SCardVariant.frosted:
+        // For frosted, we return a semi-transparent color base
+        return theme.backgroundColor.withOpacity(theme.frostedOpacity);
+      case SCardVariant.elevated:
+        return theme.backgroundColor;
+    }
+  }
+
+  Color _resolveBorderColor(
+      SCardThemeData
+          theme) {
+    if (widget
+        .isSelected) {
+      return widget.selectionColor ??
+          theme.selectedBorderColor ??
+          theme.borderColor;
+    }
+    if (widget.borderColor !=
+        null)
+      return widget.borderColor!;
+
+    switch (
+        widget.variant) {
+      case SCardVariant.outlined:
+        return theme.outlinedBorderColor ?? theme.borderColor;
+      case SCardVariant.filled:
+      case SCardVariant.elevated:
+      case SCardVariant.frosted:
+        // Usually no border for these, or standard subtle border
+        return Colors.transparent;
+    }
+  }
+
+  Widget _buildContent(
+      BuildContext
+          context,
+      SCardThemeData
+          theme) {
+    // 1. Organize main content chunks
+    final headerWidget = (widget.header != null || widget.title != null || widget.headerTrailing != null)
+        ? Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: widget.headerPadding ?? const EdgeInsets.all(16.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: widget.header ??
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              if (widget.title != null) Text(widget.title!, style: widget.titleStyle ?? Theme.of(context).textTheme.titleMedium),
+                              if (widget.description != null) ...<Widget>[
+                                const SizedBox(height: 4),
+                                Text(widget.description!, style: widget.descriptionStyle ?? Theme.of(context).textTheme.bodySmall),
+                              ],
+                            ],
+                          ),
+                    ),
+                    if (widget.headerTrailing != null) ...[
+                      const SizedBox(width: 8),
+                      widget.headerTrailing!,
+                    ],
+                  ],
+                ),
+              ),
+              _buildDivider(theme),
+            ],
+          )
+        : null;
+
+    final bodyWidget = widget.body != null
+        ? Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _buildSection(widget.body, widget.bodyPadding),
+              if (widget.footer != null || widget.actions != null) _buildDivider(theme),
+            ],
+          )
+        : null;
+
+    final actionsWidget = widget.actions != null
+        ? _buildSection(widget.actions, widget.actionsPadding)
+        : null;
+
+    final footerWidget = widget.footer != null
+        ? _buildSection(widget.footer, widget.footerPadding)
+        : null;
+
+    // 2. Arrange in List for rendering
+    final List<Widget>
+        children =
+        [
+      if (headerWidget !=
+          null)
+        headerWidget,
+      if (bodyWidget !=
+          null)
+        (widget.axis == Axis.vertical) ? Flexible(child: bodyWidget) : Expanded(child: bodyWidget), // Expanded for Row
+      if (actionsWidget !=
+          null)
+        actionsWidget,
+      if (footerWidget !=
+          null)
+        footerWidget,
+    ];
+
+    // 3. Assemble Layout based on Axis
+    Widget
+        mainContent;
+    if (widget.axis ==
+        Axis.vertical) {
+      mainContent =
+          Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: children,
+      );
+    } else {
+      // Horizontal Layout
+      // Ideally header, actions, footer might behave differently in horizontal.
+      // For now, we stack them horizontally? Or keep them as a block?
+      // A common pattern for horizontal card: Image (Left) | Content (Right)
+      // Content (Right) is a Column of Header, Body, Footer.
+      mainContent = Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: children);
+    }
+
+    // 4. Incorporate Media
+    if (widget.media !=
+        null) {
+      // Media Layout
+      if (widget.axis ==
+          Axis.vertical) {
+        // Vertical: Media usually at Top or Bottom
+        if (widget.mediaPosition == SCardImagePosition.bottom) {
+          mainContent = Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Flexible(child: mainContent),
+              _buildMedia(theme)
+            ],
+          );
+        } else {
+          // Default to Top
+          mainContent = Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _buildMedia(theme),
+              Flexible(child: mainContent)
+            ],
+          );
+        }
+      } else {
+        // Horizontal: Media at Start or End
+        // We wrap mainContent in Expanded to fill space next to image
+        if (widget.mediaPosition == SCardImagePosition.end) {
+          mainContent = Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(child: mainContent),
+              _buildMedia(theme)
+            ],
+          );
+        } else {
+          // Default to Start
+          mainContent = Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _buildMedia(theme),
+              Expanded(child: mainContent)
+            ],
+          );
+        }
+      }
+    }
+
+    return mainContent;
+  }
+
+  Widget _buildMedia(
+      SCardThemeData
+          theme) {
+    // Determine dimensions
+    // In vertical layout, width is usually full, height is fixed or content based.
+    // In horizontal layout, width is fixed, height is full.
+    final double? w = widget.axis == Axis.horizontal
+        ? widget.mediaWidth ?? 120.0
+        : null;
+    final double? h = widget.axis == Axis.vertical
+        ? widget.mediaHeight ?? 150.0
+        : null;
+
+    // Determine BorderRadius for clipping
+    // The media needs to match the card's corners on the side it touches
+    final double
+        r =
+        widget.borderRadius ?? theme.borderRadius;
+    BorderRadius
+        mediaRadius =
+        BorderRadius.zero;
+
+    if (widget.axis ==
+        Axis.vertical) {
+      if (widget.mediaPosition ==
+          SCardImagePosition.top) {
+        mediaRadius = BorderRadius.vertical(top: Radius.circular(r));
+      } else if (widget.mediaPosition == SCardImagePosition.bottom) {
+        mediaRadius = BorderRadius.vertical(bottom: Radius.circular(r));
+      }
+    } else {
+      if (widget.mediaPosition == SCardImagePosition.start ||
+          widget.mediaPosition == SCardImagePosition.top) {
+        // treating top as start for horizontal
+        mediaRadius = BorderRadius.horizontal(left: Radius.circular(r));
+      } else {
+        mediaRadius = BorderRadius.horizontal(right: Radius.circular(r));
+      }
+    }
+
+    return ClipRRect(
+      borderRadius:
+          mediaRadius,
+      child:
+          SizedBox(
+        width: w,
+        height: h,
+        child: widget.media,
+      ),
+    );
+  }
+
+  Widget _buildBadge(
+      Widget
+          child) {
+    if (widget.badge ==
+        null)
+      return child;
+
+    // Default positioning
+    double?
+        top,
+        bottom,
+        left,
+        right;
+    final Offset
+        offset =
+        widget.badgeOffset ?? const Offset(0, 0);
+
+    /*
+    enum SCardBadgePosition {
+      topLeft,
+      topRight,
+      bottomLeft,
+      bottomRight,
+    }
+    */
+    switch (
+        widget.badgePosition) {
+      case SCardBadgePosition.topLeft:
+        top = 12 + offset.dy;
+        left = 12 + offset.dx;
+        break;
+      case SCardBadgePosition.topRight:
+        top = 12 + offset.dy;
+        right = 12 + offset.dx;
+        break;
+      case SCardBadgePosition.bottomLeft:
+        bottom = 12 + offset.dy;
+        left = 12 + offset.dx;
+        break;
+      case SCardBadgePosition.bottomRight:
+        bottom = 12 + offset.dy;
+        right = 12 + offset.dx;
+        break;
+    }
+
+    return Stack(
+      clipBehavior:
+          Clip.none,
+      children: [
+        child,
+        Positioned(
+          top: top,
+          bottom: bottom,
+          left: left,
+          right: right,
+          child: widget.badge!,
+        ),
+      ],
     );
   }
 
@@ -809,250 +960,128 @@ class _SCardState
   Widget build(
       BuildContext
           context) {
-    final ThemeData
+    final SCardThemeData
         theme =
-        Theme.of(context);
+        Theme.of(context).sCardTheme;
 
-    // Header content
-    final Widget
-        headerContent =
-        _buildSection(
-      widget.header ??
-          (widget.title != null || widget.description != null
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    if (widget.title != null)
-                      Text(
-                        widget.title!,
-                        style: widget.titleStyle ?? theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold, color: Colors.black),
-                      ),
-                    if (widget.description != null) ...<Widget>[
-                      const SizedBox(height: 8),
-                      Text(
-                        widget.description!,
-                        style: widget.descriptionStyle ?? theme.textTheme.bodyMedium?.copyWith(color: Colors.black),
-                      ),
-                    ],
-                  ],
-                )
-              : null),
-      widget.headerPadding,
-    );
+    final Color
+        backgroundColor =
+        _resolveBackgroundColor(theme);
+    final Color
+        borderColor =
+        _resolveBorderColor(theme);
+    final double
+        borderWidth =
+        widget.borderWidth ?? (widget.isSelected ? 2.0 : 1.0);
+    final double
+        borderRadius =
+        widget.borderRadius ?? theme.borderRadius;
 
-    // Card content without SingleChildScrollView
     Widget
-        cardContent =
-        Column(
-      crossAxisAlignment:
-          CrossAxisAlignment.stretch,
-      children: <Widget>[
-        headerContent,
-        _buildSection(widget.body, widget.bodyPadding),
-        _buildSection(widget.actions, widget.actionsPadding),
-        _buildSection(widget.footer, widget.footerPadding),
-      ],
-    );
-
-    // Apply maxWidth and maxHeight constraints if provided
-    cardContent =
-        ConstrainedBox(
+        card =
+        Container(
+      width:
+          widget.width,
+      height:
+          widget.height,
       constraints:
           BoxConstraints(
         maxWidth: widget.maxWidth ?? double.infinity,
         maxHeight: widget.maxHeight ?? double.infinity,
       ),
+      margin:
+          widget.margin,
+      decoration:
+          BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(borderRadius),
+        border: Border.all(
+          color: borderColor,
+          width: borderWidth,
+        ),
+        boxShadow: _getShadows(theme),
+        gradient: widget.gradient,
+        image: widget.backgroundImage != null
+            ? DecorationImage(
+                image: widget.backgroundImage!,
+                fit: widget.backgroundFit,
+                colorFilter: widget.backgroundBlendMode != null ? ColorFilter.mode(backgroundColor, widget.backgroundBlendMode!) : null,
+              )
+            : null,
+      ),
       child:
-          cardContent,
-    );
-
-    // Decoration
-    final BoxDecoration
-        decoration =
-        BoxDecoration(
-      color:
-          widget.color,
-      gradient:
-          widget.gradient,
-      image: widget.backgroundImage != null
-          ? DecorationImage(
-              image: widget.backgroundImage!,
-              fit: widget.backgroundFit,
-              colorFilter: widget.backgroundBlendMode != null ? ColorFilter.mode(Colors.black, widget.backgroundBlendMode!) : null,
-            )
-          : null,
-      border: widget.customBorder ??
-          Border.all(
-            color: widget.borderColor ?? Colors.transparent,
-            width: widget.borderWidth ?? 1.0,
-          ),
-      borderRadius: widget.shape == SCardShape.rounded
-          ? BorderRadius.circular(widget.borderRadius ?? 12.0)
-          : null,
-      boxShadow:
-          _getShadows(),
-    );
-
-    // Interactive wrapper
-    final Widget
-        interactiveContent =
-        Material(
-      type:
-          widget.materialType,
-      color:
-          Colors.transparent,
-      clipBehavior:
-          widget.clipBehavior,
-      child:
-          InkWell(
-        onTap: widget.onTap,
-        onLongPress: widget.onLongPress,
-        onDoubleTap: widget.onDoubleTap,
-        onHover: widget.onHover,
-        splashColor: widget.hoverColor ?? theme.colorScheme.primary.withOpacity(0.1),
-        highlightColor: Colors.transparent,
-        hoverColor: widget.hoverColor?.withOpacity(0.05),
-        enableFeedback: widget.enableFeedback,
-        child: cardContent,
+          Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          onTap: widget.isLoading
+              ? null
+              : () {
+                  widget.onTap?.call();
+                  if (widget.onSelectionChanged != null) {
+                    widget.onSelectionChanged!(!widget.isSelected);
+                  }
+                },
+          onLongPress: widget.isLoading ? null : widget.onLongPress,
+          onDoubleTap: widget.isLoading ? null : widget.onDoubleTap,
+          onHover: widget.onHover,
+          borderRadius: BorderRadius.circular(borderRadius),
+          child: _buildContent(context, theme),
+        ),
       ),
     );
 
-    // Animation wrapper
-    final Widget
-        animatedContent =
-        AnimatedBuilder(
-      animation:
-          _controller,
-      builder:
-          (BuildContext context, Widget? child) {
-        return Transform.scale(
-          scale: _scaleAnimation.value,
-          child: child,
-        );
-      },
-      child:
-          interactiveContent,
-    );
-
-    // Base card widget
-    Widget
-        cardWidget =
-        Container(
-      margin:
-          widget.margin ?? const EdgeInsets.all(8.0),
-      padding:
-          widget.padding ?? EdgeInsets.zero,
-      width:
-          widget.width,
-      decoration:
-          decoration,
-      alignment:
-          widget.alignment,
-      child:
-          animatedContent,
-    );
-
-    // Dismissible wrapper
-    if (widget.dismissKey != null &&
-        widget.enableInteractiveDismiss) {
-      cardWidget =
-          Stack(
-        alignment: Alignment.center,
-        fit: StackFit.passthrough,
-        children: <Widget>[
-          Positioned.fill(
-            child: AnimatedOpacity(
-              opacity: (widget.dismissBackgroundOpacity ?? 1.0) * _dismissProgress.clamp(0.0, 1.0),
-              duration: widget.movementDuration,
-              curve: widget.dismissBackgroundAnimationCurve ?? Curves.linear,
-              child: _buildDismissBackground(_currentSwipeDirection),
-            ),
+    // Frosted Glass Effect
+    if (widget.variant ==
+        SCardVariant.frosted) {
+      card =
+          ClipRRect(
+        borderRadius: BorderRadius.circular(borderRadius),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(
+            sigmaX: theme.frostedBlur,
+            sigmaY: theme.frostedBlur,
           ),
-          Dismissible(
-            key: widget.dismissKey!,
-            confirmDismiss: widget.confirmDismiss,
-            onDismissed: widget.onDismissed,
-            direction: widget.direction,
-            resizeDuration: widget.resizeDuration,
-            dismissThresholds: widget.dismissThresholds,
-            movementDuration: widget.movementDuration,
-            crossAxisEndOffset: widget.crossAxisEndOffset,
-            dragStartBehavior: widget.dragStartBehavior,
-            behavior: widget.behavior,
-            onUpdate: (DismissUpdateDetails details) {
-              setState(() {
-                _dismissProgress = details.progress;
-                _currentSwipeDirection = details.direction;
-                if (widget.direction == DismissDirection.horizontal) {
-                  _currentSwipeDirection = details.reached ? DismissDirection.startToEnd : DismissDirection.endToStart;
-                }
-              });
-            },
-            child: cardWidget,
+          child: card,
+        ),
+      );
+    }
+
+    // Badge Overlay
+    card =
+        _buildBadge(card);
+
+    // Selection/Interaction Handling (Scale)
+    if (widget.tapScale != null &&
+        widget.onTap != null) {
+      card =
+          ScaleTransition(
+        scale: _scaleAnimation,
+        child: GestureDetector(
+          onTapDown: (_) => _controller.forward(),
+          onTapUp: (_) => _controller.reverse(),
+          onTapCancel: () => _controller.reverse(),
+          child: card,
+        ),
+      );
+    }
+
+    // Loading Overlay
+    if (widget
+        .isLoading) {
+      card =
+          Stack(
+        children: [
+          card,
+          Positioned.fill(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(borderRadius),
+              child: _buildLoader(),
+            ),
           ),
         ],
       );
     }
 
-    // Draggable wrapper
-    if (widget
-        .isDraggable) {
-      cardWidget =
-          Draggable<SCard>(
-        data: widget,
-        feedback: Material(
-          elevation: widget.hoverElevation ?? 4.0,
-          child: cardWidget,
-        ),
-        childWhenDragging: Opacity(
-          opacity: 0.5,
-          child: cardWidget,
-        ),
-        child: cardWidget,
-      );
-    }
-
-    return Focus(
-      focusNode:
-          widget.focusNode,
-      canRequestFocus:
-          widget.canRequestFocus,
-      child:
-          Semantics(
-        container: true,
-        label: widget.semanticLabel ?? widget.title,
-        value: widget.semanticValue,
-        hint: widget.semanticHint ?? widget.description,
-        tooltip: widget.semanticTooltip,
-        enabled: widget.semanticEnabled ?? (widget.onTap != null),
-        checked: widget.semanticChecked,
-        selected: widget.semanticSelected,
-        toggled: widget.semanticToggled,
-        button: widget.semanticButton ?? (widget.onTap != null),
-        header: widget.semanticHeader,
-        headingLevel: widget.semanticHeadingLevel,
-        textField: widget.semanticTextField,
-        readOnly: widget.semanticReadOnly,
-        focusable: widget.semanticFocusable ?? widget.canRequestFocus,
-        focused: widget.semanticFocused,
-        hidden: widget.semanticHidden,
-        image: widget.semanticImage,
-        liveRegion: widget.semanticLiveRegion,
-        onTap: widget.onTap,
-        onLongPress: widget.onLongPress,
-        onTapHint: widget.onTapHint ?? 'Tap to interact',
-        onLongPressHint: widget.onLongPressHint,
-        onScrollLeft: widget.onScrollLeft,
-        onScrollRight: widget.onScrollRight,
-        onScrollUp: widget.onScrollUp,
-        onScrollDown: widget.onScrollDown,
-        onIncrease: widget.onIncrease,
-        onDecrease: widget.onDecrease,
-        onDismiss: widget.onDismissSemantics,
-        customSemanticsActions: widget.customSemanticsActions,
-        textDirection: widget.textDirection,
-        child: cardWidget,
-      ),
-    );
+    return card;
   }
 }
