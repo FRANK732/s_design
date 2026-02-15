@@ -233,6 +233,9 @@ class _ModernExamplePageState
   double
       _progressValue =
       0.3;
+  bool
+      _isTileSelected =
+      true;
 
   @override
   Widget build(
@@ -422,10 +425,7 @@ class _ModernExamplePageState
                   axis: Axis.horizontal,
                   width: 400,
                   height: 150,
-                  media: Container(
-                    color: Colors.blueAccent,
-                    child: const Center(child: Icon(Icons.shopping_bag, color: Colors.white, size: 40)),
-                  ),
+
                   mediaWidth: 120, // Content takes remaining width
                   body: const Text('Great product description goes here.'),
                   footer: Row(
@@ -453,6 +453,95 @@ class _ModernExamplePageState
               ],
             ),
 
+            const SizedBox(height: 48),
+            // SListTile Demo
+            const Divider(),
+            const SizedBox(height: 24),
+            const Text('Advanced SListTile Examples', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            const SizedBox(height: 16),
+            Column(
+              children: [
+                const SListTile(
+                  title: Text('Standard Tile'),
+                  subtitle: Text('Default transparent variant.'),
+                  leading: Icon(Icons.star_border),
+                  trailing: Icon(Icons.chevron_right),
+                ),
+                const SizedBox(height: 8),
+                const SListTile(
+                  title: Text('Filled Variant'),
+                  subtitle: Text('Solid background style.'),
+                  variant: SListTileVariant.filled,
+                  leading: Icon(Icons.folder),
+                  trailing: Icon(Icons.more_horiz),
+                ),
+                const SizedBox(height: 8),
+                const SListTile(
+                  title: Text('Outlined Variant'),
+                  subtitle: Text('With border, transparent bg.'),
+                  variant: SListTileVariant.outlined,
+                  leading: Icon(Icons.info_outline),
+                ),
+                const SizedBox(height: 8),
+                const SListTile(
+                  title: Text('Elevated Variant'),
+                  subtitle: Text('With subtle shadow.'),
+                  variant: SListTileVariant.elevated,
+                  leading: Icon(Icons.layers),
+                ),
+                const SizedBox(height: 8),
+
+                // SListTileGroup Header
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Grouped Tiles', style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text('A collection of related items.', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                    ],
+                  ),
+                ),
+                // SListTileGroup
+                SListTileGroup(
+                  children: [
+                    SListTile(
+                      title: const Text('Item One'),
+                      leading: const Icon(Icons.looks_one),
+                      onTap: () {},
+                    ),
+                    SListTile(
+                      title: const Text('Item Two'),
+                      leading: const Icon(Icons.looks_two),
+                      onTap: () {},
+                    ),
+                    SListTile(
+                      title: const Text('Item Three'),
+                      leading: const Icon(Icons.looks_3),
+                      onTap: () {},
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+
+                const SListTile(
+                  title: Text('Rich Metadata'),
+                  subtitle: Text('With overline text above.'),
+                  overline: Text('CATEGORY'),
+                  variant: SListTileVariant.filled,
+                  leading: Icon(Icons.label),
+                ),
+                const SizedBox(height: 8),
+                SListTile(
+                  title: const Text('Selection Toggle'),
+                  subtitle: const Text('Tap to toggle selection state.'),
+                  variant: SListTileVariant.outlined,
+                  selected: _isTileSelected,
+                  leading: Icon(_isTileSelected ? Icons.check_circle : Icons.circle_outlined),
+                  onTap: () => setState(() => _isTileSelected = !_isTileSelected),
+                ),
+              ],
+            ),
             const SizedBox(height: 48),
             const Divider(),
             const SizedBox(height: 24),

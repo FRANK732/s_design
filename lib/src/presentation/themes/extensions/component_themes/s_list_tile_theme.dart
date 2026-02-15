@@ -13,6 +13,14 @@ class SListTileThemeData
     required this.selectedColor,
     required this.selectedBackgroundColor,
     required this.hoverColor,
+    this.filledColor,
+    this.outlinedBorderColor,
+    this.borderRadius,
+    this.groupBackgroundColor,
+    this.dividerColor,
+    this.groupBorderRadius,
+    this.titleTextStyle,
+    this.subtitleTextStyle,
   });
 
   /// Creates a [SListTileThemeData] from [ColorScheme].
@@ -34,6 +42,22 @@ class SListTileThemeData
           colorScheme.primaryContainer,
       hoverColor:
           colorScheme.surfaceVariant,
+      filledColor:
+          colorScheme.surfaceContainerHighest,
+      outlinedBorderColor:
+          colorScheme.outline,
+      borderRadius:
+          BorderRadius.circular(12),
+      groupBackgroundColor:
+          colorScheme.surfaceContainerLow,
+      dividerColor:
+          colorScheme.outlineVariant,
+      groupBorderRadius:
+          BorderRadius.circular(16),
+      titleTextStyle:
+          null,
+      subtitleTextStyle:
+          null,
     );
   }
 
@@ -49,7 +73,7 @@ class SListTileThemeData
   final Color
       iconColor;
 
-  /// Background color of the list tile.
+  /// Background color of the list tile (standard variant).
   final Color
       backgroundColor;
 
@@ -64,6 +88,38 @@ class SListTileThemeData
   /// Background color when hovered.
   final Color
       hoverColor;
+
+  /// Background color for the Filled variant.
+  final Color?
+      filledColor;
+
+  /// Border color for the Outlined variant.
+  final Color?
+      outlinedBorderColor;
+
+  /// Border radius for shaped variants (Filled/Outlined).
+  final BorderRadius?
+      borderRadius;
+
+  /// Background color for [SListTileGroup].
+  final Color?
+      groupBackgroundColor;
+
+  /// Divider color for [SListTileGroup].
+  final Color?
+      dividerColor;
+
+  /// Border radius for [SListTileGroup].
+  final BorderRadius?
+      groupBorderRadius;
+
+  /// Custom text style for the title.
+  final TextStyle?
+      titleTextStyle;
+
+  /// Custom text style for the subtitle.
+  final TextStyle?
+      subtitleTextStyle;
 
   @override
   SListTileThemeData
@@ -82,6 +138,22 @@ class SListTileThemeData
         selectedBackgroundColor,
     Color?
         hoverColor,
+    Color?
+        filledColor,
+    Color?
+        outlinedBorderColor,
+    BorderRadius?
+        borderRadius,
+    Color?
+        groupBackgroundColor,
+    Color?
+        dividerColor,
+    BorderRadius?
+        groupBorderRadius,
+    TextStyle?
+        titleTextStyle,
+    TextStyle?
+        subtitleTextStyle,
   }) {
     return SListTileThemeData(
       textColor:
@@ -98,6 +170,22 @@ class SListTileThemeData
           selectedBackgroundColor ?? this.selectedBackgroundColor,
       hoverColor:
           hoverColor ?? this.hoverColor,
+      filledColor:
+          filledColor ?? this.filledColor,
+      outlinedBorderColor:
+          outlinedBorderColor ?? this.outlinedBorderColor,
+      borderRadius:
+          borderRadius ?? this.borderRadius,
+      groupBackgroundColor:
+          groupBackgroundColor ?? this.groupBackgroundColor,
+      dividerColor:
+          dividerColor ?? this.dividerColor,
+      groupBorderRadius:
+          groupBorderRadius ?? this.groupBorderRadius,
+      titleTextStyle:
+          titleTextStyle ?? this.titleTextStyle,
+      subtitleTextStyle:
+          subtitleTextStyle ?? this.subtitleTextStyle,
     );
   }
 
@@ -140,6 +228,38 @@ class SListTileThemeData
           hoverColor,
           other.hoverColor,
           t)!,
+      filledColor: Color.lerp(
+          filledColor,
+          other.filledColor,
+          t),
+      outlinedBorderColor: Color.lerp(
+          outlinedBorderColor,
+          other.outlinedBorderColor,
+          t),
+      borderRadius: BorderRadius.lerp(
+          borderRadius,
+          other.borderRadius,
+          t),
+      groupBackgroundColor: Color.lerp(
+          groupBackgroundColor,
+          other.groupBackgroundColor,
+          t),
+      dividerColor: Color.lerp(
+          dividerColor,
+          other.dividerColor,
+          t),
+      groupBorderRadius: BorderRadius.lerp(
+          groupBorderRadius,
+          other.groupBorderRadius,
+          t),
+      titleTextStyle: TextStyle.lerp(
+          titleTextStyle,
+          other.titleTextStyle,
+          t),
+      subtitleTextStyle: TextStyle.lerp(
+          subtitleTextStyle,
+          other.subtitleTextStyle,
+          t),
     );
   }
 }

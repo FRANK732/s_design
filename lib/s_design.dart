@@ -55,6 +55,7 @@ export 'src/presentation/components/inputs/s_select/widgets/s_select_item.dart';
 export 'src/presentation/components/inputs/s_switch/s_switch.dart';
 export 'src/presentation/components/layout/s_card/s_card.dart';
 export 'src/presentation/components/layout/s_list_tile/s_list_tile.dart';
+export 'src/presentation/components/layout/s_list_tile/s_list_tile_group.dart';
 export 'src/presentation/components/layout/s_tabs/s_tab_list.dart';
 export 'src/presentation/components/layout/s_tabs/s_tabs.dart';
 export 'src/presentation/components/layout/s_tabs/s_tabs_content.dart';
