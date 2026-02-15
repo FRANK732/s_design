@@ -5,11 +5,16 @@ class STabsThemeData
     extends ThemeExtension<
         STabsThemeData> {
   /// Creates an instance of [STabsThemeData].
+  /// Creates an instance of [STabsThemeData].
   const STabsThemeData({
     required this.indicatorColor,
     required this.labelColor,
     required this.unselectedLabelColor,
     required this.backgroundColor,
+    required this.dividerColor,
+    required this.hoverColor,
+    required this.cardBackgroundColor,
+    required this.cardActiveBackgroundColor,
   });
 
   /// Creates an [STabsThemeData] from a [ColorScheme].
@@ -25,6 +30,14 @@ class STabsThemeData
           colorScheme.onSurfaceVariant,
       backgroundColor:
           Colors.transparent,
+      dividerColor:
+          colorScheme.outlineVariant,
+      hoverColor:
+          colorScheme.surfaceContainerHighest.withOpacity(0.3),
+      cardBackgroundColor:
+          colorScheme.surfaceContainerLow,
+      cardActiveBackgroundColor:
+          colorScheme.surface,
     );
   }
 
@@ -40,9 +53,25 @@ class STabsThemeData
   final Color
       unselectedLabelColor;
 
-  /// Background color of the tabs.
+  /// Background color of the tabs container.
   final Color
       backgroundColor;
+
+  /// Color of the dividers between tabs or sections.
+  final Color
+      dividerColor;
+
+  /// Color overlay for hover states.
+  final Color
+      hoverColor;
+
+  /// Background color for tabs in 'card' type when inactive.
+  final Color
+      cardBackgroundColor;
+
+  /// Background color for tabs in 'card' type when active.
+  final Color
+      cardActiveBackgroundColor;
 
   @override
   STabsThemeData
@@ -55,6 +84,14 @@ class STabsThemeData
         unselectedLabelColor,
     Color?
         backgroundColor,
+    Color?
+        dividerColor,
+    Color?
+        hoverColor,
+    Color?
+        cardBackgroundColor,
+    Color?
+        cardActiveBackgroundColor,
   }) {
     return STabsThemeData(
       indicatorColor:
@@ -65,6 +102,14 @@ class STabsThemeData
           unselectedLabelColor ?? this.unselectedLabelColor,
       backgroundColor:
           backgroundColor ?? this.backgroundColor,
+      dividerColor:
+          dividerColor ?? this.dividerColor,
+      hoverColor:
+          hoverColor ?? this.hoverColor,
+      cardBackgroundColor:
+          cardBackgroundColor ?? this.cardBackgroundColor,
+      cardActiveBackgroundColor:
+          cardActiveBackgroundColor ?? this.cardActiveBackgroundColor,
     );
   }
 
@@ -95,6 +140,22 @@ class STabsThemeData
           backgroundColor,
           other.backgroundColor,
           t)!,
+      dividerColor: Color.lerp(
+          dividerColor,
+          other.dividerColor,
+          t)!,
+      hoverColor: Color.lerp(
+          hoverColor,
+          other.hoverColor,
+          t)!,
+      cardBackgroundColor: Color.lerp(
+          cardBackgroundColor,
+          other.cardBackgroundColor,
+          t)!,
+      cardActiveBackgroundColor: Color.lerp(
+          cardActiveBackgroundColor,
+          other.cardActiveBackgroundColor,
+          t)!,
     );
   }
 }
@@ -105,10 +166,5 @@ extension STabsThemeExtension
   /// Retrieves the current [STabsThemeData].
   STabsThemeData get sTabsTheme =>
       extension<STabsThemeData>() ??
-      STabsThemeData(
-        indicatorColor: colorScheme.primary,
-        labelColor: colorScheme.primary,
-        unselectedLabelColor: colorScheme.onSurfaceVariant,
-        backgroundColor: colorScheme.surface,
-      );
+      STabsThemeData.fromColorScheme(colorScheme);
 }

@@ -1,11 +1,24 @@
-
 enum STabAnimationType {
   fade,
   slide,
   scale,
 }
 
-enum STabOrientation {
-  horizontal,
-  vertical,
+enum STabType {
+  line,
+  card,
+  editableCard,
+}
+
+enum STabPosition {
+  top,
+  right,
+  bottom,
+  left,
+}
+
+enum STabSize {
+  small,
+  medium,
+  large,
 }

@@ -56,9 +56,9 @@ export 'src/presentation/components/inputs/s_switch/s_switch.dart';
 export 'src/presentation/components/layout/s_card/s_card.dart';
 export 'src/presentation/components/layout/s_list_tile/s_list_tile.dart';
 export 'src/presentation/components/layout/s_list_tile/s_list_tile_group.dart';
-export 'src/presentation/components/layout/s_tabs/s_tab_list.dart';
+export 'src/presentation/components/layout/s_tabs/s_tab_nav_bar.dart';
 export 'src/presentation/components/layout/s_tabs/s_tabs.dart';
-export 'src/presentation/components/layout/s_tabs/s_tabs_content.dart';
+
 export 'src/presentation/components/overlays/s_bottom_sheet/s_floating_panel.dart';
 export 'src/presentation/components/overlays/s_bottom_sheet/s_floating_panel_config.dart';
 export 'src/presentation/themes/extensions/component_themes/s_button_theme.dart';
