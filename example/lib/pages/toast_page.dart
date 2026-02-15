@@ -59,7 +59,7 @@ class ToastPage
                     variant: SToastVariant.destructive,
                     action: SButton(
                       onPressed: () {},
-                      size: ButtonSize.sm,
+                      size: SButtonSize.sm,
                       child: const Text('action'),
                     ),
                   );

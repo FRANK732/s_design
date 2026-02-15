@@ -73,7 +73,7 @@ class ScaffoldPage
       floatingActionButtonConfig:
           FloatingActionButtonConfig(
         floatingActionButton: SButton(
-          variant: ButtonVariant.defaultVariant,
+          variant: SButtonVariant.defaultVariant,
           onPressed: () {},
           child: const Text('FAB'),
         ),

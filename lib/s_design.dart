@@ -35,6 +35,8 @@ export 'src/presentation/components/feedback/s_dialog/s_dialog.dart';
 export 'src/presentation/components/feedback/s_dialog/s_dialog_config.dart';
 export 'src/presentation/components/feedback/s_progress_bar/s_progress_bar.dart';
 export 'src/presentation/components/feedback/s_progress_bar/s_progress_bar_config.dart';
+export 'src/presentation/components/feedback/s_progress/s_progress.dart';
+export 'src/presentation/components/display/s_slider/s_slider.dart';
 export 'src/presentation/components/feedback/s_sonner/s_sonner.dart';
 export 'src/presentation/components/feedback/s_sonner/s_sonner_config.dart';
 export 'src/presentation/components/feedback/s_toaster/s_toaster.dart';
@@ -58,6 +60,8 @@ export 'src/presentation/components/layout/s_list_tile/s_list_tile.dart';
 export 'src/presentation/components/layout/s_list_tile/s_list_tile_group.dart';
 export 'src/presentation/components/layout/s_tabs/s_tab_nav_bar.dart';
 export 'src/presentation/components/layout/s_tabs/s_tabs.dart';
+export 'src/presentation/components/layout/s_tabs/s_tab_view.dart';
+export 'src/presentation/components/layout/s_tabs/s_sliver_tabs.dart';
 
 export 'src/presentation/components/overlays/s_bottom_sheet/s_floating_panel.dart';
 export 'src/presentation/components/overlays/s_bottom_sheet/s_floating_panel_config.dart';

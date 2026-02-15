@@ -74,42 +74,42 @@ class _ButtonPageState
                   child: const Text('Default'),
                 ),
                 SButton(
-                  variant: ButtonVariant.destructive,
+                  variant: SButtonVariant.destructive,
                   onPressed: () {
                     // Handle destructive button press
                   },
                   child: const Text('Destructive'),
                 ),
                 SButton(
-                  variant: ButtonVariant.secondary,
+                  variant: SButtonVariant.secondary,
                   onPressed: () {
                     // Handle secondary button press
                   },
                   child: const Text('Secondary'),
                 ),
                 SButton(
-                  variant: ButtonVariant.outline,
+                  variant: SButtonVariant.outline,
                   onPressed: () {
                     // Handle outline button press
                   },
                   child: const Text('Outline'),
                 ),
                 SButton(
-                  variant: ButtonVariant.destructiveOutline,
+                  variant: SButtonVariant.destructiveOutline,
                   onPressed: () {
                     // Handle destructive outline button press
                   },
                   child: const Text('Destructive Outline'),
                 ),
                 SButton(
-                  variant: ButtonVariant.ghost,
+                  variant: SButtonVariant.ghost,
                   onPressed: () {
                     // Handle ghost button press
                   },
                   child: const Text('Ghost'),
                 ),
                 SButton(
-                  variant: ButtonVariant.link,
+                  variant: SButtonVariant.link,
                   onPressed: () {
                     // Handle link button press
                   },
@@ -130,7 +130,7 @@ class _ButtonPageState
               runSpacing: 10,
               children: <Widget>[
                 SButton(
-                  size: ButtonSize.sm,
+                  size: SButtonSize.sm,
                   onPressed: () {},
                   child: const Text('Small'),
                 ),
@@ -139,12 +139,12 @@ class _ButtonPageState
                   child: const Text('Default'),
                 ),
                 SButton(
-                  size: ButtonSize.lg,
+                  size: SButtonSize.lg,
                   onPressed: () {},
                   child: const Text('Large'),
                 ),
                 SButton(
-                  size: ButtonSize.icon,
+                  size: SButtonSize.icon,
                   onPressed: () {},
                   icon: const Icon(Icons.thumb_up),
                   child: const Text('Icon'),
@@ -173,17 +173,17 @@ class _ButtonPageState
                   child: const Text('Loading'),
                 ),
                 SButton(
-                  state: ButtonState.enabled,
+                  state: SButtonState.enabled,
                   onPressed: () {},
                   child: const Text('Enabled'),
                 ),
                 SButton(
-                  state: ButtonState.disabled,
+                  state: SButtonState.disabled,
                   onPressed: () {},
                   child: const Text('Disabled'),
                 ),
                 SButton(
-                  state: _isEnabled ? ButtonState.enabled : ButtonState.disabled,
+                  state: _isEnabled ? SButtonState.enabled : SButtonState.disabled,
                   onPressed: _isEnabled ? () {} : null,
                   child: Text(_isEnabled ? 'Enabled' : 'Disabled'),
                 ),
@@ -211,19 +211,19 @@ class _ButtonPageState
                   child: const Text('Add'),
                 ),
                 SButton(
-                  variant: ButtonVariant.destructive,
+                  variant: SButtonVariant.destructive,
                   icon: const Icon(Icons.delete),
                   onPressed: () {},
                   child: const Text('Delete'),
                 ),
                 SButton(
-                  variant: ButtonVariant.secondary,
+                  variant: SButtonVariant.secondary,
                   icon: const Icon(Icons.edit),
                   onPressed: () {},
                   child: const Text('Edit'),
                 ),
                 SButton(
-                  size: ButtonSize.icon,
+                  size: SButtonSize.icon,
                   icon: const Icon(Icons.favorite),
                   onPressed: () {},
                 ),
@@ -250,7 +250,7 @@ class _ButtonPageState
                 SButton(
                   height: 60,
                   width: 200,
-                  variant: ButtonVariant.destructive,
+                  variant: SButtonVariant.destructive,
                   onPressed: () {},
                   child: const Text('Large Fixed'),
                 ),
@@ -344,7 +344,7 @@ class _ButtonPageState
             SButton(
               onPressed: () {},
               enableHapticFeedback: true,
-              variant: ButtonVariant.secondary,
+              variant: SButtonVariant.secondary,
               child: const Text('Press for Haptics'),
             ),
             const Divider(height: 40),
@@ -374,7 +374,7 @@ class _ButtonPageState
             SButton(
               onPressed: null, // Disabled
               disabledTooltip: 'Permission required to delete',
-              variant: ButtonVariant.destructive,
+              variant: SButtonVariant.destructive,
               child: const Text('Delete Account'),
             ),
             const SizedBox(height: 16),
@@ -382,7 +382,7 @@ class _ButtonPageState
             const SizedBox(height: 8),
             SButton(
               onPressed: () {},
-              variant: ButtonVariant.secondary,
+              variant: SButtonVariant.secondary,
               badge: const Text('3'),
               child: const Text('Inbox'),
             ),
@@ -392,7 +392,7 @@ class _ButtonPageState
             SButton(
               onPressed: _toggleEnabled, // Reusing toggle for demo
               isSelected: !_isEnabled, // Using !_isEnabled as selected state for demo
-              variant: ButtonVariant.outline,
+              variant: SButtonVariant.outline,
               child: Text(!_isEnabled ? 'Selected' : 'Not Selected'),
             ),
             const SizedBox(height: 16),

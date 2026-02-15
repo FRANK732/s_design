@@ -27,9 +27,9 @@ class SButtonContent
 
   final SButtonThemeData
       theme;
-  final ButtonVariant
+  final SButtonVariant
       variant;
-  final ButtonSize
+  final SButtonSize
       size;
   final bool
       loading;

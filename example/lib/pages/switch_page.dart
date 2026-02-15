@@ -1,25 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
 
-class SwitchPage extends StatefulWidget {
-  const SwitchPage({super.key});
+class SwitchPage
+    extends StatefulWidget {
+  const SwitchPage(
+      {super.key});
 
   @override
-  State<SwitchPage> createState() => _SwitchPageState();
+  State<SwitchPage>
+      createState() =>
+          _SwitchPageState();
 }
 
-class _SwitchPageState extends State<SwitchPage> {
-  bool _filledSwitch = false;
-  bool _outlinedSwitch = true;
-  bool _ghostSwitch = false;
+class _SwitchPageState
+    extends State<
+        SwitchPage> {
+  bool
+      _filledSwitch =
+      false;
+  bool
+      _outlinedSwitch =
+      true;
+  bool
+      _ghostSwitch =
+      false;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+      BuildContext
+          context) {
     return SScaffold(
-      appBar: AppBar(
+      appBar:
+          AppBar(
         title: const Text('SSwitch Showcase'),
       ),
-      renderBody: (BuildContext context) {
+      renderBody:
+          (BuildContext context) {
         return Padding(
           padding: const EdgeInsets.all(30.0),
           child: Column(
@@ -54,7 +70,7 @@ class _SwitchPageState extends State<SwitchPage> {
                         _outlinedSwitch = value;
                       });
                     },
-                    variant: SSwitchVariant.outlined,
+                    // variant: SSwitchVariant.outlined, // Deprecated
                     semanticLabel: 'Outlined Switch',
                   ),
                   const Text('Outlined Variant'),
@@ -72,7 +88,7 @@ class _SwitchPageState extends State<SwitchPage> {
                         _ghostSwitch = value;
                       });
                     },
-                    variant: SSwitchVariant.ghost,
+                    // variant: SSwitchVariant.ghost, // Deprecated
                     activeColor: Colors.transparent,
                     inactiveColor: Colors.transparent,
                     thumbColor: Colors.green,

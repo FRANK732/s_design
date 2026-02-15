@@ -18,6 +18,9 @@ enum SCardVariant {
 
   /// Glassmorphism style with blur and semi-transparency.
   frosted,
+
+  /// No border, no shadow.
+  borderless,
 }
 
 /// Position of the media widget within [SCard].
@@ -200,6 +203,8 @@ class SCard
     this.badgePosition =
         SCardBadgePosition.topRight,
     this.badgeOffset,
+    this.hoverable =
+        false,
   })  : assert(
           !(gradient != null && backgroundImage != null),
           'Cannot provide both gradient and backgroundImage.',
@@ -212,6 +217,10 @@ class SCard
           shadowStyle != SCardShadow.custom || customShadow != null,
           'customShadow must be provided when shadowStyle is SCardShadow.custom.',
         );
+
+  /// Whether the card can be hovered to lift up.
+  final bool
+      hoverable;
 
   // Core Content
   final String?
@@ -523,6 +532,9 @@ class _SCardState
       _controller;
   late Animation<double>
       _scaleAnimation;
+  bool
+      _isHovering =
+      false;
 
   @override
   void
@@ -576,24 +588,35 @@ class _SCardState
       _getShadows(SCardThemeData theme) {
     // No shadows for filled or outlined variants unless explicitly requested?
     // Actually, usually filled/outlined have no shadow. Elevated has shadow.
-    if (widget.variant == SCardVariant.filled ||
-        widget.variant == SCardVariant.outlined ||
-        widget.variant == SCardVariant.frosted) {
+    if (!widget.hoverable &&
+        (widget.variant == SCardVariant.filled || widget.variant == SCardVariant.outlined || widget.variant == SCardVariant.frosted || widget.variant == SCardVariant.borderless)) {
       return widget.additionalShadows ??
           [];
     }
 
+    // Borderless/Filled/Outlined usually don't have shadow unless hovered?
+    // Ant Design: Borderless = No border, no shadow.
+    // Outlined = Border, no shadow.
+    // Hoverable = Adds shadow on hover.
+
     final List<BoxShadow>
         shadows =
         <BoxShadow>[];
-    if (widget.shadowStyle != SCardShadow.none &&
+
+    // If hovering, show shadow even if variant usually doesn't have it (if hoverable is true)
+    // Actually Ant Design Card only lifts if hoverable is true.
+    final bool
+        showShadow =
+        (widget.shadowStyle != SCardShadow.none && widget.variant == SCardVariant.elevated) || (widget.hoverable && _isHovering);
+
+    if (showShadow &&
         !widget.isLoading) {
       shadows.add(
         widget.customShadow ??
             BoxShadow(
               color: widget.shadowColor ?? theme.shadowColor,
               offset: widget.shadowOffset ?? const Offset(0, 2),
-              blurRadius: widget.blurRadius ?? 4.0,
+              blurRadius: _isHovering && widget.hoverable ? (widget.hoverElevation ?? 8.0) : (widget.blurRadius ?? 4.0),
               spreadRadius: widget.spreadRadius ?? 0.0,
             ),
       );
@@ -623,16 +646,40 @@ class _SCardState
 
   Widget
       _buildLoader() {
-    return Container(
-      color:
-          Colors.white.withOpacity(0.5),
+    return Padding(
+      padding:
+          const EdgeInsets.all(16.0),
       child:
-          const Center(
-        child: SizedBox(
-          width: 24,
-          height: 24,
-          child: CircularProgressIndicator(strokeWidth: 2),
-        ),
+          Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(color: Colors.grey.shade200, shape: BoxShape.circle),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(height: 16, width: 150, color: Colors.grey.shade200),
+                    const SizedBox(height: 8),
+                    Container(height: 12, width: 100, color: Colors.grey.shade200),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          Container(height: 12, width: double.infinity, color: Colors.grey.shade200),
+          const SizedBox(height: 8),
+          Container(height: 12, width: double.infinity, color: Colors.grey.shade200),
+          const SizedBox(height: 8),
+          Container(height: 12, width: 200, color: Colors.grey.shade200),
+        ],
       ),
     );
   }
@@ -661,6 +708,8 @@ class _SCardState
         return theme.backgroundColor.withOpacity(theme.frostedOpacity);
       case SCardVariant.elevated:
         return theme.backgroundColor;
+      case SCardVariant.borderless:
+        return theme.backgroundColor; // Or transparent? Ant uses background for standard cards even if borderless
     }
   }
 
@@ -685,6 +734,9 @@ class _SCardState
       case SCardVariant.elevated:
       case SCardVariant.frosted:
         // Usually no border for these, or standard subtle border
+        // Usually no border for these, or standard subtle border
+        return Colors.transparent;
+      case SCardVariant.borderless:
         return Colors.transparent;
     }
   }
@@ -1023,7 +1075,12 @@ class _SCardState
                 },
           onLongPress: widget.isLoading ? null : widget.onLongPress,
           onDoubleTap: widget.isLoading ? null : widget.onDoubleTap,
-          onHover: widget.onHover,
+          onHover: (value) {
+            if (widget.hoverable) {
+              setState(() => _isHovering = value);
+            }
+            widget.onHover?.call(value);
+          },
           borderRadius: BorderRadius.circular(borderRadius),
           child: _buildContent(context, theme),
         ),
@@ -1083,5 +1140,115 @@ class _SCardState
     }
 
     return card;
+  }
+}
+
+class SCardMeta
+    extends StatelessWidget {
+  const SCardMeta({
+    super.key,
+    this.avatar,
+    this.title,
+    this.description,
+  });
+
+  final Widget?
+      avatar;
+  final Widget?
+      title;
+  final Widget?
+      description;
+
+  @override
+  Widget build(
+      BuildContext
+          context) {
+    return Row(
+      crossAxisAlignment:
+          CrossAxisAlignment.start,
+      children: [
+        if (avatar != null) ...[
+          avatar!,
+          const SizedBox(width: 16),
+        ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (title != null)
+                DefaultTextStyle(
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
+                  child: title!,
+                ),
+              if (description != null) ...[
+                if (title != null) const SizedBox(height: 8),
+                DefaultTextStyle(
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey.shade600),
+                  child: description!,
+                ),
+              ],
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class SCardGrid
+    extends StatelessWidget {
+  const SCardGrid({
+    super.key,
+    required this.children,
+    this.crossAxisCount =
+        3,
+    this.childAspectRatio =
+        1.0,
+    this.mainAxisSpacing =
+        0.0,
+    this.crossAxisSpacing =
+        0.0,
+    this.padding,
+  });
+
+  final List<Widget>
+      children;
+  final int
+      crossAxisCount;
+  final double
+      childAspectRatio;
+  final double
+      mainAxisSpacing;
+  final double
+      crossAxisSpacing;
+  final EdgeInsetsGeometry?
+      padding;
+
+  @override
+  Widget build(
+      BuildContext
+          context) {
+    // SCardGrid usually renders a grid of Cards with specific styling (often borderless inside grid)
+    // Ant Design Grid Card is actually just a Grid where each cell is a Card.
+    // We can use GridView for this.
+    return GridView
+        .count(
+      shrinkWrap:
+          true,
+      physics:
+          const NeverScrollableScrollPhysics(),
+      crossAxisCount:
+          crossAxisCount,
+      childAspectRatio:
+          childAspectRatio,
+      mainAxisSpacing:
+          mainAxisSpacing,
+      crossAxisSpacing:
+          crossAxisSpacing,
+      padding:
+          padding,
+      children:
+          children,
+    );
   }
 }

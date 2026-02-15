@@ -15,6 +15,7 @@ import 'pages/sonner_page.dart';
 import 'pages/sscaffold/base_scaffold.dart';
 import 'pages/switch_page.dart';
 import 'pages/tab_page.dart';
+import 'pages/tabs_demo_v3.dart';
 import 'pages/toast_page.dart';
 
 class AppRoutes {
@@ -96,6 +97,15 @@ class AppRoutes {
           '/tab_page',
       page: () =>
           const TabsPage(),
+      transition:
+          Transition.rightToLeft,
+    ),
+    GetPage<
+        dynamic>(
+      name:
+          '/tabs_demo_v3',
+      page: () =>
+          const TabsDemoV3Page(),
       transition:
           Transition.rightToLeft,
     ),

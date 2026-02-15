@@ -17,8 +17,13 @@ import 'pages/slider_page.dart';
 import 'pages/sonner_page.dart';
 import 'pages/sscaffold/base_scaffold.dart';
 import 'pages/switch_page.dart';
-import 'pages/tab_page.dart';
+// import 'pages/tab_page.dart';
+import 'pages/tabs_demo_v3.dart';
 import 'pages/toast_page.dart';
+import 'pages/progress_demo.dart';
+import 'pages/card_demo.dart';
+import 'pages/slider_demo.dart';
+import 'pages/switch_demo.dart';
 
 void
     main() {
@@ -152,7 +157,7 @@ class HomePage
           _buildListTile(context, 'List Tile', const ListTilePage(), Icons.list),
           _buildListTile(context, 'SScaffold', const BaseScaffoldPage(), Icons.web_asset),
           _buildSectionHeader('Navigation', colorScheme),
-          _buildListTile(context, 'Tabs', const TabsPage(), Icons.tab),
+          _buildListTile(context, 'Tabs', const TabsDemoV3Page(), Icons.tab),
           _buildListTile(context, 'Bottom Navigation', const BottomNavigationPage(), Icons.call_to_action),
           _buildSectionHeader('Feedback & Overlays', colorScheme),
           _buildListTile(context, 'Dialog / Modal', const DialogPage(), Icons.chat_bubble_outline),
@@ -160,7 +165,11 @@ class HomePage
           _buildListTile(context, 'Toast', const ToastPage(), Icons.announcement),
           _buildListTile(context, 'Sonner', const SonnerPage(), Icons.notifications_active),
           _buildListTile(context, 'Progress Indicator', const ProgressIndicatorPage(), Icons.refresh),
-          _buildListTile(context, 'SProgressBar (New)', const ModernExamplePage(), Icons.linear_scale),
+          _buildListTile(context, 'SProgressBar (Old)', const ModernExamplePage(), Icons.linear_scale),
+          _buildListTile(context, 'SProgress (New)', const SProgressDemoPage(), Icons.pie_chart),
+          _buildListTile(context, 'SCard (Ant Design)', const SCardDemoPage(), Icons.chrome_reader_mode),
+          _buildListTile(context, 'SSlider (Ant Design)', const SSliderDemoPage(), Icons.tune),
+          _buildListTile(context, 'SSwitch (Ant Design)', const SSwitchDemoPage(), Icons.toggle_on),
         ],
       ),
     );

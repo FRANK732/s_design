@@ -35,9 +35,9 @@ class STabsThemeData
       hoverColor:
           colorScheme.surfaceContainerHighest.withOpacity(0.3),
       cardBackgroundColor:
-          colorScheme.surfaceContainerLow,
+          colorScheme.surfaceContainerLow, // Usually a light gray in light mode
       cardActiveBackgroundColor:
-          colorScheme.surface,
+          colorScheme.surface, // Usually white in light mode
     );
   }
 

@@ -11,7 +11,7 @@ class SButtonStyleHelper {
       getBackgroundColor({
     required SButtonThemeData
         theme,
-    required ButtonVariant
+    required SButtonVariant
         variant,
     required bool
         isDisabled,
@@ -23,17 +23,17 @@ class SButtonStyleHelper {
 
     switch (
         variant) {
-      case ButtonVariant.defaultVariant:
+      case SButtonVariant.defaultVariant:
         return isDisabled ? Colors.grey.shade400 : theme.defaultBackgroundColor;
-      case ButtonVariant.destructive:
+      case SButtonVariant.destructive:
         return isDisabled ? Colors.grey.shade400 : Colors.red;
-      case ButtonVariant.secondary:
+      case SButtonVariant.secondary:
         return isDisabled ? Colors.grey.shade400 : Colors.grey.shade400;
-      case ButtonVariant.ghost:
-      case ButtonVariant.link:
+      case SButtonVariant.ghost:
+      case SButtonVariant.link:
         return Colors.transparent;
-      case ButtonVariant.outline:
-      case ButtonVariant.destructiveOutline:
+      case SButtonVariant.outline:
+      case SButtonVariant.destructiveOutline:
         return Colors.transparent;
     }
   }
@@ -43,7 +43,7 @@ class SButtonStyleHelper {
       getForegroundColor({
     required SButtonThemeData
         theme,
-    required ButtonVariant
+    required SButtonVariant
         variant,
     required bool
         isDisabled,
@@ -51,9 +51,9 @@ class SButtonStyleHelper {
     if (_isOutlineVariant(
         variant)) {
       switch (variant) {
-        case ButtonVariant.outline:
+        case SButtonVariant.outline:
           return isDisabled ? Colors.grey : theme.outlineForegroundColor;
-        case ButtonVariant.destructiveOutline:
+        case SButtonVariant.destructiveOutline:
           return isDisabled ? Colors.grey : Colors.red;
         default:
           return theme.outlineForegroundColor;
@@ -62,16 +62,16 @@ class SButtonStyleHelper {
 
     switch (
         variant) {
-      case ButtonVariant.defaultVariant:
-      case ButtonVariant.destructive:
-      case ButtonVariant.secondary:
+      case SButtonVariant.defaultVariant:
+      case SButtonVariant.destructive:
+      case SButtonVariant.secondary:
         return theme.defaultForegroundColor;
-      case ButtonVariant.ghost:
+      case SButtonVariant.ghost:
         return isDisabled ? Colors.grey : theme.ghostForegroundColor;
-      case ButtonVariant.link:
+      case SButtonVariant.link:
         return isDisabled ? Colors.grey : theme.linkForegroundColor;
-      case ButtonVariant.outline:
-      case ButtonVariant.destructiveOutline:
+      case SButtonVariant.outline:
+      case SButtonVariant.destructiveOutline:
         return isDisabled ? Colors.grey : theme.outlineForegroundColor;
     }
   }
@@ -81,7 +81,7 @@ class SButtonStyleHelper {
       getBorderSide({
     required SButtonThemeData
         theme,
-    required ButtonVariant
+    required SButtonVariant
         variant,
     required bool
         isDisabled,
@@ -89,11 +89,11 @@ class SButtonStyleHelper {
     if (_isOutlineVariant(
         variant)) {
       switch (variant) {
-        case ButtonVariant.outline:
+        case SButtonVariant.outline:
           return BorderSide(
             color: isDisabled ? Colors.grey : theme.outlineBorderColor,
           );
-        case ButtonVariant.destructiveOutline:
+        case SButtonVariant.destructiveOutline:
           return BorderSide(
             color: isDisabled ? Colors.grey : Colors.red,
           );
@@ -106,41 +106,41 @@ class SButtonStyleHelper {
 
   /// Gets padding for the given size
   static EdgeInsetsGeometry
-      getPaddingForSize(ButtonSize size) {
+      getPaddingForSize(SButtonSize size) {
     switch (
         size) {
-      case ButtonSize.defaultSize:
+      case SButtonSize.defaultSize:
         return const EdgeInsets.symmetric(
           horizontal: DesignConstants.buttonPaddingHorizontalDefault,
           vertical: DesignConstants.buttonPaddingVerticalDefault,
         );
-      case ButtonSize.sm:
+      case SButtonSize.sm:
         return const EdgeInsets.symmetric(
           horizontal: DesignConstants.buttonPaddingHorizontalSm,
           vertical: DesignConstants.buttonPaddingVerticalSm,
         );
-      case ButtonSize.lg:
+      case SButtonSize.lg:
         return const EdgeInsets.symmetric(
           horizontal: DesignConstants.buttonPaddingHorizontalLg,
           vertical: DesignConstants.buttonPaddingVerticalLg,
         );
-      case ButtonSize.icon:
+      case SButtonSize.icon:
         return const EdgeInsets.all(DesignConstants.buttonPaddingIcon);
     }
   }
 
   /// Gets loader size based on button size
   static double
-      getLoaderSize(ButtonSize size) {
+      getLoaderSize(SButtonSize size) {
     switch (
         size) {
-      case ButtonSize.sm:
+      case SButtonSize.sm:
         return DesignConstants.loaderSizeSm;
-      case ButtonSize.defaultSize:
+      case SButtonSize.defaultSize:
         return DesignConstants.loaderSizeDefault;
-      case ButtonSize.lg:
+      case SButtonSize.lg:
         return DesignConstants.loaderSizeLg;
-      case ButtonSize.icon:
+      case SButtonSize.icon:
         return DesignConstants.loaderSizeDefault;
     }
   }
@@ -150,17 +150,17 @@ class SButtonStyleHelper {
       getLoaderColor({
     required SButtonThemeData
         theme,
-    required ButtonVariant
+    required SButtonVariant
         variant,
   }) {
     switch (
         variant) {
-      case ButtonVariant.destructive:
-      case ButtonVariant.destructiveOutline:
+      case SButtonVariant.destructive:
+      case SButtonVariant.destructiveOutline:
         return Colors.white;
-      case ButtonVariant.secondary:
+      case SButtonVariant.secondary:
         return Colors.black;
-      case ButtonVariant.link:
+      case SButtonVariant.link:
         return theme.linkForegroundColor;
       default:
         return theme.defaultForegroundColor;
@@ -169,9 +169,9 @@ class SButtonStyleHelper {
 
   /// Checks if variant is outline
   static bool
-      _isOutlineVariant(ButtonVariant variant) {
-    return variant == ButtonVariant.outline ||
-        variant == ButtonVariant.destructiveOutline;
+      _isOutlineVariant(SButtonVariant variant) {
+    return variant == SButtonVariant.outline ||
+        variant == SButtonVariant.destructiveOutline;
   }
 
   /// Creates button style
@@ -179,7 +179,7 @@ class SButtonStyleHelper {
       getButtonStyle({
     required SButtonThemeData
         theme,
-    required ButtonVariant
+    required SButtonVariant
         variant,
     required bool
         isDisabled,
@@ -262,7 +262,7 @@ class SButtonStyleHelper {
   /// Builds the appropriate button widget based on variant
   static Widget
       createButtonWidget({
-    required ButtonVariant
+    required SButtonVariant
         variant,
     required Widget
         content,
@@ -279,9 +279,9 @@ class SButtonStyleHelper {
   }) {
     switch (
         variant) {
-      case ButtonVariant.defaultVariant:
-      case ButtonVariant.destructive:
-      case ButtonVariant.secondary:
+      case SButtonVariant.defaultVariant:
+      case SButtonVariant.destructive:
+      case SButtonVariant.secondary:
         return ElevatedButton(
           onPressed: onPressed,
           onLongPress: onLongPress,
@@ -290,8 +290,8 @@ class SButtonStyleHelper {
           autofocus: autofocus,
           child: content,
         );
-      case ButtonVariant.outline:
-      case ButtonVariant.destructiveOutline:
+      case SButtonVariant.outline:
+      case SButtonVariant.destructiveOutline:
         return OutlinedButton(
           onPressed: onPressed,
           onLongPress: onLongPress,
@@ -300,8 +300,8 @@ class SButtonStyleHelper {
           autofocus: autofocus,
           child: content,
         );
-      case ButtonVariant.ghost:
-      case ButtonVariant.link:
+      case SButtonVariant.ghost:
+      case SButtonVariant.link:
         return TextButton(
           onPressed: onPressed,
           onLongPress: onLongPress,

@@ -19,9 +19,9 @@ class SButton
   const SButton({
     super.key,
     this.variant =
-        ButtonVariant.defaultVariant,
+        SButtonVariant.defaultVariant,
     this.size =
-        ButtonSize.defaultSize,
+        SButtonSize.defaultSize,
     this.state,
     this.icon,
     this.backgroundColor,
@@ -67,9 +67,9 @@ class SButton
         icon,
     Widget?
         label,
-    ButtonVariant variant =
-        ButtonVariant.defaultVariant,
-    ButtonState?
+    SButtonVariant variant =
+        SButtonVariant.defaultVariant,
+    SButtonState?
         state,
     Color?
         backgroundColor,
@@ -132,7 +132,7 @@ class SButton
       variant:
           variant,
       size:
-          ButtonSize.icon,
+          SButtonSize.icon,
       state:
           state,
       icon:
@@ -197,11 +197,11 @@ class SButton
   }
 
   // Configuration from domain layer
-  final ButtonVariant
+  final SButtonVariant
       variant;
-  final ButtonSize
+  final SButtonSize
       size;
-  final ButtonState?
+  final SButtonState?
       state;
 
   /// Whether the button should stretch to fill the available width.
@@ -534,7 +534,7 @@ class _SButtonState
   /// Determines if button is disabled
   bool
       _isDisabled() {
-    return (widget.state == ButtonState.disabled) ||
+    return (widget.state == SButtonState.disabled) ||
         widget.loading ||
         widget.onPressed == null;
   }

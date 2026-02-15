@@ -2,8 +2,12 @@
 ///
 /// This is a pure data model with no dependencies on Flutter or presentation concerns.
 /// Following clean architecture, this entity lives in the domain layer.
-class ButtonConfigEntity {
-  const ButtonConfigEntity({
+/// Domain entity representing button configuration.
+///
+/// This is a pure data model with no dependencies on Flutter or presentation concerns.
+/// Following clean architecture, this entity lives in the domain layer.
+class SButtonConfig {
+  const SButtonConfig({
     required this.variant,
     required this.size,
     this.state,
@@ -30,15 +34,15 @@ class ButtonConfigEntity {
   });
 
   /// The variant of the button (default, destructive, outline, etc.)
-  final ButtonVariant
+  final SButtonVariant
       variant;
 
   /// The size of the button (defaultSize, sm, lg, icon)
-  final ButtonSize
+  final SButtonSize
       size;
 
   /// The current state of the button (enabled, disabled, loading)
-  final ButtonState?
+  final SButtonState?
       state;
 
   /// Whether to show a loading indicator
@@ -54,7 +58,7 @@ class ButtonConfigEntity {
       width;
 
   /// Custom padding values (left, top, right, bottom)
-  final ButtonEdgeInsets?
+  final SButtonEdgeInsets?
       padding;
 
   /// Border radius value
@@ -66,7 +70,7 @@ class ButtonConfigEntity {
       elevation;
 
   /// Shadow color configuration
-  final ColorConfig?
+  final SColorConfig?
       shadowColor;
 
   /// Whether button should automatically gain focus
@@ -102,13 +106,13 @@ class ButtonConfigEntity {
       isSelected;
 
   /// Creates a copy with modified properties
-  ButtonConfigEntity
+  SButtonConfig
       copyWith({
-    ButtonVariant?
+    SButtonVariant?
         variant,
-    ButtonSize?
+    SButtonSize?
         size,
-    ButtonState?
+    SButtonState?
         state,
     bool?
         isLoading,
@@ -116,13 +120,13 @@ class ButtonConfigEntity {
         height,
     double?
         width,
-    ButtonEdgeInsets?
+    SButtonEdgeInsets?
         padding,
     double?
         borderRadius,
     double?
         elevation,
-    ColorConfig?
+    SColorConfig?
         shadowColor,
     bool?
         autofocus,
@@ -141,7 +145,7 @@ class ButtonConfigEntity {
     bool?
         isSelected,
   }) {
-    return ButtonConfigEntity(
+    return SButtonConfig(
       variant:
           variant ?? this.variant,
       size:
@@ -183,8 +187,8 @@ class ButtonConfigEntity {
 }
 
 /// Pure data model for color configuration
-class ColorConfig {
-  const ColorConfig({
+class SColorConfig {
+  const SColorConfig({
     required this.red,
     required this.green,
     required this.blue,
@@ -203,15 +207,15 @@ class ColorConfig {
 }
 
 /// Pure data model for edge insets
-class ButtonEdgeInsets {
-  const ButtonEdgeInsets({
+class SButtonEdgeInsets {
+  const SButtonEdgeInsets({
     required this.left,
     required this.top,
     required this.right,
     required this.bottom,
   });
 
-  const ButtonEdgeInsets.all(
+  const SButtonEdgeInsets.all(
       double
           value)
       : left = value,
@@ -219,7 +223,7 @@ class ButtonEdgeInsets {
         right = value,
         bottom = value;
 
-  const ButtonEdgeInsets.symmetric({
+  const SButtonEdgeInsets.symmetric({
     double horizontal =
         0,
     double vertical =
@@ -240,7 +244,7 @@ class ButtonEdgeInsets {
 }
 
 /// Button variant enum - domain layer
-enum ButtonVariant {
+enum SButtonVariant {
   defaultVariant,
   destructive,
   destructiveOutline,
@@ -251,7 +255,7 @@ enum ButtonVariant {
 }
 
 /// Button size enum - domain layer
-enum ButtonSize {
+enum SButtonSize {
   defaultSize,
   sm,
   lg,
@@ -259,7 +263,7 @@ enum ButtonSize {
 }
 
 /// Button state enum - domain layer
-enum ButtonState {
+enum SButtonState {
   enabled,
   disabled,
   loading,

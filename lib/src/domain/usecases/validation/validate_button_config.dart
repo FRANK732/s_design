@@ -10,7 +10,7 @@ class ValidateButtonConfig {
   /// Returns a [ValidationResult] indicating whether the config is valid
   /// and any validation messages.
   ValidationResult
-      validate(ButtonConfigEntity config) {
+      validate(SButtonConfig config) {
     final List<String>
         errors =
         <String>[];
@@ -55,7 +55,8 @@ class ValidateButtonConfig {
     // Validate color if present
     if (config.shadowColor !=
         null) {
-      final ColorConfig color =
+      final SColorConfig
+          color =
           config.shadowColor!;
       if (color.red < 0 ||
           color.red > 255 ||
@@ -70,13 +71,13 @@ class ValidateButtonConfig {
     }
 
     // Warnings for design consistency
-    if (config.variant == ButtonVariant.destructive &&
-        config.size == ButtonSize.icon) {
+    if (config.variant == SButtonVariant.destructive &&
+        config.size == SButtonSize.icon) {
       warnings.add('Icon-sized destructive buttons may be too small for user safety');
     }
 
     if (config.isLoading &&
-        config.state == ButtonState.disabled) {
+        config.state == SButtonState.disabled) {
       warnings.add('Loading state may conflict with disabled state');
     }
 
@@ -112,7 +113,8 @@ class ValidationResult {
   @override
   String
       toString() {
-    final StringBuffer buffer =
+    final StringBuffer
+        buffer =
         StringBuffer();
     buffer
         .writeln('Valid: $isValid');

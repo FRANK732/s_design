@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'dart:ui'
+    as ui;
 import '../../../../../s_design.dart';
 
 class STabNavBar
@@ -19,6 +22,7 @@ class STabNavBar
     this.centered =
         false,
     this.onClose,
+    this.controller,
   });
 
   final List<STabItem>
@@ -45,6 +49,8 @@ class STabNavBar
   final void
           Function(String key)?
       onClose;
+  final TabController?
+      controller;
 
   @override
   State<STabNavBar>
@@ -96,13 +102,18 @@ class _STabNavBarState
       duration:
           const Duration(milliseconds: 300),
     );
-    _indicatorAnimation =
-        CurvedAnimation(
-      parent:
-          _indicatorController,
-      curve:
-          Curves.easeInOut,
-    );
+
+    if (widget.controller !=
+        null) {
+      _indicatorAnimation =
+          widget.controller!.animation!;
+    } else {
+      _indicatorAnimation =
+          CurvedAnimation(
+        parent: _indicatorController,
+        curve: Curves.easeInOut,
+      );
+    }
 
     _indicatorController
         .addListener(() {
@@ -110,6 +121,8 @@ class _STabNavBarState
         // Re-render to animate indicator
       });
     });
+
+    _attachExternalListener();
 
     // Initialize keys
     for (var item
@@ -162,6 +175,12 @@ class _STabNavBarState
       WidgetsBinding.instance.addPostFrameCallback((_) =>
           _updateIndicator());
     }
+
+    if (widget.controller !=
+        oldWidget.controller) {
+      _detachExternalListener();
+      _attachExternalListener();
+    }
   }
 
   @override
@@ -173,6 +192,29 @@ class _STabNavBarState
         .dispose();
     super
         .dispose();
+  }
+
+  VoidCallback?
+      _currentListener;
+
+  void
+      _attachExternalListener() {
+    if (widget.controller !=
+        null) {
+      _currentListener =
+          () => setState(() {});
+      widget.controller!.animation?.addListener(_currentListener!);
+    }
+  }
+
+  void
+      _detachExternalListener() {
+    if (widget.controller != null &&
+        _currentListener != null) {
+      widget.controller!.animation?.removeListener(_currentListener!);
+      _currentListener =
+          null;
+    }
   }
 
   void
@@ -237,13 +279,118 @@ class _STabNavBarState
   Rect?
       get _currentAnimatedRect {
     if (_indicatorRect == null ||
-        _targetIndicatorRect == null)
+        _targetIndicatorRect == null) {
       return _indicatorRect ??
           _targetIndicatorRect;
+    }
+
+    // If using TabController, calculate rect based on animation value
+    if (widget.controller !=
+        null) {
+      final double
+          value =
+          _indicatorAnimation.value;
+
+      // Find the two indices we are between
+      final int
+          leftIndex =
+          value.floor();
+      final int
+          rightIndex =
+          value.ceil();
+
+      if (leftIndex < 0 ||
+          rightIndex >= widget.items.length)
+        return null;
+
+      final leftKey =
+          widget.items[leftIndex].key;
+      final rightKey =
+          widget.items[rightIndex].key;
+
+      final leftRect =
+          _getTabRect(leftKey);
+      final rightRect =
+          _getTabRect(rightKey);
+
+      if (leftRect == null ||
+          rightRect == null)
+        return null;
+
+      final double
+          t =
+          value - leftIndex;
+
+      // Worm Effect Calculation
+      // Leading edge moves faster (easeOut), Trailing edge moves slower (easeIn)
+      // This creates a stretch effect during movement
+
+      final double
+          leftT =
+          Curves.easeInCubic.transform(t);
+      final double
+          rightT =
+          Curves.easeOutCubic.transform(t);
+
+      final double
+          newLeft =
+          ui.lerpDouble(leftRect.left, rightRect.left, leftT)!;
+      final double
+          newRight =
+          ui.lerpDouble(leftRect.right, rightRect.right, rightT)!;
+      final double
+          newTop =
+          ui.lerpDouble(leftRect.top, rightRect.top, t)!;
+      final double
+          newBottom =
+          ui.lerpDouble(leftRect.bottom, rightRect.bottom, t)!;
+
+      return Rect.fromLTRB(
+          newLeft,
+          newTop,
+          newRight,
+          newBottom);
+    }
+
     return Rect.lerp(
         _indicatorRect,
         _targetIndicatorRect,
         _indicatorAnimation.value);
+  }
+
+  Rect? _getTabRect(
+      String
+          key) {
+    if (widget.type !=
+        STabType.line)
+      return null;
+
+    final barRenderObject = _barKey
+        .currentContext
+        ?.findRenderObject() as RenderBox?;
+    final activeTabKey =
+        _tabKeys[key];
+    final activeRenderObject = activeTabKey
+        ?.currentContext
+        ?.findRenderObject() as RenderBox?;
+
+    if (barRenderObject != null &&
+        activeRenderObject != null) {
+      final barOffset =
+          barRenderObject.localToGlobal(Offset.zero);
+      final tabOffset =
+          activeRenderObject.localToGlobal(Offset.zero);
+      final relativeOffset =
+          tabOffset - barOffset;
+
+      return Rect.fromLTWH(
+        relativeOffset.dx,
+        relativeOffset.dy,
+        activeRenderObject.size.width,
+        activeRenderObject.size.height,
+      );
+    }
+    return null;
   }
 
   @override
@@ -283,6 +430,7 @@ class _STabNavBarState
             child: SingleChildScrollView(
               controller: _scrollController,
               scrollDirection: isVertical ? Axis.vertical : Axis.horizontal,
+              physics: const BouncingScrollPhysics(),
               child: Stack(
                 children: [
                   Flex(
@@ -296,9 +444,10 @@ class _STabNavBarState
                   // Sliding Indicator for Line Type
                   if (widget.type == STabType.line && _currentAnimatedRect != null)
                     Positioned(
-                      left: isVertical ? null : _currentAnimatedRect!.left,
+                      left: isVertical ? (widget.tabPosition == STabPosition.right ? 0 : null) : _currentAnimatedRect!.left,
+                      right: isVertical ? (widget.tabPosition == STabPosition.left ? 0 : null) : null,
                       top: isVertical ? _currentAnimatedRect!.top : null,
-                      bottom: 0,
+                      bottom: isVertical ? null : 0,
                       width: isVertical ? 2 : _currentAnimatedRect!.width,
                       height: isVertical ? _currentAnimatedRect!.height : 2,
                       child: Container(
@@ -369,7 +518,7 @@ class _STabNavBarState
         isActive) {
       border =
           Border(
-        top: BorderSide(color: theme.dividerColor),
+        top: BorderSide(color: theme.indicatorColor, width: 2), // Ant Design style: Colored top strip
         left: BorderSide(color: theme.dividerColor),
         right: BorderSide(color: theme.dividerColor),
         bottom: BorderSide.none, // Open at bottom to merge with content
@@ -391,11 +540,19 @@ class _STabNavBarState
     }
 
     return GestureDetector(
-      key:
-          _tabKeys[item.key],
       onTap: item.disabled
           ? null
-          : () => widget.onTabClick(item.key),
+          : () {
+              HapticFeedback.selectionClick();
+              HapticFeedback.selectionClick();
+              if (widget.controller != null) {
+                final index = widget.items.indexOf(item);
+                if (index != -1) {
+                  widget.controller!.animateTo(index);
+                }
+              }
+              widget.onTabClick(item.key);
+            },
       child:
           MouseRegion(
         cursor: item.disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
@@ -408,6 +565,7 @@ class _STabNavBarState
             borderRadius: isCard ? const BorderRadius.vertical(top: Radius.circular(6)) : null,
           ),
           child: Row(
+            key: _tabKeys[item.key],
             mainAxisSize: MainAxisSize.min,
             children: [
               if (item.icon != null) ...[

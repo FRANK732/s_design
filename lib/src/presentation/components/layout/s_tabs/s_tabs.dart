@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../../s_design.dart';
+import 's_tab_nav_bar.dart';
+import 's_tab_view.dart';
 
 class STabs
     extends StatefulWidget {
@@ -23,53 +25,29 @@ class STabs
         false,
   });
 
-  /// The list of tabs.
   final List<STabItem>
       items;
-
-  /// The key of the currently active tab.
-  /// If provided, this component is controlled.
   final String?
       activeKey;
-
-  /// The key of the initially active tab.
-  /// Only used if [activeKey] is null.
   final String?
       defaultActiveKey;
-
-  /// The type of tabs to render.
   final STabType
       type;
-
-  /// The position of the tabs relative to the content.
   final STabPosition
       tabPosition;
-
-  /// The size of the tabs.
   final STabSize
       size;
-
-  /// Optional content to render in the tab bar.
   final Widget?
       tabBarExtraContent;
-
-  /// Callback when a tab is clicked.
   final ValueChanged<String>?
       onTabClick;
-
-  /// Callback for add/remove actions.
-  /// action: 'add' or 'remove'
   final void Function(
       String?
           key,
       String
           action)? onEdit;
-
-  /// Whether to center the tabs.
   final bool
       centered;
-
-  /// Whether to hide the add button in editable-card mode.
   final bool
       hideAdd;
 
@@ -81,14 +59,15 @@ class STabs
 
 class _STabsState
     extends State<
-        STabs> {
+        STabs>
+    with
+        TickerProviderStateMixin {
   late String
       _activeKey;
-  late PageController
-      _pageController;
-  bool
-      _isSyncing =
-      false; // Prevent circular updates between PageView and TabBar
+  TabController?
+      _controller;
+  int _currentIndex =
+      0;
 
   @override
   void
@@ -98,13 +77,29 @@ class _STabsState
     _activeKey = widget.activeKey ??
         widget.defaultActiveKey ??
         (widget.items.isNotEmpty ? widget.items.first.key : '');
+    _initController();
+  }
 
-    // Find initial index
+  void
+      _initController() {
     final initialIndex = widget.items.indexWhere((item) =>
         item.key ==
         _activeKey);
-    _pageController =
-        PageController(initialPage: initialIndex != -1 ? initialIndex : 0);
+    _currentIndex = initialIndex != -1
+        ? initialIndex
+        : 0;
+
+    _controller =
+        TabController(
+      length:
+          widget.items.length,
+      vsync:
+          this,
+      initialIndex:
+          _currentIndex,
+    );
+    _controller!
+        .addListener(_handleTabSelection);
   }
 
   @override
@@ -113,13 +108,24 @@ class _STabsState
           oldWidget) {
     super.didUpdateWidget(
         oldWidget);
-    if (widget.activeKey != null &&
+
+    // If items changed, we need a new controller
+    if (widget.items.length !=
+        oldWidget
+            .items.length) {
+      _controller?.dispose();
+      _initController();
+    } else if (widget.activeKey != null &&
         widget.activeKey != _activeKey) {
-      if (!_isSyncing) {
-        setState(() {
-          _activeKey = widget.activeKey!;
-        });
-        _syncPageController();
+      // External update to activeKey
+      _activeKey =
+          widget.activeKey!;
+      final index = widget.items.indexWhere((item) =>
+          item.key ==
+          _activeKey);
+      if (index != -1 &&
+          index != _controller!.index) {
+        _controller!.animateTo(index);
       }
     }
   }
@@ -127,65 +133,34 @@ class _STabsState
   @override
   void
       dispose() {
-    _pageController
-        .dispose();
+    _controller
+        ?.dispose();
     super
         .dispose();
   }
 
   void
-      _syncPageController() {
-    final index = widget.items.indexWhere((item) =>
-        item.key ==
-        _activeKey);
-    if (index != -1 &&
-        _pageController.hasClients &&
-        _pageController.page?.round() != index) {
-      _pageController.animateToPage(
-        index,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    }
-  }
-
-  void _handleTabClick(
-      String
-          key) {
-    if (key ==
-        _activeKey)
+      _handleTabSelection() {
+    if (_controller ==
+        null)
       return;
 
-    setState(
-        () {
-      _activeKey =
-          key;
-    });
-
-    // Sync PageView
-    _syncPageController();
-
-    // Notify parent
-    widget
-        .onTabClick
-        ?.call(key);
-  }
-
-  void _handlePageChanged(
-      int index) {
-    if (index >= 0 &&
-        index < widget.items.length) {
-      final key =
-          widget.items[index].key;
-      if (key !=
-          _activeKey) {
-        _isSyncing = true;
-        setState(() {
-          _activeKey = key;
-        });
-        widget.onTabClick?.call(key);
-        // Small delay to release sync lock
-        Future.delayed(const Duration(milliseconds: 50), () => _isSyncing = false);
+    final newIndex =
+        _controller!.index;
+    if (newIndex !=
+        _currentIndex) {
+      // Tab changed
+      _currentIndex =
+          newIndex;
+      if (newIndex >= 0 &&
+          newIndex < widget.items.length) {
+        final key = widget.items[newIndex].key;
+        if (key != _activeKey) {
+          setState(() {
+            _activeKey = key;
+          });
+          widget.onTabClick?.call(key);
+        }
       }
     }
   }
@@ -212,7 +187,7 @@ class _STabsState
   Widget build(
       BuildContext
           context) {
-    // Determine layout direction based on tabPosition
+    // Determine layout direction
     final bool
         isVertical =
         widget.tabPosition == STabPosition.left || widget.tabPosition == STabPosition.right;
@@ -225,12 +200,17 @@ class _STabsState
 
     final navBar =
         STabNavBar(
+      controller:
+          _controller,
       items:
           widget.items,
       activeKey:
           _activeKey,
       onTabClick:
-          _handleTabClick,
+          (key) {
+        // Handled by controller listener mostly, but we trigger callback
+        // The nav bar click will drive the controller
+      },
       onEdit: widget.hideAdd
           ? null
           : _handleEdit,
@@ -251,17 +231,9 @@ class _STabsState
     final content =
         Expanded(
       child:
-          PageView(
-        controller: _pageController,
-        scrollDirection: isVertical ? Axis.vertical : Axis.horizontal,
-        physics: const BouncingScrollPhysics(), // Mobile-friendly physics
-        onPageChanged: _handlePageChanged,
-        children: widget.items.map((item) {
-          return Container(
-            padding: const EdgeInsets.all(16),
-            child: item.content, // Consider wrapping in KeepAlive if needed
-          );
-        }).toList(),
+          STabView(
+        controller: _controller,
+        children: widget.items.map((item) => item.content).toList(),
       ),
     );
 

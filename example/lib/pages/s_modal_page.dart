@@ -67,7 +67,7 @@ class _DialogPageState
                     // Action buttons at bottom-right
                     actions: <Widget>[
                       SButton(
-                        variant: ButtonVariant.secondary,
+                        variant: SButtonVariant.secondary,
                         onPressed: () {
                           Navigator.of(context).pop();
                         },

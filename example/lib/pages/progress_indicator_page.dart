@@ -105,9 +105,9 @@ class _ProgressIndicatorPageState
               ),
               const SizedBox(height: 16),
               SButton(
-                size: ButtonSize.sm,
-                variant: _progressValue != 100 ? ButtonVariant.defaultVariant : ButtonVariant.destructiveOutline,
-                state: _disable ? ButtonState.disabled : null,
+                size: SButtonSize.sm,
+                variant: _progressValue != 100 ? SButtonVariant.defaultVariant : SButtonVariant.destructiveOutline,
+                state: _disable ? SButtonState.disabled : null,
                 onPressed: () {
                   _updateProgress();
                 },
