@@ -34,6 +34,8 @@ class _DatePickerPageState
       _presetRangeStart;
   DateTime?
       _presetRangeEnd;
+  DateTime?
+      _customDate;
 
   @override
   Widget build(
@@ -152,6 +154,7 @@ class _DatePickerPageState
             _buildSection(
               'Custom Styling',
               SDatePicker(
+                value: _customDate,
                 placeholder: 'Custom Theme',
                 style: SDatePickerStyle(
                   inputDecoration: BoxDecoration(
@@ -193,7 +196,7 @@ class _DatePickerPageState
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                onChange: (date) {},
+                onChange: (date) => setState(() => _customDate = date),
               ),
             ),
           ],

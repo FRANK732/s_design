@@ -7,6 +7,7 @@ import 'pages/card_demo.dart';
 import 'pages/check_box.dart';
 import 'pages/date_picker_page.dart';
 import 'pages/dropdown_menu.dart';
+import 'pages/input_demo_page.dart';
 import 'pages/inputs_page.dart';
 import 'pages/list_tile_page.dart';
 import 'pages/progress_demo.dart';
@@ -24,8 +25,10 @@ import 'pages/steps_page.dart';
 import 'pages/switch_demo.dart';
 import 'pages/switch_page.dart';
 // import 'pages/tab_page.dart';
+import 'pages/rate_demo_page.dart';
 import 'pages/tabs_demo_v3.dart';
 import 'pages/toast_page.dart';
+import 'pages/qrcode_demo_page.dart';
 
 void
     main() {
@@ -174,6 +177,9 @@ class HomePage
           _buildListTile(context, 'SSwitch (Ant Design)', const SSwitchDemoPage(), Icons.toggle_on),
           _buildListTile(context, 'SSteps (Ant Design)', const StepsPage(), Icons.format_list_numbered),
           _buildListTile(context, 'SDatePicker (Ant Design)', const DatePickerPage(), Icons.calendar_today),
+          _buildListTile(context, 'SRate (Ant Design)', const RatePage(), Icons.star_rate_rounded),
+          _buildListTile(context, 'SInput (Ant Design)', const InputDemoPage(), Icons.input),
+          _buildListTile(context, 'SQRCode (Ant Design)', const QRCodeDemoPage(), Icons.qr_code),
         ],
       ),
     );
