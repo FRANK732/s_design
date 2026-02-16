@@ -1,0 +1,232 @@
+import 'package:flutter/material.dart';
+import '../s_date_picker_style.dart';
+import '../s_date_picker_style_helper.dart';
+
+class SDatePickerCalendar
+    extends StatelessWidget {
+  const SDatePickerCalendar({
+    super.key,
+    required this.viewDate,
+    this.selectedDate,
+    this.rangeStart,
+    this.rangeEnd,
+    required this.onDateSelected,
+    this.style,
+  });
+
+  final DateTime
+      viewDate;
+  final DateTime?
+      selectedDate;
+  final DateTime?
+      rangeStart;
+  final DateTime?
+      rangeEnd;
+  final ValueChanged<DateTime>
+      onDateSelected;
+  final SDatePickerStyle?
+      style;
+
+  @override
+  Widget build(
+      BuildContext
+          context) {
+    final theme =
+        Theme.of(context);
+    final days =
+        _generateDays();
+    // 42 days = 6 rows of 7
+    final rows =
+        <Widget>[];
+    for (int i = 0;
+        i < 6;
+        i++) {
+      final rowDays =
+          days.sublist(i * 7, (i + 1) * 7);
+      rows.add(Row(
+        children: rowDays
+            .map((day) => Expanded(
+                  child: AspectRatio(
+                    aspectRatio: 1.2,
+                    child: _buildDayCell(context, day, theme),
+                  ),
+                ))
+            .toList(),
+      ));
+      if (i <
+          5)
+        rows.add(const SizedBox(height: 4));
+    }
+
+    return Column(
+      mainAxisSize:
+          MainAxisSize.min,
+      children: [
+        _buildWeekDays(theme),
+        const SizedBox(height: 4),
+        ...rows,
+      ],
+    );
+  }
+
+  Widget _buildWeekDays(
+      ThemeData
+          theme) {
+    final weekDays =
+        [
+      'Su',
+      'Mo',
+      'Tu',
+      'We',
+      'Th',
+      'Fr',
+      'Sa'
+    ];
+    return Row(
+      mainAxisAlignment:
+          MainAxisAlignment.spaceBetween,
+      children: weekDays
+          .map((day) => Expanded(
+                child: Center(
+                  child: Text(
+                    day,
+                    style: style?.weekdayTextStyle ??
+                        TextStyle(
+                          fontSize: 12,
+                          color: SDatePickerStyleHelper.getWeekDayColor(theme),
+                        ),
+                  ),
+                ),
+              ))
+          .toList(),
+    );
+  }
+
+  Widget _buildDayCell(
+      BuildContext
+          context,
+      DateTime
+          day,
+      ThemeData
+          theme) {
+    final isCurrentMonth =
+        day.month == viewDate.month;
+    final isToday = _isSameDay(
+        day,
+        DateTime.now());
+
+    // Single selection
+    final isSelected =
+        selectedDate != null && _isSameDay(day, selectedDate!);
+
+    // Range selection
+    final isRangeStart =
+        rangeStart != null && _isSameDay(day, rangeStart!);
+    final isRangeEnd =
+        rangeEnd != null && _isSameDay(day, rangeEnd!);
+    final isInRange = rangeStart != null &&
+        rangeEnd != null &&
+        day.isAfter(rangeStart!) &&
+        day.isBefore(rangeEnd!);
+
+    TextStyle textStyle = style?.dayTextStyle ??
+        TextStyle(
+          fontSize: 14,
+          color: SDatePickerStyleHelper.getDayColor(
+            theme,
+            isCurrentMonth: isCurrentMonth,
+            isToday: isToday,
+          ),
+          fontWeight: isSelected || isToday || isRangeStart || isRangeEnd ? FontWeight.bold : FontWeight.normal,
+        );
+
+    // Override if disabled (not fully implemented yet but placeholder)
+    if (!isCurrentMonth) {
+      textStyle =
+          style?.disabledDayTextStyle ?? textStyle.copyWith(color: Colors.grey.shade400);
+    }
+
+    if (isToday) {
+      textStyle =
+          style?.todayTextStyle ?? textStyle.copyWith(color: theme.primaryColor, fontWeight: FontWeight.bold);
+    }
+
+    // Color?
+    //     cellColor;
+    BoxDecoration?
+        decoration;
+
+    if (isSelected ||
+        isRangeStart ||
+        isRangeEnd) {
+      textStyle =
+          style?.selectedDayTextStyle ?? textStyle.copyWith(color: Colors.white, fontWeight: FontWeight.bold);
+      decoration =
+          BoxDecoration(
+        color: style?.selectedDayBackgroundColor ?? theme.primaryColor,
+        borderRadius: BorderRadius.circular(2),
+      );
+    } else if (isInRange) {
+      decoration =
+          BoxDecoration(
+        color: style?.rangeHoverColor ?? theme.primaryColor.withOpacity(0.1),
+        borderRadius: BorderRadius.zero,
+      );
+    } else if (isToday) {
+      decoration =
+          BoxDecoration(
+        border: Border.all(color: theme.primaryColor),
+        borderRadius: BorderRadius.circular(2),
+      );
+    }
+
+    return InkWell(
+      onTap: () =>
+          onDateSelected(day),
+      borderRadius:
+          BorderRadius.circular(2),
+      child:
+          Container(
+        decoration: decoration,
+        alignment: Alignment.center,
+        margin: (isRangeStart || isRangeEnd || isInRange) ? EdgeInsets.zero : const EdgeInsets.all(2),
+        child: Text(
+          '${day.day}',
+          style: textStyle,
+        ),
+      ),
+    );
+  }
+
+  bool _isSameDay(
+      DateTime?
+          a,
+      DateTime?
+          b) {
+    if (a == null ||
+        b == null)
+      return false;
+    return a.year == b.year &&
+        a.month == b.month &&
+        a.day == b.day;
+  }
+
+  List<DateTime>
+      _generateDays() {
+    final firstDayOfMonth = DateTime(
+        viewDate.year,
+        viewDate.month,
+        1);
+    final int weekdayOffset = firstDayOfMonth.weekday == 7
+        ? 0
+        : firstDayOfMonth.weekday;
+    final startDate =
+        firstDayOfMonth.subtract(Duration(days: weekdayOffset));
+
+    return List.generate(
+        42,
+        (index) {
+      return startDate.add(Duration(days: index));
+    });
+  }
+}

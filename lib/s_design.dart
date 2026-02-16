@@ -49,6 +49,7 @@ export 'src/presentation/components/inputs/s_checkbox/s_checkbox_list_tile.dart'
 export 'src/presentation/components/inputs/s_date_picker/s_date_picker.dart';
 export 'src/presentation/components/inputs/s_date_picker/s_date_picker_types.dart';
 export 'src/presentation/components/inputs/s_date_picker/s_date_range_picker.dart';
+export 'src/presentation/components/inputs/s_date_picker/s_date_picker_style.dart';
 export 'src/presentation/components/inputs/s_dropdown/s_dropdown_controller.dart';
 export 'src/presentation/components/inputs/s_dropdown/s_dropdown_form_field.dart';
 export 'src/presentation/components/inputs/s_dropdown/s_dropdown_menu.dart';
