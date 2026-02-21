@@ -371,16 +371,16 @@ class _ToastWidgetState
         config =
         widget.config;
 
-    // Resolve styles
+    // Per-toast overrides take priority; fall back to variant colour from theme.
+    final Color
+        variantAccentColor =
+        config.accentColor ?? SSonnerUtils.getIconColor(config.variant, context);
     final Color
         backgroundColor =
-        theme.backgroundColor;
+        config.backgroundColor ?? theme.backgroundColor;
     final Color
         textColor =
-        theme.textColor;
-    final Color iconColor = config.variant == SSonnerVariant.info
-        ? theme.iconColor
-        : SSonnerUtils.getIconColor(config.variant, context);
+        config.textColor ?? theme.textColor;
 
     return Dismissible(
       key:
@@ -395,10 +395,9 @@ class _ToastWidgetState
           child: Material(
             color: Colors.transparent,
             child: Container(
-              margin: theme.margin, // Applies consistent margin
+              margin: theme.margin,
               width: MediaQuery.of(context).size.width > 600 ? 400 : double.infinity,
               decoration: BoxDecoration(
-                color: backgroundColor,
                 borderRadius: theme.borderRadius,
                 boxShadow: <BoxShadow>[
                   BoxShadow(
@@ -408,75 +407,86 @@ class _ToastWidgetState
                   ),
                 ],
               ),
-              child: InkWell(
-                onTap: config.onTap,
-                borderRadius: theme.borderRadius as BorderRadius?,
-                child: Padding(
-                  padding: theme.padding ?? const EdgeInsets.all(16.0),
+              child: ClipRRect(
+                borderRadius: theme.borderRadius,
+                child: IntrinsicHeight(
                   child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      if (config.leading != null)
-                        Padding(
-                          padding: const EdgeInsets.only(right: 12.0),
-                          child: config.leading,
-                        )
-                      else if (config.icon != null || config.variant != SSonnerVariant.info)
-                        Padding(
-                          padding: const EdgeInsets.only(right: 12.0),
-                          child: Icon(
-                            config.icon ?? SSonnerUtils.getIconData(config.variant),
-                            color: iconColor,
-                            size: 20,
-                          ),
-                        ),
+                      // Coloured left accent stripe — reflects the variant.
+                      Container(width: 4, color: variantAccentColor),
+                      // Main toast body.
                       Expanded(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            if (config.title != null)
-                              Text(
-                                config.title!,
-                                style: theme.titleStyle?.copyWith(
-                                  color: textColor,
-                                ),
+                        child: ColoredBox(
+                          color: backgroundColor,
+                          child: InkWell(
+                            onTap: config.onTap,
+                            child: Padding(
+                              padding: theme.padding ?? const EdgeInsets.all(16.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  if (config.leading != null)
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 12.0),
+                                      child: config.leading,
+                                    )
+                                  else if (config.icon != null || config.variant != SSonnerVariant.info)
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 12.0),
+                                      child: Icon(
+                                        config.icon ?? SSonnerUtils.getIconData(config.variant),
+                                        color: variantAccentColor,
+                                        size: 20,
+                                      ),
+                                    ),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        if (config.title != null)
+                                          Text(
+                                            config.title!,
+                                            style: theme.titleStyle?.copyWith(color: textColor),
+                                          ),
+                                        if (config.title != null && config.message.isNotEmpty) const SizedBox(height: 4),
+                                        if (config.message.isNotEmpty)
+                                          Text(
+                                            config.message,
+                                            style: theme.descriptionStyle?.copyWith(
+                                              color: config.title != null ? textColor.withOpacity(0.8) : textColor,
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                  if (config.action != null) ...<Widget>[
+                                    const SizedBox(width: 12),
+                                    config.action!,
+                                  ],
+                                  if (config.showCloseButton) ...<Widget>[
+                                    const SizedBox(width: 8),
+                                    InkWell(
+                                      onTap: _dismiss,
+                                      borderRadius: BorderRadius.circular(16),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: Icon(
+                                          Icons.close,
+                                          size: 16,
+                                          color: theme.closeIconColor ?? textColor,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ],
                               ),
-                            if (config.title != null && config.message.isNotEmpty) const SizedBox(height: 4),
-                            if (config.message.isNotEmpty)
-                              Text(
-                                config.message,
-                                style: theme.descriptionStyle?.copyWith(
-                                  color: config.title != null
-                                      ? textColor.opacity < 1.0
-                                          ? textColor
-                                          : textColor.withOpacity(0.8)
-                                      : textColor,
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
-                      if (config.action != null) ...<Widget>[
-                        const SizedBox(width: 12),
-                        config.action!,
-                      ],
-                      if (config.showCloseButton) ...<Widget>[
-                        const SizedBox(width: 8),
-                        InkWell(
-                          onTap: _dismiss,
-                          borderRadius: BorderRadius.circular(16),
-                          child: Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Icon(
-                              Icons.close,
-                              size: 16,
-                              color: theme.closeIconColor ?? textColor,
                             ),
                           ),
                         ),
-                      ],
+                      ),
                     ],
                   ),
                 ),

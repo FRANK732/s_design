@@ -1,21 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
 
-class SonnerPage extends StatefulWidget {
-  const SonnerPage({super.key});
+class SonnerPage
+    extends StatefulWidget {
+  const SonnerPage(
+      {super.key});
 
   @override
-  State<SonnerPage> createState() => _SonnerPageState();
+  State<SonnerPage>
+      createState() =>
+          _SonnerPageState();
 }
 
-class _SonnerPageState extends State<SonnerPage> {
+class _SonnerPageState
+    extends State<
+        SonnerPage> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+      BuildContext
+          context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar:
+          AppBar(
         title: const Text('Sonner Showcase'),
       ),
-      body: Center(
+      body:
+          Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20.0),
           child: Column(
@@ -27,6 +37,12 @@ class _SonnerPageState extends State<SonnerPage> {
                   SSonner.instance.show(
                     message: 'The operation was successful!',
                     variant: SSonnerVariant.success,
+                    config: const SSonnerConfig(
+                      showCloseButton: true,
+                      duration: Duration(seconds: 2),
+                      variant: SSonnerVariant.success,
+                      message: 'The operation was successful!',
+                    ),
                   );
                 },
                 child: const Text('Show Success Sonner'),

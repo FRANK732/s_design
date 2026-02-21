@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../../../../s_design.dart';
 
-/// Configuration for SDialog.
+/// Configuration for [SDialog].
 ///
-/// This entity aggregates all configurations for a dialog.
+/// Aggregates all display, animation, and interaction parameters for a dialog.
 class SDialogConfig {
   const SDialogConfig({
     this.title,
+    this.titleWidget,
     this.description,
     this.content,
     this.actions,
@@ -22,17 +23,22 @@ class SDialogConfig {
     this.maxWidth,
     this.maxHeight,
     this.animationCurve =
-        Curves.easeInOut,
+        Curves.easeOutCubic,
     this.animationDuration,
     this.titleStyle,
     this.descriptionStyle,
     this.borderRadius,
     this.animationType =
         SDialogAnimationType.zoomIn,
+    this.backgroundEffect =
+        SDialogBackgroundEffect.none,
     this.showDivider,
     this.dividerColor,
     this.dividerThickness,
     this.actionsPadding,
+    // ignore: deprecated_member_use_from_same_package
+    @Deprecated(
+        'Inferred from actions list. This field is ignored.')
     this.hasActions =
         false,
     this.insetPadding,
@@ -60,22 +66,88 @@ class SDialogConfig {
     this.useSafeArea =
         false,
     this.clipBehavior,
+    this.iconWidget,
+    this.footerWidget,
+    this.actionsWrap =
+        false,
   });
 
+  // ── Content ──────────────────────────────────────────────────────────────
+  /// Text title shown at the top of the dialog.
   final String?
       title;
+
+  /// Custom widget that replaces the text [title].
+  final Widget?
+      titleWidget;
+
+  /// Subtitle / body text shown below the title.
   final String?
       description;
+
+  /// Arbitrary body widget rendered below the description.
   final Widget?
       content;
+
+  /// Optional icon widget rendered above the title.
+  final Widget?
+      iconWidget;
+
+  /// Optional widget pinned below the actions row.
+  final Widget?
+      footerWidget;
+
+  // ── Actions ───────────────────────────────────────────────────────────────
+  /// Row of action widgets (buttons) shown at the bottom.
   final List<Widget>?
       actions;
+
+  /// When true, actions wrap onto multiple lines instead of scrolling.
+  final bool
+      actionsWrap;
+
+  // ── Barrier / dismissal ───────────────────────────────────────────────────
+  /// Whether tapping outside the dialog dismisses it. Defaults to true.
   final bool
       barrierDismissible;
+
+  /// Color of the modal barrier. Defaults to `Colors.black54`.
   final Color?
       barrierColor;
+
+  // ── Sizing ────────────────────────────────────────────────────────────────
+  /// Maximum width. Defaults to `min(screenWidth − 48, 560)`.
+  final double?
+      maxWidth;
+
+  /// Maximum height. Defaults to `screenHeight * 0.85`.
+  final double?
+      maxHeight;
+
+  // ── Animation ─────────────────────────────────────────────────────────────
+  /// Entry/exit transition type. Defaults to [SDialogAnimationType.zoomIn].
+  final SDialogAnimationType
+      animationType;
+
+  /// Animation curve. Defaults to [Curves.easeOutCubic].
+  final Curve
+      animationCurve;
+
+  /// Duration of the content animation. When null, defaults to 250 ms.
+  final Duration?
+      animationDuration;
+
+  /// Duration of the route transition (barrier fade + push). When null,
+  /// defaults to [animationDuration] or 250 ms.
   final Duration?
       transitionDuration;
+
+  // ── Background effect ─────────────────────────────────────────────────────
+  /// Visual treatment applied behind the dialog. Defaults to [SDialogBackgroundEffect.none].
+  final SDialogBackgroundEffect
+      backgroundEffect;
+
+  // ── Appearance ────────────────────────────────────────────────────────────
   final ShapeDecoration?
       shapeDecoration;
   final Color?
@@ -86,22 +158,12 @@ class SDialogConfig {
       semanticLabel;
   final bool?
       showCloseButton;
-  final double?
-      maxWidth;
-  final double?
-      maxHeight;
-  final Curve
-      animationCurve;
-  final Duration?
-      animationDuration;
   final TextStyle?
       titleStyle;
   final TextStyle?
       descriptionStyle;
   final BorderRadius?
       borderRadius;
-  final SDialogAnimationType
-      animationType;
   final bool?
       showDivider;
   final Color?
@@ -142,8 +204,6 @@ class SDialogConfig {
       descriptionDividerColor;
   final double?
       descriptionDividerThickness;
-  final bool
-      hasActions;
   final EdgeInsets?
       insetPadding;
   final AlignmentGeometry?
@@ -154,4 +214,11 @@ class SDialogConfig {
       surfaceTintColor;
   final Clip?
       clipBehavior;
+
+  // ignore: deprecated_member_use_from_same_package
+  @Deprecated(
+      'Inferred from actions list. This field is ignored.')
+  // ignore: unused_field
+  final bool
+      hasActions;
 }

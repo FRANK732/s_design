@@ -257,32 +257,35 @@ class SFloatingPanel {
                   child: Center(
                     child: ConstrainedBox(
                       constraints: effectiveConfig.constraints ?? BoxConstraints.tightFor(width: double.infinity),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            padding: effectiveConfig.contentPadding,
-                            decoration: ShapeDecoration(
-                              color: theme.backgroundColor ?? Colors.white,
-                              shape: effectiveConfig.shape ??
-                                  RoundedRectangleBorder(
-                                    borderRadius: theme.borderRadius ?? BorderRadius.circular(16),
+                      child: Material(
+                        type: MaterialType.transparency,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              padding: effectiveConfig.contentPadding,
+                              decoration: ShapeDecoration(
+                                color: theme.backgroundColor ?? Colors.white,
+                                shape: effectiveConfig.shape ??
+                                    RoundedRectangleBorder(
+                                      borderRadius: theme.borderRadius ?? BorderRadius.circular(16),
+                                    ),
+                                shadows: [
+                                  BoxShadow(
+                                    color: effectiveConfig.shadowColor ?? Colors.black12,
+                                    blurRadius: theme.elevation ?? 8,
+                                    offset: const Offset(0, 4),
                                   ),
-                              shadows: [
-                                BoxShadow(
-                                  color: effectiveConfig.shadowColor ?? Colors.black12,
-                                  blurRadius: theme.elevation ?? 8,
-                                  offset: const Offset(0, 4),
-                                ),
-                              ],
+                                ],
+                              ),
+                              child: effectiveConfig.content,
                             ),
-                            child: effectiveConfig.content,
-                          ),
-                          if (effectiveConfig.customBottomWidget != null) ...[
-                            SizedBox(height: effectiveConfig.panelSpacing),
-                            effectiveConfig.customBottomWidget!,
+                            if (effectiveConfig.customBottomWidget != null) ...[
+                              SizedBox(height: effectiveConfig.panelSpacing),
+                              effectiveConfig.customBottomWidget!,
+                            ],
                           ],
-                        ],
+                        ),
                       ),
                     ),
                   ),

@@ -22,6 +22,9 @@ class SSonnerConfig {
     this.icon,
     this.leading,
     this.trailing,
+    this.accentColor,
+    this.backgroundColor,
+    this.textColor,
   });
 
   /// The main message of the toast.
@@ -76,6 +79,19 @@ class SSonnerConfig {
   final Widget?
       trailing;
 
+  /// Overrides the left accent stripe colour and icon colour for this toast.
+  /// Defaults to the variant colour from [SSonnerThemeData].
+  final Color?
+      accentColor;
+
+  /// Overrides the toast surface background colour for this toast.
+  final Color?
+      backgroundColor;
+
+  /// Overrides the text colour for this toast.
+  final Color?
+      textColor;
+
   /// Creates a copy of this config with the given fields replaced with the new values.
   SSonnerConfig
       copyWith({
@@ -105,6 +121,12 @@ class SSonnerConfig {
         leading,
     Widget?
         trailing,
+    Color?
+        accentColor,
+    Color?
+        backgroundColor,
+    Color?
+        textColor,
   }) {
     return SSonnerConfig(
       message:
@@ -133,6 +155,12 @@ class SSonnerConfig {
           leading ?? this.leading,
       trailing:
           trailing ?? this.trailing,
+      accentColor:
+          accentColor ?? this.accentColor,
+      backgroundColor:
+          backgroundColor ?? this.backgroundColor,
+      textColor:
+          textColor ?? this.textColor,
     );
   }
 }

@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:math'
+    as math;
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import '../../../../domain/entities/config/s_dropdown_menu_item_type.dart';
@@ -832,10 +834,10 @@ class _SDropdownMenuState<
 
     dx = dx.clamp(
         0,
-        screenSize.width - menuWidth);
+        math.max(0.0, screenSize.width - menuWidth));
     dy = dy.clamp(
         0,
-        screenSize.height - menuHeight);
+        math.max(0.0, screenSize.height - menuHeight));
 
     return Offset(
         dx,

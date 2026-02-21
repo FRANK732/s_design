@@ -1,5 +1,6 @@
 enum SDialogAnimationType {
   zoomIn,
+  fade,
   slideFromLeft,
   slideFromRight,
   slideFromTop,
