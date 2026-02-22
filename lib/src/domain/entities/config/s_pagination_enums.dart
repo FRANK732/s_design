@@ -1,4 +1,4 @@
-/// Pagination size variants, matching Ant Design's size prop.
+/// Pagination size variants.
 enum SPaginationSize {
   /// Default (normal) size.
   normal,

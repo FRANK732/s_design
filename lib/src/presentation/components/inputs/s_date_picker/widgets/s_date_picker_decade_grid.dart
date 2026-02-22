@@ -29,10 +29,10 @@ class SDatePickerDecadeGrid
     // View date determines the century/decade range.
     // e.g. 2024 -> 2000-2099 century view?
     // Usually Decade picker shows 100 years range (10 decades) or 10 decades
-    // Ant Design Decade picker shows 12 decades roughly around current century.
+    // Decade picker shows 12 decades roughly around current century.
     // Let's mimic YearGrid structure: 12 items.
 
-    // Ant Design Logic:
+    // Logic:
     // If we are in Decade panel, we want to select a Decade (e.g. 2010-2019).
     // The clickable item is a range.
 

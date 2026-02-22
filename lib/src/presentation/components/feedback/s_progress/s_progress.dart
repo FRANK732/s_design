@@ -135,11 +135,11 @@ class SProgress
         SProgressStatus
             .success) {
       effectiveStrokeColor =
-          Colors.green; // Ant Design Success Green
+          Colors.green; // Success Green
     } else if (effectiveStatus ==
         SProgressStatus.exception) {
       effectiveStrokeColor =
-          Colors.red; // Ant Design Error Red
+          Colors.red; // Error Red
     }
 
     if (type ==
@@ -283,7 +283,7 @@ class SProgress
                   height: strokeWidth ?? 8.0,
                   decoration: BoxDecoration(
                     color: isActive ? strokeColor : trailColor,
-                    // Only first and last get rounded corners? Or all? Ant Steps usually all rounded.
+                    // Only first and last get rounded corners? Or all? Usually all rounded.
                     // But if small gap, maybe. Let's assume typical step bar.
                   ),
                 ),

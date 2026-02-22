@@ -118,7 +118,7 @@ class SAvatarGroup
         key: child.key,
         shape: child.shape, // We don't override if explicitly set in child constructor unless they are default...
         // We'll trust the child properties unless we really need to force. SAvatar uses default middle/circle.
-        // If we want exact Ant cascade we would read their values.
+        // If we want exact cascade we would read their values.
         // For simplicity we create a clone setting the cascaded values if child has defaults.
         size: size ?? child.size,
         customSize: child.customSize,

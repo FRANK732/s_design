@@ -1,4 +1,4 @@
-/// Size of [STimePicker] trigger field (matches Ant Design size tokens).
+/// Size of [STimePicker] trigger field.
 enum STimePickerSize {
   /// 40 px tall field.
   large,
@@ -12,7 +12,7 @@ enum STimePickerSize {
 
 /// Visual variant for the [STimePicker] border/background style.
 enum STimePickerVariant {
-  /// Visible border, transparent background (default — Ant Design "outlined").
+  /// Visible border, transparent background (default "outlined").
   outlined,
 
   /// No border, coloured background fill.

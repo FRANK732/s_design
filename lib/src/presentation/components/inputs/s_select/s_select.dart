@@ -6,7 +6,7 @@ import '../../../../../s_design.dart';
 import 'widgets/s_select_dropdown.dart';
 import 'widgets/s_select_trigger.dart';
 
-/// An advanced select widget inspired by Ant Design.
+/// An advanced select widget.
 /// Supports single selection, multiple selection, tags, search, and custom styling.
 class SSelect<
         T>

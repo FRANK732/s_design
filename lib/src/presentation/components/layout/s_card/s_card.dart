@@ -595,7 +595,7 @@ class _SCardState
     }
 
     // Borderless/Filled/Outlined usually don't have shadow unless hovered?
-    // Ant Design: Borderless = No border, no shadow.
+    // Borderless = No border, no shadow.
     // Outlined = Border, no shadow.
     // Hoverable = Adds shadow on hover.
 
@@ -604,7 +604,7 @@ class _SCardState
         <BoxShadow>[];
 
     // If hovering, show shadow even if variant usually doesn't have it (if hoverable is true)
-    // Actually Ant Design Card only lifts if hoverable is true.
+    // Actually Card only lifts if hoverable is true.
     final bool
         showShadow =
         (widget.shadowStyle != SCardShadow.none && widget.variant == SCardVariant.elevated) || (widget.hoverable && _isHovering);
@@ -709,7 +709,7 @@ class _SCardState
       case SCardVariant.elevated:
         return theme.backgroundColor;
       case SCardVariant.borderless:
-        return theme.backgroundColor; // Or transparent? Ant uses background for standard cards even if borderless
+        return theme.backgroundColor; // Or transparent? Uses background for standard cards even if borderless
     }
   }
 
@@ -1229,7 +1229,7 @@ class SCardGrid
       BuildContext
           context) {
     // SCardGrid usually renders a grid of Cards with specific styling (often borderless inside grid)
-    // Ant Design Grid Card is actually just a Grid where each cell is a Card.
+    // Grid Card is actually just a Grid where each cell is a Card.
     // We can use GridView for this.
     return GridView
         .count(

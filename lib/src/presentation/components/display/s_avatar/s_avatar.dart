@@ -4,7 +4,7 @@ import '../../../../domain/entities/config/s_avatar_enums.dart';
 import '../../../themes/extensions/component_themes/s_avatar_theme.dart';
 
 /// A component for representing users or objects, supporting images, icons, or text.
-/// Matches the Ant Design Avatar specifications.
+/// Matches the Avatar specifications.
 class SAvatar
     extends StatefulWidget {
   const SAvatar({

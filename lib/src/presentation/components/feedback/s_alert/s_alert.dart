@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import '../../../../domain/entities/config/s_alert_type.dart';
 import '../../../themes/extensions/component_themes/s_alert_theme.dart';
 
-/// A static-inline alert component inspired by Ant Design Alert.
+/// A static-inline alert component.
 ///
 /// Supports four semantic [type]s (success, info, warning, error), an optional
 /// icon, title, description, closable state with smooth animated collapse,
 /// a trailing [action] widget, and full [banner] mode.
 ///
-/// ## Ant Design parity
+/// ## Parity
 /// Covers: basic, description, icon, closable, action, banner, custom-icon,
 /// smooth-close demos.
 ///
@@ -95,7 +95,7 @@ class SAlert
     this.constraints,
   });
 
-  // ── Ant Design props ──────────────────────────────────────────────────────
+  // ── Props ──────────────────────────────────────────────────────
 
   /// Semantic type of the alert.
   final SAlertType

@@ -124,7 +124,7 @@ class SStep
       decoration:
           BoxDecoration(
         shape: BoxShape.circle,
-        color: item.icon == null && status == SStepStatus.process ? theme.primaryColor : Colors.transparent, // Ant Design process fills background
+        color: item.icon == null && status == SStepStatus.process ? theme.primaryColor : Colors.transparent, // Process fills background
         border: item.icon == null
             ? Border.all(
                 color: status == SStepStatus.process ? theme.primaryColor : (status == SStepStatus.wait ? Colors.grey.shade400 : iconColor),
@@ -260,7 +260,7 @@ class SStep
                 // But for first/last items spacing is different.
                 // Let's stick to standard flow:
                 // Center the icon relative to content?
-                // Actually, Ant Design Vertical Label:
+                // Actually, Vertical Label:
                 // [Icon]---------------[Icon]
                 // Title                 Title
                 // Desc                  Desc

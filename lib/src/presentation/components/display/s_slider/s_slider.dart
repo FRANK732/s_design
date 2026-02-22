@@ -129,7 +129,7 @@ class _SSliderState
     final primaryColor =
         widget.activeColor ?? theme.primaryColor;
 
-    // Ant Design Style Theme
+    // Style Theme
     final sliderTheme =
         SliderThemeData(
       trackHeight:
@@ -149,7 +149,7 @@ class _SSliderState
       thumbColor:
           widget.thumbColor ?? Colors.white,
       thumbShape:
-          const _AntDesignThumbShape(),
+          const _DefaultThumbShape(),
       overlayColor:
           primaryColor.withOpacity(0.12),
       overlayShape:
@@ -160,13 +160,13 @@ class _SSliderState
           ? ShowValueIndicator.always
           : ShowValueIndicator.never,
       valueIndicatorShape:
-          _AntDesignValueIndicatorShape(),
+          _DefaultValueIndicatorShape(),
       valueIndicatorColor:
           Colors.black.withOpacity(0.8), // Tooltip bg
       valueIndicatorTextStyle:
           const TextStyle(color: Colors.white, fontSize: 12),
       rangeThumbShape:
-          const _AntDesignRangeThumbShape(),
+          const _DefaultRangeThumbShape(),
     );
 
     Widget
@@ -256,14 +256,14 @@ class _SSliderState
   }
 }
 
-// Custom Paint for Ant Design Handle (White circle with border and shadow)
-class _AntDesignThumbShape
+// Custom Paint for Handle (White circle with border and shadow)
+class _DefaultThumbShape
     extends SliderComponentShape {
   final double
       thumbRadius =
       6.0;
 
-  const _AntDesignThumbShape();
+  const _DefaultThumbShape();
 
   @override
   Size getPreferredSize(
@@ -340,18 +340,18 @@ class _AntDesignThumbShape
         thumbRadius,
         borderPaint);
 
-    // Ant Design specific: On hover/active, the thumb might grow or show tooltip.
+    // Specific: On hover/active, the thumb might grow or show tooltip.
     // SliderTheme handles overlay.
   }
 }
 
-class _AntDesignRangeThumbShape
+class _DefaultRangeThumbShape
     extends RangeSliderThumbShape {
   final double
       thumbRadius =
       6.0;
 
-  const _AntDesignRangeThumbShape();
+  const _DefaultRangeThumbShape();
 
   @override
   Size getPreferredSize(
@@ -428,7 +428,7 @@ class _AntDesignRangeThumbShape
   }
 }
 
-class _AntDesignValueIndicatorShape
+class _DefaultValueIndicatorShape
     extends SliderComponentShape {
   @override
   Size getPreferredSize(

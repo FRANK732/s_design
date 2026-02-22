@@ -134,7 +134,7 @@ class _SSwitchState
   Widget build(
       BuildContext
           context) {
-    // Ant Design Defaults
+    // Defaults
     final double height = widget.size == SSwitchSize.small
         ? 16.0
         : 22.0;
@@ -153,7 +153,7 @@ class _SSwitchState
     final activeColor =
         widget.activeColor ?? theme.primaryColor;
     final inactiveColor =
-        widget.inactiveColor ?? const Color(0xFFBFBFBF); // Ant Gray (approx)
+        widget.inactiveColor ?? const Color(0xFFBFBFBF); // Gray (approx)
     final thumbColor =
         widget.thumbColor ?? Colors.white;
 
@@ -187,7 +187,7 @@ class _SSwitchState
                     children: [
                       // 1. Ghost Layout determines intrinsics
                       // We show both contents (invisible) to reserve space for the largest one?
-                      // Or just the visible one? Ant Design resizes.
+                      // Or just the visible one? Resizes.
                       // Let's use the currently relevant children plus thumb space to size it.
                       Opacity(
                         opacity: 0,

@@ -13,7 +13,7 @@ class SDatePickerStyleHelper {
 
   static const double
       panelWidth =
-      280.0; // Standard Ant Design width
+      280.0; // Standard width
   static const double
       panelPadding =
       8.0;

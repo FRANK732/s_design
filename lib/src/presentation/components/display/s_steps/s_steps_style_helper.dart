@@ -5,10 +5,10 @@ import 's_step_item.dart';
 class SStepsStyleHelper {
   static const double
       defaultIconSize =
-      32.0; // Ant Design 'default'
+      32.0; // 'default'
   static const double
       smallIconSize =
-      24.0; // Ant Design 'small'
+      24.0; // 'small'
 
   static double
       getIconSize(SStepsSize size) {
@@ -50,7 +50,7 @@ class SStepsStyleHelper {
     switch (
         status) {
       case SStepStatus.finish:
-        // If custom icon, it might not need color override, but Ant usually colors it primary
+        // If custom icon, it might not need color override, but usually colors it primary
         return theme.primaryColor;
       case SStepStatus.process:
         return theme.primaryColor;

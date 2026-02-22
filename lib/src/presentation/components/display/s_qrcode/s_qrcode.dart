@@ -110,7 +110,7 @@ class SQRCode
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: backgroundColor,
-                  shape: BoxShape.rectangle, // Ant Design QR icons are usually boxed with some padding
+                  shape: BoxShape.rectangle, // Icons are usually boxed with some padding
                   borderRadius: BorderRadius.circular(4),
                   border: Border.all(color: Colors.white, width: 2), // White border around icon
                   boxShadow: [

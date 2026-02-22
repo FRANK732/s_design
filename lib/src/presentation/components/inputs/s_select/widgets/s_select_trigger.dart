@@ -255,7 +255,7 @@ class _SSelectTriggerState<
       // For single select, when searching, we show the input.
       // Ideally, the selected value should be hidden or shown as placeholder if the search is empty.
       // Behavior: If search is empty, show selected value? Or just show input?
-      // Ant Design: The selected value is hidden while searching, but if search is empty, the placeholder is the selected value label (opacity reduced).
+      // The selected value is hidden while searching, but if search is empty, the placeholder is the selected value label (opacity reduced).
       // For simplicity: Just show the input.
       return _buildSearchInput(textStyle);
     }

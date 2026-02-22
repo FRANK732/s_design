@@ -382,9 +382,9 @@ class _TimeColumnState
 //  STimePicker
 // ─────────────────────────────────────────────────────────────────────────────
 
-/// Ant-Design–parity time picker for Flutter.
+/// Time picker for Flutter.
 ///
-/// **Commit rules (identical to Ant Design):**
+/// **Commit rules:**
 /// * Default → value commits when panel is dismissed (OK or tap-outside).
 /// * `needConfirm: true` → only when the user taps **OK**.
 /// * `changeOnScroll: true` → `onChange` fires live on every column snap.

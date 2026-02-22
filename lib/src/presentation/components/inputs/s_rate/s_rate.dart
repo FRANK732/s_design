@@ -146,7 +146,7 @@ class _SRateState
     });
     widget
         .onHoverChange
-        ?.call(0); // Or null? Ant logic usually resets
+        ?.call(0); // Or null? Logic usually resets
   }
 
   void _handleClick(
@@ -198,7 +198,7 @@ class _SRateState
         defaultStyle =
         SRateStyle(
       color:
-          Colors.amber, // Ant Design default equivalent
+          Colors.amber, // Default equivalent
       unselectedColor:
           Colors.grey.shade200,
       size:

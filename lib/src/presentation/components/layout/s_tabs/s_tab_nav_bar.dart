@@ -518,7 +518,7 @@ class _STabNavBarState
         isActive) {
       border =
           Border(
-        top: BorderSide(color: theme.indicatorColor, width: 2), // Ant Design style: Colored top strip
+        top: BorderSide(color: theme.indicatorColor, width: 2), // Colored top strip
         left: BorderSide(color: theme.dividerColor),
         right: BorderSide(color: theme.dividerColor),
         bottom: BorderSide.none, // Open at bottom to merge with content

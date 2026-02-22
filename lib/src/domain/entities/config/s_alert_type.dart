@@ -1,4 +1,4 @@
-/// Alert type variants, matching Ant Design's four alert types.
+/// Alert type variants.
 enum SAlertType {
   /// Green — positive/completed outcome.
   success,

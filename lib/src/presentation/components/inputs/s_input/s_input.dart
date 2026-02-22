@@ -402,7 +402,7 @@ class _SInputState
       _getFontSize() {
     return widget.size == SInputSize.small
         ? 14
-        : 14; // Ant Design uses 14px mostly
+        : 14; // Uses 14px mostly
   }
 
   EdgeInsetsGeometry
@@ -804,7 +804,7 @@ class _SInputSearchState
       BuildContext
           context) {
     // If enterButton is supplied, it replaces the suffix search icon (or acts as an addon)
-    // Ant Design:
+    //
     // If enterButton is Text/Boolean(true), it's a Button addonAfter.
     // If it's null/false, just a search icon suffix.
 

@@ -3,9 +3,9 @@ import 'package:flutter/services.dart';
 import '../../../../domain/entities/config/s_pagination_enums.dart';
 import '../../../themes/extensions/component_themes/s_pagination_theme.dart';
 
-/// Ant Design–inspired Pagination component for Flutter.
+/// Pagination component for Flutter.
 ///
-/// ## Features (full Ant Design parity)
+/// ## Features
 /// - Page number buttons with automatic ellipsis (…) when there are many pages
 /// - Previous / Next navigation arrows
 /// - Jump-backward / Jump-forward (skip 5 pages) via ellipsis buttons

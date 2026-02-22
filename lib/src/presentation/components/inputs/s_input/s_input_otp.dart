@@ -132,7 +132,7 @@ class _SInputOTPState
       case SInputSize.large:
         return 40;
       default:
-        return 32; // Default Ant Input height
+        return 32; // Default Input height
     }
   }
 
@@ -162,7 +162,7 @@ class _SInputOTPState
             // Using Focus widget or AnimatedContainer with manual focus tracking.
             // Let's wrap in a Stateful builder for focus or just rely on Flutter rebuilds if possible?
             // Actually TextField repaints on focus. But border is on Container? No, border should be on TextField decoration or Container.
-            // Ant Design OTP is individual boxes.
+            // OTP is individual boxes.
 
             return Focus(
               onFocusChange: (bool focused) => setState(() {}), // Trigger rebuild to update border
@@ -191,7 +191,7 @@ class _SInputOTPState
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(6),
-                    borderSide: BorderSide(color: _getBorderColor(theme, true)), // Ant focused border
+                    borderSide: BorderSide(color: _getBorderColor(theme, true)), // Focused border
                   ),
                   filled: !widget.enabled,
                   fillColor: widget.enabled ? Colors.white : Colors.grey.shade100,
