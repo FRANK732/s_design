@@ -732,10 +732,27 @@ class _SPaginationState
     );
     if (widget.itemRender !=
         null) {
-      return widget.itemRender!(
+      final customWidget = widget.itemRender!(
           null,
           type,
           defaultWidget);
+      // If the user returned the defaultWidget itself, it already has
+      // its own tap handler — return as-is.
+      if (identical(customWidget,
+          defaultWidget))
+        return customWidget;
+      // Otherwise the user returned a fully custom widget (e.g. a Text).
+      // Wrap it so the prev/next tap still fires.
+      final effectiveOnTap = widget.disabled
+          ? null
+          : onTap;
+      return MouseRegion(
+        cursor: effectiveOnTap == null ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: effectiveOnTap,
+          child: customWidget,
+        ),
+      );
     }
     return defaultWidget;
   }
