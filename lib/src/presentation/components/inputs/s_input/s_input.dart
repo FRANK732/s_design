@@ -377,25 +377,25 @@ class _SInputState
   }
 
   Color _getBorderColor(
-      ThemeData
+      SThemeData
           theme) {
     if (widget.status ==
         SInputStatus.error) {
-      return theme.colorScheme.error;
+      return theme.inputFieldTheme.errorBorderColor;
     }
     if (widget.status ==
         SInputStatus.warning) {
-      return Colors.amber;
+      return Colors.amber; // Warning color (could be added to theme later)
     }
     if (_isFocused) {
-      return theme.primaryColor;
+      return theme.inputFieldTheme.focusedBorderColor;
     }
     if (_isHovering) {
-      return theme.primaryColor.withOpacity(0.7);
+      return theme.inputFieldTheme.focusedBorderColor.withOpacity(0.7);
     }
-    return Colors
-        .grey
-        .shade300;
+    return theme
+        .inputFieldTheme
+        .borderColor;
   }
 
   double
@@ -422,8 +422,10 @@ class _SInputState
   Widget build(
       BuildContext
           context) {
-    final theme =
-        Theme.of(context);
+    final sTheme =
+        STheme.of(context);
+    final ext =
+        sTheme.inputFieldTheme;
 
     final groupScope =
         SInputGroupScope.of(context);
@@ -453,19 +455,19 @@ class _SInputState
           AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         decoration: BoxDecoration(
-          color: widget.enabled ? Colors.white : Colors.grey.shade100,
+          color: widget.enabled ? ext.backgroundColor : ext.disabledBorderColor.withOpacity(0.1),
           border: Border.all(
-            color: _getBorderColor(theme),
-            width: 1,
+            color: _getBorderColor(sTheme),
+            width: _isFocused ? ext.focusedBorderWidth : ext.borderWidth,
           ),
           borderRadius: effectiveRadius,
           boxShadow: _isFocused && widget.status != SInputStatus.error
               ? [
-                  BoxShadow(color: theme.primaryColor.withOpacity(0.2), blurRadius: 0, spreadRadius: 2)
+                  BoxShadow(color: ext.focusedBorderColor.withOpacity(0.2), blurRadius: 0, spreadRadius: 2)
                 ]
               : (_isFocused && widget.status == SInputStatus.error
                   ? [
-                      BoxShadow(color: theme.colorScheme.error.withOpacity(0.2), blurRadius: 0, spreadRadius: 2)
+                      BoxShadow(color: ext.errorBorderColor.withOpacity(0.2), blurRadius: 0, spreadRadius: 2)
                     ]
                   : null),
         ),
@@ -477,8 +479,8 @@ class _SInputState
               Padding(
                 padding: const EdgeInsets.only(right: 4),
                 child: DefaultTextStyle(
-                  style: TextStyle(color: Colors.grey.shade600),
-                  child: IconTheme(data: IconThemeData(color: Colors.grey.shade600, size: 16), child: widget.prefix!),
+                  style: TextStyle(color: ext.hintTextColor),
+                  child: IconTheme(data: IconThemeData(color: ext.hintTextColor, size: 16), child: widget.prefix!),
                 ),
               ),
             Expanded(
@@ -488,7 +490,7 @@ class _SInputState
                 decoration: InputDecoration(
                   isDense: true,
                   hintText: widget.placeholder,
-                  hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: _getFontSize()),
+                  hintStyle: TextStyle(color: ext.hintTextColor, fontSize: _getFontSize()),
                   border: InputBorder.none,
                   focusedBorder: InputBorder.none,
                   enabledBorder: InputBorder.none,
@@ -497,7 +499,7 @@ class _SInputState
                   contentPadding: _getPadding(),
                   counterText: "", // Hide default counter
                 ),
-                style: widget.style?.copyWith(fontSize: _getFontSize()) ?? TextStyle(fontSize: _getFontSize()),
+                style: widget.style?.copyWith(fontSize: _getFontSize(), color: ext.textColor) ?? TextStyle(fontSize: _getFontSize(), color: ext.textColor),
                 keyboardType: widget.keyboardType,
                 textInputAction: widget.textInputAction,
                 textCapitalization: widget.textCapitalization,
@@ -518,7 +520,7 @@ class _SInputState
                 onEditingComplete: widget.onEditingComplete,
                 onSubmitted: widget.onSubmitted,
                 inputFormatters: widget.inputFormatters,
-                cursorColor: theme.primaryColor,
+                cursorColor: ext.focusedBorderColor,
                 cursorWidth: 1,
               ),
             ),
@@ -531,7 +533,7 @@ class _SInputState
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: Icon(Icons.cancel, color: Colors.grey.shade400, size: 14),
+                  child: Icon(Icons.cancel, color: ext.hintTextColor, size: 14),
                 ),
               ),
             if (widget.showCount && widget.maxLength != null)
@@ -539,15 +541,15 @@ class _SInputState
                 padding: const EdgeInsets.only(left: 8),
                 child: Text(
                   "${_controller.text.length} / ${widget.maxLength}",
-                  style: TextStyle(color: Colors.grey.shade400, fontSize: 12),
+                  style: TextStyle(color: ext.hintTextColor, fontSize: 12),
                 ),
               ),
             if (widget.suffix != null)
               Padding(
                 padding: const EdgeInsets.only(left: 4),
                 child: DefaultTextStyle(
-                  style: TextStyle(color: Colors.grey.shade600),
-                  child: IconTheme(data: IconThemeData(color: Colors.grey.shade600, size: 16), child: widget.suffix!),
+                  style: TextStyle(color: ext.hintTextColor),
+                  child: IconTheme(data: IconThemeData(color: ext.hintTextColor, size: 16), child: widget.suffix!),
                 ),
               ),
           ],

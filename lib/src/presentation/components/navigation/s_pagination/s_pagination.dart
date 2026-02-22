@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../../domain/entities/config/s_pagination_enums.dart';
 import '../../../themes/extensions/component_themes/s_pagination_theme.dart';
+import '../../../themes/s_theme.dart';
+import '../../../themes/s_theme_data.dart';
 
 /// Pagination component for Flutter.
 ///
@@ -354,29 +356,31 @@ class _SPaginationState
 
   _PaginationTokens
       _tokens(BuildContext context) {
+    final SThemeData
+        sTheme =
+        STheme.of(context);
     final theme =
-        Theme.of(context).sPaginationTheme;
-    final primary = Theme.of(context)
-        .colorScheme
+        sTheme.paginationTheme;
+    final primary = sTheme
+        .colorToken
         .primary;
-    final isDark =
-        Theme.of(context).brightness == Brightness.dark;
 
-    final defaultBg = isDark
-        ? const Color(0xFF1F1F1F)
-        : Colors.white;
-    final defaultBorder = isDark
-        ? const Color(0xFF424242)
-        : const Color(0xFFD9D9D9);
-    final defaultText = isDark
-        ? const Color(0xFFE0E0E0)
-        : const Color(0xFF333333);
-    final disabledBg = isDark
-        ? const Color(0xFF141414)
-        : const Color(0xFFF5F5F5);
-    final disabledText = isDark
-        ? const Color(0xFF555555)
-        : const Color(0xFFBFBFBF);
+    final defaultBg = sTheme
+        .colorToken
+        .surface;
+    final defaultBorder = sTheme
+        .colorToken
+        .divider;
+    final defaultText = sTheme
+        .colorToken
+        .textSecondary;
+    final disabledBg = sTheme
+        .colorToken
+        .background;
+    final disabledText = sTheme
+        .colorToken
+        .textSecondary
+        .withOpacity(0.5);
 
     final sz =
         widget.size;

@@ -170,38 +170,52 @@ class SThemeData
         ? SLightTypography(colors: colorToken)
         : SDarkTypography(colors: colorToken);
 
-    // Provide default component themes mappings from color tokens
-    final matColorScheme = isLight
-        ? ColorScheme.fromSeed(seedColor: colorToken.primary, brightness: Brightness.light)
-        : ColorScheme.fromSeed(seedColor: colorToken.primary, brightness: Brightness.dark);
+    // Map exact SColorsBase tokens to the underlying Material ColorScheme.
+    // This ensures all component themes using `.fromColorScheme(matColorScheme)`
+    // accurately reflect our carefully curated light/dark colors (e.g. pure dark surface)
+    // rather than the auto-generated tonal palettes from Material 3.
+    final matColorScheme =
+        ColorScheme(
+      brightness:
+          brightness,
+      primary:
+          colorToken.primary,
+      onPrimary:
+          colorToken.textOnPrimary,
+      primaryContainer:
+          colorToken.primary.withOpacity(0.12),
+      onPrimaryContainer:
+          colorToken.primary,
+      secondary:
+          colorToken.secondary,
+      onSecondary:
+          colorToken.textOnSecondary,
+      secondaryContainer:
+          colorToken.secondary.withOpacity(0.12),
+      onSecondaryContainer:
+          colorToken.secondary,
+      error:
+          colorToken.error,
+      onError:
+          colorToken.textOnPrimary,
+      surface:
+          colorToken.surface,
+      onSurface:
+          colorToken.textPrimary,
+      onSurfaceVariant:
+          colorToken.textSecondary,
+      outline:
+          colorToken.divider,
+      outlineVariant:
+          colorToken.divider.withOpacity(0.5),
+      shadow:
+          colorToken.shadow,
+    );
 
+    // We map existing constructors that take regular material ColorScheme
     // We map existing constructors that take regular material ColorScheme
     alertTheme ??=
         SAlertThemeData(
-      successBackgroundColor:
-          colorToken.surface,
-      infoBackgroundColor:
-          colorToken.surface,
-      warningBackgroundColor:
-          colorToken.surface,
-      errorBackgroundColor:
-          colorToken.surface,
-      successBorderColor:
-          colorToken.primary,
-      infoBorderColor:
-          colorToken.primary,
-      warningBorderColor:
-          colorToken.primary,
-      errorBorderColor:
-          colorToken.error,
-      successIconColor:
-          colorToken.primary,
-      infoIconColor:
-          colorToken.primary,
-      warningIconColor:
-          colorToken.primary,
-      errorIconColor:
-          colorToken.error,
       borderRadius:
           BorderRadius.circular(8),
       borderWidth:
@@ -221,8 +235,9 @@ class SThemeData
     );
     avatarTheme ??=
         SAvatarThemeData(
-      backgroundColor:
-          colorToken.surface,
+      backgroundColor: isLight
+          ? const Color(0xFFE2E8F0)
+          : const Color(0xFF333333),
       foregroundColor:
           colorToken.textPrimary,
       borderColor:
@@ -641,6 +656,71 @@ class SThemeData
       toastTheme:
           a.toastTheme.lerp(b.toastTheme, t),
     );
+  }
+
+  @override
+  bool operator ==(
+      Object
+          other) {
+    if (identical(
+        this,
+        other))
+      return true;
+    if (other.runtimeType !=
+        runtimeType)
+      return false;
+    return other is SThemeData &&
+        other.brightness == brightness &&
+        other.colorToken == colorToken &&
+        other.typographyToken == typographyToken &&
+        other.alertTheme == alertTheme &&
+        other.avatarTheme == avatarTheme &&
+        other.buttonTheme == buttonTheme &&
+        other.cardTheme == cardTheme &&
+        other.checkboxTheme == checkboxTheme &&
+        other.dialogTheme == dialogTheme &&
+        other.dropdownMenuTheme == dropdownMenuTheme &&
+        other.floatingPanelTheme == floatingPanelTheme &&
+        other.inputFieldTheme == inputFieldTheme &&
+        other.listTileTheme == listTileTheme &&
+        other.loadingIndicatorTheme == loadingIndicatorTheme &&
+        other.paginationTheme == paginationTheme &&
+        other.progressBarTheme == progressBarTheme &&
+        other.selectTheme == selectTheme &&
+        other.sonnerTheme == sonnerTheme &&
+        other.switchTheme == switchTheme &&
+        other.tabsTheme == tabsTheme &&
+        other.timePickerTheme == timePickerTheme &&
+        other.toastTheme == toastTheme;
+  }
+
+  @override
+  int get hashCode {
+    return Object
+        .hashAll([
+      brightness,
+      colorToken,
+      typographyToken,
+      alertTheme,
+      avatarTheme,
+      buttonTheme,
+      cardTheme,
+      checkboxTheme,
+      dialogTheme,
+      dropdownMenuTheme,
+      floatingPanelTheme,
+      inputFieldTheme,
+      listTileTheme,
+      loadingIndicatorTheme,
+      paginationTheme,
+      progressBarTheme,
+      selectTheme,
+      sonnerTheme,
+      switchTheme,
+      tabsTheme,
+      timePickerTheme,
+      toastTheme,
+    ]);
   }
 }
 

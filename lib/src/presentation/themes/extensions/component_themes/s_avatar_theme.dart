@@ -171,4 +171,47 @@ class SAvatarThemeData
           t),
     );
   }
+
+  @override
+  bool operator ==(
+      Object
+          other) {
+    if (identical(
+        this,
+        other))
+      return true;
+    if (other.runtimeType !=
+        runtimeType)
+      return false;
+    return other is SAvatarThemeData &&
+        other.backgroundColor == backgroundColor &&
+        other.foregroundColor == foregroundColor &&
+        other.borderWidth == borderWidth &&
+        other.borderColor == borderColor &&
+        other.largeSize == largeSize &&
+        other.middleSize == middleSize &&
+        other.smallSize == smallSize &&
+        other.largeRadius == largeRadius &&
+        other.middleRadius == middleRadius &&
+        other.smallRadius == smallRadius &&
+        other.textStyle == textStyle;
+  }
+
+  @override
+  int get hashCode {
+    return Object
+        .hashAll([
+      backgroundColor,
+      foregroundColor,
+      borderWidth,
+      borderColor,
+      largeSize,
+      middleSize,
+      smallSize,
+      largeRadius,
+      middleRadius,
+      smallRadius,
+      textStyle,
+    ]);
+  }
 }

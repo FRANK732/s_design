@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../s_date_picker_style.dart';
 import '../s_date_picker_style_helper.dart';
 import '../s_date_picker_types.dart';
+import '../../../../themes/s_theme.dart';
+import '../../../../themes/s_theme_data.dart';
 import 's_date_picker_calendar.dart';
 
 class SDateRangePickerPanel
@@ -163,6 +165,9 @@ class _SDateRangePickerPanelState
           context) {
     final hasPresets =
         widget.presets != null && widget.presets!.isNotEmpty;
+    final SThemeData
+        sTheme =
+        STheme.of(context);
     final content =
         Row(
       crossAxisAlignment:
@@ -171,7 +176,7 @@ class _SDateRangePickerPanelState
         Expanded(
           child: Column(
             children: [
-              _buildHeader(isLeft: true),
+              _buildHeader(isLeft: true, theme: sTheme),
               const SizedBox(height: 8),
               SDatePickerCalendar(
                 viewDate: _leftViewDate,
@@ -184,11 +189,11 @@ class _SDateRangePickerPanelState
             ],
           ),
         ),
-        const VerticalDivider(width: 16, color: Colors.grey), // Separator
+        VerticalDivider(width: 16, color: sTheme.colorToken.divider), // Separator
         Expanded(
           child: Column(
             children: [
-              _buildHeader(isLeft: false),
+              _buildHeader(isLeft: false, theme: sTheme),
               const SizedBox(height: 8),
               SDatePickerCalendar(
                 viewDate: _rightViewDate,
@@ -206,11 +211,11 @@ class _SDateRangePickerPanelState
 
     final decoration = widget.style?.popupDecoration ??
         BoxDecoration(
-          color: Colors.white,
+          color: sTheme.colorToken.surface,
           borderRadius: BorderRadius.circular(2),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: sTheme.colorToken.shadow.withOpacity(0.1),
               blurRadius: 4,
               offset: const Offset(0, 2),
             ),
@@ -231,7 +236,7 @@ class _SDateRangePickerPanelState
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   _buildPresetsSidebar(),
-                  const VerticalDivider(width: 1, color: Colors.grey),
+                  VerticalDivider(width: 1, color: sTheme.colorToken.divider),
                   const SizedBox(width: 8),
                   Expanded(child: content),
                 ],
@@ -284,9 +289,9 @@ class _SDateRangePickerPanelState
 
   Widget _buildHeader(
       {required bool
-          isLeft}) {
-    final theme =
-        Theme.of(context);
+          isLeft,
+      required SThemeData
+          theme}) {
     final headerStyle = widget.style?.headerTextStyle ??
         TextStyle(
           fontWeight: FontWeight.bold,

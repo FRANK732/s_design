@@ -200,8 +200,6 @@ class _SAvatarState
         STheme.of(context);
     final ext =
         theme.avatarTheme;
-    final isDark =
-        theme.brightness == Brightness.dark;
 
     // Resolve size
     double
@@ -242,10 +240,10 @@ class _SAvatarState
     } else {
       bgCol = widget.backgroundColor ??
           ext.backgroundColor ??
-          (isDark ? const Color(0xFF333333) : const Color(0xFFCCCCCC));
+          theme.colorToken.surface;
       fgCol = widget.foregroundColor ??
           ext.foregroundColor ??
-          (isDark ? const Color(0xFFFFFFFF) : const Color(0xFFFFFFFF));
+          theme.colorToken.textPrimary;
     }
 
     final borderW = widget.borderWidth ??

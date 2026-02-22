@@ -41,6 +41,11 @@ class _DatePickerPageState
   Widget build(
       BuildContext
           context) {
+    final sTheme =
+        STheme.of(context);
+    final isDark =
+        sTheme.brightness == Brightness.dark;
+
     return Scaffold(
       appBar:
           AppBar(title: const Text('SDatePicker Showcase')),
@@ -158,41 +163,41 @@ class _DatePickerPageState
                 placeholder: 'Custom Theme',
                 style: SDatePickerStyle(
                   inputDecoration: BoxDecoration(
-                    color: Colors.grey.shade50,
-                    border: Border.all(color: Colors.purple.shade200),
+                    color: isDark ? Colors.purple.shade900.withOpacity(0.2) : Colors.grey.shade50,
+                    border: Border.all(color: isDark ? Colors.purple.shade400 : Colors.purple.shade200),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  inputTextStyle: TextStyle(color: Colors.purple.shade900, fontWeight: FontWeight.w600),
-                  icon: Icon(Icons.star, size: 14, color: Colors.purple.shade400),
+                  inputTextStyle: TextStyle(color: isDark ? Colors.purple.shade100 : Colors.purple.shade900, fontWeight: FontWeight.w600),
+                  icon: Icon(Icons.star, size: 14, color: isDark ? Colors.purple.shade300 : Colors.purple.shade400),
                   popupDecoration: BoxDecoration(
-                    color: Colors.white,
+                    color: isDark ? const Color(0xFF1E0A2D) : Colors.white,
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.purple.withOpacity(0.15),
+                        color: Colors.purple.withOpacity(isDark ? 0.3 : 0.15),
                         blurRadius: 12,
                         offset: const Offset(0, 4),
                       ),
                     ],
                   ),
                   headerTextStyle: TextStyle(
-                    color: Colors.purple.shade800,
+                    color: isDark ? Colors.purple.shade100 : Colors.purple.shade800,
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
                   weekdayTextStyle: TextStyle(
-                    color: Colors.purple.shade300,
+                    color: isDark ? Colors.purple.shade200 : Colors.purple.shade300,
                     fontWeight: FontWeight.bold,
                     fontSize: 12,
                   ),
-                  dayTextStyle: const TextStyle(color: Colors.black87),
+                  dayTextStyle: TextStyle(color: isDark ? Colors.grey.shade300 : Colors.black87),
                   todayTextStyle: TextStyle(
-                    color: Colors.purple.shade700,
+                    color: isDark ? Colors.purple.shade200 : Colors.purple.shade700,
                     fontWeight: FontWeight.bold,
                   ),
-                  selectedDayBackgroundColor: Colors.purple.shade600,
-                  selectedDayTextStyle: const TextStyle(
-                    color: Colors.white,
+                  selectedDayBackgroundColor: isDark ? Colors.purple.shade400 : Colors.purple.shade600,
+                  selectedDayTextStyle: TextStyle(
+                    color: isDark ? Colors.black : Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

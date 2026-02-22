@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../../themes/s_theme.dart';
+import '../../../../themes/s_theme_data.dart';
 import '../s_date_picker_style.dart';
 import '../s_date_picker_style_helper.dart';
 
@@ -31,8 +33,8 @@ class SDatePickerCalendar
   Widget build(
       BuildContext
           context) {
-    final theme =
-        Theme.of(context);
+    final sTheme =
+        STheme.of(context);
     final days =
         _generateDays();
     // 42 days = 6 rows of 7
@@ -48,7 +50,7 @@ class SDatePickerCalendar
             .map((day) => Expanded(
                   child: AspectRatio(
                     aspectRatio: 1.2,
-                    child: _buildDayCell(context, day, theme),
+                    child: _buildDayCell(context, day, sTheme),
                   ),
                 ))
             .toList(),
@@ -62,7 +64,7 @@ class SDatePickerCalendar
       mainAxisSize:
           MainAxisSize.min,
       children: [
-        _buildWeekDays(theme),
+        _buildWeekDays(sTheme),
         const SizedBox(height: 4),
         ...rows,
       ],
@@ -70,7 +72,7 @@ class SDatePickerCalendar
   }
 
   Widget _buildWeekDays(
-      ThemeData
+      SThemeData
           theme) {
     final weekDays =
         [
@@ -107,7 +109,7 @@ class SDatePickerCalendar
           context,
       DateTime
           day,
-      ThemeData
+      SThemeData
           theme) {
     final isCurrentMonth =
         day.month == viewDate.month;
@@ -143,12 +145,12 @@ class SDatePickerCalendar
     // Override if disabled (not fully implemented yet but placeholder)
     if (!isCurrentMonth) {
       textStyle =
-          style?.disabledDayTextStyle ?? textStyle.copyWith(color: Colors.grey.shade400);
+          style?.disabledDayTextStyle ?? textStyle.copyWith(color: theme.colorToken.textSecondary.withOpacity(0.5));
     }
 
     if (isToday) {
       textStyle =
-          style?.todayTextStyle ?? textStyle.copyWith(color: theme.primaryColor, fontWeight: FontWeight.bold);
+          style?.todayTextStyle ?? textStyle.copyWith(color: theme.colorToken.primary, fontWeight: FontWeight.bold);
     }
 
     // Color?
@@ -160,22 +162,22 @@ class SDatePickerCalendar
         isRangeStart ||
         isRangeEnd) {
       textStyle =
-          style?.selectedDayTextStyle ?? textStyle.copyWith(color: Colors.white, fontWeight: FontWeight.bold);
+          style?.selectedDayTextStyle ?? textStyle.copyWith(color: theme.colorToken.surface, fontWeight: FontWeight.bold); // Usually white, but surface in dark mode
       decoration =
           BoxDecoration(
-        color: style?.selectedDayBackgroundColor ?? theme.primaryColor,
+        color: style?.selectedDayBackgroundColor ?? theme.colorToken.primary,
         borderRadius: BorderRadius.circular(2),
       );
     } else if (isInRange) {
       decoration =
           BoxDecoration(
-        color: style?.rangeHoverColor ?? theme.primaryColor.withOpacity(0.1),
+        color: style?.rangeHoverColor ?? theme.colorToken.primary.withOpacity(0.1),
         borderRadius: BorderRadius.zero,
       );
     } else if (isToday) {
       decoration =
           BoxDecoration(
-        border: Border.all(color: theme.primaryColor),
+        border: Border.all(color: theme.colorToken.primary),
         borderRadius: BorderRadius.circular(2),
       );
     }

@@ -4,6 +4,7 @@ import 'dart:developer'
 import 'package:flutter/material.dart';
 
 import '../../../../domain/entities/config/s_toaster_enum.dart';
+import '../../../themes/s_theme.dart';
 
 /// **Deprecated**: Use [SAlert] for inline alerts or [SSonner] for toast notifications.
 ///
@@ -282,25 +283,23 @@ class _SToastState
         topPadding =
         mediaQuery.viewPadding.top;
 
-    final ColorScheme
-        colorScheme =
-        Theme.of(context).colorScheme;
-    final Color
-        dividerColor =
-        Theme.of(context).dividerColor;
+    final sTheme =
+        STheme.of(context);
+    final ext =
+        sTheme.toastTheme;
     final bool
         isDestructive =
         widget.variant == SToastVariant.destructive;
 
     final Color backgroundColor = isDestructive
-        ? colorScheme.errorContainer
-        : colorScheme.surface;
+        ? ext.errorColor
+        : ext.backgroundColor;
     final Color textColor = isDestructive
-        ? colorScheme.onErrorContainer
-        : colorScheme.onSurface;
+        ? sTheme.colorToken.textOnPrimary
+        : ext.textColor;
     final Color borderColor = isDestructive
-        ? colorScheme.error
-        : dividerColor;
+        ? ext.errorColor
+        : sTheme.colorToken.divider;
 
     return Positioned(
       top:

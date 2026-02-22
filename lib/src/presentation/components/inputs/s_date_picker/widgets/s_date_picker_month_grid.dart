@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../themes/s_theme.dart';
 import '../s_date_picker_style.dart';
 import '../s_date_picker_style_helper.dart';
 
@@ -26,7 +27,7 @@ class SDatePickerMonthGrid
       BuildContext
           context) {
     final theme =
-        Theme.of(context);
+        STheme.of(context);
     const months =
         [
       'Jan',
@@ -66,7 +67,7 @@ class SDatePickerMonthGrid
           );
 
           if (isSelected) {
-            textColor = Colors.white;
+            textColor = theme.colorToken.surface;
           }
 
           TextStyle textStyle = style?.dayTextStyle ??
@@ -77,7 +78,7 @@ class SDatePickerMonthGrid
               );
 
           if (isSelected) {
-            textStyle = style?.selectedDayTextStyle ?? textStyle.copyWith(color: Colors.white, fontWeight: FontWeight.bold);
+            textStyle = style?.selectedDayTextStyle ?? textStyle.copyWith(color: theme.colorToken.surface, fontWeight: FontWeight.bold);
           }
 
           return Expanded(
@@ -91,7 +92,7 @@ class SDatePickerMonthGrid
                   margin: const EdgeInsets.all(4), // Spacing
                   decoration: isSelected
                       ? BoxDecoration(
-                          color: style?.selectedDayBackgroundColor ?? theme.primaryColor,
+                          color: style?.selectedDayBackgroundColor ?? theme.colorToken.primary,
                           borderRadius: BorderRadius.circular(2),
                         )
                       : null,

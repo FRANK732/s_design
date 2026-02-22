@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 's_date_picker_style.dart';
 import 's_date_picker_style_helper.dart';
 import 's_date_picker_types.dart';
+import '../../../themes/s_theme.dart';
+import '../../../themes/s_theme_data.dart';
 import 'widgets/s_date_picker_panel.dart';
 
 class SDatePicker
@@ -217,23 +219,23 @@ class _SDatePickerState
   Widget build(
       BuildContext
           context) {
-    final ThemeData
-        theme =
-        Theme.of(context);
+    final SThemeData
+        sTheme =
+        STheme.of(context);
     final Color borderColor = _isOpen
-        ? theme.primaryColor
-        : Colors.grey.shade300;
+        ? sTheme.colorToken.primary
+        : sTheme.colorToken.divider;
 
     // Use custom decoration if provided, else default
     final BoxDecoration decoration = widget.style?.inputDecoration ??
         BoxDecoration(
-          color: widget.disabled ? Colors.grey.shade100 : Colors.white,
+          color: widget.disabled ? sTheme.colorToken.background : sTheme.colorToken.surface,
           border: Border.all(color: borderColor),
           borderRadius: BorderRadius.circular(6),
           boxShadow: _isOpen
               ? [
                   BoxShadow(
-                    color: theme.primaryColor.withOpacity(0.2),
+                    color: sTheme.colorToken.primary.withOpacity(0.2),
                     spreadRadius: 2,
                     blurRadius: 0,
                   )
@@ -242,8 +244,8 @@ class _SDatePickerState
         );
 
     final TextStyle textStyle = widget.value != null
-        ? (widget.style?.inputTextStyle ?? const TextStyle(color: Colors.black87))
-        : (widget.style?.placeholderStyle ?? TextStyle(color: Colors.grey.shade400));
+        ? (widget.style?.inputTextStyle ?? TextStyle(color: sTheme.colorToken.textPrimary))
+        : (widget.style?.placeholderStyle ?? TextStyle(color: sTheme.colorToken.textSecondary));
 
     // Mimic SSelect Trigger style
     return CompositedTransformTarget(
@@ -271,14 +273,14 @@ class _SDatePickerState
                   onTap: () {
                     widget.onChange?.call(null);
                   }, // Hover to clear not implemented yet, simple click to clear if logic added
-                  child: Icon(Icons.close, size: 14, color: Colors.grey.shade400),
+                  child: Icon(Icons.close, size: 14, color: sTheme.colorToken.textSecondary),
                 )
               else
                 widget.style?.icon ??
                     Icon(
                       Icons.calendar_today,
                       size: 14,
-                      color: Colors.grey.shade400,
+                      color: sTheme.colorToken.textSecondary,
                     ),
             ],
           ),

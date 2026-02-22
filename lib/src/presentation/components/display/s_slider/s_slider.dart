@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../../themes/s_theme.dart';
+import '../../../themes/s_theme_data.dart';
+
 enum SSliderType {
   single,
   range
@@ -124,30 +127,33 @@ class _SSliderState
   Widget _buildSliderLayout(
       BuildContext
           context) {
-    final theme =
-        Theme.of(context);
-    final primaryColor =
-        widget.activeColor ?? theme.primaryColor;
+    final SThemeData
+        sTheme =
+        STheme.of(context);
+    final Color
+        primaryColor =
+        widget.activeColor ?? sTheme.colorToken.primary;
 
     // Style Theme
-    final sliderTheme =
+    final SliderThemeData
+        sliderTheme =
         SliderThemeData(
       trackHeight:
           4.0,
       activeTrackColor:
           primaryColor,
       inactiveTrackColor:
-          widget.inactiveColor ?? Colors.grey.shade300,
+          widget.inactiveColor ?? sTheme.colorToken.divider,
       disabledActiveTrackColor:
-          Colors.grey.shade400,
+          primaryColor.withOpacity(0.5),
       disabledInactiveTrackColor:
-          Colors.grey.shade200,
+          sTheme.colorToken.divider.withOpacity(0.5),
       activeTickMarkColor:
           Colors.white.withOpacity(0.7),
       inactiveTickMarkColor:
           primaryColor.withOpacity(0.7),
       thumbColor:
-          widget.thumbColor ?? Colors.white,
+          widget.thumbColor ?? sTheme.colorToken.surface,
       thumbShape:
           const _DefaultThumbShape(),
       overlayColor:
@@ -162,14 +168,26 @@ class _SSliderState
       valueIndicatorShape:
           _DefaultValueIndicatorShape(),
       valueIndicatorColor:
-          Colors.black.withOpacity(0.8), // Tooltip bg
+          sTheme.colorToken.textPrimary, // Tooltip bg
       valueIndicatorTextStyle:
-          const TextStyle(color: Colors.white, fontSize: 12),
+          TextStyle(color: sTheme.colorToken.surface, fontSize: 12),
       rangeThumbShape:
           const _DefaultRangeThumbShape(),
     );
 
-    Widget
+    String
+        formatValue(double v) {
+      final String
+          s =
+          v.toStringAsFixed(2);
+      if (s.endsWith('.00'))
+        return s.substring(0, s.length - 3);
+      if (s.endsWith('0'))
+        return s.substring(0, s.length - 1);
+      return s;
+    }
+
+    final Widget
         sliderWidget =
         SliderTheme(
       data:
@@ -183,7 +201,7 @@ class _SSliderState
               min: widget.min,
               max: widget.max,
               divisions: widget.divisions,
-              label: widget.label ?? (widget.tooltipVisible ? widget.value.toStringAsFixed(0) : null),
+              label: widget.label ?? (widget.tooltipVisible ? formatValue(widget.value) : null),
             )
           : RangeSlider(
               values: widget.rangeValues!,
@@ -193,7 +211,7 @@ class _SSliderState
               min: widget.min,
               max: widget.max,
               divisions: widget.divisions,
-              labels: widget.label != null ? RangeLabels(widget.label!, widget.label!) : (widget.tooltipVisible ? RangeLabels(widget.rangeValues!.start.toStringAsFixed(0), widget.rangeValues!.end.toStringAsFixed(0)) : null),
+              labels: widget.label != null ? RangeLabels(widget.label!, widget.label!) : (widget.tooltipVisible ? RangeLabels(formatValue(widget.rangeValues!.start), formatValue(widget.rangeValues!.end)) : null),
             ),
     );
 
@@ -214,9 +232,11 @@ class _SSliderState
   Widget _buildMarks(
       BuildContext
           context) {
+    final sTheme =
+        STheme.of(context);
     return LayoutBuilder(
       builder:
-          (context, constraints) {
+          (BuildContext context, BoxConstraints constraints) {
         final double width = constraints.maxWidth;
         // Slider has default padding depending on thumb size.
         // We assume standard Material Slider padding of 24.
@@ -229,7 +249,7 @@ class _SSliderState
           // We use Stack to position marks absolutely based on value
           child: Stack(
             clipBehavior: Clip.none,
-            children: widget.marks!.entries.map((entry) {
+            children: widget.marks!.entries.map((MapEntry<double, Widget> entry) {
               final double value = entry.key;
               final Widget label = entry.value;
 
@@ -243,7 +263,7 @@ class _SSliderState
                 top: 4,
                 child: Center(
                   child: DefaultTextStyle(
-                    style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                    style: TextStyle(fontSize: 12, color: sTheme.colorToken.textSecondary),
                     child: label,
                   ),
                 ),
@@ -259,11 +279,13 @@ class _SSliderState
 // Custom Paint for Handle (White circle with border and shadow)
 class _DefaultThumbShape
     extends SliderComponentShape {
-  final double
-      thumbRadius =
-      6.0;
+  const _DefaultThumbShape({
+    this.thumbRadius =
+        6.0,
+  });
 
-  const _DefaultThumbShape();
+  final double
+      thumbRadius;
 
   @override
   Size getPreferredSize(
@@ -317,11 +339,11 @@ class _DefaultThumbShape
         3.0,
         true);
 
-    // Fill (White)
+    // Fill
     final Paint
         fillPaint =
         Paint()
-          ..color = Colors.white
+          ..color = sliderTheme.thumbColor ?? Colors.white
           ..style = PaintingStyle.fill;
     canvas.drawCircle(
         center,
@@ -347,11 +369,13 @@ class _DefaultThumbShape
 
 class _DefaultRangeThumbShape
     extends RangeSliderThumbShape {
-  final double
-      thumbRadius =
-      6.0;
+  const _DefaultRangeThumbShape({
+    this.thumbRadius =
+        6.0,
+  });
 
-  const _DefaultRangeThumbShape();
+  final double
+      thumbRadius;
 
   @override
   Size getPreferredSize(
@@ -407,7 +431,7 @@ class _DefaultRangeThumbShape
     final Paint
         fillPaint =
         Paint()
-          ..color = Colors.white
+          ..color = sliderTheme.thumbColor ?? Colors.white
           ..style = PaintingStyle.fill;
     canvas.drawCircle(
         center,
@@ -476,8 +500,9 @@ class _DefaultValueIndicatorShape
         scale =
         activationAnimation.value;
     if (scale ==
-        0)
+        0) {
       return;
+    }
 
     // Adjust position above thumb
     final Offset

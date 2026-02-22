@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../themes/s_theme_data.dart';
 
 class SDatePickerStyleHelper {
   static const double
@@ -19,29 +20,30 @@ class SDatePickerStyleHelper {
       8.0;
 
   static Color
-      getHeaderColor(ThemeData theme) {
-    return theme.textTheme.bodyMedium?.color ??
-        Colors.black87;
+      getHeaderColor(SThemeData theme) {
+    return theme
+        .colorToken
+        .textPrimary;
   }
 
   static Color
-      getWeekDayColor(ThemeData theme) {
-    return Colors
-        .grey
-        .shade600;
+      getWeekDayColor(SThemeData theme) {
+    return theme
+        .colorToken
+        .textSecondary;
   }
 
   static Color getDayColor(
-      ThemeData
+      SThemeData
           theme,
       {required bool
           isCurrentMonth,
       required bool
           isToday}) {
     if (isToday)
-      return theme.primaryColor;
+      return theme.colorToken.primary;
     return isCurrentMonth
-        ? (theme.textTheme.bodyMedium?.color ?? Colors.black87)
-        : Colors.grey.shade400;
+        ? theme.colorToken.textPrimary
+        : theme.colorToken.textSecondary.withOpacity(0.5);
   }
 }

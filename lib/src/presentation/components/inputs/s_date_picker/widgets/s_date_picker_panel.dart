@@ -4,6 +4,8 @@ import '../s_date_picker_style_helper.dart';
 import '../s_date_picker_types.dart';
 import 's_date_picker_calendar.dart';
 import 's_date_picker_month_grid.dart';
+import '../../../../themes/s_theme.dart';
+import '../../../../themes/s_theme_data.dart';
 import 's_date_picker_year_grid.dart';
 
 class SDatePickerPanel
@@ -173,13 +175,16 @@ class _SDatePickerPanelState
       ],
     );
 
+    final SThemeData
+        sTheme =
+        STheme.of(context);
     final BoxDecoration decoration = widget.style?.popupDecoration ??
         BoxDecoration(
-          color: Colors.white,
+          color: sTheme.colorToken.surface,
           borderRadius: BorderRadius.circular(2),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: sTheme.colorToken.shadow.withOpacity(0.1),
               blurRadius: 4,
               offset: const Offset(0, 2),
             ),
@@ -200,7 +205,6 @@ class _SDatePickerPanelState
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   _buildPresetsSidebar(),
-                  const VerticalDivider(width: 1, color: Colors.grey),
                   const SizedBox(width: 8),
                   Expanded(child: content),
                 ],
@@ -296,9 +300,9 @@ class _SDatePickerPanelState
 
   Widget
       _buildHeader() {
-    final ThemeData
+    final SThemeData
         theme =
-        Theme.of(context);
+        STheme.of(context);
     final TextStyle headerStyle = widget.style?.headerTextStyle ??
         TextStyle(
           fontWeight: FontWeight.bold,

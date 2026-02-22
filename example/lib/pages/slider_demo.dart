@@ -18,14 +18,14 @@ class _SSliderDemoPageState
         SSliderDemoPage> {
   double
       _basic =
-      0.5;
+      50.0;
   RangeValues
       _range =
-      const RangeValues(0.2,
-          0.7);
+      const RangeValues(20.0,
+          70.0);
   double
       _stepped =
-      0.4;
+      2.0;
 
   @override
   Widget build(
@@ -49,16 +49,17 @@ class _SSliderDemoPageState
           demo: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SSlider.single(value: _basic, onChanged: (v) => setState(() => _basic = v)),
+              SSlider.single(value: _basic, max: 100, onChanged: (v) => setState(() => _basic = v)),
               const SizedBox(height: 8),
-              Text('Value: ${(_basic * 100).toInt()}%'),
+              Text('Value: ${_basic.toInt()}%'),
             ],
           ),
           code: '''
-double _value = 0.5;
+double _value = 50.0;
 
 SSlider.single(
   value: _value,
+  max: 100,
   onChanged: (v) => setState(() => _value = v),
 );''',
         ),
@@ -70,17 +71,19 @@ SSlider.single(
             children: [
               SSlider.range(
                 rangeValues: _range,
+                max: 100,
                 onRangeChanged: (r) => setState(() => _range = r),
               ),
               const SizedBox(height: 8),
-              Text('Range: ${(_range.start * 100).toInt()}% – ${(_range.end * 100).toInt()}%'),
+              Text('Range: ${_range.start.toInt()}% – ${_range.end.toInt()}%'),
             ],
           ),
           code: '''
-RangeValues _range = const RangeValues(0.2, 0.7);
+RangeValues _range = const RangeValues(20.0, 70.0);
 
 SSlider.range(
   rangeValues: _range,
+  max: 100,
   onRangeChanged: (r) => setState(() => _range = r),
 );''',
         ),
@@ -94,10 +97,10 @@ SSlider.range(
                 value: _stepped,
                 onChanged: (v) => setState(() => _stepped = v),
                 divisions: 4,
-                max: 1.0,
+                max: 4,
               ),
               const SizedBox(height: 8),
-              Text('Step: ${(_stepped * 100).toInt()}% of 4 steps'),
+              Text('Step: ${_stepped.toInt()} of 4'),
             ],
           ),
           code: '''
@@ -105,6 +108,7 @@ SSlider.single(
   value: _value,
   onChanged: (v) => setState(() => _value = v),
   divisions: 4,
+  max: 4,
 );''',
         ),
         ComponentSection(
@@ -113,20 +117,22 @@ SSlider.single(
           demo: SSlider.single(
             value: _basic,
             onChanged: (v) => setState(() => _basic = v),
+            max: 100,
             marks: {
               0.0: const Text('0'),
-              0.25: const Text('25'),
-              0.5: const Text('50'),
-              0.75: const Text('75'),
-              1.0: const Text('100'),
+              25.0: const Text('25'),
+              50.0: const Text('50'),
+              75.0: const Text('75'),
+              100.0: const Text('100'),
             },
           ),
           code: '''
 SSlider.single(
   value: _value,
   onChanged: (v) => setState(() => _value = v),
+  max: 100,
   marks: const {
-    0.0: Text('0'), 0.5: Text('50'), 1.0: Text('100'),
+    0.0: Text('0'), 50.0: Text('50'), 100.0: Text('100'),
   },
 );''',
         ),

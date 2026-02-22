@@ -199,6 +199,49 @@ class SInputFieldThemeData
           : other.focusedBorderWidth,
     );
   }
+
+  @override
+  bool operator ==(
+      Object
+          other) {
+    if (identical(
+        this,
+        other))
+      return true;
+    if (other.runtimeType !=
+        runtimeType)
+      return false;
+    return other is SInputFieldThemeData &&
+        other.backgroundColor == backgroundColor &&
+        other.borderColor == borderColor &&
+        other.focusedBorderColor == focusedBorderColor &&
+        other.errorBorderColor == errorBorderColor &&
+        other.disabledBorderColor == disabledBorderColor &&
+        other.hintTextColor == hintTextColor &&
+        other.labelColor == labelColor &&
+        other.textColor == textColor &&
+        other.borderRadius == borderRadius &&
+        other.borderWidth == borderWidth &&
+        other.focusedBorderWidth == focusedBorderWidth;
+  }
+
+  @override
+  int get hashCode {
+    return Object
+        .hashAll([
+      backgroundColor,
+      borderColor,
+      focusedBorderColor,
+      errorBorderColor,
+      disabledBorderColor,
+      hintTextColor,
+      labelColor,
+      textColor,
+      borderRadius,
+      borderWidth,
+      focusedBorderWidth,
+    ]);
+  }
 }
 
 /// Extension to access [SInputFieldThemeData] from [ThemeData].

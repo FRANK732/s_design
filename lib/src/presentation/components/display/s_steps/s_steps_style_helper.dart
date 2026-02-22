@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 's_step_item.dart';
+import '../../../themes/s_theme_data.dart';
 
 /// Style helper for formatting SSteps based on status and size.
 class SStepsStyleHelper {
@@ -42,7 +43,7 @@ class SStepsStyleHelper {
       getIconColor({
     required SStepStatus
         status,
-    required ThemeData
+    required SThemeData
         theme,
     required bool
         isCustomIcon,
@@ -51,13 +52,13 @@ class SStepsStyleHelper {
         status) {
       case SStepStatus.finish:
         // If custom icon, it might not need color override, but usually colors it primary
-        return theme.primaryColor;
+        return theme.colorToken.primary;
       case SStepStatus.process:
-        return theme.primaryColor;
+        return theme.colorToken.primary;
       case SStepStatus.error:
-        return Colors.red; // SColors.red6
+        return theme.colorToken.error;
       case SStepStatus.wait:
-        return Colors.grey.shade400; // SColors.gray4 placeholder
+        return theme.colorToken.divider;
     }
   }
 
@@ -65,13 +66,13 @@ class SStepsStyleHelper {
       getIconBackgroundColor({
     required SStepStatus
         status,
-    required ThemeData
+    required SThemeData
         theme,
   }) {
     switch (
         status) {
       case SStepStatus.process:
-        return theme.primaryColor;
+        return theme.colorToken.primary;
       case SStepStatus.finish:
       case SStepStatus.error:
       case SStepStatus.wait:
@@ -83,19 +84,19 @@ class SStepsStyleHelper {
       getIconBorderColor({
     required SStepStatus
         status,
-    required ThemeData
+    required SThemeData
         theme,
   }) {
     switch (
         status) {
       case SStepStatus.process:
-        return theme.primaryColor;
+        return theme.colorToken.primary;
       case SStepStatus.finish:
-        return theme.primaryColor; // Finish is usually outlined with primary, checkmark inside
+        return theme.colorToken.primary; // Finish is usually outlined with primary, checkmark inside
       case SStepStatus.error:
-        return Colors.red;
+        return theme.colorToken.error;
       case SStepStatus.wait:
-        return Colors.grey.shade400;
+        return theme.colorToken.divider;
     }
   }
 
@@ -103,19 +104,19 @@ class SStepsStyleHelper {
       getTitleColor({
     required SStepStatus
         status,
-    required ThemeData
+    required SThemeData
         theme,
   }) {
     switch (
         status) {
       case SStepStatus.process:
-        return Colors.black87; // SColors.gray9
+        return theme.colorToken.textPrimary;
       case SStepStatus.finish:
-        return Colors.black87;
+        return theme.colorToken.textPrimary;
       case SStepStatus.error:
-        return Colors.red;
+        return theme.colorToken.error;
       case SStepStatus.wait:
-        return Colors.grey.shade600; // SColors.gray6
+        return theme.colorToken.textSecondary;
     }
   }
 
@@ -123,14 +124,16 @@ class SStepsStyleHelper {
       getDescriptionColor({
     required SStepStatus
         status,
+    required SThemeData
+        theme,
   }) {
     if (status ==
         SStepStatus.error) {
-      return Colors.red;
+      return theme.colorToken.error;
     }
-    return Colors
-        .grey
-        .shade600;
+    return theme
+        .colorToken
+        .textSecondary;
   }
 }
 

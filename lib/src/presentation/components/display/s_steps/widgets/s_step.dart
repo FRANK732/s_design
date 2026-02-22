@@ -48,8 +48,8 @@ class SStep
   Widget build(
       BuildContext
           context) {
-    final theme =
-        Theme.of(context);
+    final sTheme =
+        STheme.of(context);
     final isHorizontal =
         direction == Axis.horizontal;
     // final isVertical = direction == Axis.vertical; // Unused
@@ -62,7 +62,7 @@ class SStep
       status:
           status,
       theme:
-          theme,
+          sTheme,
       isCustomIcon:
           item.icon != null || customIcon != null,
     );
@@ -71,10 +71,11 @@ class SStep
       status:
           status,
       theme:
-          theme,
+          sTheme,
     );
-    final descriptionColor =
-        SStepsStyleHelper.getDescriptionColor(status: status);
+    final descriptionColor = SStepsStyleHelper.getDescriptionColor(
+        status: status,
+        theme: sTheme);
 
     Widget
         iconWidget;
@@ -105,7 +106,7 @@ class SStep
           Text(
         '${index + 1}',
         style: TextStyle(
-          color: status == SStepStatus.process ? Colors.white : Colors.grey.shade600,
+          color: status == SStepStatus.process ? sTheme.colorToken.surface : sTheme.colorToken.textSecondary,
           fontSize: SStepsStyleHelper.getIconFontSize(size),
           fontWeight: FontWeight.w500,
         ),
@@ -124,10 +125,10 @@ class SStep
       decoration:
           BoxDecoration(
         shape: BoxShape.circle,
-        color: item.icon == null && status == SStepStatus.process ? theme.primaryColor : Colors.transparent, // Process fills background
+        color: item.icon == null && status == SStepStatus.process ? sTheme.colorToken.primary : Colors.transparent, // Process fills background
         border: item.icon == null
             ? Border.all(
-                color: status == SStepStatus.process ? theme.primaryColor : (status == SStepStatus.wait ? Colors.grey.shade400 : iconColor),
+                color: status == SStepStatus.process ? sTheme.colorToken.primary : (status == SStepStatus.wait ? sTheme.colorToken.divider : iconColor),
                 width: 1,
               )
             : null,
@@ -164,7 +165,7 @@ class SStep
                 child: DefaultTextStyle(
                   style: TextStyle(
                     fontSize: 12, // Subtitle usually smaller
-                    color: Colors.grey.shade600,
+                    color: sTheme.colorToken.textSecondary,
                     fontWeight: FontWeight.normal,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -219,7 +220,7 @@ class SStep
                       Expanded(
                         child: Container(
                           height: 1,
-                          color: status == SStepStatus.finish ? theme.primaryColor : Colors.grey.shade300,
+                          color: status == SStepStatus.finish ? sTheme.colorToken.primary : sTheme.colorToken.divider,
                         ),
                       ),
                       const SizedBox(width: 8),
@@ -273,7 +274,7 @@ class SStep
                 InkWell(onTap: item.disabled ? null : onTap, child: iconContainer),
                 Expanded(
                   flex: 10,
-                  child: !isLast ? Container(height: 1, margin: EdgeInsets.symmetric(horizontal: 10), color: status == SStepStatus.finish ? theme.primaryColor : Colors.grey.shade300) : SizedBox(),
+                  child: !isLast ? Container(height: 1, margin: EdgeInsets.symmetric(horizontal: 10), color: status == SStepStatus.finish ? sTheme.colorToken.primary : sTheme.colorToken.divider) : SizedBox(),
                 ),
               ],
             ),
@@ -308,7 +309,7 @@ class SStep
                   child: Container(
                     width: 1,
                     margin: const EdgeInsets.symmetric(vertical: 4),
-                    color: status == SStepStatus.finish ? theme.primaryColor : Colors.grey.shade300,
+                    color: status == SStepStatus.finish ? sTheme.colorToken.primary : sTheme.colorToken.divider,
                   ),
                 ),
             ],

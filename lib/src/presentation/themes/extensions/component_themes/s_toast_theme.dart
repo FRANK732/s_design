@@ -107,6 +107,39 @@ class SToastThemeData
           t)!,
     );
   }
+
+  @override
+  bool operator ==(
+      Object
+          other) {
+    if (identical(
+        this,
+        other))
+      return true;
+    if (other.runtimeType !=
+        runtimeType)
+      return false;
+    return other is SToastThemeData &&
+        other.backgroundColor == backgroundColor &&
+        other.textColor == textColor &&
+        other.successColor == successColor &&
+        other.errorColor == errorColor &&
+        other.infoColor == infoColor &&
+        other.warningColor == warningColor;
+  }
+
+  @override
+  int get hashCode {
+    return Object
+        .hashAll([
+      backgroundColor,
+      textColor,
+      successColor,
+      errorColor,
+      infoColor,
+      warningColor,
+    ]);
+  }
 }
 
 /// Extension to access [SToastThemeData] from [ThemeData].

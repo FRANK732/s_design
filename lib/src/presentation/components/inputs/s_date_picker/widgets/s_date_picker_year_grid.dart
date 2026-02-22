@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../themes/s_theme.dart';
 import '../s_date_picker_style.dart';
 
 class SDatePickerYearGrid
@@ -25,7 +26,7 @@ class SDatePickerYearGrid
       BuildContext
           context) {
     final theme =
-        Theme.of(context);
+        STheme.of(context);
     final startYear =
         (viewDate.year ~/ 10) * 10;
 
@@ -45,9 +46,9 @@ class SDatePickerYearGrid
           final isCurrentDecade = year >= startYear && year <= startYear + 9;
           final isCurrentYear = DateTime.now().year == year;
 
-          Color textColor = isCurrentDecade ? (theme.textTheme.bodyMedium?.color ?? Colors.black87) : Colors.grey.shade400;
-          if (isCurrentYear) textColor = theme.primaryColor;
-          if (isSelected) textColor = Colors.white;
+          Color textColor = isCurrentDecade ? theme.colorToken.textPrimary : theme.colorToken.textSecondary.withOpacity(0.5);
+          if (isCurrentYear) textColor = theme.colorToken.primary;
+          if (isSelected) textColor = theme.colorToken.surface;
 
           TextStyle textStyle = style?.dayTextStyle ??
               TextStyle(
@@ -57,11 +58,11 @@ class SDatePickerYearGrid
               );
 
           if (!isCurrentDecade) {
-            textStyle = style?.disabledDayTextStyle ?? textStyle.copyWith(color: Colors.grey.shade400);
+            textStyle = style?.disabledDayTextStyle ?? textStyle.copyWith(color: theme.colorToken.textSecondary.withOpacity(0.5));
           }
 
           if (isSelected) {
-            textStyle = style?.selectedDayTextStyle ?? textStyle.copyWith(color: Colors.white, fontWeight: FontWeight.bold);
+            textStyle = style?.selectedDayTextStyle ?? textStyle.copyWith(color: theme.colorToken.surface, fontWeight: FontWeight.bold);
           }
 
           return Expanded(
@@ -75,7 +76,7 @@ class SDatePickerYearGrid
                   margin: const EdgeInsets.all(4), // Spacing
                   decoration: isSelected
                       ? BoxDecoration(
-                          color: style?.selectedDayBackgroundColor ?? theme.primaryColor,
+                          color: style?.selectedDayBackgroundColor ?? theme.colorToken.primary,
                           borderRadius: BorderRadius.circular(2),
                         )
                       : null,

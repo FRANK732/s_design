@@ -364,7 +364,7 @@ class _TimeColumnState
                 child: Text(
                   widget.label(widget.items[i]),
                   style: widget.itemStyle.copyWith(
-                    color: sel ? widget.primary : Colors.black87,
+                    color: sel ? widget.primary : STheme.of(context).colorToken.textPrimary,
                     fontWeight: sel ? FontWeight.w600 : FontWeight.w400,
                     fontSize: 14,
                   ),
@@ -844,8 +844,6 @@ class _STimePickerState
         STheme.of(ctx);
     final ext =
         th.timePickerTheme;
-    final dark =
-        th.brightness == Brightness.dark;
 
     double
         fh,
@@ -878,21 +876,21 @@ class _STimePickerState
     switch (
         widget.status) {
       case STimePickerStatus.error:
-        bc = const Color(0xFFFF4D4F);
+        bc = th.colorToken.error;
         break;
       case STimePickerStatus.warning:
-        bc = const Color(0xFFFAAD14);
+        bc = const Color(0xFFFAAD14); // Keep warning as amber
         break;
       default:
-        bc = widget.borderColor ?? ext.borderColor ?? (dark ? const Color(0xFF434343) : const Color(0xFFD9D9D9));
+        bc = widget.borderColor ?? ext.borderColor ?? th.colorToken.divider;
     }
 
     final primary = widget.activeColor ??
         ext.activeColor ??
-        const Color(0xFF1677FF);
+        th.colorToken.primary;
     final panelBg = widget.panelBackground ??
         ext.panelBackground ??
-        (dark ? const Color(0xFF1F1F1F) : Colors.white);
+        th.colorToken.surface;
 
     return _Tok(
       primary:
@@ -909,13 +907,13 @@ class _STimePickerState
           BorderRadius.circular(6),
       fillBg: widget.fillColor ??
           ext.fillColor ??
-          (dark ? const Color(0xFF1A1A1A) : const Color(0xFFF5F5F5)),
+          th.colorToken.background,
       textStyle:
-          (widget.textStyle ?? ext.textStyle ?? const TextStyle()).copyWith(fontSize: fs, color: dark ? Colors.white : Colors.black87),
+          (widget.textStyle ?? ext.textStyle ?? const TextStyle()).copyWith(fontSize: fs, color: th.colorToken.textPrimary),
       placeholderStyle:
-          (widget.placeholderStyle ?? ext.placeholderStyle ?? const TextStyle()).copyWith(fontSize: fs, color: const Color(0xFFBFBFBF)),
+          (widget.placeholderStyle ?? ext.placeholderStyle ?? const TextStyle()).copyWith(fontSize: fs, color: th.colorToken.textSecondary),
       itemStyle:
-          (widget.itemTextStyle ?? ext.itemTextStyle ?? const TextStyle()).copyWith(fontSize: 14, color: Colors.black87),
+          (widget.itemTextStyle ?? ext.itemTextStyle ?? const TextStyle()).copyWith(fontSize: 14, color: th.colorToken.textPrimary),
       itemH: widget.itemHeight ??
           ext.itemHeight ??
           32,
@@ -937,6 +935,8 @@ class _STimePickerState
   Widget build(
       BuildContext
           context) {
+    final th =
+        STheme.of(context);
     final tk =
         _tok(context);
     final t =
@@ -967,14 +967,14 @@ class _STimePickerState
       case STimePickerVariant.underlined:
         deco = BoxDecoration(
           border: Border(
-            bottom: BorderSide(color: widget.disabled ? const Color(0xFFD9D9D9) : tk.borderColor),
+            bottom: BorderSide(color: widget.disabled ? th.colorToken.divider : tk.borderColor),
           ),
         );
         break;
       default:
         deco = BoxDecoration(
-          color: widget.disabled ? const Color(0xFFF5F5F5) : Colors.transparent,
-          border: Border.all(color: widget.disabled ? const Color(0xFFD9D9D9) : tk.borderColor),
+          color: widget.disabled ? th.colorToken.background : Colors.transparent,
+          border: Border.all(color: widget.disabled ? th.colorToken.divider : tk.borderColor),
           borderRadius: tk.radius,
         );
     }
@@ -1017,10 +1017,10 @@ class _STimePickerState
                   GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onTap: _clear,
-                    child: Icon(Icons.cancel, size: tk.iconSz, color: const Color(0xFFBFBFBF)),
+                    child: Icon(Icons.cancel, size: tk.iconSz, color: th.colorToken.textSecondary),
                   )
                 else
-                  widget.suffixIcon ?? Icon(Icons.access_time, size: tk.iconSz, color: widget.disabled ? const Color(0xFFBFBFBF) : const Color(0xFF8C8C8C)),
+                  widget.suffixIcon ?? Icon(Icons.access_time, size: tk.iconSz, color: widget.disabled ? th.colorToken.disabled : th.colorToken.textSecondary),
               ],
             ),
           ),
@@ -1249,7 +1249,7 @@ class _PanelOverlayState
     Widget div() => Container(
         width: 1,
         height: colH,
-        color: const Color(0x0F000000));
+        color: tk.borderColor.withOpacity(0.1));
 
     return SizedBox(
       height:
@@ -1343,12 +1343,12 @@ class _PanelOverlayState
           ),
 
           // ② Top gradient — fades top 1 item
-          IgnorePointer(
-            child: Positioned(
-              left: 0,
-              right: 0,
-              top: 0,
-              height: tk.itemH,
+          Positioned(
+            left: 0,
+            right: 0,
+            top: 0,
+            height: tk.itemH,
+            child: IgnorePointer(
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -1366,12 +1366,12 @@ class _PanelOverlayState
           ),
 
           // ③ Bottom gradient — fades bottom 1 item
-          IgnorePointer(
-            child: Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              height: tk.itemH,
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: tk.itemH,
+            child: IgnorePointer(
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -1389,24 +1389,24 @@ class _PanelOverlayState
           ),
 
           // ④ Center stripe — top border
-          IgnorePointer(
-            child: Positioned(
-              left: 0,
-              right: 0,
-              top: tk.itemH * 3,
-              height: 1,
-              child: const ColoredBox(color: Color(0xFFE0E0E0)),
+          Positioned(
+            left: 0,
+            right: 0,
+            top: tk.itemH * 3,
+            height: 1,
+            child: IgnorePointer(
+              child: ColoredBox(color: tk.borderColor.withOpacity(0.2)),
             ),
           ),
 
           // ⑤ Center stripe — bottom border
-          IgnorePointer(
-            child: Positioned(
-              left: 0,
-              right: 0,
-              top: tk.itemH * 4,
-              height: 1,
-              child: const ColoredBox(color: Color(0xFFE0E0E0)),
+          Positioned(
+            left: 0,
+            right: 0,
+            top: tk.itemH * 4,
+            height: 1,
+            child: IgnorePointer(
+              child: ColoredBox(color: tk.borderColor.withOpacity(0.2)),
             ),
           ),
         ],
@@ -1425,8 +1425,8 @@ class _PanelOverlayState
       height:
           40,
       decoration:
-          const BoxDecoration(
-        border: Border(top: BorderSide(color: Color(0x0F000000))),
+          BoxDecoration(
+        border: Border(top: BorderSide(color: tk.borderColor.withOpacity(0.1))),
       ),
       padding:
           const EdgeInsets.symmetric(horizontal: 12),

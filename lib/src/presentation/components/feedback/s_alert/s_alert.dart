@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../../domain/entities/config/s_alert_type.dart';
 import '../../../themes/extensions/component_themes/s_alert_theme.dart';
+import '../../../themes/s_theme.dart';
+import '../../../themes/s_theme_data.dart';
 
 /// A static-inline alert component.
 ///
@@ -267,9 +269,12 @@ class _SAlertState
     if (!_visible)
       return const SizedBox.shrink();
 
+    final SThemeData
+        sTheme =
+        STheme.of(context);
     final SAlertThemeData
         theme =
-        Theme.of(context).sAlertTheme;
+        sTheme.alertTheme;
     final SAlertType effectiveType = widget.banner && widget.type == SAlertType.info
         ? SAlertType.warning
         : widget.type;
@@ -279,7 +284,7 @@ class _SAlertState
 
     final _SAlertColors
         colors =
-        _SAlertColors.resolve(effectiveType, theme);
+        _SAlertColors.resolve(effectiveType, sTheme);
 
     final Color
         bgColor =
@@ -466,45 +471,55 @@ class _SAlertColors {
   static _SAlertColors resolve(
       SAlertType
           type,
-      SAlertThemeData
-          theme) {
+      SThemeData
+          sTheme) {
+    final theme =
+        sTheme.alertTheme;
+    final isLight =
+        sTheme.brightness == Brightness.light;
+    final textPrimary = sTheme
+        .colorToken
+        .textPrimary;
+    final textSecondary = sTheme
+        .colorToken
+        .textSecondary;
     switch (
         type) {
       case SAlertType.success:
         return _SAlertColors(
-          background: theme.successBackgroundColor ?? const Color(0xFFF6FFED),
-          border: theme.successBorderColor ?? const Color(0xFFB7EB8F),
-          icon: theme.successIconColor ?? const Color(0xFF52C41A),
-          titleText: const Color(0xFF135200),
-          descText: const Color(0xFF135200),
-          closeIcon: const Color(0xFF52C41A),
+          background: theme.successBackgroundColor ?? Color(isLight ? 0xFFF6FFED : 0xFF1B2B1B),
+          border: theme.successBorderColor ?? Color(isLight ? 0xFFB7EB8F : 0xFF274916),
+          icon: theme.successIconColor ?? Color(isLight ? 0xFF52C41A : 0xFF49AA19),
+          titleText: textPrimary,
+          descText: textSecondary,
+          closeIcon: theme.successIconColor ?? Color(isLight ? 0xFF52C41A : 0xFF49AA19),
         );
       case SAlertType.info:
         return _SAlertColors(
-          background: theme.infoBackgroundColor ?? const Color(0xFFE6F4FF),
-          border: theme.infoBorderColor ?? const Color(0xFF91CAFF),
-          icon: theme.infoIconColor ?? const Color(0xFF1677FF),
-          titleText: const Color(0xFF002C8C),
-          descText: const Color(0xFF002C8C),
-          closeIcon: const Color(0xFF1677FF),
+          background: theme.infoBackgroundColor ?? Color(isLight ? 0xFFE6F4FF : 0xFF112133),
+          border: theme.infoBorderColor ?? Color(isLight ? 0xFF91CAFF : 0xFF153358),
+          icon: theme.infoIconColor ?? Color(isLight ? 0xFF1677FF : 0xFF1765AD),
+          titleText: textPrimary,
+          descText: textSecondary,
+          closeIcon: theme.infoIconColor ?? Color(isLight ? 0xFF1677FF : 0xFF1765AD),
         );
       case SAlertType.warning:
         return _SAlertColors(
-          background: theme.warningBackgroundColor ?? const Color(0xFFFFFBE6),
-          border: theme.warningBorderColor ?? const Color(0xFFFFE58F),
-          icon: theme.warningIconColor ?? const Color(0xFFFFAB00),
-          titleText: const Color(0xFF7C4A03),
-          descText: const Color(0xFF7C4A03),
-          closeIcon: const Color(0xFFFFAB00),
+          background: theme.warningBackgroundColor ?? Color(isLight ? 0xFFFFFBE6 : 0xFF2B2111),
+          border: theme.warningBorderColor ?? Color(isLight ? 0xFFFFE58F : 0xFF4D3813),
+          icon: theme.warningIconColor ?? Color(isLight ? 0xFFFFAB00 : 0xFFD89000),
+          titleText: textPrimary,
+          descText: textSecondary,
+          closeIcon: theme.warningIconColor ?? Color(isLight ? 0xFFFFAB00 : 0xFFD89000),
         );
       case SAlertType.error:
         return _SAlertColors(
-          background: theme.errorBackgroundColor ?? const Color(0xFFFFF2F0),
-          border: theme.errorBorderColor ?? const Color(0xFFFFCCC7),
-          icon: theme.errorIconColor ?? const Color(0xFFFF4D4F),
-          titleText: const Color(0xFF5C0011),
-          descText: const Color(0xFF5C0011),
-          closeIcon: const Color(0xFFFF4D4F),
+          background: theme.errorBackgroundColor ?? Color(isLight ? 0xFFFFF2F0 : 0xFF2F1515),
+          border: theme.errorBorderColor ?? Color(isLight ? 0xFFFFCCC7 : 0xFF581C1C),
+          icon: theme.errorIconColor ?? Color(isLight ? 0xFFFF4D4F : 0xFFD32029),
+          titleText: textPrimary,
+          descText: textSecondary,
+          closeIcon: theme.errorIconColor ?? Color(isLight ? 0xFFFF4D4F : 0xFFD32029),
         );
     }
   }
