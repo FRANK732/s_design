@@ -34,7 +34,7 @@ class _SCardDemoPageState
           context) {
     return SScaffold(
       appBar:
-          AppBar(title: const Text('SCard Demo (Ant Design)')),
+          AppBar(title: const Text('SCard Demo')),
       renderBody:
           (context) {
         return SingleChildScrollView(

@@ -37,7 +37,7 @@ class _SSliderDemoPageState
           context) {
     return SScaffold(
       appBar:
-          AppBar(title: const Text('SSlider Demo (Ant Design)')),
+          AppBar(title: const Text('SSlider Demo')),
       renderBody:
           (context) {
         return SingleChildScrollView(

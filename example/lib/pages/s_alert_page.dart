@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
 
-/// Demo page showcasing all Ant Design Alert samples for [SAlert].
+/// Demo page showcasing all Alert samples for [SAlert].
 class SAlertPage
     extends StatefulWidget {
   const SAlertPage(
@@ -26,7 +26,7 @@ class _SAlertPageState
           context) {
     return SScaffold(
       appBar:
-          AppBar(title: const Text('SAlert (Ant Design)')),
+          AppBar(title: const Text('SAlert')),
       renderBody: (context) =>
           ListView(
         padding: const EdgeInsets.all(16),

@@ -94,7 +94,7 @@ class _SAvatarPageState
 
     return Scaffold(
       appBar:
-          AppBar(title: const Text('SAvatar (Ant Design)')),
+          AppBar(title: const Text('SAvatar')),
       body:
           SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),

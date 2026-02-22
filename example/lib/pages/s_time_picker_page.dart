@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
 
 /// Demo page showcasing all [STimePicker] features, mirroring every
-/// Ant Design TimePicker demo section.
+/// TimePicker demo section.
 class STimePickerPage
     extends StatefulWidget {
   const STimePickerPage(
@@ -28,7 +28,7 @@ class _STimePickerPageState
     return SScaffold(
       appBar:
           AppBar(
-        title: const Text('STimePicker (Ant Design)'),
+        title: const Text('STimePicker'),
         elevation: 0,
       ),
       scrollable:
@@ -217,7 +217,7 @@ class _STimePickerPageState
             // ── 13. changeOnScroll ──────────────────────────────────────────
             _header('13. changeOnScroll'),
             _desc('onChange fires live as the user snaps each column '
-                '(needConfirm is false — Ant Design default for changeOnScroll).'),
+                '(needConfirm is false — default for changeOnScroll).'),
             STimePicker(
               changeOnScroll: true,
               needConfirm: false,
@@ -227,7 +227,7 @@ class _STimePickerPageState
 
             // ── 14. showNow: false ──────────────────────────────────────────
             _header('14. showNow: false'),
-            _desc('Hides the Now shortcut from the footer (mirroring Ant Design showNow prop).'),
+            _desc('Hides the Now shortcut from the footer (mirroring showNow prop).'),
             STimePicker(
               showNow: false,
               onChange: (t) => _snack(ctx, '$t'),

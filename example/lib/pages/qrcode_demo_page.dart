@@ -39,13 +39,13 @@ class _QRCodeDemoPageState
           children: [
             _buildSection(
               'Basic',
-              const SQRCode(value: 'https://ant.design/'),
+              const SQRCode(value: 'https://flutter.dev/'),
             ),
             const SizedBox(height: 32),
             _buildSection(
               'With Icon',
               SQRCode(
-                value: 'https://ant.design/',
+                value: 'https://flutter.dev/',
                 icon: Container(color: Colors.black, child: const Icon(Icons.hub, color: Colors.white, size: 24)),
               ),
             ),
@@ -53,7 +53,7 @@ class _QRCodeDemoPageState
             _buildSection(
               'Borderless',
               const SQRCode(
-                value: 'https://ant.design/',
+                value: 'https://flutter.dev/',
                 bordered: false,
               ),
             ),
@@ -61,7 +61,7 @@ class _QRCodeDemoPageState
             _buildSection(
               'Custom Colors',
               const SQRCode(
-                value: 'https://ant.design/',
+                value: 'https://flutter.dev/',
                 color: Colors.green,
                 backgroundColor: Color(0xFFf6ffed), // Light green bg
                 bordered: false,
@@ -74,7 +74,7 @@ class _QRCodeDemoPageState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SQRCode(
-                    value: 'https://ant.design/',
+                    value: 'https://flutter.dev/',
                     status: _status,
                     onRefresh: () {
                       setState(() {

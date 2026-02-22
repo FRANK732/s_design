@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
 
 /// Demo page showcasing all SPagination features, mirroring all
-/// Ant Design Pagination demo sections.
+/// Pagination demo sections.
 class SPaginationPage
     extends StatefulWidget {
   const SPaginationPage(
@@ -27,7 +27,7 @@ class _SPaginationPageState
     return SScaffold(
       appBar:
           AppBar(
-        title: const Text('SPagination (Ant Design)'),
+        title: const Text('SPagination'),
         elevation: 0,
       ),
       scrollable:

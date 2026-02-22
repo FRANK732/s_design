@@ -40,7 +40,7 @@ class _SSwitchDemoPageState
           context) {
     return SScaffold(
       appBar:
-          AppBar(title: const Text('SSwitch Demo (Ant Design)')),
+          AppBar(title: const Text('SSwitch Demo')),
       renderBody:
           (context) {
         return SingleChildScrollView(
