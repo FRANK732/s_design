@@ -1,136 +1,108 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
+import '../widgets/component_page.dart';
 
-class RatePage
+class RateDemoPage
     extends StatefulWidget {
-  const RatePage(
+  const RateDemoPage(
       {super.key});
 
   @override
-  State<RatePage>
+  State<RateDemoPage>
       createState() =>
-          _RatePageState();
+          _RateDemoPageState();
 }
 
-class _RatePageState
+class _RateDemoPageState
     extends State<
-        RatePage> {
+        RateDemoPage> {
   double
-      _basicValue =
-      2;
+      _basic =
+      3;
   double
-      _halfValue =
-      2.5;
+      _half =
+      3.5;
 
   @override
   Widget build(
       BuildContext
           context) {
-    return Scaffold(
-      appBar:
-          AppBar(title: const Text('SRate Showcase')),
-      body:
-          SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildSection(
-              'Basic Rate',
-              SRate(
-                value: _basicValue,
-                onChange: (val) => setState(() => _basicValue = val),
-              ),
-            ),
-            const SizedBox(height: 32),
-            _buildSection(
-              'Half Star',
-              SRate(
-                value: _halfValue,
-                allowHalf: true,
-                onChange: (val) => setState(() => _halfValue = val),
-              ),
-            ),
-            const SizedBox(height: 32),
-            _buildSection(
-              'Copywriting (Tooltips)',
-              SRate(
-                defaultValue: 3,
-                tooltips: const [
-                  'Terrible',
-                  'Bad',
-                  'Normal',
-                  'Good',
-                  'Wonderful'
-                ],
-              ),
-            ),
-            const SizedBox(height: 32),
-            _buildSection(
-              'Read Only',
-              const SRate(
-                value: 2,
-                disabled: true,
-              ),
-            ),
-            const SizedBox(height: 32),
-            _buildSection(
-              'Clearable (Tap again to clear)',
-              SRate(
-                defaultValue: 3,
-                allowClear: true,
-                onChange: (val) => debugPrint('Cleared value: $val'),
-              ),
-            ),
-            const SizedBox(height: 32),
-            _buildSection(
-              'Custom Character (Icon)',
-              SRate(
-                defaultValue: 2,
-                character: const Icon(Icons.favorite),
-                style: SRateStyle(color: Colors.red),
-              ),
-            ),
-            const SizedBox(height: 32),
-            _buildSection(
-              'Custom Character (Letter)',
-              const SRate(
-                defaultValue: 2,
-                character: Text('A', style: TextStyle(fontSize: 24)),
-                style: SRateStyle(gap: 16),
-              ),
-            ),
-            const SizedBox(height: 32),
-            _buildSection(
-              'Custom Style',
-              SRate(
-                defaultValue: 3,
-                style: SRateStyle(
-                  color: Colors.purple,
-                  unselectedColor: Colors.purple.shade50,
-                  size: 32,
-                  gap: 4,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+    return ComponentPage(
+      name:
+          'SRate',
+      description:
+          'A star rating component that lets users provide feedback on a numeric scale. '
+          'Supports full stars, half stars, custom icons, and read-only display.',
+      whenToUse: const [
+        'For product, service, or content rating interfaces.',
+        'To collect qualitative feedback on a scale.',
+        'To display an aggregate rating in a read-only mode.',
+      ],
+      sections: [
+        ComponentSection(
+          title: 'Basic Rating',
+          description: 'Full star rating with 5 stars by default.',
+          demo: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SRate(value: _basic, onChange: (v) => setState(() => _basic = v)),
+              const SizedBox(height: 8),
+              Text('Current: ${_basic.toInt()} stars'),
+            ],
+          ),
+          code: '''
+double _rating = 3;
 
-  Widget _buildSection(
-      String
-          title,
-      Widget
-          child) {
-    return Column(
-      crossAxisAlignment:
-          CrossAxisAlignment.start,
-      children: [
-        Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-        const SizedBox(height: 16),
-        child,
+SRate(
+  value: _rating,
+  onChange: (v) => setState(() => _rating = v),
+);''',
+        ),
+        ComponentSection(
+          title: 'Half Stars',
+          description: 'Enable `allowHalf: true` for 0.5 precision.',
+          demo: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SRate(value: _half, allowHalf: true, onChange: (v) => setState(() => _half = v)),
+              const SizedBox(height: 8),
+              Text('Current: $_half stars'),
+            ],
+          ),
+          code: '''
+SRate(
+  value: _rating,
+  allowHalf: true,
+  onChange: (v) => setState(() => _rating = v),
+);''',
+        ),
+        ComponentSection(
+          title: 'Read-Only Display',
+          description: 'Pass `disabled: true` to render a non-interactive rating display.',
+          demo: Row(
+            children: const [
+              SRate(value: 4.5, allowHalf: true, disabled: true),
+              SizedBox(width: 8),
+              Text('4.5 / 5.0', style: TextStyle(fontWeight: FontWeight.w600)),
+            ],
+          ),
+          code: '''
+const SRate(value: 4.5, allowHalf: true, disabled: true);''',
+        ),
+        ComponentSection(
+          title: 'Custom Star Count',
+          description: 'Change the total number of stars with `count`.',
+          demo: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SRate(value: 7, count: 10, onChange: (_) {}),
+              const SizedBox(height: 4),
+              const Text('10-star scale'),
+            ],
+          ),
+          code: '''
+SRate(value: 7, count: 10, onChange: (v) => setState(() => _rating = v));''',
+        ),
       ],
     );
   }

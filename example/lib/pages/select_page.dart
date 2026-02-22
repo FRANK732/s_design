@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
+import '../widgets/component_page.dart';
 
 class SelectPage
     extends StatefulWidget {
@@ -15,200 +16,142 @@ class SelectPage
 class _SelectPageState
     extends State<
         SelectPage> {
-  final _formKey =
-      GlobalKey<FormState>();
-
   String?
-      _selectedFruit;
-  List<String>
-      _selectedFrameworks =
+      _single;
+  final List<String>
+      _multi =
       [];
-  String?
-      _selectedCity;
 
-  final List<SSelectItem<String>>
-      _fruits =
+  static final _fruits =
       [
     const SSelectItem(
         value: 'apple',
-        label: 'Apple',
-        subtitle: 'A crunchy red fruit'),
+        label: 'Apple'),
     const SSelectItem(
         value: 'banana',
-        label: 'Banana',
-        subtitle: 'A long yellow fruit'),
+        label: 'Banana'),
     const SSelectItem(
         value: 'cherry',
-        label: 'Cherry',
-        subtitle: 'A small red fruit'),
+        label: 'Cherry'),
     const SSelectItem(
-        value: 'date',
-        label: 'Date',
-        subtitle: 'A sweet brown fruit',
-        disabled: true),
+        value: 'durian',
+        label: 'Durian'),
     const SSelectItem(
         value: 'elderberry',
-        label: 'Elderberry',
-        subtitle: 'A small purple fruit'),
+        label: 'Elderberry'),
+    const SSelectItem(
+        value: 'fig',
+        label: 'Fig'),
+    const SSelectItem(
+        value: 'grape',
+        label: 'Grape'),
   ];
-
-  final List<SSelectItem<String>>
-      _frameworks =
-      [
-    const SSelectItem(
-        value: 'flutter',
-        label: 'Flutter'),
-    const SSelectItem(
-        value: 'react',
-        label: 'React Native'),
-    const SSelectItem(
-        value: 'swift',
-        label: 'SwiftUI'),
-    const SSelectItem(
-        value: 'kotlin',
-        label: 'Compose'),
-  ];
-
-  Future<
-      List<
-          SSelectItem<String>>> _searchCities(
-      String
-          query) async {
-    await Future<void>.delayed(
-        const Duration(seconds: 1));
-    final cities =
-        [
-      'New York',
-      'London',
-      'Tokyo',
-      'Paris',
-      'Berlin',
-      'Accra',
-      'Lagos',
-      'Nairobi'
-    ];
-    return cities
-        .where((city) => city.toLowerCase().contains(query.toLowerCase()))
-        .map((city) => SSelectItem(value: city, label: city))
-        .toList();
-  }
 
   @override
   Widget build(
       BuildContext
           context) {
-    return Scaffold(
-      appBar:
-          AppBar(
-        title: const Text('SSelect Showcase'),
-      ),
-      body:
-          SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildSection(
-                'Basic Single Select',
-                SSelect<String>(
-                  items: _fruits,
-                  value: _selectedFruit,
-                  placeholder: 'Pick a fruit',
-                  onChanged: (value) => setState(() => _selectedFruit = value as String?),
-                ),
-              ),
-              const SizedBox(height: 24),
-              _buildSection(
-                'Basic Multi Select',
-                SSelect<String>(
-                  mode: SSelectMode.multiple,
-                  items: _frameworks,
-                  value: _selectedFrameworks,
-                  placeholder: 'Select frameworks',
-                  onChanged: (values) => setState(() => _selectedFrameworks = List<String>.from(values as List)),
-                ),
-              ),
-              const SizedBox(height: 24),
-              _buildSection(
-                'Async Search (Cities)',
-                SSelect<String>(
-                  items: const [],
-                  // Initial items empty - in a real app, these would be populated by search results
-                  value: _selectedCity,
-                  showSearch: true,
-                  onSearch: (query) {
-                    // In a real app, trigger a search here and update items
-                    _searchCities(query).then((items) {
-                      // Update items via state if we were keeping them in state
-                      // For this demo we just showing the API
-                    });
-                  },
-                  placeholder: 'Search for a city...',
-                  onChanged: (value) => setState(() => _selectedCity = value as String?),
-                ),
-              ),
-              const SizedBox(height: 24),
-              _buildSection(
-                'Form Field with Validation',
-                SSelectFormField<String>(
-                  items: _fruits,
-                  placeholder: 'REQUIRED: Select a fruit',
-                  validator: (value) => value == null ? 'Please select a fruit' : null,
-                ),
-              ),
-              const SizedBox(height: 24),
-              _buildSection(
-                'Tags Mode',
-                SSelect<String>(
-                  mode: SSelectMode.tags,
-                  items: _fruits,
-                  value: _selectedFruit != null
-                      ? [
-                          _selectedFruit!
-                        ]
-                      : <String>[],
-                  placeholder: 'Type to create tags',
-                  onChanged: (value) {}, // Demo only
-                ),
-              ),
-              const SizedBox(height: 32),
-              SButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Form is valid!')),
-                    );
-                  }
-                },
-                child: const Text('Validate Form'),
-              ),
-            ],
+    return ComponentPage(
+      name:
+          'SSelect',
+      description:
+          'A searchable select/autocomplete component that supports single and multi-select, '
+          'tags mode, search filtering, allow-clear, and custom icons.',
+      whenToUse: const [
+        'When the dropdown list is long (10+ options) and filtering is helpful.',
+        'When users may need to select more than one item (mode: multiple).',
+        'As a richer alternative to native <select> elements.',
+      ],
+      sections: [
+        ComponentSection(
+          title: 'Single Select',
+          description: 'Choose exactly one item from the dropdown.',
+          demo: SSelect<String>(
+            items: _fruits,
+            value: _single,
+            placeholder: 'Select a fruit',
+            onChanged: (v) => setState(() => _single = v as String?),
           ),
-        ),
-      ),
-    );
-  }
+          code: '''
+String? _selected;
 
-  Widget _buildSection(
-      String
-          title,
-      Widget
-          child) {
-    return Column(
-      crossAxisAlignment:
-          CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).primaryColor,
-              ),
+SSelect<String>(
+  items: const [
+    SSelectItem(value: 'apple', label: 'Apple'),
+    SSelectItem(value: 'banana', label: 'Banana'),
+  ],
+  value: _selected,
+  placeholder: 'Select a fruit',
+  onChanged: (v) => setState(() => _selected = v),
+);''',
         ),
-        const SizedBox(height: 8),
-        child,
+        ComponentSection(
+          title: 'With Search',
+          description: 'Enable `showSearch: true` to filter items by typing.',
+          demo: SSelect<String>(
+            items: _fruits,
+            value: _single,
+            placeholder: 'Search and select...',
+            showSearch: true,
+            allowClear: true,
+            onChanged: (v) => setState(() => _single = v as String?),
+          ),
+          code: '''
+SSelect<String>(
+  items: items,
+  value: _selected,
+  showSearch: true,
+  allowClear: true,
+  placeholder: 'Search and select...',
+  onChanged: (v) => setState(() => _selected = v),
+);''',
+        ),
+        ComponentSection(
+          title: 'Multi-Select',
+          description: 'Set `mode: SSelectMode.multiple` to allow picking several items as tags.',
+          demo: SSelect<String>(
+            items: _fruits,
+            value: _multi,
+            mode: SSelectMode.multiple,
+            placeholder: 'Pick multiple fruits',
+            allowClear: true,
+            onChanged: (v) => setState(() {
+              _multi
+                ..clear()
+                ..addAll(List<String>.from(v as List));
+            }),
+          ),
+          code: '''
+List<String> _selected = [];
+
+SSelect<String>(
+  items: items,
+  value: _selected,
+  mode: SSelectMode.multiple,
+  allowClear: true,
+  placeholder: 'Pick multiple',
+  onChanged: (v) => setState(() => _selected = List<String>.from(v)),
+);''',
+        ),
+        ComponentSection(
+          title: 'Disabled',
+          description: 'Set `disabled: true` to prevent interaction.',
+          demo: SSelect<String>(
+            items: const [
+              SSelectItem(value: 'tech', label: 'Technology')
+            ],
+            value: 'tech',
+            disabled: true,
+            onChanged: null,
+          ),
+          code: '''
+SSelect<String>(
+  items: items,
+  value: 'tech',
+  disabled: true,
+  onChanged: null,
+);''',
+        ),
       ],
     );
   }

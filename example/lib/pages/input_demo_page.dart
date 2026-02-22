@@ -1,139 +1,162 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
+import '../widgets/component_page.dart';
 
 class InputDemoPage
-    extends StatelessWidget {
+    extends StatefulWidget {
   const InputDemoPage(
       {super.key});
 
   @override
+  State<InputDemoPage>
+      createState() =>
+          _InputDemoPageState();
+}
+
+class _InputDemoPageState
+    extends State<
+        InputDemoPage> {
+  @override
   Widget build(
       BuildContext
           context) {
-    return Scaffold(
-      appBar:
-          AppBar(title: const Text('SInput Showcase')),
-      body:
-          SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('Basic Usage', style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 16),
-            const SInput(placeholder: 'Basic Usage'),
-            const SizedBox(height: 32),
-            const Text('Three Sizes', style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 16),
-            const SInput(size: SInputSize.large, placeholder: 'Large Size'),
-            const SizedBox(height: 8),
-            const SInput(size: SInputSize.middle, placeholder: 'Default Size'),
-            const SizedBox(height: 8),
-            const SInput(size: SInputSize.small, placeholder: 'Small Size'),
-            const SizedBox(height: 32),
-            const Text('Pre / Post Tab (Addons)', style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 16),
-            const SInput(
-              addonBefore: Text('Http://'),
-              addonAfter: Text('.com'),
-              placeholder: 'mysite',
-            ),
-            const SizedBox(height: 8),
-            SInput(
-              addonBefore: const Icon(Icons.settings),
-              addonAfter: const Icon(Icons.check),
-              placeholder: 'With Icons',
-            ),
-            const SizedBox(height: 32),
-            const Text('Prefix / Suffix', style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 16),
-            const SInput(
-              prefix: Icon(Icons.person),
-              suffix: Icon(Icons.info_outline),
-              placeholder: 'Username',
-            ),
-            const SizedBox(height: 8),
-            const SInput(
-              prefix: Text('￥'),
-              suffix: Text('RMB'),
-              placeholder: 'Price',
-            ),
-            const SizedBox(height: 32),
-            const Text('Search Input', style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 16),
-            SInput.search(
-              placeholder: 'input search text',
-              onSearch: (value) => debugPrint('Search: $value'),
-            ),
-            const SizedBox(height: 8),
-            SInput.search(
-              placeholder: 'input search text',
-              enterButton: true, // Shows generic search button
-              onSearch: (value) => debugPrint('Search: $value'),
-            ),
-            const SizedBox(height: 8),
-            SInput.search(
-              placeholder: 'input search text',
-              enterButton: const Text('Search'), // Custom text button
-              size: SInputSize.large,
-              onSearch: (value) => debugPrint('Search: $value'),
-            ),
-            const SizedBox(height: 32),
-            const Text('Password Input', style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 16),
-            SInput.password(
-              placeholder: 'Input password',
-            ),
-            const SizedBox(height: 8),
-            SInput.password(
-              placeholder: 'Input password',
-              visibilityToggle: false, // No toggle
-            ),
-            const SizedBox(height: 32),
-            const Text('TextArea', style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 16),
-            SInput.textArea(
-              placeholder: 'Text area with 4 rows',
-              maxLines: 4,
-            ),
-            const SizedBox(height: 8),
-            SInput.textArea(
-              placeholder: 'Text area with count',
-              showCount: true,
-              maxLength: 100,
-            ),
-            const SizedBox(height: 32),
-            const Text('Status', style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 16),
-            const SInput(status: SInputStatus.error, placeholder: 'Error status'),
-            const SizedBox(height: 8),
-            const SInput(status: SInputStatus.warning, placeholder: 'Warning status'),
-            const SizedBox(height: 32),
-            const Text('Clear Icon', style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 16),
-            const SInput(allowClear: true, placeholder: 'Type to see clear icon'),
-            const SizedBox(height: 32),
-            const Text('Input Group', style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 16),
-            SInputGroup(children: [
-              SInput(placeholder: '0571'),
-              SInput(placeholder: '26888888'),
-            ]),
-            const SizedBox(height: 32),
-            const Text('OTP Code', style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 16),
-            SInputOTP(
-              onCompleted: (val) => debugPrint('OTP Completed: $val'),
-            ),
-            const SizedBox(height: 8),
-            SInputOTP(
-              length: 4,
-              size: SInputSize.large,
-              status: SInputStatus.warning,
-            ),
-          ],
+    return ComponentPage(
+      name:
+          'SInput',
+      description:
+          'A text input field with support for prefix/suffix icons, addon before/after, '
+          'validation states (error, warning), clear button, and multiple sizes.',
+      whenToUse: const [
+        'When collecting text data from the user in a form.',
+        'For search fields, filters, and data-entry screens.',
+        'When you need built-in validation feedback (error, warning states).',
+      ],
+      sections: [
+        ComponentSection(
+          title: 'Basic Input',
+          description: 'A simple text field with a placeholder.',
+          demo: const SInput(placeholder: 'Enter your username'),
+          code: '''
+const SInput(placeholder: 'Enter your username');''',
         ),
-      ),
+        ComponentSection(
+          title: 'With Prefix and Suffix Widgets',
+          description: 'Add widgets inside the input field using `prefix` and `suffix`.',
+          demo: Column(
+            children: [
+              SInput(
+                placeholder: 'Search...',
+                prefix: Icon(Icons.search, size: 16, color: Colors.grey.shade600),
+              ),
+              const SizedBox(height: 12),
+              SInput.password(
+                placeholder: 'Enter password',
+              ),
+              const SizedBox(height: 12),
+              SInput(
+                placeholder: 'amount',
+                addonBefore: const Text('\$'),
+                addonAfter: const Text('USD'),
+              ),
+            ],
+          ),
+          code: '''
+SInput(
+  placeholder: 'Search...',
+  prefix: Icon(Icons.search, size: 16),
+);
+
+SInput.password(placeholder: 'Enter password');
+
+SInput(
+  placeholder: 'amount',
+  addonBefore: const Text('\$'),
+  addonAfter: const Text('USD'),
+);''',
+        ),
+        ComponentSection(
+          title: 'Validation States',
+          description: 'Use `status` to communicate validation feedback to the user.',
+          demo: const Column(
+            children: [
+              SInput(
+                placeholder: 'Valid email required',
+                status: SInputStatus.error,
+              ),
+              SizedBox(height: 12),
+              SInput(
+                placeholder: 'Password should be stronger',
+                status: SInputStatus.warning,
+              ),
+            ],
+          ),
+          code: '''
+SInput(
+  placeholder: 'Valid email required',
+  status: SInputStatus.error,
+);
+SInput(
+  placeholder: 'Password should be stronger',
+  status: SInputStatus.warning,
+);''',
+        ),
+        ComponentSection(
+          title: 'Sizes',
+          description: 'Three sizes: small, middle (default), large.',
+          demo: const Column(
+            children: [
+              SInput(placeholder: 'Large input', size: SInputSize.large),
+              SizedBox(height: 8),
+              SInput(placeholder: 'Middle input (default)'),
+              SizedBox(height: 8),
+              SInput(placeholder: 'Small input', size: SInputSize.small),
+            ],
+          ),
+          code: '''
+const SInput(placeholder: 'Large input', size: SInputSize.large);
+const SInput(placeholder: 'Middle input');
+const SInput(placeholder: 'Small input', size: SInputSize.small);''',
+        ),
+        ComponentSection(
+          title: 'Disabled and ReadOnly',
+          description: 'Prevent user interaction using `enabled: false` or `readOnly: true`.',
+          demo: const Column(
+            children: [
+              SInput(placeholder: 'Disabled', enabled: false),
+              SizedBox(height: 12),
+              SInput(initialValue: 'Cannot be changed', readOnly: true),
+            ],
+          ),
+          code: '''
+const SInput(placeholder: 'Disabled', enabled: false);
+const SInput(initialValue: 'Cannot be changed', readOnly: true);''',
+        ),
+        ComponentSection(
+          title: 'Allow Clear',
+          description: 'Show a clear button on the right when the field has content.',
+          demo: const SInput(
+            placeholder: 'Type something then clear it',
+            allowClear: true,
+          ),
+          code: '''
+const SInput(placeholder: 'Type something', allowClear: true);''',
+        ),
+        ComponentSection(
+          title: 'Text Area',
+          description: 'Use `SInput.textArea()` for multi-line input.',
+          demo: SInput.textArea(
+            placeholder: 'Write your message...',
+            maxLength: 200,
+            showCount: true,
+          ),
+          code: '''
+SInput.textArea(
+  placeholder: 'Write your message...',
+  maxLength: 200,
+  showCount: true,
+);''',
+        ),
+      ],
     );
   }
 }

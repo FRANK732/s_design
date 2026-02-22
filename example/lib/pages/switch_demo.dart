@@ -1,174 +1,166 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
+import '../widgets/component_page.dart';
 
-class SSwitchDemoPage
+class SwitchDemoPage
     extends StatefulWidget {
-  const SSwitchDemoPage(
+  const SwitchDemoPage(
       {super.key});
 
   @override
-  State<SSwitchDemoPage>
+  State<SwitchDemoPage>
       createState() =>
-          _SSwitchDemoPageState();
+          _SwitchDemoPageState();
 }
 
-class _SSwitchDemoPageState
+class _SwitchDemoPageState
     extends State<
-        SSwitchDemoPage> {
+        SwitchDemoPage> {
   bool
-      _val1 =
+      _basic =
       true;
   bool
-      _val2 =
+      _wifi =
       false;
   bool
-      _val3 =
+      _bluetooth =
       true;
   bool
-      _valIcon =
-      true;
-  bool
-      _loading =
+      _notifications =
       false;
-  bool
-      _disabled =
-      true;
 
   @override
   Widget build(
       BuildContext
           context) {
-    return SScaffold(
-      appBar:
-          AppBar(title: const Text('SSwitch Demo')),
-      renderBody:
-          (context) {
-        return SingleChildScrollView(
-          padding: const EdgeInsets.all(32),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return ComponentPage(
+      name:
+          'SSwitch',
+      description:
+          'A toggle switch component for binary on/off states. '
+          'SSwitch visually communicates state more clearly than a checkbox in settings-style UIs.',
+      whenToUse: const [
+        'To toggle a single setting or feature immediately (no confirmation needed).',
+        'In settings screens where compact space and clear on/off state matter.',
+        'When the effect of toggling is immediately reflected in the UI.',
+      ],
+      sections: [
+        ComponentSection(
+          title: 'Basic Toggle',
+          description: 'A simple controlled switch.',
+          demo: Row(
             children: [
-              _buildSectionTitle('Basic Switch'),
               SSwitch(
-                value: _val1,
-                onChanged: (v) => setState(() => _val1 = v),
+                value: _basic,
+                onChanged: (v) => setState(() => _basic = v),
               ),
-              const SizedBox(height: 32),
-              _buildSectionTitle('Size: Small'),
-              SSwitch(
-                size: SSwitchSize.small,
-                value: _val2,
-                onChanged: (v) => setState(() => _val2 = v),
+              const SizedBox(width: 12),
+              Text(_basic ? 'Enabled' : 'Disabled'),
+            ],
+          ),
+          code: '''
+bool _enabled = true;
+
+SSwitch(
+  value: _enabled,
+  onChanged: (v) => setState(() => _enabled = v),
+);''',
+        ),
+        ComponentSection(
+          title: 'Settings List Pattern',
+          description: 'Switches are often used in a vertical list of settings.',
+          demo: Column(
+            children: [
+              _SettingRow(
+                icon: Icons.wifi,
+                label: 'Wi-Fi',
+                value: _wifi,
+                onChanged: (v) => setState(() => _wifi = v),
               ),
-              const SizedBox(height: 32),
-              _buildSectionTitle('Text & Icons'),
-              Wrap(
-                spacing: 20,
-                runSpacing: 20,
-                children: [
-                  SSwitch(
-                    value: _val3,
-                    checkedChildren: const Text('ON'),
-                    unCheckedChildren: const Text('OFF'),
-                    onChanged: (v) => setState(() => _val3 = v),
-                  ),
-                  SSwitch(
-                    value: _val3,
-                    checkedChildren: const Text('1'),
-                    unCheckedChildren: const Text('0'),
-                    onChanged: (v) => setState(() => _val3 = v),
-                  ),
-                  SSwitch(
-                    value: _valIcon,
-                    checkedChildren: const Icon(Icons.check, size: 12, color: Colors.white),
-                    unCheckedChildren: const Icon(Icons.close, size: 12, color: Colors.white),
-                    onChanged: (v) => setState(() => _valIcon = v),
-                  ),
-                ],
+              _SettingRow(
+                icon: Icons.bluetooth,
+                label: 'Bluetooth',
+                value: _bluetooth,
+                onChanged: (v) => setState(() => _bluetooth = v),
               ),
-              const SizedBox(height: 32),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildSectionTitle('Disabled State'),
-                  SButton(
-                    size: SButtonSize.sm,
-                    onPressed: () => setState(() => _disabled = !_disabled),
-                    child: Text(_disabled ? 'Enable' : 'Disable'),
-                  ),
-                ],
-              ),
-              Wrap(
-                spacing: 20,
-                children: [
-                  SSwitch(
-                    value: true,
-                    disabled: _disabled,
-                    onChanged: (v) {},
-                  ),
-                  SSwitch(
-                    value: false,
-                    disabled: _disabled,
-                    onChanged: (v) {},
-                  ),
-                ],
-              ),
-              const SizedBox(height: 32),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildSectionTitle('Loading State'),
-                  SButton(
-                    size: SButtonSize.sm,
-                    onPressed: () => setState(() => _loading = !_loading),
-                    child: const Text('Toggle Loading'),
-                  ),
-                ],
-              ),
-              Wrap(
-                spacing: 20,
-                children: [
-                  SSwitch(
-                    value: true,
-                    loading: _loading,
-                    onChanged: (v) {},
-                  ),
-                  SSwitch(
-                    value: false,
-                    loading: _loading,
-                    onChanged: (v) {},
-                  ),
-                  SSwitch(
-                    size: SSwitchSize.small,
-                    value: true,
-                    loading: _loading,
-                    onChanged: (v) {},
-                  ),
-                ],
-              ),
-              const SizedBox(height: 32),
-              _buildSectionTitle('Custom Colors'),
-              SSwitch(
-                value: _val1,
-                activeColor: Colors.pink,
-                inactiveColor: Colors.purple.shade100,
-                onChanged: (v) => setState(() => _val1 = v),
+              _SettingRow(
+                icon: Icons.notifications_outlined,
+                label: 'Notifications',
+                value: _notifications,
+                onChanged: (v) => setState(() => _notifications = v),
               ),
             ],
           ),
-        );
-      },
+          code: '''
+Row(
+  children: [
+    const Icon(Icons.wifi),
+    const SizedBox(width: 12),
+    const Expanded(child: Text('Wi-Fi')),
+    SSwitch(value: _wifi, onChanged: (v) => setState(() => _wifi = v)),
+  ],
+);''',
+        ),
+        ComponentSection(
+          title: 'Disabled',
+          description: 'Set `onChanged: null` to disable the switch.',
+          demo: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(children: [
+                SSwitch(value: true, onChanged: null),
+                const SizedBox(width: 12),
+                const Text('Enabled & Disabled'),
+              ]),
+              const SizedBox(height: 8),
+              Row(children: [
+                SSwitch(value: false, onChanged: null),
+                const SizedBox(width: 12),
+                const Text('Disabled & Off'),
+              ]),
+            ],
+          ),
+          code: '''
+SSwitch(value: true, onChanged: null);   // disabled, on
+SSwitch(value: false, onChanged: null);  // disabled, off''',
+        ),
+      ],
     );
   }
+}
 
-  Widget _buildSectionTitle(
-      String
-          title) {
+class _SettingRow
+    extends StatelessWidget {
+  const _SettingRow(
+      {required this.icon,
+      required this.label,
+      required this.value,
+      required this.onChanged});
+  final IconData
+      icon;
+  final String
+      label;
+  final bool
+      value;
+  final ValueChanged<bool>
+      onChanged;
+
+  @override
+  Widget build(
+      BuildContext
+          context) {
     return Padding(
       padding:
-          const EdgeInsets.only(bottom: 16),
+          const EdgeInsets.symmetric(vertical: 6),
       child:
-          Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          Row(
+        children: [
+          Icon(icon, size: 20, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6)),
+          const SizedBox(width: 12),
+          Expanded(child: Text(label)),
+          SSwitch(value: value, onChanged: onChanged),
+        ],
+      ),
     );
   }
 }

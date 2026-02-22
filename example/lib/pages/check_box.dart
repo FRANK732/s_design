@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
-// Note: Extensions/exports are usually in s_design.dart.
-// If s_design.dart exports the new files, we don't need extra imports here if we import s_design.dart.
-// CheckboxPage imports 'package:s_design/s_design.dart'; at line 2.
-// So if I fix s_design.dart, I don't need to add imports here!
-// But I will verify.
+import '../widgets/component_page.dart';
 
 class CheckboxPage
     extends StatefulWidget {
@@ -21,239 +17,157 @@ class _CheckboxPageState
     extends State<
         CheckboxPage> {
   SCheckboxState
-      _defaultCheckboxState =
+      _basic =
       SCheckboxState.unchecked;
   SCheckboxState
-      _customColoredCheckboxState =
-      SCheckboxState.unchecked;
-  SCheckboxState
-      _largeStyledCheckboxState =
-      SCheckboxState.unchecked;
-  final SCheckboxState
-      _disabledCheckboxState =
-      SCheckboxState.unchecked;
-  SCheckboxState
-      _indeterminateCheckboxState =
-      SCheckboxState.unchecked;
+      _groupAll =
+      SCheckboxState.indeterminate;
+  final List<SCheckboxState>
+      _group =
+      [
+    SCheckboxState
+        .checked,
+    SCheckboxState
+        .unchecked,
+    SCheckboxState
+        .checked,
+  ];
 
-  // Enterprise Features State
-  SCheckboxState
-      _listTileState =
-      SCheckboxState.unchecked;
-  bool
-      _formFieldValue =
-      false;
-  final GlobalKey<FormState>
-      _formKey =
-      GlobalKey<FormState>();
+  void
+      _updateGroupAll() {
+    final allChecked = _group.every((s) =>
+        s ==
+        SCheckboxState.checked);
+    final noneChecked = _group.every((s) =>
+        s ==
+        SCheckboxState.unchecked);
+    setState(
+        () {
+      _groupAll = allChecked
+          ? SCheckboxState.checked
+          : noneChecked
+              ? SCheckboxState.unchecked
+              : SCheckboxState.indeterminate;
+    });
+  }
 
   @override
   Widget build(
       BuildContext
           context) {
-    return Scaffold(
-      appBar:
-          AppBar(
-        title: const Text('SCheckbox Showcase'),
-      ),
-      body:
-          SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            _buildSectionTitle('Default Checkbox'),
-            const SizedBox(height: 8),
-            Row(
-              children: <Widget>[
-                SCheckbox(
-                  value: _defaultCheckboxState,
-                  onChanged: (SCheckboxState newState) {
-                    setState(() {
-                      _defaultCheckboxState = newState;
-                    });
-                  },
-                ),
-                const SizedBox(width: 10),
-                const Text('Default Checkbox'),
-              ],
-            ),
-            const Divider(height: 40),
-            _buildSectionTitle('Custom Colored Checkbox'),
-            const SizedBox(height: 8),
-            Row(
-              children: <Widget>[
-                SCheckbox(
-                  value: _customColoredCheckboxState,
-                  onChanged: (SCheckboxState newState) {
-                    setState(() {
-                      _customColoredCheckboxState = newState;
-                    });
-                  },
-                  size: 24.0,
-                  activeColor: Colors.green,
-                  checkColor: Colors.white,
-                  borderColor: Colors.green,
-                ),
-                const SizedBox(width: 10),
-                const Text('Custom Colored Checkbox'),
-              ],
-            ),
-            const Divider(height: 40),
-            _buildSectionTitle('Large Sized Checkbox with Custom Styling'),
-            const SizedBox(height: 8),
-            Row(
-              children: <Widget>[
-                SCheckbox(
-                  value: _largeStyledCheckboxState,
-                  onChanged: (SCheckboxState newState) {
-                    setState(() {
-                      _largeStyledCheckboxState = newState;
-                    });
-                  },
-                  size: 30.0,
-                  activeColor: Colors.blue,
-                  checkColor: Colors.yellow,
-                  borderColor: Colors.blueAccent,
-                ),
-                const SizedBox(width: 10),
-                const Text('Large Styled Checkbox'),
-              ],
-            ),
-            const Divider(height: 40),
-            _buildSectionTitle('Disabled Checkbox'),
-            const SizedBox(height: 8),
-            Row(
-              children: <Widget>[
-                SCheckbox(
-                  value: _disabledCheckboxState,
-                  onChanged: null,
-                  size: 24.0,
-                  activeColor: Colors.grey,
-                  checkColor: Colors.white,
-                  borderColor: Colors.grey,
-                  isDisabled: true,
-                ),
-                const SizedBox(width: 10),
-                const Text('Disabled Checkbox'),
-              ],
-            ),
-            const Divider(height: 40),
-            _buildSectionTitle('Determinate Checkbox'),
-            const SizedBox(height: 8),
-            Row(
-              children: <Widget>[
-                SCheckbox(
-                  intermediate: false,
-                  value: _indeterminateCheckboxState,
-                  onChanged: (SCheckboxState newState) {
-                    setState(() {
-                      _indeterminateCheckboxState = newState;
-                    });
-                  },
-                  size: 24.0,
-                  activeColor: Colors.orange,
-                  checkColor: Colors.white,
-                  borderColor: Colors.orange,
-                ),
-                const SizedBox(width: 10),
-                const Text('Determinate Checkbox'),
-              ],
-            ),
-            const Divider(height: 40),
-            _buildSectionTitle('States & Validation'),
-            const SizedBox(height: 8),
-            Row(
-              children: <Widget>[
-                SCheckbox(
-                  value: _defaultCheckboxState,
-                  onChanged: (SCheckboxState newState) {
-                    setState(() {
-                      _defaultCheckboxState = newState;
-                    });
-                  },
-                  isError: true,
-                ),
-                const SizedBox(width: 10),
-                const Text('Error State'),
-              ],
-            ),
-            const SizedBox(height: 16),
-            const Text('Focus & Hover supported automatically.'),
-            const Divider(height: 40),
-            _buildSectionTitle('Enterprise Features'),
-            const SizedBox(height: 8),
-            Card(
-              child: Column(
-                children: [
-                  SCheckboxListTile(
-                    title: const Text('Notifications'),
-                    subtitle: const Text('Receive push notifications'),
-                    value: _listTileState,
-                    onChanged: (SCheckboxState newState) {
-                      setState(() {
-                        _listTileState = newState;
-                      });
-                    },
-                    secondary: const Icon(Icons.notifications),
-                  ),
-                ],
+    return ComponentPage(
+      name:
+          'SCheckbox',
+      description:
+          'A checkbox component for selecting one or multiple options. '
+          'Supports checked, unchecked, and indeterminate states.',
+      whenToUse: const [
+        'When the user needs to select one or more items from a list.',
+        'To toggle a boolean setting on or off.',
+        'As part of a form where multi-selection is required.',
+      ],
+      sections: [
+        ComponentSection(
+          title: 'Basic Checkbox',
+          description: 'A simple controlled checkbox.',
+          demo: Row(
+            children: [
+              SCheckbox(
+                value: _basic,
+                onChanged: (v) => setState(() => _basic = v),
               ),
-            ),
-            const SizedBox(height: 16),
-            Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SCheckboxFormField(
-                    title: const Text('I accept the Terms and Conditions'),
-                    initialValue: _formFieldValue,
-                    onChanged: (bool value) {
-                      setState(() {
-                        _formFieldValue = value;
-                      });
-                    },
-                    validator: (bool? value) {
-                      if (value != true) {
-                        return 'You must accept the terms.';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 8),
-                  SButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Form Submitted!')),
-                        );
-                      }
-                    },
-                    textStyle: const TextStyle(color: Colors.white),
-                    child: const Text('Submit Form'),
-                  ),
-                ],
-              ),
-            ),
-            const Divider(height: 40),
-          ],
-        ),
-      ),
-    );
-  }
+              const SizedBox(width: 8),
+              Text(_basic == SCheckboxState.checked ? 'Agreed' : 'Please agree'),
+            ],
+          ),
+          code: '''
+SCheckboxState _state = SCheckboxState.unchecked;
 
-  Widget _buildSectionTitle(
-      String
-          title) {
-    return Padding(
-      padding:
-          const EdgeInsets.symmetric(vertical: 8.0),
-      child:
-          Text(
-        title,
-        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      ),
+SCheckbox(
+  value: _state,
+  onChanged: (v) => setState(() => _state = v),
+);''',
+        ),
+        ComponentSection(
+          title: 'Indeterminate / Select All',
+          description: 'Use `SCheckboxState.indeterminate` for a partial selection.',
+          demo: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  SCheckbox(
+                    value: _groupAll,
+                    intermediate: true,
+                    onChanged: (v) {
+                      setState(() {
+                        _groupAll = v;
+                        for (int i = 0; i < _group.length; i++) {
+                          _group[i] = v == SCheckboxState.checked ? SCheckboxState.checked : SCheckboxState.unchecked;
+                        }
+                      });
+                    },
+                  ),
+                  const SizedBox(width: 8),
+                  const Text('Select all', style: TextStyle(fontWeight: FontWeight.w600)),
+                ],
+              ),
+              const SizedBox(height: 8),
+              ...List.generate(
+                  _group.length,
+                  (i) => Padding(
+                        padding: const EdgeInsets.only(left: 32, bottom: 4),
+                        child: Row(
+                          children: [
+                            SCheckbox(
+                              value: _group[i],
+                              onChanged: (v) {
+                                setState(() => _group[i] = v);
+                                _updateGroupAll();
+                              },
+                            ),
+                            const SizedBox(width: 8),
+                            Text('Option ${i + 1}'),
+                          ],
+                        ),
+                      )),
+            ],
+          ),
+          code: '''
+SCheckbox(
+  value: _groupAll,   // SCheckboxState.indeterminate for partial
+  intermediate: true,
+  onChanged: (v) { /* select/deselect all */ },
+);''',
+        ),
+        ComponentSection(
+          title: 'Disabled',
+          description: 'Pass `isDisabled: true` to prevent interaction.',
+          demo: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: const [
+                  SCheckbox(value: SCheckboxState.checked, onChanged: null, isDisabled: true),
+                  SizedBox(width: 8),
+                  Text('Checked & Disabled'),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: const [
+                  SCheckbox(value: SCheckboxState.unchecked, onChanged: null, isDisabled: true),
+                  SizedBox(width: 8),
+                  Text('Unchecked & Disabled'),
+                ],
+              ),
+            ],
+          ),
+          code: '''
+SCheckbox(value: SCheckboxState.checked, onChanged: null, isDisabled: true);
+SCheckbox(value: SCheckboxState.unchecked, onChanged: null, isDisabled: true);''',
+        ),
+      ],
     );
   }
 }

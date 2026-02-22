@@ -5,7 +5,7 @@ import 'pages/card.dart';
 import 'pages/check_box.dart';
 import 'pages/date_picker_page.dart';
 import 'pages/dropdown_menu.dart';
-import 'pages/inputs_page.dart';
+import 'pages/input_demo_page.dart';
 import 'pages/list_tile_page.dart';
 import 'pages/progress_indicator_page.dart';
 import 'pages/s_floating_panel_page.dart';
@@ -16,7 +16,6 @@ import 'pages/sonner_page.dart';
 import 'pages/sscaffold/base_scaffold.dart';
 import 'pages/steps_page.dart';
 import 'pages/switch_page.dart';
-import 'pages/tab_page.dart';
 import 'pages/tabs_demo_v3.dart';
 import 'pages/toast_page.dart';
 
@@ -26,7 +25,7 @@ class AppRoutes {
       <GetPage<dynamic>>[
     GetPage<dynamic>(
         name: '/button_page',
-        page: () => const ButtonPage()),
+        page: () => const SButtonPage()),
     GetPage<dynamic>(
         name: '/card_page',
         page: () => const CardPage()),
@@ -53,7 +52,7 @@ class AppRoutes {
       name:
           '/inputs_page',
       page: () =>
-          const InputFieldPage(),
+          const InputDemoPage(),
       transition:
           Transition.rightToLeft,
     ),
@@ -62,7 +61,7 @@ class AppRoutes {
       name:
           '/modal_page',
       page: () =>
-          const DialogPage(),
+          const SModalPage(),
       transition:
           Transition.rightToLeft,
     ),
@@ -98,7 +97,7 @@ class AppRoutes {
       name:
           '/tab_page',
       page: () =>
-          const TabsPage(),
+          const TabsDemoV3Page(),
       transition:
           Transition.rightToLeft,
     ),

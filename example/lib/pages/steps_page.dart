@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
+import '../widgets/component_page.dart';
 
 class StepsPage
     extends StatefulWidget {
@@ -15,175 +16,138 @@ class StepsPage
 class _StepsPageState
     extends State<
         StepsPage> {
-  int _currentStep =
-      1;
-  int _verticalCurrentStep =
-      1;
-  int _errorCurrentStep =
+  int _current =
       1;
 
-  final List<SStepItem>
-      _items =
+  static const _steps =
       [
-    const SStepItem(
-      title:
-          Text('Finished'),
-      description:
-          Text('This is a description.'),
-    ),
-    const SStepItem(
-      title:
-          Text('In Progress'),
-      description:
-          Text('This is a description.'),
-      subTitle:
-          Text('Left 00:00:08'),
-    ),
-    const SStepItem(
-      title:
-          Text('Waiting'),
-      description:
-          Text('This is a description.'),
-    ),
+    SStepItem(
+        title: Text('Order Placed'),
+        description: Text('Your order was received')),
+    SStepItem(
+        title: Text('Processing'),
+        description: Text('Being prepared')),
+    SStepItem(
+        title: Text('Shipped'),
+        description: Text('On its way')),
+    SStepItem(
+        title: Text('Delivered'),
+        description: Text('Enjoy!')),
   ];
 
   @override
   Widget build(
       BuildContext
           context) {
-    return Scaffold(
-      appBar:
-          AppBar(
-        title: const Text('SSteps Showcase'),
-      ),
-      body:
-          SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildSection(
-              'Basic Horizontal Steps',
-              SSteps(
-                current: _currentStep,
-                items: const [
-                  SStepItem(title: Text('Finished'), description: Text('Description 1')),
-                  SStepItem(title: Text('In Progress'), description: Text('Description 2')),
-                  SStepItem(title: Text('Waiting'), description: Text('Description 3')),
-                ],
-                onChange: (index) => setState(() => _currentStep = index),
-                responsive: false,
-              ),
-            ),
-            const SizedBox(height: 32),
-            _buildSection(
-              'Small Size',
-              SSteps(
-                size: SStepsSize.small,
-                current: _currentStep,
-                items: const [
-                  SStepItem(title: Text('Finished')),
-                  SStepItem(title: Text('In Progress')),
-                  SStepItem(title: Text('Waiting')),
-                ],
-                onChange: (index) => setState(() => _currentStep = index),
-              ),
-            ),
-            const SizedBox(height: 32),
-            _buildSection(
-              'Vertical Steps',
-              SSteps(
-                direction: Axis.vertical,
-                current: _verticalCurrentStep,
-                items: _items,
-                onChange: (index) => setState(() => _verticalCurrentStep = index),
-              ),
-            ),
-            const SizedBox(height: 32),
-            _buildSection(
-              'Error Status',
-              SSteps(
-                current: _errorCurrentStep,
-                status: SStepStatus.error,
-                items: const [
-                  SStepItem(title: Text('Finished'), description: Text('This is a description.')),
-                  SStepItem(title: Text('In Process'), description: Text('This is a description.')),
-                  SStepItem(title: Text('Waiting'), description: Text('This is a description.')),
-                ],
-                onChange: (index) => setState(() => _errorCurrentStep = index),
-              ),
-            ),
-            const SizedBox(height: 32),
-            _buildSection(
-              'Custom Icons',
-              SSteps(
-                current: _currentStep,
-                items: const [
-                  SStepItem(
-                    title: Text('Login'),
-                    icon: Icon(Icons.person),
+    return ComponentPage(
+      name:
+          'SSteps',
+      description:
+          'A progress steps component that guides users through sequential processes. '
+          'Supports horizontal and vertical orientations, clickable steps, and status overrides.',
+      whenToUse: const [
+        'For multi-step wizards (checkout, onboarding, form completion).',
+        'To show progress through a sequence of tasks.',
+        'When you want users to understand where they are in a workflow.',
+      ],
+      sections: [
+        ComponentSection(
+          title: 'Horizontal Steps',
+          description: 'Default horizontal layout with current step highlighted.',
+          demo: Column(
+            children: [
+              SSteps(items: _steps, current: _current),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SButton(
+                    size: SButtonSize.sm,
+                    variant: SButtonVariant.outline,
+                    onPressed: _current > 0 ? () => setState(() => _current--) : null,
+                    child: const Text('Previous'),
                   ),
-                  SStepItem(
-                    title: Text('Verification'),
-                    icon: Icon(Icons.security),
-                  ),
-                  SStepItem(
-                    title: Text('Pay'),
-                    icon: Icon(Icons.payment),
-                  ),
-                  SStepItem(
-                    title: Text('Done'),
-                    icon: Icon(Icons.check_circle),
+                  const SizedBox(width: 12),
+                  SButton(
+                    size: SButtonSize.sm,
+                    onPressed: _current < _steps.length - 1 ? () => setState(() => _current++) : null,
+                    child: const Text('Next'),
                   ),
                 ],
-                onChange: (index) => setState(() => _currentStep = index),
               ),
-            ),
-            const SizedBox(height: 32),
-            _buildSection(
-                'Controls',
-                Row(
-                  children: [
-                    SButton(
-                      onPressed: _currentStep > 0 ? () => setState(() => _currentStep--) : null,
-                      child: const Text('Previous'),
-                    ),
-                    const SizedBox(width: 16),
-                    SButton(
-                      onPressed: _currentStep < 3 ? () => setState(() => _currentStep++) : null,
-                      child: const Text('Next'),
-                    ),
-                  ],
-                ))
-          ],
-        ),
-      ),
-    );
-  }
+            ],
+          ),
+          code: '''
+const steps = [
+  SStepItem(title: Text('Order Placed'), description: Text('Your order was received')),
+  SStepItem(title: Text('Processing')),
+  SStepItem(title: Text('Shipped')),
+  SStepItem(title: Text('Delivered')),
+];
 
-  Widget _buildSection(
-      String
-          title,
-      Widget
-          child) {
-    return Column(
-      crossAxisAlignment:
-          CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+SSteps(items: steps, current: 1);''',
         ),
-        const SizedBox(height: 16),
-        Container(
-          // padding: const EdgeInsets.all(16),
-          // decoration: BoxDecoration(
-          //   border: Border.all(color: Colors.grey.shade200),
-          //   borderRadius: BorderRadius.circular(8),
-          // ),
-          child: child,
+        ComponentSection(
+          title: 'Vertical Steps',
+          description: 'Use `direction: Axis.vertical` for a vertical layout.',
+          demo: SizedBox(
+            height: 200,
+            child: SSteps(
+              direction: Axis.vertical,
+              items: const [
+                SStepItem(title: Text('Step 1'), description: Text('Create your account')),
+                SStepItem(title: Text('Step 2'), description: Text('Set up your profile')),
+                SStepItem(title: Text('Step 3'), description: Text('Explore features')),
+              ],
+              current: 1,
+            ),
+          ),
+          code: '''
+SSteps(
+  direction: Axis.vertical,
+  items: const [
+    SStepItem(title: Text('Step 1'), description: Text('Create your account')),
+    SStepItem(title: Text('Step 2'), description: Text('Set up your profile')),
+    SStepItem(title: Text('Step 3'), description: Text('Explore features')),
+  ],
+  current: 1,
+);''',
+        ),
+        ComponentSection(
+          title: 'Error Status',
+          description: 'Override step status to show errors using `SStepStatus.error`.',
+          demo: SSteps(
+            items: const [
+              SStepItem(title: Text('Placed'), status: SStepStatus.finish),
+              SStepItem(title: Text('Processing'), status: SStepStatus.error),
+              SStepItem(title: Text('Shipped')),
+            ],
+            current: 1,
+          ),
+          code: '''
+SSteps(
+  items: const [
+    SStepItem(title: Text('Placed'), status: SStepStatus.finish),
+    SStepItem(title: Text('Processing'), status: SStepStatus.error),
+    SStepItem(title: Text('Shipped')),
+  ],
+  current: 1,
+);''',
+        ),
+        ComponentSection(
+          title: 'Clickable Steps',
+          description: 'Pass `onChange` to make steps interactive.',
+          demo: SSteps(
+            items: _steps,
+            current: _current,
+            onChange: (i) => setState(() => _current = i),
+          ),
+          code: '''
+SSteps(
+  items: steps,
+  current: currentStep,
+  onChange: (i) => setState(() => currentStep = i),
+);''',
         ),
       ],
     );

@@ -1,145 +1,95 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
-import 'sticky_tabs_demo.dart';
+import '../widgets/component_page.dart';
 
 class TabsDemoV3Page
-    extends StatefulWidget {
+    extends StatelessWidget {
   const TabsDemoV3Page(
       {super.key});
-
-  @override
-  State<TabsDemoV3Page>
-      createState() =>
-          _TabsDemoV3PageState();
-}
-
-class _TabsDemoV3PageState
-    extends State<
-        TabsDemoV3Page>
-    with
-        SingleTickerProviderStateMixin {
-  late TabController
-      _tabController;
-  final List<STabItem>
-      _items =
-      [
-    STabItem(
-      label:
-          'Home',
-      key:
-          'home',
-      icon:
-          const Icon(Icons.home),
-      content:
-          const Center(child: Text('Home Content')),
-    ),
-    STabItem(
-      label:
-          'Settings',
-      key:
-          'settings',
-      icon:
-          const Icon(Icons.settings),
-      content:
-          const Center(child: Text('Settings Content')),
-    ),
-    STabItem(
-      label:
-          'Profile',
-      key:
-          'profile',
-      icon:
-          const Icon(Icons.person),
-      content:
-          const Center(child: Text('Profile Content')),
-    ),
-  ];
-
-  @override
-  void
-      initState() {
-    super
-        .initState();
-    _tabController = TabController(
-        length: _items.length,
-        vsync: this);
-  }
-
-  @override
-  void
-      dispose() {
-    _tabController
-        .dispose();
-    super
-        .dispose();
-  }
 
   @override
   Widget build(
       BuildContext
           context) {
-    return SScaffold(
-      appBar:
-          AppBar(title: const Text('STabs V3: Decoupled Architecture')),
-      renderBody:
-          (context) {
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const Text('1. Unified Component (Backward Compatibility)', style: TextStyle(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 8),
-              SizedBox(
-                height: 150,
-                child: Container(
-                  decoration: BoxDecoration(border: Border.all(color: Colors.grey.shade300)),
-                  child: STabs(items: _items),
-                ),
-              ),
-
-              const SizedBox(height: 32),
-
-              const Text('2. Decoupled (Shared TabController)', style: TextStyle(fontWeight: FontWeight.bold)),
-              const Text('Note: Header and Content are separate widgets synced by controller.', style: TextStyle(color: Colors.grey, fontSize: 12)),
-              const SizedBox(height: 8),
-
-              // Header
-              Container(
-                color: Colors.grey.shade100,
-                child: STabNavBar(
-                  items: _items,
-                  activeKey: '',
-                  controller: _tabController,
-                  onTabClick: (_) {}, // Driven by controller
-                  onEdit: null,
-                ),
-              ),
-
-              const Divider(color: Colors.red, thickness: 2, height: 2),
-
-              // Content
-              Expanded(
-                child: Container(
-                  color: Colors.grey.shade50,
-                  child: STabView(
-                    controller: _tabController,
-                    children: _items.map((e) => Center(child: Text('Decoupled: ${e.label}'))).toList(),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 16),
-              SButton(
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const StickyTabsDemoPage()));
-                },
-                child: const Text('View Sticky Header Demo'),
-              ),
-            ],
+    return ComponentPage(
+      name:
+          'STabs',
+      description:
+          'A tab navigation component for switching between multiple views or content sections. '
+          'Supports line, card and editable tab types, plus top/bottom/left/right positions.',
+      whenToUse: const [
+        'When you need to partition content into related, peer-level sections.',
+        'For content-heavy screens like product detail pages or profile views.',
+        'When left/right sidebar navigation supplements a main view.',
+      ],
+      sections: [
+        ComponentSection(
+          title: 'Basic Tabs',
+          description: 'Pass `items: List<STabItem>` — each item defines a tab label and its content.',
+          demo: SizedBox(
+            height: 160,
+            child: STabs(
+              items: [
+                STabItem(label: 'Overview', content: const Center(child: Text('Overview content'))),
+                STabItem(label: 'Details', content: const Center(child: Text('Details content'))),
+                STabItem(label: 'Reviews', content: const Center(child: Text('Reviews content'))),
+              ],
+            ),
           ),
-        );
-      },
+          code: '''
+STabs(
+  items: [
+    STabItem(label: 'Overview', content: const Text('Overview content')),
+    STabItem(label: 'Details', content: const Text('Details content')),
+    STabItem(label: 'Reviews', content: const Text('Reviews content')),
+  ],
+);''',
+        ),
+        ComponentSection(
+          title: 'Tabs with Icons',
+          description: 'Use the `icon` field on `STabItem` to add icons to tab labels.',
+          demo: SizedBox(
+            height: 160,
+            child: STabs(
+              items: [
+                STabItem(label: 'Home', icon: const Icon(Icons.home_outlined, size: 16), content: const Center(child: Text('Home'))),
+                STabItem(label: 'Search', icon: const Icon(Icons.search_outlined, size: 16), content: const Center(child: Text('Search'))),
+                STabItem(label: 'Profile', icon: const Icon(Icons.person_outline, size: 16), content: const Center(child: Text('Profile'))),
+              ],
+            ),
+          ),
+          code: '''
+STabs(
+  items: [
+    STabItem(label: 'Home', icon: const Icon(Icons.home_outlined, size: 16), content: ...,),
+    STabItem(label: 'Search', icon: const Icon(Icons.search_outlined, size: 16), content: ...,),
+  ],
+);''',
+        ),
+        ComponentSection(
+          title: 'Card Type',
+          description: 'Use `type: STabType.card` for a card-style tab bar.',
+          demo: SizedBox(
+            height: 160,
+            child: STabs(
+              type: STabType.card,
+              items: [
+                STabItem(label: 'Card A', content: const Center(child: Text('Card A content'))),
+                STabItem(label: 'Card B', content: const Center(child: Text('Card B content'))),
+                STabItem(label: 'Card C', content: const Center(child: Text('Card C content'))),
+              ],
+            ),
+          ),
+          code: '''
+STabs(
+  type: STabType.card,
+  items: [
+    STabItem(label: 'Card A', content: ...),
+    STabItem(label: 'Card B', content: ...),
+  ],
+);''',
+        ),
+      ],
     );
   }
 }

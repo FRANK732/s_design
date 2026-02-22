@@ -1,121 +1,104 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
+import '../widgets/component_page.dart';
 
 class QRCodeDemoPage
-    extends StatefulWidget {
+    extends StatelessWidget {
   const QRCodeDemoPage(
       {super.key});
-
-  @override
-  State<QRCodeDemoPage>
-      createState() =>
-          _QRCodeDemoPageState();
-}
-
-class _QRCodeDemoPageState
-    extends State<
-        QRCodeDemoPage> {
-  SQRCodeStatus
-      _status =
-      SQRCodeStatus.active;
 
   @override
   Widget build(
       BuildContext
           context) {
-    return Scaffold(
-      appBar:
-          AppBar(
-        title: const Text('SQRCode Demo'),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 1,
-      ),
-      body:
-          SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildSection(
-              'Basic',
-              const SQRCode(value: 'https://flutter.dev/'),
-            ),
-            const SizedBox(height: 32),
-            _buildSection(
-              'With Icon',
-              SQRCode(
-                value: 'https://flutter.dev/',
-                icon: Container(color: Colors.black, child: const Icon(Icons.hub, color: Colors.white, size: 24)),
-              ),
-            ),
-            const SizedBox(height: 32),
-            _buildSection(
-              'Borderless',
-              const SQRCode(
-                value: 'https://flutter.dev/',
-                bordered: false,
-              ),
-            ),
-            const SizedBox(height: 32),
-            _buildSection(
-              'Custom Colors',
-              const SQRCode(
-                value: 'https://flutter.dev/',
-                color: Colors.green,
-                backgroundColor: Color(0xFFf6ffed), // Light green bg
-                bordered: false,
-              ),
-            ),
-            const SizedBox(height: 32),
-            _buildSection(
-              'Status: $_status',
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SQRCode(
-                    value: 'https://flutter.dev/',
-                    status: _status,
-                    onRefresh: () {
-                      setState(() {
-                        _status = SQRCodeStatus.active;
-                      });
-                    },
-                  ),
-                  const SizedBox(width: 24),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SButton(onPressed: () => setState(() => _status = SQRCodeStatus.active), child: const Text('Active')),
-                      const SizedBox(height: 8),
-                      SButton(onPressed: () => setState(() => _status = SQRCodeStatus.loading), child: const Text('Loading')),
-                      const SizedBox(height: 8),
-                      SButton(onPressed: () => setState(() => _status = SQRCodeStatus.expired), child: const Text('Expired')),
-                      const SizedBox(height: 8),
-                      SButton(onPressed: () => setState(() => _status = SQRCodeStatus.scanned), child: const Text('Scanned')),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ],
+    return ComponentPage(
+      name:
+          'SQRCode',
+      description:
+          'A QR code generator component built on top of `qr_flutter`. '
+          'Supports custom size, colors, icons, bordered style, and status overlays (expired, loading, scanned).',
+      whenToUse: const [
+        'For displaying payment or app-sharing QR codes.',
+        'When you need a scannable QR that shows a loading or expired state.',
+        'For embedding a logo or icon inside the QR code.',
+      ],
+      sections: [
+        ComponentSection(
+          title: 'Basic QR Code',
+          description: 'Show a scannable QR code for any string.',
+          demo: const Center(
+            child: SQRCode(value: 'https://example.com'),
+          ),
+          code: '''
+const SQRCode(value: 'https://example.com');''',
         ),
-      ),
-    );
-  }
-
-  Widget _buildSection(
-      String
-          title,
-      Widget
-          child) {
-    return Column(
-      crossAxisAlignment:
-          CrossAxisAlignment.start,
-      children: [
-        Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-        const SizedBox(height: 16),
-        child,
+        ComponentSection(
+          title: 'Custom Color',
+          description: 'Change the QR color to match your brand.',
+          demo: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: const [
+              SQRCode(value: 'brand-blue', color: Colors.indigo, size: 100),
+              SQRCode(value: 'brand-green', color: Colors.teal, size: 100),
+            ],
+          ),
+          code: '''
+SQRCode(value: 'your-data', color: Colors.indigo, size: 100);
+SQRCode(value: 'your-data', color: Colors.teal, size: 100);''',
+        ),
+        ComponentSection(
+          title: 'With Icon',
+          description: 'Overlay an icon in the center of the QR code.',
+          demo: const Center(
+            child: SQRCode(
+              value: 'https://flutter.dev',
+              icon: Icon(Icons.flutter_dash, color: Colors.blue),
+              iconSize: 30,
+              size: 140,
+            ),
+          ),
+          code: '''
+const SQRCode(
+  value: 'https://flutter.dev',
+  icon: Icon(Icons.flutter_dash, color: Colors.blue),
+  iconSize: 30,
+  size: 140,
+);''',
+        ),
+        ComponentSection(
+          title: 'Status: Expired',
+          description: 'Show an expired overlay with `status: SQRCodeStatus.expired`.',
+          demo: const Center(
+            child: SQRCode(
+              value: 'expired-session',
+              status: SQRCodeStatus.expired,
+              size: 140,
+            ),
+          ),
+          code: '''
+const SQRCode(
+  value: 'expired-session',
+  status: SQRCodeStatus.expired,
+  size: 140,
+);''',
+        ),
+        ComponentSection(
+          title: 'Status: Scanned',
+          description: 'Show a check mark overlay with `status: SQRCodeStatus.scanned`.',
+          demo: const Center(
+            child: SQRCode(
+              value: 'scanned-code',
+              status: SQRCodeStatus.scanned,
+              size: 140,
+            ),
+          ),
+          code: '''
+const SQRCode(
+  value: 'scanned-code',
+  status: SQRCodeStatus.scanned,
+  size: 140,
+);''',
+        ),
       ],
     );
   }

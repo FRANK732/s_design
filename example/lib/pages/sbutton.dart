@@ -1,415 +1,165 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:s_design/s_design.dart';
+import '../widgets/component_page.dart';
 
-class ButtonPage
+class SButtonPage
     extends StatefulWidget {
-  const ButtonPage(
+  const SButtonPage(
       {super.key});
 
   @override
-  State<ButtonPage>
+  State<SButtonPage>
       createState() =>
-          _ButtonPageState();
+          _SButtonPageState();
 }
 
-class _ButtonPageState
+class _SButtonPageState
     extends State<
-        ButtonPage> {
-  // Example state variables to demonstrate button states
+        SButtonPage> {
   bool
-      _isLoading =
+      _loading =
       false;
-  bool
-      _isEnabled =
-      true;
-
-  void
-      _toggleLoading() {
-    setState(
-        () {
-      _isLoading =
-          !_isLoading;
-    });
-  }
-
-  void
-      _toggleEnabled() {
-    setState(
-        () {
-      _isEnabled =
-          !_isEnabled;
-    });
-  }
 
   @override
   Widget build(
       BuildContext
           context) {
-    return Scaffold(
-      appBar:
-          AppBar(
-        title: const Text('SButton Showcase'),
-      ),
-      body:
-          SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            // Section: Variants
-            const Text(
-              'Variants',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: <Widget>[
-                SButton(
-                  onPressed: () {
-                    // Handle default button press
-                  },
-                  child: const Text('Default'),
-                ),
-                SButton(
-                  variant: SButtonVariant.destructive,
-                  onPressed: () {
-                    // Handle destructive button press
-                  },
-                  child: const Text('Destructive'),
-                ),
-                SButton(
-                  variant: SButtonVariant.secondary,
-                  onPressed: () {
-                    // Handle secondary button press
-                  },
-                  child: const Text('Secondary'),
-                ),
-                SButton(
-                  variant: SButtonVariant.outline,
-                  onPressed: () {
-                    // Handle outline button press
-                  },
-                  child: const Text('Outline'),
-                ),
-                SButton(
-                  variant: SButtonVariant.destructiveOutline,
-                  onPressed: () {
-                    // Handle destructive outline button press
-                  },
-                  child: const Text('Destructive Outline'),
-                ),
-                SButton(
-                  variant: SButtonVariant.ghost,
-                  onPressed: () {
-                    // Handle ghost button press
-                  },
-                  child: const Text('Ghost'),
-                ),
-                SButton(
-                  variant: SButtonVariant.link,
-                  onPressed: () {
-                    // Handle link button press
-                  },
-                  child: const Text('Link'),
-                ),
-              ],
-            ),
-            const Divider(height: 40),
-
-            // Section: Sizes
-            const Text(
-              'Sizes',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: <Widget>[
-                SButton(
-                  size: SButtonSize.sm,
-                  onPressed: () {},
-                  child: const Text('Small'),
-                ),
-                SButton(
-                  onPressed: () {},
-                  child: const Text('Default'),
-                ),
-                SButton(
-                  size: SButtonSize.lg,
-                  onPressed: () {},
-                  child: const Text('Large'),
-                ),
-                SButton(
-                  size: SButtonSize.icon,
-                  onPressed: () {},
-                  icon: const Icon(Icons.thumb_up),
-                  child: const Text('Icon'),
-                ),
-              ],
-            ),
-            const Divider(height: 40),
-
-            // Section: States
-            const Text(
-              'States',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: <Widget>[
-                SButton(
-                  onPressed: _toggleLoading,
-                  child: Text(_isLoading ? 'Stop Loading' : 'Start Loading'),
-                ),
-                SButton(
-                  loading: _isLoading,
-                  onPressed: () {},
-                  child: const Text('Loading'),
-                ),
-                SButton(
-                  state: SButtonState.enabled,
-                  onPressed: () {},
-                  child: const Text('Enabled'),
-                ),
-                SButton(
-                  state: SButtonState.disabled,
-                  onPressed: () {},
-                  child: const Text('Disabled'),
-                ),
-                SButton(
-                  state: _isEnabled ? SButtonState.enabled : SButtonState.disabled,
-                  onPressed: _isEnabled ? () {} : null,
-                  child: Text(_isEnabled ? 'Enabled' : 'Disabled'),
-                ),
-                SButton(
-                  onPressed: _toggleEnabled,
-                  child: Text(_isEnabled ? 'Disable Button' : 'Enable Button'),
-                ),
-              ],
-            ),
-            const Divider(height: 40),
-
-            // Section: With Icons
-            const Text(
-              'With Icons',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: <Widget>[
-                SButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: () {},
-                  child: const Text('Add'),
-                ),
-                SButton(
-                  variant: SButtonVariant.destructive,
-                  icon: const Icon(Icons.delete),
-                  onPressed: () {},
-                  child: const Text('Delete'),
-                ),
-                SButton(
-                  variant: SButtonVariant.secondary,
-                  icon: const Icon(Icons.edit),
-                  onPressed: () {},
-                  child: const Text('Edit'),
-                ),
-                SButton(
-                  size: SButtonSize.icon,
-                  icon: const Icon(Icons.favorite),
-                  onPressed: () {},
-                ),
-              ],
-            ),
-            const Divider(height: 40),
-
-            // Section: Custom Dimensions
-            const Text(
-              'Custom Dimensions',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: <Widget>[
-                SButton(
-                  height: 50,
-                  width: 150,
-                  onPressed: () {},
-                  child: const Text('Fixed Size'),
-                ),
-                SButton(
-                  height: 60,
-                  width: 200,
-                  variant: SButtonVariant.destructive,
-                  onPressed: () {},
-                  child: const Text('Large Fixed'),
-                ),
-                SButton(
-                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                  onPressed: () {},
-                  child: const Text('Custom Padding'),
-                ),
-              ],
-            ),
-            const Divider(height: 40),
-
-            // Section: Themed Buttons
-            const Text(
-              'Custom Themed Buttons',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: <Widget>[
-                SButton(
-                  backgroundColor: const Color.fromARGB(170, 98, 25, 187),
-                  onPressed: () {},
-                  child: const Text('Background Color'),
-                ),
-                SButton(
-                  buttonStyle: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all(Colors.black),
-                    foregroundColor: WidgetStateProperty.all(Colors.white),
-                    shadowColor: WidgetStateProperty.all(Colors.blueAccent),
-                    padding: WidgetStateProperty.all(
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    ),
-                    shape: WidgetStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    elevation: WidgetStateProperty.all(5),
-                  ),
-                  onPressed: () {},
-                  child: const Text('Custom Styling'),
-                ),
-              ],
-            ),
-            const Divider(height: 40),
-
-            // Section: Advanced Features
-            const Text(
-              'Advanced Features',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            const Text('Leading & Trailing Icons:', style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 8),
-            SButton(
-              onPressed: () {},
-              leadingIcon: const Icon(Icons.arrow_back, size: 18),
-              trailingIcon: const Icon(Icons.arrow_forward, size: 18),
-              child: const Text('Navigation'),
-            ),
-            const SizedBox(height: 16),
-            const Text('Full Width:', style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 8),
-            SButton(
-              onPressed: () {},
-              isFullWidth: true,
-              child: const Text('Full Width Button'),
-            ),
-            const SizedBox(height: 16),
-            const Text('Debounced (1s):', style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 8),
-            SButton(
-              onPressed: () {
-                debugPrint('Debounced button pressed!');
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Action Executed!'),
-                    duration: Duration(milliseconds: 500),
-                  ),
-                );
-              },
-              debounceDuration: const Duration(seconds: 1),
-              child: const Text('Press Repeatedly'),
-            ),
-            const SizedBox(height: 16),
-            const Text('Haptic Feedback:', style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 8),
-            SButton(
-              onPressed: () {},
-              enableHapticFeedback: true,
-              variant: SButtonVariant.secondary,
-              child: const Text('Press for Haptics'),
-            ),
-            const Divider(height: 40),
-
-            // Section: UX & Interaction
-            const Text(
-              'UX & Interaction',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            const Text('Loading with Text:', style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 10,
-              children: [
-                SButton(
-                  onPressed: _toggleLoading,
-                  loading: _isLoading,
-                  loadingText: 'Saving...',
-                  child: const Text('Save Record'),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            const Text('Disabled with Tooltip:', style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 8),
-            SButton(
-              onPressed: null, // Disabled
-              disabledTooltip: 'Permission required to delete',
-              variant: SButtonVariant.destructive,
-              child: const Text('Delete Account'),
-            ),
-            const SizedBox(height: 16),
-            const Text('Badge / Notification:', style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 8),
-            SButton(
-              onPressed: () {},
-              variant: SButtonVariant.secondary,
-              badge: const Text('3'),
-              child: const Text('Inbox'),
-            ),
-            const SizedBox(height: 16),
-            const Text('Toggle Button (Selected State):', style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 8),
-            SButton(
-              onPressed: _toggleEnabled, // Reusing toggle for demo
-              isSelected: !_isEnabled, // Using !_isEnabled as selected state for demo
-              variant: SButtonVariant.outline,
-              child: Text(!_isEnabled ? 'Selected' : 'Not Selected'),
-            ),
-            const SizedBox(height: 16),
-            const Text('Keyboard Shortcut (Ctrl+S):', style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 8),
-            SButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Shortcut Triggered!')),
-                );
-              },
-              shortcut: const SingleActivator(LogicalKeyboardKey.keyS, control: true),
-              child: const Text('Save (Ctrl+S)'),
-            ),
-          ],
+    return ComponentPage(
+      name:
+          'SButton',
+      description:
+          'A versatile button component supporting multiple variants, sizes, states, and icons. '
+          'SButton follows Ant Design principles — every interaction has a clear visual response.',
+      whenToUse: const [
+        'Use the default variant for primary actions (e.g. Submit, Save).',
+        'Use outline buttons for secondary actions or alternatives.',
+        'Use destructive buttons for delete/irreversible actions.',
+        'Use ghost or link buttons for low-emphasis inline actions.',
+      ],
+      sections: [
+        ComponentSection(
+          title: 'Variants',
+          description: 'Button variants control the visual weight and color scheme.',
+          demo: Wrap(
+            spacing: 12,
+            runSpacing: 10,
+            children: [
+              SButton(onPressed: () {}, child: const Text('Default')),
+              SButton(variant: SButtonVariant.outline, onPressed: () {}, child: const Text('Outline')),
+              SButton(variant: SButtonVariant.secondary, onPressed: () {}, child: const Text('Secondary')),
+              SButton(variant: SButtonVariant.ghost, onPressed: () {}, child: const Text('Ghost')),
+              SButton(variant: SButtonVariant.destructive, onPressed: () {}, child: const Text('Destructive')),
+              SButton(variant: SButtonVariant.link, onPressed: () {}, child: const Text('Link')),
+            ],
+          ),
+          code: '''
+SButton(onPressed: () {}, child: const Text('Default'));
+SButton(variant: SButtonVariant.outline, onPressed: () {}, child: const Text('Outline'));
+SButton(variant: SButtonVariant.secondary, onPressed: () {}, child: const Text('Secondary'));
+SButton(variant: SButtonVariant.ghost, onPressed: () {}, child: const Text('Ghost'));
+SButton(variant: SButtonVariant.destructive, onPressed: () {}, child: const Text('Destructive'));
+SButton(variant: SButtonVariant.link, onPressed: () {}, child: const Text('Link'));''',
         ),
-      ),
+        ComponentSection(
+          title: 'Sizes',
+          description: 'Choose between large, medium (default), small, and icon sizes.',
+          demo: Wrap(
+            spacing: 12,
+            runSpacing: 10,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              SButton(size: SButtonSize.lg, onPressed: () {}, child: const Text('Large')),
+              SButton(onPressed: () {}, child: const Text('Default')),
+              SButton(size: SButtonSize.sm, onPressed: () {}, child: const Text('Small')),
+              SButton(size: SButtonSize.icon, onPressed: () {}, icon: const Icon(Icons.share, size: 16)),
+            ],
+          ),
+          code: '''
+SButton(size: SButtonSize.lg, onPressed: () {}, child: const Text('Large'));
+SButton(onPressed: () {}, child: const Text('Default'));
+SButton(size: SButtonSize.sm, onPressed: () {}, child: const Text('Small'));
+SButton(size: SButtonSize.icon, onPressed: () {}, icon: const Icon(Icons.share));''',
+        ),
+        ComponentSection(
+          title: 'With Icons',
+          description: 'Add a leading or trailing icon for extra context.',
+          demo: Wrap(
+            spacing: 12,
+            runSpacing: 10,
+            children: [
+              SButton(
+                onPressed: () {},
+                leadingIcon: const Icon(Icons.download, size: 16),
+                child: const Text('Download'),
+              ),
+              SButton(
+                variant: SButtonVariant.outline,
+                onPressed: () {},
+                trailingIcon: const Icon(Icons.arrow_forward, size: 16),
+                child: const Text('Next'),
+              ),
+              SButton.icon(icon: const Icon(Icons.share), onPressed: () {}),
+            ],
+          ),
+          code: '''
+SButton(
+  onPressed: () {},
+  leadingIcon: const Icon(Icons.download, size: 16),
+  child: const Text('Download'),
+);
+SButton.icon(icon: const Icon(Icons.share), onPressed: () {});''',
+        ),
+        ComponentSection(
+          title: 'Loading State',
+          description: 'Pass `loading: true` to show a spinner and disable the button.',
+          demo: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SButton(
+                loading: _loading,
+                onPressed: () {
+                  setState(() => _loading = true);
+                  Future.delayed(const Duration(seconds: 2), () {
+                    if (mounted) setState(() => _loading = false);
+                  });
+                },
+                child: Text(_loading ? 'Processing...' : 'Click to load'),
+              ),
+            ],
+          ),
+          code: '''
+SButton(
+  loading: isLoading,
+  onPressed: () { /* trigger async op */ },
+  child: const Text('Submit'),
+);''',
+        ),
+        ComponentSection(
+          title: 'Disabled',
+          description: 'Set `onPressed: null` to disable a button.',
+          demo: Wrap(
+            spacing: 12,
+            runSpacing: 10,
+            children: [
+              SButton(onPressed: null, child: const Text('Disabled')),
+              SButton(variant: SButtonVariant.outline, onPressed: null, child: const Text('Disabled Outline')),
+            ],
+          ),
+          code: '''
+SButton(onPressed: null, child: const Text('Disabled'));''',
+        ),
+        ComponentSection(
+          title: 'Full Width',
+          description: 'Use `isFullWidth: true` to stretch the button.',
+          demo: SButton(
+            isFullWidth: true,
+            onPressed: () {},
+            child: const Text('Full Width Button'),
+          ),
+          code: '''
+SButton(isFullWidth: true, onPressed: () {}, child: const Text('Full Width Button'));''',
+        ),
+      ],
     );
   }
 }
