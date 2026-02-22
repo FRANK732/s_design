@@ -166,7 +166,7 @@ class _GalleryShellState
         NavItem(label: 'SCard (Basic)', icon: Icons.dashboard_outlined, page: const CardPage()),
       ]),
       NavGroup(title: 'Overlays', items: [
-        NavItem(label: 'SFloatingPanel', icon: Icons.layers_outlined, page: const SFloatingPanelPage()),
+        NavItem(label: 'SFloatingPanel', icon: Icons.layers_outlined, page: SFloatingPanelPage()),
       ]),
     ];
 
