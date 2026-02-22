@@ -30,6 +30,7 @@ import 'pages/tabs_demo_v3.dart';
 import 'pages/toast_page.dart';
 import 'pages/qrcode_demo_page.dart';
 import 'pages/s_alert_page.dart';
+import 'pages/s_avatar_page.dart';
 import 'pages/s_pagination_page.dart';
 import 'pages/s_time_picker_page.dart';
 
@@ -184,6 +185,8 @@ class HomePage
           _buildListTile(context, 'SInput (Ant Design)', const InputDemoPage(), Icons.input),
           _buildListTile(context, 'SQRCode (Ant Design)', const QRCodeDemoPage(), Icons.qr_code),
           _buildListTile(context, 'SAlert (Ant Design)', const SAlertPage(), Icons.warning_amber_rounded),
+          _buildSectionHeader('Data Display', colorScheme),
+          _buildListTile(context, 'SAvatar (Ant Design)', const SAvatarPage(), Icons.account_circle),
           _buildListTile(context, 'SPagination (Ant Design)', const SPaginationPage(), Icons.first_page_rounded),
           _buildListTile(context, 'STimePicker (Ant Design)', const STimePickerPage(), Icons.access_time_rounded),
         ],

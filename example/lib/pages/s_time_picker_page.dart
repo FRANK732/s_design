@@ -21,11 +21,6 @@ class _STimePickerPageState
   TimeOfDay?
       _controlledTime;
 
-  // Section 7 — addon controlled open
-  bool
-      _addonOpen =
-      false;
-
   @override
   Widget build(
       BuildContext
@@ -46,10 +41,10 @@ class _STimePickerPageState
           children: [
             // ── 1. Basic ────────────────────────────────────────────────────
             _header('1. Basic'),
-            _desc('Default HH:mm:ss picker. Panel opens on tap, '
-                'value confirmed immediately on column scroll.'),
+            _desc('Default HH:mm:ss picker. Column scrolling only previews. '
+                'Value commits when you tap OK or dismiss the panel.'),
             STimePicker(
-              defaultValue: const TimeOfDay(hour: 0, minute: 0),
+              defaultOpenValue: const TimeOfDay(hour: 0, minute: 0),
               onChange: (t) => _snack(ctx, 'Time: $t'),
             ),
             const SizedBox(height: 32),
@@ -114,18 +109,14 @@ class _STimePickerPageState
 
             // ── 7. Addon / Extra Footer ─────────────────────────────────────
             _header('7. Addon — renderExtraFooter'),
-            _desc('renderExtraFooter renders a custom widget in the panel footer.'),
+            _desc('renderExtraFooter adds a custom widget in the panel footer, '
+                'alongside the built-in Now and OK buttons.'),
             STimePicker(
-              open: _addonOpen,
-              onOpenChange: (v) => setState(() => _addonOpen = v),
-              renderExtraFooter: () => TextButton(
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-                onPressed: () => setState(() => _addonOpen = false),
-                child: const Text('Close Panel', style: TextStyle(fontSize: 12)),
+              renderExtraFooter: () => const Text(
+                '✏️ Custom footer',
+                style: TextStyle(fontSize: 11, color: Colors.grey),
               ),
+              onChange: (t) => _snack(ctx, '$t'),
             ),
             const SizedBox(height: 32),
 
@@ -172,7 +163,7 @@ class _STimePickerPageState
                     'Outlined End'
                   )),
                 ]),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 Wrap(spacing: 8, runSpacing: 8, children: [
                   STimePicker(variant: STimePickerVariant.filled, placeholder: 'Filled'),
                   STimeRangePicker(variant: STimePickerVariant.filled, placeholder: const (
@@ -180,7 +171,7 @@ class _STimePickerPageState
                     'Filled End'
                   )),
                 ]),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 Wrap(spacing: 8, runSpacing: 8, children: [
                   STimePicker(variant: STimePickerVariant.borderless, placeholder: 'Borderless'),
                   STimeRangePicker(variant: STimePickerVariant.borderless, placeholder: const (
@@ -188,7 +179,7 @@ class _STimePickerPageState
                     'Borderless End'
                   )),
                 ]),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 Wrap(spacing: 8, runSpacing: 8, children: [
                   STimePicker(variant: STimePickerVariant.underlined, placeholder: 'Underlined'),
                   STimeRangePicker(variant: STimePickerVariant.underlined, placeholder: const (
@@ -225,12 +216,21 @@ class _STimePickerPageState
 
             // ── 13. changeOnScroll ──────────────────────────────────────────
             _header('13. changeOnScroll'),
-            _desc('onChange fires live as the user drags the column '
-                '(needConfirm is false).'),
+            _desc('onChange fires live as the user snaps each column '
+                '(needConfirm is false — Ant Design default for changeOnScroll).'),
             STimePicker(
               changeOnScroll: true,
               needConfirm: false,
               onChange: (t) => _snack(ctx, 'Scroll→ $t'),
+            ),
+            const SizedBox(height: 32),
+
+            // ── 14. showNow: false ──────────────────────────────────────────
+            _header('14. showNow: false'),
+            _desc('Hides the Now shortcut from the footer (mirroring Ant Design showNow prop).'),
+            STimePicker(
+              showNow: false,
+              onChange: (t) => _snack(ctx, '$t'),
             ),
             const SizedBox(height: 32),
 

@@ -3,192 +3,399 @@ import '../../../../domain/entities/config/s_time_picker_enums.dart';
 import '../../../themes/extensions/component_themes/s_time_picker_theme.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  Resolved design tokens (computed per-widget from theme + overrides)
+//  Format helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
-class _TimePickerTokens {
-  const _TimePickerTokens({
-    required this.activeColor,
-    required this.panelBackground,
-    required this.columnHighlightColor,
+bool _hasSeconds(
+        String
+            fmt) =>
+    fmt.contains(
+        's');
+bool _hasMinutes(
+        String
+            fmt) =>
+    fmt.contains(
+        'm');
+bool _hasAmPm(
+        String
+            fmt) =>
+    fmt.contains('a') ||
+    fmt.contains(
+        'A') ||
+    fmt.contains(
+        'h');
+
+String
+    _formatDisplay({
+  required int
+      h24,
+  required int
+      m,
+  required int
+      s,
+  required String
+      fmt,
+}) {
+  final bool
+      is12 =
+      _hasAmPm(fmt);
+  final bool
+      isPm =
+      h24 >=
+          12;
+  String
+      r =
+      fmt;
+  if (is12) {
+    final h12 = h24 == 0
+        ? 12
+        : (h24 > 12 ? h24 - 12 : h24);
+    r = r.replaceAll(
+        'HH',
+        h24.toString().padLeft(2, '0'));
+    r = r.replaceAll(
+        'H',
+        h24.toString());
+    r = r.replaceAll(
+        'hh',
+        h12.toString().padLeft(2, '0'));
+    r = r.replaceAll(
+        'h',
+        h12.toString());
+    r = r.replaceAll(
+        'A',
+        isPm ? 'PM' : 'AM');
+    r = r.replaceAll(
+        'a',
+        isPm ? 'pm' : 'am');
+  } else {
+    r = r.replaceAll(
+        'HH',
+        h24.toString().padLeft(2, '0'));
+    r = r.replaceAll(
+        'H',
+        h24.toString());
+  }
+  r = r.replaceAll(
+      'mm',
+      m.toString().padLeft(2,
+          '0'));
+  r = r.replaceAll(
+      'm',
+      m.toString());
+  r = r.replaceAll(
+      'ss',
+      s.toString().padLeft(2,
+          '0'));
+  r = r.replaceAll(
+      's',
+      s.toString());
+  return r;
+}
+
+int _to24(
+    int
+        displayH,
+    bool
+        isPm) {
+  if (displayH ==
+      0)
+    return isPm
+        ? 12
+        : 0;
+  return isPm
+      ? displayH +
+          12
+      : displayH;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+//  Token bag
+// ─────────────────────────────────────────────────────────────────────────────
+
+class _Tok {
+  const _Tok({
+    required this.primary,
+    required this.panelBg,
+    required this.highlightBg,
     required this.borderColor,
-    required this.borderRadius,
-    required this.fillColor,
+    required this.radius,
+    required this.fillBg,
     required this.textStyle,
     required this.placeholderStyle,
-    required this.itemTextStyle,
-    required this.itemHeight,
-    required this.columnWidth,
-    required this.fieldHeight,
-    required this.fontSize,
-    required this.iconSize,
-    required this.horizontalPadding,
+    required this.itemStyle,
+    required this.itemH,
+    required this.colW,
+    required this.fieldH,
+    required this.hPad,
+    required this.iconSz,
   });
 
   final Color
-      activeColor;
+      primary;
   final Color
-      panelBackground;
+      panelBg;
   final Color
-      columnHighlightColor;
+      highlightBg;
   final Color
       borderColor;
   final BorderRadius
-      borderRadius;
+      radius;
   final Color
-      fillColor;
+      fillBg;
   final TextStyle
       textStyle;
   final TextStyle
       placeholderStyle;
   final TextStyle
-      itemTextStyle;
+      itemStyle;
   final double
-      itemHeight;
+      itemH;
   final double
-      columnWidth;
+      colW;
   final double
-      fieldHeight;
+      fieldH;
   final double
-      fontSize;
+      hPad;
   final double
-      iconSize;
-  final double
-      horizontalPadding;
+      iconSz;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  Helper: parse & format time
+//  Scrollable column  (one per time unit)
 // ─────────────────────────────────────────────────────────────────────────────
 
-String
-    _formatTime({
-  required int
-      hour,
-  required int
-      minute,
-  required int
-      second,
-  required String
-      format,
-  required bool
-      use12Hours,
-}) {
-  final bool is12h = use12Hours ||
-      format.contains('h') ||
-      format.contains('a') ||
-      format.contains('A');
+/// A single scrollable column that snaps to items.
+/// Parent must give it tight [BoxConstraints] (use explicit SizedBox).
+class _TimeColumn
+    extends StatefulWidget {
+  const _TimeColumn({
+    required this.items,
+    required this.selectedIndex,
+    required this.label,
+    required this.itemH,
+    required this.primary,
+    required this.highlightBg,
+    required this.itemStyle,
+    required this.onSelected,
+    this.onLiveScroll,
+  });
 
-  String
-      result =
-      format;
+  final List<int>
+      items;
+  final int
+      selectedIndex;
+  final String
+          Function(int value)
+      label;
+  final double
+      itemH;
+  final Color
+      primary;
+  final Color
+      highlightBg;
+  final TextStyle
+      itemStyle;
+  final void
+          Function(int index)
+      onSelected;
+  final void
+          Function(int index)?
+      onLiveScroll;
 
-  if (is12h) {
-    final bool
-        isPm =
-        hour >= 12;
-    final int h12 = hour == 0
-        ? 12
-        : (hour > 12 ? hour - 12 : hour);
-    result = result.replaceAll(
-        'HH',
-        hour.toString().padLeft(2, '0'));
-    result = result.replaceAll(
-        'H',
-        hour.toString());
-    result = result.replaceAll(
-        'hh',
-        h12.toString().padLeft(2, '0'));
-    result = result.replaceAll(
-        'h',
-        h12.toString());
-    result = result.replaceAll(
-        'A',
-        isPm ? 'PM' : 'AM');
-    result = result.replaceAll(
-        'a',
-        isPm ? 'pm' : 'am');
-  } else {
-    result = result.replaceAll(
-        'HH',
-        hour.toString().padLeft(2, '0'));
-    result = result.replaceAll(
-        'H',
-        hour.toString());
+  @override
+  State<_TimeColumn>
+      createState() =>
+          _TimeColumnState();
+}
+
+class _TimeColumnState
+    extends State<
+        _TimeColumn> {
+  late ScrollController
+      _sc;
+  int _current =
+      0;
+  bool
+      _dragging =
+      false;
+
+  @override
+  void
+      initState() {
+    super
+        .initState();
+    _current = widget.selectedIndex.clamp(
+        0,
+        _maxIdx);
+    _sc =
+        ScrollController(initialScrollOffset: _current * widget.itemH);
+    _sc.addListener(
+        _onScroll);
   }
-  result = result.replaceAll(
-      'mm',
-      minute.toString().padLeft(2,
-          '0'));
-  result = result.replaceAll(
-      'm',
-      minute.toString());
-  result = result.replaceAll(
-      'ss',
-      second.toString().padLeft(2,
-          '0'));
-  result = result.replaceAll(
-      's',
-      second.toString());
-  return result;
+
+  int get _maxIdx => (widget.items.length - 1).clamp(
+      0,
+      9999);
+
+  @override
+  void didUpdateWidget(
+      _TimeColumn
+          old) {
+    super.didUpdateWidget(
+        old);
+    if (old.selectedIndex != widget.selectedIndex &&
+        !_dragging) {
+      final target =
+          widget.selectedIndex.clamp(0, _maxIdx);
+      if (target !=
+          _current) {
+        _current = target;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted || !_sc.hasClients) return;
+          _sc.animateTo(
+            target * widget.itemH,
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeInOut,
+          );
+        });
+      }
+    }
+  }
+
+  @override
+  void
+      dispose() {
+    _sc.removeListener(
+        _onScroll);
+    _sc.dispose();
+    super
+        .dispose();
+  }
+
+  void
+      _onScroll() {
+    if (!_sc
+        .hasClients)
+      return;
+    final raw =
+        (_sc.offset / widget.itemH).round();
+    final idx = raw.clamp(
+        0,
+        _maxIdx);
+    if (idx !=
+        _current) {
+      setState(() =>
+          _current = idx);
+      widget.onLiveScroll?.call(idx);
+    }
+  }
+
+  void
+      _snap() {
+    if (!mounted ||
+        !_sc.hasClients)
+      return;
+    final target =
+        _current * widget.itemH;
+    if ((_sc.offset - target).abs() >
+        0.5) {
+      _sc.animateTo(target,
+          duration: const Duration(milliseconds: 120),
+          curve: Curves.easeOut);
+    }
+    widget
+        .onSelected(_current);
+  }
+
+  void _tapItem(
+      int idx) {
+    if (idx ==
+        _current)
+      return;
+    setState(() =>
+        _current = idx);
+    if (_sc
+        .hasClients) {
+      _sc.animateTo(idx * widget.itemH,
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeInOut);
+    }
+    widget
+        .onSelected(idx);
+  }
+
+  @override
+  Widget build(
+      BuildContext
+          context) {
+    return NotificationListener<
+        ScrollNotification>(
+      onNotification:
+          (n) {
+        if (n is ScrollStartNotification)
+          _dragging = true;
+        if (n is ScrollEndNotification) {
+          _dragging = false;
+          WidgetsBinding.instance.addPostFrameCallback((_) => _snap());
+        }
+        return false;
+      },
+      child:
+          ScrollConfiguration(
+        behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+        child: ListView.builder(
+          controller: _sc,
+          // Padding top + bottom = half the column height minus half an item
+          // so item 0 centres when scrolled to top.
+          // Column height = 7 * itemH; centre = 3 * itemH from top.
+          padding: EdgeInsets.symmetric(vertical: widget.itemH * 3),
+          itemCount: widget.items.length,
+          itemExtent: widget.itemH,
+          physics: const ClampingScrollPhysics(),
+          itemBuilder: (ctx, i) {
+            final sel = i == _current;
+            return GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => _tapItem(i),
+              child: Container(
+                alignment: Alignment.center,
+                color: sel ? widget.highlightBg : Colors.transparent,
+                child: Text(
+                  widget.label(widget.items[i]),
+                  style: widget.itemStyle.copyWith(
+                    color: sel ? widget.primary : Colors.black87,
+                    fontWeight: sel ? FontWeight.w600 : FontWeight.w400,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
 }
-
-bool _formatShowsSeconds(
-        String
-            format) =>
-    format.contains(
-        'ss') ||
-    format
-        .contains('s');
-
-bool _formatShowsMinutes(
-        String
-            format) =>
-    format.contains(
-        'mm') ||
-    format
-        .contains('m');
-
-bool _formatShowsAmPm(
-        String
-            format) =>
-    format.contains(
-        'a') ||
-    format
-        .contains('A');
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  STimePicker
 // ─────────────────────────────────────────────────────────────────────────────
 
-/// A time picker component inspired by Ant Design's [TimePicker].
+/// Ant-Design–parity time picker for Flutter.
 ///
-/// Shows a scrollable column panel (hours / minutes / seconds + optional
-/// AM/PM) in an [Overlay] positioned below the trigger field.
-///
-/// ## Minimal usage
-/// ```dart
-/// STimePicker(
-///   onChange: (t) => print(t),
-/// )
-/// ```
-///
-/// ## Controlled
-/// ```dart
-/// STimePicker(
-///   value: _time,
-///   onChange: (t) => setState(() => _time = t),
-/// )
-/// ```
+/// **Commit rules (identical to Ant Design):**
+/// * Default → value commits when panel is dismissed (OK or tap-outside).
+/// * `needConfirm: true` → only when the user taps **OK**.
+/// * `changeOnScroll: true` → `onChange` fires live on every column snap.
 class STimePicker
     extends StatefulWidget {
   const STimePicker({
     super.key,
-    // Value
     this.value,
     this.defaultValue,
+    this.defaultOpenValue,
     this.onChange,
-    // Format / columns
     this.format =
         'HH:mm:ss',
     this.use12Hours =
@@ -199,7 +406,6 @@ class STimePicker
         1,
     this.secondStep =
         1,
-    // Field appearance
     this.disabled =
         false,
     this.placeholder =
@@ -214,16 +420,15 @@ class STimePicker
         true,
     this.suffixIcon,
     this.prefix,
-    // Panel behaviour
     this.needConfirm =
         false,
     this.changeOnScroll =
         false,
+    this.showNow =
+        true,
     this.renderExtraFooter,
-    // Controlled open state
     this.open,
     this.onOpenChange,
-    // Customizability overrides
     this.activeColor,
     this.panelBackground,
     this.columnHighlightColor,
@@ -237,43 +442,26 @@ class STimePicker
     this.columnWidth,
   });
 
-  // ── Value ──────────────────────────────────────────────────────────────────
-  /// Controlled time value. Set alongside [onChange] for controlled mode.
   final TimeOfDay?
       value;
-
-  /// Default time for uncontrolled mode.
   final TimeOfDay?
       defaultValue;
-
-  /// Called when the selected time changes.
+  final TimeOfDay?
+      defaultOpenValue;
   final ValueChanged<TimeOfDay?>?
       onChange;
 
-  // ── Format / columns ───────────────────────────────────────────────────────
-  /// Display format string. Controls which columns appear.
-  ///
-  /// Examples: `'HH:mm:ss'`, `'HH:mm'`, `'h:mm:ss A'`, `'h:mm a'`.
   final String
       format;
-
-  /// Show 12-hour clock with AM/PM column.
   final bool
       use12Hours;
-
-  /// Interval between items in the hours column (default 1).
   final int
       hourStep;
-
-  /// Interval between items in the minutes column (default 1).
   final int
       minuteStep;
-
-  /// Interval between items in the seconds column (default 1).
   final int
       secondStep;
 
-  // ── Field appearance ───────────────────────────────────────────────────────
   final bool
       disabled;
   final String
@@ -284,40 +472,28 @@ class STimePicker
       variant;
   final STimePickerStatus
       status;
-
-  /// Show a ✕ clear button when a value is selected.
   final bool
       allowClear;
-
-  /// Custom trailing icon (default: clock icon).
   final Widget?
       suffixIcon;
-
-  /// Leading widget inside the field.
   final Widget?
       prefix;
 
-  // ── Panel behaviour ────────────────────────────────────────────────────────
-  /// Require the user to press OK before the value is committed.
   final bool
       needConfirm;
-
-  /// Fire [onChange] as the user scrolls (requires [needConfirm] == false).
   final bool
       changeOnScroll;
-
-  /// Extra widget rendered at the bottom of the panel.
+  final bool
+      showNow;
   final Widget
           Function()?
       renderExtraFooter;
 
-  // ── Controlled open state ──────────────────────────────────────────────────
   final bool?
       open;
   final ValueChanged<bool>?
       onOpenChange;
 
-  // ── Per-instance customizability ───────────────────────────────────────────
   final Color?
       activeColor;
   final Color?
@@ -349,93 +525,94 @@ class STimePicker
 
 class _STimePickerState
     extends State<
-        STimePicker>
-    with
-        SingleTickerProviderStateMixin {
-  // Internal state for uncontrolled mode
+        STimePicker> {
+  // Committed (uncontrolled) value
   TimeOfDay?
-      _internalValue;
+      _committed;
+  int _committedSec =
+      0;
 
-  // Pending value during needConfirm
-  late int
-      _pendingHour;
-  late int
-      _pendingMinute;
-  late int
-      _pendingSecond;
-  late bool
-      _pendingIsPm; // for 12h mode
+  // Pending values – indices into the respective items lists
+  int _phIdx =
+      0; // hour column index
+  int _pmIdx =
+      0; // minute column index
+  int _psIdx =
+      0; // second column index
+  int _apIdx =
+      0; // AM/PM index (0=AM,1=PM)
 
   bool
       _panelOpen =
       false;
-
-  // Scroll controllers
-  late FixedExtentScrollController
-      _hourCtrl;
-  late FixedExtentScrollController
-      _minuteCtrl;
-  late FixedExtentScrollController
-      _secondCtrl;
-  late FixedExtentScrollController
-      _amPmCtrl;
-
-  // Overlay
   OverlayEntry?
-      _overlayEntry;
+      _entry;
   final LayerLink
-      _layerLink =
+      _link =
       LayerLink();
   final GlobalKey
-      _triggerKey =
+      _fieldKey =
       GlobalKey();
-
-  // Hover state for clear/suffix swap
   bool
       _hovered =
       false;
 
-  // ── Getters ─────────────────────────────────────────────────────────────────
+  // ── Derived ────────────────────────────────────────────────────────────────
 
-  TimeOfDay? get _effectiveValue =>
-      widget.value ??
-      _internalValue;
-
-  bool get _isControlledOpen =>
-      widget.open !=
-      null;
-
-  bool get _isPanelOpen => _isControlledOpen
+  bool get _is12h =>
+      widget.use12Hours ||
+      _hasAmPm(widget.format);
+  bool get _showMin =>
+      _hasMinutes(widget.format);
+  bool get _showSec =>
+      _hasSeconds(widget.format);
+  bool get _isOpen => widget.open !=
+          null
       ? widget.open!
       : _panelOpen;
+  TimeOfDay? get _effective =>
+      widget.value ??
+      _committed;
 
-  bool get _show12h =>
-      widget.use12Hours ||
-      _formatShowsAmPm(widget.format);
+  List<int>
+      get _hourItems {
+    final max = _is12h
+        ? 12
+        : 24;
+    return [
+      for (int i = 0;
+          i < max;
+          i += widget.hourStep)
+        i
+    ];
+  }
 
-  bool get _showSeconds =>
-      _formatShowsSeconds(widget.format);
-  bool get _showMinutes =>
-      _formatShowsMinutes(widget.format);
+  List<int>
+      get _minItems =>
+          [
+            for (int i = 0; i < 60; i += widget.minuteStep) i
+          ];
 
-  // ── Lifecycle ────────────────────────────────────────────────────────────────
+  List<int>
+      get _secItems =>
+          [
+            for (int i = 0; i < 60; i += widget.secondStep) i
+          ];
+
+  // ── Lifecycle ──────────────────────────────────────────────────────────────
 
   @override
   void
       initState() {
     super
         .initState();
-    _syncPendingFromValue(widget.defaultValue ??
+    final base = widget.defaultValue ??
         widget.value ??
-        const TimeOfDay(hour: 0, minute: 0));
-    _hourCtrl =
-        FixedExtentScrollController(initialItem: _hourIndex(_pendingHour));
-    _minuteCtrl =
-        FixedExtentScrollController(initialItem: _minuteIndex(_pendingMinute));
-    _secondCtrl =
-        FixedExtentScrollController(initialItem: _secondIndex(_pendingSecond));
-    _amPmCtrl =
-        FixedExtentScrollController(initialItem: _pendingIsPm ? 1 : 0);
+        widget.defaultOpenValue ??
+        const TimeOfDay(hour: 0, minute: 0);
+    _syncPending(
+        base,
+        sec: 0);
   }
 
   @override
@@ -446,500 +623,499 @@ class _STimePickerState
         old);
     if (widget.value != old.value &&
         widget.value != null &&
-        !_isPanelOpen) {
-      _syncPendingFromValue(widget.value!);
+        !_isOpen) {
+      _syncPending(widget.value!,
+          sec: 0);
     }
   }
 
   @override
   void
       dispose() {
-    _removeOverlay();
-    _hourCtrl
-        .dispose();
-    _minuteCtrl
-        .dispose();
-    _secondCtrl
-        .dispose();
-    _amPmCtrl
-        .dispose();
+    _removeEntry();
     super
         .dispose();
   }
 
-  // ── Helpers ──────────────────────────────────────────────────────────────────
+  // ── Helpers ────────────────────────────────────────────────────────────────
 
-  void _syncPendingFromValue(
+  int _nearest(
+      List<int>
+          items,
+      int val) {
+    if (items
+        .isEmpty)
+      return 0;
+    int best = 0,
+        bestD = (items[0] - val).abs();
+    for (int i = 1;
+        i < items.length;
+        i++) {
+      final d =
+          (items[i] - val).abs();
+      if (d <
+          bestD) {
+        bestD = d;
+        best = i;
+      }
+    }
+    return best;
+  }
+
+  void _syncPending(
       TimeOfDay
-          t) {
-    _pendingHour =
-        t.hour;
-    _pendingMinute =
-        t.minute;
-    _pendingSecond =
-        0;
-    _pendingIsPm =
-        t.hour >= 12;
+          t,
+      {int sec =
+          0}) {
+    _apIdx = t.hour >= 12
+        ? 1
+        : 0;
+    if (_is12h) {
+      final h12 = t.hour == 0
+          ? 0
+          : (t.hour > 12 ? t.hour - 12 : t.hour) % 12;
+      _phIdx =
+          _nearest(_hourItems, h12);
+    } else {
+      _phIdx =
+          _nearest(_hourItems, t.hour);
+    }
+    _pmIdx = _nearest(
+        _minItems,
+        t.minute);
+    _psIdx = _nearest(
+        _secItems,
+        sec);
   }
 
-  List<int>
-      get _hours {
-    final total = _show12h
-        ? 12
-        : 24;
-    return [
-      for (int i = 0;
-          i < total;
-          i += widget.hourStep)
-        i
-    ];
+  TimeOfDay
+      get _pendingTime {
+    final hVal = _hourItems[_phIdx.clamp(
+        0,
+        _hourItems.length - 1)];
+    final mVal = _minItems[_pmIdx.clamp(
+        0,
+        _minItems.length - 1)];
+    final h24 = _is12h
+        ? _to24(hVal, _apIdx == 1)
+        : hVal;
+    return TimeOfDay(
+        hour: h24,
+        minute: mVal);
   }
 
-  List<int>
-      get _minutes =>
-          [
-            for (int i = 0; i < 60; i += widget.minuteStep) i
-          ];
+  int get _pendingSec => _secItems.isEmpty
+      ? 0
+      : _secItems[_psIdx.clamp(0,
+          _secItems.length - 1)];
 
-  List<int>
-      get _seconds =>
-          [
-            for (int i = 0; i < 60; i += widget.secondStep) i
-          ];
-
-  int _hourIndex(
-      int h) {
-    final display = _show12h
-        ? (h == 0
-                ? 12
-                : h > 12
-                    ? h - 12
-                    : h) %
-            (_show12h ? 12 : 24)
-        : h;
-    final idx =
-        _hours.indexOf(display);
-    return idx < 0
-        ? 0
-        : idx;
-  }
-
-  int _minuteIndex(
-      int m) {
-    final idx =
-        _minutes.indexOf(m);
-    return idx < 0
-        ? 0
-        : idx;
-  }
-
-  int _secondIndex(
-      int s) {
-    final idx =
-        _seconds.indexOf(s);
-    return idx < 0
-        ? 0
-        : idx;
-  }
-
-  int _displayHourToHour24(
-      int
-          displayHour,
-      bool
-          isPm) {
-    if (!_show12h)
-      return displayHour;
-    if (displayHour ==
-        12)
-      return isPm
-          ? 12
-          : 0;
-    return isPm
-        ? displayHour + 12
-        : displayHour;
-  }
-
-  TimeOfDay get _pendingTime =>
-      TimeOfDay(
-        hour: _displayHourToHour24(
-          _show12h
-              ? (_pendingHour == 0
-                  ? 12
-                  : _pendingHour > 12
-                      ? _pendingHour - 12
-                      : _pendingHour)
-              : _pendingHour,
-          _pendingIsPm,
-        ),
-        minute: _pendingMinute,
-      );
-
-  String _formatDisplay(
-      TimeOfDay?
-          t) {
-    if (t ==
-        null)
-      return '';
-    return _formatTime(
-      hour:
-          t.hour,
-      minute:
-          t.minute,
-      second:
-          _pendingSecond,
-      format:
-          widget.format,
-      use12Hours:
-          _show12h,
-    );
-  }
-
-  // ── Panel open / close ────────────────────────────────────────────────────
+  // ── Open / close ───────────────────────────────────────────────────────────
 
   void
-      _openPanel() {
+      _open() {
     if (widget
         .disabled)
       return;
-    if (_isControlledOpen) {
+    if (widget.open !=
+        null) {
       widget.onOpenChange?.call(true);
       return;
     }
+    final base = _effective ??
+        widget.defaultOpenValue ??
+        const TimeOfDay(hour: 0, minute: 0);
+    _syncPending(
+        base,
+        sec: _committedSec);
     setState(() =>
         _panelOpen = true);
     widget
         .onOpenChange
         ?.call(true);
-    _showOverlay();
+    _insertEntry();
   }
 
-  void _closePanel(
-      {bool commit =
-          false}) {
-    if (_isControlledOpen) {
+  void _dismiss(
+      {required bool
+          commit}) {
+    if (widget.open !=
+        null) {
       widget.onOpenChange?.call(false);
       return;
     }
-    if (commit ||
-        !widget.needConfirm) {
-      _commitPending();
-    }
+    if (commit)
+      _doCommit();
     setState(() =>
         _panelOpen = false);
     widget
         .onOpenChange
         ?.call(false);
-    _removeOverlay();
+    _removeEntry();
   }
 
   void
-      _commitPending() {
+      _confirm() {
+    _doCommit();
+    setState(() =>
+        _panelOpen = false);
+    widget
+        .onOpenChange
+        ?.call(false);
+    _removeEntry();
+  }
+
+  void
+      _doCommit() {
     final t =
         _pendingTime;
+    final s =
+        _pendingSec;
     if (widget.value ==
-        null)
-      setState(() =>
-          _internalValue = t);
+        null) {
+      setState(() {
+        _committed = t;
+        _committedSec = s;
+      });
+    }
     widget
         .onChange
         ?.call(t);
   }
 
   void
-      _clearValue() {
-    setState(() =>
-        _internalValue = null);
+      _setNow() {
+    final now =
+        DateTime.now();
+    _syncPending(
+        TimeOfDay.fromDateTime(now),
+        sec: now.second);
+    setState(
+        () {});
+    _rebuildEntry();
+    if (widget
+        .changeOnScroll)
+      _doCommit();
+  }
+
+  void
+      _clear() {
+    setState(
+        () {
+      _committed =
+          null;
+      _committedSec =
+          0;
+      _syncPending(widget.defaultOpenValue ?? const TimeOfDay(hour: 0, minute: 0),
+          sec: 0);
+    });
     widget
         .onChange
         ?.call(null);
   }
 
-  // ── Overlay management ────────────────────────────────────────────────────
+  // ── Overlay ────────────────────────────────────────────────────────────────
 
   void
-      _showOverlay() {
-    _removeOverlay();
-    final overlay =
-        Overlay.of(context);
-    _overlayEntry =
-        OverlayEntry(
-      builder: (_) =>
-          _TimePickerOverlay(
-        layerLink: _layerLink,
-        state: this,
-      ),
-    );
-    overlay
-        .insert(_overlayEntry!);
+      _insertEntry() {
+    _removeEntry();
+    _entry =
+        OverlayEntry(builder: (ctx) => _PanelOverlay(link: _link, state: this));
+    Overlay.of(context)
+        .insert(_entry!);
   }
 
   void
-      _removeOverlay() {
-    _overlayEntry
+      _removeEntry() {
+    _entry
         ?.remove();
-    _overlayEntry =
+    _entry =
         null;
   }
 
-  void
-      _rebuildOverlay() {
-    _overlayEntry
-        ?.markNeedsBuild();
-  }
+  void _rebuildEntry() =>
+      _entry?.markNeedsBuild();
 
-  // ── Tokens ────────────────────────────────────────────────────────────────
+  // ── Tokens ─────────────────────────────────────────────────────────────────
 
-  _TimePickerTokens
-      _resolveTokens(BuildContext ctx) {
-    final theme =
+  _Tok _tok(
+      BuildContext
+          ctx) {
+    final th =
         Theme.of(ctx);
     final ext =
-        theme.sTimePickerTheme;
-    final isDark =
-        theme.brightness == Brightness.dark;
+        th.extension<STimePickerThemeData>();
+    final dark =
+        th.brightness == Brightness.dark;
 
-    // Field height from size
-    final double
-        fieldHeight;
-    final double
-        fontSize;
-    final double
-        iconSize;
-    final double
-        hPad;
+    double
+        fh,
+        hp,
+        iz,
+        fs;
     switch (
         widget.size) {
       case STimePickerSize.large:
-        fieldHeight = 40;
-        fontSize = 16;
-        iconSize = 18;
-        hPad = 12;
+        fh = 40;
+        hp = 12;
+        iz = 18;
+        fs = 16;
         break;
       case STimePickerSize.small:
-        fieldHeight = 24;
-        fontSize = 12;
-        iconSize = 12;
-        hPad = 7;
+        fh = 24;
+        hp = 7;
+        iz = 12;
+        fs = 12;
         break;
-      case STimePickerSize.middle:
-        fieldHeight = 32;
-        fontSize = 14;
-        iconSize = 14;
-        hPad = 11;
-        break;
+      default:
+        fh = 32;
+        hp = 11;
+        iz = 14;
+        fs = 14;
     }
 
-    // Status overrides border
     Color
-        borderColor;
+        bc;
     switch (
         widget.status) {
       case STimePickerStatus.error:
-        borderColor = const Color(0xFFFF4D4F);
+        bc = const Color(0xFFFF4D4F);
         break;
       case STimePickerStatus.warning:
-        borderColor = const Color(0xFFFAAD14);
+        bc = const Color(0xFFFAAD14);
         break;
-      case STimePickerStatus.none:
-        borderColor = widget.borderColor ?? ext?.borderColor ?? (isDark ? const Color(0xFF434343) : const Color(0xFFD9D9D9));
+      default:
+        bc = widget.borderColor ?? ext?.borderColor ?? (dark ? const Color(0xFF434343) : const Color(0xFFD9D9D9));
     }
 
-    return _TimePickerTokens(
-      activeColor: widget.activeColor ??
-          ext?.activeColor ??
-          const Color(0xFF1677FF),
-      panelBackground: widget.panelBackground ??
-          ext?.panelBackground ??
-          (isDark ? const Color(0xFF1F1F1F) : Colors.white),
-      columnHighlightColor: widget.columnHighlightColor ??
+    final primary = widget.activeColor ??
+        ext?.activeColor ??
+        const Color(0xFF1677FF);
+    final panelBg = widget.panelBackground ??
+        ext?.panelBackground ??
+        (dark ? const Color(0xFF1F1F1F) : Colors.white);
+
+    return _Tok(
+      primary:
+          primary,
+      panelBg:
+          panelBg,
+      highlightBg: widget.columnHighlightColor ??
           ext?.columnHighlightColor ??
-          (isDark ? const Color(0xFF262626) : const Color(0xFFF5F5F5)),
+          primary.withOpacity(0.08),
       borderColor:
-          borderColor,
-      borderRadius: widget.borderRadius ??
+          bc,
+      radius: widget.borderRadius ??
           ext?.borderRadius ??
           BorderRadius.circular(6),
-      fillColor: widget.fillColor ??
+      fillBg: widget.fillColor ??
           ext?.fillColor ??
-          (isDark ? const Color(0xFF1A1A1A) : const Color(0xFFF5F5F5)),
+          (dark ? const Color(0xFF1A1A1A) : const Color(0xFFF5F5F5)),
       textStyle:
-          (widget.textStyle ?? ext?.textStyle ?? const TextStyle()).copyWith(fontSize: fontSize, color: isDark ? Colors.white : const Color(0xFF000000E0)),
+          (widget.textStyle ?? ext?.textStyle ?? const TextStyle()).copyWith(fontSize: fs, color: dark ? Colors.white : Colors.black87),
       placeholderStyle:
-          (widget.placeholderStyle ?? ext?.placeholderStyle ?? const TextStyle()).copyWith(fontSize: fontSize, color: const Color(0xFFBFBFBF)),
-      itemTextStyle:
-          (widget.itemTextStyle ?? ext?.itemTextStyle ?? const TextStyle()).copyWith(fontSize: 14, color: isDark ? Colors.white70 : const Color(0xFF000000E0)),
-      itemHeight: widget.itemHeight ??
+          (widget.placeholderStyle ?? ext?.placeholderStyle ?? const TextStyle()).copyWith(fontSize: fs, color: const Color(0xFFBFBFBF)),
+      itemStyle:
+          (widget.itemTextStyle ?? ext?.itemTextStyle ?? const TextStyle()).copyWith(fontSize: 14, color: Colors.black87),
+      itemH: widget.itemHeight ??
           ext?.itemHeight ??
-          36,
-      columnWidth: widget.columnWidth ??
+          32,
+      colW: widget.columnWidth ??
           ext?.columnWidth ??
           56,
-      fieldHeight:
-          fieldHeight,
-      fontSize:
-          fontSize,
-      iconSize:
-          iconSize,
-      horizontalPadding:
-          hPad,
+      fieldH:
+          fh,
+      hPad:
+          hp,
+      iconSz:
+          iz,
     );
   }
 
-  // ── Build ─────────────────────────────────────────────────────────────────
+  // ── Build ──────────────────────────────────────────────────────────────────
 
   @override
   Widget build(
       BuildContext
           context) {
-    final tokens =
-        _resolveTokens(context);
-    final hasValue =
-        _effectiveValue != null;
-    final displayText =
-        _formatDisplay(_effectiveValue);
-    final bool showClear = widget.allowClear &&
-        hasValue &&
+    final tk =
+        _tok(context);
+    final t =
+        _effective;
+    final hasVal =
+        t != null;
+    final display = hasVal
+        ? _formatDisplay(h24: t.hour, m: t.minute, s: _committedSec, fmt: widget.format)
+        : '';
+    final showClear = widget.allowClear &&
+        hasVal &&
         _hovered &&
         !widget.disabled;
 
-    // Border decoration based on variant
     BoxDecoration
-        fieldDecoration;
+        deco;
     switch (
         widget.variant) {
       case STimePickerVariant.filled:
-        fieldDecoration = BoxDecoration(
-          color: widget.disabled ? const Color(0xFFF5F5F5) : tokens.fillColor,
-          borderRadius: tokens.borderRadius,
+        deco = BoxDecoration(
+          color: widget.disabled ? const Color(0xFFF5F5F5) : tk.fillBg,
+          borderRadius: tk.radius,
         );
         break;
       case STimePickerVariant.borderless:
-        fieldDecoration = const BoxDecoration();
+        deco = const BoxDecoration();
         break;
       case STimePickerVariant.underlined:
-        fieldDecoration = BoxDecoration(
-          border: Border(bottom: BorderSide(color: widget.disabled ? const Color(0xFFD9D9D9) : tokens.borderColor)),
+        deco = BoxDecoration(
+          border: Border(
+            bottom: BorderSide(color: widget.disabled ? const Color(0xFFD9D9D9) : tk.borderColor),
+          ),
         );
         break;
-      case STimePickerVariant.outlined:
-        fieldDecoration = BoxDecoration(
+      default:
+        deco = BoxDecoration(
           color: widget.disabled ? const Color(0xFFF5F5F5) : Colors.transparent,
-          border: Border.all(color: widget.disabled ? const Color(0xFFD9D9D9) : tokens.borderColor),
-          borderRadius: tokens.borderRadius,
+          border: Border.all(color: widget.disabled ? const Color(0xFFD9D9D9) : tk.borderColor),
+          borderRadius: tk.radius,
         );
     }
 
-    final Widget
-        triggerField =
-        MouseRegion(
-      cursor: widget.disabled
-          ? SystemMouseCursors.forbidden
-          : SystemMouseCursors.click,
+    return MouseRegion(
       onEnter: (_) =>
           setState(() => _hovered = true),
       onExit: (_) =>
           setState(() => _hovered = false),
+      cursor: widget.disabled
+          ? SystemMouseCursors.forbidden
+          : SystemMouseCursors.click,
       child:
           GestureDetector(
-        onTap: _isPanelOpen ? () => _closePanel() : _openPanel,
+        onTap: _isOpen ? () => _dismiss(commit: !widget.needConfirm) : _open,
         child: CompositedTransformTarget(
-          link: _layerLink,
+          link: _link,
           child: Container(
-            key: _triggerKey,
-            height: tokens.fieldHeight,
-            padding: EdgeInsets.symmetric(horizontal: tokens.horizontalPadding),
-            decoration: fieldDecoration,
+            key: _fieldKey,
+            height: tk.fieldH,
+            padding: EdgeInsets.symmetric(horizontal: tk.hPad),
+            decoration: deco,
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Prefix
                 if (widget.prefix != null) ...[
                   widget.prefix!,
                   const SizedBox(width: 6),
                 ],
-                // Time text / placeholder
                 Expanded(
                   child: Text(
-                    hasValue ? displayText : widget.placeholder,
-                    style: hasValue ? tokens.textStyle : tokens.placeholderStyle,
+                    hasVal ? display : widget.placeholder,
+                    style: hasVal ? tk.textStyle : tk.placeholderStyle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                // Clear or suffix icon
+                const SizedBox(width: 4),
                 if (showClear)
                   GestureDetector(
-                    onTap: _clearValue,
-                    child: Icon(Icons.cancel, size: tokens.iconSize, color: const Color(0xFFBFBFBF)),
+                    behavior: HitTestBehavior.opaque,
+                    onTap: _clear,
+                    child: Icon(Icons.cancel, size: tk.iconSz, color: const Color(0xFFBFBFBF)),
                   )
-                else ...[
-                  widget.suffixIcon ?? Icon(Icons.access_time, size: tokens.iconSize, color: widget.disabled ? const Color(0xFFBFBFBF) : const Color(0xFF8C8C8C)),
-                ],
+                else
+                  widget.suffixIcon ?? Icon(Icons.access_time, size: tk.iconSz, color: widget.disabled ? const Color(0xFFBFBFBF) : const Color(0xFF8C8C8C)),
               ],
             ),
           ),
         ),
       ),
     );
-
-    return triggerField;
   }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  Overlay widget
+//  Panel overlay
 // ─────────────────────────────────────────────────────────────────────────────
 
-class _TimePickerOverlay
+class _PanelOverlay
     extends StatefulWidget {
-  const _TimePickerOverlay({
-    required this.layerLink,
-    required this.state,
-  });
-
+  const _PanelOverlay(
+      {required this.link,
+      required this.state});
   final LayerLink
-      layerLink;
+      link;
   final _STimePickerState
       state;
 
   @override
-  State<_TimePickerOverlay>
+  State<_PanelOverlay>
       createState() =>
-          _TimePickerOverlayState();
+          _PanelOverlayState();
 }
 
-class _TimePickerOverlayState
+class _PanelOverlayState
     extends State<
-        _TimePickerOverlay>
+        _PanelOverlay>
     with
         SingleTickerProviderStateMixin {
   late AnimationController
-      _animCtrl;
+      _ac;
   late Animation<double>
-      _fadeAnim;
+      _fade;
 
   @override
   void
       initState() {
     super
         .initState();
-    _animCtrl = AnimationController(
+    _ac = AnimationController(
         vsync: this,
         duration: const Duration(milliseconds: 150));
-    _fadeAnim = CurvedAnimation(
-        parent: _animCtrl,
+    _fade = CurvedAnimation(
+        parent: _ac,
         curve: Curves.easeOut);
-    _animCtrl
-        .forward();
+    _ac.forward();
   }
 
   @override
   void
       dispose() {
-    _animCtrl
-        .dispose();
+    _ac.dispose();
     super
         .dispose();
+  }
+
+  /// Returns (fieldHeight, fieldBottomY-in-screen-coords).
+  (
+    double,
+    double
+  ) _fieldMetrics() {
+    final ctx = widget
+        .state
+        ._fieldKey
+        .currentContext;
+    if (ctx ==
+        null)
+      return (
+        32,
+        0
+      );
+    final rb =
+        ctx.findRenderObject() as RenderBox?;
+    if (rb ==
+        null)
+      return (
+        32,
+        0
+      );
+    final h = rb
+        .size
+        .height;
+    final topY = rb
+        .localToGlobal(Offset.zero)
+        .dy;
+    return (
+      h,
+      topY +
+          h
+    );
   }
 
   @override
@@ -948,35 +1124,79 @@ class _TimePickerOverlayState
           context) {
     final s =
         widget.state;
-    final tokens =
-        s._resolveTokens(context);
-    final panelWidth = _panelWidth(
-        s,
-        tokens);
+    final tk =
+        s._tok(context);
+
+    int cols =
+        1;
+    if (s
+        ._showMin)
+      cols++;
+    if (s
+        ._showSec)
+      cols++;
+    if (s
+        ._is12h)
+      cols++;
+
+    final panelW =
+        cols * tk.colW + (cols - 1) * 1.0;
+    // panelH = 7 rows + footer
+    final panelH =
+        tk.itemH * 7 + 40;
+    const gap =
+        4.0;
+    const screenPad =
+        8.0;
+
+    final (
+      fieldH,
+      fieldBottomY
+    ) = _fieldMetrics();
+    final screenH =
+        MediaQuery.sizeOf(context).height;
+    final spaceBelow = screenH -
+        fieldBottomY -
+        gap -
+        screenPad;
+    final showAbove =
+        spaceBelow < panelH;
+
+    // When showing above: negative offset = (panelH + gap) upward from top of field.
+    final yOffset = showAbove
+        ? -(panelH + gap)
+        : fieldH + gap;
 
     return Stack(
       children: [
-        // Tap-outside to close
+        // Tap outside → dismiss
         Positioned.fill(
           child: GestureDetector(
-            onTap: () => s._closePanel(commit: !s.widget.needConfirm),
             behavior: HitTestBehavior.translucent,
+            onTap: () => s._dismiss(commit: !s.widget.needConfirm),
           ),
         ),
         // Panel
         Positioned(
-          width: panelWidth,
+          width: panelW,
           child: CompositedTransformFollower(
-            link: widget.layerLink,
+            link: widget.link,
             showWhenUnlinked: false,
-            offset: Offset(0, _triggerHeight(s) + 4),
+            offset: Offset(0, yOffset),
             child: FadeTransition(
-              opacity: _fadeAnim,
+              opacity: _fade,
               child: Material(
                 elevation: 8,
-                borderRadius: tokens.borderRadius,
-                color: tokens.panelBackground,
-                child: _buildPanel(context, s, tokens),
+                borderRadius: tk.radius,
+                color: tk.panelBg,
+                clipBehavior: Clip.antiAlias,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _buildColumns(tk, s),
+                    _buildFooter(tk, s),
+                  ],
+                ),
               ),
             ),
           ),
@@ -985,253 +1205,269 @@ class _TimePickerOverlayState
     );
   }
 
-  double _triggerHeight(
+  // ── Columns area ────────────────────────────────────────────────────────────
+
+  Widget _buildColumns(
+      _Tok
+          tk,
       _STimePickerState
           s) {
-    final ctx = s
-        ._triggerKey
-        .currentContext;
-    if (ctx ==
-        null)
-      return 32;
-    final box =
-        ctx.findRenderObject() as RenderBox?;
-    return box?.size.height ??
-        32;
-  }
+    // 7 visible rows: 3 above + selected + 3 below
+    final double
+        colH =
+        tk.itemH * 7;
 
-  double _panelWidth(
-      _STimePickerState
-          s,
-      _TimePickerTokens
-          tokens) {
-    int colCount =
-        0;
-    colCount++; // hours
-    if (s
-        ._showMinutes)
-      colCount++;
-    if (s
-        ._showSeconds)
-      colCount++;
-    if (s
-        ._show12h)
-      colCount++;
-    return colCount * tokens.columnWidth +
-        (colCount - 1) +
-        2;
-  }
-
-  Widget _buildPanel(
-      BuildContext
-          ctx,
-      _STimePickerState
-          s,
-      _TimePickerTokens
-          tokens) {
-    const panelHeight =
-        216.0; // 6 items visible
-
-    return Column(
-      mainAxisSize:
-          MainAxisSize.min,
-      children: [
-        // Column selectors row
+    // Helper to build one column with a fixed-size box
+    Widget col({
+      required List<int>
+          items,
+      required int
+          selIdx,
+      required String Function(int)
+          label,
+      required void Function(int)
+          onSelected,
+      void Function(int)?
+          onLive,
+    }) =>
         SizedBox(
-          height: panelHeight,
-          child: Stack(
+          width: tk.colW,
+          height: colH,
+          child: _TimeColumn(
+            items: items,
+            selectedIndex: selIdx,
+            label: label,
+            itemH: tk.itemH,
+            primary: tk.primary,
+            highlightBg: tk.highlightBg,
+            itemStyle: tk.itemStyle,
+            onSelected: onSelected,
+            onLiveScroll: onLive,
+          ),
+        );
+
+    Widget div() => Container(
+        width: 1,
+        height: colH,
+        color: const Color(0x0F000000));
+
+    return SizedBox(
+      height:
+          colH,
+      child:
+          Stack(
+        children: [
+          // ① Column list
+          Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              // Highlight stripe in the middle (selected item)
-              Positioned(
-                left: 0,
-                right: 0,
-                top: (panelHeight - tokens.itemHeight) / 2,
-                height: tokens.itemHeight,
-                child: Container(color: tokens.columnHighlightColor),
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  _buildColumn(
-                    ctx,
-                    s,
-                    tokens,
-                    items: s._hours,
-                    controller: s._hourCtrl,
-                    // In 12h mode: 0 → "12", 1–11 → "01"…"11"
-                    label: (v) => s._show12h ? (v == 0 ? '12' : v.toString().padLeft(2, '0')) : v.toString().padLeft(2, '0'),
-                    onSelected: (v) {
-                      s._pendingHour = v;
-                      if (!s.widget.needConfirm && !s.widget.changeOnScroll) {
-                        s._commitPending();
+              // Hours
+              col(
+                items: s._hourItems,
+                selIdx: s._phIdx,
+                label: (v) => s._is12h ? (v == 0 ? '12' : v.toString().padLeft(2, '0')) : v.toString().padLeft(2, '0'),
+                onSelected: (i) {
+                  s._phIdx = i;
+                  if (s.widget.changeOnScroll && !s.widget.needConfirm) {
+                    s._doCommit();
+                  }
+                },
+                onLive: s.widget.changeOnScroll
+                    ? (i) {
+                        s._phIdx = i;
+                        if (!s.widget.needConfirm) s._doCommit();
                       }
-                    },
-                  ),
-                  if (s._showMinutes) ...[
-                    _buildDivider(tokens),
-                    _buildColumn(
-                      ctx,
-                      s,
-                      tokens,
-                      items: s._minutes,
-                      controller: s._minuteCtrl,
-                      label: (v) => v.toString().padLeft(2, '0'),
-                      onSelected: (v) {
-                        s._pendingMinute = v;
-                        if (!s.widget.needConfirm && !s.widget.changeOnScroll) {
-                          s._commitPending();
-                        }
-                      },
-                    ),
-                  ],
-                  if (s._showSeconds) ...[
-                    _buildDivider(tokens),
-                    _buildColumn(
-                      ctx,
-                      s,
-                      tokens,
-                      items: s._seconds,
-                      controller: s._secondCtrl,
-                      label: (v) => v.toString().padLeft(2, '0'),
-                      onSelected: (v) {
-                        s._pendingSecond = v;
-                        if (!s.widget.needConfirm && !s.widget.changeOnScroll) {
-                          s._commitPending();
-                        }
-                      },
-                    ),
-                  ],
-                  if (s._show12h) ...[
-                    _buildDivider(tokens),
-                    _buildColumn(
-                      ctx,
-                      s,
-                      tokens,
-                      items: const [0, 1],
-                      controller: s._amPmCtrl,
-                      label: (v) => v == 0 ? 'AM' : 'PM',
-                      onSelected: (v) {
-                        s._pendingIsPm = v == 1;
-                        if (!s.widget.needConfirm && !s.widget.changeOnScroll) {
-                          s._commitPending();
-                        }
-                      },
-                    ),
-                  ],
-                ],
+                    : null,
               ),
+              if (s._showMin) ...[
+                div(),
+                col(
+                  items: s._minItems,
+                  selIdx: s._pmIdx,
+                  label: (v) => v.toString().padLeft(2, '0'),
+                  onSelected: (i) {
+                    s._pmIdx = i;
+                    if (s.widget.changeOnScroll && !s.widget.needConfirm) {
+                      s._doCommit();
+                    }
+                  },
+                  onLive: s.widget.changeOnScroll
+                      ? (i) {
+                          s._pmIdx = i;
+                          if (!s.widget.needConfirm) s._doCommit();
+                        }
+                      : null,
+                ),
+              ],
+              if (s._showSec) ...[
+                div(),
+                col(
+                  items: s._secItems,
+                  selIdx: s._psIdx,
+                  label: (v) => v.toString().padLeft(2, '0'),
+                  onSelected: (i) {
+                    s._psIdx = i;
+                    if (s.widget.changeOnScroll && !s.widget.needConfirm) {
+                      s._doCommit();
+                    }
+                  },
+                  onLive: s.widget.changeOnScroll
+                      ? (i) {
+                          s._psIdx = i;
+                          if (!s.widget.needConfirm) s._doCommit();
+                        }
+                      : null,
+                ),
+              ],
+              if (s._is12h) ...[
+                div(),
+                col(
+                  items: const [0, 1],
+                  selIdx: s._apIdx,
+                  label: (v) => v == 0 ? 'AM' : 'PM',
+                  onSelected: (i) {
+                    s._apIdx = i;
+                    if (s.widget.changeOnScroll && !s.widget.needConfirm) {
+                      s._doCommit();
+                    }
+                  },
+                  onLive: s.widget.changeOnScroll
+                      ? (i) {
+                          s._apIdx = i;
+                          if (!s.widget.needConfirm) s._doCommit();
+                        }
+                      : null,
+                ),
+              ],
             ],
           ),
-        ),
-        // Footer: extra content + OK if needConfirm
-        if (s.widget.renderExtraFooter != null || s.widget.needConfirm)
-          _buildFooter(ctx, s, tokens),
-      ],
-    );
-  }
 
-  Widget _buildDivider(_TimePickerTokens tokens) => Container(
-      width:
-          1,
-      color:
-          const Color(0x1A000000));
-
-  Widget
-      _buildColumn(
-    BuildContext
-        ctx,
-    _STimePickerState
-        s,
-    _TimePickerTokens
-        tokens, {
-    required List<int>
-        items,
-    required FixedExtentScrollController
-        controller,
-    required String Function(int)
-        label,
-    required void Function(int)
-        onSelected,
-  }) {
-    return SizedBox(
-      width:
-          tokens.columnWidth,
-      child:
-          ListWheelScrollView.useDelegate(
-        controller: controller,
-        itemExtent: tokens.itemHeight,
-        physics: const FixedExtentScrollPhysics(),
-        perspective: 0.003,
-        onSelectedItemChanged: (idx) {
-          onSelected(items[idx]);
-          if (s.widget.changeOnScroll && !s.widget.needConfirm) {
-            s._commitPending();
-            s._rebuildOverlay();
-          }
-          setState(() {});
-        },
-        childDelegate: ListWheelChildBuilderDelegate(
-          childCount: items.length,
-          builder: (_, idx) {
-            final v = items[idx];
-            final isSelected = controller.hasClients && controller.selectedItem == idx;
-            return GestureDetector(
-              onTap: () {
-                controller.animateToItem(idx, duration: const Duration(milliseconds: 200), curve: Curves.easeInOut);
-              },
-              child: Container(
-                alignment: Alignment.center,
-                child: Text(
-                  label(v),
-                  style: tokens.itemTextStyle.copyWith(
-                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                    color: isSelected ? tokens.activeColor : tokens.itemTextStyle.color,
+          // ② Top gradient — fades top 1 item
+          IgnorePointer(
+            child: Positioned(
+              left: 0,
+              right: 0,
+              top: 0,
+              height: tk.itemH,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      tk.panelBg,
+                      tk.panelBg.withOpacity(0)
+                    ],
                   ),
                 ),
+                child: const SizedBox.expand(),
               ),
-            );
-          },
-        ),
+            ),
+          ),
+
+          // ③ Bottom gradient — fades bottom 1 item
+          IgnorePointer(
+            child: Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: tk.itemH,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [
+                      tk.panelBg,
+                      tk.panelBg.withOpacity(0)
+                    ],
+                  ),
+                ),
+                child: const SizedBox.expand(),
+              ),
+            ),
+          ),
+
+          // ④ Center stripe — top border
+          IgnorePointer(
+            child: Positioned(
+              left: 0,
+              right: 0,
+              top: tk.itemH * 3,
+              height: 1,
+              child: const ColoredBox(color: Color(0xFFE0E0E0)),
+            ),
+          ),
+
+          // ⑤ Center stripe — bottom border
+          IgnorePointer(
+            child: Positioned(
+              left: 0,
+              right: 0,
+              top: tk.itemH * 4,
+              height: 1,
+              child: const ColoredBox(color: Color(0xFFE0E0E0)),
+            ),
+          ),
+        ],
       ),
     );
   }
 
+  // ── Footer ─────────────────────────────────────────────────────────────────
+
   Widget _buildFooter(
-      BuildContext
-          ctx,
+      _Tok
+          tk,
       _STimePickerState
-          s,
-      _TimePickerTokens
-          tokens) {
+          s) {
     return Container(
+      height:
+          40,
       decoration:
-          BoxDecoration(
-        border: const Border(top: BorderSide(color: Color(0x1A000000))),
-        color: tokens.panelBackground,
-        borderRadius: BorderRadius.only(
-          bottomLeft: tokens.borderRadius.bottomLeft,
-          bottomRight: tokens.borderRadius.bottomRight,
-        ),
+          const BoxDecoration(
+        border: Border(top: BorderSide(color: Color(0x0F000000))),
       ),
       padding:
-          const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+          const EdgeInsets.symmetric(horizontal: 12),
       child:
           Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          if (s.widget.renderExtraFooter != null) Expanded(child: s.widget.renderExtraFooter!()),
-          if (s.widget.needConfirm)
+          if (s.widget.showNow)
             GestureDetector(
-              onTap: () => s._closePanel(commit: true),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                decoration: BoxDecoration(
-                  color: tokens.activeColor,
-                  borderRadius: BorderRadius.circular(4),
+              onTap: s._setNow,
+              child: Text(
+                'Now',
+                style: TextStyle(
+                  fontSize: 13,
+                  color: tk.primary,
+                  fontWeight: FontWeight.w500,
                 ),
-                child: const Text('OK', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500)),
               ),
             ),
+          if (s.widget.renderExtraFooter != null) ...[
+            const SizedBox(width: 8),
+            Expanded(child: s.widget.renderExtraFooter!()),
+          ] else
+            const Spacer(),
+          GestureDetector(
+            onTap: s._confirm,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+              decoration: BoxDecoration(
+                color: tk.primary,
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: const Text(
+                'OK',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -1242,13 +1478,7 @@ class _TimePickerOverlayState
 //  STimeRangePicker
 // ─────────────────────────────────────────────────────────────────────────────
 
-/// A time range picker that shows two [STimePicker] fields side by side.
-///
-/// ```dart
-/// STimeRangePicker(
-///   onRangeChange: (start, end) => print('$start → $end'),
-/// )
-/// ```
+/// Two [STimePicker] fields side-by-side for selecting a time range.
 class STimeRangePicker
     extends StatefulWidget {
   const STimeRangePicker({
@@ -1284,6 +1514,8 @@ class STimeRangePicker
     this.prefix,
     this.needConfirm =
         false,
+    this.showNow =
+        true,
     this.activeColor,
     this.borderColor,
     this.borderRadius,
@@ -1330,6 +1562,8 @@ class STimeRangePicker
       prefix;
   final bool
       needConfirm;
+  final bool
+      showNow;
   final Color?
       activeColor;
   final Color?
@@ -1356,19 +1590,18 @@ class _STimeRangePickerState
       initState() {
     super
         .initState();
-    if (widget.defaultValue !=
-        null) {
-      _start =
-          widget.defaultValue!.$1;
-      _end =
-          widget.defaultValue!.$2;
-    }
+    _start = widget
+        .defaultValue
+        ?.$1;
+    _end = widget
+        .defaultValue
+        ?.$2;
   }
 
-  TimeOfDay? get _effectiveStart =>
+  TimeOfDay? get _eStart =>
       widget.value?.$1 ??
       _start;
-  TimeOfDay? get _effectiveEnd =>
+  TimeOfDay? get _eEnd =>
       widget.value?.$2 ??
       _end;
 
@@ -1383,7 +1616,7 @@ class _STimeRangePickerState
           8,
       children: [
         STimePicker(
-          value: _effectiveStart,
+          value: _eStart,
           format: widget.format,
           use12Hours: widget.use12Hours,
           hourStep: widget.hourStep,
@@ -1397,16 +1630,17 @@ class _STimeRangePickerState
           allowClear: widget.allowClear,
           prefix: widget.prefix,
           needConfirm: widget.needConfirm,
+          showNow: widget.showNow,
           activeColor: widget.activeColor,
           borderColor: widget.borderColor,
           borderRadius: widget.borderRadius,
           onChange: (t) {
             setState(() => _start = t);
-            widget.onRangeChange?.call(t, _effectiveEnd);
+            widget.onRangeChange?.call(t, _eEnd);
           },
         ),
         STimePicker(
-          value: _effectiveEnd,
+          value: _eEnd,
           format: widget.format,
           use12Hours: widget.use12Hours,
           hourStep: widget.hourStep,
@@ -1420,12 +1654,13 @@ class _STimeRangePickerState
           allowClear: widget.allowClear,
           prefix: widget.prefix,
           needConfirm: widget.needConfirm,
+          showNow: widget.showNow,
           activeColor: widget.activeColor,
           borderColor: widget.borderColor,
           borderRadius: widget.borderRadius,
           onChange: (t) {
             setState(() => _end = t);
-            widget.onRangeChange?.call(_effectiveStart, t);
+            widget.onRangeChange?.call(_eStart, t);
           },
         ),
       ],

@@ -33,6 +33,10 @@ export 'src/presentation/components/base/s_scaffold/widgets/floating_action_butt
 export 'src/presentation/components/base/s_scaffold/widgets/loading_config.dart';
 export 'src/presentation/components/base/s_scaffold/widgets/persistent_footer_config.dart';
 export 'src/presentation/components/base/s_scaffold/widgets/refresh_config.dart';
+// display
+export 'src/presentation/components/display/s_avatar/s_avatar.dart';
+export 'src/presentation/components/display/s_avatar/s_avatar_group.dart';
+export 'src/domain/entities/config/s_avatar_enums.dart';
 export 'src/presentation/components/display/s_slider/s_slider.dart';
 export 'src/presentation/components/display/s_steps/s_step_item.dart';
 export 'src/presentation/components/display/s_steps/s_steps.dart';
