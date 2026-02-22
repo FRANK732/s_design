@@ -573,45 +573,49 @@ class _SPaginationState
     final pages = _buildPageNumbers(
         total,
         siblingCount: siblingCount);
-    return Row(
-      mainAxisSize:
-          MainAxisSize.min,
-      children: [
-        // Prev
-        _buildNavButton(
-          tokens: tokens,
-          icon: Icons.chevron_left,
-          onTap: _currentPage > 1 ? () => _goTo(_currentPage - 1) : null,
-          type: SPaginationItemType.prev,
-          tooltip: 'Previous',
-        ),
-        SizedBox(width: tokens.itemSpacing),
-        // Page items — iterate with index so ellipsis knows its direction
-        ...pages.asMap().entries.map((entry) {
-          final idx = entry.key;
-          final item = entry.value;
-          if (item == null) {
-            // Determine direction by whether the null is in the left or right half
-            final isLeft = idx < pages.length ~/ 2;
-            return _buildEllipsisAt(tokens, isLeft: isLeft);
-          }
-          return Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _buildPageButton(tokens, item),
-              SizedBox(width: tokens.itemSpacing),
-            ],
-          );
-        }),
-        // Next
-        _buildNavButton(
-          tokens: tokens,
-          icon: Icons.chevron_right,
-          onTap: _currentPage < total ? () => _goTo(_currentPage + 1) : null,
-          type: SPaginationItemType.next,
-          tooltip: 'Next',
-        ),
-      ],
+    return SingleChildScrollView(
+      scrollDirection:
+          Axis.horizontal,
+      child:
+          Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Prev
+          _buildNavButton(
+            tokens: tokens,
+            icon: Icons.chevron_left,
+            onTap: _currentPage > 1 ? () => _goTo(_currentPage - 1) : null,
+            type: SPaginationItemType.prev,
+            tooltip: 'Previous',
+          ),
+          SizedBox(width: tokens.itemSpacing),
+          // Page items — iterate with index so ellipsis knows its direction
+          ...pages.asMap().entries.map((entry) {
+            final idx = entry.key;
+            final item = entry.value;
+            if (item == null) {
+              // Determine direction by whether the null is in the left or right half
+              final isLeft = idx < pages.length ~/ 2;
+              return _buildEllipsisAt(tokens, isLeft: isLeft);
+            }
+            return Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildPageButton(tokens, item),
+                SizedBox(width: tokens.itemSpacing),
+              ],
+            );
+          }),
+          // Next
+          _buildNavButton(
+            tokens: tokens,
+            icon: Icons.chevron_right,
+            onTap: _currentPage < total ? () => _goTo(_currentPage + 1) : null,
+            type: SPaginationItemType.next,
+            tooltip: 'Next',
+          ),
+        ],
+      ),
     );
   }
 
