@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../../../s_design.dart';
 import 's_select_item.dart';
 import 's_select_menu.dart';
 
@@ -81,10 +82,12 @@ class SSelectSheet<
   Widget build(
       BuildContext
           context) {
+    final sTheme =
+        STheme.of(context);
     return Container(
       decoration:
           BoxDecoration(
-        color: Theme.of(context).cardColor,
+        color: sTheme.colorToken.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
       ),
       padding:
@@ -100,7 +103,7 @@ class SSelectSheet<
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: Theme.of(context).dividerColor,
+              color: sTheme.colorToken.divider,
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -108,9 +111,10 @@ class SSelectSheet<
             const SizedBox(height: 16),
             Text(
               title!,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+              style: sTheme.typographyToken.titleMedium.copyWith(
+                fontWeight: FontWeight.bold,
+                color: sTheme.colorToken.textPrimary,
+              ),
             ),
           ],
           const SizedBox(height: 8),

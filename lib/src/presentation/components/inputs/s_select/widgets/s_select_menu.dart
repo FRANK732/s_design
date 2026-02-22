@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../../../../../../s_design.dart';
 import 's_select_item.dart';
 
 class SSelectMenu<
@@ -179,12 +180,14 @@ class _SSelectMenuState<
         ? (widget.multiValues?.contains(item.value) ?? false)
         : item.value == widget.singleValue;
 
+    final sTheme =
+        STheme.of(context);
     final Color
         primaryColor =
-        Theme.of(context).primaryColor;
+        sTheme.colorToken.primary;
     final Color
         disabledColor =
-        Theme.of(context).disabledColor;
+        sTheme.colorToken.textSecondary.withOpacity(0.5);
 
     return InkWell(
       onTap: item.disabled
@@ -198,7 +201,7 @@ class _SSelectMenuState<
             if (widget.isMultiSelect)
               Icon(
                 isSelected ? Icons.check_box : Icons.check_box_outline_blank,
-                color: item.disabled ? disabledColor : (isSelected ? primaryColor : Theme.of(context).iconTheme.color),
+                color: item.disabled ? disabledColor : (isSelected ? primaryColor : sTheme.colorToken.textPrimary.withOpacity(0.5)),
                 size: 20,
               )
             else
@@ -213,17 +216,17 @@ class _SSelectMenuState<
                 children: [
                   Text(
                     item.label,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: item.disabled ? disabledColor : null,
-                          fontWeight: isSelected ? FontWeight.w600 : null,
-                        ),
+                    style: sTheme.typographyToken.bodyMedium.copyWith(
+                      color: item.disabled ? disabledColor : sTheme.colorToken.textPrimary,
+                      fontWeight: isSelected ? FontWeight.w600 : null,
+                    ),
                   ),
                   if (item.subtitle != null)
                     Text(
                       item.subtitle!,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: disabledColor,
-                          ),
+                      style: sTheme.typographyToken.bodySmall.copyWith(
+                        color: disabledColor,
+                      ),
                     ),
                 ],
               ),
@@ -249,13 +252,15 @@ class _SSelectMenuState<
   Widget build(
       BuildContext
           context) {
+    final sTheme =
+        STheme.of(context);
     return Container(
       constraints:
           BoxConstraints(maxHeight: widget.dropdownMaxHeight),
       decoration:
           BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(8),
+        color: sTheme.colorToken.surface,
+        borderRadius: BorderRadius.circular(DesignConstants.borderRadiusMedium),
       ),
       child:
           Column(
@@ -281,11 +286,11 @@ class _SSelectMenuState<
                 contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                 isDense: true,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(DesignConstants.borderRadiusSmall),
                   borderSide: BorderSide.none,
                 ),
                 filled: true,
-                fillColor: Theme.of(context).hoverColor,
+                fillColor: sTheme.colorToken.background,
               ),
             ),
           ),
@@ -304,7 +309,7 @@ class _SSelectMenuState<
                           padding: const EdgeInsets.all(16.0),
                           child: Text(
                             'No options found',
-                            style: Theme.of(context).textTheme.bodySmall,
+                            style: sTheme.typographyToken.bodySmall.copyWith(color: sTheme.colorToken.textSecondary),
                           ),
                         ),
                       )
