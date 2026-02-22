@@ -49,66 +49,19 @@ class ModernSDesignExample
   Widget build(
       BuildContext
           context) {
-    // Define ColorSchemes
-    final ColorScheme
-        lightColorScheme =
-        ColorScheme.fromSeed(
-      seedColor:
-          const Color(0xFF6366F1), // Indigo brand color
-    );
-
-    final ColorScheme
-        darkColorScheme =
-        ColorScheme.fromSeed(
-      seedColor:
-          const Color(0xFF6366F1),
-      brightness:
-          Brightness.dark,
-    );
-
-    return MaterialApp(
+    return SApp(
       title:
           'sDesign Modern Example',
       debugShowCheckedModeBanner:
           false,
 
-      // Light theme with ColorScheme
+      // Light theme
       theme:
-          ThemeData(
-        useMaterial3: true,
-        colorScheme: lightColorScheme,
-        extensions: <ThemeExtension<dynamic>>[
-          SButtonThemeData.fromColorScheme(lightColorScheme),
-          SInputFieldThemeData.fromColorScheme(lightColorScheme),
-          SCheckboxThemeData.fromColorScheme(lightColorScheme),
-          SCardThemeData.fromColorScheme(lightColorScheme),
-          SListTileThemeData.fromColorScheme(lightColorScheme),
-          SDialogThemeData.fromColorScheme(lightColorScheme),
-          SProgressBarThemeData.fromColorScheme(lightColorScheme),
-          SSwitchThemeData.fromColorScheme(lightColorScheme),
-          STabsThemeData.fromColorScheme(lightColorScheme),
-          SDropdownMenuThemeData.fromColorScheme(lightColorScheme),
-        ],
-      ),
+          SThemeData.light(),
 
-      // Dark theme with ColorScheme
+      // Dark theme
       darkTheme:
-          ThemeData(
-        useMaterial3: true,
-        colorScheme: darkColorScheme,
-        extensions: <ThemeExtension<dynamic>>[
-          SButtonThemeData.fromColorScheme(darkColorScheme),
-          SInputFieldThemeData.fromColorScheme(darkColorScheme),
-          SCheckboxThemeData.fromColorScheme(darkColorScheme),
-          SCardThemeData.fromColorScheme(darkColorScheme),
-          SListTileThemeData.fromColorScheme(darkColorScheme),
-          SDialogThemeData.fromColorScheme(darkColorScheme),
-          SProgressBarThemeData.fromColorScheme(darkColorScheme),
-          SSwitchThemeData.fromColorScheme(darkColorScheme),
-          STabsThemeData.fromColorScheme(darkColorScheme),
-          SDropdownMenuThemeData.fromColorScheme(darkColorScheme),
-        ],
-      ),
+          SThemeData.dark(),
       home:
           const HomePage(),
     );

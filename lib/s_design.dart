@@ -33,6 +33,8 @@ export 'src/presentation/components/base/s_scaffold/widgets/floating_action_butt
 export 'src/presentation/components/base/s_scaffold/widgets/loading_config.dart';
 export 'src/presentation/components/base/s_scaffold/widgets/persistent_footer_config.dart';
 export 'src/presentation/components/base/s_scaffold/widgets/refresh_config.dart';
+// app wrapper
+export 'src/presentation/components/app/s_app.dart';
 // display
 export 'src/presentation/components/display/s_avatar/s_avatar.dart';
 export 'src/presentation/components/display/s_avatar/s_avatar_group.dart';
@@ -101,6 +103,9 @@ export 'src/presentation/themes/extensions/component_themes/s_alert_theme.dart';
 export 'src/presentation/themes/extensions/component_themes/s_pagination_theme.dart';
 export 'src/presentation/themes/extensions/component_themes/s_time_picker_theme.dart';
 export 'src/presentation/themes/extensions/component_themes/s_toast_theme.dart';
+// themes
+export 'src/presentation/themes/s_theme.dart';
+export 'src/presentation/themes/s_theme_data.dart';
 export 'src/presentation/themes/tokens/colors.dart';
 export 'src/presentation/themes/tokens/dimensions.dart';
 export 'src/presentation/themes/tokens/radii.dart';

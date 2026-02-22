@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../domain/entities/config/s_time_picker_enums.dart';
-import '../../../themes/extensions/component_themes/s_time_picker_theme.dart';
+import '../../../themes/s_theme.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  Format helpers
@@ -841,9 +841,9 @@ class _STimePickerState
       BuildContext
           ctx) {
     final th =
-        Theme.of(ctx);
+        STheme.of(ctx);
     final ext =
-        th.extension<STimePickerThemeData>();
+        th.timePickerTheme;
     final dark =
         th.brightness == Brightness.dark;
 
@@ -884,14 +884,14 @@ class _STimePickerState
         bc = const Color(0xFFFAAD14);
         break;
       default:
-        bc = widget.borderColor ?? ext?.borderColor ?? (dark ? const Color(0xFF434343) : const Color(0xFFD9D9D9));
+        bc = widget.borderColor ?? ext.borderColor ?? (dark ? const Color(0xFF434343) : const Color(0xFFD9D9D9));
     }
 
     final primary = widget.activeColor ??
-        ext?.activeColor ??
+        ext.activeColor ??
         const Color(0xFF1677FF);
     final panelBg = widget.panelBackground ??
-        ext?.panelBackground ??
+        ext.panelBackground ??
         (dark ? const Color(0xFF1F1F1F) : Colors.white);
 
     return _Tok(
@@ -900,27 +900,27 @@ class _STimePickerState
       panelBg:
           panelBg,
       highlightBg: widget.columnHighlightColor ??
-          ext?.columnHighlightColor ??
+          ext.columnHighlightColor ??
           primary.withOpacity(0.08),
       borderColor:
           bc,
       radius: widget.borderRadius ??
-          ext?.borderRadius ??
+          ext.borderRadius ??
           BorderRadius.circular(6),
       fillBg: widget.fillColor ??
-          ext?.fillColor ??
+          ext.fillColor ??
           (dark ? const Color(0xFF1A1A1A) : const Color(0xFFF5F5F5)),
       textStyle:
-          (widget.textStyle ?? ext?.textStyle ?? const TextStyle()).copyWith(fontSize: fs, color: dark ? Colors.white : Colors.black87),
+          (widget.textStyle ?? ext.textStyle ?? const TextStyle()).copyWith(fontSize: fs, color: dark ? Colors.white : Colors.black87),
       placeholderStyle:
-          (widget.placeholderStyle ?? ext?.placeholderStyle ?? const TextStyle()).copyWith(fontSize: fs, color: const Color(0xFFBFBFBF)),
+          (widget.placeholderStyle ?? ext.placeholderStyle ?? const TextStyle()).copyWith(fontSize: fs, color: const Color(0xFFBFBFBF)),
       itemStyle:
-          (widget.itemTextStyle ?? ext?.itemTextStyle ?? const TextStyle()).copyWith(fontSize: 14, color: Colors.black87),
+          (widget.itemTextStyle ?? ext.itemTextStyle ?? const TextStyle()).copyWith(fontSize: 14, color: Colors.black87),
       itemH: widget.itemHeight ??
-          ext?.itemHeight ??
+          ext.itemHeight ??
           32,
       colW: widget.columnWidth ??
-          ext?.columnWidth ??
+          ext.columnWidth ??
           56,
       fieldH:
           fh,

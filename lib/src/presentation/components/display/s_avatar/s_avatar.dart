@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../domain/entities/config/s_avatar_enums.dart';
-import '../../../themes/extensions/component_themes/s_avatar_theme.dart';
+import '../../../themes/s_theme.dart';
 
 /// A component for representing users or objects, supporting images, icons, or text.
 /// Matches the Avatar specifications.
@@ -197,9 +197,9 @@ class _SAvatarState
       BuildContext
           context) {
     final theme =
-        Theme.of(context);
+        STheme.of(context);
     final ext =
-        theme.extension<SAvatarThemeData>();
+        theme.avatarTheme;
     final isDark =
         theme.brightness == Brightness.dark;
 
@@ -213,13 +213,13 @@ class _SAvatarState
     } else {
       switch (widget.size) {
         case SAvatarSize.large:
-          dimension = ext?.largeSize ?? 40.0;
+          dimension = ext.largeSize ?? 40.0;
           break;
         case SAvatarSize.small:
-          dimension = ext?.smallSize ?? 24.0;
+          dimension = ext.smallSize ?? 24.0;
           break;
         case SAvatarSize.middle:
-          dimension = ext?.middleSize ?? 32.0;
+          dimension = ext.middleSize ?? 32.0;
           break;
       }
     }
@@ -235,24 +235,24 @@ class _SAvatarState
       // Images don't usually need a background unless they have transparency,
       // but we use transparent default.
       bgCol = widget.backgroundColor ??
-          ext?.backgroundColor ??
+          ext.backgroundColor ??
           Colors.transparent;
       fgCol =
-          widget.foregroundColor ?? ext?.foregroundColor;
+          widget.foregroundColor ?? ext.foregroundColor;
     } else {
       bgCol = widget.backgroundColor ??
-          ext?.backgroundColor ??
+          ext.backgroundColor ??
           (isDark ? const Color(0xFF333333) : const Color(0xFFCCCCCC));
       fgCol = widget.foregroundColor ??
-          ext?.foregroundColor ??
+          ext.foregroundColor ??
           (isDark ? const Color(0xFFFFFFFF) : const Color(0xFFFFFFFF));
     }
 
     final borderW = widget.borderWidth ??
-        ext?.borderWidth ??
+        ext.borderWidth ??
         0.0;
     final borderC = widget.borderColor ??
-        ext?.borderColor ??
+        ext.borderColor ??
         Colors.transparent;
 
     // Resolve shape properties
@@ -272,13 +272,13 @@ class _SAvatarState
       } else {
         switch (widget.size) {
           case SAvatarSize.large:
-            borderRadius = ext?.largeRadius ?? BorderRadius.circular(8);
+            borderRadius = ext.largeRadius ?? BorderRadius.circular(8);
             break;
           case SAvatarSize.small:
-            borderRadius = ext?.smallRadius ?? BorderRadius.circular(4);
+            borderRadius = ext.smallRadius ?? BorderRadius.circular(4);
             break;
           case SAvatarSize.middle:
-            borderRadius = ext?.middleRadius ?? BorderRadius.circular(6);
+            borderRadius = ext.middleRadius ?? BorderRadius.circular(6);
             break;
         }
       }
@@ -338,7 +338,7 @@ class _SAvatarState
       final defaultFontSize =
           dimension / 2;
       final textStyle =
-          (ext?.textStyle ?? TextStyle(fontWeight: FontWeight.w400)).copyWith(fontSize: defaultFontSize, color: fgCol);
+          (ext.textStyle ?? const TextStyle(fontWeight: FontWeight.w400)).copyWith(fontSize: defaultFontSize, color: fgCol);
 
       content =
           LayoutBuilder(

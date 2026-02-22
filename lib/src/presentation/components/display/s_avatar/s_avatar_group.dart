@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../domain/entities/config/s_avatar_enums.dart';
 import '../../../themes/extensions/component_themes/s_avatar_theme.dart';
+import '../../../themes/s_theme.dart';
 import 's_avatar.dart';
 
 /// Properties for configuring the overflow popover (tooltip) in [SAvatarGroup].
@@ -173,7 +174,7 @@ class SAvatarGroup
     // Actually, simpler: A Row where each child is wrapped in Align(widthFactor: ...).
 
     final ext =
-        Theme.of(context).extension<SAvatarThemeData>();
+        STheme.of(context).avatarTheme;
 
     Widget buildRow(
         List<Widget> items,
@@ -206,16 +207,16 @@ class SAvatarGroup
     if (mergeCount != null &&
         mergeCount < numOfChildren) {
       final theme =
-          Theme.of(context);
+          STheme.of(context);
       final ext =
-          theme.extension<SAvatarThemeData>();
+          theme.avatarTheme;
       final isDark =
           theme.brightness == Brightness.dark;
 
       final borderCol =
-          ext?.backgroundColor ?? (isDark ? const Color(0xFF141414) : const Color(0xFFFFFFFF));
+          ext.backgroundColor ?? (isDark ? const Color(0xFF141414) : const Color(0xFFFFFFFF));
       final borderW =
-          ext?.borderWidth ?? 1.0;
+          ext.borderWidth ?? 1.0;
 
       final plusAvatar = maxStyle ??
           SAvatar(
