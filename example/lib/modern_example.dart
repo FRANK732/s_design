@@ -11,8 +11,9 @@ import 'pages/input_demo_page.dart';
 import 'pages/inputs_page.dart';
 import 'pages/list_tile_page.dart';
 import 'pages/progress_demo.dart';
+import 'pages/s_pagination_page.dart';
 import 'pages/progress_indicator_page.dart';
-import 'pages/s_floating_panel_page.dart';
+import 'pages/s_alert_page.dart';
 import 'pages/s_modal_page.dart';
 import 'pages/sbutton.dart';
 import 'pages/scaffold_page.dart';
@@ -29,9 +30,7 @@ import 'pages/rate_demo_page.dart';
 import 'pages/tabs_demo_v3.dart';
 import 'pages/toast_page.dart';
 import 'pages/qrcode_demo_page.dart';
-import 'pages/s_alert_page.dart';
 import 'pages/s_avatar_page.dart';
-import 'pages/s_pagination_page.dart';
 import 'pages/s_time_picker_page.dart';
 
 void
@@ -123,7 +122,6 @@ class HomePage
           _buildListTile(context, 'Bottom Navigation', const BottomNavigationPage(), Icons.call_to_action),
           _buildSectionHeader('Feedback & Overlays', colorScheme),
           _buildListTile(context, 'Dialog / Modal', const DialogPage(), Icons.chat_bubble_outline),
-          _buildListTile(context, 'Floating Panel', const SFloatingPanelPage(), Icons.layers),
           _buildListTile(context, 'Toast', const ToastPage(), Icons.announcement),
           _buildListTile(context, 'Sonner', const SonnerPage(), Icons.notifications_active),
           _buildListTile(context, 'Progress Indicator', const ProgressIndicatorPage(), Icons.refresh),
