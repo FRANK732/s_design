@@ -398,7 +398,7 @@ class _SSelectState<
                   alignment: Alignment.topCenter,
                   child: Material(
                     elevation: 4,
-                    shadowColor: Theme.of(context).primaryColor.withOpacity(0.1), // SColors.shadow equivalent
+                    shadowColor: STheme.of(context).colorToken.shadow,
                     borderRadius: BorderRadius.circular(DesignConstants.borderRadiusMedium),
                     child: _buildDropdown(),
                   ),

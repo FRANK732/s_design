@@ -40,7 +40,7 @@ class SSelectStyleHelper {
         isFocused,
     required SSelectVariant
         variant,
-    required ThemeData
+    required SThemeData
         theme,
   }) {
     if (variant ==
@@ -49,17 +49,17 @@ class SSelectStyleHelper {
 
     if (status ==
         SSelectStatus.error)
-      return Colors.red;
+      return theme.colorToken.error;
     if (status ==
         SSelectStatus.warning)
-      return Colors.orange;
+      return const Color(0xFFFAAD14); // Standard warning amber
 
     if (isFocused)
-      return theme.primaryColor;
+      return theme.colorToken.primary;
 
-    return Colors
-        .grey
-        .shade300;
+    return theme
+        .colorToken
+        .divider;
   }
 
   /// Gets the background color based on variant and disabled state.
@@ -69,19 +69,20 @@ class SSelectStyleHelper {
         variant,
     required bool
         disabled,
-    required ThemeData
+    required SThemeData
         theme,
   }) {
     if (disabled)
-      return Colors.grey.shade100;
+      return theme.colorToken.background;
 
     if (variant ==
         SSelectVariant.filled) {
-      return Colors.grey.shade100;
+      return theme.colorToken.background;
     }
 
-    return Colors
-        .white;
+    return theme
+        .colorToken
+        .surface;
   }
 
   /// Gets the text style for the select trigger.
@@ -91,6 +92,8 @@ class SSelectStyleHelper {
         size,
     required bool
         disabled,
+    required SThemeData
+        theme,
   }) {
     double
         fontSize;
@@ -107,12 +110,15 @@ class SSelectStyleHelper {
         break;
     }
 
-    return TextStyle(
+    return theme
+        .typographyToken
+        .bodyMedium
+        .copyWith(
       fontSize:
           fontSize,
       color: disabled
-          ? Colors.grey.shade400
-          : Colors.black87,
+          ? theme.colorToken.textSecondary.withOpacity(0.5)
+          : theme.colorToken.textPrimary,
     );
   }
 }

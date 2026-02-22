@@ -133,8 +133,8 @@ class _SSelectTriggerState<
   Widget build(
       BuildContext
           context) {
-    final theme =
-        Theme.of(context);
+    final sTheme =
+        STheme.of(context);
     final isFocused =
         widget.focusNode?.hasFocus ?? false;
     final borderColor =
@@ -146,7 +146,7 @@ class _SSelectTriggerState<
       variant:
           widget.variant,
       theme:
-          theme,
+          sTheme,
     );
     final backgroundColor =
         SSelectStyleHelper.getBackgroundColor(
@@ -155,7 +155,7 @@ class _SSelectTriggerState<
       disabled:
           widget.disabled,
       theme:
-          theme,
+          sTheme,
     );
     final height =
         SSelectStyleHelper.getHeight(widget.size);
@@ -167,6 +167,8 @@ class _SSelectTriggerState<
           widget.size,
       disabled:
           widget.disabled,
+      theme:
+          sTheme,
     );
 
     return MouseRegion(
@@ -199,7 +201,7 @@ class _SSelectTriggerState<
             boxShadow: isFocused && widget.variant == SSelectVariant.outlined
                 ? [
                     BoxShadow(
-                      color: theme.primaryColor.withOpacity(0.2),
+                      color: sTheme.colorToken.primary.withOpacity(0.2),
                       spreadRadius: 2,
                       blurRadius: 0,
                       offset: Offset.zero,
@@ -214,10 +216,10 @@ class _SSelectTriggerState<
                 const SizedBox(width: 8),
               ],
               Expanded(
-                child: _buildContent(theme, textStyle),
+                child: _buildContent(sTheme, textStyle),
               ),
               const SizedBox(width: 8),
-              _buildSuffix(theme),
+              _buildSuffix(sTheme),
             ],
           ),
         ),
@@ -226,7 +228,7 @@ class _SSelectTriggerState<
   }
 
   Widget _buildContent(
-      ThemeData
+      SThemeData
           theme,
       TextStyle
           textStyle) {
@@ -245,7 +247,7 @@ class _SSelectTriggerState<
       }
       return Text(
         widget.placeholder ?? '',
-        style: textStyle.copyWith(color: Colors.grey.shade400),
+        style: textStyle.copyWith(color: theme.colorToken.textSecondary.withOpacity(0.7)),
         overflow: TextOverflow.ellipsis,
       );
     }
@@ -282,6 +284,8 @@ class _SSelectTriggerState<
   Widget _buildSearchInput(
       TextStyle
           textStyle) {
+    final sTheme =
+        STheme.of(context);
     return TextField(
       controller:
           _searchController,
@@ -290,7 +294,7 @@ class _SSelectTriggerState<
       style:
           textStyle,
       cursorColor:
-          Theme.of(context).primaryColor,
+          sTheme.colorToken.primary,
       onChanged:
           widget.onSearch,
       decoration:
@@ -327,7 +331,7 @@ class _SSelectTriggerState<
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
           decoration: BoxDecoration(
-            color: const Color(0xFFF5F5F5), // SColors.gray1 equivalent
+            color: STheme.of(context).colorToken.divider.withOpacity(0.5),
             borderRadius: BorderRadius.circular(DesignConstants.borderRadiusSmall),
           ),
           child: Row(
@@ -343,7 +347,7 @@ class _SSelectTriggerState<
                   onTap: () {
                     widget.onItemRemove?.call(value);
                   },
-                  child: Icon(Icons.close, size: 10, color: Colors.grey.shade600),
+                  child: Icon(Icons.close, size: 10, color: STheme.of(context).colorToken.textSecondary),
                 ),
               ]
             ],
@@ -363,7 +367,7 @@ class _SSelectTriggerState<
               controller: _searchController,
               focusNode: widget.focusNode,
               style: textStyle,
-              cursorColor: Theme.of(context).primaryColor,
+              cursorColor: STheme.of(context).colorToken.primary,
               onChanged: widget.onSearch,
               onTap: widget.onInputTap,
               decoration: const InputDecoration(
@@ -388,7 +392,7 @@ class _SSelectTriggerState<
         (!widget.showSearch || (widget.searchValue?.isEmpty ?? true) && !(widget.focusNode?.hasFocus ?? false))) {
       return Text(
         widget.placeholder ?? '',
-        style: textStyle.copyWith(color: Colors.grey.shade400),
+        style: textStyle.copyWith(color: STheme.of(context).colorToken.textSecondary.withOpacity(0.7)),
         overflow: TextOverflow.ellipsis,
       );
     }
@@ -406,7 +410,7 @@ class _SSelectTriggerState<
   }
 
   Widget _buildSuffix(
-      ThemeData
+      SThemeData
           theme) {
     if (widget
         .loading) {
@@ -415,7 +419,7 @@ class _SSelectTriggerState<
         height: 12,
         child: CircularProgressIndicator(
           strokeWidth: 2,
-          color: theme.primaryColor,
+          color: theme.colorToken.primary,
         ),
       );
     }
@@ -426,10 +430,10 @@ class _SSelectTriggerState<
         _isHovering) {
       return InkWell(
         onTap: widget.onClear,
-        child: const Icon(
+        child: Icon(
           Icons.cancel,
           size: 14,
-          color: Color(0xFFBFBFBF),
+          color: theme.colorToken.textSecondary.withOpacity(0.5),
         ),
       );
     }
@@ -439,7 +443,7 @@ class _SSelectTriggerState<
       return Icon(
         Icons.search,
         size: 16,
-        color: Colors.grey.shade400,
+        color: theme.colorToken.textSecondary.withOpacity(0.5),
       );
     }
 
@@ -447,7 +451,7 @@ class _SSelectTriggerState<
         Icon(
           Icons.keyboard_arrow_down,
           size: 16,
-          color: Colors.grey.shade400,
+          color: theme.colorToken.textSecondary.withOpacity(0.5),
         );
   }
 }

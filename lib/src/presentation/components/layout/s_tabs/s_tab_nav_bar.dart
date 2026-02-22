@@ -517,12 +517,7 @@ class _STabNavBarState
     if (isCard &&
         isActive) {
       border =
-          Border(
-        top: BorderSide(color: theme.indicatorColor, width: 2), // Colored top strip
-        left: BorderSide(color: theme.dividerColor),
-        right: BorderSide(color: theme.dividerColor),
-        bottom: BorderSide.none, // Open at bottom to merge with content
-      );
+          Border.all(color: theme.dividerColor);
     }
 
     // Margins - Cards need to look connected
@@ -556,51 +551,68 @@ class _STabNavBarState
       child:
           MouseRegion(
         cursor: item.disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
-        child: Container(
-          margin: margin,
-          padding: EdgeInsets.symmetric(vertical: padV, horizontal: padH),
-          decoration: BoxDecoration(
-            color: bgColor,
-            border: border,
-            borderRadius: isCard ? const BorderRadius.vertical(top: Radius.circular(6)) : null,
-          ),
-          child: Row(
-            key: _tabKeys[item.key],
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (item.icon != null) ...[
-                IconTheme(
-                  data: IconThemeData(
-                    size: fontSize + 2,
-                    color: item.disabled ? theme.unselectedLabelColor.withOpacity(0.5) : (isActive ? theme.labelColor : theme.unselectedLabelColor),
+        child: Stack(
+          children: [
+            Container(
+              margin: margin,
+              padding: EdgeInsets.symmetric(vertical: padV, horizontal: padH),
+              decoration: BoxDecoration(
+                color: bgColor,
+                border: border,
+                borderRadius: isCard ? const BorderRadius.vertical(top: Radius.circular(6)) : null,
+              ),
+              child: Row(
+                key: _tabKeys[item.key],
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (item.icon != null) ...[
+                    IconTheme(
+                      data: IconThemeData(
+                        size: fontSize + 2,
+                        color: item.disabled ? theme.unselectedLabelColor.withOpacity(0.5) : (isActive ? theme.labelColor : theme.unselectedLabelColor),
+                      ),
+                      child: item.icon!,
+                    ),
+                    const SizedBox(width: 8),
+                  ],
+                  Text(
+                    item.label,
+                    style: TextStyle(
+                      fontSize: fontSize,
+                      fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
+                      color: item.disabled ? theme.unselectedLabelColor.withOpacity(0.5) : (isActive ? theme.labelColor : theme.unselectedLabelColor),
+                    ),
                   ),
-                  child: item.icon!,
-                ),
-                const SizedBox(width: 8),
-              ],
-              Text(
-                item.label,
-                style: TextStyle(
-                  fontSize: fontSize,
-                  fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
-                  color: item.disabled ? theme.unselectedLabelColor.withOpacity(0.5) : (isActive ? theme.labelColor : theme.unselectedLabelColor),
+                  if (widget.type == STabType.editableCard && item.closable) ...[
+                    const SizedBox(width: 8),
+                    InkWell(
+                      onTap: item.disabled ? null : () => widget.onClose?.call(item.key),
+                      hoverColor: Colors.red.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12),
+                      child: Icon(
+                        Icons.close,
+                        size: fontSize,
+                        color: theme.unselectedLabelColor,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            if (isCard && isActive)
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 2, // Match card margin
+                height: 2,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: theme.indicatorColor,
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(6)),
+                  ),
                 ),
               ),
-              if (widget.type == STabType.editableCard && item.closable) ...[
-                const SizedBox(width: 8),
-                InkWell(
-                  onTap: item.disabled ? null : () => widget.onClose?.call(item.key),
-                  hoverColor: Colors.red.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                  child: Icon(
-                    Icons.close,
-                    size: fontSize,
-                    color: theme.unselectedLabelColor,
-                  ),
-                ),
-              ],
-            ],
-          ),
+          ],
         ),
       ),
     );
