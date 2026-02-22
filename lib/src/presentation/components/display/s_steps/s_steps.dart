@@ -22,6 +22,8 @@ class SSteps
         SStepsSize.defaultSize,
     this.responsive =
         true,
+    this.scrollable =
+        false,
     this.onChange,
   });
 
@@ -39,6 +41,8 @@ class SSteps
       size;
   final bool
       responsive;
+  final bool
+      scrollable;
   final ValueChanged<int>?
       onChange;
 
@@ -63,7 +67,9 @@ class SSteps
 
   Widget
       _buildHorizontalLayout() {
-    return Row(
+    Widget
+        row =
+        Row(
       crossAxisAlignment:
           CrossAxisAlignment.start,
       children:
@@ -80,17 +86,28 @@ class SSteps
           size: size,
           direction: Axis.horizontal,
           labelPlacement: labelPlacement,
+          scrollable: scrollable,
           onTap: onChange != null ? () => onChange!(index) : null,
         );
       }),
     );
+
+    if (scrollable) {
+      return SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: row,
+      );
+    }
+    return row;
   }
 
   Widget
       _buildVerticalLayout() {
     // For vertical layout, we need to ensure the line connects properly.
     // The SStep widget handles drawing the line to the next step.
-    return Column(
+    Widget
+        col =
+        Column(
       crossAxisAlignment:
           CrossAxisAlignment.start,
       children:
@@ -108,11 +125,20 @@ class SSteps
             size: size,
             direction: Axis.vertical,
             labelPlacement: labelPlacement, // Vertical direction implies horizontal label placement implicitly usually
+            scrollable: scrollable,
             onTap: onChange != null ? () => onChange!(index) : null,
           ),
         );
       }),
     );
+
+    if (scrollable) {
+      return SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: col,
+      );
+    }
+    return col;
   }
 
   SStepStatus _getStepStatus(

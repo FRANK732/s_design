@@ -15,6 +15,8 @@ class SStep
     required this.size,
     required this.direction,
     required this.labelPlacement,
+    this.scrollable =
+        false,
     this.onTap,
     this.customIcon,
   });
@@ -35,6 +37,8 @@ class SStep
       direction;
   final SStepsLabelPlacement
       labelPlacement;
+  final bool
+      scrollable;
   final VoidCallback?
       onTap;
   final Widget?
@@ -191,45 +195,52 @@ class SStep
 
       if (isLabelHorizontal) {
         // Icon - Content - Line
-        return Expanded(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              InkWell(
-                onTap: item.disabled ? null : onTap,
-                borderRadius: BorderRadius.circular(SStepsStyleHelper.getIconSize(size)),
-                child: iconContainer,
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                  child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Flexible(
-                        flex: 3,
-                        child: content,
-                      ), // Title & Subtitle row
-                      if (!isLast) ...[
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Container(
-                            height: 1,
-                            color: status == SStepStatus.finish ? theme.primaryColor : Colors.grey.shade300,
-                          ),
+        Widget cell = Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            InkWell(
+              onTap: item.disabled ? null : onTap,
+              borderRadius: BorderRadius.circular(SStepsStyleHelper.getIconSize(size)),
+              child: iconContainer,
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Flexible(
+                      flex: 3,
+                      child: content,
+                    ), // Title & Subtitle row
+                    if (!isLast) ...[
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Container(
+                          height: 1,
+                          color: status == SStepStatus.finish ? theme.primaryColor : Colors.grey.shade300,
                         ),
-                        const SizedBox(width: 8),
-                      ]
-                    ],
-                  ),
-                  // Description sits below title, but doesn't affect line vertically in horizontal-label mode?
-                  // Actually covering description here.
-                ],
-              ))
-            ],
-          ),
+                      ),
+                      const SizedBox(width: 8),
+                    ]
+                  ],
+                ),
+                // Description sits below title, but doesn't affect line vertically in horizontal-label mode?
+                // Actually covering description here.
+              ],
+            ))
+          ],
         );
+
+        if (scrollable) {
+          return SizedBox(
+            width: isLast ? null : 250.0, // Fixed width block to allow scrolling
+            child: cell,
+          );
+        } else {
+          return Expanded(child: cell);
+        }
       } else {
         // Icon - Line
         // Content (Centered below icon)
@@ -238,40 +249,47 @@ class SStep
         // But implementing as discrete items:
         // Column [ Row(Icon - Line), Content ]
 
-        return Expanded(
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  // Line (Left) if needed? No, typical flow is Icon -> Line
-                  // To center icon, we might need Line -- Icon -- Line logic?
-                  // SSimple way:
-                  // Icon -- Line
-                  // But for first/last items spacing is different.
-                  // Let's stick to standard flow:
-                  // Center the icon relative to content?
-                  // Actually, Ant Design Vertical Label:
-                  // [Icon]---------------[Icon]
-                  // Title                 Title
-                  // Desc                  Desc
+        Widget cell = Column(
+          children: [
+            Row(
+              children: [
+                // Line (Left) if needed? No, typical flow is Icon -> Line
+                // To center icon, we might need Line -- Icon -- Line logic?
+                // SSimple way:
+                // Icon -- Line
+                // But for first/last items spacing is different.
+                // Let's stick to standard flow:
+                // Center the icon relative to content?
+                // Actually, Ant Design Vertical Label:
+                // [Icon]---------------[Icon]
+                // Title                 Title
+                // Desc                  Desc
 
-                  Expanded(
-                    flex: 1, // Space before icon? Only if not first?
-                    child: !isLast ? Container(height: 1, color: Colors.transparent) : SizedBox(),
-                    // Simplification: Placing Icon at start, Line extends to next.
-                  ),
-                  InkWell(onTap: item.disabled ? null : onTap, child: iconContainer),
-                  Expanded(
-                    flex: 10,
-                    child: !isLast ? Container(height: 1, margin: EdgeInsets.symmetric(horizontal: 10), color: status == SStepStatus.finish ? theme.primaryColor : Colors.grey.shade300) : SizedBox(),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              content,
-            ],
-          ),
+                Expanded(
+                  flex: 1, // Space before icon? Only if not first?
+                  child: !isLast ? Container(height: 1, color: Colors.transparent) : SizedBox(),
+                  // Simplification: Placing Icon at start, Line extends to next.
+                ),
+                InkWell(onTap: item.disabled ? null : onTap, child: iconContainer),
+                Expanded(
+                  flex: 10,
+                  child: !isLast ? Container(height: 1, margin: EdgeInsets.symmetric(horizontal: 10), color: status == SStepStatus.finish ? theme.primaryColor : Colors.grey.shade300) : SizedBox(),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            content,
+          ],
         );
+
+        if (scrollable) {
+          return SizedBox(
+            width: isLast ? 100.0 : 250.0,
+            child: cell,
+          );
+        } else {
+          return Expanded(child: cell);
+        }
       }
     } else {
       // Vertical Layout
