@@ -28,7 +28,7 @@ class _SProgressDemoPageState
       name:
           'SProgress',
       description:
-          'An Ant Design–style progress indicator component supporting line, circle, and dashboard layouts. '
+          'A progress indicator component supporting line, circle, and dashboard layouts. '
           'Takes `percent` (0–100) and an optional `status` for success/error coloring.',
       whenToUse: const [
         'For uploads, downloads, or task completion percentages.',

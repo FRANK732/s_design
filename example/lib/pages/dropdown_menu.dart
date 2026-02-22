@@ -50,7 +50,7 @@ class _DropdownMenuPageState
           'SSelect',
       description:
           'A powerful select dropdown component supporting single selection, multi-select, tags mode, '
-          'search/filter, grouped items, and custom icons. Similar to Ant Design Select.',
+          'search/filter, grouped items, and custom icons.',
       whenToUse: const [
         'Replacing native <select> elements with richer UX.',
         'Selecting one or multiple items from a long list.',

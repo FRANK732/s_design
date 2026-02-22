@@ -29,7 +29,7 @@ class _SButtonPageState
           'SButton',
       description:
           'A versatile button component supporting multiple variants, sizes, states, and icons. '
-          'SButton follows Ant Design principles — every interaction has a clear visual response.',
+          'SButton follows modern design principles — every interaction has a clear visual response.',
       whenToUse: const [
         'Use the default variant for primary actions (e.g. Submit, Save).',
         'Use outline buttons for secondary actions or alternatives.',

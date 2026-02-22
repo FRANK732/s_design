@@ -57,7 +57,7 @@ class HomeOverviewPage
         ),
         const SizedBox(height: 24),
         Text(
-          'SDesign is a responsive Flutter UI component library inspired by Ant Design, '
+          'SDesign is a responsive Flutter UI component library inspired by modern design systems, '
           'built for mobile-first experiences. Browse the component pages in the left sidebar '
           'to see live demos, usage variants, and ready-to-copy code snippets.',
           style: theme.textTheme.bodyLarge?.copyWith(height: 1.7, color: theme.colorScheme.onSurface.withOpacity(0.75)),
