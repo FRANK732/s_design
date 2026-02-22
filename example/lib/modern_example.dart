@@ -29,6 +29,8 @@ import 'pages/rate_demo_page.dart';
 import 'pages/tabs_demo_v3.dart';
 import 'pages/toast_page.dart';
 import 'pages/qrcode_demo_page.dart';
+import 'pages/s_alert_page.dart';
+import 'pages/s_pagination_page.dart';
 
 void
     main() {
@@ -180,6 +182,8 @@ class HomePage
           _buildListTile(context, 'SRate (Ant Design)', const RatePage(), Icons.star_rate_rounded),
           _buildListTile(context, 'SInput (Ant Design)', const InputDemoPage(), Icons.input),
           _buildListTile(context, 'SQRCode (Ant Design)', const QRCodeDemoPage(), Icons.qr_code),
+          _buildListTile(context, 'SAlert (Ant Design)', const SAlertPage(), Icons.warning_amber_rounded),
+          _buildListTile(context, 'SPagination (Ant Design)', const SPaginationPage(), Icons.first_page_rounded),
         ],
       ),
     );

@@ -5,6 +5,13 @@ import 'package:flutter/material.dart';
 
 import '../../../../domain/entities/config/s_toaster_enum.dart';
 
+/// **Deprecated**: Use [SAlert] for inline alerts or [SSonner] for toast notifications.
+///
+/// [SToast] will be removed in a future version.
+@Deprecated(
+  'SToast is deprecated. Use SAlert for inline alerts or SSonner for toast notifications. '
+  'This class will be removed in a future version.',
+)
 class SToast
     extends StatefulWidget {
   const SToast({
