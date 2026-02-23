@@ -5,6 +5,7 @@ import 's_date_picker_style_helper.dart';
 import 's_date_picker_types.dart';
 import '../../../themes/s_theme.dart';
 import '../../../themes/s_theme_data.dart';
+import '../../../localizations/s_localizations.dart';
 import 'widgets/s_date_picker_panel.dart';
 
 class SDatePicker
@@ -13,8 +14,7 @@ class SDatePicker
     super.key,
     this.value,
     this.onChange,
-    this.placeholder =
-        'Select date',
+    this.placeholder,
     this.disabled =
         false,
     this.picker =
@@ -27,7 +27,7 @@ class SDatePicker
       value;
   final ValueChanged<DateTime?>?
       onChange;
-  final String
+  final String?
       placeholder;
   final bool
       disabled;
@@ -262,7 +262,7 @@ class _SDatePickerState
             children: [
               Expanded(
                 child: Text(
-                  widget.value != null ? _formatValue(widget.value!) : widget.placeholder,
+                  widget.value != null ? _formatValue(widget.value!) : (widget.placeholder ?? SLocalizations.ofContext(context).selectDate),
                   style: textStyle,
                   overflow: TextOverflow.ellipsis,
                 ),

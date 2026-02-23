@@ -4,6 +4,7 @@ import 's_date_picker_style_helper.dart';
 import 's_date_picker_types.dart';
 import '../../../themes/s_theme.dart';
 import '../../../themes/s_theme_data.dart';
+import '../../../localizations/s_localizations.dart';
 import 'widgets/s_date_range_picker_panel.dart';
 
 class SDateRangePicker
@@ -15,10 +16,8 @@ class SDateRangePicker
     this.onChange,
     this.separator =
         '~',
-    this.startPlaceholder =
-        'Start date',
-    this.endPlaceholder =
-        'End date',
+    this.startPlaceholder,
+    this.endPlaceholder,
     this.disabled =
         false,
     this.presets,
@@ -33,9 +32,9 @@ class SDateRangePicker
       onChange;
   final String
       separator;
-  final String
+  final String?
       startPlaceholder;
-  final String
+  final String?
       endPlaceholder;
   final bool
       disabled;
@@ -278,7 +277,7 @@ class _SDateRangePickerState
             children: [
               Expanded(
                 child: Text(
-                  widget.startDate != null ? _formatDate(widget.startDate!) : widget.startPlaceholder,
+                  widget.startDate != null ? _formatDate(widget.startDate!) : (widget.startPlaceholder ?? SLocalizations.ofContext(context).startDate),
                   style: startStyle,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
@@ -290,7 +289,7 @@ class _SDateRangePickerState
               ),
               Expanded(
                 child: Text(
-                  widget.endDate != null ? _formatDate(widget.endDate!) : widget.endPlaceholder,
+                  widget.endDate != null ? _formatDate(widget.endDate!) : (widget.endPlaceholder ?? SLocalizations.ofContext(context).endDate),
                   style: endStyle,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,

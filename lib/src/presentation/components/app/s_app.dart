@@ -4,9 +4,11 @@ import 'package:flutter/cupertino.dart'
 import 'package:flutter/material.dart'
     as m;
 import 'package:flutter/widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '../../themes/s_theme.dart';
 import '../../themes/s_theme_data.dart';
+import '../../localizations/s_localizations.dart';
 
 /// Describes how [Scrollable] widgets behave for [SApp]s.
 /// By default we will use [CupertinoScrollbar] for iOS and macOS platforms
@@ -334,7 +336,13 @@ class _SAppState
         color: widget.color,
         themeMode: widget.themeMode,
         locale: widget.locale,
-        localizationsDelegates: widget.localizationsDelegates,
+        localizationsDelegates: [
+          SLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          ...?widget.localizationsDelegates,
+        ],
         localeListResolutionCallback: widget.localeListResolutionCallback,
         localeResolutionCallback: widget.localeResolutionCallback,
         supportedLocales: widget.supportedLocales,
@@ -383,8 +391,13 @@ class _SAppState
           widget.themeMode,
       locale:
           widget.locale,
-      localizationsDelegates:
-          widget.localizationsDelegates,
+      localizationsDelegates: [
+        SLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        ...?widget.localizationsDelegates,
+      ],
       localeListResolutionCallback:
           widget.localeListResolutionCallback,
       localeResolutionCallback:

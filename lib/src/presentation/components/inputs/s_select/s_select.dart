@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../../../../s_design.dart';
+import '../../../localizations/s_localizations.dart';
 import 'widgets/s_select_dropdown.dart';
 import 'widgets/s_select_trigger.dart';
 
@@ -552,7 +553,7 @@ class _SSelectState<
               items: widget.items,
               mode: widget.mode ?? SSelectMode.single,
               onPressed: _toggleDropdown,
-              placeholder: widget.placeholder,
+              placeholder: widget.placeholder ?? SLocalizations.ofContext(context).selectPlaceholder,
               disabled: widget.disabled,
               loading: widget.loading,
               allowClear: widget.allowClear,

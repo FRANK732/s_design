@@ -4,6 +4,7 @@ import '../../../../domain/entities/config/s_pagination_enums.dart';
 import '../../../themes/extensions/component_themes/s_pagination_theme.dart';
 import '../../../themes/s_theme.dart';
 import '../../../themes/s_theme_data.dart';
+import '../../../localizations/s_localizations.dart';
 
 /// Pagination component for Flutter.
 ///
@@ -590,7 +591,7 @@ class _SPaginationState
             icon: Icons.chevron_left,
             onTap: _currentPage > 1 ? () => _goTo(_currentPage - 1) : null,
             type: SPaginationItemType.prev,
-            tooltip: 'Previous',
+            tooltip: SLocalizations.ofContext(context).previousPage,
           ),
           SizedBox(width: tokens.itemSpacing),
           // Page items — iterate with index so ellipsis knows its direction
@@ -616,7 +617,7 @@ class _SPaginationState
             icon: Icons.chevron_right,
             onTap: _currentPage < total ? () => _goTo(_currentPage + 1) : null,
             type: SPaginationItemType.next,
-            tooltip: 'Next',
+            tooltip: SLocalizations.ofContext(context).nextPage,
           ),
         ],
       ),
@@ -780,7 +781,7 @@ class _SPaginationState
           icon: Icons.chevron_left,
           onTap: _currentPage > 1 ? () => _goTo(_currentPage - 1) : null,
           type: SPaginationItemType.prev,
-          tooltip: 'Previous',
+          tooltip: SLocalizations.ofContext(context).previousPage,
         ),
         SizedBox(width: tokens.itemSpacing),
         // Current / Total input
@@ -797,7 +798,7 @@ class _SPaginationState
           icon: Icons.chevron_right,
           onTap: _currentPage < total ? () => _goTo(_currentPage + 1) : null,
           type: SPaginationItemType.next,
-          tooltip: 'Next',
+          tooltip: SLocalizations.ofContext(context).nextPage,
         ),
       ],
     );
@@ -1377,7 +1378,7 @@ class _SizeChangerDropdown
           items: options
               .map((o) => DropdownMenuItem<int>(
                     value: o,
-                    child: Text('$o / page'),
+                    child: Text('$o / ${SLocalizations.ofContext(context).page.toLowerCase()}'),
                   ))
               .toList(),
         ),
@@ -1438,7 +1439,7 @@ class _QuickJumperState
           MainAxisSize.min,
       children: [
         Text(
-          'Go to',
+          SLocalizations.ofContext(context).searchPlaceholder.replaceFirst('...', ''),
           style: TextStyle(fontSize: tokens.baseFontSize, color: widget.disabled ? tokens.disabledText : tokens.defaultText),
         ),
         const SizedBox(width: 6),

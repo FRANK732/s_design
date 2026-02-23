@@ -24,6 +24,9 @@ export 'src/domain/entities/config/s_time_picker_enums.dart';
 // ignore: deprecated_member_use_from_same_package
 export 'src/domain/entities/config/s_toaster_enum.dart';
 export 'src/domain/usecases/validation/validate_button_config.dart';
+// LOCALIZATION LAYER
+export 'src/presentation/localizations/s_localizations.dart';
+export 'src/presentation/localizations/s_localizations_delegate.dart';
 // PRESENTATION LAYER
 export 'src/presentation/builders/overlay_builder.dart';
 export 'src/presentation/common/loading/loading_indicator.dart';

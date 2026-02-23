@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../../../s_design.dart';
+import '../../../../localizations/s_localizations.dart';
 
 class SSelectDropdown<
         T>
@@ -56,7 +57,7 @@ class SSelectDropdown<
         alignment: Alignment.center,
         child: emptyContent ??
             Text(
-              'No data',
+              SLocalizations.ofContext(context).noData,
               style: theme.typographyToken.bodyMedium.copyWith(color: theme.colorToken.textSecondary),
             ),
       );

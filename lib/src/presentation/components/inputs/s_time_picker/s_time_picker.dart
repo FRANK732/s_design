@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../domain/entities/config/s_time_picker_enums.dart';
 import '../../../themes/s_theme.dart';
+import '../../../localizations/s_localizations.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  Format helpers
@@ -408,8 +409,7 @@ class STimePicker
         1,
     this.disabled =
         false,
-    this.placeholder =
-        'Select time',
+    this.placeholder,
     this.size =
         STimePickerSize.middle,
     this.variant =
@@ -464,7 +464,7 @@ class STimePicker
 
   final bool
       disabled;
-  final String
+  final String?
       placeholder;
   final STimePickerSize
       size;
@@ -1006,7 +1006,7 @@ class _STimePickerState
                 ],
                 Expanded(
                   child: Text(
-                    hasVal ? display : widget.placeholder,
+                    hasVal ? display : (widget.placeholder ?? SLocalizations.ofContext(context).selectTime),
                     style: hasVal ? tk.textStyle : tk.placeholderStyle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -1458,8 +1458,8 @@ class _PanelOverlayState
                 color: tk.primary,
                 borderRadius: BorderRadius.circular(4),
               ),
-              child: const Text(
-                'OK',
+              child: Text(
+                SLocalizations.ofContext(context).ok,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 13,
@@ -1498,11 +1498,7 @@ class STimeRangePicker
         1,
     this.disabled =
         false,
-    this.placeholder =
-        const (
-      'Start time',
-      'End time'
-    ),
+    this.placeholder,
     this.size =
         STimePickerSize.middle,
     this.variant =
@@ -1547,9 +1543,9 @@ class STimeRangePicker
   final bool
       disabled;
   final (
-    String,
-    String
-  ) placeholder;
+    String?,
+    String?
+  )? placeholder;
   final STimePickerSize
       size;
   final STimePickerVariant
@@ -1623,7 +1619,7 @@ class _STimeRangePickerState
           minuteStep: widget.minuteStep,
           secondStep: widget.secondStep,
           disabled: widget.disabled,
-          placeholder: widget.placeholder.$1,
+          placeholder: widget.placeholder?.$1,
           size: widget.size,
           variant: widget.variant,
           status: widget.status,
@@ -1647,7 +1643,7 @@ class _STimeRangePickerState
           minuteStep: widget.minuteStep,
           secondStep: widget.secondStep,
           disabled: widget.disabled,
-          placeholder: widget.placeholder.$2,
+          placeholder: widget.placeholder?.$2,
           size: widget.size,
           variant: widget.variant,
           status: widget.status,

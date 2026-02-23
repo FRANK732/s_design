@@ -55,6 +55,9 @@ class _ModernSDesignExampleState
   ThemeMode
       _themeMode =
       ThemeMode.system;
+  Locale _currentLocale = const Locale(
+      'en',
+      'US');
 
   @override
   Widget build(
@@ -67,6 +70,23 @@ class _ModernSDesignExampleState
           false,
       themeMode:
           _themeMode,
+      locale:
+          _currentLocale,
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('fr', 'FR'),
+        Locale('ar', 'AE'),
+        Locale('zh', 'CN'),
+      ],
+      localeResolutionCallback:
+          (locale, supportedLocales) {
+        for (var supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale?.languageCode) {
+            return supportedLocale;
+          }
+        }
+        return supportedLocales.first; // fallback
+      },
       theme:
           SThemeData.light(),
       darkTheme:
@@ -74,7 +94,9 @@ class _ModernSDesignExampleState
       home:
           GalleryShell(
         themeMode: _themeMode,
+        currentLocale: _currentLocale,
         onThemeChanged: (mode) => setState(() => _themeMode = mode),
+        onLocaleChanged: (locale) => setState(() => _currentLocale = locale),
       ),
     );
   }
@@ -89,13 +111,19 @@ class GalleryShell
   const GalleryShell({
     super.key,
     required this.themeMode,
+    required this.currentLocale,
     required this.onThemeChanged,
+    required this.onLocaleChanged,
   });
 
   final ThemeMode
       themeMode;
+  final Locale
+      currentLocale;
   final ValueChanged<ThemeMode>
       onThemeChanged;
+  final ValueChanged<Locale>
+      onLocaleChanged;
 
   @override
   State<GalleryShell>
@@ -213,6 +241,32 @@ class _GalleryShellState
                 );
               },
             ),
+          ),
+          const SizedBox(width: 8),
+          // Language toggle
+          PopupMenuButton<Locale>(
+            tooltip: 'Change language',
+            initialValue: widget.currentLocale,
+            onSelected: widget.onLocaleChanged,
+            icon: const Icon(Icons.language_outlined),
+            itemBuilder: (context) => [
+              const PopupMenuItem(
+                value: Locale('en', 'US'),
+                child: Text('English'),
+              ),
+              const PopupMenuItem(
+                value: Locale('fr', 'FR'),
+                child: Text('Français'),
+              ),
+              const PopupMenuItem(
+                value: Locale('ar', 'AE'),
+                child: Text('العربية'),
+              ),
+              const PopupMenuItem(
+                value: Locale('zh', 'CN'),
+                child: Text('中文'),
+              ),
+            ],
           ),
           const SizedBox(width: 8),
         ],

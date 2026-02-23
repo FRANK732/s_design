@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../../../s_design.dart';
+import '../../../../localizations/s_localizations.dart';
 import 's_select_item.dart';
 import 's_select_menu.dart';
 
@@ -15,8 +16,7 @@ class SSelectSheet<
     this.onMultiSelect,
     this.isMultiSelect =
         false,
-    this.searchPlaceholder =
-        'Search...',
+    this.searchPlaceholder,
     this.title,
   });
 
@@ -32,7 +32,7 @@ class SSelectSheet<
       onMultiSelect;
   final bool
       isMultiSelect;
-  final String
+  final String?
       searchPlaceholder;
   final String?
       title;
@@ -52,8 +52,8 @@ class SSelectSheet<
         onMultiSelect,
     bool isMultiSelect =
         false,
-    String searchPlaceholder =
-        'Search...',
+    String?
+        searchPlaceholder,
     String?
         title,
   }) {
@@ -130,7 +130,7 @@ class SSelectSheet<
               onMultiSelect: onMultiSelect,
               isMultiSelect: isMultiSelect,
               dropdownMaxHeight: MediaQuery.of(context).size.height * 0.7,
-              searchPlaceholder: searchPlaceholder,
+              searchPlaceholder: searchPlaceholder ?? SLocalizations.ofContext(context).searchPlaceholder,
             ),
           ),
           if (isMultiSelect)
@@ -140,7 +140,7 @@ class SSelectSheet<
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('Done'),
+                  child: Text(SLocalizations.ofContext(context).ok), // Reusing 'ok' for 'Done' as it's common.
                 ),
               ),
             ),
