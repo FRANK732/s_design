@@ -157,7 +157,7 @@ class _STimePickerPageState
               children: [
                 Wrap(spacing: 8, runSpacing: 8, children: [
                   STimePicker(placeholder: 'Outlined'),
-                  STimeRangePicker(placeholder: const (
+                  STimeRangePicker(placeholder: (
                     'Outlined Start',
                     'Outlined End'
                   )),

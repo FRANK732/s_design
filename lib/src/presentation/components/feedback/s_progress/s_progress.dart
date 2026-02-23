@@ -684,16 +684,16 @@ class _CircleProgressPainter
 
 class _IndeterminateProgressAnimation
     extends StatefulWidget {
-  final Color
-      color;
-  final bool
-      vertical;
 
   const _IndeterminateProgressAnimation({
     required this.color,
     this.vertical =
         false,
   });
+  final Color
+      color;
+  final bool
+      vertical;
 
   @override
   State<_IndeterminateProgressAnimation>
@@ -749,14 +749,14 @@ class _IndeterminateProgressAnimationState
       animation:
           _animation,
       builder:
-          (context, child) {
+          (BuildContext context, Widget? child) {
         // alignValue calculates from -2.33 to +2.33. That mathematically
         // places a 40% width box fully outside the left edge (-2.33), smoothly
         // sliding until it gets fully outside the right edge (+2.33).
         final double alignValue = (_animation.value * 4.66) - 2.33;
 
         return Stack(
-          children: [
+          children: <Widget>[
             Positioned.fill(
               child: FractionallySizedBox(
                 alignment: widget.vertical ? Alignment(0.0, alignValue) : Alignment(alignValue, 0.0),
