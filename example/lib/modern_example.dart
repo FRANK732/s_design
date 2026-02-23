@@ -15,7 +15,6 @@ import 'pages/s_pagination_page.dart';
 import 'pages/progress_indicator_page.dart';
 import 'pages/s_alert_page.dart';
 import 'pages/s_avatar_page.dart';
-import 'pages/s_floating_panel_page.dart';
 import 'pages/s_modal_page.dart';
 import 'pages/s_time_picker_page.dart';
 import 'pages/qrcode_demo_page.dart';
@@ -192,9 +191,6 @@ class _GalleryShellState
         NavItem(label: 'SScaffold Slivers', icon: Icons.view_quilt_outlined, page: const ScaffoldPage()),
         NavItem(label: 'SBottom Navigation', icon: Icons.call_to_action_outlined, page: const BottomNavigationPage()),
         NavItem(label: 'SCard (Basic)', icon: Icons.dashboard_outlined, page: const CardPage()),
-      ]),
-      NavGroup(title: 'Overlays', items: [
-        NavItem(label: 'SFloatingPanel', icon: Icons.layers_outlined, page: SFloatingPanelPage()),
       ]),
     ];
 
