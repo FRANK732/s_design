@@ -69,7 +69,7 @@
   <script>
     // Remove the loading screen smoothly once Flutter is initialized
     window.addEventListener('load', function(ev) {
-      _flutter.loader.loadEntrypoint({
+      _flutter.loader.load({
         onEntrypointLoaded: async function(engineInitializer) {
           const appRunner = await engineInitializer.initializeEngine();
           

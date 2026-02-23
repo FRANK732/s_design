@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../widgets/code_snippet.dart';
 
 /// Welcome/overview page shown when the app first opens.
@@ -258,13 +259,13 @@ class MyApp extends StatelessWidget {
                       icon: Icons.code,
                       title: 'pub.dev package',
                       subtitle: 'pub.dev/packages/s_design',
-                      onTap: () {},
+                      onTap: () => launchUrlString('https://pub.dev/packages/s_design'),
                     ),
                     _LinkCard(
                       icon: Icons.hub,
                       title: 'GitHub Repository',
                       subtitle: 'github.com/FRANK732/s_design',
-                      onTap: () {},
+                      onTap: () => launchUrlString('https://github.com/FRANK732/s_design'),
                     ),
                   ],
                 ),
