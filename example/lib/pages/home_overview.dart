@@ -1,172 +1,288 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:s_design/s_design.dart';
 import '../widgets/code_snippet.dart';
 
 /// Welcome/overview page shown when the app first opens.
+/// Redesigned to feature a premium, animated, Ant Design style landing experience.
 class HomeOverviewPage
-    extends StatelessWidget {
+    extends StatefulWidget {
   const HomeOverviewPage(
       {super.key});
 
+  @override
+  State<HomeOverviewPage>
+      createState() =>
+          _HomeOverviewPageState();
+}
+
+class _HomeOverviewPageState
+    extends State<
+        HomeOverviewPage> {
   @override
   Widget build(
       BuildContext
           context) {
     final theme =
         Theme.of(context);
-    return ListView(
-      padding:
-          const EdgeInsets.all(32),
-      children: [
-        Row(
-          children: [
-            Container(
-              width: 48,
-              height: 48,
-              decoration: BoxDecoration(
-                color: theme.colorScheme.primary,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Center(
-                child: Text(
-                  'S',
-                  style: TextStyle(
-                    color: theme.colorScheme.onPrimary,
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
+    final colors =
+        STheme.of(context).colorToken;
+    final isDesktop =
+        MediaQuery.of(context).size.width > 800;
+
+    return Scaffold(
+      backgroundColor:
+          colors.surface,
+      body:
+          Stack(
+        children: [
+          // Subtle animated background pattern using STheme colors
+          const Positioned.fill(
+            child: _AnimatedBackground(),
+          ),
+
+          ListView(
+            padding: EdgeInsets.symmetric(
+              horizontal: isDesktop ? 64 : 24,
+              vertical: isDesktop ? 80 : 40,
+            ),
+            children: [
+              // 1. HERO SECTION
+              Align(
+                alignment: Alignment.center,
+                child: Container(
+                  constraints: const BoxConstraints(maxWidth: 800),
+                  child: Column(
+                    children: [
+                      _EntranceAnimation(
+                        delay: const Duration(milliseconds: 100),
+                        child: SCard(
+                          elevation: 0,
+                          color: colors.surface,
+                          borderColor: colors.secondary,
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          borderRadius: 20.0,
+                          body: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.auto_awesome, size: 16, color: colors.secondary),
+                              const SizedBox(width: 8),
+                              Text(
+                                'sDesign v3.0.0 is out!',
+                                style: theme.textTheme.labelLarge?.copyWith(
+                                  // color: ,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                      _EntranceAnimation(
+                        delay: const Duration(milliseconds: 200),
+                        child: Text(
+                          'Craft Stunning UIs\nWith Minimal Code',
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.displayLarge?.copyWith(
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: -1.5,
+                            height: 1.1,
+                            color: colors.textPrimary,
+                            fontSize: isDesktop ? 72 : 48,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      _EntranceAnimation(
+                        delay: const Duration(milliseconds: 300),
+                        child: Text(
+                          'A robust, highly customizable Flutter component library '
+                          'inspired by the world\'s best design systems. Built for mobile, web, and desktop.',
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.titleLarge?.copyWith(
+                            color: colors.textSecondary,
+                            height: 1.5,
+                            fontSize: isDesktop ? 22 : 18,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 48),
+                      _EntranceAnimation(
+                        delay: const Duration(milliseconds: 400),
+                        child: Wrap(
+                          spacing: 16,
+                          runSpacing: 16,
+                          alignment: WrapAlignment.center,
+                          children: [
+                            SButton(
+                              size: SButtonSize.lg,
+                              variant: SButtonVariant.defaultVariant,
+                              icon: const Icon(Icons.rocket_launch),
+                              child: const Text('Get Started'),
+                              onPressed: () {
+                                // Scroll down or navigate
+                              },
+                            ),
+                            SButton(
+                              size: SButtonSize.lg,
+                              variant: SButtonVariant.outline,
+                              icon: const Icon(Icons.dashboard),
+                              child: const Text('Browse Components'),
+                              onPressed: () {
+                                // Navigate to components
+                                SSonner.instance.show(message: 'Navigate using the sidebar!', variant: SSonnerVariant.success);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ),
-            const SizedBox(width: 16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'SDesign',
-                  style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+
+              const SizedBox(height: 100),
+
+              // 2. LIVE INTERACTIVE SHOWCASE
+              _EntranceAnimation(
+                delay: const Duration(milliseconds: 500),
+                child: const _LiveShowcase(),
+              ),
+
+              const SizedBox(height: 100),
+
+              // 3. FEATURES GRID
+              _EntranceAnimation(
+                delay: const Duration(milliseconds: 600),
+                child: Column(
+                  children: [
+                    Text(
+                      'Why choose sDesign?',
+                      style: theme.textTheme.headlineLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 48),
+                    Wrap(
+                      spacing: 24,
+                      runSpacing: 24,
+                      alignment: WrapAlignment.center,
+                      children: [
+                        _FeatureCard(
+                          icon: Icons.palette,
+                          title: 'Limitless Customization',
+                          description: 'Every token is exposed. Seamlessly inject your brand colors into all components instantly using SThemeData.',
+                          width: isDesktop ? 350 : double.infinity,
+                        ),
+                        _FeatureCard(
+                          icon: Icons.dark_mode,
+                          title: 'Flawless Dark Mode',
+                          description: 'Intelligent color tokens ensure your UI looks premium and perfectly balanced in both light and dark modes out of the box.',
+                          width: isDesktop ? 350 : double.infinity,
+                        ),
+                        _FeatureCard(
+                          icon: Icons.language,
+                          title: 'Native Localization',
+                          description: 'Speaks your users\' languages natively. Built-in support for multiple languages including RTL without extra fuss.',
+                          width: isDesktop ? 350 : double.infinity,
+                        ),
+                        _FeatureCard(
+                          icon: Icons.animation,
+                          title: 'Micro-Interactions',
+                          description: 'Delightful spring physics, smooth hover states, and gorgeous transitions make your app feel incredibly responsive.',
+                          width: isDesktop ? 350 : double.infinity,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                Text(
-                  'Component Gallery',
-                  style: theme.textTheme.bodyLarge?.copyWith(
-                    color: theme.colorScheme.onSurface.withOpacity(0.55),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-        const SizedBox(height: 24),
-        Text(
-          'SDesign is a responsive Flutter UI component library inspired by modern design systems, '
-          'built for mobile-first experiences. Browse the component pages in the left sidebar '
-          'to see live demos, usage variants, and ready-to-copy code snippets.',
-          style: theme.textTheme.bodyLarge?.copyWith(height: 1.7, color: theme.colorScheme.onSurface.withOpacity(0.75)),
-        ),
-        const SizedBox(height: 32),
-        const Divider(),
-        const SizedBox(height: 24),
-        Text('Quick Start', style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600)),
-        const SizedBox(height: 16),
-        const CodeSnippet(
-          code: '''
+              ),
+
+              const SizedBox(height: 100),
+
+              // 4. QUICK START
+              _EntranceAnimation(
+                delay: const Duration(milliseconds: 700),
+                child: Column(
+                  children: [
+                    Text(
+                      'Minutes to integrate',
+                      style: theme.textTheme.headlineLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    const Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        width: 800,
+                        child: CodeSnippet(
+                          code: '''
 import 'package:s_design/s_design.dart';
 
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return SApp(
-      title: 'My App',
+      title: 'Flawless App',
       theme: SThemeData.light(),
       darkTheme: SThemeData.dark(),
-      home: const MyHomePage(),
+      themeMode: ThemeMode.system,
+      home: const SScaffold(
+        appBar: AppBar(title: Text('Hello sDesign')),
+        // ...
+      ),
     );
   }
 }''',
-        ),
-        const SizedBox(height: 32),
-        Text('Component Categories', style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600)),
-        const SizedBox(height: 16),
-        Wrap(
-          spacing: 12,
-          runSpacing: 12,
-          children: const [
-            _CategoryChip(label: 'Inputs', icon: Icons.input, count: 9),
-            _CategoryChip(label: 'Display', icon: Icons.dashboard, count: 4),
-            _CategoryChip(label: 'Feedback', icon: Icons.notifications_active, count: 6),
-            _CategoryChip(label: 'Layout', icon: Icons.view_quilt, count: 4),
-            _CategoryChip(label: 'Overlays', icon: Icons.layers, count: 1),
-          ],
-        ),
-        const SizedBox(height: 32),
-        Text('Links', style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600)),
-        const SizedBox(height: 12),
-        _LinkTile(
-          icon: Icons.code,
-          title: 'pub.dev package',
-          subtitle: 'pub.dev/packages/s_design',
-          onTap: () {},
-        ),
-        _LinkTile(
-          icon: Icons.hub,
-          title: 'GitHub Repository',
-          subtitle: 'github.com/FRANK732/s_design',
-          onTap: () {},
-        ),
-      ],
-    );
-  }
-}
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
 
-class _CategoryChip
-    extends StatelessWidget {
-  const _CategoryChip(
-      {required this.label,
-      required this.icon,
-      required this.count});
-  final String
-      label;
-  final IconData
-      icon;
-  final int
-      count;
+              const SizedBox(height: 100),
 
-  @override
-  Widget build(
-      BuildContext
-          context) {
-    final theme =
-        Theme.of(context);
-    return Container(
-      padding:
-          const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      decoration:
-          BoxDecoration(
-        color: theme.colorScheme.surfaceContainerLowest,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: theme.colorScheme.outlineVariant),
-      ),
-      child:
-          Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 18, color: theme.colorScheme.primary),
-          const SizedBox(width: 8),
-          Text(label, style: const TextStyle(fontWeight: FontWeight.w600)),
-          const SizedBox(width: 8),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primaryContainer,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Text(
-              '$count',
-              style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: theme.colorScheme.onPrimaryContainer),
-            ),
+              // 5. FOOTER / LINKS
+              _EntranceAnimation(
+                delay: const Duration(milliseconds: 800),
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: 24,
+                  runSpacing: 24,
+                  children: [
+                    _LinkCard(
+                      icon: Icons.code,
+                      title: 'pub.dev package',
+                      subtitle: 'pub.dev/packages/s_design',
+                      onTap: () {},
+                    ),
+                    _LinkCard(
+                      icon: Icons.hub,
+                      title: 'GitHub Repository',
+                      subtitle: 'github.com/FRANK732/s_design',
+                      onTap: () {},
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 48),
+              Center(
+                child: Text(
+                  'Built with passion by FRANK732. Licensed under MIT.',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: colors.disabled,
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -174,13 +290,249 @@ class _CategoryChip
   }
 }
 
-class _LinkTile
-    extends StatelessWidget {
-  const _LinkTile(
-      {required this.icon,
-      required this.title,
-      required this.subtitle,
-      required this.onTap});
+/// A live interactive showcase of sDesign components
+class _LiveShowcase
+    extends StatefulWidget {
+  const _LiveShowcase();
+
+  @override
+  State<_LiveShowcase>
+      createState() =>
+          _LiveShowcaseState();
+}
+
+class _LiveShowcaseState
+    extends State<
+        _LiveShowcase> {
+  bool
+      _switchVal =
+      true;
+  double
+      _sliderVal =
+      40;
+  SCheckboxState
+      _checkVal =
+      SCheckboxState.checked;
+
+  @override
+  Widget build(
+      BuildContext
+          context) {
+    final theme =
+        Theme.of(context);
+    final colors =
+        STheme.of(context).colorToken;
+
+    return Container(
+      width:
+          double.infinity,
+      constraints:
+          const BoxConstraints(maxWidth: 900),
+      padding:
+          const EdgeInsets.all(40),
+      decoration:
+          BoxDecoration(
+        color: colors.surface,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: colors.divider),
+        boxShadow: [
+          BoxShadow(
+            color: colors.shadow.withOpacity(0.05),
+            blurRadius: 40,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child:
+          Column(
+        children: [
+          Text(
+            'Interactive Live Preview',
+            style: theme.textTheme.titleMedium?.copyWith(
+              color: colors.primary,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1.2,
+            ),
+          ),
+          const SizedBox(height: 32),
+          Wrap(
+            spacing: 32,
+            runSpacing: 32,
+            alignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              // Column 1
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SButton(
+                    onPressed: () {
+                      SSonner.instance.show(
+                        message: 'Perfect! You triggered a success toast.',
+                        variant: SSonnerVariant.success,
+                      );
+                    },
+                    child: const Text('Show Notification'),
+                  ),
+                  const SizedBox(height: 24),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SSwitch(
+                        value: _switchVal,
+                        onChanged: (v) => setState(() => _switchVal = v),
+                      ),
+                      const SizedBox(width: 16),
+                      SCheckbox(
+                        value: _checkVal,
+                        onChanged: (v) => setState(() => _checkVal = v),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+
+              // Column 2
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SInputField(
+                    labelText: 'Email Address',
+                    hintText: 'you@example.com',
+                    startIcon: const Icon(Icons.email_outlined),
+                  ),
+                  const SizedBox(height: 24),
+                  Slider(
+                    value: _sliderVal,
+                    min: 0,
+                    max: 100,
+                    onChanged: (double v) => setState(() => _sliderVal = v),
+                  ),
+                ],
+              ),
+
+              // Column 3
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SInputField.datePicker(
+                    controller: TextEditingController(),
+                    hintText: 'Select Date',
+                  ),
+                  const SizedBox(height: 24),
+                  SButton(
+                    variant: SButtonVariant.outline,
+                    child: const Text('Delete Account', style: TextStyle(color: Colors.red)),
+                    onPressed: () {},
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _FeatureCard
+    extends StatefulWidget {
+  const _FeatureCard({
+    required this.title,
+    required this.description,
+    required this.icon,
+    required this.width,
+  });
+
+  final String
+      title;
+  final String
+      description;
+  final IconData
+      icon;
+  final double
+      width;
+
+  @override
+  State<_FeatureCard>
+      createState() =>
+          _FeatureCardState();
+}
+
+class _FeatureCardState
+    extends State<
+        _FeatureCard> {
+  bool
+      _isHovered =
+      false;
+
+  @override
+  Widget build(
+      BuildContext
+          context) {
+    final theme =
+        Theme.of(context);
+    final colors =
+        STheme.of(context).colorToken;
+
+    return MouseRegion(
+      onEnter: (_) =>
+          setState(() => _isHovered = true),
+      onExit: (_) =>
+          setState(() => _isHovered = false),
+      child:
+          AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        width: widget.width,
+        transform: Matrix4.translationValues(0, _isHovered ? -8 : 0, 0),
+        child: SCard(
+          elevation: _isHovered ? 2 : 0,
+          borderColor: _isHovered ? colors.primary.withOpacity(0.5) : colors.divider,
+          padding: const EdgeInsets.all(32),
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: colors.primary.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(widget.icon, color: colors.primary, size: 28),
+              ),
+              const SizedBox(height: 24),
+              Text(
+                widget.title,
+                style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                widget.description,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: colors.textSecondary,
+                  height: 1.5,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _LinkCard
+    extends StatefulWidget {
+  const _LinkCard({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+  });
+
   final IconData
       icon;
   final String
@@ -191,32 +543,297 @@ class _LinkTile
       onTap;
 
   @override
+  State<_LinkCard>
+      createState() =>
+          _LinkCardState();
+}
+
+class _LinkCardState
+    extends State<
+        _LinkCard> {
+  bool
+      _isHovered =
+      false;
+
+  @override
+  Widget build(
+      BuildContext
+          context) {
+    // final theme =
+    //     Theme.of(context);
+    final colors =
+        STheme.of(context).colorToken;
+
+    return MouseRegion(
+      onEnter: (_) =>
+          setState(() => _isHovered = true),
+      onExit: (_) =>
+          setState(() => _isHovered = false),
+      cursor:
+          SystemMouseCursors.click,
+      child:
+          GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          width: 350,
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: _isHovered ? colors.surface : colors.background,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: _isHovered ? colors.primary : colors.divider,
+            ),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: colors.primary.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(widget.icon, color: colors.primary),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(widget.title, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16)),
+                    const SizedBox(height: 4),
+                    Text(
+                      widget.subtitle,
+                      style: TextStyle(color: colors.textSecondary, fontSize: 13),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(Icons.arrow_forward_ios, size: 14, color: colors.disabled),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// A reusable widget that provides a slide-up and fade-in entrance animation.
+class _EntranceAnimation
+    extends StatefulWidget {
+  final Widget
+      child;
+  final Duration
+      delay;
+
+  const _EntranceAnimation({
+    required this.child,
+    this.delay =
+        Duration.zero,
+  });
+
+  @override
+  State<_EntranceAnimation>
+      createState() =>
+          _EntranceAnimationState();
+}
+
+class _EntranceAnimationState
+    extends State<
+        _EntranceAnimation>
+    with
+        SingleTickerProviderStateMixin {
+  late final AnimationController
+      _controller;
+  late final Animation<double>
+      _opacity;
+  late final Animation<Offset>
+      _offset;
+
+  @override
+  void
+      initState() {
+    super
+        .initState();
+    _controller = AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 600));
+
+    _opacity =
+        Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+          parent: _controller,
+          curve: Curves.easeOut),
+    );
+
+    _offset =
+        Tween<Offset>(begin: const Offset(0, 30), end: Offset.zero).animate(
+      CurvedAnimation(
+          parent: _controller,
+          curve: Curves.easeOutCubic),
+    );
+
+    Future.delayed(
+        widget.delay,
+        () {
+      if (mounted)
+        _controller.forward();
+    });
+  }
+
+  @override
+  void
+      dispose() {
+    _controller
+        .dispose();
+    super
+        .dispose();
+  }
+
+  @override
+  Widget build(
+      BuildContext
+          context) {
+    return AnimatedBuilder(
+      animation:
+          _controller,
+      builder:
+          (context, child) {
+        return Opacity(
+          opacity: _opacity.value,
+          child: Transform.translate(
+            offset: _offset.value,
+            child: widget.child,
+          ),
+        );
+      },
+    );
+  }
+}
+
+/// Renders a subtle, animated background pattern.
+class _AnimatedBackground
+    extends StatefulWidget {
+  const _AnimatedBackground();
+
+  @override
+  State<_AnimatedBackground>
+      createState() =>
+          _AnimatedBackgroundState();
+}
+
+class _AnimatedBackgroundState
+    extends State<
+        _AnimatedBackground>
+    with
+        SingleTickerProviderStateMixin {
+  late final AnimationController
+      _controller;
+
+  @override
+  void
+      initState() {
+    super
+        .initState();
+    _controller = AnimationController(
+        vsync: this,
+        duration: const Duration(seconds: 30))
+      ..repeat();
+  }
+
+  @override
+  void
+      dispose() {
+    _controller
+        .dispose();
+    super
+        .dispose();
+  }
+
+  @override
   Widget build(
       BuildContext
           context) {
     final theme =
         Theme.of(context);
-    return ListTile(
-      contentPadding:
-          EdgeInsets.zero,
-      leading:
-          Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          color: theme.colorScheme.primaryContainer,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Icon(icon, color: theme.colorScheme.onPrimaryContainer, size: 20),
+    final colors =
+        STheme.of(context).colorToken;
+    final isDark =
+        theme.brightness == Brightness.dark;
+
+    return RepaintBoundary(
+      child:
+          AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return CustomPaint(
+            painter: _BackgroundPainter(
+              color: colors.secondary.withOpacity(isDark ? 0.03 : 0.04),
+              animation: _controller.value,
+            ),
+          );
+        },
       ),
-      title:
-          Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
-      subtitle:
-          Text(subtitle, style: TextStyle(color: theme.colorScheme.onSurface.withOpacity(0.55), fontSize: 12)),
-      trailing:
-          const Icon(Icons.open_in_new, size: 16),
-      onTap:
-          onTap,
     );
+  }
+}
+
+class _BackgroundPainter
+    extends CustomPainter {
+  final Color
+      color;
+  final double
+      animation;
+
+  _BackgroundPainter(
+      {required this.color,
+      required this.animation});
+
+  @override
+  void paint(
+      Canvas
+          canvas,
+      Size
+          size) {
+    final paint = Paint()
+      ..color =
+          color
+      ..style =
+          PaintingStyle.stroke
+      ..strokeWidth = 1.0;
+
+    final double
+        spacing =
+        100.0;
+    final int
+        rows =
+        (size.height / spacing).ceil() + 1;
+    final int
+        cols =
+        (size.width / spacing).ceil() + 1;
+
+    for (var i = 0;
+        i < cols;
+        i++) {
+      for (var j = 0;
+          j < rows;
+          j++) {
+        // Create an organic moving grid of pluses/crosses
+        final x = i * spacing + (sin(animation * 2 * pi + j) * 10);
+        final y = j * spacing + (cos(animation * 2 * pi + i) * 10);
+
+        canvas.drawLine(Offset(x - 5, y), Offset(x + 5, y), paint);
+        canvas.drawLine(Offset(x, y - 5), Offset(x, y + 5), paint);
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(
+      covariant _BackgroundPainter
+          oldDelegate) {
+    return oldDelegate.animation != animation ||
+        oldDelegate.color != color;
   }
 }

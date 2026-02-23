@@ -52,8 +52,6 @@ export 'src/presentation/components/inputs/s_time_picker/s_time_picker.dart';
 export 'src/presentation/components/feedback/s_dialog/s_dialog.dart';
 export 'src/presentation/components/feedback/s_dialog/s_dialog_config.dart';
 export 'src/presentation/components/feedback/s_progress/s_progress.dart';
-export 'src/presentation/components/feedback/s_progress_bar/s_progress_bar.dart';
-export 'src/presentation/components/feedback/s_progress_bar/s_progress_bar_config.dart';
 export 'src/presentation/components/feedback/s_sonner/s_sonner.dart';
 export 'src/presentation/components/feedback/s_sonner/s_sonner_config.dart';
 // ignore: deprecated_member_use_from_same_package
@@ -97,7 +95,6 @@ export 'src/presentation/themes/extensions/component_themes/s_dropdown_menu_them
 export 'src/presentation/themes/extensions/component_themes/s_floating_panel_theme.dart';
 export 'src/presentation/themes/extensions/component_themes/s_input_field_theme.dart';
 export 'src/presentation/themes/extensions/component_themes/s_list_tile_theme.dart';
-export 'src/presentation/themes/extensions/component_themes/s_progress_bar_theme.dart';
 export 'src/presentation/themes/extensions/component_themes/s_select_theme.dart';
 export 'src/presentation/themes/extensions/component_themes/s_sonner_theme.dart';
 export 'src/presentation/themes/extensions/component_themes/s_switch_theme.dart';

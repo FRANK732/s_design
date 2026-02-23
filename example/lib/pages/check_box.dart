@@ -73,6 +73,7 @@ class _CheckboxPageState
           demo: Row(
             children: [
               SCheckbox(
+                intermediate: false,
                 value: _basic,
                 onChanged: (v) => setState(() => _basic = v),
               ),

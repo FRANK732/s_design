@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] - 2026-02-23
+
+### Major Architecture Upgrade & Redesign
+
+- **Massive redesign** of the underlying theme engine (`STheme` and `SThemeData`). Components now strictly adhere to a highly customizable design token system.
+- **Core Component Refactor**: Sweeping enhancements across `SCard`, `SButton`, `SInputField`, `SDatePicker`, `SCheckbox`, `SSlider`, `SSwitch` and many more. Components are now richer, support complex nested layouts, variants, and fluid animations natively out-of-the-box.
+- **Flawless Dark Mode Support**: The entire library now natively syncs with `SThemeData` for automatic, beautiful transitions between light and dark modes.
+- **Component Consolidation**: `SProgressBar` has been deprecated and its features (indeterminate states, custom buffering, and vertical orientation) have been completely merged into the single, versatile `SProgress.line()` component.
+
 ## [0.3.2+1] - 2025-06-05
 
 ### Minor error fixes
@@ -39,7 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Notes
 
 - Known Bug fixes
-- This release also introduces significant improvements to core components, focusing on usability, customization, and performance.  The removal of `flutter_svg` dependency reduces package size, and new features like shimmer effects and pull-to-refresh enhance the user experience.
+- This release also introduces significant improvements to core components, focusing on usability, customization, and performance. The removal of `flutter_svg` dependency reduces package size, and new features like shimmer effects and pull-to-refresh enhance the user experience.
 
 ## [0.2.1] - 2025-02-08
 

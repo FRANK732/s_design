@@ -29,11 +29,11 @@ class _ProgressIndicatorPageState
         .primary;
     return ComponentPage(
       name:
-          'SProgressBar',
+          'SProgress.line',
       description:
           'A linear progress bar for communicating completion. '
-          'Supports determinate (0.0–1.0 value), indeterminate, custom colors, '
-          'buffer bars, and vertical orientation.',
+          'Supports determinate (0.0–100.0 percent), custom colors, '
+          'buffer bars, and indeterminate orientation.',
       whenToUse: const [
         'When uploading, downloading, or processing data with a known duration.',
         'To visualize percentage-based progress in forms, surveys, or onboarding.',
@@ -46,7 +46,7 @@ class _ProgressIndicatorPageState
           demo: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SProgressBar(value: _value),
+              SProgress.line(percent: _value * 100, showInfo: false),
               const SizedBox(height: 12),
               Row(
                 children: [
@@ -70,65 +70,67 @@ class _ProgressIndicatorPageState
             ],
           ),
           code: '''
-SProgressBar(value: 0.6); // 60%''',
+SProgress.line(percent: 60.0, showInfo: false); // 60%''',
         ),
         ComponentSection(
           title: 'Indeterminate',
           description: 'Use `indeterminate: true` when completion time is unknown.',
-          demo: const SProgressBar(indeterminate: true),
+          demo: const SProgress.line(indeterminate: true, showInfo: false),
           code: '''
-const SProgressBar(indeterminate: true);''',
+const SProgress.line(indeterminate: true, showInfo: false);''',
         ),
         ComponentSection(
           title: 'Custom Color',
           description: 'Override the default progress color.',
           demo: Column(
             children: [
-              SProgressBar(value: 0.8, progressColor: Colors.green),
+              SProgress.line(percent: 80.0, strokeColor: Colors.green, showInfo: false),
               const SizedBox(height: 8),
-              SProgressBar(value: 0.5, progressColor: Colors.orange),
+              SProgress.line(percent: 50.0, strokeColor: Colors.orange, showInfo: false),
               const SizedBox(height: 8),
-              SProgressBar(value: 0.3, progressColor: Colors.red),
+              SProgress.line(percent: 30.0, strokeColor: Colors.red, showInfo: false),
             ],
           ),
           code: '''
-SProgressBar(value: 0.8, progressColor: Colors.green);
-SProgressBar(value: 0.5, progressColor: Colors.orange);
-SProgressBar(value: 0.3, progressColor: Colors.red);''',
+SProgress.line(percent: 80.0, strokeColor: Colors.green, showInfo: false);
+SProgress.line(percent: 50.0, strokeColor: Colors.orange, showInfo: false);
+SProgress.line(percent: 30.0, strokeColor: Colors.red, showInfo: false);''',
         ),
         ComponentSection(
           title: 'With Buffer',
           description: 'Show a secondary "buffer" bar (e.g. for video pre-loading).',
-          demo: SProgressBar(
-            value: 0.4,
-            bufferValue: 0.7,
-            progressColor: primary,
+          demo: SProgress.line(
+            percent: 40.0,
+            bufferValue: 70.0,
+            strokeColor: primary,
             bufferColor: primary.withOpacity(0.3),
+            showInfo: false,
           ),
           code: '''
-SProgressBar(
-  value: 0.4,
-  bufferValue: 0.7,
-  progressColor: theme.colorScheme.primary,
+SProgress.line(
+  percent: 40.0,
+  bufferValue: 70.0,
+  strokeColor: theme.colorScheme.primary,
   bufferColor: theme.colorScheme.primary.withOpacity(0.3),
+  showInfo: false,
 );''',
         ),
         ComponentSection(
           title: 'Custom Height',
-          description: 'Control the bar thickness with the `height` parameter.',
-          demo: Column(
-            children: const [
-              SProgressBar(value: 0.5, height: 4),
+          description: 'Control the bar thickness with the `strokeWidth` parameter.',
+          demo: const Column(
+            children: [
+              SProgress.line(percent: 50.0, strokeWidth: 4, showInfo: false),
               SizedBox(height: 8),
-              SProgressBar(value: 0.5, height: 8),
+              SProgress.line(percent: 50.0, strokeWidth: 8, showInfo: false),
               SizedBox(height: 8),
-              SProgressBar(value: 0.5, height: 16),
+              SProgress.line(percent: 50.0, strokeWidth: 16, showInfo: false),
             ],
           ),
           code: '''
-SProgressBar(value: 0.5, height: 4);
-SProgressBar(value: 0.5, height: 8);
-SProgressBar(value: 0.5, height: 16);''',
+SProgress.line(percent: 50.0, strokeWidth: 4, showInfo: false);
+SProgress.line(percent: 50.0, strokeWidth: 8, showInfo: false);
+SProgress.line(percent: 50.0, strokeWidth: 16, showInfo: false);''',
         ),
       ],
     );

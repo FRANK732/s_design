@@ -180,7 +180,7 @@ class _GalleryShellState
         NavItem(label: 'SToast', icon: Icons.announcement_outlined, page: const ToastPage()),
         NavItem(label: 'SSonner', icon: Icons.notifications_active_outlined, page: const SonnerPage()),
         NavItem(label: 'SProgress', icon: Icons.pie_chart_outline, page: const SProgressDemoPage()),
-        NavItem(label: 'SProgressBar', icon: Icons.linear_scale_outlined, page: const ProgressIndicatorPage()),
+        NavItem(label: 'SProgress.line', icon: Icons.linear_scale_outlined, page: const ProgressIndicatorPage()),
       ]),
       NavGroup(title: 'Layout', items: [
         NavItem(label: 'SCard', icon: Icons.chrome_reader_mode_outlined, page: const SCardDemoPage()),

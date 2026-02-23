@@ -14,7 +14,6 @@ import 'extensions/component_themes/s_input_field_theme.dart';
 import 'extensions/component_themes/s_list_tile_theme.dart';
 import 'extensions/component_themes/s_loading_indicator_theme.dart';
 import 'extensions/component_themes/s_pagination_theme.dart';
-import 'extensions/component_themes/s_progress_bar_theme.dart';
 import 'extensions/component_themes/s_select_theme.dart';
 import 'extensions/component_themes/s_sonner_theme.dart';
 import 'extensions/component_themes/s_switch_theme.dart';
@@ -70,8 +69,6 @@ class SThemeData
       loadingIndicatorTheme;
   final SPaginationThemeData
       paginationTheme;
-  final SProgressBarThemeData
-      progressBarTheme;
   final SSelectThemeData
       selectTheme;
   final SSonnerThemeData
@@ -101,7 +98,6 @@ class SThemeData
     required this.listTileTheme,
     required this.loadingIndicatorTheme,
     required this.paginationTheme,
-    required this.progressBarTheme,
     required this.selectTheme,
     required this.sonnerTheme,
     required this.switchTheme,
@@ -142,8 +138,6 @@ class SThemeData
         loadingIndicatorTheme,
     SPaginationThemeData?
         paginationTheme,
-    SProgressBarThemeData?
-        progressBarTheme,
     SSelectThemeData?
         selectTheme,
     SSonnerThemeData?
@@ -334,8 +328,6 @@ class SThemeData
       totalTextStyle:
           typographyToken.bodyMedium,
     );
-    progressBarTheme ??=
-        SProgressBarThemeData.fromColorScheme(matColorScheme);
     selectTheme ??=
         SSelectThemeData(
       backgroundColor:
@@ -463,8 +455,6 @@ class SThemeData
           loadingIndicatorTheme,
       paginationTheme:
           paginationTheme,
-      progressBarTheme:
-          progressBarTheme,
       selectTheme:
           selectTheme,
       sonnerTheme:
@@ -527,8 +517,6 @@ class SThemeData
         loadingIndicatorTheme,
     SPaginationThemeData?
         paginationTheme,
-    SProgressBarThemeData?
-        progressBarTheme,
     SSelectThemeData?
         selectTheme,
     SSonnerThemeData?
@@ -574,8 +562,6 @@ class SThemeData
           loadingIndicatorTheme ?? this.loadingIndicatorTheme,
       paginationTheme:
           paginationTheme ?? this.paginationTheme,
-      progressBarTheme:
-          progressBarTheme ?? this.progressBarTheme,
       selectTheme:
           selectTheme ?? this.selectTheme,
       sonnerTheme:
@@ -641,8 +627,6 @@ class SThemeData
           a.loadingIndicatorTheme.lerp(b.loadingIndicatorTheme, t),
       paginationTheme:
           a.paginationTheme.lerp(b.paginationTheme, t),
-      progressBarTheme:
-          a.progressBarTheme.lerp(b.progressBarTheme, t),
       selectTheme:
           a.selectTheme.lerp(b.selectTheme, t),
       sonnerTheme:
@@ -685,7 +669,6 @@ class SThemeData
         other.listTileTheme == listTileTheme &&
         other.loadingIndicatorTheme == loadingIndicatorTheme &&
         other.paginationTheme == paginationTheme &&
-        other.progressBarTheme == progressBarTheme &&
         other.selectTheme == selectTheme &&
         other.sonnerTheme == sonnerTheme &&
         other.switchTheme == switchTheme &&
@@ -713,7 +696,6 @@ class SThemeData
       listTileTheme,
       loadingIndicatorTheme,
       paginationTheme,
-      progressBarTheme,
       selectTheme,
       sonnerTheme,
       switchTheme,

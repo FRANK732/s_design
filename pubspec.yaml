@@ -1,6 +1,6 @@
 name: s_design
 description: "Schrift Design UI component library of Flutter, responsive and suitable for use in mobile projects."
-version: 0.3.2+1
+version: 3.0.0+1
 
 environment:
   sdk: ^3.5.3
@@ -18,7 +18,7 @@ dependencies:
   shimmer: ^3.0.0
   qr_flutter: ^4.1.0
   flutter_localizations:
-     sdk: flutter
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
@@ -32,7 +32,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # To add assets to your package, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
@@ -49,15 +48,15 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-   fonts:
-     - family: Roboto
-       fonts:
-         - asset: assets/fonts/Roboto-Medium.ttf
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Medium.ttf
 #     - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts in packages, see
-  # https://flutter.dev/to/font-from-package
+#     fonts:
+#       - asset: fonts/TrajanPro.ttf
+#       - asset: fonts/TrajanPro_Bold.ttf
+#         weight: 700
+#
+# For details regarding fonts in packages, see
+# https://flutter.dev/to/font-from-package

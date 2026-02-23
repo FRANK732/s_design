@@ -33,6 +33,13 @@ class SProgress
     this.width,
     this.strokeLinecap =
         StrokeCap.round,
+    this.indeterminate =
+        false,
+    this.bufferValue,
+    this.bufferColor,
+    this.vertical =
+        false,
+    this.animationDuration,
   })  : type = SProgressType.line,
         gapDegree = null,
         gapPosition = null;
@@ -52,10 +59,15 @@ class SProgress
     this.width,
     this.strokeLinecap =
         StrokeCap.round,
+    this.animationDuration,
   })  : type = SProgressType.circle,
         gapDegree = null,
         gapPosition = null,
-        steps = null;
+        steps = null,
+        indeterminate = false,
+        bufferValue = null,
+        bufferColor = null,
+        vertical = false;
 
   const SProgress.dashboard({
     super.key,
@@ -75,8 +87,13 @@ class SProgress
     this.gapPosition,
     this.strokeLinecap =
         StrokeCap.round,
+    this.animationDuration,
   })  : type = SProgressType.dashboard,
-        steps = null;
+        steps = null,
+        indeterminate = false,
+        bufferValue = null,
+        bufferColor = null,
+        vertical = false;
 
   final double
       percent; // 0 to 100
@@ -106,6 +123,18 @@ class SProgress
       gapPosition;
   final StrokeCap
       strokeLinecap;
+
+  // New properties from SProgressBar
+  final bool
+      indeterminate;
+  final double?
+      bufferValue;
+  final Color?
+      bufferColor;
+  final bool
+      vertical;
+  final Duration?
+      animationDuration;
 
   @override
   Widget build(
@@ -223,39 +252,82 @@ class SProgress
 
     return LayoutBuilder(builder:
         (context, constraints) {
-      return Row(
-        children: [
-          Expanded(
-            child: Container(
-              height: strokeWidth ?? 8.0,
-              decoration: BoxDecoration(
-                color: trailColor,
-                borderRadius: BorderRadius.circular(100),
-              ),
-              child: Stack(
-                children: [
-                  // Actual Progress
-                  FractionallySizedBox(
-                    widthFactor: (percent / 100).clamp(0.0, 1.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: strokeGradient == null ? strokeColor : null,
-                        gradient: strokeGradient,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      child: status == SProgressStatus.active ? const _ActiveProgressAnimation() : null,
-                    ),
+      final double
+          trackThickness =
+          strokeWidth ?? 8.0;
+      final Color
+          effBufferColor =
+          bufferColor ?? strokeColor.withOpacity(0.3);
+
+      Widget
+          progressWidget =
+          Container(
+        height: vertical ? (width ?? constraints.maxHeight) : trackThickness,
+        width: vertical ? trackThickness : (width ?? constraints.maxWidth),
+        decoration: BoxDecoration(
+          color: trailColor,
+          borderRadius: BorderRadius.circular(100),
+        ),
+        child: Stack(
+          alignment: vertical ? Alignment.bottomCenter : Alignment.centerLeft,
+          children: [
+            // Buffer Value
+            if (bufferValue != null && !indeterminate)
+              FractionallySizedBox(
+                heightFactor: vertical ? (bufferValue! / 100).clamp(0.0, 1.0) : null,
+                widthFactor: vertical ? null : (bufferValue! / 100).clamp(0.0, 1.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: effBufferColor,
+                    borderRadius: BorderRadius.circular(100),
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
-          if (showInfo) ...[
+
+            // Actual Progress (Indeterminate)
+            if (indeterminate)
+              const Positioned.fill(child: _IndeterminateProgressAnimation())
+            else
+              // Actual Progress (Determinate)
+              FractionallySizedBox(
+                heightFactor: vertical ? (percent / 100).clamp(0.0, 1.0) : null,
+                widthFactor: vertical ? null : (percent / 100).clamp(0.0, 1.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: strokeGradient == null ? strokeColor : null,
+                    gradient: strokeGradient,
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  child: status == SProgressStatus.active ? const _ActiveProgressAnimation() : null,
+                ),
+              ),
+          ],
+        ),
+      );
+
+      // Wrap with Info if not vertical (usually vertical bars don't have text besides them in the same row)
+      if (showInfo &&
+          !vertical) {
+        return Row(
+          children: [
+            Expanded(child: progressWidget),
             const SizedBox(width: 8),
             _buildInfo(status, strokeColor),
           ],
-        ],
-      );
+        );
+      } else if (showInfo &&
+          vertical) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(child: progressWidget),
+            const SizedBox(height: 8),
+            _buildInfo(status, strokeColor),
+          ],
+        );
+      }
+
+      return progressWidget;
     });
   }
 
@@ -582,5 +654,85 @@ class _CircleProgressPainter
         strokeColor != oldDelegate.strokeColor ||
         trailColor != oldDelegate.trailColor ||
         gapDegree != oldDelegate.gapDegree;
+  }
+}
+
+class _IndeterminateProgressAnimation
+    extends StatefulWidget {
+  const _IndeterminateProgressAnimation();
+
+  @override
+  State<_IndeterminateProgressAnimation>
+      createState() =>
+          _IndeterminateProgressAnimationState();
+}
+
+class _IndeterminateProgressAnimationState
+    extends State<
+        _IndeterminateProgressAnimation>
+    with
+        SingleTickerProviderStateMixin {
+  late AnimationController
+      _controller;
+  late Animation<double>
+      _animation;
+
+  @override
+  void
+      initState() {
+    super
+        .initState();
+    _controller =
+        AnimationController(
+      vsync:
+          this,
+      duration:
+          const Duration(milliseconds: 1500),
+    )..repeat();
+
+    _animation =
+        Tween<double>(begin: -0.5, end: 1.5).animate(
+      CurvedAnimation(
+          parent: _controller,
+          curve: Curves.easeInOutSine),
+    );
+  }
+
+  @override
+  void
+      dispose() {
+    _controller
+        .dispose();
+    super
+        .dispose();
+  }
+
+  @override
+  Widget build(
+      BuildContext
+          context) {
+    return AnimatedBuilder(
+      animation:
+          _animation,
+      builder:
+          (context, child) {
+        return Stack(
+          children: [
+            Positioned.fill(
+              child: FractionallySizedBox(
+                alignment: Alignment(_animation.value, 0.0),
+                widthFactor: 0.3,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 }
