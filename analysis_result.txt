@@ -1,7 +1,0 @@
-﻿Analyzing s_sonner.dart...                                      
-
-   info - The method is used to change a property - lib\src\presentation\components\feedback\s_sonner\s_sonner.dart:29:8 - use_setters_to_change_properties
-   info - Statements in an if should be enclosed in a block - lib\src\presentation\components\feedback\s_sonner\s_sonner.dart:134:7 - curly_braces_in_flow_control_structures
-   info - The value of the argument is redundant because it matches the default value - lib\src\presentation\components\feedback\s_sonner\s_sonner.dart:396:11 - avoid_redundant_argument_values
-   info - Unnecessary use of a null check ('!') - lib\src\presentation\components\feedback\s_sonner\s_sonner.dart:432:48 - unnecessary_null_checks
-
