@@ -366,7 +366,7 @@ class _ToastWidgetState
           context) {
     final SSonnerThemeData
         theme =
-        Theme.of(context).sSonnerTheme;
+        STheme.of(context).sonnerTheme;
     final SSonnerConfig
         config =
         widget.config;
@@ -376,8 +376,14 @@ class _ToastWidgetState
         variantAccentColor =
         config.accentColor ?? SSonnerUtils.getIconColor(config.variant, context);
     final Color
-        backgroundColor =
+        baseBackgroundColor =
         config.backgroundColor ?? theme.backgroundColor;
+    final Color backgroundColor = config.backgroundColor != null
+        ? config.backgroundColor!
+        : Color.alphaBlend(variantAccentColor.withOpacity(0.1), baseBackgroundColor);
+    final Color
+        borderColor =
+        variantAccentColor.withOpacity(0.3);
     final Color
         textColor =
         config.textColor ?? theme.textColor;
@@ -399,6 +405,7 @@ class _ToastWidgetState
               width: MediaQuery.of(context).size.width > 600 ? 400 : double.infinity,
               decoration: BoxDecoration(
                 borderRadius: theme.borderRadius,
+                border: Border.all(color: borderColor, width: 1.0),
                 boxShadow: <BoxShadow>[
                   BoxShadow(
                     color: theme.shadowColor ?? Colors.black12,

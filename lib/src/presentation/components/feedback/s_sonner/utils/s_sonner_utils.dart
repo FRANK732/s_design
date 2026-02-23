@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../domain/entities/config/s_sonner_options.dart';
 import '../../../../themes/extensions/component_themes/s_sonner_theme.dart';
+import '../../../../themes/s_theme.dart';
 
 /// Utility functions for [SToasterService] and [SToastWidget].
 class SSonnerUtils {
@@ -49,25 +50,25 @@ class SSonnerUtils {
     }
   }
 
-  /// Helper to get background color from ColorScheme based on variant.
+  /// Helper to get background color from Theme based on variant.
   static Color getBackgroundColor(
       SSonnerVariant
           type,
       BuildContext
           context) {
-    final ColorScheme
-        colorScheme =
-        Theme.of(context).colorScheme;
+    final SSonnerThemeData
+        theme =
+        STheme.of(context).sonnerTheme;
     switch (
         type) {
       case SSonnerVariant.success:
-        return colorScheme.primary; // Or a specific success color
+        return theme.successColor;
       case SSonnerVariant.error:
-        return colorScheme.error;
+        return theme.errorColor;
       case SSonnerVariant.warning:
-        return colorScheme.tertiary; // Often used for warning/attention
+        return theme.warningColor;
       case SSonnerVariant.info:
-        return colorScheme.secondary;
+        return theme.infoColor;
     }
   }
 
@@ -79,7 +80,7 @@ class SSonnerUtils {
           context) {
     final SSonnerThemeData
         theme =
-        Theme.of(context).sSonnerTheme;
+        STheme.of(context).sonnerTheme;
     switch (
         variant) {
       case SSonnerVariant.info:
