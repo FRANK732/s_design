@@ -61,7 +61,7 @@ class _TabsPageState
             itemBuilder: (context, i) => ListTile(
               title: Text('List Item $i in Tab ${index + 1}'),
               leading: const Icon(Icons.circle, size: 8),
-              tileColor: i % 2 == 0 ? Colors.grey.shade50 : Colors.white,
+              tileColor: i.isEven ? Colors.grey.shade50 : Colors.white,
             ),
           ),
         );

@@ -124,7 +124,6 @@ class SliverSTabs
 
 class _SliverSTabsDelegate
     extends SliverPersistentHeaderDelegate {
-
   _SliverSTabsDelegate({
     required this.height,
     required this.child,

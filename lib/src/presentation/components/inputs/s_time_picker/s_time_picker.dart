@@ -251,13 +251,16 @@ class _TimeColumnState
         old);
     if (old.selectedIndex != widget.selectedIndex &&
         !_dragging) {
-      final int target =
+      final int
+          target =
           widget.selectedIndex.clamp(0, _maxIdx);
       if (target !=
           _current) {
         _current = target;
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (!mounted || !_sc.hasClients) return;
+          if (!mounted || !_sc.hasClients) {
+            return;
+          }
           _sc.animateTo(
             target * widget.itemH,
             duration: const Duration(milliseconds: 200),
@@ -284,11 +287,12 @@ class _TimeColumnState
         .hasClients) {
       return;
     }
-    final int raw =
+    final int
+        raw =
         (_sc.offset / widget.itemH).round();
-    final int idx = raw.clamp(
-        0,
-        _maxIdx);
+    final int
+        idx =
+        raw.clamp(0, _maxIdx);
     if (idx !=
         _current) {
       setState(() =>
@@ -303,7 +307,8 @@ class _TimeColumnState
         !_sc.hasClients) {
       return;
     }
-    final double target =
+    final double
+        target =
         _current * widget.itemH;
     if ((_sc.offset - target).abs() >
         0.5) {
@@ -595,17 +600,17 @@ class _STimePickerState
     ];
   }
 
-  List<int>
-      get _minItems =>
-          <int>[
-            for (int i = 0; i < 60; i += widget.minuteStep) i
-          ];
+  List<int> get _minItems =>
+      <int>[
+        for (int i = 0; i < 60; i += widget.minuteStep)
+          i
+      ];
 
-  List<int>
-      get _secItems =>
-          <int>[
-            for (int i = 0; i < 60; i += widget.secondStep) i
-          ];
+  List<int> get _secItems =>
+      <int>[
+        for (int i = 0; i < 60; i += widget.secondStep)
+          i
+      ];
 
   // ── Lifecycle ──────────────────────────────────────────────────────────────
 
@@ -658,7 +663,8 @@ class _STimePickerState
     for (int i = 1;
         i < items.length;
         i++) {
-      final int d =
+      final int
+          d =
           (items[i] - val).abs();
       if (d <
           bestD) {
@@ -697,12 +703,12 @@ class _STimePickerState
 
   TimeOfDay
       get _pendingTime {
-    final int hVal = _hourItems[_phIdx.clamp(
-        0,
-        _hourItems.length - 1)];
-    final int mVal = _minItems[_pmIdx.clamp(
-        0,
-        _minItems.length - 1)];
+    final int
+        hVal =
+        _hourItems[_phIdx.clamp(0, _hourItems.length - 1)];
+    final int
+        mVal =
+        _minItems[_pmIdx.clamp(0, _minItems.length - 1)];
     final int h24 = _is12h
         ? _to24(hVal, _apIdx == 1)
         : hVal;
@@ -775,9 +781,11 @@ class _STimePickerState
 
   void
       _doCommit() {
-    final TimeOfDay t =
+    final TimeOfDay
+        t =
         _pendingTime;
-    final int s =
+    final int
+        s =
         _pendingSec;
     if (widget.value ==
         null) {
@@ -793,7 +801,8 @@ class _STimePickerState
 
   void
       _setNow() {
-    final DateTime now =
+    final DateTime
+        now =
         DateTime.now();
     _syncPending(
         TimeOfDay.fromDateTime(now),
@@ -815,7 +824,8 @@ class _STimePickerState
           null;
       _committedSec =
           0;
-      _syncPending(widget.defaultOpenValue ?? const TimeOfDay(hour: 0, minute: 0));
+      _syncPending(widget.defaultOpenValue ??
+          const TimeOfDay(hour: 0, minute: 0));
     });
     widget
         .onChange
@@ -849,9 +859,11 @@ class _STimePickerState
   _Tok _tok(
       BuildContext
           ctx) {
-    final SThemeData th =
+    final SThemeData
+        th =
         STheme.of(ctx);
-    final STimePickerThemeData ext =
+    final STimePickerThemeData
+        ext =
         th.timePickerTheme;
 
     double
@@ -940,13 +952,17 @@ class _STimePickerState
   Widget build(
       BuildContext
           context) {
-    final SThemeData th =
+    final SThemeData
+        th =
         STheme.of(context);
-    final _Tok tk =
+    final _Tok
+        tk =
         _tok(context);
-    final TimeOfDay? t =
+    final TimeOfDay?
+        t =
         _effective;
-    final bool hasVal =
+    final bool
+        hasVal =
         t != null;
     final String display = hasVal
         ? _formatDisplay(h24: t.hour, m: t.minute, s: _committedSec, fmt: widget.format)
@@ -1100,7 +1116,8 @@ class _PanelOverlayState
         0
       );
     }
-    final RenderBox? rb =
+    final RenderBox?
+        rb =
         ctx.findRenderObject() as RenderBox?;
     if (rb ==
         null) {
@@ -1109,12 +1126,12 @@ class _PanelOverlayState
         0
       );
     }
-    final double h = rb
-        .size
-        .height;
-    final double topY = rb
-        .localToGlobal(Offset.zero)
-        .dy;
+    final double
+        h =
+        rb.size.height;
+    final double
+        topY =
+        rb.localToGlobal(Offset.zero).dy;
     return (
       h,
       topY +
@@ -1126,9 +1143,11 @@ class _PanelOverlayState
   Widget build(
       BuildContext
           context) {
-    final _STimePickerState s =
+    final _STimePickerState
+        s =
         widget.state;
-    final _Tok tk =
+    final _Tok
+        tk =
         s._tok(context);
 
     int cols =
@@ -1146,27 +1165,35 @@ class _PanelOverlayState
       cols++;
     }
 
-    final double panelW =
+    final double
+        panelW =
         cols * tk.colW + (cols - 1) * 1.0;
     // panelH = 7 rows + footer
-    final double panelH =
+    final double
+        panelH =
         tk.itemH * 7 + 40;
-    const double gap =
+    const double
+        gap =
         4.0;
-    const double screenPad =
+    const double
+        screenPad =
         8.0;
 
     final (
-      double fieldH,
-      double fieldBottomY
+      double
+      fieldH,
+      double
+      fieldBottomY
     ) = _fieldMetrics();
-    final double screenH =
+    final double
+        screenH =
         MediaQuery.sizeOf(context).height;
     final double spaceBelow = screenH -
         fieldBottomY -
         gap -
         screenPad;
-    final bool showAbove =
+    final bool
+        showAbove =
         spaceBelow < panelH;
 
     // When showing above: negative offset = (panelH + gap) upward from top of field.
@@ -1282,7 +1309,9 @@ class _PanelOverlayState
                 onLive: s.widget.changeOnScroll
                     ? (int i) {
                         s._phIdx = i;
-                        if (!s.widget.needConfirm) s._doCommit();
+                        if (!s.widget.needConfirm) {
+                          s._doCommit();
+                        }
                       }
                     : null,
               ),
@@ -1301,7 +1330,9 @@ class _PanelOverlayState
                   onLive: s.widget.changeOnScroll
                       ? (int i) {
                           s._pmIdx = i;
-                          if (!s.widget.needConfirm) s._doCommit();
+                          if (!s.widget.needConfirm) {
+                            s._doCommit();
+                          }
                         }
                       : null,
                 ),
@@ -1321,7 +1352,9 @@ class _PanelOverlayState
                   onLive: s.widget.changeOnScroll
                       ? (int i) {
                           s._psIdx = i;
-                          if (!s.widget.needConfirm) s._doCommit();
+                          if (!s.widget.needConfirm) {
+                            s._doCommit();
+                          }
                         }
                       : null,
                 ),
@@ -1341,7 +1374,9 @@ class _PanelOverlayState
                   onLive: s.widget.changeOnScroll
                       ? (int i) {
                           s._apIdx = i;
-                          if (!s.widget.needConfirm) s._doCommit();
+                          if (!s.widget.needConfirm) {
+                            s._doCommit();
+                          }
                         }
                       : null,
                 ),

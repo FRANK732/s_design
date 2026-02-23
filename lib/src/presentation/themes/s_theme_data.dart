@@ -31,7 +31,6 @@ import 'tokens/typography.dart';
 class SThemeData
     with
         Diagnosticable {
-
   /// Abstract factory constructor to build an SDesign Theme.
   factory SThemeData({
     Brightness?
@@ -79,7 +78,8 @@ class SThemeData
   }) {
     brightness ??=
         Brightness.light;
-    final bool isLight =
+    final bool
+        isLight =
         brightness == Brightness.light;
 
     // Use default tokens if not provided
@@ -94,7 +94,8 @@ class SThemeData
     // This ensures all component themes using `.fromColorScheme(matColorScheme)`
     // accurately reflect our carefully curated light/dark colors (e.g. pure dark surface)
     // rather than the auto-generated tonal palettes from Material 3.
-    final ColorScheme matColorScheme =
+    final ColorScheme
+        matColorScheme =
         ColorScheme(
       brightness:
           brightness,
@@ -419,6 +420,7 @@ class SThemeData
     required this.timePickerTheme,
     required this.toastTheme,
   });
+
   /// The overall brightness of this theme.
   final Brightness
       brightness;

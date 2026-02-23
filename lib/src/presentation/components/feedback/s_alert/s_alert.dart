@@ -474,16 +474,18 @@ class _SAlertColors {
           type,
       SThemeData
           sTheme) {
-    final SAlertThemeData theme =
+    final SAlertThemeData
+        theme =
         sTheme.alertTheme;
-    final bool isLight =
+    final bool
+        isLight =
         sTheme.brightness == Brightness.light;
-    final Color textPrimary = sTheme
-        .colorToken
-        .textPrimary;
-    final Color textSecondary = sTheme
-        .colorToken
-        .textSecondary;
+    final Color
+        textPrimary =
+        sTheme.colorToken.textPrimary;
+    final Color
+        textSecondary =
+        sTheme.colorToken.textSecondary;
     switch (
         type) {
       case SAlertType.success:

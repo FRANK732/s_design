@@ -294,7 +294,8 @@ class _CreditCardFormatter
         i < text.length;
         i++) {
       buffer.write(text[i]);
-      final int nonZeroIndex =
+      final int
+          nonZeroIndex =
           i + 1;
       if (nonZeroIndex % 4 == 0 &&
           nonZeroIndex != text.length) {

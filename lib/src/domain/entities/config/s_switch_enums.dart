@@ -1,4 +1,3 @@
-
 enum SSwitchSize {
   small,
   medium,

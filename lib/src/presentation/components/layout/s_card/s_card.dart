@@ -967,7 +967,7 @@ class _SCardState
         right;
     final Offset
         offset =
-        widget.badgeOffset ?? const Offset(0, 0);
+        widget.badgeOffset ?? Offset.zero;
 
     /*
     enum SCardBadgePosition {

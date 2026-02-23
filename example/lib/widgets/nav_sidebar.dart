@@ -160,7 +160,9 @@ class _NavSidebarState
                 // Groups
                 ...widget.groups.map((group) {
                   final visibleItems = group.items.where((i) => _matchesSearch(i.label)).toList();
-                  if (visibleItems.isEmpty) return const SizedBox.shrink();
+                  if (visibleItems.isEmpty) {
+                    return const SizedBox.shrink();
+                  }
                   final isExpanded = _expanded.contains(group.title);
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,

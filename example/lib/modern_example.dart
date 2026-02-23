@@ -92,7 +92,6 @@ class _ModernSDesignExampleState
           SThemeData.dark(),
       home:
           GalleryShell(
-        themeMode: _themeMode,
         currentLocale: _currentLocale,
         onThemeChanged: (mode) => setState(() => _themeMode = mode),
         onLocaleChanged: (locale) => setState(() => _currentLocale = locale),
@@ -109,14 +108,11 @@ class GalleryShell
     extends StatefulWidget {
   const GalleryShell({
     super.key,
-    required this.themeMode,
     required this.currentLocale,
     required this.onThemeChanged,
     required this.onLocaleChanged,
   });
 
-  final ThemeMode
-      themeMode;
   final Locale
       currentLocale;
   final ValueChanged<ThemeMode>

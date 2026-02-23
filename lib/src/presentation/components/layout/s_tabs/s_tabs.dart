@@ -80,9 +80,9 @@ class _STabsState
 
   void
       _initController() {
-    final int initialIndex = widget.items.indexWhere((STabItem item) =>
-        item.key ==
-        _activeKey);
+    final int
+        initialIndex =
+        widget.items.indexWhere((STabItem item) => item.key == _activeKey);
     _currentIndex = initialIndex != -1
         ? initialIndex
         : 0;
@@ -118,9 +118,9 @@ class _STabsState
       // External update to activeKey
       _activeKey =
           widget.activeKey!;
-      final int index = widget.items.indexWhere((STabItem item) =>
-          item.key ==
-          _activeKey);
+      final int
+          index =
+          widget.items.indexWhere((STabItem item) => item.key == _activeKey);
       if (index != -1 &&
           index != _controller!.index) {
         _controller!.animateTo(index);
@@ -144,7 +144,8 @@ class _STabsState
       return;
     }
 
-    final int newIndex =
+    final int
+        newIndex =
         _controller!.index;
     if (newIndex !=
         _currentIndex) {
@@ -197,7 +198,8 @@ class _STabsState
         isPositionBottom =
         widget.tabPosition == STabPosition.bottom;
 
-    final STabNavBar navBar =
+    final STabNavBar
+        navBar =
         STabNavBar(
       controller:
           _controller,
@@ -227,7 +229,8 @@ class _STabsState
           widget.centered,
     );
 
-    final Expanded content =
+    final Expanded
+        content =
         Expanded(
       child:
           STabView(

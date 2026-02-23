@@ -181,7 +181,7 @@ class SFloatingPanel {
         // No longer need to measure widget sizes as the layout is handled by Positioned and Column
       });
       return _completer?.future ??
-          Future.value();
+          Future<void>.value();
     }
 
     // New Open

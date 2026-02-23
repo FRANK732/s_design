@@ -26,13 +26,16 @@ class SDatePickerYearGrid
   Widget build(
       BuildContext
           context) {
-    final SThemeData theme =
+    final SThemeData
+        theme =
         STheme.of(context);
-    final int startYear =
+    final int
+        startYear =
         (viewDate.year ~/ 10) * 10;
 
     // 12 items = 4 rows of 3 columns
-    final List<Widget> rows =
+    final List<Widget>
+        rows =
         <Widget>[];
     for (int i = 0;
         i < 4;
@@ -48,8 +51,12 @@ class SDatePickerYearGrid
           final bool isCurrentYear = DateTime.now().year == year;
 
           Color textColor = isCurrentDecade ? theme.colorToken.textPrimary : theme.colorToken.textSecondary.withOpacity(0.5);
-          if (isCurrentYear) textColor = theme.colorToken.primary;
-          if (isSelected) textColor = theme.colorToken.surface;
+          if (isCurrentYear) {
+            textColor = theme.colorToken.primary;
+          }
+          if (isSelected) {
+            textColor = theme.colorToken.surface;
+          }
 
           TextStyle textStyle = style?.dayTextStyle ??
               TextStyle(

@@ -80,7 +80,8 @@ class SSelectSheet<
   Widget build(
       BuildContext
           context) {
-    final SThemeData sTheme =
+    final SThemeData
+        sTheme =
         STheme.of(context);
     return Container(
       decoration:
@@ -121,7 +122,7 @@ class SSelectSheet<
               items: items,
               singleValue: singleValue,
               multiValues: multiValues,
-              onSingleSelect: (value) {
+              onSingleSelect: (T value) {
                 onSingleSelect?.call(value);
                 Navigator.pop(context);
               },

@@ -74,7 +74,7 @@ class SSteps
       crossAxisAlignment:
           CrossAxisAlignment.start,
       children:
-          List.generate(items.length, (int index) {
+          List<Widget>.generate(items.length, (int index) {
         final SStepItem item = items[index];
         final SStepStatus stepStatus = _getStepStatus(index, item);
 
@@ -112,7 +112,7 @@ class SSteps
       crossAxisAlignment:
           CrossAxisAlignment.start,
       children:
-          List.generate(items.length, (int index) {
+          List<Widget>.generate(items.length, (int index) {
         final SStepItem item = items[index];
         final SStepStatus stepStatus = _getStepStatus(index, item);
 

@@ -62,9 +62,8 @@ class _SDateRangePickerPanelState
     // Initialize view dates
     if (widget.startDate !=
         null) {
-      _leftViewDate = DateTime(
-          widget.startDate!.year,
-          widget.startDate!.month);
+      _leftViewDate =
+          DateTime(widget.startDate!.year, widget.startDate!.month);
     } else {
       _leftViewDate =
           DateTime.now();
@@ -162,12 +161,14 @@ class _SDateRangePickerPanelState
   Widget build(
       BuildContext
           context) {
-    final bool hasPresets =
+    final bool
+        hasPresets =
         widget.presets != null && widget.presets!.isNotEmpty;
     final SThemeData
         sTheme =
         STheme.of(context);
-    final Row content =
+    final Row
+        content =
         Row(
       crossAxisAlignment:
           CrossAxisAlignment.start,
@@ -299,7 +300,8 @@ class _SDateRangePickerPanelState
         ? _leftViewDate
         : _rightViewDate;
 
-    const List<String> months =
+    const List<String>
+        months =
         <String>[
       'Jan',
       'Feb',

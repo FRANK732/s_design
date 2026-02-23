@@ -618,7 +618,6 @@ class _LinkCardState
 /// A reusable widget that provides a slide-up and fade-in entrance animation.
 class _EntranceAnimation
     extends StatefulWidget {
-
   const _EntranceAnimation({
     required this.child,
     this.delay =
@@ -778,7 +777,6 @@ class _AnimatedBackgroundState
 
 class _BackgroundPainter
     extends CustomPainter {
-
   _BackgroundPainter(
       {required this.color,
       required this.animation});

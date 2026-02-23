@@ -122,8 +122,7 @@ class _SSwitchState
   void
       _handleTap() {
     if (widget.loading ||
-        widget
-            .disabled ||
+        widget.disabled ||
         widget.onChanged == null) {
       return;
     }
@@ -149,13 +148,17 @@ class _SSwitchState
         padding =
         2.0;
 
-    final ThemeData theme =
+    final ThemeData
+        theme =
         Theme.of(context);
-    final Color activeColor =
+    final Color
+        activeColor =
         widget.activeColor ?? theme.primaryColor;
-    final Color inactiveColor =
+    final Color
+        inactiveColor =
         widget.inactiveColor ?? const Color(0xFFBFBFBF); // Gray (approx)
-    final Color thumbColor =
+    final Color
+        thumbColor =
         widget.thumbColor ?? Colors.white;
 
     return Semantics(

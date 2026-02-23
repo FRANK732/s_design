@@ -133,11 +133,14 @@ class _SSelectTriggerState<
   Widget build(
       BuildContext
           context) {
-    final SThemeData sTheme =
+    final SThemeData
+        sTheme =
         STheme.of(context);
-    final bool isFocused =
+    final bool
+        isFocused =
         widget.focusNode?.hasFocus ?? false;
-    final Color borderColor =
+    final Color
+        borderColor =
         SSelectStyleHelper.getBorderColor(
       status:
           widget.status,
@@ -148,7 +151,8 @@ class _SSelectTriggerState<
       theme:
           sTheme,
     );
-    final Color backgroundColor =
+    final Color
+        backgroundColor =
         SSelectStyleHelper.getBackgroundColor(
       variant:
           widget.variant,
@@ -157,11 +161,14 @@ class _SSelectTriggerState<
       theme:
           sTheme,
     );
-    final double height =
+    final double
+        height =
         SSelectStyleHelper.getHeight(widget.size);
-    final EdgeInsetsGeometry padding =
+    final EdgeInsetsGeometry
+        padding =
         SSelectStyleHelper.getItemPadding(widget.size);
-    final TextStyle textStyle =
+    final TextStyle
+        textStyle =
         SSelectStyleHelper.getTriggerTextStyle(
       size:
           widget.size,
@@ -260,14 +267,14 @@ class _SSelectTriggerState<
       return _buildSearchInput(textStyle);
     }
 
-    final SSelectItem<T> selectedItem = widget
-        .items
-        .firstWhere(
+    final SSelectItem<T>
+        selectedItem =
+        widget.items.firstWhere(
       (SSelectItem<T> item) =>
           item.value ==
           widget.values.first,
       orElse: () =>
-          SSelectItem(value: widget.values.first, label: widget.values.first.toString()),
+          SSelectItem<T>(value: widget.values.first, label: widget.values.first.toString()),
     );
 
     return Text(
@@ -282,7 +289,8 @@ class _SSelectTriggerState<
   Widget _buildSearchInput(
       TextStyle
           textStyle) {
-    final SThemeData sTheme =
+    final SThemeData
+        sTheme =
         STheme.of(context);
     return TextField(
       controller:
@@ -318,10 +326,11 @@ class _SSelectTriggerState<
     // Add selected items
     for (final T value
         in widget.values) {
-      final SSelectItem<T> item =
+      final SSelectItem<T>
+          item =
           widget.items.firstWhere(
         (SSelectItem<T> i) => i.value == value,
-        orElse: () => SSelectItem(value: value, label: value.toString()),
+        orElse: () => SSelectItem<T>(value: value, label: value.toString()),
       );
       children.add(
         Container(

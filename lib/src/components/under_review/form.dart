@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 /// A self-contained form widget that manages form state, validation,
 /// and displays form fields with labels, inputs, and error messages.
-class SFormWidget extends StatefulWidget {
+class SFormWidget
+    extends StatefulWidget {
   /// Creates an instance of SFormWidget.
   const SFormWidget({
     super.key,
@@ -11,58 +12,100 @@ class SFormWidget extends StatefulWidget {
   });
 
   /// A callback function that receives the form values when the form is submitted.
-  final void Function(Map<String, dynamic> values) onSubmit;
+  final void
+          Function(Map<String, dynamic> values)
+      onSubmit;
 
   /// A list of fields to be rendered in the form.
-  final List<FormFieldData> fields;
+  final List<FormFieldData>
+      fields;
 
   @override
-  State<SFormWidget> createState() => _SFormWidgetState();
+  State<SFormWidget>
+      createState() =>
+          _SFormWidgetState();
 }
 
-class _SFormWidgetState extends State<SFormWidget> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final Map<String, dynamic> _values = <String, dynamic>{};
-  final Map<String, String?> _errors = <String, String?>{};
+class _SFormWidgetState
+    extends State<
+        SFormWidget> {
+  final GlobalKey<FormState>
+      _formKey =
+      GlobalKey<FormState>();
+  final Map<String,
+          dynamic>
+      _values =
+      <String,
+          dynamic>{};
+  final Map<String,
+          String?>
+      _errors =
+      <String,
+          String?>{};
 
   @override
-  void initState() {
-    super.initState();
+  void
+      initState() {
+    super
+        .initState();
     // Initialize field values with initialValue if provided.
-    for (final FormFieldData field in widget.fields) {
-      _values[field.name] = field.initialValue;
+    for (final FormFieldData field
+        in widget.fields) {
+      _values[field.name] =
+          field.initialValue;
     }
   }
 
-  void _setFieldValue(String name, dynamic value) {
-    setState(() {
-      _values[name] = value;
+  void _setFieldValue(
+      String
+          name,
+      dynamic
+          value) {
+    setState(
+        () {
+      _values[name] =
+          value;
     });
   }
 
-  dynamic _getFieldValue(String name) {
-    return _values[name];
+  dynamic _getFieldValue(
+      String
+          name) {
+    return _values[
+        name];
   }
 
-  String? _validateField(FormFieldData field, String value) {
-    if (field.validator != null) {
+  String? _validateField(
+      FormFieldData
+          field,
+      String
+          value) {
+    if (field.validator !=
+        null) {
       return field.validator!(value);
     }
     return null;
   }
 
-  void _submitForm() {
-    final bool isValid = _formKey.currentState?.validate() ?? false;
+  void
+      _submitForm() {
+    final bool
+        isValid =
+        _formKey.currentState?.validate() ?? false;
     if (isValid) {
       widget.onSubmit(_values);
     }
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+      BuildContext
+          context) {
     return Form(
-      key: _formKey,
-      child: Column(
+      key:
+          _formKey,
+      child:
+          Column(
         children: <Widget>[
           // Spread the list of field widgets into the children list
           ...widget.fields.map((FormFieldData field) {
@@ -82,9 +125,14 @@ class _SFormWidgetState extends State<SFormWidget> {
     );
   }
 
-  Widget _buildFormField(FormFieldData field, String? error) {
+  Widget _buildFormField(
+      FormFieldData
+          field,
+      String?
+          error) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment:
+          CrossAxisAlignment.start,
       children: <Widget>[
         if (field.label != null)
           Text(
@@ -134,32 +182,43 @@ class FormFieldData {
     this.hintText,
     this.description,
     this.initialValue,
-    this.obscureText = false,
-    this.keyboardType = TextInputType.text,
+    this.obscureText =
+        false,
+    this.keyboardType =
+        TextInputType.text,
     this.validator,
   });
 
   /// The name of the field, used as a key in the form values map.
-  final String name;
+  final String
+      name;
 
   /// The label displayed above the input.
-  final String? label;
+  final String?
+      label;
 
   /// The hint text displayed inside the input.
-  final String? hintText;
+  final String?
+      hintText;
 
   /// An optional description displayed below the input.
-  final String? description;
+  final String?
+      description;
 
   /// The initial value of the field.
-  final String? initialValue;
+  final String?
+      initialValue;
 
   /// Whether the input should obscure the text (e.g., for passwords).
-  final bool obscureText;
+  final bool
+      obscureText;
 
   /// The keyboard type for the input.
-  final TextInputType keyboardType;
+  final TextInputType
+      keyboardType;
 
   /// A validator function that returns an error message if the input is invalid.
-  final String? Function(String?)? validator;
+  final String?
+          Function(String?)?
+      validator;
 }

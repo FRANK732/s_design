@@ -111,7 +111,8 @@ void
     testWidgets(
         'renders icons when provided',
         (WidgetTester tester) async {
-      final List<STabItem> itemsWithIcons =
+      final List<STabItem>
+          itemsWithIcons =
           <STabItem>[
         STabItem(
           label: 'Tab 1',
@@ -136,7 +137,8 @@ void
     testWidgets(
         'respects disabled state',
         (WidgetTester tester) async {
-      final List<STabItem> disabledItems =
+      final List<STabItem>
+          disabledItems =
           <STabItem>[
         STabItem(
           label: 'Tab 1',
@@ -182,7 +184,9 @@ void
               items: testItems,
               type: STabType.editableCard,
               onEdit: (String? key, String action) {
-                if (action == 'add') addClicked = true;
+                if (action == 'add') {
+                  addClicked = true;
+                }
               },
             ),
           ),

@@ -323,7 +323,7 @@ class _SSelectState<
     if (!_focusNode.hasFocus &&
         _isOpen) {
       // Delay closing to allow tap events on dropdown items to register
-      Future.delayed(const Duration(milliseconds: 100),
+      Future<void>.delayed(const Duration(milliseconds: 100),
           () {
         if (mounted && !_focusNode.hasFocus && _isOpen) {
           _closeDropdown();
@@ -464,9 +464,9 @@ class _SSelectState<
   Widget
       _buildDropdown() {
     // Filter items based on search
-    final List<SSelectItem<T>> filteredItems = widget
-        .items
-        .where((SSelectItem<T> item) {
+    final List<SSelectItem<T>>
+        filteredItems =
+        widget.items.where((SSelectItem<T> item) {
       if (!widget.showSearch ||
           _searchValue.isEmpty) {
         return true;

@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
 
-class CardPage extends StatelessWidget {
-  const CardPage({super.key});
+class CardPage
+    extends StatelessWidget {
+  const CardPage(
+      {super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+      BuildContext
+          context) {
     return SScaffold(
-      scrollable: true,
-      appBar: AppBar(
+      scrollable:
+          true,
+      appBar:
+          AppBar(
         title: const Text('SCard Showcase'),
       ),
-      renderBody: (BuildContext context) => Column(
+      renderBody: (BuildContext context) =>
+          Column(
         children: <Widget>[
           // Card 1: With Linear Gradient Background
           const SCard(
@@ -54,8 +61,7 @@ class CardPage extends StatelessWidget {
           const SCard(
             title: 'Default Card',
             dismissKey: Key('Default Card'),
-            description:
-                'This card uses the default styling without any background customization.',
+            description: 'This card uses the default styling without any background customization.',
             borderRadius: 10,
             body: Padding(
               padding: EdgeInsets.all(8.0),

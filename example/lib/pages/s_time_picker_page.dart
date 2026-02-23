@@ -165,7 +165,7 @@ class _STimePickerPageState
                 SizedBox(height: 8),
                 Wrap(spacing: 8, runSpacing: 8, children: [
                   STimePicker(variant: STimePickerVariant.filled, placeholder: 'Filled'),
-                  STimeRangePicker(variant: STimePickerVariant.filled, placeholder: const (
+                  STimeRangePicker(variant: STimePickerVariant.filled, placeholder: (
                     'Filled Start',
                     'Filled End'
                   )),
@@ -173,7 +173,7 @@ class _STimePickerPageState
                 SizedBox(height: 8),
                 Wrap(spacing: 8, runSpacing: 8, children: [
                   STimePicker(variant: STimePickerVariant.borderless, placeholder: 'Borderless'),
-                  STimeRangePicker(variant: STimePickerVariant.borderless, placeholder: const (
+                  STimeRangePicker(variant: STimePickerVariant.borderless, placeholder: (
                     'Borderless Start',
                     'Borderless End'
                   )),
@@ -181,7 +181,7 @@ class _STimePickerPageState
                 SizedBox(height: 8),
                 Wrap(spacing: 8, runSpacing: 8, children: [
                   STimePicker(variant: STimePickerVariant.underlined, placeholder: 'Underlined'),
-                  STimeRangePicker(variant: STimePickerVariant.underlined, placeholder: const (
+                  STimeRangePicker(variant: STimePickerVariant.underlined, placeholder: (
                     'Underlined Start',
                     'Underlined End'
                   )),

@@ -779,13 +779,16 @@ class _SDialogState
           // Content body — scrollable if requested.
           if (widget.content != null) ...<Widget>[
             const SizedBox(height: 16),
-            if (widget.scrollable) Flexible(
-                    child: SingleChildScrollView(
-                      controller: widget.scrollController,
-                      physics: widget.scrollPhysics,
-                      child: widget.content,
-                    ),
-                  ) else widget.content!,
+            if (widget.scrollable)
+              Flexible(
+                child: SingleChildScrollView(
+                  controller: widget.scrollController,
+                  physics: widget.scrollPhysics,
+                  child: widget.content,
+                ),
+              )
+            else
+              widget.content!,
           ],
 
           // Optional pre-actions divider.
@@ -850,7 +853,7 @@ class _SDialogState
                     icon: Icon(
                       Icons.close,
                       size: 20,
-                      color: dialogTheme.titleColor ?? theme.iconTheme.color,
+                      color: dialogTheme.titleColor,
                     ),
                     style: IconButton.styleFrom(
                       visualDensity: VisualDensity.compact,

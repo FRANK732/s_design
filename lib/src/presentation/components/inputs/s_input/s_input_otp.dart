@@ -50,10 +50,10 @@ class _SInputOTPState
       initState() {
     super
         .initState();
-    _controllers = List.generate(
+    _controllers = List<TextEditingController>.generate(
         widget.length,
         (int index) => TextEditingController());
-    _focusNodes = List.generate(
+    _focusNodes = List<FocusNode>.generate(
         widget.length,
         (int index) => FocusNode());
   }
@@ -143,7 +143,8 @@ class _SInputOTPState
   Widget build(
       BuildContext
           context) {
-    final ThemeData theme =
+    final ThemeData
+        theme =
         Theme.of(context);
 
     // Since focus state is per-input, we need multiple focus listeners or just use Focus widget logic.
@@ -155,7 +156,7 @@ class _SInputOTPState
       mainAxisAlignment:
           MainAxisAlignment.center,
       children:
-          List.generate(widget.length, (int index) {
+          List<Widget>.generate(widget.length, (int index) {
         return Container(
           width: _getSize(),
           height: _getSize(),

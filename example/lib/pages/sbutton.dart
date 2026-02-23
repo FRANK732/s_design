@@ -120,7 +120,9 @@ SButton.icon(icon: const Icon(Icons.share), onPressed: () {});''',
                 onPressed: () {
                   setState(() => _loading = true);
                   Future.delayed(const Duration(seconds: 2), () {
-                    if (mounted) setState(() => _loading = false);
+                    if (mounted) {
+                      setState(() => _loading = false);
+                    }
                   });
                 },
                 child: Text(_loading ? 'Processing...' : 'Click to load'),

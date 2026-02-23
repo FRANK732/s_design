@@ -33,17 +33,21 @@ class SDatePickerCalendar
   Widget build(
       BuildContext
           context) {
-    final SThemeData sTheme =
+    final SThemeData
+        sTheme =
         STheme.of(context);
-    final List<DateTime> days =
+    final List<DateTime>
+        days =
         _generateDays();
     // 42 days = 6 rows of 7
-    final List<Widget> rows =
+    final List<Widget>
+        rows =
         <Widget>[];
     for (int i = 0;
         i < 6;
         i++) {
-      final List<DateTime> rowDays =
+      final List<DateTime>
+          rowDays =
           days.sublist(i * 7, (i + 1) * 7);
       rows.add(Row(
         children: rowDays
@@ -75,7 +79,8 @@ class SDatePickerCalendar
   Widget _buildWeekDays(
       SThemeData
           theme) {
-    final List<String> weekDays =
+    final List<String>
+        weekDays =
         <String>[
       'Su',
       'Mo',
@@ -112,20 +117,24 @@ class SDatePickerCalendar
           day,
       SThemeData
           theme) {
-    final bool isCurrentMonth =
+    final bool
+        isCurrentMonth =
         day.month == viewDate.month;
-    final bool isToday = _isSameDay(
-        day,
-        DateTime.now());
+    final bool
+        isToday =
+        _isSameDay(day, DateTime.now());
 
     // Single selection
-    final bool isSelected =
+    final bool
+        isSelected =
         selectedDate != null && _isSameDay(day, selectedDate);
 
     // Range selection
-    final bool isRangeStart =
+    final bool
+        isRangeStart =
         rangeStart != null && _isSameDay(day, rangeStart);
-    final bool isRangeEnd =
+    final bool
+        isRangeEnd =
         rangeEnd != null && _isSameDay(day, rangeEnd);
     final bool isInRange = rangeStart != null &&
         rangeEnd != null &&
@@ -217,16 +226,17 @@ class SDatePickerCalendar
 
   List<DateTime>
       _generateDays() {
-    final DateTime firstDayOfMonth = DateTime(
-        viewDate.year,
-        viewDate.month);
+    final DateTime
+        firstDayOfMonth =
+        DateTime(viewDate.year, viewDate.month);
     final int weekdayOffset = firstDayOfMonth.weekday == 7
         ? 0
         : firstDayOfMonth.weekday;
-    final DateTime startDate =
+    final DateTime
+        startDate =
         firstDayOfMonth.subtract(Duration(days: weekdayOffset));
 
-    return List.generate(
+    return List<DateTime>.generate(
         42,
         (int index) {
       return startDate.add(Duration(days: index));

@@ -36,7 +36,8 @@ class SSelectDropdown<
   Widget build(
       BuildContext
           context) {
-    final SThemeData theme =
+    final SThemeData
+        theme =
         STheme.of(context);
 
     if (loading) {

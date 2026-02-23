@@ -24,7 +24,8 @@ class SDatePickerDecadeGrid
   Widget build(
       BuildContext
           context) {
-    final ThemeData theme =
+    final ThemeData
+        theme =
         Theme.of(context);
     // View date determines the century/decade range.
     // e.g. 2024 -> 2000-2099 century view?
@@ -36,7 +37,8 @@ class SDatePickerDecadeGrid
     // If we are in Decade panel, we want to select a Decade (e.g. 2010-2019).
     // The clickable item is a range.
 
-    final int startYear =
+    final int
+        startYear =
         (viewDate.year ~/ 100) * 100; // e.g., 2024 -> 2000
 
     // We show 12 items.
@@ -44,7 +46,8 @@ class SDatePickerDecadeGrid
     // 0..9 decades (2000-2009 ... 2090-2099)
     // +1 decade (2100-2109)
 
-    final List<Widget> rows =
+    final List<Widget>
+        rows =
         <Widget>[];
     for (int i = 0;
         i < 4;
@@ -69,8 +72,12 @@ class SDatePickerDecadeGrid
           final bool isInView = decadeStartYear >= startYear && decadeEndYear < startYear + 100;
 
           Color textColor = isInView ? (theme.textTheme.bodyMedium?.color ?? Colors.black87) : Colors.grey.shade400;
-          if (isCurrentDecade) textColor = theme.primaryColor;
-          if (isSelected) textColor = Colors.white;
+          if (isCurrentDecade) {
+            textColor = theme.primaryColor;
+          }
+          if (isSelected) {
+            textColor = Colors.white;
+          }
 
           TextStyle textStyle = style?.dayTextStyle ??
               TextStyle(

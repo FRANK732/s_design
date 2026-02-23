@@ -181,7 +181,8 @@ class _SSelectMenuState<
         ? (widget.multiValues?.contains(item.value) ?? false)
         : item.value == widget.singleValue;
 
-    final SThemeData sTheme =
+    final SThemeData
+        sTheme =
         STheme.of(context);
     final Color
         primaryColor =
@@ -253,7 +254,8 @@ class _SSelectMenuState<
   Widget build(
       BuildContext
           context) {
-    final SThemeData sTheme =
+    final SThemeData
+        sTheme =
         STheme.of(context);
     return Container(
       constraints:
@@ -284,7 +286,7 @@ class _SSelectMenuState<
                         ),
                       )
                     : null,
-                contentPadding: const EdgeInsets.symmetric(),
+                contentPadding: EdgeInsets.zero,
                 isDense: true,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(DesignConstants.borderRadiusSmall),

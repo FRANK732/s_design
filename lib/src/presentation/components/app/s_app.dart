@@ -255,14 +255,20 @@ class _SAppState
 
   SThemeData
       theme(BuildContext context) {
-    final m.ThemeMode mode =
+    final m
+        .ThemeMode
+        mode =
         widget.themeMode ?? m.ThemeMode.system;
-    final m.Brightness platformBrightness =
+    final m
+        .Brightness
+        platformBrightness =
         MediaQuery.platformBrightnessOf(context);
-    final bool useDarkStyle =
+    final bool
+        useDarkStyle =
         mode == m.ThemeMode.dark || (mode == m.ThemeMode.system && platformBrightness == Brightness.dark);
 
-    final SThemeData data =
+    final SThemeData
+        data =
         () {
       late SThemeData
           result;
@@ -281,13 +287,15 @@ class _SAppState
           context,
       Widget?
           child) {
-    final SThemeData themeData =
+    final SThemeData
+        themeData =
         theme(context);
 
     // Convert SDesign primary token to a basic Material ColorScheme
-    final m.ColorScheme colorScheme = themeData.brightness == Brightness.light
-        ? m.ColorScheme.fromSeed(seedColor: themeData.colorToken.primary)
-        : m.ColorScheme.fromSeed(seedColor: themeData.colorToken.primary, brightness: Brightness.dark);
+    final m
+        .ColorScheme
+        colorScheme =
+        themeData.brightness == Brightness.light ? m.ColorScheme.fromSeed(seedColor: themeData.colorToken.primary) : m.ColorScheme.fromSeed(seedColor: themeData.colorToken.primary, brightness: Brightness.dark);
 
     return m
         .AnimatedTheme(

@@ -282,12 +282,11 @@ class _SSliderState
 // Custom Paint for Handle (White circle with border and shadow)
 class _DefaultThumbShape
     extends SliderComponentShape {
-  const _DefaultThumbShape(
-      {this.thumbRadius =
-          10.0});
+  const _DefaultThumbShape();
 
   final double
-      thumbRadius;
+      thumbRadius =
+      10.0;
 
   @override
   Size getPreferredSize(
@@ -371,12 +370,11 @@ class _DefaultThumbShape
 
 class _DefaultRangeThumbShape
     extends RangeSliderThumbShape {
-  const _DefaultRangeThumbShape(
-      {this.thumbRadius =
-          10.0});
+  const _DefaultRangeThumbShape();
 
   final double
-      thumbRadius;
+      thumbRadius =
+      10.0;
 
   @override
   Size getPreferredSize(

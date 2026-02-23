@@ -27,9 +27,11 @@ class SDatePickerMonthGrid
   Widget build(
       BuildContext
           context) {
-    final SThemeData theme =
+    final SThemeData
+        theme =
         STheme.of(context);
-    const List<String> months =
+    const List<String>
+        months =
         <String>[
       'Jan',
       'Feb',
@@ -46,12 +48,14 @@ class SDatePickerMonthGrid
     ];
 
     // 12 months = 4 rows of 3 columns
-    final List<Widget> rows =
+    final List<Widget>
+        rows =
         <Widget>[];
     for (int i = 0;
         i < 4;
         i++) {
-      final List<String> rowMonths =
+      final List<String>
+          rowMonths =
           months.sublist(i * 3, (i + 1) * 3);
       rows.add(Row(
         children: rowMonths.asMap().entries.map((MapEntry<int, String> entry) {

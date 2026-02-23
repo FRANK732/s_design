@@ -39,7 +39,7 @@ class _SPaginationPageState
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // ── 1. Basic ───────────────────────────────────────────────────
-            _SectionHeader('1. Basic'),
+            _sectionHeader('1. Basic'),
             _description('Basic pagination with 50 total items.'),
             SPagination(
               total: 50,
@@ -48,7 +48,7 @@ class _SPaginationPageState
             const SizedBox(height: 32),
 
             // ── 2. More Pages (Ellipsis) ───────────────────────────────────
-            _SectionHeader('2. More Pages — Ellipsis'),
+            _sectionHeader('2. More Pages — Ellipsis'),
             _description('With 500 items, ellipsis (•••) buttons appear. Tap them to jump ±5 pages.'),
             SPagination(
               defaultCurrent: 6,
@@ -58,7 +58,7 @@ class _SPaginationPageState
             const SizedBox(height: 32),
 
             // ── 3. Changer (Size Selector) ─────────────────────────────────
-            _SectionHeader('3. Size Changer'),
+            _sectionHeader('3. Size Changer'),
             _description('showSizeChanger adds a dropdown to pick 10/20/50/100 items per page.'),
             SPagination(
               showSizeChanger: true,
@@ -77,7 +77,7 @@ class _SPaginationPageState
             const SizedBox(height: 32),
 
             // ── 4. Quick Jumper ────────────────────────────────────────────
-            _SectionHeader('4. Quick Jumper'),
+            _sectionHeader('4. Quick Jumper'),
             _description('showQuickJumper adds a "Go to" field. Type a page number and press Enter.'),
             SPagination(
               showQuickJumper: true,
@@ -95,7 +95,7 @@ class _SPaginationPageState
             const SizedBox(height: 32),
 
             // ── 5. Mini Size ───────────────────────────────────────────────
-            _SectionHeader('5. Size Variants — Small'),
+            _sectionHeader('5. Size Variants — Small'),
             _description('size: SPaginationSize.small produces compact 24px items.'),
             const SPagination(size: SPaginationSize.small, total: 50),
             const SizedBox(height: 12),
@@ -122,7 +122,7 @@ class _SPaginationPageState
             ),
             const SizedBox(height: 24),
 
-            _SectionHeader('5b. Size Variants — Large'),
+            _sectionHeader('5b. Size Variants — Large'),
             _description('size: SPaginationSize.large produces 40px items.'),
             const SPagination(size: SPaginationSize.large, total: 50),
             const SizedBox(height: 12),
@@ -150,7 +150,7 @@ class _SPaginationPageState
             const SizedBox(height: 32),
 
             // ── 6. Simple Mode ─────────────────────────────────────────────
-            _SectionHeader('6. Simple Mode'),
+            _sectionHeader('6. Simple Mode'),
             _description('simple: true shows current/total input instead of page buttons.'),
             const SPagination(simple: true, defaultCurrent: 2, total: 50),
             const SizedBox(height: 12),
@@ -158,7 +158,7 @@ class _SPaginationPageState
             const SizedBox(height: 32),
 
             // ── 7. Controlled ──────────────────────────────────────────────
-            _SectionHeader('7. Controlled Mode'),
+            _sectionHeader('7. Controlled Mode'),
             _description('Provide current + onChange to fully control the page from parent state.'),
             Wrap(
               spacing: 16,
@@ -175,7 +175,7 @@ class _SPaginationPageState
             const SizedBox(height: 32),
 
             // ── 8. Show Total ──────────────────────────────────────────────
-            _SectionHeader('8. showTotal'),
+            _sectionHeader('8. showTotal'),
             _description('showTotal receives (total, [first, last]) — build any label.'),
             SPagination(
               total: 85,
@@ -191,7 +191,7 @@ class _SPaginationPageState
             const SizedBox(height: 32),
 
             // ── 9. Custom Item Render ──────────────────────────────────────
-            _SectionHeader('9. Custom itemRender'),
+            _sectionHeader('9. Custom itemRender'),
             _description('itemRender replaces prev / next buttons with custom widgets.'),
             SPagination(
               total: 500,
@@ -214,7 +214,7 @@ class _SPaginationPageState
             const SizedBox(height: 32),
 
             // ── 10. Alignment ──────────────────────────────────────────────
-            _SectionHeader('10. Alignment'),
+            _sectionHeader('10. Alignment'),
             _description('align: start / center / end.'),
             const SPagination(total: 50),
             const SizedBox(height: 12),
@@ -224,7 +224,7 @@ class _SPaginationPageState
             const SizedBox(height: 32),
 
             // ── 11. All Features ───────────────────────────────────────────
-            _SectionHeader('11. All Features Combined'),
+            _sectionHeader('11. All Features Combined'),
             _description('showSizeChanger + showQuickJumper + showTotal together.'),
             SPagination(
               total: 85,
@@ -235,7 +235,7 @@ class _SPaginationPageState
             const SizedBox(height: 32),
 
             // ── 12. Open Customizability ───────────────────────────────────
-            _SectionHeader('12. Open Customizability'),
+            _sectionHeader('12. Open Customizability'),
             _description('Every visual token can be overridden per-instance.'),
             SPagination(
               total: 50,
@@ -267,7 +267,7 @@ class _SPaginationPageState
   }
 }
 
-Widget _SectionHeader(
+Widget _sectionHeader(
         String text) =>
     Padding(
       padding:

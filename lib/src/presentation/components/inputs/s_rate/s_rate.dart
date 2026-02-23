@@ -231,7 +231,7 @@ class _SRateState
       mainAxisSize:
           MainAxisSize.min,
       children:
-          List.generate(widget.count, (int index) {
+          List<Widget>.generate(widget.count, (int index) {
         final double itemValue = index + 1.0;
         final bool isFull = displayValue >= itemValue;
         final bool isHalf = widget.allowHalf && (displayValue + 0.5 >= itemValue) && !isFull;

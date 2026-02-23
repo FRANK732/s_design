@@ -83,7 +83,6 @@ class ScaffoldPage
 
 class _StickyHeaderDelegate
     extends SliverPersistentHeaderDelegate {
-
   _StickyHeaderDelegate(
       {required this.title});
   final String

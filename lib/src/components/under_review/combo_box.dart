@@ -2,42 +2,71 @@ import 'package:flutter/material.dart';
 
 /// Represents a framework item with a value and label.
 class Framework {
-  Framework({required this.value, required this.label});
-  final String value;
-  final String label;
+  Framework(
+      {required this.value,
+      required this.label});
+  final String
+      value;
+  final String
+      label;
 }
 
 /// The main ComboboxDemo widget.
-class ComboboxDemo extends StatefulWidget {
-  const ComboboxDemo({super.key});
+class ComboboxDemo
+    extends StatefulWidget {
+  const ComboboxDemo(
+      {super.key});
 
   @override
-  State<ComboboxDemo> createState() => _ComboboxDemoState();
+  State<ComboboxDemo>
+      createState() =>
+          _ComboboxDemoState();
 }
 
-class _ComboboxDemoState extends State<ComboboxDemo> {
-  String? _selectedValue;
+class _ComboboxDemoState
+    extends State<
+        ComboboxDemo> {
+  String?
+      _selectedValue;
 
   /// List of available frameworks.
-  final List<Framework> frameworks = <Framework>[
-    Framework(value: 'next.js', label: 'Next.js'),
-    Framework(value: 'sveltekit', label: 'SvelteKit'),
-    Framework(value: 'nuxt.js', label: 'Nuxt.js'),
-    Framework(value: 'remix', label: 'Remix'),
-    Framework(value: 'astro', label: 'Astro'),
+  final List<Framework>
+      frameworks =
+      <Framework>[
+    Framework(
+        value: 'next.js',
+        label: 'Next.js'),
+    Framework(
+        value: 'sveltekit',
+        label: 'SvelteKit'),
+    Framework(
+        value: 'nuxt.js',
+        label: 'Nuxt.js'),
+    Framework(
+        value: 'remix',
+        label: 'Remix'),
+    Framework(
+        value: 'astro',
+        label: 'Astro'),
   ];
 
-  Future<void> _openPopup() async {
-    final String? selectedValue = await showDialog<String>(
-      context: context,
-      builder: (BuildContext context) {
+  Future<void>
+      _openPopup() async {
+    final String?
+        selectedValue =
+        await showDialog<String>(
+      context:
+          context,
+      builder:
+          (BuildContext context) {
         return ComboboxPopup(
           frameworks: frameworks,
           selectedValue: _selectedValue,
         );
       },
     );
-    if (selectedValue != null) {
+    if (selectedValue !=
+        null) {
       setState(() {
         _selectedValue = selectedValue == _selectedValue ? null : selectedValue;
       });
@@ -45,20 +74,24 @@ class _ComboboxDemoState extends State<ComboboxDemo> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+      BuildContext
+          context) {
     final String buttonText = _selectedValue != null
         ? frameworks.firstWhere((Framework f) => f.value == _selectedValue).label
         : 'Select framework...';
 
     return OutlinedButton(
-      onPressed: _openPopup,
-      style: ButtonStyle(
+      onPressed:
+          _openPopup,
+      style:
+          ButtonStyle(
         minimumSize: WidgetStateProperty.all(const Size(200, 40)),
         alignment: Alignment.centerLeft,
-        padding:
-            WidgetStateProperty.all(const EdgeInsets.symmetric(horizontal: 16)),
+        padding: WidgetStateProperty.all(const EdgeInsets.symmetric(horizontal: 16)),
       ),
-      child: Row(
+      child:
+          Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(buttonText),
@@ -70,55 +103,77 @@ class _ComboboxDemoState extends State<ComboboxDemo> {
 }
 
 /// The popup dialog containing the search input and list of items.
-class ComboboxPopup extends StatefulWidget {
+class ComboboxPopup
+    extends StatefulWidget {
   const ComboboxPopup({
     super.key,
     required this.frameworks,
     this.selectedValue,
   });
-  final List<Framework> frameworks;
-  final String? selectedValue;
+  final List<Framework>
+      frameworks;
+  final String?
+      selectedValue;
 
   @override
-  State<ComboboxPopup> createState() => _ComboboxPopupState();
+  State<ComboboxPopup>
+      createState() =>
+          _ComboboxPopupState();
 }
 
-class _ComboboxPopupState extends State<ComboboxPopup> {
-  final TextEditingController _searchController = TextEditingController();
-  List<Framework> filteredFrameworks = <Framework>[];
+class _ComboboxPopupState
+    extends State<
+        ComboboxPopup> {
+  final TextEditingController
+      _searchController =
+      TextEditingController();
+  List<Framework>
+      filteredFrameworks =
+      <Framework>[];
 
   @override
-  void initState() {
-    super.initState();
-    filteredFrameworks = widget.frameworks;
-    _searchController.addListener(_filterFrameworks);
+  void
+      initState() {
+    super
+        .initState();
+    filteredFrameworks =
+        widget.frameworks;
+    _searchController
+        .addListener(_filterFrameworks);
   }
 
-  void _filterFrameworks() {
-    setState(() {
+  void
+      _filterFrameworks() {
+    setState(
+        () {
       filteredFrameworks = widget.frameworks
           .where(
-            (Framework f) => f.label
-                .toLowerCase()
-                .contains(_searchController.text.toLowerCase()),
+            (Framework f) => f.label.toLowerCase().contains(_searchController.text.toLowerCase()),
           )
           .toList();
     });
   }
 
   @override
-  void dispose() {
-    _searchController.removeListener(_filterFrameworks);
-    _searchController.dispose();
-    super.dispose();
+  void
+      dispose() {
+    _searchController
+        .removeListener(_filterFrameworks);
+    _searchController
+        .dispose();
+    super
+        .dispose();
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+      BuildContext
+          context) {
     return Dialog(
       insetPadding:
           const EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
-      child: ConstrainedBox(
+      child:
+          ConstrainedBox(
         constraints: const BoxConstraints(maxHeight: 400),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -143,8 +198,7 @@ class _ComboboxPopupState extends State<ComboboxPopup> {
                   itemCount: filteredFrameworks.length,
                   itemBuilder: (BuildContext context, int index) {
                     final Framework framework = filteredFrameworks[index];
-                    final bool isSelected =
-                        widget.selectedValue == framework.value;
+                    final bool isSelected = widget.selectedValue == framework.value;
                     return ListTile(
                       leading: Icon(
                         Icons.check,

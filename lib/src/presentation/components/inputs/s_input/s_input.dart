@@ -421,12 +421,15 @@ class _SInputState
   Widget build(
       BuildContext
           context) {
-    final SThemeData sTheme =
+    final SThemeData
+        sTheme =
         STheme.of(context);
-    final SInputFieldThemeData ext =
+    final SInputFieldThemeData
+        ext =
         sTheme.inputFieldTheme;
 
-    final SInputGroupScope? groupScope =
+    final SInputGroupScope?
+        groupScope =
         SInputGroupScope.of(context);
     BorderRadius
         effectiveRadius =

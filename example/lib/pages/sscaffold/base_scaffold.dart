@@ -3,23 +3,38 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
 
-class BaseScaffoldPage extends StatefulWidget {
-  const BaseScaffoldPage({super.key});
+class BaseScaffoldPage
+    extends StatefulWidget {
+  const BaseScaffoldPage(
+      {super.key});
 
   @override
-  State<BaseScaffoldPage> createState() => _BaseScaffoldPageState();
+  State<BaseScaffoldPage>
+      createState() =>
+          _BaseScaffoldPageState();
 }
 
-class _BaseScaffoldPageState extends State<BaseScaffoldPage> {
-  bool _isLoading = false;
-  Timer? _timer;
-  int _start = 5;
+class _BaseScaffoldPageState
+    extends State<
+        BaseScaffoldPage> {
+  bool
+      _isLoading =
+      false;
+  Timer?
+      _timer;
+  int _start =
+      5;
 
-  void startTimer() {
-    const Duration oneSec = Duration(seconds: 1);
-    _timer = Timer.periodic(
+  void
+      startTimer() {
+    const Duration
+        oneSec =
+        Duration(seconds: 1);
+    _timer =
+        Timer.periodic(
       oneSec,
-      (Timer timer) {
+      (Timer
+          timer) {
         if (_start == 0) {
           setState(() {
             _start = 5;
@@ -35,17 +50,25 @@ class _BaseScaffoldPageState extends State<BaseScaffoldPage> {
   }
 
   @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
+  void
+      dispose() {
+    _timer
+        ?.cancel();
+    super
+        .dispose();
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+      BuildContext
+          context) {
     return SScaffold(
-      centerBody: true,
-      enableRefresh: true,
-      onRefresh: () async {
+      centerBody:
+          true,
+      enableRefresh:
+          true,
+      onRefresh:
+          () async {
         setState(() => _isLoading = true);
         await Future<void>.delayed(const Duration(seconds: 2), () {
           if (mounted) {
@@ -53,19 +76,24 @@ class _BaseScaffoldPageState extends State<BaseScaffoldPage> {
           }
         });
       },
-      loadingIndicator: SLoadingIndicator(
+      loadingIndicator:
+          SLoadingIndicator(
         loaderType: SLoaderType.shimmer,
         message: 'Loading will stop in $_start seconds',
       ),
-      isLoading: _isLoading,
-      appBar: AppBar(
+      isLoading:
+          _isLoading,
+      appBar:
+          AppBar(
         title: const Text('S Scaffold'),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton:
+          FloatingActionButton(
         onPressed: () {},
         child: const Icon(Icons.add),
       ),
-      renderBody: (BuildContext context) {
+      renderBody:
+          (BuildContext context) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -96,7 +124,8 @@ class _BaseScaffoldPageState extends State<BaseScaffoldPage> {
           ],
         );
       },
-      renderFooter: (BuildContext context) {
+      renderFooter:
+          (BuildContext context) {
         return const Center(child: Text('This is the footer'));
       },
     );

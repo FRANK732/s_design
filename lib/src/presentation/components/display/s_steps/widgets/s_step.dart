@@ -46,16 +46,20 @@ class SStep
   Widget build(
       BuildContext
           context) {
-    final SThemeData sTheme =
+    final SThemeData
+        sTheme =
         STheme.of(context);
-    final bool isHorizontal =
+    final bool
+        isHorizontal =
         direction == Axis.horizontal;
     // final isVertical = direction == Axis.vertical; // Unused
-    final bool isLabelHorizontal =
+    final bool
+        isLabelHorizontal =
         labelPlacement == SStepsLabelPlacement.horizontal;
 
     // Determine effective status color
-    final Color iconColor =
+    final Color
+        iconColor =
         SStepsStyleHelper.getIconColor(
       status:
           status,
@@ -64,16 +68,17 @@ class SStep
       isCustomIcon:
           item.icon != null || customIcon != null,
     );
-    final Color titleColor =
+    final Color
+        titleColor =
         SStepsStyleHelper.getTitleColor(
       status:
           status,
       theme:
           sTheme,
     );
-    final Color descriptionColor = SStepsStyleHelper.getDescriptionColor(
-        status: status,
-        theme: sTheme);
+    final Color
+        descriptionColor =
+        SStepsStyleHelper.getDescriptionColor(status: status, theme: sTheme);
 
     Widget
         iconWidget;
@@ -112,7 +117,8 @@ class SStep
     }
 
     // Wrap icon in container for borders/backgrounds
-    final Container iconContainer =
+    final Container
+        iconContainer =
         Container(
       width:
           SStepsStyleHelper.getIconSize(size),
@@ -134,7 +140,8 @@ class SStep
           iconWidget,
     );
 
-    final Column content =
+    final Column
+        content =
         Column(
       crossAxisAlignment: isLabelHorizontal
           ? CrossAxisAlignment.start

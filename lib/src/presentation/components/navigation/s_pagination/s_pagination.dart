@@ -317,9 +317,9 @@ class _SPaginationState
         .disabled) {
       return;
     }
-    final int clamped = page.clamp(
-        1,
-        _totalPages);
+    final int
+        clamped =
+        page.clamp(1, _totalPages);
     if (clamped ==
         _currentPage) {
       return;
@@ -337,12 +337,12 @@ class _SPaginationState
         .disabled) {
       return;
     }
-    final int newTotal = (widget.total / newSize).ceil().clamp(
-        1,
-        99999);
-    final int newPage = _currentPage.clamp(
-        1,
-        newTotal);
+    final int
+        newTotal =
+        (widget.total / newSize).ceil().clamp(1, 99999);
+    final int
+        newPage =
+        _currentPage.clamp(1, newTotal);
     setState(
         () {
       _pageSize =
@@ -365,30 +365,31 @@ class _SPaginationState
     final SThemeData
         sTheme =
         STheme.of(context);
-    final SPaginationThemeData theme =
+    final SPaginationThemeData
+        theme =
         sTheme.paginationTheme;
-    final Color primary = sTheme
-        .colorToken
-        .primary;
+    final Color
+        primary =
+        sTheme.colorToken.primary;
 
-    final Color defaultBg = sTheme
-        .colorToken
-        .surface;
-    final Color defaultBorder = sTheme
-        .colorToken
-        .divider;
-    final Color defaultText = sTheme
-        .colorToken
-        .textSecondary;
-    final Color disabledBg = sTheme
-        .colorToken
-        .background;
-    final Color disabledText = sTheme
-        .colorToken
-        .textSecondary
-        .withOpacity(0.5);
+    final Color
+        defaultBg =
+        sTheme.colorToken.surface;
+    final Color
+        defaultBorder =
+        sTheme.colorToken.divider;
+    final Color
+        defaultText =
+        sTheme.colorToken.textSecondary;
+    final Color
+        disabledBg =
+        sTheme.colorToken.background;
+    final Color
+        disabledText =
+        sTheme.colorToken.textSecondary.withOpacity(0.5);
 
-    final SPaginationSize sz =
+    final SPaginationSize
+        sz =
         widget.size;
     final double baseSize = sz == SPaginationSize.small
         ? 24.0
@@ -481,9 +482,11 @@ class _SPaginationState
           context,
       double
           availableWidth) {
-    final _PaginationTokens tokens =
+    final _PaginationTokens
+        tokens =
         _tokens(context);
-    final int total =
+    final int
+        total =
         _totalPages;
 
     // ── Responsive overrides ──────────────────────────────────────────────
@@ -577,9 +580,9 @@ class _SPaginationState
     int siblingCount =
         2,
   }) {
-    final List<int?> pages = _buildPageNumbers(
-        total,
-        siblingCount: siblingCount);
+    final List<int?>
+        pages =
+        _buildPageNumbers(total, siblingCount: siblingCount);
     return SingleChildScrollView(
       scrollDirection:
           Axis.horizontal,
@@ -638,14 +641,15 @@ class _SPaginationState
           (int i) => i + 1);
     }
 
-    final List<int?> result =
+    final List<int?>
+        result =
         <int?>[];
-    final int left = (_currentPage - siblingCount).clamp(
-        2,
-        total - 1);
-    final int right = (_currentPage + siblingCount).clamp(
-        2,
-        total - 1);
+    final int
+        left =
+        (_currentPage - siblingCount).clamp(2, total - 1);
+    final int
+        right =
+        (_currentPage + siblingCount).clamp(2, total - 1);
 
     result
         .add(1);
@@ -654,8 +658,7 @@ class _SPaginationState
       result.add(null); // left ellipsis
     }
     for (int i = left;
-        i <=
-            right;
+        i <= right;
         i++) {
       result.add(i);
     }
@@ -673,7 +676,8 @@ class _SPaginationState
           tokens,
       {required bool
           isLeft}) {
-    const int jumpCount =
+    const int
+        jumpCount =
         5;
     return Row(
       mainAxisSize:
@@ -694,9 +698,11 @@ class _SPaginationState
       _PaginationTokens
           tokens,
       int page) {
-    final bool isActive =
+    final bool
+        isActive =
         page == _currentPage;
-    final _PaginationItemButton defaultWidget =
+    final _PaginationItemButton
+        defaultWidget =
         _PaginationItemButton(
       label:
           '$page',
@@ -732,7 +738,8 @@ class _SPaginationState
     required String
         tooltip,
   }) {
-    final _PaginationNavButton defaultWidget =
+    final _PaginationNavButton
+        defaultWidget =
         _PaginationNavButton(
       icon:
           icon,
@@ -746,10 +753,9 @@ class _SPaginationState
     );
     if (widget.itemRender !=
         null) {
-      final Widget customWidget = widget.itemRender!(
-          null,
-          type,
-          defaultWidget);
+      final Widget
+          customWidget =
+          widget.itemRender!(null, type, defaultWidget);
       // If the user returned the defaultWidget itself, it already has
       // its own tap handler — return as-is.
       if (identical(customWidget,
@@ -816,13 +822,14 @@ class _SPaginationState
       _PaginationTokens
           tokens,
       int total) {
-    final int first = ((_currentPage - 1) * _pageSize + 1).clamp(
-        0,
-        widget.total);
-    final int last = (_currentPage * _pageSize).clamp(
-        0,
-        widget.total);
-    final String text =
+    final int
+        first =
+        ((_currentPage - 1) * _pageSize + 1).clamp(0, widget.total);
+    final int
+        last =
+        (_currentPage * _pageSize).clamp(0, widget.total);
+    final String
+        text =
         widget.showTotal!(widget.total, <int>[
       first,
       last
@@ -965,7 +972,8 @@ class _PaginationItemButtonState
   Widget build(
       BuildContext
           context) {
-    final _PaginationTokens tokens =
+    final _PaginationTokens
+        tokens =
         widget.tokens;
     final Color bg = widget.isActive
         ? tokens.activeColor
@@ -1058,9 +1066,11 @@ class _PaginationNavButtonState
   Widget build(
       BuildContext
           context) {
-    final _PaginationTokens tokens =
+    final _PaginationTokens
+        tokens =
         widget.tokens;
-    final bool isDisabled =
+    final bool
+        isDisabled =
         widget.onTap == null;
     final Color border = isDisabled
         ? tokens.defaultBorder
@@ -1141,13 +1151,15 @@ class _PaginationEllipsisButtonState
   Widget build(
       BuildContext
           context) {
-    final _PaginationTokens tokens =
+    final _PaginationTokens
+        tokens =
         widget.tokens;
     final SPaginationItemType type = widget.isLeft
         ? SPaginationItemType.jumpPrev
         : SPaginationItemType.jumpNext;
 
-    final MouseRegion defaultWidget =
+    final MouseRegion
+        defaultWidget =
         MouseRegion(
       onEnter: (_) =>
           setState(() => _hovered = true),
@@ -1267,7 +1279,8 @@ class _SimplePageInputState
   Widget build(
       BuildContext
           context) {
-    final _PaginationTokens tokens =
+    final _PaginationTokens
+        tokens =
         widget.tokens;
     return Row(
       mainAxisSize:
@@ -1312,7 +1325,9 @@ class _SimplePageInputState
             ),
             onSubmitted: (String val) {
               final int? p = int.tryParse(val);
-              if (p != null) widget.onSubmit(p);
+              if (p != null) {
+                widget.onSubmit(p);
+              }
             },
           ),
         ),
@@ -1438,7 +1453,8 @@ class _QuickJumperState
   Widget build(
       BuildContext
           context) {
-    final _PaginationTokens tokens =
+    final _PaginationTokens
+        tokens =
         widget.tokens;
     return Row(
       mainAxisSize:

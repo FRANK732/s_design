@@ -73,7 +73,8 @@ class _STabNavBarState
   final Map<String,
           GlobalKey>
       _tabKeys =
-      <String, GlobalKey<State<StatefulWidget>>>{};
+      <String,
+          GlobalKey<State<StatefulWidget>>>{};
 
   // Scroll controller for the tab list
   final ScrollController
@@ -152,7 +153,8 @@ class _STabNavBarState
     if (widget.items !=
         oldWidget.items) {
       // Remove unused keys
-      final Set<String> newKeys =
+      final Set<String>
+          newKeys =
           widget.items.map((STabItem e) => e.key).toSet();
       _tabKeys.removeWhere((String key, _) =>
           !newKeys.contains(key));
@@ -221,7 +223,8 @@ class _STabNavBarState
 
   void
       _scrollToActiveItem() {
-    final GlobalKey<State<StatefulWidget>>? key =
+    final GlobalKey<State<StatefulWidget>>?
+        key =
         _tabKeys[widget.activeKey];
     if (key?.currentContext !=
         null) {
@@ -241,25 +244,30 @@ class _STabNavBarState
       return;
     }
 
-    final RenderBox? barRenderObject = _barKey
-        .currentContext
-        ?.findRenderObject() as RenderBox?;
-    final GlobalKey<State<StatefulWidget>>? activeTabKey =
+    final RenderBox?
+        barRenderObject =
+        _barKey.currentContext?.findRenderObject() as RenderBox?;
+    final GlobalKey<State<StatefulWidget>>?
+        activeTabKey =
         _tabKeys[widget.activeKey];
-    final RenderBox? activeRenderObject = activeTabKey
-        ?.currentContext
-        ?.findRenderObject() as RenderBox?;
+    final RenderBox?
+        activeRenderObject =
+        activeTabKey?.currentContext?.findRenderObject() as RenderBox?;
 
     if (barRenderObject != null &&
         activeRenderObject != null) {
-      final Offset barOffset =
+      final Offset
+          barOffset =
           barRenderObject.localToGlobal(Offset.zero);
-      final Offset tabOffset =
+      final Offset
+          tabOffset =
           activeRenderObject.localToGlobal(Offset.zero);
-      final Offset relativeOffset =
+      final Offset
+          relativeOffset =
           tabOffset - barOffset;
 
-      final Rect newRect =
+      final Rect
+          newRect =
           Rect.fromLTWH(
         relativeOffset.dx,
         relativeOffset.dy,
@@ -307,14 +315,18 @@ class _STabNavBarState
         return null;
       }
 
-      final String leftKey =
+      final String
+          leftKey =
           widget.items[leftIndex].key;
-      final String rightKey =
+      final String
+          rightKey =
           widget.items[rightIndex].key;
 
-      final Rect? leftRect =
+      final Rect?
+          leftRect =
           _getTabRect(leftKey);
-      final Rect? rightRect =
+      final Rect?
+          rightRect =
           _getTabRect(rightKey);
 
       if (leftRect == null ||
@@ -371,22 +383,26 @@ class _STabNavBarState
       return null;
     }
 
-    final RenderBox? barRenderObject = _barKey
-        .currentContext
-        ?.findRenderObject() as RenderBox?;
-    final GlobalKey<State<StatefulWidget>>? activeTabKey =
+    final RenderBox?
+        barRenderObject =
+        _barKey.currentContext?.findRenderObject() as RenderBox?;
+    final GlobalKey<State<StatefulWidget>>?
+        activeTabKey =
         _tabKeys[key];
-    final RenderBox? activeRenderObject = activeTabKey
-        ?.currentContext
-        ?.findRenderObject() as RenderBox?;
+    final RenderBox?
+        activeRenderObject =
+        activeTabKey?.currentContext?.findRenderObject() as RenderBox?;
 
     if (barRenderObject != null &&
         activeRenderObject != null) {
-      final Offset barOffset =
+      final Offset
+          barOffset =
           barRenderObject.localToGlobal(Offset.zero);
-      final Offset tabOffset =
+      final Offset
+          tabOffset =
           activeRenderObject.localToGlobal(Offset.zero);
-      final Offset relativeOffset =
+      final Offset
+          relativeOffset =
           tabOffset - barOffset;
 
       return Rect.fromLTWH(
@@ -403,9 +419,11 @@ class _STabNavBarState
   Widget build(
       BuildContext
           context) {
-    final STabsThemeData theme =
+    final STabsThemeData
+        theme =
         Theme.of(context).sTabsTheme;
-    final bool isVertical =
+    final bool
+        isVertical =
         widget.tabPosition == STabPosition.left || widget.tabPosition == STabPosition.right;
 
     // Size adjustments
@@ -500,9 +518,11 @@ class _STabNavBarState
     double
         fontSize,
   ) {
-    final bool isVertical =
+    final bool
+        isVertical =
         widget.tabPosition == STabPosition.left || widget.tabPosition == STabPosition.right;
-    final bool isCard =
+    final bool
+        isCard =
         widget.type == STabType.card || widget.type == STabType.editableCard;
 
     // Background color for cards

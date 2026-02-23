@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
 
-class UnderConstruction extends StatelessWidget {
-  const UnderConstruction({super.key, required this.pageTitle});
-  final String pageTitle;
+class UnderConstruction
+    extends StatelessWidget {
+  const UnderConstruction(
+      {super.key,
+      required this.pageTitle});
+  final String
+      pageTitle;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+      BuildContext
+          context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar:
+          AppBar(
         title: Text(pageTitle),
       ),
-      body: const Center(
+      body:
+          const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[

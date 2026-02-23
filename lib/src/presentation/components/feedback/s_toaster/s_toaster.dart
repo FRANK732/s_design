@@ -166,6 +166,10 @@ class SToast
   }
 }
 
+@Deprecated(
+  'SToast is deprecated. Use SAlert for inline alerts or SSonner for toast notifications. '
+  'This class will be removed in a future version.',
+)
 class _SToastState
     extends State<
         SToast>
@@ -285,9 +289,11 @@ class _SToastState
         topPadding =
         mediaQuery.viewPadding.top;
 
-    final SThemeData sTheme =
+    final SThemeData
+        sTheme =
         STheme.of(context);
-    final SToastThemeData ext =
+    final SToastThemeData
+        ext =
         sTheme.toastTheme;
     final bool
         isDestructive =

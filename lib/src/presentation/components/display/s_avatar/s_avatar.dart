@@ -124,7 +124,8 @@ class _SAvatarState
       StackTrace?
           stackTrace) {
     if (mounted) {
-      final bool preventFallback =
+      final bool
+          preventFallback =
           widget.onError?.call() ?? false;
       if (!preventFallback) {
         setState(() {
@@ -150,7 +151,8 @@ class _SAvatarState
           style: style);
     }
 
-    final double availableWidth =
+    final double
+        availableWidth =
         maxWidth - (gap * 2);
     if (availableWidth <=
         0) {
@@ -159,7 +161,8 @@ class _SAvatarState
     }
 
     // Measure the text
-    final TextPainter textPainter =
+    final TextPainter
+        textPainter =
         TextPainter(
       text:
           TextSpan(text: text, style: style),
@@ -169,7 +172,8 @@ class _SAvatarState
           1,
     )..layout();
 
-    final double textWidth =
+    final double
+        textWidth =
         textPainter.width;
 
     if (textWidth <=
@@ -180,7 +184,8 @@ class _SAvatarState
     }
 
     // Needs scaling
-    final double scale =
+    final double
+        scale =
         availableWidth / textWidth;
 
     return Transform
@@ -196,9 +201,11 @@ class _SAvatarState
   Widget build(
       BuildContext
           context) {
-    final SThemeData theme =
+    final SThemeData
+        theme =
         STheme.of(context);
-    final SAvatarThemeData ext =
+    final SAvatarThemeData
+        ext =
         theme.avatarTheme;
 
     // Resolve size
@@ -317,7 +324,8 @@ class _SAvatarState
     } else if (widget.icon !=
         null) {
       // Ensure icon takes relative size
-      final double iconSize =
+      final double
+          iconSize =
           dimension / 2;
       content =
           IconTheme(
@@ -327,9 +335,11 @@ class _SAvatarState
     } else if (widget.text !=
         null) {
       // Text styling
-      final double defaultFontSize =
+      final double
+          defaultFontSize =
           dimension / 2;
-      final TextStyle textStyle =
+      final TextStyle
+          textStyle =
           (ext.textStyle ?? const TextStyle(fontWeight: FontWeight.w400)).copyWith(fontSize: defaultFontSize, color: fgCol);
 
       content =

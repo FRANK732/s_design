@@ -6,7 +6,10 @@ class FloatingActionButtonConfig {
     this.location,
     this.animator,
   });
-  final Widget? floatingActionButton;
-  final FloatingActionButtonLocation? location;
-  final FloatingActionButtonAnimator? animator;
+  final Widget?
+      floatingActionButton;
+  final FloatingActionButtonLocation?
+      location;
+  final FloatingActionButtonAnimator?
+      animator;
 }

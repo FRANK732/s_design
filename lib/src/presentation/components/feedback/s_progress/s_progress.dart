@@ -362,7 +362,7 @@ class SProgress
       children: <Widget>[
         Expanded(
           child: Row(
-            children: List.generate(steps!, (int index) {
+            children: List<Widget>.generate(steps!, (int index) {
               final double stepValue = 100 / steps!;
               final bool isActive = percent >= (index + 1) * stepValue;
 
@@ -684,7 +684,6 @@ class _CircleProgressPainter
 
 class _IndeterminateProgressAnimation
     extends StatefulWidget {
-
   const _IndeterminateProgressAnimation({
     required this.color,
     this.vertical =

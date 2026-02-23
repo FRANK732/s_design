@@ -4,9 +4,9 @@ import 's_localizations_delegate.dart';
 
 /// Defines the localized strings for the sDesign component library.
 abstract class SLocalizations {
-
   const SLocalizations(
       this.localeName);
+
   /// The locale for which these strings are localized.
   final String
       localeName;
