@@ -311,13 +311,15 @@ class _SButtonState
   void
       _handlePressed() {
     if (widget.onPressed ==
-        null)
+        null) {
       return;
+    }
 
     if (widget.debounceDuration !=
         null) {
-      if (_isDebouncing)
+      if (_isDebouncing) {
         return;
+      }
 
       setState(() =>
           _isDebouncing = true);
@@ -410,8 +412,6 @@ class _SButtonState
           widget.loading,
       loadingText:
           widget.loadingText,
-      child:
-          widget.child,
       leadingIcon:
           widget.leadingIcon,
       trailingIcon:
@@ -424,6 +424,8 @@ class _SButtonState
           widget.textStyle,
       animationDuration:
           widget.animationDuration,
+      child:
+          widget.child,
     );
 
     // Create button style
@@ -521,7 +523,7 @@ class _SButtonState
         widget.onPressed != null) {
       buttonWidget =
           CallbackShortcuts(
-        bindings: {
+        bindings: <ShortcutActivator, VoidCallback>{
           widget.shortcut!: _handlePressed,
         },
         child: buttonWidget,

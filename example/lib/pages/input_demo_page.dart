@@ -32,10 +32,10 @@ class _InputDemoPageState
         'When you need built-in validation feedback (error, warning states).',
       ],
       sections: [
-        ComponentSection(
+        const ComponentSection(
           title: 'Basic Input',
           description: 'A simple text field with a placeholder.',
-          demo: const SInput(placeholder: 'Enter your username'),
+          demo: SInput(placeholder: 'Enter your username'),
           code: '''
 const SInput(placeholder: 'Enter your username');''',
         ),
@@ -53,14 +53,14 @@ const SInput(placeholder: 'Enter your username');''',
                 placeholder: 'Enter password',
               ),
               const SizedBox(height: 12),
-              SInput(
+              const SInput(
                 placeholder: 'amount',
-                addonBefore: const Text('\$'),
-                addonAfter: const Text('USD'),
+                addonBefore: Text(r'$'),
+                addonAfter: Text('USD'),
               ),
             ],
           ),
-          code: '''
+          code: r'''
 SInput(
   placeholder: 'Search...',
   prefix: Icon(Icons.search, size: 16),
@@ -70,14 +70,14 @@ SInput.password(placeholder: 'Enter password');
 
 SInput(
   placeholder: 'amount',
-  addonBefore: const Text('\$'),
+  addonBefore: const Text('$'),
   addonAfter: const Text('USD'),
 );''',
         ),
-        ComponentSection(
+        const ComponentSection(
           title: 'Validation States',
           description: 'Use `status` to communicate validation feedback to the user.',
-          demo: const Column(
+          demo: Column(
             children: [
               SInput(
                 placeholder: 'Valid email required',
@@ -100,10 +100,10 @@ SInput(
   status: SInputStatus.warning,
 );''',
         ),
-        ComponentSection(
+        const ComponentSection(
           title: 'Sizes',
           description: 'Three sizes: small, middle (default), large.',
-          demo: const Column(
+          demo: Column(
             children: [
               SInput(placeholder: 'Large input', size: SInputSize.large),
               SizedBox(height: 8),
@@ -117,10 +117,10 @@ const SInput(placeholder: 'Large input', size: SInputSize.large);
 const SInput(placeholder: 'Middle input');
 const SInput(placeholder: 'Small input', size: SInputSize.small);''',
         ),
-        ComponentSection(
+        const ComponentSection(
           title: 'Disabled and ReadOnly',
           description: 'Prevent user interaction using `enabled: false` or `readOnly: true`.',
-          demo: const Column(
+          demo: Column(
             children: [
               SInput(placeholder: 'Disabled', enabled: false),
               SizedBox(height: 12),
@@ -131,10 +131,10 @@ const SInput(placeholder: 'Small input', size: SInputSize.small);''',
 const SInput(placeholder: 'Disabled', enabled: false);
 const SInput(initialValue: 'Cannot be changed', readOnly: true);''',
         ),
-        ComponentSection(
+        const ComponentSection(
           title: 'Allow Clear',
           description: 'Show a clear button on the right when the field has content.',
-          demo: const SInput(
+          demo: SInput(
             placeholder: 'Type something then clear it',
             allowClear: true,
           ),

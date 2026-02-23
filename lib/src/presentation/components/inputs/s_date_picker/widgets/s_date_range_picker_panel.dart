@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+
+import '../../../../themes/s_theme.dart';
+import '../../../../themes/s_theme_data.dart';
 import '../s_date_picker_style.dart';
 import '../s_date_picker_style_helper.dart';
 import '../s_date_picker_types.dart';
-import '../../../../themes/s_theme.dart';
-import '../../../../themes/s_theme_data.dart';
 import 's_date_picker_calendar.dart';
 
 class SDateRangePickerPanel
@@ -63,16 +64,14 @@ class _SDateRangePickerPanelState
         null) {
       _leftViewDate = DateTime(
           widget.startDate!.year,
-          widget.startDate!.month,
-          1);
+          widget.startDate!.month);
     } else {
       _leftViewDate =
           DateTime.now();
     }
     _rightViewDate = DateTime(
         _leftViewDate.year,
-        _leftViewDate.month + 1,
-        1);
+        _leftViewDate.month + 1);
   }
 
   void _onDateSelected(
@@ -163,26 +162,25 @@ class _SDateRangePickerPanelState
   Widget build(
       BuildContext
           context) {
-    final hasPresets =
+    final bool hasPresets =
         widget.presets != null && widget.presets!.isNotEmpty;
     final SThemeData
         sTheme =
         STheme.of(context);
-    final content =
+    final Row content =
         Row(
       crossAxisAlignment:
           CrossAxisAlignment.start,
-      children: [
+      children: <Widget>[
         Expanded(
           child: Column(
-            children: [
+            children: <Widget>[
               _buildHeader(isLeft: true, theme: sTheme),
               const SizedBox(height: 8),
               SDatePickerCalendar(
                 viewDate: _leftViewDate,
                 rangeStart: _internalStartDate,
                 rangeEnd: _internalEndDate ?? _hoverDate,
-                selectedDate: null,
                 style: widget.style,
                 onDateSelected: _onDateSelected,
               ),
@@ -192,14 +190,13 @@ class _SDateRangePickerPanelState
         VerticalDivider(width: 16, color: sTheme.colorToken.divider), // Separator
         Expanded(
           child: Column(
-            children: [
+            children: <Widget>[
               _buildHeader(isLeft: false, theme: sTheme),
               const SizedBox(height: 8),
               SDatePickerCalendar(
                 viewDate: _rightViewDate,
                 rangeStart: _internalStartDate,
                 rangeEnd: _internalEndDate ?? _hoverDate,
-                selectedDate: null,
                 style: widget.style,
                 onDateSelected: _onDateSelected,
               ),
@@ -209,11 +206,11 @@ class _SDateRangePickerPanelState
       ],
     );
 
-    final decoration = widget.style?.popupDecoration ??
+    final BoxDecoration decoration = widget.style?.popupDecoration ??
         BoxDecoration(
           color: sTheme.colorToken.surface,
           borderRadius: BorderRadius.circular(2),
-          boxShadow: [
+          boxShadow: <BoxShadow>[
             BoxShadow(
               color: sTheme.colorToken.shadow.withOpacity(0.1),
               blurRadius: 4,
@@ -234,7 +231,7 @@ class _SDateRangePickerPanelState
           ? IntrinsicHeight(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
+                children: <Widget>[
                   _buildPresetsSidebar(),
                   VerticalDivider(width: 1, color: sTheme.colorToken.divider),
                   const SizedBox(width: 8),
@@ -257,7 +254,7 @@ class _SDateRangePickerPanelState
           widget.style?.presetsSidebarDecoration,
       child:
           Column(
-        children: widget.presets!.map((preset) {
+        children: widget.presets!.map((SDatePickerPreset<DateTimeRange<DateTime>> preset) {
           return InkWell(
             onTap: () {
               widget.onChange?.call(preset.value);
@@ -266,8 +263,8 @@ class _SDateRangePickerPanelState
                 _internalStartDate = preset.value.start;
                 _internalEndDate = preset.value.end;
                 // Update view to start date
-                _leftViewDate = DateTime(preset.value.start.year, preset.value.start.month, 1);
-                _rightViewDate = DateTime(_leftViewDate.year, _leftViewDate.month + 1, 1);
+                _leftViewDate = DateTime(preset.value.start.year, preset.value.start.month);
+                _rightViewDate = DateTime(_leftViewDate.year, _leftViewDate.month + 1);
               });
             },
             borderRadius: BorderRadius.circular(2),
@@ -292,18 +289,18 @@ class _SDateRangePickerPanelState
           isLeft,
       required SThemeData
           theme}) {
-    final headerStyle = widget.style?.headerTextStyle ??
+    final TextStyle headerStyle = widget.style?.headerTextStyle ??
         TextStyle(
           fontWeight: FontWeight.bold,
           color: SDatePickerStyleHelper.getHeaderColor(theme),
         );
 
-    final viewDate = isLeft
+    final DateTime viewDate = isLeft
         ? _leftViewDate
         : _rightViewDate;
 
-    const months =
-        [
+    const List<String> months =
+        <String>[
       'Jan',
       'Feb',
       'Mar',
@@ -321,9 +318,9 @@ class _SDateRangePickerPanelState
     return Row(
       mainAxisAlignment:
           MainAxisAlignment.spaceBetween,
-      children: [
+      children: <Widget>[
         if (isLeft)
-          Row(mainAxisSize: MainAxisSize.min, children: [
+          Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
             IconButton(
               icon: const Icon(Icons.keyboard_double_arrow_left, size: 16),
               padding: EdgeInsets.zero,
@@ -349,7 +346,7 @@ class _SDateRangePickerPanelState
           ),
         ),
         if (!isLeft)
-          Row(mainAxisSize: MainAxisSize.min, children: [
+          Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
             IconButton(
               icon: const Icon(Icons.chevron_right, size: 16),
               padding: EdgeInsets.zero,

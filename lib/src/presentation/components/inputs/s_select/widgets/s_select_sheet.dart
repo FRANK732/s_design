@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../../../../s_design.dart';
-import '../../../../localizations/s_localizations.dart';
-import 's_select_item.dart';
 import 's_select_menu.dart';
 
 class SSelectSheet<
@@ -64,7 +62,7 @@ class SSelectSheet<
           true,
       backgroundColor:
           Colors.transparent,
-      builder: (context) =>
+      builder: (BuildContext context) =>
           SSelectSheet<T>(
         items: items,
         singleValue: singleValue,
@@ -82,7 +80,7 @@ class SSelectSheet<
   Widget build(
       BuildContext
           context) {
-    final sTheme =
+    final SThemeData sTheme =
         STheme.of(context);
     return Container(
       decoration:
@@ -97,7 +95,7 @@ class SSelectSheet<
       child:
           Column(
         mainAxisSize: MainAxisSize.min,
-        children: [
+        children: <Widget>[
           const SizedBox(height: 8),
           Container(
             width: 40,
@@ -107,7 +105,7 @@ class SSelectSheet<
               borderRadius: BorderRadius.circular(2),
             ),
           ),
-          if (title != null) ...[
+          if (title != null) ...<Widget>[
             const SizedBox(height: 16),
             Text(
               title!,

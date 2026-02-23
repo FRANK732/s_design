@@ -146,7 +146,6 @@ SSelect<String>(
             items: _fruits,
             value: 'apple',
             disabled: true,
-            onChanged: null,
           ),
           code: '''
 SSelect<String>(

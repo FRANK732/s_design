@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 's_step_item.dart';
+
 import '../../../themes/s_theme_data.dart';
+import 's_step_item.dart';
 
 /// Style helper for formatting SSteps based on status and size.
 class SStepsStyleHelper {

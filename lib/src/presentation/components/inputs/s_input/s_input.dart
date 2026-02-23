@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../../../s_design.dart';
-import 's_input_group.dart';
 
 enum SInputSize {
   small,
@@ -410,7 +409,7 @@ class _SInputState
     switch (
         widget.size) {
       case SInputSize.small:
-        return const EdgeInsets.symmetric(horizontal: 7, vertical: 0);
+        return const EdgeInsets.symmetric(horizontal: 7);
       case SInputSize.large:
         return const EdgeInsets.symmetric(horizontal: 11, vertical: 6.5);
       default:
@@ -422,12 +421,12 @@ class _SInputState
   Widget build(
       BuildContext
           context) {
-    final sTheme =
+    final SThemeData sTheme =
         STheme.of(context);
-    final ext =
+    final SInputFieldThemeData ext =
         sTheme.inputFieldTheme;
 
-    final groupScope =
+    final SInputGroupScope? groupScope =
         SInputGroupScope.of(context);
     BorderRadius
         effectiveRadius =
@@ -444,7 +443,7 @@ class _SInputState
     }
 
     // Core Input Widget
-    Widget
+    final Widget
         input =
         MouseRegion(
       onEnter: (_) =>
@@ -462,19 +461,19 @@ class _SInputState
           ),
           borderRadius: effectiveRadius,
           boxShadow: _isFocused && widget.status != SInputStatus.error
-              ? [
-                  BoxShadow(color: ext.focusedBorderColor.withOpacity(0.2), blurRadius: 0, spreadRadius: 2)
+              ? <BoxShadow>[
+                  BoxShadow(color: ext.focusedBorderColor.withOpacity(0.2), spreadRadius: 2)
                 ]
               : (_isFocused && widget.status == SInputStatus.error
-                  ? [
-                      BoxShadow(color: ext.errorBorderColor.withOpacity(0.2), blurRadius: 0, spreadRadius: 2)
+                  ? <BoxShadow>[
+                      BoxShadow(color: ext.errorBorderColor.withOpacity(0.2), spreadRadius: 2)
                     ]
                   : null),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 11), // Padding for prefix/suffix
         child: Row(
           crossAxisAlignment: widget.maxLines != 1 ? CrossAxisAlignment.start : CrossAxisAlignment.center,
-          children: [
+          children: <Widget>[
             if (widget.prefix != null)
               Padding(
                 padding: const EdgeInsets.only(right: 4),
@@ -497,7 +496,7 @@ class _SInputState
                   errorBorder: InputBorder.none,
                   disabledBorder: InputBorder.none,
                   contentPadding: _getPadding(),
-                  counterText: "", // Hide default counter
+                  counterText: '', // Hide default counter
                 ),
                 style: widget.style?.copyWith(fontSize: _getFontSize(), color: ext.textColor) ?? TextStyle(fontSize: _getFontSize(), color: ext.textColor),
                 keyboardType: widget.keyboardType,
@@ -512,7 +511,7 @@ class _SInputState
                 maxLines: widget.maxLines,
                 minLines: widget.minLines,
                 maxLength: widget.maxLength,
-                onChanged: (val) {
+                onChanged: (String val) {
                   setState(() {}); // Rebuild for clear button / count
                   widget.onChanged?.call(val);
                 },
@@ -524,7 +523,7 @@ class _SInputState
                 cursorWidth: 1,
               ),
             ),
-            if (widget.allowClear && _controller.text.isNotEmpty && !_controller.text.isEmpty && widget.enabled)
+            if (widget.allowClear && _controller.text.isNotEmpty && _controller.text.isNotEmpty && widget.enabled)
               GestureDetector(
                 onTap: () {
                   _controller.clear();
@@ -540,7 +539,7 @@ class _SInputState
               Padding(
                 padding: const EdgeInsets.only(left: 8),
                 child: Text(
-                  "${_controller.text.length} / ${widget.maxLength}",
+                  '${_controller.text.length} / ${widget.maxLength}',
                   style: TextStyle(color: ext.hintTextColor, fontSize: 12),
                 ),
               ),
@@ -562,7 +561,7 @@ class _SInputState
         widget.addonAfter != null) {
       return Row(
         mainAxisSize: MainAxisSize.min,
-        children: [
+        children: <Widget>[
           if (widget.addonBefore != null) _buildAddon(widget.addonBefore!, context, isBefore: true),
           Expanded(child: input),
           if (widget.addonAfter != null) _buildAddon(widget.addonAfter!, context, isBefore: false),
@@ -696,12 +695,10 @@ class _SInputPasswordState
           widget.onChanged,
       onSubmitted:
           widget.onSubmitted,
-      maxLines:
-          1, // Passwords are single line
       suffix:
           Row(
         mainAxisSize: MainAxisSize.min,
-        children: [
+        children: <Widget>[
           if (widget.suffix != null) widget.suffix!,
           if (widget.visibilityToggle)
             GestureDetector(

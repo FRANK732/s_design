@@ -24,7 +24,7 @@ class SDatePickerDecadeGrid
   Widget build(
       BuildContext
           context) {
-    final theme =
+    final ThemeData theme =
         Theme.of(context);
     // View date determines the century/decade range.
     // e.g. 2024 -> 2000-2099 century view?
@@ -36,7 +36,7 @@ class SDatePickerDecadeGrid
     // If we are in Decade panel, we want to select a Decade (e.g. 2010-2019).
     // The clickable item is a range.
 
-    final startYear =
+    final int startYear =
         (viewDate.year ~/ 100) * 100; // e.g., 2024 -> 2000
 
     // We show 12 items.
@@ -44,29 +44,29 @@ class SDatePickerDecadeGrid
     // 0..9 decades (2000-2009 ... 2090-2099)
     // +1 decade (2100-2109)
 
-    final rows =
+    final List<Widget> rows =
         <Widget>[];
     for (int i = 0;
         i < 4;
         i++) {
       rows.add(Row(
-        children: List.generate(3, (colIndex) {
-          final index = (i * 3) + colIndex;
+        children: List.generate(3, (int colIndex) {
+          final int index = (i * 3) + colIndex;
           // index 0 is startYear - 10
-          final decadeStartYear = startYear + (index - 1) * 10;
-          final decadeEndYear = decadeStartYear + 9;
+          final int decadeStartYear = startYear + (index - 1) * 10;
+          final int decadeEndYear = decadeStartYear + 9;
 
-          final date = DateTime(decadeStartYear);
+          final DateTime date = DateTime(decadeStartYear);
 
           // Selection logic: is the selected date within this decade?
-          final isSelected = selectedDate != null && selectedDate!.year >= decadeStartYear && selectedDate!.year <= decadeEndYear;
+          final bool isSelected = selectedDate != null && selectedDate!.year >= decadeStartYear && selectedDate!.year <= decadeEndYear;
 
           // Is current decade?
-          final nowYear = DateTime.now().year;
-          final isCurrentDecade = nowYear >= decadeStartYear && nowYear <= decadeEndYear;
+          final int nowYear = DateTime.now().year;
+          final bool isCurrentDecade = nowYear >= decadeStartYear && nowYear <= decadeEndYear;
 
           // Is in current century view?
-          final isInView = decadeStartYear >= startYear && decadeEndYear < startYear + 100;
+          final bool isInView = decadeStartYear >= startYear && decadeEndYear < startYear + 100;
 
           Color textColor = isInView ? (theme.textTheme.bodyMedium?.color ?? Colors.black87) : Colors.grey.shade400;
           if (isCurrentDecade) textColor = theme.primaryColor;
@@ -114,8 +114,9 @@ class SDatePickerDecadeGrid
         }),
       ));
       if (i <
-          3)
+          3) {
         rows.add(const SizedBox(height: 8));
+      }
     }
 
     return Column(

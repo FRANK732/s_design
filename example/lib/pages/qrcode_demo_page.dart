@@ -11,13 +11,13 @@ class QRCodeDemoPage
   Widget build(
       BuildContext
           context) {
-    return ComponentPage(
+    return const ComponentPage(
       name:
           'SQRCode',
       description:
           'A QR code generator component built on top of `qr_flutter`. '
           'Supports custom size, colors, icons, bordered style, and status overlays (expired, loading, scanned).',
-      whenToUse: const [
+      whenToUse: [
         'For displaying payment or app-sharing QR codes.',
         'When you need a scannable QR that shows a loading or expired state.',
         'For embedding a logo or icon inside the QR code.',
@@ -26,7 +26,7 @@ class QRCodeDemoPage
         ComponentSection(
           title: 'Basic QR Code',
           description: 'Show a scannable QR code for any string.',
-          demo: const Center(
+          demo: Center(
             child: SQRCode(value: 'https://example.com'),
           ),
           code: '''
@@ -37,7 +37,7 @@ const SQRCode(value: 'https://example.com');''',
           description: 'Change the QR color to match your brand.',
           demo: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: const [
+            children: [
               SQRCode(value: 'brand-blue', color: Colors.indigo, size: 100),
               SQRCode(value: 'brand-green', color: Colors.teal, size: 100),
             ],
@@ -49,7 +49,7 @@ SQRCode(value: 'your-data', color: Colors.teal, size: 100);''',
         ComponentSection(
           title: 'With Icon',
           description: 'Overlay an icon in the center of the QR code.',
-          demo: const Center(
+          demo: Center(
             child: SQRCode(
               value: 'https://flutter.dev',
               icon: Icon(Icons.flutter_dash, color: Colors.blue),
@@ -68,7 +68,7 @@ const SQRCode(
         ComponentSection(
           title: 'Status: Expired',
           description: 'Show an expired overlay with `status: SQRCodeStatus.expired`.',
-          demo: const Center(
+          demo: Center(
             child: SQRCode(
               value: 'expired-session',
               status: SQRCodeStatus.expired,
@@ -85,7 +85,7 @@ const SQRCode(
         ComponentSection(
           title: 'Status: Scanned',
           description: 'Show a check mark overlay with `status: SQRCodeStatus.scanned`.',
-          demo: const Center(
+          demo: Center(
             child: SQRCode(
               value: 'scanned-code',
               status: SQRCodeStatus.scanned,

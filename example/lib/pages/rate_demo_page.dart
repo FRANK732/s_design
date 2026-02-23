@@ -76,11 +76,11 @@ SRate(
   onChange: (v) => setState(() => _rating = v),
 );''',
         ),
-        ComponentSection(
+        const ComponentSection(
           title: 'Read-Only Display',
           description: 'Pass `disabled: true` to render a non-interactive rating display.',
           demo: Row(
-            children: const [
+            children: [
               SRate(value: 4.5, allowHalf: true, disabled: true),
               SizedBox(width: 8),
               Text('4.5 / 5.0', style: TextStyle(fontWeight: FontWeight.w600)),

@@ -111,13 +111,16 @@ class _SInputOTPState
       bool
           isFocused) {
     if (widget.status ==
-        SInputStatus.error)
+        SInputStatus.error) {
       return theme.colorScheme.error;
+    }
     if (widget.status ==
-        SInputStatus.warning)
+        SInputStatus.warning) {
       return Colors.amber;
-    if (isFocused)
+    }
+    if (isFocused) {
       return theme.primaryColor;
+    }
     return Colors
         .grey
         .shade300;
@@ -140,7 +143,7 @@ class _SInputOTPState
   Widget build(
       BuildContext
           context) {
-    final theme =
+    final ThemeData theme =
         Theme.of(context);
 
     // Since focus state is per-input, we need multiple focus listeners or just use Focus widget logic.
@@ -152,7 +155,7 @@ class _SInputOTPState
       mainAxisAlignment:
           MainAxisAlignment.center,
       children:
-          List.generate(widget.length, (index) {
+          List.generate(widget.length, (int index) {
         return Container(
           width: _getSize(),
           height: _getSize(),
@@ -174,12 +177,12 @@ class _SInputOTPState
                 enabled: widget.enabled,
                 style: TextStyle(fontSize: widget.size == SInputSize.small ? 14 : 16),
                 keyboardType: TextInputType.number,
-                inputFormatters: [
+                inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.digitsOnly
                 ],
-                onChanged: (val) => _handleChanged(val, index),
+                onChanged: (String val) => _handleChanged(val, index),
                 decoration: InputDecoration(
-                  counterText: "",
+                  counterText: '',
                   contentPadding: EdgeInsets.zero,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(6),

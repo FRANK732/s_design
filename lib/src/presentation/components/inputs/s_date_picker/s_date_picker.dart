@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../../localizations/s_localizations.dart';
+import '../../../themes/s_theme.dart';
+import '../../../themes/s_theme_data.dart';
 import 's_date_picker_style.dart';
 import 's_date_picker_style_helper.dart';
 import 's_date_picker_types.dart';
-import '../../../themes/s_theme.dart';
-import '../../../themes/s_theme_data.dart';
-import '../../../localizations/s_localizations.dart';
 import 'widgets/s_date_picker_panel.dart';
 
 class SDatePicker
@@ -143,9 +143,9 @@ class _SDatePickerState
 
     _overlayEntry =
         OverlayEntry(
-      builder: (context) =>
+      builder: (BuildContext context) =>
           Stack(
-        children: [
+        children: <Widget>[
           // Dismissible barrier
           Positioned.fill(
             child: GestureDetector(
@@ -233,14 +233,13 @@ class _SDatePickerState
           border: Border.all(color: borderColor),
           borderRadius: BorderRadius.circular(6),
           boxShadow: _isOpen
-              ? [
+              ? <BoxShadow>[
                   BoxShadow(
                     color: sTheme.colorToken.primary.withOpacity(0.2),
                     spreadRadius: 2,
-                    blurRadius: 0,
                   )
                 ]
-              : [],
+              : <BoxShadow>[],
         );
 
     final TextStyle textStyle = widget.value != null
@@ -259,7 +258,7 @@ class _SDatePickerState
           padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 4),
           decoration: decoration,
           child: Row(
-            children: [
+            children: <Widget>[
               Expanded(
                 child: Text(
                   widget.value != null ? _formatValue(widget.value!) : (widget.placeholder ?? SLocalizations.ofContext(context).selectDate),

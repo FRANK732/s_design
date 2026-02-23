@@ -63,8 +63,8 @@ class _STimePickerPageState
             // ── 3. Disabled ─────────────────────────────────────────────────
             _header('3. Disabled'),
             _desc('disabled: true grays out the field and prevents the panel opening.'),
-            STimePicker(
-              defaultValue: const TimeOfDay(hour: 12, minute: 8),
+            const STimePicker(
+              defaultValue: TimeOfDay(hour: 12, minute: 8),
               disabled: true,
             ),
             const SizedBox(height: 32),
@@ -72,17 +72,17 @@ class _STimePickerPageState
             // ── 4. Size ─────────────────────────────────────────────────────
             _header('4. Size'),
             _desc('size: large (40 px) / middle (32 px, default) / small (24 px).'),
-            Wrap(spacing: 12, runSpacing: 12, children: [
+            const Wrap(spacing: 12, runSpacing: 12, children: [
               STimePicker(
                 size: STimePickerSize.large,
-                defaultValue: const TimeOfDay(hour: 12, minute: 8),
+                defaultValue: TimeOfDay(hour: 12, minute: 8),
               ),
               STimePicker(
-                defaultValue: const TimeOfDay(hour: 12, minute: 8),
+                defaultValue: TimeOfDay(hour: 12, minute: 8),
               ),
               STimePicker(
                 size: STimePickerSize.small,
-                defaultValue: const TimeOfDay(hour: 12, minute: 8),
+                defaultValue: TimeOfDay(hour: 12, minute: 8),
               ),
             ]),
             const SizedBox(height: 32),
@@ -90,8 +90,8 @@ class _STimePickerPageState
             // ── 5. Hide Seconds (HH:mm) ─────────────────────────────────────
             _header('5. Hide Seconds'),
             _desc("format: 'HH:mm' removes the seconds column from the panel."),
-            STimePicker(
-              defaultValue: const TimeOfDay(hour: 12, minute: 8),
+            const STimePicker(
+              defaultValue: TimeOfDay(hour: 12, minute: 8),
               format: 'HH:mm',
             ),
             const SizedBox(height: 32),
@@ -102,7 +102,6 @@ class _STimePickerPageState
             STimePicker(
               minuteStep: 15,
               secondStep: 10,
-              hourStep: 1,
               onChange: (t) => _snack(ctx, '$t'),
             ),
             const SizedBox(height: 32),
@@ -123,7 +122,7 @@ class _STimePickerPageState
             // ── 8. Status ───────────────────────────────────────────────────
             _header('8. Status'),
             _desc('status: error (red border) or warning (yellow border).'),
-            Wrap(spacing: 12, runSpacing: 12, children: [
+            const Wrap(spacing: 12, runSpacing: 12, children: [
               STimePicker(status: STimePickerStatus.error),
               STimePicker(status: STimePickerStatus.warning),
               STimeRangePicker(status: STimePickerStatus.error),
@@ -141,11 +140,11 @@ class _STimePickerPageState
                 defaultValue: const TimeOfDay(hour: 0, minute: 0),
                 onChange: (t) => _snack(ctx, '$t'),
               ),
-              STimePicker(
-                prefix: const Icon(Icons.sentiment_satisfied_alt, size: 14, color: Colors.amber),
+              const STimePicker(
+                prefix: Icon(Icons.sentiment_satisfied_alt, size: 14, color: Colors.amber),
               ),
-              STimeRangePicker(
-                prefix: const Icon(Icons.sentiment_satisfied_alt, size: 14, color: Colors.amber),
+              const STimeRangePicker(
+                prefix: Icon(Icons.sentiment_satisfied_alt, size: 14, color: Colors.amber),
               ),
             ]),
             const SizedBox(height: 32),
@@ -153,12 +152,12 @@ class _STimePickerPageState
             // ── 10. Variants ────────────────────────────────────────────────
             _header('10. Variants'),
             _desc('outlined (default) / filled / borderless / underlined.'),
-            Column(
+            const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Wrap(spacing: 8, runSpacing: 8, children: [
-                  STimePicker(variant: STimePickerVariant.outlined, placeholder: 'Outlined'),
-                  STimeRangePicker(variant: STimePickerVariant.outlined, placeholder: const (
+                  STimePicker(placeholder: 'Outlined'),
+                  STimeRangePicker(placeholder: const (
                     'Outlined Start',
                     'Outlined End'
                   )),
@@ -220,7 +219,6 @@ class _STimePickerPageState
                 '(needConfirm is false — default for changeOnScroll).'),
             STimePicker(
               changeOnScroll: true,
-              needConfirm: false,
               onChange: (t) => _snack(ctx, 'Scroll→ $t'),
             ),
             const SizedBox(height: 32),

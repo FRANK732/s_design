@@ -99,7 +99,6 @@ SCheckbox(
                 children: [
                   SCheckbox(
                     value: _groupAll,
-                    intermediate: true,
                     onChanged: (v) {
                       setState(() {
                         _groupAll = v;
@@ -141,22 +140,22 @@ SCheckbox(
   onChanged: (v) { /* select/deselect all */ },
 );''',
         ),
-        ComponentSection(
+        const ComponentSection(
           title: 'Disabled',
           description: 'Pass `isDisabled: true` to prevent interaction.',
           demo: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                children: const [
+                children: [
                   SCheckbox(value: SCheckboxState.checked, onChanged: null, isDisabled: true),
                   SizedBox(width: 8),
                   Text('Checked & Disabled'),
                 ],
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: 8),
               Row(
-                children: const [
+                children: [
                   SCheckbox(value: SCheckboxState.unchecked, onChanged: null, isDisabled: true),
                   SizedBox(width: 8),
                   Text('Unchecked & Disabled'),

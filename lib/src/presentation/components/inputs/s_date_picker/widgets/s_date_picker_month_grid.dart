@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../themes/s_theme.dart';
+import '../../../../themes/s_theme_data.dart';
 import '../s_date_picker_style.dart';
 import '../s_date_picker_style_helper.dart';
 
@@ -26,10 +27,10 @@ class SDatePickerMonthGrid
   Widget build(
       BuildContext
           context) {
-    final theme =
+    final SThemeData theme =
         STheme.of(context);
-    const months =
-        [
+    const List<String> months =
+        <String>[
       'Jan',
       'Feb',
       'Mar',
@@ -45,20 +46,20 @@ class SDatePickerMonthGrid
     ];
 
     // 12 months = 4 rows of 3 columns
-    final rows =
+    final List<Widget> rows =
         <Widget>[];
     for (int i = 0;
         i < 4;
         i++) {
-      final rowMonths =
+      final List<String> rowMonths =
           months.sublist(i * 3, (i + 1) * 3);
       rows.add(Row(
-        children: rowMonths.asMap().entries.map((entry) {
-          final index = (i * 3) + entry.key;
-          final monthName = entry.value;
-          final monthDate = DateTime(viewDate.year, index + 1);
-          final isSelected = selectedDate != null && selectedDate!.year == monthDate.year && selectedDate!.month == monthDate.month;
-          final isCurrentMonth = DateTime.now().year == monthDate.year && DateTime.now().month == monthDate.month;
+        children: rowMonths.asMap().entries.map((MapEntry<int, String> entry) {
+          final int index = (i * 3) + entry.key;
+          final String monthName = entry.value;
+          final DateTime monthDate = DateTime(viewDate.year, index + 1);
+          final bool isSelected = selectedDate != null && selectedDate!.year == monthDate.year && selectedDate!.month == monthDate.month;
+          final bool isCurrentMonth = DateTime.now().year == monthDate.year && DateTime.now().month == monthDate.month;
 
           Color textColor = SDatePickerStyleHelper.getDayColor(
             theme,
@@ -107,8 +108,9 @@ class SDatePickerMonthGrid
         }).toList(),
       ));
       if (i <
-          3)
+          3) {
         rows.add(const SizedBox(height: 8));
+      }
     }
 
     return Column(

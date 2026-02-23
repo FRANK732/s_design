@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../../../../s_design.dart';
-import '../../../../localizations/s_localizations.dart';
 
 class SSelectDropdown<
         T>
@@ -37,7 +36,7 @@ class SSelectDropdown<
   Widget build(
       BuildContext
           context) {
-    final theme =
+    final SThemeData theme =
         STheme.of(context);
 
     if (loading) {
@@ -70,7 +69,7 @@ class SSelectDropdown<
           BoxDecoration(
         color: theme.colorToken.surface,
         borderRadius: BorderRadius.circular(DesignConstants.borderRadiusMedium),
-        boxShadow: [
+        boxShadow: <BoxShadow>[
           BoxShadow(
             color: theme.colorToken.shadow,
             blurRadius: 10,
@@ -83,9 +82,9 @@ class SSelectDropdown<
         padding: const EdgeInsets.symmetric(vertical: 4),
         shrinkWrap: true,
         itemCount: items.length,
-        itemBuilder: (context, index) {
-          final item = items[index];
-          final isSelected = selectedValues.contains(item.value);
+        itemBuilder: (BuildContext context, int index) {
+          final SSelectItem<T> item = items[index];
+          final bool isSelected = selectedValues.contains(item.value);
 
           return InkWell(
             onTap: item.disabled ? null : () => onSelect(item.value),
@@ -98,11 +97,11 @@ class SSelectDropdown<
                 borderRadius: BorderRadius.circular(DesignConstants.borderRadiusSmall),
               ),
               child: Row(
-                children: [
+                children: <Widget>[
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: <Widget>[
                         Text(
                           item.label,
                           style: theme.typographyToken.bodyMedium.copyWith(

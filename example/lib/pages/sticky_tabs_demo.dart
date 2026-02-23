@@ -109,17 +109,15 @@ class _StickyTabsDemoPageState
                   handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                   sliver: SliverAppBar(
                     title: const Text('Sticky Tabs Demo'),
-                    pinned: false, // Unpinned to show tabs sticking
                     expandedHeight: 200,
                     flexibleSpace: FlexibleSpaceBar(
-                      background: Container(color: Colors.indigo.shade100, child: const Center(child: Icon(Icons.image, size: 80, color: Colors.white))),
+                      background: ColoredBox(color: Colors.indigo.shade100, child: const Center(child: Icon(Icons.image, size: 80, color: Colors.white))),
                     ),
                   ),
                 ),
                 SliverSTabs(
                   controller: _tabController,
                   items: _items,
-                  pinned: true,
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 ),
               ];

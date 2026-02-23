@@ -122,8 +122,9 @@ class SAvatarThemeData
       double
           t) {
     if (other
-        is! SAvatarThemeData)
+        is! SAvatarThemeData) {
       return this;
+    }
     return SAvatarThemeData(
       backgroundColor: Color.lerp(
           backgroundColor,
@@ -178,11 +179,13 @@ class SAvatarThemeData
           other) {
     if (identical(
         this,
-        other))
+        other)) {
       return true;
+    }
     if (other.runtimeType !=
-        runtimeType)
+        runtimeType) {
       return false;
+    }
     return other is SAvatarThemeData &&
         other.backgroundColor == backgroundColor &&
         other.foregroundColor == foregroundColor &&
@@ -200,7 +203,7 @@ class SAvatarThemeData
   @override
   int get hashCode {
     return Object
-        .hashAll([
+        .hashAll(<Object?>[
       backgroundColor,
       foregroundColor,
       borderWidth,

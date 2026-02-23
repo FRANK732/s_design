@@ -206,11 +206,13 @@ class SInputFieldThemeData
           other) {
     if (identical(
         this,
-        other))
+        other)) {
       return true;
+    }
     if (other.runtimeType !=
-        runtimeType)
+        runtimeType) {
       return false;
+    }
     return other is SInputFieldThemeData &&
         other.backgroundColor == backgroundColor &&
         other.borderColor == borderColor &&
@@ -228,7 +230,7 @@ class SInputFieldThemeData
   @override
   int get hashCode {
     return Object
-        .hashAll([
+        .hashAll(<Object?>[
       backgroundColor,
       borderColor,
       focusedBorderColor,

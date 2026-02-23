@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../s_design.dart';
-import 's_scaffold_config.dart';
-import 'widgets/floating_action_button_config.dart';
 import 'widgets/loading_provider.dart';
 
 class SScaffold
@@ -892,7 +890,7 @@ class _SScaffoldState
       bodyWidget =
           CustomScrollView(
         physics: (widget.refreshConfig?.enabled ?? widget.enableRefresh) ? const AlwaysScrollableScrollPhysics() : null,
-        slivers: [
+        slivers: <Widget>[
           ...widget.slivers!(context),
           if (content is! SizedBox) SliverToBoxAdapter(child: content),
         ],

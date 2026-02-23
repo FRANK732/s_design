@@ -35,7 +35,7 @@ class _SAlertPageState
           _sectionHeader('1. Basic'),
           const SAlert(type: SAlertType.success, title: 'Success Text'),
           const SizedBox(height: 8),
-          const SAlert(type: SAlertType.info, title: 'Info Text'),
+          const SAlert(title: 'Info Text'),
           const SizedBox(height: 8),
           const SAlert(type: SAlertType.warning, title: 'Warning Text'),
           const SizedBox(height: 8),
@@ -51,7 +51,6 @@ class _SAlertPageState
           ),
           const SizedBox(height: 8),
           const SAlert(
-            type: SAlertType.info,
             title: 'Info Text',
             description: 'Info Description Info Description Info Description Info Description',
           ),
@@ -73,7 +72,7 @@ class _SAlertPageState
           _sectionHeader('3. With Icon'),
           const SAlert(type: SAlertType.success, title: 'Success Tips', showIcon: true),
           const SizedBox(height: 8),
-          const SAlert(type: SAlertType.info, title: 'Informational Notes', showIcon: true),
+          const SAlert(title: 'Informational Notes', showIcon: true),
           const SizedBox(height: 8),
           const SAlert(type: SAlertType.warning, title: 'Warning', showIcon: true, closable: true),
           const SizedBox(height: 8),
@@ -87,7 +86,6 @@ class _SAlertPageState
           ),
           const SizedBox(height: 8),
           const SAlert(
-            type: SAlertType.info,
             title: 'Informational Notes',
             description: 'Additional description and information about copywriting.',
             showIcon: true,
@@ -130,7 +128,6 @@ class _SAlertPageState
           ),
           const SizedBox(height: 8),
           SAlert(
-            type: SAlertType.info,
             title: 'Info Title',
             closable: true,
             onClose: () => ScaffoldMessenger.of(context).showSnackBar(
@@ -158,7 +155,7 @@ class _SAlertPageState
             action: TextButton(
               onPressed: () {},
               style: TextButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 minimumSize: const Size(40, 28),
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
@@ -176,7 +173,7 @@ class _SAlertPageState
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red.shade50,
                 foregroundColor: Colors.red,
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 minimumSize: const Size(60, 28),
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 textStyle: const TextStyle(fontSize: 12),
@@ -194,7 +191,7 @@ class _SAlertPageState
             action: TextButton(
               onPressed: () {},
               style: TextButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 minimumSize: const Size(48, 28),
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
@@ -203,7 +200,6 @@ class _SAlertPageState
           ),
           const SizedBox(height: 8),
           SAlert(
-            type: SAlertType.info,
             title: 'Info Text',
             description: 'Info Description Info Description Info Description Info Description',
             closable: true,
@@ -213,7 +209,7 @@ class _SAlertPageState
                 ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     minimumSize: const Size(72, 28),
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     textStyle: const TextStyle(fontSize: 12),
@@ -225,7 +221,7 @@ class _SAlertPageState
                   onPressed: () {},
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Colors.red,
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     minimumSize: const Size(72, 28),
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     textStyle: const TextStyle(fontSize: 12),
@@ -249,7 +245,6 @@ class _SAlertPageState
           ),
           const SizedBox(height: 8),
           const SAlert(
-            showIcon: false,
             title: 'Warning text without icon',
             banner: true,
           ),
@@ -275,7 +270,6 @@ class _SAlertPageState
           const SAlert(
             icon: Icon(Icons.sentiment_satisfied_alt, color: Colors.orange),
             title: 'Informational Notes',
-            type: SAlertType.info,
             showIcon: true,
           ),
           const SizedBox(height: 8),
@@ -355,7 +349,6 @@ class _SAlertPageState
           ),
           const SizedBox(height: 8),
           SAlert(
-            type: SAlertType.info,
             title: 'Custom Size Constraint',
             description: 'constrained to 400 px max width.',
             showIcon: true,

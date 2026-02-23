@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import '../../../../../s_design.dart';
-import 's_dialog_config.dart';
 
 /// A highly customizable, production-ready dialog widget.
 ///
@@ -499,8 +498,6 @@ class SDialog
           effectiveConfig.barrierColor ?? Colors.black54,
       transitionDuration:
           effectiveTransitionDuration,
-      useRootNavigator:
-          true,
       pageBuilder: (BuildContext ctx,
           Animation<double> animation,
           Animation<double> secondaryAnimation) {
@@ -718,7 +715,6 @@ class _SDialogState
             BoxShadow(
               color: widget.shadowColor ?? dialogTheme.shadowColor ?? Colors.black.withOpacity(0.15),
               blurRadius: widget.elevation ?? dialogTheme.elevation ?? 24.0,
-              spreadRadius: 0,
               offset: const Offset(0, 8),
             ),
           ],
@@ -783,15 +779,13 @@ class _SDialogState
           // Content body — scrollable if requested.
           if (widget.content != null) ...<Widget>[
             const SizedBox(height: 16),
-            widget.scrollable
-                ? Flexible(
+            if (widget.scrollable) Flexible(
                     child: SingleChildScrollView(
                       controller: widget.scrollController,
                       physics: widget.scrollPhysics,
-                      child: widget.content!,
+                      child: widget.content,
                     ),
-                  )
-                : widget.content!,
+                  ) else widget.content!,
           ],
 
           // Optional pre-actions divider.
@@ -941,7 +935,6 @@ class _SDialogState
             )
           : Row(
               mainAxisAlignment: widget.actionsAlignment,
-              mainAxisSize: MainAxisSize.max,
               children: widget.actions!
                   .expand<Widget>((Widget w) => <Widget>[
                         w,

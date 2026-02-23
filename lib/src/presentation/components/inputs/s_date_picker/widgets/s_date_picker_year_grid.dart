@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../themes/s_theme.dart';
+import '../../../../themes/s_theme_data.dart';
 import '../s_date_picker_style.dart';
 
 class SDatePickerYearGrid
@@ -25,26 +26,26 @@ class SDatePickerYearGrid
   Widget build(
       BuildContext
           context) {
-    final theme =
+    final SThemeData theme =
         STheme.of(context);
-    final startYear =
+    final int startYear =
         (viewDate.year ~/ 10) * 10;
 
     // 12 items = 4 rows of 3 columns
-    final rows =
+    final List<Widget> rows =
         <Widget>[];
     for (int i = 0;
         i < 4;
         i++) {
       rows.add(Row(
-        children: List.generate(3, (colIndex) {
-          final index = (i * 3) + colIndex;
-          final year = startYear - 1 + index;
-          final date = DateTime(year);
+        children: List.generate(3, (int colIndex) {
+          final int index = (i * 3) + colIndex;
+          final int year = startYear - 1 + index;
+          final DateTime date = DateTime(year);
 
-          final isSelected = selectedDate != null && selectedDate!.year == year;
-          final isCurrentDecade = year >= startYear && year <= startYear + 9;
-          final isCurrentYear = DateTime.now().year == year;
+          final bool isSelected = selectedDate != null && selectedDate!.year == year;
+          final bool isCurrentDecade = year >= startYear && year <= startYear + 9;
+          final bool isCurrentYear = DateTime.now().year == year;
 
           Color textColor = isCurrentDecade ? theme.colorToken.textPrimary : theme.colorToken.textSecondary.withOpacity(0.5);
           if (isCurrentYear) textColor = theme.colorToken.primary;
@@ -91,8 +92,9 @@ class SDatePickerYearGrid
         }),
       ));
       if (i <
-          3)
+          3) {
         rows.add(const SizedBox(height: 8));
+      }
     }
 
     return Column(

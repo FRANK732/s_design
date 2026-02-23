@@ -23,10 +23,10 @@ class SCardDemoPage
         'For dashboard widgets, statistics displays, or settings panels.',
       ],
       sections: [
-        ComponentSection(
+        const ComponentSection(
           title: 'Basic Card',
           description: 'A simple content container with a title.',
-          demo: const SCard(
+          demo: SCard(
             title: 'Card Title',
             body: Text('This is a basic card. It can contain any widget — text, images, buttons, or entire layouts.'),
           ),
@@ -42,9 +42,9 @@ const SCard(
           demo: SCard(
             title: 'Monthly Stats',
             headerTrailing: IconButton(icon: const Icon(Icons.more_horiz, size: 20), onPressed: () {}),
-            body: Row(
+            body: const Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: const [
+              children: [
                 _Stat(label: 'Users', value: '12,830'),
                 _Stat(label: 'Revenue', value: r'$4,291'),
                 _Stat(label: 'Orders', value: '1,043'),
@@ -75,12 +75,12 @@ SCard(
   body: const Text('Clickable card.'),
 );''',
         ),
-        ComponentSection(
+        const ComponentSection(
           title: 'Variants',
           description: 'Cards support elevated, filled, outlined, frosted, and borderless variants.',
           demo: Column(
-            children: const [
-              SCard(title: 'Elevated (default)', body: Text('Shadow card'), variant: SCardVariant.elevated),
+            children: [
+              SCard(title: 'Elevated (default)', body: Text('Shadow card')),
               SizedBox(height: 10),
               SCard(title: 'Outlined', body: Text('Border card'), variant: SCardVariant.outlined),
               SizedBox(height: 10),
@@ -110,13 +110,13 @@ const SCard(title: 'Filled', body: Text('...'), variant: SCardVariant.filled);''
                       body: Text('Card ${i + 1}'),
                     )),
           ),
-          code: '''
+          code: r'''
 GridView.count(
   crossAxisCount: 2,
   children: List.generate(4, (i) => SCard(
-    title: 'Item \${i + 1}',
+    title: 'Item ${i + 1}',
     onTap: () {},
-    body: Text('Content \${i + 1}'),
+    body: Text('Content ${i + 1}'),
   )),
 );''',
         ),

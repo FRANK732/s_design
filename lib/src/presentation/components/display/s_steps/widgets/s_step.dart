@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../../../../s_design.dart';
-import '../s_step_item.dart';
-import '../s_steps_style_helper.dart';
 
 class SStep
     extends StatelessWidget {
@@ -48,16 +46,16 @@ class SStep
   Widget build(
       BuildContext
           context) {
-    final sTheme =
+    final SThemeData sTheme =
         STheme.of(context);
-    final isHorizontal =
+    final bool isHorizontal =
         direction == Axis.horizontal;
     // final isVertical = direction == Axis.vertical; // Unused
-    final isLabelHorizontal =
+    final bool isLabelHorizontal =
         labelPlacement == SStepsLabelPlacement.horizontal;
 
     // Determine effective status color
-    final iconColor =
+    final Color iconColor =
         SStepsStyleHelper.getIconColor(
       status:
           status,
@@ -66,14 +64,14 @@ class SStep
       isCustomIcon:
           item.icon != null || customIcon != null,
     );
-    final titleColor =
+    final Color titleColor =
         SStepsStyleHelper.getTitleColor(
       status:
           status,
       theme:
           sTheme,
     );
-    final descriptionColor = SStepsStyleHelper.getDescriptionColor(
+    final Color descriptionColor = SStepsStyleHelper.getDescriptionColor(
         status: status,
         theme: sTheme);
 
@@ -114,7 +112,7 @@ class SStep
     }
 
     // Wrap icon in container for borders/backgrounds
-    final iconContainer =
+    final Container iconContainer =
         Container(
       width:
           SStepsStyleHelper.getIconSize(size),
@@ -129,7 +127,6 @@ class SStep
         border: item.icon == null
             ? Border.all(
                 color: status == SStepStatus.process ? sTheme.colorToken.primary : (status == SStepStatus.wait ? sTheme.colorToken.divider : iconColor),
-                width: 1,
               )
             : null,
       ),
@@ -137,17 +134,17 @@ class SStep
           iconWidget,
     );
 
-    final content =
+    final Column content =
         Column(
       crossAxisAlignment: isLabelHorizontal
           ? CrossAxisAlignment.start
           : CrossAxisAlignment.center,
       mainAxisSize:
           MainAxisSize.min,
-      children: [
+      children: <Widget>[
         Row(
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children: <Widget>[
             Flexible(
               child: DefaultTextStyle(
                 style: TextStyle(
@@ -159,7 +156,7 @@ class SStep
                 child: item.title,
               ),
             ),
-            if (item.subTitle != null) ...[
+            if (item.subTitle != null) ...<Widget>[
               const SizedBox(width: 8),
               Flexible(
                 child: DefaultTextStyle(
@@ -175,7 +172,7 @@ class SStep
             ]
           ],
         ),
-        if (item.description != null) ...[
+        if (item.description != null) ...<Widget>[
           const SizedBox(height: 4),
           DefaultTextStyle(
             style: TextStyle(
@@ -196,9 +193,9 @@ class SStep
 
       if (isLabelHorizontal) {
         // Icon - Content - Line
-        Widget cell = Row(
+        final Widget cell = Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             InkWell(
               onTap: item.disabled ? null : onTap,
               borderRadius: BorderRadius.circular(SStepsStyleHelper.getIconSize(size)),
@@ -208,14 +205,14 @@ class SStep
             Expanded(
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 Row(
-                  children: [
+                  children: <Widget>[
                     Flexible(
                       flex: 3,
                       child: content,
                     ), // Title & Subtitle row
-                    if (!isLast) ...[
+                    if (!isLast) ...<Widget>[
                       const SizedBox(width: 8),
                       Expanded(
                         child: Container(
@@ -250,10 +247,10 @@ class SStep
         // But implementing as discrete items:
         // Column [ Row(Icon - Line), Content ]
 
-        Widget cell = Column(
-          children: [
+        final Widget cell = Column(
+          children: <Widget>[
             Row(
-              children: [
+              children: <Widget>[
                 // Line (Left) if needed? No, typical flow is Icon -> Line
                 // To center icon, we might need Line -- Icon -- Line logic?
                 // SSimple way:
@@ -267,14 +264,13 @@ class SStep
                 // Desc                  Desc
 
                 Expanded(
-                  flex: 1, // Space before icon? Only if not first?
-                  child: !isLast ? Container(height: 1, color: Colors.transparent) : SizedBox(),
+                  child: !isLast ? Container(height: 1, color: Colors.transparent) : const SizedBox(),
                   // Simplification: Placing Icon at start, Line extends to next.
                 ),
                 InkWell(onTap: item.disabled ? null : onTap, child: iconContainer),
                 Expanded(
                   flex: 10,
-                  child: !isLast ? Container(height: 1, margin: EdgeInsets.symmetric(horizontal: 10), color: status == SStepStatus.finish ? sTheme.colorToken.primary : sTheme.colorToken.divider) : SizedBox(),
+                  child: !isLast ? Container(height: 1, margin: const EdgeInsets.symmetric(horizontal: 10), color: status == SStepStatus.finish ? sTheme.colorToken.primary : sTheme.colorToken.divider) : const SizedBox(),
                 ),
               ],
             ),
@@ -300,9 +296,9 @@ class SStep
 
       return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           Column(
-            children: [
+            children: <Widget>[
               InkWell(onTap: item.disabled ? null : onTap, child: iconContainer),
               if (!isLast)
                 Expanded(

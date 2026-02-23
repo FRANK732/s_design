@@ -53,7 +53,7 @@ class SInputGroup
           context) {
     if (!compact) {
       return Row(
-        children: children.map((c) => Padding(padding: const EdgeInsets.only(right: 8), child: c)).toList(),
+        children: children.map((Widget c) => Padding(padding: const EdgeInsets.only(right: 8), child: c)).toList(),
       );
     }
 
@@ -61,14 +61,13 @@ class SInputGroup
       mainAxisSize:
           MainAxisSize.min,
       children:
-          children.asMap().entries.map((entry) {
-        final index = entry.key;
-        final child = entry.value;
-        final isFirst = index == 0;
-        final isLast = index == children.length - 1;
+          children.asMap().entries.map((MapEntry<int, Widget> entry) {
+        final int index = entry.key;
+        final Widget child = entry.value;
+        final bool isFirst = index == 0;
+        final bool isLast = index == children.length - 1;
 
         return Flexible(
-          fit: FlexFit.loose,
           child: Container(
             // Negative margin to merge borders
             transform: Matrix4.translationValues(compact && !isFirst ? -1.0 * index : 0.0, 0.0, 0.0),

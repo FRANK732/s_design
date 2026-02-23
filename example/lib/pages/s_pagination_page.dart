@@ -42,7 +42,6 @@ class _SPaginationPageState
             _SectionHeader('1. Basic'),
             _description('Basic pagination with 50 total items.'),
             SPagination(
-              defaultCurrent: 1,
               total: 50,
               onChange: (page, size) => _log(ctx, 'Page: $page, PageSize: $size'),
             ),
@@ -87,7 +86,7 @@ class _SPaginationPageState
               onChange: (page, size) => _log(ctx, 'Page: $page'),
             ),
             const SizedBox(height: 16),
-            SPagination(
+            const SPagination(
               showQuickJumper: true,
               defaultCurrent: 2,
               total: 500,
@@ -98,9 +97,9 @@ class _SPaginationPageState
             // ── 5. Mini Size ───────────────────────────────────────────────
             _SectionHeader('5. Size Variants — Small'),
             _description('size: SPaginationSize.small produces compact 24px items.'),
-            SPagination(size: SPaginationSize.small, total: 50),
+            const SPagination(size: SPaginationSize.small, total: 50),
             const SizedBox(height: 12),
-            SPagination(
+            const SPagination(
               size: SPaginationSize.small,
               total: 50,
               showSizeChanger: true,
@@ -125,9 +124,9 @@ class _SPaginationPageState
 
             _SectionHeader('5b. Size Variants — Large'),
             _description('size: SPaginationSize.large produces 40px items.'),
-            SPagination(size: SPaginationSize.large, total: 50),
+            const SPagination(size: SPaginationSize.large, total: 50),
             const SizedBox(height: 12),
-            SPagination(
+            const SPagination(
               size: SPaginationSize.large,
               total: 50,
               showSizeChanger: true,
@@ -153,9 +152,9 @@ class _SPaginationPageState
             // ── 6. Simple Mode ─────────────────────────────────────────────
             _SectionHeader('6. Simple Mode'),
             _description('simple: true shows current/total input instead of page buttons.'),
-            SPagination(simple: true, defaultCurrent: 2, total: 50),
+            const SPagination(simple: true, defaultCurrent: 2, total: 50),
             const SizedBox(height: 12),
-            SPagination(simple: true, defaultCurrent: 2, total: 50, disabled: true),
+            const SPagination(simple: true, defaultCurrent: 2, total: 50, disabled: true),
             const SizedBox(height: 32),
 
             // ── 7. Controlled ──────────────────────────────────────────────
@@ -182,14 +181,12 @@ class _SPaginationPageState
               total: 85,
               showTotal: (total, _) => 'Total $total items',
               defaultPageSize: 20,
-              defaultCurrent: 1,
             ),
             const SizedBox(height: 12),
             SPagination(
               total: 85,
               showTotal: (total, range) => '${range[0]}–${range[1]} of $total items',
               defaultPageSize: 20,
-              defaultCurrent: 1,
             ),
             const SizedBox(height: 32),
 
@@ -198,7 +195,6 @@ class _SPaginationPageState
             _description('itemRender replaces prev / next buttons with custom widgets.'),
             SPagination(
               total: 500,
-              defaultCurrent: 1,
               itemRender: (page, type, defaultWidget) {
                 if (type == SPaginationItemType.prev) {
                   return const Padding(
@@ -220,11 +216,11 @@ class _SPaginationPageState
             // ── 10. Alignment ──────────────────────────────────────────────
             _SectionHeader('10. Alignment'),
             _description('align: start / center / end.'),
-            SPagination(align: SPaginationAlign.start, defaultCurrent: 1, total: 50),
+            const SPagination(total: 50),
             const SizedBox(height: 12),
-            SPagination(align: SPaginationAlign.center, defaultCurrent: 1, total: 50),
+            const SPagination(align: SPaginationAlign.center, total: 50),
             const SizedBox(height: 12),
-            SPagination(align: SPaginationAlign.end, defaultCurrent: 1, total: 50),
+            const SPagination(align: SPaginationAlign.end, total: 50),
             const SizedBox(height: 32),
 
             // ── 11. All Features ───────────────────────────────────────────

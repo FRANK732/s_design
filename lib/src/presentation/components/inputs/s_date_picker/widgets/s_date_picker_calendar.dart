@@ -33,21 +33,21 @@ class SDatePickerCalendar
   Widget build(
       BuildContext
           context) {
-    final sTheme =
+    final SThemeData sTheme =
         STheme.of(context);
-    final days =
+    final List<DateTime> days =
         _generateDays();
     // 42 days = 6 rows of 7
-    final rows =
+    final List<Widget> rows =
         <Widget>[];
     for (int i = 0;
         i < 6;
         i++) {
-      final rowDays =
+      final List<DateTime> rowDays =
           days.sublist(i * 7, (i + 1) * 7);
       rows.add(Row(
         children: rowDays
-            .map((day) => Expanded(
+            .map((DateTime day) => Expanded(
                   child: AspectRatio(
                     aspectRatio: 1.2,
                     child: _buildDayCell(context, day, sTheme),
@@ -56,14 +56,15 @@ class SDatePickerCalendar
             .toList(),
       ));
       if (i <
-          5)
+          5) {
         rows.add(const SizedBox(height: 4));
+      }
     }
 
     return Column(
       mainAxisSize:
           MainAxisSize.min,
-      children: [
+      children: <Widget>[
         _buildWeekDays(sTheme),
         const SizedBox(height: 4),
         ...rows,
@@ -74,8 +75,8 @@ class SDatePickerCalendar
   Widget _buildWeekDays(
       SThemeData
           theme) {
-    final weekDays =
-        [
+    final List<String> weekDays =
+        <String>[
       'Su',
       'Mo',
       'Tu',
@@ -88,7 +89,7 @@ class SDatePickerCalendar
       mainAxisAlignment:
           MainAxisAlignment.spaceBetween,
       children: weekDays
-          .map((day) => Expanded(
+          .map((String day) => Expanded(
                 child: Center(
                   child: Text(
                     day,
@@ -111,22 +112,22 @@ class SDatePickerCalendar
           day,
       SThemeData
           theme) {
-    final isCurrentMonth =
+    final bool isCurrentMonth =
         day.month == viewDate.month;
-    final isToday = _isSameDay(
+    final bool isToday = _isSameDay(
         day,
         DateTime.now());
 
     // Single selection
-    final isSelected =
-        selectedDate != null && _isSameDay(day, selectedDate!);
+    final bool isSelected =
+        selectedDate != null && _isSameDay(day, selectedDate);
 
     // Range selection
-    final isRangeStart =
-        rangeStart != null && _isSameDay(day, rangeStart!);
-    final isRangeEnd =
-        rangeEnd != null && _isSameDay(day, rangeEnd!);
-    final isInRange = rangeStart != null &&
+    final bool isRangeStart =
+        rangeStart != null && _isSameDay(day, rangeStart);
+    final bool isRangeEnd =
+        rangeEnd != null && _isSameDay(day, rangeEnd);
+    final bool isInRange = rangeStart != null &&
         rangeEnd != null &&
         day.isAfter(rangeStart!) &&
         day.isBefore(rangeEnd!);
@@ -206,8 +207,9 @@ class SDatePickerCalendar
       DateTime?
           b) {
     if (a == null ||
-        b == null)
+        b == null) {
       return false;
+    }
     return a.year == b.year &&
         a.month == b.month &&
         a.day == b.day;
@@ -215,19 +217,18 @@ class SDatePickerCalendar
 
   List<DateTime>
       _generateDays() {
-    final firstDayOfMonth = DateTime(
+    final DateTime firstDayOfMonth = DateTime(
         viewDate.year,
-        viewDate.month,
-        1);
+        viewDate.month);
     final int weekdayOffset = firstDayOfMonth.weekday == 7
         ? 0
         : firstDayOfMonth.weekday;
-    final startDate =
+    final DateTime startDate =
         firstDayOfMonth.subtract(Duration(days: weekdayOffset));
 
     return List.generate(
         42,
-        (index) {
+        (int index) {
       return startDate.add(Duration(days: index));
     });
   }

@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -32,79 +31,6 @@ import 'tokens/typography.dart';
 class SThemeData
     with
         Diagnosticable {
-  /// The overall brightness of this theme.
-  final Brightness
-      brightness;
-
-  /// System-level colors mapped from brightness.
-  final SColorsBase
-      colorToken;
-
-  /// The text styles for this theme.
-  final STypographyBase
-      typographyToken;
-
-  // Component Themes
-  final SAlertThemeData
-      alertTheme;
-  final SAvatarThemeData
-      avatarTheme;
-  final SButtonThemeData
-      buttonTheme;
-  final SCardThemeData
-      cardTheme;
-  final SCheckboxThemeData
-      checkboxTheme;
-  final SDialogThemeData
-      dialogTheme;
-  final SDropdownMenuThemeData
-      dropdownMenuTheme;
-  final SFloatingPanelThemeData
-      floatingPanelTheme;
-  final SInputFieldThemeData
-      inputFieldTheme;
-  final SListTileThemeData
-      listTileTheme;
-  final SLoadingIndicatorThemeData
-      loadingIndicatorTheme;
-  final SPaginationThemeData
-      paginationTheme;
-  final SSelectThemeData
-      selectTheme;
-  final SSonnerThemeData
-      sonnerTheme;
-  final SSwitchThemeData
-      switchTheme;
-  final STabsThemeData
-      tabsTheme;
-  final STimePickerThemeData
-      timePickerTheme;
-  final SToastThemeData
-      toastTheme;
-
-  const SThemeData.raw({
-    required this.brightness,
-    required this.colorToken,
-    required this.typographyToken,
-    required this.alertTheme,
-    required this.avatarTheme,
-    required this.buttonTheme,
-    required this.cardTheme,
-    required this.checkboxTheme,
-    required this.dialogTheme,
-    required this.dropdownMenuTheme,
-    required this.floatingPanelTheme,
-    required this.inputFieldTheme,
-    required this.listTileTheme,
-    required this.loadingIndicatorTheme,
-    required this.paginationTheme,
-    required this.selectTheme,
-    required this.sonnerTheme,
-    required this.switchTheme,
-    required this.tabsTheme,
-    required this.timePickerTheme,
-    required this.toastTheme,
-  });
 
   /// Abstract factory constructor to build an SDesign Theme.
   factory SThemeData({
@@ -153,7 +79,7 @@ class SThemeData
   }) {
     brightness ??=
         Brightness.light;
-    final isLight =
+    final bool isLight =
         brightness == Brightness.light;
 
     // Use default tokens if not provided
@@ -168,7 +94,7 @@ class SThemeData
     // This ensures all component themes using `.fromColorScheme(matColorScheme)`
     // accurately reflect our carefully curated light/dark colors (e.g. pure dark surface)
     // rather than the auto-generated tonal palettes from Material 3.
-    final matColorScheme =
+    final ColorScheme matColorScheme =
         ColorScheme(
       brightness:
           brightness,
@@ -470,6 +396,79 @@ class SThemeData
     );
   }
 
+  const SThemeData.raw({
+    required this.brightness,
+    required this.colorToken,
+    required this.typographyToken,
+    required this.alertTheme,
+    required this.avatarTheme,
+    required this.buttonTheme,
+    required this.cardTheme,
+    required this.checkboxTheme,
+    required this.dialogTheme,
+    required this.dropdownMenuTheme,
+    required this.floatingPanelTheme,
+    required this.inputFieldTheme,
+    required this.listTileTheme,
+    required this.loadingIndicatorTheme,
+    required this.paginationTheme,
+    required this.selectTheme,
+    required this.sonnerTheme,
+    required this.switchTheme,
+    required this.tabsTheme,
+    required this.timePickerTheme,
+    required this.toastTheme,
+  });
+  /// The overall brightness of this theme.
+  final Brightness
+      brightness;
+
+  /// System-level colors mapped from brightness.
+  final SColorsBase
+      colorToken;
+
+  /// The text styles for this theme.
+  final STypographyBase
+      typographyToken;
+
+  // Component Themes
+  final SAlertThemeData
+      alertTheme;
+  final SAvatarThemeData
+      avatarTheme;
+  final SButtonThemeData
+      buttonTheme;
+  final SCardThemeData
+      cardTheme;
+  final SCheckboxThemeData
+      checkboxTheme;
+  final SDialogThemeData
+      dialogTheme;
+  final SDropdownMenuThemeData
+      dropdownMenuTheme;
+  final SFloatingPanelThemeData
+      floatingPanelTheme;
+  final SInputFieldThemeData
+      inputFieldTheme;
+  final SListTileThemeData
+      listTileTheme;
+  final SLoadingIndicatorThemeData
+      loadingIndicatorTheme;
+  final SPaginationThemeData
+      paginationTheme;
+  final SSelectThemeData
+      selectTheme;
+  final SSonnerThemeData
+      sonnerTheme;
+  final SSwitchThemeData
+      switchTheme;
+  final STabsThemeData
+      tabsTheme;
+  final STimePickerThemeData
+      timePickerTheme;
+  final SToastThemeData
+      toastTheme;
+
   /// Creates a default light theme.
   static SThemeData
       light() {
@@ -586,11 +585,13 @@ class SThemeData
       double
           t) {
     if (t ==
-        0)
+        0) {
       return a;
+    }
     if (t ==
-        1)
+        1) {
       return b;
+    }
 
     return SThemeData
         .raw(
@@ -648,11 +649,13 @@ class SThemeData
           other) {
     if (identical(
         this,
-        other))
+        other)) {
       return true;
+    }
     if (other.runtimeType !=
-        runtimeType)
+        runtimeType) {
       return false;
+    }
     return other is SThemeData &&
         other.brightness == brightness &&
         other.colorToken == colorToken &&
@@ -680,7 +683,7 @@ class SThemeData
   @override
   int get hashCode {
     return Object
-        .hashAll([
+        .hashAll(<Object?>[
       brightness,
       colorToken,
       typographyToken,

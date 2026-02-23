@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../../../../s_design.dart';
-import '../../../localizations/s_localizations.dart';
 import 'widgets/s_select_dropdown.dart';
 import 'widgets/s_select_trigger.dart';
 
@@ -295,7 +294,7 @@ class _SSelectState<
           null) {
         _selectedValues = _normalizeValue(widget.defaultValue);
       } else {
-        _selectedValues = [];
+        _selectedValues = <T>[];
       }
     } else {
       _selectedValues =
@@ -307,12 +306,14 @@ class _SSelectState<
       dynamic
           val) {
     if (val ==
-        null)
-      return [];
+        null) {
+      return <T>[];
+    }
     if (val
-        is List)
+        is List) {
       return List<T>.from(val);
-    return [
+    }
+    return <T>[
       val as T
     ];
   }
@@ -350,8 +351,9 @@ class _SSelectState<
   void
       _toggleDropdown() {
     if (widget
-        .disabled)
+        .disabled) {
       return;
+    }
 
     if (_isOpen) {
       _closeDropdown();
@@ -362,14 +364,16 @@ class _SSelectState<
 
   void
       _openDropdown() {
-    if (_isOpen)
+    if (_isOpen) {
       return;
+    }
     final RenderBox?
         renderBox =
         context.findRenderObject() as RenderBox?;
     if (renderBox ==
-        null)
+        null) {
       return;
+    }
 
     final Size
         size =
@@ -377,9 +381,9 @@ class _SSelectState<
 
     _overlayEntry =
         OverlayEntry(
-      builder: (context) =>
+      builder: (BuildContext context) =>
           Stack(
-        children: [
+        children: <Widget>[
           Positioned.fill(
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,
@@ -427,12 +431,13 @@ class _SSelectState<
         .requestFocus();
   }
 
-  void
+  Future<void>
       _closeDropdown() async {
     await _animationController
         .reverse();
-    if (!mounted)
+    if (!mounted) {
       return;
+    }
 
     _removeOverlay();
     setState(
@@ -459,12 +464,13 @@ class _SSelectState<
   Widget
       _buildDropdown() {
     // Filter items based on search
-    final filteredItems = widget
+    final List<SSelectItem<T>> filteredItems = widget
         .items
-        .where((item) {
+        .where((SSelectItem<T> item) {
       if (!widget.showSearch ||
-          _searchValue.isEmpty)
+          _searchValue.isEmpty) {
         return true;
+      }
       if (widget.filterOption !=
           null) {
         return widget.filterOption!(_searchValue, item);
@@ -496,7 +502,7 @@ class _SSelectState<
     if (widget.mode == null ||
         widget.mode == SSelectMode.single) {
       setState(() {
-        _selectedValues = [
+        _selectedValues = <T>[
           value
         ];
       });
@@ -523,7 +529,7 @@ class _SSelectState<
     setState(
         () {
       _selectedValues =
-          [];
+          <T>[];
     });
     _overlayEntry
         ?.markNeedsBuild(); // Update dropdown UI
@@ -565,7 +571,7 @@ class _SSelectState<
               prefix: widget.prefix,
               suffixIcon: widget.suffixIcon,
               focusNode: _focusNode,
-              onSearch: (value) {
+              onSearch: (String value) {
                 setState(() {
                   _searchValue = value;
                 });

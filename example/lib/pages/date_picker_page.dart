@@ -17,7 +17,7 @@ class _DatePickerPageState
         DatePickerPage> {
   DateTime?
       _basicDate;
-  final DateTime?
+  final DateTime
       _disabledDate =
       DateTime.now();
   DateTime?

@@ -265,11 +265,13 @@ class SListTile
           theme,
       ColorScheme
           colorScheme) {
-    if (showLoading)
+    if (showLoading) {
       return Colors.grey.withOpacity(0.1);
+    }
     if (tileColor !=
-        null)
+        null) {
       return tileColor;
+    }
 
     switch (
         variant) {
@@ -291,8 +293,9 @@ class SListTile
       ColorScheme
           colorScheme) {
     if (shape !=
-        null)
+        null) {
       return shape;
+    }
 
     final BorderRadius
         radius =
@@ -302,7 +305,7 @@ class SListTile
         variant) {
       case SListTileVariant.filled:
       case SListTileVariant.elevated:
-        return RoundedRectangleBorder(borderRadius: radius, side: BorderSide.none);
+        return RoundedRectangleBorder(borderRadius: radius);
       case SListTileVariant.outlined:
         return RoundedRectangleBorder(
           borderRadius: radius,
@@ -481,7 +484,7 @@ class SListTile
         null) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           AnimatedDefaultTextStyle(
             duration: animationDuration,
             style: themeData.textTheme.labelSmall!.copyWith(

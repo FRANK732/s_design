@@ -23,7 +23,7 @@ class SSelectStyleHelper {
     switch (
         size) {
       case SSelectSize.small:
-        return const EdgeInsets.symmetric(horizontal: 8.0, vertical: 0.0);
+        return const EdgeInsets.symmetric(horizontal: 8.0);
       case SSelectSize.middle:
         return const EdgeInsets.symmetric(horizontal: 12.0, vertical: 5.0);
       case SSelectSize.large:
@@ -44,18 +44,22 @@ class SSelectStyleHelper {
         theme,
   }) {
     if (variant ==
-        SSelectVariant.borderless)
+        SSelectVariant.borderless) {
       return Colors.transparent;
+    }
 
     if (status ==
-        SSelectStatus.error)
+        SSelectStatus.error) {
       return theme.colorToken.error;
+    }
     if (status ==
-        SSelectStatus.warning)
+        SSelectStatus.warning) {
       return const Color(0xFFFAAD14); // Standard warning amber
+    }
 
-    if (isFocused)
+    if (isFocused) {
       return theme.colorToken.primary;
+    }
 
     return theme
         .colorToken
@@ -72,8 +76,9 @@ class SSelectStyleHelper {
     required SThemeData
         theme,
   }) {
-    if (disabled)
+    if (disabled) {
       return theme.colorToken.background;
+    }
 
     if (variant ==
         SSelectVariant.filled) {
@@ -101,13 +106,10 @@ class SSelectStyleHelper {
         size) {
       case SSelectSize.small:
         fontSize = 12.0;
-        break;
       case SSelectSize.middle:
         fontSize = 14.0;
-        break;
       case SSelectSize.large:
         fontSize = 16.0;
-        break;
     }
 
     return theme

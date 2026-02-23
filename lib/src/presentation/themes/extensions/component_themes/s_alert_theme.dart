@@ -151,8 +151,9 @@ class SAlertThemeData
       double
           t) {
     if (other ==
-        null)
+        null) {
       return this;
+    }
     return SAlertThemeData(
       successBackgroundColor: Color.lerp(
           successBackgroundColor,
@@ -242,8 +243,9 @@ class SAlertThemeData
       double
           t) {
     if (a == null &&
-        b == null)
+        b == null) {
       return null;
+    }
     return (a ?? 0.0) +
         ((b ?? 0.0) - (a ?? 0.0)) * t;
   }

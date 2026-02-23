@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../domain/entities/config/s_avatar_enums.dart';
 import '../../../themes/extensions/component_themes/s_avatar_theme.dart';
 import '../../../themes/s_theme.dart';
+import '../../../themes/s_theme_data.dart';
 import 's_avatar.dart';
 
 /// Properties for configuring the overflow popover (tooltip) in [SAvatarGroup].
@@ -26,8 +27,9 @@ double _getAvatarWidth(
   if (child
       is SAvatar) {
     if (child.customSize !=
-        null)
+        null) {
       return child.customSize!;
+    }
     switch (
         child.size) {
       case SAvatarSize.large:
@@ -103,16 +105,16 @@ class SAvatarGroup
           child) {
     if (child
         is SAvatar) {
-      final theme =
+      final ThemeData theme =
           Theme.of(context);
-      final ext =
+      final SAvatarThemeData? ext =
           theme.extension<SAvatarThemeData>();
-      final isDark =
+      final bool isDark =
           theme.brightness == Brightness.dark;
 
-      final borderCol =
+      final Color borderCol =
           ext?.backgroundColor ?? (isDark ? const Color(0xFF141414) : const Color(0xFFFFFFFF));
-      final borderW =
+      final double borderW =
           ext?.borderWidth ?? 1.0;
 
       return SAvatar(
@@ -143,14 +145,14 @@ class SAvatarGroup
   Widget build(
       BuildContext
           context) {
-    final numOfChildren =
+    final int numOfChildren =
         children.length;
-    final mergeCount =
+    final int? mergeCount =
         maxCount;
 
     List<Widget>
         childrenToShow =
-        [];
+        <Widget>[];
 
     if (mergeCount != null &&
         mergeCount < numOfChildren) {
@@ -162,8 +164,8 @@ class SAvatarGroup
     }
 
     // Cascade props
-    final cascadedShow = childrenToShow
-        .map((c) => _cloneWithCascade(context, c))
+    final List<Widget> cascadedShow = childrenToShow
+        .map((Widget c) => _cloneWithCascade(context, c))
         .toList();
 
     // Map to overlapping stack
@@ -173,7 +175,7 @@ class SAvatarGroup
     // or just calculate explicit widths.
     // Actually, simpler: A Row where each child is wrapped in Align(widthFactor: ...).
 
-    final ext =
+    final SAvatarThemeData ext =
         STheme.of(context).avatarTheme;
 
     Widget buildRow(
@@ -181,9 +183,9 @@ class SAvatarGroup
         {bool hasOverflow = false}) {
       return Row(
         mainAxisSize: MainAxisSize.min,
-        children: items.asMap().entries.map((entry) {
-          final idx = entry.key;
-          final item = entry.value;
+        children: items.asMap().entries.map((MapEntry<int, Widget> entry) {
+          final int idx = entry.key;
+          final Widget item = entry.value;
 
           // If it's the last item, no width compression is needed because
           // nothing comes after it.
@@ -191,9 +193,9 @@ class SAvatarGroup
             return item;
           }
 
-          final w = _getAvatarWidth(item, ext);
-          final fw = w + spacing;
-          final widthFactor = (fw > 0 ? fw : 0.0) / w;
+          final double w = _getAvatarWidth(item, ext);
+          final double fw = w + spacing;
+          final double widthFactor = (fw > 0 ? fw : 0.0) / w;
 
           return Align(
             alignment: Alignment.centerLeft,
@@ -206,26 +208,26 @@ class SAvatarGroup
 
     if (mergeCount != null &&
         mergeCount < numOfChildren) {
-      final theme =
+      final SThemeData theme =
           STheme.of(context);
-      final ext =
+      final SAvatarThemeData ext =
           theme.avatarTheme;
-      final isDark =
+      final bool isDark =
           theme.brightness == Brightness.dark;
 
-      final borderCol =
+      final Color borderCol =
           ext.backgroundColor ?? (isDark ? const Color(0xFF141414) : const Color(0xFFFFFFFF));
-      final borderW =
+      final double borderW =
           ext.borderWidth ?? 1.0;
 
-      final plusAvatar = maxStyle ??
+      final SAvatar plusAvatar = maxStyle ??
           SAvatar(
-            text: '+\${numOfChildren - mergeCount}',
+            text: r'+${numOfChildren - mergeCount}',
             backgroundColor: isDark ? const Color(0xFF333333) : const Color(0xFFFDE3CF),
             foregroundColor: isDark ? const Color(0xFFD9D9D9) : const Color(0xFFF56A00),
           );
 
-      final cascadedPlus = _cloneWithCascade(
+      final Widget cascadedPlus = _cloneWithCascade(
           context,
           SAvatar(
             text: plusAvatar.text,
@@ -242,14 +244,14 @@ class SAvatarGroup
             borderWidth: plusAvatar.borderWidth ?? borderW,
           ));
 
-      final overflowItem =
+      final Tooltip overflowItem =
           Tooltip(
         message: maxPopoverProps?.message ?? '(${numOfChildren - mergeCount} more)',
         child: cascadedPlus,
       );
 
       // We append it to the row
-      final allItems = List<Widget>.from(cascadedShow)
+      final List<Widget> allItems = List<Widget>.from(cascadedShow)
         ..add(overflowItem);
       return buildRow(allItems,
           hasOverflow: true);

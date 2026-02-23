@@ -114,11 +114,13 @@ class SToastThemeData
           other) {
     if (identical(
         this,
-        other))
+        other)) {
       return true;
+    }
     if (other.runtimeType !=
-        runtimeType)
+        runtimeType) {
       return false;
+    }
     return other is SToastThemeData &&
         other.backgroundColor == backgroundColor &&
         other.textColor == textColor &&
@@ -131,7 +133,7 @@ class SToastThemeData
   @override
   int get hashCode {
     return Object
-        .hashAll([
+        .hashAll(<Object?>[
       backgroundColor,
       textColor,
       successColor,

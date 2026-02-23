@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:math'
     as math;
-import 'package:flutter/services.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import '../../../../domain/entities/config/s_dropdown_menu_item_type.dart';
 import '../s_input/s_input_field.dart';
 import 'utils/s_dropdown_menu_utils.dart';
@@ -462,7 +464,7 @@ class _SDropdownMenuState<
       if (widget.initialValue !=
           null) {
         _selectedItems = <T>[
-          widget.initialValue!
+          widget.initialValue as T
         ];
       }
     }
@@ -487,8 +489,9 @@ class _SDropdownMenuState<
     if (widget.asyncItems !=
         null) {
       if (_debounceTimer?.isActive ??
-          false)
+          false) {
         _debounceTimer!.cancel();
+      }
       _debounceTimer =
           Timer(const Duration(milliseconds: 500), () async {
         setState(() {

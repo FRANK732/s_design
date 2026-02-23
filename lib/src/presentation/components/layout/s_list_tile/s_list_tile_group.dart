@@ -55,8 +55,9 @@ class SListTileGroup
       BuildContext
           context) {
     if (children
-        .isEmpty)
+        .isEmpty) {
       return const SizedBox.shrink();
+    }
 
     final SListTileThemeData
         theme =
@@ -93,12 +94,13 @@ class SListTileGroup
   List<Widget>
       _buildChildrenWithDividers(Color dividerColor) {
     if (!showDividers ||
-        children.length <= 1)
+        children.length <= 1) {
       return children;
+    }
 
     final List<Widget>
         items =
-        [];
+        <Widget>[];
     for (int i = 0;
         i < children.length;
         i++) {

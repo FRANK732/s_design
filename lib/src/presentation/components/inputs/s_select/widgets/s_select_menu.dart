@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../../../../../s_design.dart';
-import 's_select_item.dart';
 
 class SSelectMenu<
         T>
@@ -69,7 +68,7 @@ class _SSelectMenuState<
       TextEditingController();
   List<SSelectItem<T>>
       _filteredItems =
-      [];
+      <SSelectItem<T>>[];
   bool
       _isLoading =
       false;
@@ -102,8 +101,9 @@ class _SSelectMenuState<
   void
       _onSearchChanged() {
     if (_debounceTimer?.isActive ??
-        false)
+        false) {
       _debounceTimer?.cancel();
+    }
     _debounceTimer = Timer(
         const Duration(milliseconds: 300),
         () {
@@ -154,8 +154,9 @@ class _SSelectMenuState<
       SSelectItem<T>
           item) {
     if (item
-        .disabled)
+        .disabled) {
       return;
+    }
 
     if (widget
         .isMultiSelect) {
@@ -180,7 +181,7 @@ class _SSelectMenuState<
         ? (widget.multiValues?.contains(item.value) ?? false)
         : item.value == widget.singleValue;
 
-    final sTheme =
+    final SThemeData sTheme =
         STheme.of(context);
     final Color
         primaryColor =
@@ -213,7 +214,7 @@ class _SSelectMenuState<
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Text(
                     item.label,
                     style: sTheme.typographyToken.bodyMedium.copyWith(
@@ -252,7 +253,7 @@ class _SSelectMenuState<
   Widget build(
       BuildContext
           context) {
-    final sTheme =
+    final SThemeData sTheme =
         STheme.of(context);
     return Container(
       constraints:
@@ -283,7 +284,7 @@ class _SSelectMenuState<
                         ),
                       )
                     : null,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                contentPadding: const EdgeInsets.symmetric(),
                 isDense: true,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(DesignConstants.borderRadiusSmall),

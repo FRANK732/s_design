@@ -87,9 +87,9 @@ class _SAvatarPageState
   Widget build(
       BuildContext
           context) {
-    final url =
+    const url =
         'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png';
-    final fallbackUrl =
+    const fallbackUrl =
         'http://abc.com/not-exist.jpg'; // deliberately broken
 
     return Scaffold(
@@ -103,28 +103,28 @@ class _SAvatarPageState
           children: [
             _buildSection(
               'Basic',
-              Column(
+              const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Wrap(
                     spacing: 16,
                     children: [
-                      const SAvatar(customSize: 64, icon: Icon(Icons.person_outline)),
-                      const SAvatar(size: SAvatarSize.large, icon: Icon(Icons.person_outline)),
-                      const SAvatar(icon: Icon(Icons.person_outline)),
-                      const SAvatar(size: SAvatarSize.small, icon: Icon(Icons.person_outline)),
-                      const SAvatar(customSize: 14, icon: Icon(Icons.person_outline)),
+                      SAvatar(customSize: 64, icon: Icon(Icons.person_outline)),
+                      SAvatar(size: SAvatarSize.large, icon: Icon(Icons.person_outline)),
+                      SAvatar(icon: Icon(Icons.person_outline)),
+                      SAvatar(size: SAvatarSize.small, icon: Icon(Icons.person_outline)),
+                      SAvatar(customSize: 14, icon: Icon(Icons.person_outline)),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16),
                   Wrap(
                     spacing: 16,
                     children: [
-                      const SAvatar(shape: SAvatarShape.square, customSize: 64, icon: Icon(Icons.person_outline)),
-                      const SAvatar(shape: SAvatarShape.square, size: SAvatarSize.large, icon: Icon(Icons.person_outline)),
-                      const SAvatar(shape: SAvatarShape.square, icon: Icon(Icons.person_outline)),
-                      const SAvatar(shape: SAvatarShape.square, size: SAvatarSize.small, icon: Icon(Icons.person_outline)),
-                      const SAvatar(shape: SAvatarShape.square, customSize: 14, icon: Icon(Icons.person_outline)),
+                      SAvatar(shape: SAvatarShape.square, customSize: 64, icon: Icon(Icons.person_outline)),
+                      SAvatar(shape: SAvatarShape.square, size: SAvatarSize.large, icon: Icon(Icons.person_outline)),
+                      SAvatar(shape: SAvatarShape.square, icon: Icon(Icons.person_outline)),
+                      SAvatar(shape: SAvatarShape.square, size: SAvatarSize.small, icon: Icon(Icons.person_outline)),
+                      SAvatar(shape: SAvatarShape.square, customSize: 14, icon: Icon(Icons.person_outline)),
                     ],
                   ),
                 ],
@@ -132,20 +132,20 @@ class _SAvatarPageState
             ),
             _buildSection(
               'Type',
-              Wrap(
+              const Wrap(
                 spacing: 16,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  const SAvatar(icon: Icon(Icons.person_outline)),
-                  const SAvatar(text: 'U'),
-                  const SAvatar(customSize: 40, text: 'USER'),
+                  SAvatar(icon: Icon(Icons.person_outline)),
+                  SAvatar(text: 'U'),
+                  SAvatar(customSize: 40, text: 'USER'),
                   SAvatar(src: url),
-                  const SAvatar(
+                  SAvatar(
                     backgroundColor: Color(0xFFFDE3CF),
                     foregroundColor: Color(0xFFF56A00),
                     text: 'U',
                   ),
-                  const SAvatar(
+                  SAvatar(
                     backgroundColor: Color(0xFF87D068),
                     icon: Icon(Icons.person_outline),
                   ),
@@ -177,46 +177,46 @@ class _SAvatarPageState
             ),
             _buildSection(
               'Fallback',
-              Wrap(
+              const Wrap(
                 spacing: 16,
                 children: [
-                  SAvatar(shape: SAvatarShape.circle, src: fallbackUrl, text: 'A'),
-                  SAvatar(shape: SAvatarShape.circle, src: fallbackUrl, text: 'ABC'),
+                  SAvatar(src: fallbackUrl, text: 'A'),
+                  SAvatar(src: fallbackUrl, text: 'ABC'),
                 ],
               ),
             ),
             _buildSection(
               'With Badge (Placeholder since SBadge exists)',
-              Wrap(
+              const Wrap(
                 spacing: 24,
                 children: [
                   Badge(
-                    label: const Text('1'),
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: const SAvatar(shape: SAvatarShape.square, icon: Icon(Icons.person_outline)),
+                    label: Text('1'),
+                    padding: EdgeInsets.symmetric(horizontal: 4),
+                    child: SAvatar(shape: SAvatarShape.square, icon: Icon(Icons.person_outline)),
                   ),
                   Badge(
                     smallSize: 8,
-                    child: const SAvatar(shape: SAvatarShape.square, icon: Icon(Icons.person_outline)),
+                    child: SAvatar(shape: SAvatarShape.square, icon: Icon(Icons.person_outline)),
                   ),
                 ],
               ),
             ),
             _buildSection(
               'Avatar.Group',
-              Column(
+              const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SAvatarGroup(
                     children: [
-                      const SAvatar(src: 'https://api.dicebear.com/7.x/miniavs/svg?seed=1'),
-                      const SAvatar(backgroundColor: Color(0xFFF56A00), text: 'K'),
-                      const SAvatar(backgroundColor: Color(0xFF87D068), icon: Icon(Icons.person_outline)),
-                      const SAvatar(backgroundColor: Color(0xFF1677FF), icon: Icon(Icons.design_services_outlined)),
+                      SAvatar(src: 'https://api.dicebear.com/7.x/miniavs/svg?seed=1'),
+                      SAvatar(backgroundColor: Color(0xFFF56A00), text: 'K'),
+                      SAvatar(backgroundColor: Color(0xFF87D068), icon: Icon(Icons.person_outline)),
+                      SAvatar(backgroundColor: Color(0xFF1677FF), icon: Icon(Icons.design_services_outlined)),
                     ],
                   ),
-                  const Divider(height: 32),
-                  const SAvatarGroup(
+                  Divider(height: 32),
+                  SAvatarGroup(
                     maxCount: 2,
                     maxStyle: SAvatar(
                       backgroundColor: Color(0xFFFDE3CF),
@@ -229,8 +229,8 @@ class _SAvatarPageState
                       SAvatar(backgroundColor: Color(0xFF1677FF), icon: Icon(Icons.design_services_outlined)),
                     ],
                   ),
-                  const Divider(height: 32),
-                  const SAvatarGroup(
+                  Divider(height: 32),
+                  SAvatarGroup(
                     size: SAvatarSize.large,
                     maxCount: 2,
                     maxStyle: SAvatar(
@@ -244,8 +244,8 @@ class _SAvatarPageState
                       SAvatar(backgroundColor: Color(0xFF1677FF), icon: Icon(Icons.design_services_outlined)),
                     ],
                   ),
-                  const Divider(height: 32),
-                  const SAvatarGroup(
+                  Divider(height: 32),
+                  SAvatarGroup(
                     shape: SAvatarShape.square,
                     children: [
                       SAvatar(backgroundColor: Color(0xFFFDE3CF), text: 'A'),

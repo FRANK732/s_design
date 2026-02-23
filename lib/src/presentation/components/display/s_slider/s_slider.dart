@@ -180,10 +180,12 @@ class _SSliderState
       final String
           s =
           v.toStringAsFixed(2);
-      if (s.endsWith('.00'))
+      if (s.endsWith('.00')) {
         return s.substring(0, s.length - 3);
-      if (s.endsWith('0'))
+      }
+      if (s.endsWith('0')) {
         return s.substring(0, s.length - 1);
+      }
       return s;
     }
 
@@ -219,7 +221,7 @@ class _SSliderState
         widget.marks!.isNotEmpty) {
       return Column(
         mainAxisSize: MainAxisSize.min,
-        children: [
+        children: <Widget>[
           sliderWidget,
           _buildMarks(context),
         ],
@@ -232,7 +234,8 @@ class _SSliderState
   Widget _buildMarks(
       BuildContext
           context) {
-    final sTheme =
+    final SThemeData
+        sTheme =
         STheme.of(context);
     return LayoutBuilder(
       builder:
@@ -279,10 +282,9 @@ class _SSliderState
 // Custom Paint for Handle (White circle with border and shadow)
 class _DefaultThumbShape
     extends SliderComponentShape {
-  const _DefaultThumbShape({
-    this.thumbRadius =
-        6.0,
-  });
+  const _DefaultThumbShape(
+      {this.thumbRadius =
+          10.0});
 
   final double
       thumbRadius;
@@ -369,10 +371,9 @@ class _DefaultThumbShape
 
 class _DefaultRangeThumbShape
     extends RangeSliderThumbShape {
-  const _DefaultRangeThumbShape({
-    this.thumbRadius =
-        6.0,
-  });
+  const _DefaultRangeThumbShape(
+      {this.thumbRadius =
+          10.0});
 
   final double
       thumbRadius;

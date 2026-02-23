@@ -73,7 +73,7 @@ class _TabsPageState
         label: 'Short',
         key: 'tab1',
         icon: const Icon(Icons.home),
-        content: Container(
+        content: ColoredBox(
           color: Colors.blue.shade50,
           child: const Center(child: Text('Short Label Tab (Edge to Edge BG)')),
         ),
@@ -87,10 +87,10 @@ class _TabsPageState
       STabItem(
         label: 'Card Style',
         key: 'tab3',
-        content: Padding(
-          padding: const EdgeInsets.all(16.0),
+        content: const Padding(
+          padding: EdgeInsets.all(16.0),
           child: Column(
-            children: const [
+            children: [
               Text('This tab has manual padding added.'),
               SizedBox(height: 16),
               SCard(title: 'Nested Card', body: Text('Demonstrating composition')),
@@ -112,9 +112,6 @@ class _TabsPageState
       BuildContext
           context) {
     return SScaffold(
-      // We disable main scaffold scrolling to let tabs manage their own content scrolling
-      scrollable:
-          false,
       appBar:
           AppBar(
         title: const Text('Tabs Showcase (Phase 2 Polish)'),
@@ -190,7 +187,7 @@ class _TabsPageState
 
             // Tabs Container (Expanded to fill rest of screen)
             Expanded(
-              child: Container(
+              child: ColoredBox(
                 color: Colors.grey.shade100, // Background to see transparency
                 child: STabs(
                   items: _currentTabs,
@@ -242,7 +239,7 @@ class _TabsPageState
         Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey)),
         const SizedBox(height: 4),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+          padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.grey.shade300),
             borderRadius: BorderRadius.circular(6),

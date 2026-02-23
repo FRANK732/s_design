@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 's_dropdown_menu.dart';
+
 import '../../../../domain/entities/config/s_dropdown_menu_item_type.dart';
+import 's_dropdown_menu.dart';
 
 class SDropdownFormField<
         T>
@@ -225,12 +226,12 @@ class SDropdownFormField<
     super.enabled,
   }) : super(
           initialValue: menuType == SDropdownMenuItemType.multiSelect
-              ? initialValues ?? []
+              ? initialValues ?? <T>[]
               : (initialValue != null
-                  ? [
+                  ? <T>[
                       initialValue
                     ]
-                  : []),
+                  : <T>[]),
           builder: (FormFieldState<List<T>> field) {
             final _SDropdownFormFieldState<T> state = field as _SDropdownFormFieldState<T>;
             final ThemeData theme = Theme.of(state.context);
@@ -239,14 +240,14 @@ class SDropdownFormField<
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
-              children: [
+              children: <Widget>[
                 SDropdownMenu<T>(
                   items: items,
                   onChanged: (dynamic value) {
                     if (menuType == SDropdownMenuItemType.multiSelect) {
                       state.didChange(value as List<T>);
                     } else {
-                      state.didChange(value != null ? [value as T] : []);
+                      state.didChange(value != null ? <T>[value as T] : <T>[]);
                     }
                     onChanged(value);
                   },

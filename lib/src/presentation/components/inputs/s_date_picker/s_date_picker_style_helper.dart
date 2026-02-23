@@ -40,8 +40,9 @@ class SDatePickerStyleHelper {
           isCurrentMonth,
       required bool
           isToday}) {
-    if (isToday)
+    if (isToday) {
       return theme.colorToken.primary;
+    }
     return isCurrentMonth
         ? theme.colorToken.textPrimary
         : theme.colorToken.textSecondary.withOpacity(0.5);

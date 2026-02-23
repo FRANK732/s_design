@@ -124,8 +124,9 @@ class _SSwitchState
     if (widget.loading ||
         widget
             .disabled ||
-        widget.onChanged == null)
+        widget.onChanged == null) {
       return;
+    }
     widget
         .onChanged!(!widget.value);
   }
@@ -144,17 +145,17 @@ class _SSwitchState
     final double thumbSize = widget.size == SSwitchSize.small
         ? 12.0
         : 18.0;
-    final double
+    const double
         padding =
         2.0;
 
-    final theme =
+    final ThemeData theme =
         Theme.of(context);
-    final activeColor =
+    final Color activeColor =
         widget.activeColor ?? theme.primaryColor;
-    final inactiveColor =
+    final Color inactiveColor =
         widget.inactiveColor ?? const Color(0xFFBFBFBF); // Gray (approx)
-    final thumbColor =
+    final Color thumbColor =
         widget.thumbColor ?? Colors.white;
 
     return Semantics(
@@ -173,18 +174,18 @@ class _SSwitchState
             onTap: _handleTap,
             child: AnimatedBuilder(
               animation: _animationController,
-              builder: (context, child) {
+              builder: (BuildContext context, Widget? child) {
                 return Container(
                   height: height,
                   constraints: BoxConstraints(minWidth: minWidth),
-                  padding: EdgeInsets.all(padding),
+                  padding: const EdgeInsets.all(padding),
                   decoration: BoxDecoration(
                     color: widget.value ? activeColor : inactiveColor,
                     borderRadius: BorderRadius.circular(height / 2),
                   ),
                   child: Stack(
                     alignment: Alignment.center,
-                    children: [
+                    children: <Widget>[
                       // 1. Ghost Layout determines intrinsics
                       // We show both contents (invisible) to reserve space for the largest one?
                       // Or just the visible one? Resizes.
@@ -193,7 +194,7 @@ class _SSwitchState
                         opacity: 0,
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
-                          children: [
+                          children: <Widget>[
                             // Left Text Space
                             if (widget.checkedChildren != null && widget.value)
                               Padding(
@@ -249,7 +250,7 @@ class _SSwitchState
                             decoration: BoxDecoration(
                               color: thumbColor,
                               shape: BoxShape.circle,
-                              boxShadow: [
+                              boxShadow: <BoxShadow>[
                                 BoxShadow(
                                   color: Colors.black.withOpacity(0.1),
                                   blurRadius: 2,

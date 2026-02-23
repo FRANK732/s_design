@@ -222,8 +222,9 @@ class _NavSidebarState
           label) {
     if (widget
         .searchQuery
-        .isEmpty)
+        .isEmpty) {
       return true;
+    }
     return label
         .toLowerCase()
         .contains(widget.searchQuery.toLowerCase());

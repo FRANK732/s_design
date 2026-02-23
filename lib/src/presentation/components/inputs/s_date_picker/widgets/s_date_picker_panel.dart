@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+
+import '../../../../themes/s_theme.dart';
+import '../../../../themes/s_theme_data.dart';
 import '../s_date_picker_style.dart';
 import '../s_date_picker_style_helper.dart';
 import '../s_date_picker_types.dart';
 import 's_date_picker_calendar.dart';
 import 's_date_picker_month_grid.dart';
-import '../../../../themes/s_theme.dart';
-import '../../../../themes/s_theme_data.dart';
 import 's_date_picker_year_grid.dart';
 
 class SDatePickerPanel
@@ -168,7 +169,7 @@ class _SDatePickerPanelState
         Column(
       mainAxisSize:
           MainAxisSize.min,
-      children: [
+      children: <Widget>[
         _buildHeader(),
         const SizedBox(height: 8),
         _buildBody(),
@@ -182,7 +183,7 @@ class _SDatePickerPanelState
         BoxDecoration(
           color: sTheme.colorToken.surface,
           borderRadius: BorderRadius.circular(2),
-          boxShadow: [
+          boxShadow: <BoxShadow>[
             BoxShadow(
               color: sTheme.colorToken.shadow.withOpacity(0.1),
               blurRadius: 4,
@@ -203,7 +204,7 @@ class _SDatePickerPanelState
           ? IntrinsicHeight(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
+                children: <Widget>[
                   _buildPresetsSidebar(),
                   const SizedBox(width: 8),
                   Expanded(child: content),
@@ -311,7 +312,7 @@ class _SDatePickerPanelState
 
     const List<String>
         months =
-        [
+        <String>[
       'Jan',
       'Feb',
       'Mar',
@@ -347,8 +348,8 @@ class _SDatePickerPanelState
     return Row(
       mainAxisAlignment:
           MainAxisAlignment.spaceBetween,
-      children: [
-        Row(mainAxisSize: MainAxisSize.min, children: [
+      children: <Widget>[
+        Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
           IconButton(
             icon: const Icon(Icons.keyboard_double_arrow_left, size: 16),
             padding: EdgeInsets.zero,
@@ -357,7 +358,7 @@ class _SDatePickerPanelState
             tooltip: 'Previous Year',
           ),
           const SizedBox(width: 8),
-          if (_currentMode == SDatePickerMode.date || _currentMode == SDatePickerMode.week) ...[
+          if (_currentMode == SDatePickerMode.date || _currentMode == SDatePickerMode.week) ...<Widget>[
             IconButton(
               icon: const Icon(Icons.chevron_left, size: 16),
               padding: EdgeInsets.zero,
@@ -386,8 +387,8 @@ class _SDatePickerPanelState
             ),
           ),
         ),
-        Row(mainAxisSize: MainAxisSize.min, children: [
-          if (_currentMode == SDatePickerMode.date || _currentMode == SDatePickerMode.week) ...[
+        Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+          if (_currentMode == SDatePickerMode.date || _currentMode == SDatePickerMode.week) ...<Widget>[
             IconButton(
               icon: const Icon(Icons.chevron_right, size: 16),
               padding: EdgeInsets.zero,

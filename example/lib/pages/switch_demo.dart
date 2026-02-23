@@ -101,7 +101,7 @@ Row(
   ],
 );''',
         ),
-        ComponentSection(
+        const ComponentSection(
           title: 'Disabled',
           description: 'Set `onChanged: null` to disable the switch.',
           demo: Column(
@@ -109,14 +109,14 @@ Row(
             children: [
               Row(children: [
                 SSwitch(value: true, onChanged: null),
-                const SizedBox(width: 12),
-                const Text('Enabled & Disabled'),
+                SizedBox(width: 12),
+                Text('Enabled & Disabled'),
               ]),
-              const SizedBox(height: 8),
+              SizedBox(height: 8),
               Row(children: [
                 SSwitch(value: false, onChanged: null),
-                const SizedBox(width: 12),
-                const Text('Disabled & Off'),
+                SizedBox(width: 12),
+                Text('Disabled & Off'),
               ]),
             ],
           ),

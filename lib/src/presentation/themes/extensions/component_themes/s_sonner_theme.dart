@@ -205,7 +205,7 @@ class SSonnerThemeData
           other.borderRadius,
           t)!,
       elevation:
-          (elevation + (other.elevation - elevation) * t),
+          elevation + (other.elevation - elevation) * t,
       shadowColor: Color.lerp(
           shadowColor,
           other.shadowColor,
@@ -243,11 +243,13 @@ class SSonnerThemeData
           other) {
     if (identical(
         this,
-        other))
+        other)) {
       return true;
+    }
     if (other.runtimeType !=
-        runtimeType)
+        runtimeType) {
       return false;
+    }
     return other is SSonnerThemeData &&
         other.backgroundColor == backgroundColor &&
         other.textColor == textColor &&

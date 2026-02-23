@@ -1,9 +1,10 @@
+import 'dart:ui'; // For BackdropFilter
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import '../../../../../s_design.dart';
-
-import 'dart:ui'; // For BackdropFilter
 import 'package:flutter/semantics.dart';
+
+import '../../../../../s_design.dart';
 
 /// Variants involved in the visual style of [SCard].
 enum SCardVariant {
@@ -591,7 +592,7 @@ class _SCardState
     if (!widget.hoverable &&
         (widget.variant == SCardVariant.filled || widget.variant == SCardVariant.outlined || widget.variant == SCardVariant.frosted || widget.variant == SCardVariant.borderless)) {
       return widget.additionalShadows ??
-          [];
+          <BoxShadow>[];
     }
 
     // Borderless/Filled/Outlined usually don't have shadow unless hovered?
@@ -632,8 +633,9 @@ class _SCardState
       SCardThemeData
           theme) {
     if (!widget
-        .showDivider)
+        .showDivider) {
       return const SizedBox.shrink();
+    }
     return Divider(
       height:
           1,
@@ -652,9 +654,9 @@ class _SCardState
       child:
           Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           Row(
-            children: [
+            children: <Widget>[
               Container(
                 width: 40,
                 height: 40,
@@ -664,7 +666,7 @@ class _SCardState
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: <Widget>[
                     Container(height: 16, width: 150, color: Colors.grey.shade200),
                     const SizedBox(height: 8),
                     Container(height: 12, width: 100, color: Colors.grey.shade200),
@@ -694,8 +696,9 @@ class _SCardState
           theme.backgroundColor;
     }
     if (widget.color !=
-        null)
+        null) {
       return widget.color!;
+    }
 
     switch (
         widget.variant) {
@@ -723,8 +726,9 @@ class _SCardState
           theme.borderColor;
     }
     if (widget.borderColor !=
-        null)
+        null) {
       return widget.borderColor!;
+    }
 
     switch (
         widget.variant) {
@@ -747,15 +751,15 @@ class _SCardState
       SCardThemeData
           theme) {
     // 1. Organize main content chunks
-    final headerWidget = (widget.header != null || widget.title != null || widget.headerTrailing != null)
+    final Column? headerWidget = (widget.header != null || widget.title != null || widget.headerTrailing != null)
         ? Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
+            children: <Widget>[
               Padding(
                 padding: widget.headerPadding ?? const EdgeInsets.all(16.0),
                 child: Row(
-                  children: [
+                  children: <Widget>[
                     Expanded(
                       child: widget.header ??
                           Column(
@@ -769,7 +773,7 @@ class _SCardState
                             ],
                           ),
                     ),
-                    if (widget.headerTrailing != null) ...[
+                    if (widget.headerTrailing != null) ...<Widget>[
                       const SizedBox(width: 8),
                       widget.headerTrailing!,
                     ],
@@ -781,29 +785,29 @@ class _SCardState
           )
         : null;
 
-    final bodyWidget = widget.body != null
+    final Column? bodyWidget = widget.body != null
         ? Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
+            children: <Widget>[
               _buildSection(widget.body, widget.bodyPadding),
               if (widget.footer != null || widget.actions != null) _buildDivider(theme),
             ],
           )
         : null;
 
-    final actionsWidget = widget.actions != null
+    final Widget? actionsWidget = widget.actions != null
         ? _buildSection(widget.actions, widget.actionsPadding)
         : null;
 
-    final footerWidget = widget.footer != null
+    final Widget? footerWidget = widget.footer != null
         ? _buildSection(widget.footer, widget.footerPadding)
         : null;
 
     // 2. Arrange in List for rendering
     final List<Widget>
         children =
-        [
+        <Widget>[
       if (headerWidget !=
           null)
         headerWidget,
@@ -852,7 +856,7 @@ class _SCardState
           mainContent = Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
+            children: <Widget>[
               Flexible(child: mainContent),
               _buildMedia(theme)
             ],
@@ -862,7 +866,7 @@ class _SCardState
           mainContent = Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
+            children: <Widget>[
               _buildMedia(theme),
               Flexible(child: mainContent)
             ],
@@ -874,7 +878,7 @@ class _SCardState
         if (widget.mediaPosition == SCardImagePosition.end) {
           mainContent = Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
+            children: <Widget>[
               Expanded(child: mainContent),
               _buildMedia(theme)
             ],
@@ -883,7 +887,7 @@ class _SCardState
           // Default to Start
           mainContent = Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
+            children: <Widget>[
               _buildMedia(theme),
               Expanded(child: mainContent)
             ],
@@ -951,8 +955,9 @@ class _SCardState
       Widget
           child) {
     if (widget.badge ==
-        null)
+        null) {
       return child;
+    }
 
     // Default positioning
     double?
@@ -977,25 +982,21 @@ class _SCardState
       case SCardBadgePosition.topLeft:
         top = 12 + offset.dy;
         left = 12 + offset.dx;
-        break;
       case SCardBadgePosition.topRight:
         top = 12 + offset.dy;
         right = 12 + offset.dx;
-        break;
       case SCardBadgePosition.bottomLeft:
         bottom = 12 + offset.dy;
         left = 12 + offset.dx;
-        break;
       case SCardBadgePosition.bottomRight:
         bottom = 12 + offset.dy;
         right = 12 + offset.dx;
-        break;
     }
 
     return Stack(
       clipBehavior:
           Clip.none,
-      children: [
+      children: <Widget>[
         child,
         Positioned(
           top: top,
@@ -1075,7 +1076,7 @@ class _SCardState
                 },
           onLongPress: widget.isLoading ? null : widget.onLongPress,
           onDoubleTap: widget.isLoading ? null : widget.onDoubleTap,
-          onHover: (value) {
+          onHover: (bool value) {
             if (widget.hoverable) {
               setState(() => _isHovering = value);
             }
@@ -1127,7 +1128,7 @@ class _SCardState
         .isLoading) {
       card =
           Stack(
-        children: [
+        children: <Widget>[
           card,
           Positioned.fill(
             child: ClipRRect(
@@ -1166,21 +1167,21 @@ class SCardMeta
     return Row(
       crossAxisAlignment:
           CrossAxisAlignment.start,
-      children: [
-        if (avatar != null) ...[
+      children: <Widget>[
+        if (avatar != null) ...<Widget>[
           avatar!,
           const SizedBox(width: 16),
         ],
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               if (title != null)
                 DefaultTextStyle(
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
                   child: title!,
                 ),
-              if (description != null) ...[
+              if (description != null) ...<Widget>[
                 if (title != null) const SizedBox(height: 8),
                 DefaultTextStyle(
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey.shade600),

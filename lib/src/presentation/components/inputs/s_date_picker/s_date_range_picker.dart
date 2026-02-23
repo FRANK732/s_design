@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+
+import '../../../localizations/s_localizations.dart';
+import '../../../themes/s_theme.dart';
+import '../../../themes/s_theme_data.dart';
 import 's_date_picker_style.dart';
 import 's_date_picker_style_helper.dart';
 import 's_date_picker_types.dart';
-import '../../../themes/s_theme.dart';
-import '../../../themes/s_theme_data.dart';
-import '../../../localizations/s_localizations.dart';
 import 'widgets/s_date_range_picker_panel.dart';
 
 class SDateRangePicker
@@ -148,9 +149,9 @@ class _SDateRangePickerState
 
     _overlayEntry =
         OverlayEntry(
-      builder: (context) =>
+      builder: (BuildContext context) =>
           Stack(
-        children: [
+        children: <Widget>[
           Positioned.fill(
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,
@@ -177,7 +178,7 @@ class _SDateRangePickerState
                       endDate: widget.endDate,
                       presets: widget.presets,
                       style: widget.style,
-                      onChange: (range) {
+                      onChange: (DateTimeRange<DateTime>? range) {
                         widget.onChange?.call(range);
                         if (range != null && range.start != range.end) {
                           _closeDropdown();
@@ -238,14 +239,13 @@ class _SDateRangePickerState
           border: Border.all(color: borderColor),
           borderRadius: BorderRadius.circular(6),
           boxShadow: _isOpen
-              ? [
+              ? <BoxShadow>[
                   BoxShadow(
                     color: sTheme.colorToken.primary.withOpacity(0.2),
                     spreadRadius: 2,
-                    blurRadius: 0,
                   )
                 ]
-              : [],
+              : <BoxShadow>[],
         );
 
     final TextStyle
@@ -274,7 +274,7 @@ class _SDateRangePickerState
           padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 4),
           decoration: decoration,
           child: Row(
-            children: [
+            children: <Widget>[
               Expanded(
                 child: Text(
                   widget.startDate != null ? _formatDate(widget.startDate!) : (widget.startPlaceholder ?? SLocalizations.ofContext(context).startDate),

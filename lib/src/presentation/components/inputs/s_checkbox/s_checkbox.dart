@@ -243,8 +243,6 @@ class _SCheckboxState
           onTap: _handleTap,
           canRequestFocus: false,
           radius: widget.size,
-          containedInkWell: false,
-          highlightShape: BoxShape.circle,
           splashColor: theme.activeColor.withOpacity(0.1),
           highlightColor: theme.activeColor.withOpacity(0.1),
           hoverColor: theme.hoverColor,

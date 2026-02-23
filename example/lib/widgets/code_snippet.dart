@@ -33,8 +33,9 @@ class _CodeSnippetState
     Future.delayed(
         const Duration(seconds: 2),
         () {
-      if (mounted)
+      if (mounted) {
         setState(() => _copied = false);
+      }
     });
   }
 

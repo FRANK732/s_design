@@ -405,7 +405,7 @@ class _ToastWidgetState
               width: MediaQuery.of(context).size.width > 600 ? 400 : double.infinity,
               decoration: BoxDecoration(
                 borderRadius: theme.borderRadius,
-                border: Border.all(color: borderColor, width: 1.0),
+                border: Border.all(color: borderColor),
                 boxShadow: <BoxShadow>[
                   BoxShadow(
                     color: theme.shadowColor ?? Colors.black12,

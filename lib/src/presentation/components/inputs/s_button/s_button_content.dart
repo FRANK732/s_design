@@ -79,7 +79,7 @@ class SButtonContent
       return Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: <Widget>[
           spinner,
           const SizedBox(width: 8),
           Text(
@@ -111,14 +111,16 @@ class SButtonContent
         null) {
       contentWidgets.add(leadingIcon!);
       if (child !=
-          null)
+          null) {
         contentWidgets.add(gap);
+      }
     } else if (icon !=
         null) {
       contentWidgets.add(icon!);
       if (child !=
-          null)
+          null) {
         contentWidgets.add(gap);
+      }
     }
 
     // Label / Child

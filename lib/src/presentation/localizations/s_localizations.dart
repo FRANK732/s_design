@@ -4,12 +4,12 @@ import 's_localizations_delegate.dart';
 
 /// Defines the localized strings for the sDesign component library.
 abstract class SLocalizations {
-  /// The locale for which these strings are localized.
-  final String
-      localeName;
 
   const SLocalizations(
       this.localeName);
+  /// The locale for which these strings are localized.
+  final String
+      localeName;
 
   /// Returns the localized resources object for the closest [SLocalizations]
   /// ancestor of the given context.
@@ -18,7 +18,7 @@ abstract class SLocalizations {
   static SLocalizations
       ofContext(BuildContext context) {
     return Localizations.of<SLocalizations>(context, SLocalizations) ??
-        SLocalizationsEn();
+        const SLocalizationsEn();
   }
 
   /// A delegate that provides [SLocalizations].

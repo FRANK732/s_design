@@ -1,7 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'dart:ui'
     as ui;
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import '../../../../../s_design.dart';
 
 class STabNavBar
@@ -71,7 +73,7 @@ class _STabNavBarState
   final Map<String,
           GlobalKey>
       _tabKeys =
-      {};
+      <String, GlobalKey<State<StatefulWidget>>>{};
 
   // Scroll controller for the tab list
   final ScrollController
@@ -125,7 +127,7 @@ class _STabNavBarState
     _attachExternalListener();
 
     // Initialize keys
-    for (var item
+    for (final STabItem item
         in widget.items) {
       _tabKeys[item.key] =
           GlobalKey();
@@ -150,12 +152,12 @@ class _STabNavBarState
     if (widget.items !=
         oldWidget.items) {
       // Remove unused keys
-      final newKeys =
-          widget.items.map((e) => e.key).toSet();
-      _tabKeys.removeWhere((key, _) =>
+      final Set<String> newKeys =
+          widget.items.map((STabItem e) => e.key).toSet();
+      _tabKeys.removeWhere((String key, _) =>
           !newKeys.contains(key));
       // Add new keys
-      for (var item
+      for (final STabItem item
           in widget.items) {
         if (!_tabKeys.containsKey(item.key)) {
           _tabKeys[item.key] = GlobalKey();
@@ -219,7 +221,7 @@ class _STabNavBarState
 
   void
       _scrollToActiveItem() {
-    final key =
+    final GlobalKey<State<StatefulWidget>>? key =
         _tabKeys[widget.activeKey];
     if (key?.currentContext !=
         null) {
@@ -235,28 +237,29 @@ class _STabNavBarState
   void
       _updateIndicator() {
     if (widget.type !=
-        STabType.line)
+        STabType.line) {
       return;
+    }
 
-    final barRenderObject = _barKey
+    final RenderBox? barRenderObject = _barKey
         .currentContext
         ?.findRenderObject() as RenderBox?;
-    final activeTabKey =
+    final GlobalKey<State<StatefulWidget>>? activeTabKey =
         _tabKeys[widget.activeKey];
-    final activeRenderObject = activeTabKey
+    final RenderBox? activeRenderObject = activeTabKey
         ?.currentContext
         ?.findRenderObject() as RenderBox?;
 
     if (barRenderObject != null &&
         activeRenderObject != null) {
-      final barOffset =
+      final Offset barOffset =
           barRenderObject.localToGlobal(Offset.zero);
-      final tabOffset =
+      final Offset tabOffset =
           activeRenderObject.localToGlobal(Offset.zero);
-      final relativeOffset =
+      final Offset relativeOffset =
           tabOffset - barOffset;
 
-      final newRect =
+      final Rect newRect =
           Rect.fromLTWH(
         relativeOffset.dx,
         relativeOffset.dy,
@@ -300,22 +303,24 @@ class _STabNavBarState
           value.ceil();
 
       if (leftIndex < 0 ||
-          rightIndex >= widget.items.length)
+          rightIndex >= widget.items.length) {
         return null;
+      }
 
-      final leftKey =
+      final String leftKey =
           widget.items[leftIndex].key;
-      final rightKey =
+      final String rightKey =
           widget.items[rightIndex].key;
 
-      final leftRect =
+      final Rect? leftRect =
           _getTabRect(leftKey);
-      final rightRect =
+      final Rect? rightRect =
           _getTabRect(rightKey);
 
       if (leftRect == null ||
-          rightRect == null)
+          rightRect == null) {
         return null;
+      }
 
       final double
           t =
@@ -362,25 +367,26 @@ class _STabNavBarState
       String
           key) {
     if (widget.type !=
-        STabType.line)
+        STabType.line) {
       return null;
+    }
 
-    final barRenderObject = _barKey
+    final RenderBox? barRenderObject = _barKey
         .currentContext
         ?.findRenderObject() as RenderBox?;
-    final activeTabKey =
+    final GlobalKey<State<StatefulWidget>>? activeTabKey =
         _tabKeys[key];
-    final activeRenderObject = activeTabKey
+    final RenderBox? activeRenderObject = activeTabKey
         ?.currentContext
         ?.findRenderObject() as RenderBox?;
 
     if (barRenderObject != null &&
         activeRenderObject != null) {
-      final barOffset =
+      final Offset barOffset =
           barRenderObject.localToGlobal(Offset.zero);
-      final tabOffset =
+      final Offset tabOffset =
           activeRenderObject.localToGlobal(Offset.zero);
-      final relativeOffset =
+      final Offset relativeOffset =
           tabOffset - barOffset;
 
       return Rect.fromLTWH(
@@ -397,9 +403,9 @@ class _STabNavBarState
   Widget build(
       BuildContext
           context) {
-    final theme =
+    final STabsThemeData theme =
         Theme.of(context).sTabsTheme;
-    final isVertical =
+    final bool isVertical =
         widget.tabPosition == STabPosition.left || widget.tabPosition == STabPosition.right;
 
     // Size adjustments
@@ -423,8 +429,7 @@ class _STabNavBarState
           Flex(
         direction: isVertical ? Axis.vertical : Axis.horizontal,
         mainAxisAlignment: widget.centered ? MainAxisAlignment.center : MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        children: <Widget>[
           // ScrollView for tabs
           Flexible(
             child: SingleChildScrollView(
@@ -432,12 +437,12 @@ class _STabNavBarState
               scrollDirection: isVertical ? Axis.vertical : Axis.horizontal,
               physics: const BouncingScrollPhysics(),
               child: Stack(
-                children: [
+                children: <Widget>[
                   Flex(
                     direction: isVertical ? Axis.vertical : Axis.horizontal,
                     mainAxisSize: MainAxisSize.min,
-                    children: widget.items.map((item) {
-                      final isActive = item.key == widget.activeKey;
+                    children: widget.items.map((STabItem item) {
+                      final bool isActive = item.key == widget.activeKey;
                       return _buildTabItem(context, item, isActive, theme, itemPaddingVertical, itemPaddingHorizontal, fontSize);
                     }).toList(),
                   ),
@@ -463,7 +468,7 @@ class _STabNavBarState
           if (widget.tabBarExtraContent != null)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: widget.tabBarExtraContent!,
+              child: widget.tabBarExtraContent,
             ),
 
           // Add Button for Editable Card
@@ -495,9 +500,9 @@ class _STabNavBarState
     double
         fontSize,
   ) {
-    final isVertical =
+    final bool isVertical =
         widget.tabPosition == STabPosition.left || widget.tabPosition == STabPosition.right;
-    final isCard =
+    final bool isCard =
         widget.type == STabType.card || widget.type == STabType.editableCard;
 
     // Background color for cards
@@ -530,8 +535,9 @@ class _STabNavBarState
     } else {
       margin =
           const EdgeInsets.symmetric(horizontal: 16); // Gap for line tabs
-      if (isVertical)
+      if (isVertical) {
         margin = const EdgeInsets.symmetric(vertical: 8);
+      }
     }
 
     return GestureDetector(
@@ -541,7 +547,7 @@ class _STabNavBarState
               HapticFeedback.selectionClick();
               HapticFeedback.selectionClick();
               if (widget.controller != null) {
-                final index = widget.items.indexOf(item);
+                final int index = widget.items.indexOf(item);
                 if (index != -1) {
                   widget.controller!.animateTo(index);
                 }
@@ -552,7 +558,7 @@ class _STabNavBarState
           MouseRegion(
         cursor: item.disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
         child: Stack(
-          children: [
+          children: <Widget>[
             Container(
               margin: margin,
               padding: EdgeInsets.symmetric(vertical: padV, horizontal: padH),
@@ -564,8 +570,8 @@ class _STabNavBarState
               child: Row(
                 key: _tabKeys[item.key],
                 mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (item.icon != null) ...[
+                children: <Widget>[
+                  if (item.icon != null) ...<Widget>[
                     IconTheme(
                       data: IconThemeData(
                         size: fontSize + 2,
@@ -583,7 +589,7 @@ class _STabNavBarState
                       color: item.disabled ? theme.unselectedLabelColor.withOpacity(0.5) : (isActive ? theme.labelColor : theme.unselectedLabelColor),
                     ),
                   ),
-                  if (widget.type == STabType.editableCard && item.closable) ...[
+                  if (widget.type == STabType.editableCard && item.closable) ...<Widget>[
                     const SizedBox(width: 8),
                     InkWell(
                       onTap: item.disabled ? null : () => widget.onClose?.call(item.key),

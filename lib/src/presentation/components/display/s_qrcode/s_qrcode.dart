@@ -78,13 +78,12 @@ class SQRCode
       child:
           Stack(
         fit: StackFit.expand,
-        children: [
+        children: <Widget>[
           // QR Code
           Opacity(
             opacity: status == SQRCodeStatus.active ? 1.0 : 0.2, // Fade if not active
             child: QrImageView(
               data: value,
-              version: QrVersions.auto,
               errorCorrectionLevel: errorLevel,
               eyeStyle: QrEyeStyle(
                 eyeShape: QrEyeShape.square,
@@ -94,9 +93,7 @@ class SQRCode
                 dataModuleShape: QrDataModuleShape.square,
                 color: color,
               ),
-              backgroundColor: Colors.transparent, // We handle bg in Container
               padding: EdgeInsets.zero,
-              embeddedImage: null, // We handle icon manually for better control or use stack
               // gapless: false,
             ),
           ),
@@ -110,10 +107,9 @@ class SQRCode
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: backgroundColor,
-                  shape: BoxShape.rectangle, // Icons are usually boxed with some padding
                   borderRadius: BorderRadius.circular(4),
                   border: Border.all(color: Colors.white, width: 2), // White border around icon
-                  boxShadow: [
+                  boxShadow: <BoxShadow>[
                     BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 4),
                   ],
                 ),
@@ -141,7 +137,7 @@ class SQRCode
         return Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: [
+            children: <Widget>[
               const Text(
                 'QR code expired',
                 style: TextStyle(color: Colors.grey, fontSize: 14),
@@ -152,7 +148,7 @@ class SQRCode
                 onPressed: onRefresh,
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: [
+                  children: <Widget>[
                     Icon(Icons.refresh, size: 14),
                     SizedBox(width: 4),
                     Text('Refresh'),
@@ -166,7 +162,7 @@ class SQRCode
         return const Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: [
+            children: <Widget>[
               Icon(Icons.check_circle_outline, color: Colors.green, size: 32),
               SizedBox(height: 8),
               Text('Scanned', style: TextStyle(color: Colors.grey)),

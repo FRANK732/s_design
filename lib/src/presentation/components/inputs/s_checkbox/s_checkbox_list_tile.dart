@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 's_checkbox.dart';
-import 'utils/s_checkbox_util.dart';
 import '../../../../domain/entities/config/s_checkbox_state.dart';
 import '../../layout/s_list_tile/s_list_tile.dart';
+import 's_checkbox.dart';
+import 'utils/s_checkbox_util.dart';
 
 /// A list tile with an [SCheckbox].
 class SCheckboxListTile

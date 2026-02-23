@@ -4,7 +4,9 @@ import 'dart:developer'
 import 'package:flutter/material.dart';
 
 import '../../../../domain/entities/config/s_toaster_enum.dart';
+import '../../../themes/extensions/component_themes/s_toast_theme.dart';
 import '../../../themes/s_theme.dart';
+import '../../../themes/s_theme_data.dart';
 
 /// **Deprecated**: Use [SAlert] for inline alerts or [SSonner] for toast notifications.
 ///
@@ -283,9 +285,9 @@ class _SToastState
         topPadding =
         mediaQuery.viewPadding.top;
 
-    final sTheme =
+    final SThemeData sTheme =
         STheme.of(context);
-    final ext =
+    final SToastThemeData ext =
         sTheme.toastTheme;
     final bool
         isDestructive =

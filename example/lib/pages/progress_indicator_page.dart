@@ -72,22 +72,22 @@ class _ProgressIndicatorPageState
           code: '''
 SProgress.line(percent: 60.0, showInfo: false); // 60%''',
         ),
-        ComponentSection(
+        const ComponentSection(
           title: 'Indeterminate',
           description: 'Use `indeterminate: true` when completion time is unknown.',
-          demo: const SProgress.line(indeterminate: true, showInfo: false),
+          demo: SProgress.line(indeterminate: true, showInfo: false),
           code: '''
 const SProgress.line(indeterminate: true, showInfo: false);''',
         ),
-        ComponentSection(
+        const ComponentSection(
           title: 'Custom Color',
           description: 'Override the default progress color.',
           demo: Column(
             children: [
               SProgress.line(percent: 80.0, strokeColor: Colors.green, showInfo: false),
-              const SizedBox(height: 8),
+              SizedBox(height: 8),
               SProgress.line(percent: 50.0, strokeColor: Colors.orange, showInfo: false),
-              const SizedBox(height: 8),
+              SizedBox(height: 8),
               SProgress.line(percent: 30.0, strokeColor: Colors.red, showInfo: false),
             ],
           ),
@@ -115,10 +115,10 @@ SProgress.line(
   showInfo: false,
 );''',
         ),
-        ComponentSection(
+        const ComponentSection(
           title: 'Custom Height',
           description: 'Control the bar thickness with the `strokeWidth` parameter.',
-          demo: const Column(
+          demo: Column(
             children: [
               SProgress.line(percent: 50.0, strokeWidth: 4, showInfo: false),
               SizedBox(height: 8),

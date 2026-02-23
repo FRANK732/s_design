@@ -11,7 +11,6 @@ class SSelectFormField<
     super.key,
     required List<SSelectItem<T>>
         items,
-    T? value,
     ValueChanged<T?>?
         onChanged,
     super.validator,

@@ -75,8 +75,8 @@ SProgress.line(percent: 65); // 65% progress''',
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               SProgress.circle(percent: _percent, width: 80),
-              SProgress.circle(percent: 100, width: 80, status: SProgressStatus.success),
-              SProgress.circle(percent: 70, width: 80, status: SProgressStatus.exception),
+              const SProgress.circle(percent: 100, width: 80, status: SProgressStatus.success),
+              const SProgress.circle(percent: 70, width: 80, status: SProgressStatus.exception),
             ],
           ),
           code: '''
@@ -84,11 +84,11 @@ SProgress.circle(percent: 65, width: 80);
 SProgress.circle(percent: 100, width: 80, status: SProgressStatus.success);
 SProgress.circle(percent: 70, width: 80, status: SProgressStatus.exception);''',
         ),
-        ComponentSection(
+        const ComponentSection(
           title: 'Status Variants',
           description: 'Apply status colors to indicate outcome on a line bar.',
           demo: Column(
-            children: const [
+            children: [
               SProgress.line(percent: 100, status: SProgressStatus.success),
               SizedBox(height: 8),
               SProgress.line(percent: 70, status: SProgressStatus.exception),
@@ -105,7 +105,7 @@ SProgress.line(percent: 40, status: SProgressStatus.active);''',
           title: 'Dashboard Style',
           description: 'Use `SProgress.dashboard()` for an arc gauge with a gap at the bottom.',
           demo: Center(
-            child: SProgress.dashboard(percent: _percent, width: 100, gapDegree: 75),
+            child: SProgress.dashboard(percent: _percent, width: 100),
           ),
           code: '''
 SProgress.dashboard(percent: 65, width: 100, gapDegree: 75);''',

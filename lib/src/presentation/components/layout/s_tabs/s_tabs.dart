@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../../../s_design.dart';
-import 's_tab_nav_bar.dart';
-import 's_tab_view.dart';
 
 class STabs
     extends StatefulWidget {
@@ -82,7 +80,7 @@ class _STabsState
 
   void
       _initController() {
-    final initialIndex = widget.items.indexWhere((item) =>
+    final int initialIndex = widget.items.indexWhere((STabItem item) =>
         item.key ==
         _activeKey);
     _currentIndex = initialIndex != -1
@@ -120,7 +118,7 @@ class _STabsState
       // External update to activeKey
       _activeKey =
           widget.activeKey!;
-      final index = widget.items.indexWhere((item) =>
+      final int index = widget.items.indexWhere((STabItem item) =>
           item.key ==
           _activeKey);
       if (index != -1 &&
@@ -142,10 +140,11 @@ class _STabsState
   void
       _handleTabSelection() {
     if (_controller ==
-        null)
+        null) {
       return;
+    }
 
-    final newIndex =
+    final int newIndex =
         _controller!.index;
     if (newIndex !=
         _currentIndex) {
@@ -154,7 +153,7 @@ class _STabsState
           newIndex;
       if (newIndex >= 0 &&
           newIndex < widget.items.length) {
-        final key = widget.items[newIndex].key;
+        final String key = widget.items[newIndex].key;
         if (key != _activeKey) {
           setState(() {
             _activeKey = key;
@@ -198,7 +197,7 @@ class _STabsState
         isPositionBottom =
         widget.tabPosition == STabPosition.bottom;
 
-    final navBar =
+    final STabNavBar navBar =
         STabNavBar(
       controller:
           _controller,
@@ -207,7 +206,7 @@ class _STabsState
       activeKey:
           _activeKey,
       onTabClick:
-          (key) {
+          (String key) {
         // Handled by controller listener mostly, but we trigger callback
         // The nav bar click will drive the controller
       },
@@ -228,12 +227,12 @@ class _STabsState
           widget.centered,
     );
 
-    final content =
+    final Expanded content =
         Expanded(
       child:
           STabView(
         controller: _controller,
-        children: widget.items.map((item) => item.content).toList(),
+        children: widget.items.map((STabItem item) => item.content).toList(),
       ),
     );
 
@@ -241,21 +240,21 @@ class _STabsState
         children;
     if (isVertical) {
       children = isPositionRight
-          ? [
+          ? <Widget>[
               content,
               navBar
             ]
-          : [
+          : <Widget>[
               navBar,
               content
             ];
     } else {
       children = isPositionBottom
-          ? [
+          ? <Widget>[
               content,
               navBar
             ]
-          : [
+          : <Widget>[
               navBar,
               content
             ];

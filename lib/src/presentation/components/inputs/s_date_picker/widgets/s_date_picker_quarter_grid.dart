@@ -24,28 +24,28 @@ class SDatePickerQuarterGrid
   Widget build(
       BuildContext
           context) {
-    final theme =
+    final ThemeData theme =
         Theme.of(context);
 
     // 4 items = 2 rows of 2 columns
-    final rows =
+    final List<Widget> rows =
         <Widget>[];
     for (int i = 0;
         i < 2;
         i++) {
       rows.add(Row(
-        children: List.generate(2, (colIndex) {
-          final index = (i * 2) + colIndex;
-          final quarter = index + 1;
+        children: List.generate(2, (int colIndex) {
+          final int index = (i * 2) + colIndex;
+          final int quarter = index + 1;
           // Quarter 1: Jan (1), Q2: Apr (4), Q3: Jul (7), Q4: Oct (10)
-          final startMonth = (index * 3) + 1;
-          final date = DateTime(viewDate.year, startMonth);
+          final int startMonth = (index * 3) + 1;
+          final DateTime date = DateTime(viewDate.year, startMonth);
 
-          final isSelected = selectedDate != null && selectedDate!.year == viewDate.year && ((selectedDate!.month - 1) ~/ 3) + 1 == quarter;
+          final bool isSelected = selectedDate != null && selectedDate!.year == viewDate.year && ((selectedDate!.month - 1) ~/ 3) + 1 == quarter;
 
-          final isCurrentYear = DateTime.now().year == viewDate.year;
-          final currentQuarter = ((DateTime.now().month - 1) ~/ 3) + 1;
-          final isCurrentQuarter = isCurrentYear && currentQuarter == quarter;
+          final bool isCurrentYear = DateTime.now().year == viewDate.year;
+          final int currentQuarter = ((DateTime.now().month - 1) ~/ 3) + 1;
+          final bool isCurrentQuarter = isCurrentYear && currentQuarter == quarter;
 
           Color textColor = theme.textTheme.bodyMedium?.color ?? Colors.black87;
           if (isCurrentQuarter) textColor = theme.primaryColor;
@@ -88,8 +88,9 @@ class SDatePickerQuarterGrid
         }),
       ));
       if (i <
-          1)
+          1) {
         rows.add(const SizedBox(height: 8));
+      }
     }
 
     return Column(

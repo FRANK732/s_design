@@ -266,8 +266,9 @@ class _SAlertState
   Widget build(
       BuildContext
           context) {
-    if (!_visible)
+    if (!_visible) {
       return const SizedBox.shrink();
+    }
 
     final SThemeData
         sTheme =
@@ -301,7 +302,7 @@ class _SAlertState
     final double
         bdWidth =
         widget.borderWidth ?? 1.0;
-    final BorderRadius? radius = widget.banner
+    final BorderRadius radius = widget.banner
         ? BorderRadius.zero
         : (widget.borderRadius ?? theme.borderRadius ?? BorderRadius.circular(6));
     final EdgeInsetsGeometry pad = widget.padding ??
@@ -323,14 +324,14 @@ class _SAlertState
         .bodySmall!
         .copyWith(color: colors.descText);
 
-    final TextStyle effectiveTitleStyle = (widget.titleStyle ??
+    final TextStyle effectiveTitleStyle = widget.titleStyle ??
         theme.titleStyle ??
-        defaultTitleStyle);
-    final TextStyle effectiveDescStyle = (widget.descriptionStyle ??
+        defaultTitleStyle;
+    final TextStyle effectiveDescStyle = widget.descriptionStyle ??
         theme.descriptionStyle ??
-        defaultDescStyle);
+        defaultDescStyle;
 
-    Widget
+    final Widget
         content =
         Container(
       constraints:
@@ -341,7 +342,7 @@ class _SAlertState
         border: Border.all(color: bdColor, width: bdWidth),
         borderRadius: radius,
         boxShadow: elev > 0
-            ? [
+            ? <BoxShadow>[
                 BoxShadow(
                   color: shadowColor ?? Colors.black12,
                   blurRadius: elev * 2,
@@ -355,9 +356,9 @@ class _SAlertState
         padding: pad,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             // ── Icon ────────────────────────────────────────────────────────
-            if (effectiveShowIcon) ...[
+            if (effectiveShowIcon) ...<Widget>[
               Padding(
                 padding: EdgeInsets.only(
                   top: widget.description != null ? 2.0 : 0.0,
@@ -377,9 +378,9 @@ class _SAlertState
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
-                children: [
+                children: <Widget>[
                   if (widget.title != null) Text(widget.title!, style: effectiveTitleStyle),
-                  if (widget.description != null) ...[
+                  if (widget.description != null) ...<Widget>[
                     if (widget.title != null) const SizedBox(height: 4),
                     if (widget.description is String) Text(widget.description as String, style: effectiveDescStyle) else if (widget.description is Widget) widget.description as Widget,
                   ],
@@ -388,13 +389,13 @@ class _SAlertState
             ),
 
             // ── Action ──────────────────────────────────────────────────────
-            if (widget.action != null) ...[
+            if (widget.action != null) ...<Widget>[
               const SizedBox(width: 8),
               widget.action!,
             ],
 
             // ── Close button ────────────────────────────────────────────────
-            if (widget.closable) ...[
+            if (widget.closable) ...<Widget>[
               const SizedBox(width: 8),
               GestureDetector(
                 onTap: _handleClose,
@@ -473,14 +474,14 @@ class _SAlertColors {
           type,
       SThemeData
           sTheme) {
-    final theme =
+    final SAlertThemeData theme =
         sTheme.alertTheme;
-    final isLight =
+    final bool isLight =
         sTheme.brightness == Brightness.light;
-    final textPrimary = sTheme
+    final Color textPrimary = sTheme
         .colorToken
         .textPrimary;
-    final textSecondary = sTheme
+    final Color textSecondary = sTheme
         .colorToken
         .textSecondary;
     switch (

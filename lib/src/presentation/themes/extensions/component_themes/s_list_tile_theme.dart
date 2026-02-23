@@ -54,10 +54,6 @@ class SListTileThemeData
           colorScheme.outlineVariant,
       groupBorderRadius:
           BorderRadius.circular(16),
-      titleTextStyle:
-          null,
-      subtitleTextStyle:
-          null,
     );
   }
 

@@ -51,14 +51,15 @@ class SSteps
       BuildContext
           context) {
     if (items
-        .isEmpty)
+        .isEmpty) {
       return const SizedBox();
+    }
 
     return LayoutBuilder(
       builder:
-          (context, constraints) {
-        final isSmallScreen = responsive && constraints.maxWidth < 400;
-        final effectiveDirection = isSmallScreen ? Axis.vertical : direction;
+          (BuildContext context, BoxConstraints constraints) {
+        final bool isSmallScreen = responsive && constraints.maxWidth < 400;
+        final Axis effectiveDirection = isSmallScreen ? Axis.vertical : direction;
 
         return effectiveDirection == Axis.horizontal ? _buildHorizontalLayout() : _buildVerticalLayout();
       },
@@ -67,15 +68,15 @@ class SSteps
 
   Widget
       _buildHorizontalLayout() {
-    Widget
+    final Widget
         row =
         Row(
       crossAxisAlignment:
           CrossAxisAlignment.start,
       children:
-          List.generate(items.length, (index) {
-        final item = items[index];
-        final stepStatus = _getStepStatus(index, item);
+          List.generate(items.length, (int index) {
+        final SStepItem item = items[index];
+        final SStepStatus stepStatus = _getStepStatus(index, item);
 
         return SStep(
           item: item,
@@ -105,15 +106,15 @@ class SSteps
       _buildVerticalLayout() {
     // For vertical layout, we need to ensure the line connects properly.
     // The SStep widget handles drawing the line to the next step.
-    Widget
+    final Widget
         col =
         Column(
       crossAxisAlignment:
           CrossAxisAlignment.start,
       children:
-          List.generate(items.length, (index) {
-        final item = items[index];
-        final stepStatus = _getStepStatus(index, item);
+          List.generate(items.length, (int index) {
+        final SStepItem item = items[index];
+        final SStepStatus stepStatus = _getStepStatus(index, item);
 
         return IntrinsicHeight(
           child: SStep(
@@ -134,7 +135,6 @@ class SSteps
 
     if (scrollable) {
       return SingleChildScrollView(
-        scrollDirection: Axis.vertical,
         child: col,
       );
     }

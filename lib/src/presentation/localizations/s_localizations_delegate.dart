@@ -13,7 +13,7 @@ class SLocalizationsDelegate
   /// to provide custom language maps or overriding standard languages.
   static final Map<
       String,
-      SLocalizations> _supportedLanguages = {
+      SLocalizations> _supportedLanguages = <String, SLocalizations>{
     'en':
         const SLocalizationsEn(),
     'fr':

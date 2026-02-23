@@ -101,7 +101,7 @@ class SliverSTabs
       delegate:
           _SliverSTabsDelegate(
         height: toolBarHeight,
-        child: Container(
+        child: ColoredBox(
           color: backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
           child: STabNavBar(
             items: items,
@@ -124,15 +124,15 @@ class SliverSTabs
 
 class _SliverSTabsDelegate
     extends SliverPersistentHeaderDelegate {
-  final double
-      height;
-  final Widget
-      child;
 
   _SliverSTabsDelegate({
     required this.height,
     required this.child,
   });
+  final double
+      height;
+  final Widget
+      child;
 
   @override
   double get minExtent =>

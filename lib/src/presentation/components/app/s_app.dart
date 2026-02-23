@@ -6,9 +6,9 @@ import 'package:flutter/material.dart'
 import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import '../../localizations/s_localizations.dart';
 import '../../themes/s_theme.dart';
 import '../../themes/s_theme_data.dart';
-import '../../localizations/s_localizations.dart';
 
 /// Describes how [Scrollable] widgets behave for [SApp]s.
 /// By default we will use [CupertinoScrollbar] for iOS and macOS platforms
@@ -255,14 +255,14 @@ class _SAppState
 
   SThemeData
       theme(BuildContext context) {
-    final mode =
+    final m.ThemeMode mode =
         widget.themeMode ?? m.ThemeMode.system;
-    final platformBrightness =
+    final m.Brightness platformBrightness =
         MediaQuery.platformBrightnessOf(context);
-    final useDarkStyle =
+    final bool useDarkStyle =
         mode == m.ThemeMode.dark || (mode == m.ThemeMode.system && platformBrightness == Brightness.dark);
 
-    final data =
+    final SThemeData data =
         () {
       late SThemeData
           result;
@@ -281,12 +281,12 @@ class _SAppState
           context,
       Widget?
           child) {
-    final themeData =
+    final SThemeData themeData =
         theme(context);
 
     // Convert SDesign primary token to a basic Material ColorScheme
-    final colorScheme = themeData.brightness == Brightness.light
-        ? m.ColorScheme.fromSeed(seedColor: themeData.colorToken.primary, brightness: Brightness.light)
+    final m.ColorScheme colorScheme = themeData.brightness == Brightness.light
+        ? m.ColorScheme.fromSeed(seedColor: themeData.colorToken.primary)
         : m.ColorScheme.fromSeed(seedColor: themeData.colorToken.primary, brightness: Brightness.dark);
 
     return m
@@ -309,7 +309,7 @@ class _SAppState
         data: themeData,
         child: widget.builder != null
             ? Builder(
-                builder: (context) {
+                builder: (m.BuildContext context) {
                   return widget.builder!(context, child);
                 },
               )
@@ -336,7 +336,7 @@ class _SAppState
         color: widget.color,
         themeMode: widget.themeMode,
         locale: widget.locale,
-        localizationsDelegates: [
+        localizationsDelegates: <m.LocalizationsDelegate<dynamic>>[
           SLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
@@ -391,7 +391,7 @@ class _SAppState
           widget.themeMode,
       locale:
           widget.locale,
-      localizationsDelegates: [
+      localizationsDelegates: <m.LocalizationsDelegate<dynamic>>[
         SLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

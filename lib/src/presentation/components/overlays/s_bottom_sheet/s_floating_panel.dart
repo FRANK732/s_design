@@ -1,11 +1,12 @@
 import 'dart:async';
-import 'dart:ui';
 import 'dart:developer'
     as dev;
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+
 import '../../../../../s_design.dart';
-import 's_floating_panel_config.dart';
 
 class SFloatingPanel {
   static OverlayState?
@@ -217,16 +218,16 @@ class SFloatingPanel {
     _overlayEntry =
         OverlayEntry(
       builder:
-          (context) {
+          (BuildContext context) {
         return Stack(
-          children: [
+          children: <Widget>[
             // Barrier
             GestureDetector(
               onTap: effectiveConfig.isDismissable ? close : null,
               child: AnimatedBuilder(
                 animation: _animationController!,
-                builder: (context, child) {
-                  final color = ColorTween(
+                builder: (BuildContext context, Widget? child) {
+                  final Color? color = ColorTween(
                     begin: Colors.transparent,
                     end: effectiveConfig.barrierColor,
                   ).evaluate(_animationController!);
@@ -256,12 +257,12 @@ class SFloatingPanel {
                   opacity: opacityAnimation,
                   child: Center(
                     child: ConstrainedBox(
-                      constraints: effectiveConfig.constraints ?? BoxConstraints.tightFor(width: double.infinity),
+                      constraints: effectiveConfig.constraints ?? const BoxConstraints.tightFor(width: double.infinity),
                       child: Material(
                         type: MaterialType.transparency,
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
-                          children: [
+                          children: <Widget>[
                             Container(
                               padding: effectiveConfig.contentPadding,
                               decoration: ShapeDecoration(
@@ -270,7 +271,7 @@ class SFloatingPanel {
                                     RoundedRectangleBorder(
                                       borderRadius: theme.borderRadius ?? BorderRadius.circular(16),
                                     ),
-                                shadows: [
+                                shadows: <BoxShadow>[
                                   BoxShadow(
                                     color: effectiveConfig.shadowColor ?? Colors.black12,
                                     blurRadius: theme.elevation ?? 8,
@@ -280,7 +281,7 @@ class SFloatingPanel {
                               ),
                               child: effectiveConfig.content,
                             ),
-                            if (effectiveConfig.customBottomWidget != null) ...[
+                            if (effectiveConfig.customBottomWidget != null) ...<Widget>[
                               SizedBox(height: effectiveConfig.panelSpacing),
                               effectiveConfig.customBottomWidget!,
                             ],

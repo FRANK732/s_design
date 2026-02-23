@@ -75,7 +75,7 @@ class SRateItem
 
     // Half star rendering using ClipRect
     return Stack(
-      children: [
+      children: <Widget>[
         base,
         ClipRect(
           clipper: _HalfClipper(),

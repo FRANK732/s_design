@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+
 import '../../../../domain/entities/config/s_time_picker_enums.dart';
-import '../../../themes/s_theme.dart';
 import '../../../localizations/s_localizations.dart';
+import '../../../themes/extensions/component_themes/s_time_picker_theme.dart';
+import '../../../themes/s_theme.dart';
+import '../../../themes/s_theme_data.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  Format helpers
@@ -48,7 +51,7 @@ String
       r =
       fmt;
   if (is12) {
-    final h12 = h24 == 0
+    final int h12 = h24 == 0
         ? 12
         : (h24 > 12 ? h24 - 12 : h24);
     r = r.replaceAll(
@@ -100,10 +103,11 @@ int _to24(
     bool
         isPm) {
   if (displayH ==
-      0)
+      0) {
     return isPm
         ? 12
         : 0;
+  }
   return isPm
       ? displayH +
           12
@@ -247,7 +251,7 @@ class _TimeColumnState
         old);
     if (old.selectedIndex != widget.selectedIndex &&
         !_dragging) {
-      final target =
+      final int target =
           widget.selectedIndex.clamp(0, _maxIdx);
       if (target !=
           _current) {
@@ -277,11 +281,12 @@ class _TimeColumnState
   void
       _onScroll() {
     if (!_sc
-        .hasClients)
+        .hasClients) {
       return;
-    final raw =
+    }
+    final int raw =
         (_sc.offset / widget.itemH).round();
-    final idx = raw.clamp(
+    final int idx = raw.clamp(
         0,
         _maxIdx);
     if (idx !=
@@ -295,9 +300,10 @@ class _TimeColumnState
   void
       _snap() {
     if (!mounted ||
-        !_sc.hasClients)
+        !_sc.hasClients) {
       return;
-    final target =
+    }
+    final double target =
         _current * widget.itemH;
     if ((_sc.offset - target).abs() >
         0.5) {
@@ -312,8 +318,9 @@ class _TimeColumnState
   void _tapItem(
       int idx) {
     if (idx ==
-        _current)
+        _current) {
       return;
+    }
     setState(() =>
         _current = idx);
     if (_sc
@@ -333,9 +340,10 @@ class _TimeColumnState
     return NotificationListener<
         ScrollNotification>(
       onNotification:
-          (n) {
-        if (n is ScrollStartNotification)
+          (ScrollNotification n) {
+        if (n is ScrollStartNotification) {
           _dragging = true;
+        }
         if (n is ScrollEndNotification) {
           _dragging = false;
           WidgetsBinding.instance.addPostFrameCallback((_) => _snap());
@@ -354,8 +362,8 @@ class _TimeColumnState
           itemCount: widget.items.length,
           itemExtent: widget.itemH,
           physics: const ClampingScrollPhysics(),
-          itemBuilder: (ctx, i) {
-            final sel = i == _current;
+          itemBuilder: (BuildContext ctx, int i) {
+            final bool sel = i == _current;
             return GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () => _tapItem(i),
@@ -576,10 +584,10 @@ class _STimePickerState
 
   List<int>
       get _hourItems {
-    final max = _is12h
+    final int max = _is12h
         ? 12
         : 24;
-    return [
+    return <int>[
       for (int i = 0;
           i < max;
           i += widget.hourStep)
@@ -589,13 +597,13 @@ class _STimePickerState
 
   List<int>
       get _minItems =>
-          [
+          <int>[
             for (int i = 0; i < 60; i += widget.minuteStep) i
           ];
 
   List<int>
       get _secItems =>
-          [
+          <int>[
             for (int i = 0; i < 60; i += widget.secondStep) i
           ];
 
@@ -606,13 +614,12 @@ class _STimePickerState
       initState() {
     super
         .initState();
-    final base = widget.defaultValue ??
+    final TimeOfDay base = widget.defaultValue ??
         widget.value ??
         widget.defaultOpenValue ??
         const TimeOfDay(hour: 0, minute: 0);
     _syncPending(
-        base,
-        sec: 0);
+        base);
   }
 
   @override
@@ -624,8 +631,7 @@ class _STimePickerState
     if (widget.value != old.value &&
         widget.value != null &&
         !_isOpen) {
-      _syncPending(widget.value!,
-          sec: 0);
+      _syncPending(widget.value!);
     }
   }
 
@@ -644,14 +650,15 @@ class _STimePickerState
           items,
       int val) {
     if (items
-        .isEmpty)
+        .isEmpty) {
       return 0;
+    }
     int best = 0,
         bestD = (items[0] - val).abs();
     for (int i = 1;
         i < items.length;
         i++) {
-      final d =
+      final int d =
           (items[i] - val).abs();
       if (d <
           bestD) {
@@ -671,7 +678,7 @@ class _STimePickerState
         ? 1
         : 0;
     if (_is12h) {
-      final h12 = t.hour == 0
+      final int h12 = t.hour == 0
           ? 0
           : (t.hour > 12 ? t.hour - 12 : t.hour) % 12;
       _phIdx =
@@ -690,13 +697,13 @@ class _STimePickerState
 
   TimeOfDay
       get _pendingTime {
-    final hVal = _hourItems[_phIdx.clamp(
+    final int hVal = _hourItems[_phIdx.clamp(
         0,
         _hourItems.length - 1)];
-    final mVal = _minItems[_pmIdx.clamp(
+    final int mVal = _minItems[_pmIdx.clamp(
         0,
         _minItems.length - 1)];
-    final h24 = _is12h
+    final int h24 = _is12h
         ? _to24(hVal, _apIdx == 1)
         : hVal;
     return TimeOfDay(
@@ -714,14 +721,15 @@ class _STimePickerState
   void
       _open() {
     if (widget
-        .disabled)
+        .disabled) {
       return;
+    }
     if (widget.open !=
         null) {
       widget.onOpenChange?.call(true);
       return;
     }
-    final base = _effective ??
+    final TimeOfDay base = _effective ??
         widget.defaultOpenValue ??
         const TimeOfDay(hour: 0, minute: 0);
     _syncPending(
@@ -743,8 +751,9 @@ class _STimePickerState
       widget.onOpenChange?.call(false);
       return;
     }
-    if (commit)
+    if (commit) {
       _doCommit();
+    }
     setState(() =>
         _panelOpen = false);
     widget
@@ -766,9 +775,9 @@ class _STimePickerState
 
   void
       _doCommit() {
-    final t =
+    final TimeOfDay t =
         _pendingTime;
-    final s =
+    final int s =
         _pendingSec;
     if (widget.value ==
         null) {
@@ -784,7 +793,7 @@ class _STimePickerState
 
   void
       _setNow() {
-    final now =
+    final DateTime now =
         DateTime.now();
     _syncPending(
         TimeOfDay.fromDateTime(now),
@@ -793,8 +802,9 @@ class _STimePickerState
         () {});
     _rebuildEntry();
     if (widget
-        .changeOnScroll)
+        .changeOnScroll) {
       _doCommit();
+    }
   }
 
   void
@@ -805,8 +815,7 @@ class _STimePickerState
           null;
       _committedSec =
           0;
-      _syncPending(widget.defaultOpenValue ?? const TimeOfDay(hour: 0, minute: 0),
-          sec: 0);
+      _syncPending(widget.defaultOpenValue ?? const TimeOfDay(hour: 0, minute: 0));
     });
     widget
         .onChange
@@ -819,7 +828,7 @@ class _STimePickerState
       _insertEntry() {
     _removeEntry();
     _entry =
-        OverlayEntry(builder: (ctx) => _PanelOverlay(link: _link, state: this));
+        OverlayEntry(builder: (BuildContext ctx) => _PanelOverlay(link: _link, state: this));
     Overlay.of(context)
         .insert(_entry!);
   }
@@ -840,9 +849,9 @@ class _STimePickerState
   _Tok _tok(
       BuildContext
           ctx) {
-    final th =
+    final SThemeData th =
         STheme.of(ctx);
-    final ext =
+    final STimePickerThemeData ext =
         th.timePickerTheme;
 
     double
@@ -857,13 +866,11 @@ class _STimePickerState
         hp = 12;
         iz = 18;
         fs = 16;
-        break;
       case STimePickerSize.small:
         fh = 24;
         hp = 7;
         iz = 12;
         fs = 12;
-        break;
       default:
         fh = 32;
         hp = 11;
@@ -877,18 +884,16 @@ class _STimePickerState
         widget.status) {
       case STimePickerStatus.error:
         bc = th.colorToken.error;
-        break;
       case STimePickerStatus.warning:
         bc = const Color(0xFFFAAD14); // Keep warning as amber
-        break;
       default:
         bc = widget.borderColor ?? ext.borderColor ?? th.colorToken.divider;
     }
 
-    final primary = widget.activeColor ??
+    final Color primary = widget.activeColor ??
         ext.activeColor ??
         th.colorToken.primary;
-    final panelBg = widget.panelBackground ??
+    final Color panelBg = widget.panelBackground ??
         ext.panelBackground ??
         th.colorToken.surface;
 
@@ -935,18 +940,18 @@ class _STimePickerState
   Widget build(
       BuildContext
           context) {
-    final th =
+    final SThemeData th =
         STheme.of(context);
-    final tk =
+    final _Tok tk =
         _tok(context);
-    final t =
+    final TimeOfDay? t =
         _effective;
-    final hasVal =
+    final bool hasVal =
         t != null;
-    final display = hasVal
+    final String display = hasVal
         ? _formatDisplay(h24: t.hour, m: t.minute, s: _committedSec, fmt: widget.format)
         : '';
-    final showClear = widget.allowClear &&
+    final bool showClear = widget.allowClear &&
         hasVal &&
         _hovered &&
         !widget.disabled;
@@ -960,17 +965,14 @@ class _STimePickerState
           color: widget.disabled ? const Color(0xFFF5F5F5) : tk.fillBg,
           borderRadius: tk.radius,
         );
-        break;
       case STimePickerVariant.borderless:
         deco = const BoxDecoration();
-        break;
       case STimePickerVariant.underlined:
         deco = BoxDecoration(
           border: Border(
             bottom: BorderSide(color: widget.disabled ? th.colorToken.divider : tk.borderColor),
           ),
         );
-        break;
       default:
         deco = BoxDecoration(
           color: widget.disabled ? th.colorToken.background : Colors.transparent,
@@ -999,8 +1001,8 @@ class _STimePickerState
             decoration: deco,
             child: Row(
               mainAxisSize: MainAxisSize.min,
-              children: [
-                if (widget.prefix != null) ...[
+              children: <Widget>[
+                if (widget.prefix != null) ...<Widget>[
                   widget.prefix!,
                   const SizedBox(width: 6),
                 ],
@@ -1087,28 +1089,30 @@ class _PanelOverlayState
     double,
     double
   ) _fieldMetrics() {
-    final ctx = widget
+    final BuildContext? ctx = widget
         .state
         ._fieldKey
         .currentContext;
     if (ctx ==
-        null)
+        null) {
       return (
         32,
         0
       );
-    final rb =
+    }
+    final RenderBox? rb =
         ctx.findRenderObject() as RenderBox?;
     if (rb ==
-        null)
+        null) {
       return (
         32,
         0
       );
-    final h = rb
+    }
+    final double h = rb
         .size
         .height;
-    final topY = rb
+    final double topY = rb
         .localToGlobal(Offset.zero)
         .dy;
     return (
@@ -1122,53 +1126,56 @@ class _PanelOverlayState
   Widget build(
       BuildContext
           context) {
-    final s =
+    final _STimePickerState s =
         widget.state;
-    final tk =
+    final _Tok tk =
         s._tok(context);
 
     int cols =
         1;
     if (s
-        ._showMin)
+        ._showMin) {
       cols++;
+    }
     if (s
-        ._showSec)
+        ._showSec) {
       cols++;
+    }
     if (s
-        ._is12h)
+        ._is12h) {
       cols++;
+    }
 
-    final panelW =
+    final double panelW =
         cols * tk.colW + (cols - 1) * 1.0;
     // panelH = 7 rows + footer
-    final panelH =
+    final double panelH =
         tk.itemH * 7 + 40;
-    const gap =
+    const double gap =
         4.0;
-    const screenPad =
+    const double screenPad =
         8.0;
 
     final (
-      fieldH,
-      fieldBottomY
+      double fieldH,
+      double fieldBottomY
     ) = _fieldMetrics();
-    final screenH =
+    final double screenH =
         MediaQuery.sizeOf(context).height;
-    final spaceBelow = screenH -
+    final double spaceBelow = screenH -
         fieldBottomY -
         gap -
         screenPad;
-    final showAbove =
+    final bool showAbove =
         spaceBelow < panelH;
 
     // When showing above: negative offset = (panelH + gap) upward from top of field.
-    final yOffset = showAbove
+    final double yOffset = showAbove
         ? -(panelH + gap)
         : fieldH + gap;
 
     return Stack(
-      children: [
+      children: <Widget>[
         // Tap outside → dismiss
         Positioned.fill(
           child: GestureDetector(
@@ -1192,7 +1199,7 @@ class _PanelOverlayState
                 clipBehavior: Clip.antiAlias,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: [
+                  children: <Widget>[
                     _buildColumns(tk, s),
                     _buildFooter(tk, s),
                   ],
@@ -1256,83 +1263,83 @@ class _PanelOverlayState
           colH,
       child:
           Stack(
-        children: [
+        children: <Widget>[
           // ① Column list
           Row(
             mainAxisSize: MainAxisSize.min,
-            children: [
+            children: <Widget>[
               // Hours
               col(
                 items: s._hourItems,
                 selIdx: s._phIdx,
-                label: (v) => s._is12h ? (v == 0 ? '12' : v.toString().padLeft(2, '0')) : v.toString().padLeft(2, '0'),
-                onSelected: (i) {
+                label: (int v) => s._is12h ? (v == 0 ? '12' : v.toString().padLeft(2, '0')) : v.toString().padLeft(2, '0'),
+                onSelected: (int i) {
                   s._phIdx = i;
                   if (s.widget.changeOnScroll && !s.widget.needConfirm) {
                     s._doCommit();
                   }
                 },
                 onLive: s.widget.changeOnScroll
-                    ? (i) {
+                    ? (int i) {
                         s._phIdx = i;
                         if (!s.widget.needConfirm) s._doCommit();
                       }
                     : null,
               ),
-              if (s._showMin) ...[
+              if (s._showMin) ...<Widget>[
                 div(),
                 col(
                   items: s._minItems,
                   selIdx: s._pmIdx,
-                  label: (v) => v.toString().padLeft(2, '0'),
-                  onSelected: (i) {
+                  label: (int v) => v.toString().padLeft(2, '0'),
+                  onSelected: (int i) {
                     s._pmIdx = i;
                     if (s.widget.changeOnScroll && !s.widget.needConfirm) {
                       s._doCommit();
                     }
                   },
                   onLive: s.widget.changeOnScroll
-                      ? (i) {
+                      ? (int i) {
                           s._pmIdx = i;
                           if (!s.widget.needConfirm) s._doCommit();
                         }
                       : null,
                 ),
               ],
-              if (s._showSec) ...[
+              if (s._showSec) ...<Widget>[
                 div(),
                 col(
                   items: s._secItems,
                   selIdx: s._psIdx,
-                  label: (v) => v.toString().padLeft(2, '0'),
-                  onSelected: (i) {
+                  label: (int v) => v.toString().padLeft(2, '0'),
+                  onSelected: (int i) {
                     s._psIdx = i;
                     if (s.widget.changeOnScroll && !s.widget.needConfirm) {
                       s._doCommit();
                     }
                   },
                   onLive: s.widget.changeOnScroll
-                      ? (i) {
+                      ? (int i) {
                           s._psIdx = i;
                           if (!s.widget.needConfirm) s._doCommit();
                         }
                       : null,
                 ),
               ],
-              if (s._is12h) ...[
+              if (s._is12h) ...<Widget>[
                 div(),
                 col(
-                  items: const [0, 1],
+                  items: const <int>[0, 1],
                   selIdx: s._apIdx,
-                  label: (v) => v == 0 ? 'AM' : 'PM',
-                  onSelected: (i) {
+                  label: (int v) => v == 0 ? 'AM' : 'PM',
+                  onSelected: (int i) {
                     s._apIdx = i;
                     if (s.widget.changeOnScroll && !s.widget.needConfirm) {
                       s._doCommit();
                     }
                   },
                   onLive: s.widget.changeOnScroll
-                      ? (i) {
+                      ? (int i) {
                           s._apIdx = i;
                           if (!s.widget.needConfirm) s._doCommit();
                         }
@@ -1354,7 +1361,7 @@ class _PanelOverlayState
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [
+                    colors: <Color>[
                       tk.panelBg,
                       tk.panelBg.withOpacity(0)
                     ],
@@ -1377,7 +1384,7 @@ class _PanelOverlayState
                   gradient: LinearGradient(
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
-                    colors: [
+                    colors: <Color>[
                       tk.panelBg,
                       tk.panelBg.withOpacity(0)
                     ],
@@ -1432,7 +1439,7 @@ class _PanelOverlayState
           const EdgeInsets.symmetric(horizontal: 12),
       child:
           Row(
-        children: [
+        children: <Widget>[
           if (s.widget.showNow)
             GestureDetector(
               onTap: s._setNow,
@@ -1445,7 +1452,7 @@ class _PanelOverlayState
                 ),
               ),
             ),
-          if (s.widget.renderExtraFooter != null) ...[
+          if (s.widget.renderExtraFooter != null) ...<Widget>[
             const SizedBox(width: 8),
             Expanded(child: s.widget.renderExtraFooter!()),
           ] else
@@ -1460,7 +1467,7 @@ class _PanelOverlayState
               ),
               child: Text(
                 SLocalizations.ofContext(context).ok,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
@@ -1610,7 +1617,7 @@ class _STimeRangePickerState
           8,
       runSpacing:
           8,
-      children: [
+      children: <Widget>[
         STimePicker(
           value: _eStart,
           format: widget.format,
@@ -1630,7 +1637,7 @@ class _STimeRangePickerState
           activeColor: widget.activeColor,
           borderColor: widget.borderColor,
           borderRadius: widget.borderRadius,
-          onChange: (t) {
+          onChange: (TimeOfDay? t) {
             setState(() => _start = t);
             widget.onRangeChange?.call(t, _eEnd);
           },
@@ -1654,7 +1661,7 @@ class _STimeRangePickerState
           activeColor: widget.activeColor,
           borderColor: widget.borderColor,
           borderRadius: widget.borderRadius,
-          onChange: (t) {
+          onChange: (TimeOfDay? t) {
             setState(() => _end = t);
             widget.onRangeChange?.call(_eStart, t);
           },

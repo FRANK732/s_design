@@ -50,7 +50,6 @@ class _HomeOverviewPageState
             children: [
               // 1. HERO SECTION
               Align(
-                alignment: Alignment.center,
                 child: Container(
                   constraints: const BoxConstraints(maxWidth: 800),
                   child: Column(
@@ -99,7 +98,7 @@ class _HomeOverviewPageState
                         delay: const Duration(milliseconds: 300),
                         child: Text(
                           'A robust, highly customizable Flutter component library '
-                          'inspired by the world\'s best design systems. Built for mobile, web, and desktop.',
+                          "inspired by the world's best design systems. Built for mobile, web, and desktop.",
                           textAlign: TextAlign.center,
                           style: theme.textTheme.titleLarge?.copyWith(
                             color: colors.textSecondary,
@@ -119,7 +118,6 @@ class _HomeOverviewPageState
                           children: [
                             SButton(
                               size: SButtonSize.lg,
-                              variant: SButtonVariant.defaultVariant,
                               icon: const Icon(Icons.rocket_launch),
                               child: const Text('Get Started'),
                               onPressed: () {
@@ -147,9 +145,9 @@ class _HomeOverviewPageState
               const SizedBox(height: 100),
 
               // 2. LIVE INTERACTIVE SHOWCASE
-              _EntranceAnimation(
-                delay: const Duration(milliseconds: 500),
-                child: const _LiveShowcase(),
+              const _EntranceAnimation(
+                delay: Duration(milliseconds: 500),
+                child: _LiveShowcase(),
               ),
 
               const SizedBox(height: 100),
@@ -186,7 +184,7 @@ class _HomeOverviewPageState
                         _FeatureCard(
                           icon: Icons.language,
                           title: 'Native Localization',
-                          description: 'Speaks your users\' languages natively. Built-in support for multiple languages including RTL without extra fuss.',
+                          description: "Speaks your users' languages natively. Built-in support for multiple languages including RTL without extra fuss.",
                           width: isDesktop ? 350 : double.infinity,
                         ),
                         _FeatureCard(
@@ -216,7 +214,6 @@ class _HomeOverviewPageState
                     ),
                     const SizedBox(height: 24),
                     const Align(
-                      alignment: Alignment.center,
                       child: SizedBox(
                         width: 800,
                         child: CodeSnippet(
@@ -398,15 +395,14 @@ class _LiveShowcaseState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SInputField(
+                  const SInputField(
                     labelText: 'Email Address',
                     hintText: 'you@example.com',
-                    startIcon: const Icon(Icons.email_outlined),
+                    startIcon: Icon(Icons.email_outlined),
                   ),
                   const SizedBox(height: 24),
                   Slider(
                     value: _sliderVal,
-                    min: 0,
                     max: 100,
                     onChanged: (double v) => setState(() => _sliderVal = v),
                   ),
@@ -622,16 +618,16 @@ class _LinkCardState
 /// A reusable widget that provides a slide-up and fade-in entrance animation.
 class _EntranceAnimation
     extends StatefulWidget {
-  final Widget
-      child;
-  final Duration
-      delay;
 
   const _EntranceAnimation({
     required this.child,
     this.delay =
         Duration.zero,
   });
+  final Widget
+      child;
+  final Duration
+      delay;
 
   @override
   State<_EntranceAnimation>
@@ -677,8 +673,9 @@ class _EntranceAnimationState
     Future.delayed(
         widget.delay,
         () {
-      if (mounted)
+      if (mounted) {
         _controller.forward();
+      }
     });
   }
 
@@ -781,14 +778,14 @@ class _AnimatedBackgroundState
 
 class _BackgroundPainter
     extends CustomPainter {
-  final Color
-      color;
-  final double
-      animation;
 
   _BackgroundPainter(
       {required this.color,
       required this.animation});
+  final Color
+      color;
+  final double
+      animation;
 
   @override
   void paint(
@@ -803,7 +800,7 @@ class _BackgroundPainter
           PaintingStyle.stroke
       ..strokeWidth = 1.0;
 
-    final double
+    const double
         spacing =
         100.0;
     final int

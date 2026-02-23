@@ -133,16 +133,15 @@ SSelect<String>(
   onChanged: (v) => setState(() => _selected = List<String>.from(v)),
 );''',
         ),
-        ComponentSection(
+        const ComponentSection(
           title: 'Disabled',
           description: 'Set `disabled: true` to prevent interaction.',
           demo: SSelect<String>(
-            items: const [
+            items: [
               SSelectItem(value: 'tech', label: 'Technology')
             ],
             value: 'tech',
             disabled: true,
-            onChanged: null,
           ),
           code: '''
 SSelect<String>(

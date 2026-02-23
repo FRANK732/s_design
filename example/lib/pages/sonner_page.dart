@@ -20,17 +20,17 @@ class SonnerPage
           'Supports success, error, warning, and info variants.',
       whenToUse: const [
         'To provide feedback on async operations (saved, deleted, error).',
-        'For non-intrusive notifications that don\'t block user flow.',
+        "For non-intrusive notifications that don't block user flow.",
         'When multiple sequential notifications may arrive.',
       ],
       sections: [
-        ComponentSection(
+        const ComponentSection(
           title: 'Variants',
           description: 'Show success, error, warning, or info sonners.',
           demo: Wrap(
             spacing: 10,
             runSpacing: 10,
-            children: const [
+            children: [
               _SonnerBtn(label: 'Success', variant: SSonnerVariant.success),
               _SonnerBtn(label: 'Error', variant: SSonnerVariant.error),
               _SonnerBtn(label: 'Warning', variant: SSonnerVariant.warning),
@@ -82,7 +82,6 @@ SSonner.instance.show(
                     onPressed: () {
                       SSonner.instance.show(
                         message: 'Email archived',
-                        variant: SSonnerVariant.info,
                         action: TextButton(
                           onPressed: () {},
                           child: const Text('Undo', style: TextStyle(fontSize: 12)),
@@ -110,7 +109,6 @@ SSonner.instance.show(
                     onPressed: () {
                       SSonner.instance.show(
                         message: 'This appears at the top',
-                        variant: SSonnerVariant.info,
                         position: SSonnerPosition.top,
                       );
                     },

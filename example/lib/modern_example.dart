@@ -11,14 +11,14 @@ import 'pages/home_overview.dart';
 import 'pages/input_demo_page.dart';
 import 'pages/list_tile_page.dart';
 import 'pages/progress_demo.dart';
-import 'pages/s_pagination_page.dart';
 import 'pages/progress_indicator_page.dart';
+import 'pages/qrcode_demo_page.dart';
+import 'pages/rate_demo_page.dart';
 import 'pages/s_alert_page.dart';
 import 'pages/s_avatar_page.dart';
 import 'pages/s_modal_page.dart';
+import 'pages/s_pagination_page.dart';
 import 'pages/s_time_picker_page.dart';
-import 'pages/qrcode_demo_page.dart';
-import 'pages/rate_demo_page.dart';
 import 'pages/sbutton.dart';
 import 'pages/scaffold_page.dart';
 import 'pages/select_page.dart';
@@ -79,7 +79,7 @@ class _ModernSDesignExampleState
       ],
       localeResolutionCallback:
           (locale, supportedLocales) {
-        for (var supportedLocale in supportedLocales) {
+        for (final supportedLocale in supportedLocales) {
           if (supportedLocale.languageCode == locale?.languageCode) {
             return supportedLocale;
           }
@@ -150,47 +150,47 @@ class _GalleryShellState
     super
         .initState();
 
-    _homeItem = NavItem(
+    _homeItem = const NavItem(
         label: 'Home',
         icon: Icons.home_outlined,
-        page: const HomeOverviewPage());
+        page: HomeOverviewPage());
 
     _groups =
         [
-      NavGroup(title: 'Inputs', items: [
-        NavItem(label: 'SButton', icon: Icons.smart_button_outlined, page: const SButtonPage()),
-        NavItem(label: 'SCheckbox', icon: Icons.check_box_outlined, page: const CheckboxPage()),
-        NavItem(label: 'SSwitch', icon: Icons.toggle_on_outlined, page: const SwitchDemoPage()),
-        NavItem(label: 'SInput', icon: Icons.text_fields_outlined, page: const InputDemoPage()),
-        NavItem(label: 'SDropdown', icon: Icons.arrow_drop_down_circle_outlined, page: const DropdownMenuPage()),
-        NavItem(label: 'SSelect', icon: Icons.list_alt_outlined, page: const SelectPage()),
-        NavItem(label: 'SRate', icon: Icons.star_outline, page: const RateDemoPage()),
-        NavItem(label: 'SDatePicker', icon: Icons.calendar_today_outlined, page: const DatePickerPage()),
-        NavItem(label: 'STimePicker', icon: Icons.access_time_outlined, page: const STimePickerPage()),
+      const NavGroup(title: 'Inputs', items: [
+        NavItem(label: 'SButton', icon: Icons.smart_button_outlined, page: SButtonPage()),
+        NavItem(label: 'SCheckbox', icon: Icons.check_box_outlined, page: CheckboxPage()),
+        NavItem(label: 'SSwitch', icon: Icons.toggle_on_outlined, page: SwitchDemoPage()),
+        NavItem(label: 'SInput', icon: Icons.text_fields_outlined, page: InputDemoPage()),
+        NavItem(label: 'SDropdown', icon: Icons.arrow_drop_down_circle_outlined, page: DropdownMenuPage()),
+        NavItem(label: 'SSelect', icon: Icons.list_alt_outlined, page: SelectPage()),
+        NavItem(label: 'SRate', icon: Icons.star_outline, page: RateDemoPage()),
+        NavItem(label: 'SDatePicker', icon: Icons.calendar_today_outlined, page: DatePickerPage()),
+        NavItem(label: 'STimePicker', icon: Icons.access_time_outlined, page: STimePickerPage()),
       ]),
-      NavGroup(title: 'Display', items: [
-        NavItem(label: 'SAvatar', icon: Icons.account_circle_outlined, page: const SAvatarPage()),
-        NavItem(label: 'SSlider', icon: Icons.tune_outlined, page: const SSliderDemoPage()),
-        NavItem(label: 'SSteps', icon: Icons.format_list_numbered_outlined, page: const StepsPage()),
-        NavItem(label: 'SQRCode', icon: Icons.qr_code_outlined, page: const QRCodeDemoPage()),
+      const NavGroup(title: 'Display', items: [
+        NavItem(label: 'SAvatar', icon: Icons.account_circle_outlined, page: SAvatarPage()),
+        NavItem(label: 'SSlider', icon: Icons.tune_outlined, page: SSliderDemoPage()),
+        NavItem(label: 'SSteps', icon: Icons.format_list_numbered_outlined, page: StepsPage()),
+        NavItem(label: 'SQRCode', icon: Icons.qr_code_outlined, page: QRCodeDemoPage()),
       ]),
-      NavGroup(title: 'Feedback', items: [
-        NavItem(label: 'SAlert', icon: Icons.warning_amber_rounded, page: const SAlertPage()),
-        NavItem(label: 'SDialog', icon: Icons.chat_bubble_outline, page: const SModalPage()),
-        NavItem(label: 'SToast', icon: Icons.announcement_outlined, page: const ToastPage()),
-        NavItem(label: 'SSonner', icon: Icons.notifications_active_outlined, page: const SonnerPage()),
-        NavItem(label: 'SProgress', icon: Icons.pie_chart_outline, page: const SProgressDemoPage()),
-        NavItem(label: 'SProgress.line', icon: Icons.linear_scale_outlined, page: const ProgressIndicatorPage()),
+      const NavGroup(title: 'Feedback', items: [
+        NavItem(label: 'SAlert', icon: Icons.warning_amber_rounded, page: SAlertPage()),
+        NavItem(label: 'SDialog', icon: Icons.chat_bubble_outline, page: SModalPage()),
+        NavItem(label: 'SToast', icon: Icons.announcement_outlined, page: ToastPage()),
+        NavItem(label: 'SSonner', icon: Icons.notifications_active_outlined, page: SonnerPage()),
+        NavItem(label: 'SProgress', icon: Icons.pie_chart_outline, page: SProgressDemoPage()),
+        NavItem(label: 'SProgress.line', icon: Icons.linear_scale_outlined, page: ProgressIndicatorPage()),
       ]),
-      NavGroup(title: 'Layout', items: [
-        NavItem(label: 'SCard', icon: Icons.chrome_reader_mode_outlined, page: const SCardDemoPage()),
-        NavItem(label: 'SListTile', icon: Icons.list_outlined, page: const ListTilePage()),
-        NavItem(label: 'STabs', icon: Icons.tab_outlined, page: const TabsDemoV3Page()),
-        NavItem(label: 'SPagination', icon: Icons.first_page_outlined, page: const SPaginationPage()),
-        NavItem(label: 'SScaffold', icon: Icons.web_asset_outlined, page: const BaseScaffoldPage()),
-        NavItem(label: 'SScaffold Slivers', icon: Icons.view_quilt_outlined, page: const ScaffoldPage()),
-        NavItem(label: 'SBottom Navigation', icon: Icons.call_to_action_outlined, page: const BottomNavigationPage()),
-        NavItem(label: 'SCard (Basic)', icon: Icons.dashboard_outlined, page: const CardPage()),
+      const NavGroup(title: 'Layout', items: [
+        NavItem(label: 'SCard', icon: Icons.chrome_reader_mode_outlined, page: SCardDemoPage()),
+        NavItem(label: 'SListTile', icon: Icons.list_outlined, page: ListTilePage()),
+        NavItem(label: 'STabs', icon: Icons.tab_outlined, page: TabsDemoV3Page()),
+        NavItem(label: 'SPagination', icon: Icons.first_page_outlined, page: SPaginationPage()),
+        NavItem(label: 'SScaffold', icon: Icons.web_asset_outlined, page: BaseScaffoldPage()),
+        NavItem(label: 'SScaffold Slivers', icon: Icons.view_quilt_outlined, page: ScaffoldPage()),
+        NavItem(label: 'SBottom Navigation', icon: Icons.call_to_action_outlined, page: BottomNavigationPage()),
+        NavItem(label: 'SCard (Basic)', icon: Icons.dashboard_outlined, page: CardPage()),
       ]),
     ];
 

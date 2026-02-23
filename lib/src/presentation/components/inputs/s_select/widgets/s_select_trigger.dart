@@ -133,11 +133,11 @@ class _SSelectTriggerState<
   Widget build(
       BuildContext
           context) {
-    final sTheme =
+    final SThemeData sTheme =
         STheme.of(context);
-    final isFocused =
+    final bool isFocused =
         widget.focusNode?.hasFocus ?? false;
-    final borderColor =
+    final Color borderColor =
         SSelectStyleHelper.getBorderColor(
       status:
           widget.status,
@@ -148,7 +148,7 @@ class _SSelectTriggerState<
       theme:
           sTheme,
     );
-    final backgroundColor =
+    final Color backgroundColor =
         SSelectStyleHelper.getBackgroundColor(
       variant:
           widget.variant,
@@ -157,11 +157,11 @@ class _SSelectTriggerState<
       theme:
           sTheme,
     );
-    final height =
+    final double height =
         SSelectStyleHelper.getHeight(widget.size);
-    final padding =
+    final EdgeInsetsGeometry padding =
         SSelectStyleHelper.getItemPadding(widget.size);
-    final textStyle =
+    final TextStyle textStyle =
         SSelectStyleHelper.getTriggerTextStyle(
       size:
           widget.size,
@@ -196,22 +196,20 @@ class _SSelectTriggerState<
           padding: padding,
           decoration: BoxDecoration(
             color: backgroundColor,
-            border: widget.variant == SSelectVariant.borderless ? null : Border.all(color: borderColor, width: 1.0),
+            border: widget.variant == SSelectVariant.borderless ? null : Border.all(color: borderColor),
             borderRadius: BorderRadius.circular(DesignConstants.borderRadiusMedium),
             boxShadow: isFocused && widget.variant == SSelectVariant.outlined
-                ? [
+                ? <BoxShadow>[
                     BoxShadow(
                       color: sTheme.colorToken.primary.withOpacity(0.2),
                       spreadRadius: 2,
-                      blurRadius: 0,
-                      offset: Offset.zero,
                     )
                   ]
-                : [],
+                : <BoxShadow>[],
           ),
           child: Row(
-            children: [
-              if (widget.prefix != null) ...[
+            children: <Widget>[
+              if (widget.prefix != null) ...<Widget>[
                 widget.prefix!,
                 const SizedBox(width: 8),
               ],
@@ -242,7 +240,7 @@ class _SSelectTriggerState<
         .values
         .isEmpty) {
       if (widget.showSearch &&
-          widget.focusNode?.hasFocus == true) {
+          (widget.focusNode?.hasFocus ?? false)) {
         return _buildSearchInput(textStyle);
       }
       return Text(
@@ -253,7 +251,7 @@ class _SSelectTriggerState<
     }
 
     if (widget.showSearch &&
-        widget.focusNode?.hasFocus == true) {
+        (widget.focusNode?.hasFocus ?? false)) {
       // For single select, when searching, we show the input.
       // Ideally, the selected value should be hidden or shown as placeholder if the search is empty.
       // Behavior: If search is empty, show selected value? Or just show input?
@@ -262,10 +260,10 @@ class _SSelectTriggerState<
       return _buildSearchInput(textStyle);
     }
 
-    final selectedItem = widget
+    final SSelectItem<T> selectedItem = widget
         .items
         .firstWhere(
-      (item) =>
+      (SSelectItem<T> item) =>
           item.value ==
           widget.values.first,
       orElse: () =>
@@ -284,7 +282,7 @@ class _SSelectTriggerState<
   Widget _buildSearchInput(
       TextStyle
           textStyle) {
-    final sTheme =
+    final SThemeData sTheme =
         STheme.of(context);
     return TextField(
       controller:
@@ -307,8 +305,6 @@ class _SSelectTriggerState<
         errorBorder: InputBorder.none,
         disabledBorder: InputBorder.none,
       ),
-      maxLines:
-          1,
     );
   }
 
@@ -317,14 +313,14 @@ class _SSelectTriggerState<
           textStyle) {
     final List<Widget>
         children =
-        [];
+        <Widget>[];
 
     // Add selected items
-    for (var value
+    for (final T value
         in widget.values) {
-      final item =
+      final SSelectItem<T> item =
           widget.items.firstWhere(
-        (i) => i.value == value,
+        (SSelectItem<T> i) => i.value == value,
         orElse: () => SSelectItem(value: value, label: value.toString()),
       );
       children.add(
@@ -336,12 +332,12 @@ class _SSelectTriggerState<
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
-            children: [
+            children: <Widget>[
               Text(
                 item.label,
                 style: const TextStyle(fontSize: 12),
               ),
-              if (!widget.disabled) ...[
+              if (!widget.disabled) ...<Widget>[
                 const SizedBox(width: 4),
                 InkWell(
                   onTap: () {
@@ -361,7 +357,7 @@ class _SSelectTriggerState<
         !widget.disabled) {
       children.add(
         ConstrainedBox(
-          constraints: const BoxConstraints(minWidth: 4, maxWidth: double.infinity),
+          constraints: const BoxConstraints(minWidth: 4),
           child: IntrinsicWidth(
             child: TextField(
               controller: _searchController,
@@ -379,7 +375,6 @@ class _SSelectTriggerState<
                 errorBorder: InputBorder.none,
                 disabledBorder: InputBorder.none,
               ),
-              maxLines: 1,
               minLines: 1,
             ),
           ),

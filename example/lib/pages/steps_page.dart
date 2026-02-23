@@ -87,14 +87,14 @@ const steps = [
 
 SSteps(items: steps, current: 1);''',
         ),
-        ComponentSection(
+        const ComponentSection(
           title: 'Vertical Steps',
           description: 'Use `direction: Axis.vertical` for a vertical layout.',
           demo: SizedBox(
             height: 200,
             child: SSteps(
               direction: Axis.vertical,
-              items: const [
+              items: [
                 SStepItem(title: Text('Step 1'), description: Text('Create your account')),
                 SStepItem(title: Text('Step 2'), description: Text('Set up your profile')),
                 SStepItem(title: Text('Step 3'), description: Text('Explore features')),
@@ -113,11 +113,11 @@ SSteps(
   current: 1,
 );''',
         ),
-        ComponentSection(
+        const ComponentSection(
           title: 'Error Status',
           description: 'Override step status to show errors using `SStepStatus.error`.',
           demo: SSteps(
-            items: const [
+            items: [
               SStepItem(title: Text('Placed'), status: SStepStatus.finish),
               SStepItem(title: Text('Processing'), status: SStepStatus.error),
               SStepItem(title: Text('Shipped')),

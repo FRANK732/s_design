@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../../domain/entities/config/s_avatar_enums.dart';
+import '../../../themes/extensions/component_themes/s_avatar_theme.dart';
 import '../../../themes/s_theme.dart';
+import '../../../themes/s_theme_data.dart';
 
 /// A component for representing users or objects, supporting images, icons, or text.
 /// Matches the Avatar specifications.
@@ -122,7 +124,7 @@ class _SAvatarState
       StackTrace?
           stackTrace) {
     if (mounted) {
-      final preventFallback =
+      final bool preventFallback =
           widget.onError?.call() ?? false;
       if (!preventFallback) {
         setState(() {
@@ -148,7 +150,7 @@ class _SAvatarState
           style: style);
     }
 
-    final availableWidth =
+    final double availableWidth =
         maxWidth - (gap * 2);
     if (availableWidth <=
         0) {
@@ -157,7 +159,7 @@ class _SAvatarState
     }
 
     // Measure the text
-    final textPainter =
+    final TextPainter textPainter =
         TextPainter(
       text:
           TextSpan(text: text, style: style),
@@ -165,9 +167,9 @@ class _SAvatarState
           TextDirection.ltr,
       maxLines:
           1,
-    )..layout(minWidth: 0, maxWidth: double.infinity);
+    )..layout();
 
-    final textWidth =
+    final double textWidth =
         textPainter.width;
 
     if (textWidth <=
@@ -178,15 +180,13 @@ class _SAvatarState
     }
 
     // Needs scaling
-    final scale =
+    final double scale =
         availableWidth / textWidth;
 
     return Transform
         .scale(
       scale:
           scale,
-      alignment:
-          Alignment.center,
       child:
           Text(text, style: style),
     );
@@ -196,9 +196,9 @@ class _SAvatarState
   Widget build(
       BuildContext
           context) {
-    final theme =
+    final SThemeData theme =
         STheme.of(context);
-    final ext =
+    final SAvatarThemeData ext =
         theme.avatarTheme;
 
     // Resolve size
@@ -212,13 +212,10 @@ class _SAvatarState
       switch (widget.size) {
         case SAvatarSize.large:
           dimension = ext.largeSize ?? 40.0;
-          break;
         case SAvatarSize.small:
           dimension = ext.smallSize ?? 24.0;
-          break;
         case SAvatarSize.middle:
           dimension = ext.middleSize ?? 32.0;
-          break;
       }
     }
 
@@ -246,10 +243,10 @@ class _SAvatarState
           theme.colorToken.textPrimary;
     }
 
-    final borderW = widget.borderWidth ??
+    final double borderW = widget.borderWidth ??
         ext.borderWidth ??
         0.0;
-    final borderC = widget.borderColor ??
+    final Color borderC = widget.borderColor ??
         ext.borderColor ??
         Colors.transparent;
 
@@ -271,13 +268,10 @@ class _SAvatarState
         switch (widget.size) {
           case SAvatarSize.large:
             borderRadius = ext.largeRadius ?? BorderRadius.circular(8);
-            break;
           case SAvatarSize.small:
             borderRadius = ext.smallRadius ?? BorderRadius.circular(4);
-            break;
           case SAvatarSize.middle:
             borderRadius = ext.middleRadius ?? BorderRadius.circular(6);
-            break;
         }
       }
     }
@@ -295,7 +289,7 @@ class _SAvatarState
           fit: BoxFit.cover,
           width: dimension,
           height: dimension,
-          errorBuilder: (ctx, err, stack) {
+          errorBuilder: (BuildContext ctx, Object err, StackTrace? stack) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               _handleImageError(err, stack);
             });
@@ -310,7 +304,7 @@ class _SAvatarState
           fit: BoxFit.cover,
           width: dimension,
           height: dimension,
-          errorBuilder: (ctx, err, stack) {
+          errorBuilder: (BuildContext ctx, Object err, StackTrace? stack) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               _handleImageError(err, stack);
             });
@@ -323,7 +317,7 @@ class _SAvatarState
     } else if (widget.icon !=
         null) {
       // Ensure icon takes relative size
-      final iconSize =
+      final double iconSize =
           dimension / 2;
       content =
           IconTheme(
@@ -333,14 +327,14 @@ class _SAvatarState
     } else if (widget.text !=
         null) {
       // Text styling
-      final defaultFontSize =
+      final double defaultFontSize =
           dimension / 2;
-      final textStyle =
+      final TextStyle textStyle =
           (ext.textStyle ?? const TextStyle(fontWeight: FontWeight.w400)).copyWith(fontSize: defaultFontSize, color: fgCol);
 
       content =
           LayoutBuilder(
-        builder: (context, constraints) {
+        builder: (BuildContext context, BoxConstraints constraints) {
           return Center(
             child: _buildTextFitted(widget.text!, textStyle, dimension, widget.gap),
           );

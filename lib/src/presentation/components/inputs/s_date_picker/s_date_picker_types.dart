@@ -9,12 +9,12 @@ enum SDatePickerMode {
 
 class SDatePickerPreset<
     T> {
-  final String
-      label;
-  final T
-      value;
 
   const SDatePickerPreset(
       {required this.label,
       required this.value});
+  final String
+      label;
+  final T
+      value;
 }

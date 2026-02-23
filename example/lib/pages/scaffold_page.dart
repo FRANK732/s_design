@@ -73,7 +73,6 @@ class ScaffoldPage
       floatingActionButtonConfig:
           FloatingActionButtonConfig(
         floatingActionButton: SButton(
-          variant: SButtonVariant.defaultVariant,
           onPressed: () {},
           child: const Text('FAB'),
         ),
@@ -84,11 +83,11 @@ class ScaffoldPage
 
 class _StickyHeaderDelegate
     extends SliverPersistentHeaderDelegate {
-  final String
-      title;
 
   _StickyHeaderDelegate(
       {required this.title});
+  final String
+      title;
 
   @override
   Widget build(

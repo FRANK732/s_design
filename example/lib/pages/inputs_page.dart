@@ -227,7 +227,7 @@ class _InputFieldPageState
                 controller: TextEditingController(),
                 labelText: 'Price',
                 hintText: '0.00',
-                prefixText: '\$',
+                prefixText: r'$',
                 suffixText: 'USD',
                 helperText: 'Enter the price in USD',
               ),
@@ -278,7 +278,7 @@ class _CreditCardFormatter
     TextEditingValue
         newValue,
   ) {
-    String
+    final String
         text =
         newValue.text;
 
@@ -287,14 +287,14 @@ class _CreditCardFormatter
       return newValue;
     }
 
-    StringBuffer
+    final StringBuffer
         buffer =
         StringBuffer();
     for (int i = 0;
         i < text.length;
         i++) {
       buffer.write(text[i]);
-      int nonZeroIndex =
+      final int nonZeroIndex =
           i + 1;
       if (nonZeroIndex % 4 == 0 &&
           nonZeroIndex != text.length) {
@@ -302,7 +302,7 @@ class _CreditCardFormatter
       }
     }
 
-    String
+    final String
         string =
         buffer.toString();
     return newValue

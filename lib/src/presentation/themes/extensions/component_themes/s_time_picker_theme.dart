@@ -113,8 +113,9 @@ class STimePickerThemeData
       double
           t) {
     if (other ==
-        null)
+        null) {
       return this;
+    }
     return STimePickerThemeData(
       activeColor: Color.lerp(
           activeColor,

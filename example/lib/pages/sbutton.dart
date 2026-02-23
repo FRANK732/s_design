@@ -134,15 +134,15 @@ SButton(
   child: const Text('Submit'),
 );''',
         ),
-        ComponentSection(
+        const ComponentSection(
           title: 'Disabled',
           description: 'Set `onPressed: null` to disable a button.',
           demo: Wrap(
             spacing: 12,
             runSpacing: 10,
             children: [
-              SButton(onPressed: null, child: const Text('Disabled')),
-              SButton(variant: SButtonVariant.outline, onPressed: null, child: const Text('Disabled Outline')),
+              SButton(onPressed: null, child: Text('Disabled')),
+              SButton(variant: SButtonVariant.outline, onPressed: null, child: Text('Disabled Outline')),
             ],
           ),
           code: '''

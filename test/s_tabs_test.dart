@@ -9,7 +9,7 @@ void
       () {
     final List<STabItem>
         testItems =
-        [
+        <STabItem>[
       STabItem(
         label: 'Tab 1',
         key: 'tab1',
@@ -97,7 +97,7 @@ void
           home: Scaffold(
             body: STabs(
               items: testItems,
-              onTabClick: (key) => clickedKey = key,
+              onTabClick: (String key) => clickedKey = key,
             ),
           ),
         ),
@@ -111,8 +111,8 @@ void
     testWidgets(
         'renders icons when provided',
         (WidgetTester tester) async {
-      final itemsWithIcons =
-          [
+      final List<STabItem> itemsWithIcons =
+          <STabItem>[
         STabItem(
           label: 'Tab 1',
           key: 'tab1',
@@ -136,8 +136,8 @@ void
     testWidgets(
         'respects disabled state',
         (WidgetTester tester) async {
-      final disabledItems =
-          [
+      final List<STabItem> disabledItems =
+          <STabItem>[
         STabItem(
           label: 'Tab 1',
           key: 'tab1',
@@ -181,7 +181,7 @@ void
             body: STabs(
               items: testItems,
               type: STabType.editableCard,
-              onEdit: (key, action) {
+              onEdit: (String? key, String action) {
                 if (action == 'add') addClicked = true;
               },
             ),
