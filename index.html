@@ -29,10 +29,62 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>example</title>
+  <title>SDesign Package</title>
   <link rel="manifest" href="manifest.json">
 </head>
-<body>
+<body style="background-color: #121212; margin: 0; padding: 0;">
+  <!-- Loading Indicator Container -->
+  <div id="loading-indicator" style="
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: #121212;
+      color: white;
+      font-family: system-ui, -apple-system, sans-serif;
+      transition: opacity 0.5s ease;
+      z-index: 9999;
+  ">
+    <!-- Spinner -->
+    <div style="
+        border: 4px solid rgba(255, 255, 255, 0.1);
+        border-top: 4px solid #03DAC6;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        animation: spin 1s linear infinite;
+        margin-bottom: 24px;
+    "></div>
+    <div style="font-weight: 500; font-size: 16px; letter-spacing: 1px;">SDesign is loading...</div>
+    
+    <style>
+      @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+  </div>
+
   <script src="flutter_bootstrap.js" async></script>
+  
+  <script>
+    // Remove the loading screen smoothly once Flutter is initialized
+    window.addEventListener('load', function(ev) {
+      _flutter.loader.load({
+        onEntrypointLoaded: async function(engineInitializer) {
+          const appRunner = await engineInitializer.initializeEngine();
+          
+          const loader = document.getElementById('loading-indicator');
+          if (loader) {
+            loader.style.opacity = '0';
+            setTimeout(() => {
+              loader.remove();
+            }, 500); // Wait for fade out
+          }
+          
+          await appRunner.runApp();
+        }
+      });
+    });
+  </script>
 </body>
 </html>
