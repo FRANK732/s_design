@@ -15,6 +15,7 @@ import 'pages/progress_indicator_page.dart';
 import 'pages/qrcode_demo_page.dart';
 import 'pages/rate_demo_page.dart';
 import 'pages/s_alert_page.dart';
+import 'pages/s_floating_panel_page.dart';
 import 'pages/s_avatar_page.dart';
 import 'pages/s_modal_page.dart';
 import 'pages/s_pagination_page.dart';
@@ -175,6 +176,7 @@ class _GalleryShellState
         NavItem(label: 'SDialog', icon: Icons.chat_bubble_outline, page: SModalPage()),
         NavItem(label: 'SToast', icon: Icons.announcement_outlined, page: ToastPage()),
         NavItem(label: 'SSonner', icon: Icons.notifications_active_outlined, page: SonnerPage()),
+        NavItem(label: 'SFloatingPanel', icon: Icons.picture_in_picture_alt_outlined, page: SFloatingPanelPage()),
         NavItem(label: 'SProgress', icon: Icons.pie_chart_outline, page: SProgressDemoPage()),
         NavItem(label: 'SProgress.line', icon: Icons.linear_scale_outlined, page: ProgressIndicatorPage()),
       ]),

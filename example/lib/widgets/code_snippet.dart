@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_highlighter/flutter_highlighter.dart';
+import 'package:flutter_highlighter/themes/atom-one-dark.dart';
+import 'package:flutter_highlighter/themes/github.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 /// A dark-themed code card with a copy button.
 class CodeSnippet
@@ -43,12 +47,18 @@ class _CodeSnippetState
   Widget build(
       BuildContext
           context) {
+    final bool
+        isDark =
+        Theme.of(context).brightness == Brightness.dark;
+
     return Container(
       decoration:
           BoxDecoration(
-        color: const Color(0xFF1E1E1E),
+        color: isDark ? const Color(0xFF1E1E1E) : const Color(0xFFF6F8FA),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: const Color(0xFF333333)),
+        border: Border.all(
+          color: isDark ? const Color(0xFF333333) : const Color(0xFFD0D7DE),
+        ),
       ),
       child:
           Column(
@@ -58,18 +68,18 @@ class _CodeSnippetState
           Container(
             height: 36,
             padding: const EdgeInsets.symmetric(horizontal: 12),
-            decoration: const BoxDecoration(
-              color: Color(0xFF2D2D2D),
-              borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+            decoration: BoxDecoration(
+              color: isDark ? const Color(0xFF2D2D2D) : const Color(0xFFEBEEF2),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
             ),
             child: Row(
               children: [
-                const Text(
+                Text(
                   'Dart',
                   style: TextStyle(
-                    color: Color(0xFF858585),
+                    color: isDark ? const Color(0xFF858585) : const Color(0xFF57606A),
                     fontSize: 11,
-                    fontFamily: 'monospace',
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 const Spacer(),
@@ -80,14 +90,14 @@ class _CodeSnippetState
                       Icon(
                         _copied ? Icons.check : Icons.copy,
                         size: 14,
-                        color: _copied ? const Color(0xFF4CAF50) : const Color(0xFF858585),
+                        color: _copied ? const Color(0xFF4CAF50) : (isDark ? const Color(0xFF858585) : const Color(0xFF57606A)),
                       ),
                       const SizedBox(width: 4),
                       Text(
                         _copied ? 'Copied!' : 'Copy',
                         style: TextStyle(
                           fontSize: 11,
-                          color: _copied ? const Color(0xFF4CAF50) : const Color(0xFF858585),
+                          color: _copied ? const Color(0xFF4CAF50) : (isDark ? const Color(0xFF858585) : const Color(0xFF57606A)),
                         ),
                       ),
                     ],
@@ -100,12 +110,13 @@ class _CodeSnippetState
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.all(16),
-            child: SelectableText(
+            child: HighlightView(
               widget.code.trim(),
-              style: const TextStyle(
-                fontFamily: 'monospace',
+              language: 'dart',
+              theme: isDark ? atomOneDarkTheme : githubTheme,
+              padding: EdgeInsets.zero,
+              textStyle: GoogleFonts.firaCode(
                 fontSize: 13,
-                color: Color(0xFFD4D4D4),
                 height: 1.6,
               ),
             ),

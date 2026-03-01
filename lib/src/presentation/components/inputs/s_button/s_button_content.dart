@@ -90,10 +90,7 @@ class SButtonContent
       );
     }
 
-    return Center(
-      child:
-          spinner,
-    );
+    return spinner;
   }
 
   /// Builds button content with icons and text

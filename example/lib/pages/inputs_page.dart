@@ -230,6 +230,7 @@ class _InputFieldPageState
                 prefixText: r'$',
                 suffixText: 'USD',
                 helperText: 'Enter the price in USD',
+                size: SInputFieldSize.large,
               ),
               const SizedBox(height: 16),
               SInputField(
