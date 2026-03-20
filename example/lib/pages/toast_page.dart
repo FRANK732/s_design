@@ -75,7 +75,6 @@ SToast.show(
               SToast.show(
                 title: 'Error',
                 description: 'Something went wrong. Please try again.',
-                // ignore: deprecated_member_use
                 variant: SToastVariant.destructive,
               );
             },

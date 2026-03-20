@@ -9,6 +9,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import '../../localizations/s_localizations.dart';
 import '../../themes/s_theme.dart';
 import '../../themes/s_theme_data.dart';
+import '../feedback/s_sonner/s_sonner.dart';
+import '../feedback/s_toaster/s_toaster.dart';
+import '../overlays/s_bottom_sheet/s_floating_panel.dart';
 
 /// Describes how [Scrollable] widgets behave for [SApp]s.
 /// By default we will use [CupertinoScrollbar] for iOS and macOS platforms
@@ -315,13 +318,15 @@ class _SAppState
       child:
           AnimatedSTheme(
         data: themeData,
-        child: widget.builder != null
-            ? Builder(
-                builder: (m.BuildContext context) {
-                  return widget.builder!(context, child);
-                },
-              )
-            : child ?? const SizedBox.shrink(),
+        child: _SOverlayInitializer(
+          child: widget.builder != null
+              ? Builder(
+                  builder: (m.BuildContext context) {
+                    return widget.builder!(context, child);
+                  },
+                )
+              : child ?? const SizedBox.shrink(),
+        ),
       ),
     );
   }
@@ -434,4 +439,34 @@ class _SAppState
           widget.scrollBehavior ?? const SScrollBehavior(),
     );
   }
+}
+
+/// Private widget that auto-initializes [SSonner] and [SFloatingPanel]
+/// after the first frame by grabbing the nearest [OverlayState].
+/// This is injected by [SApp._builder] so consumers never need to call
+/// [sOverlayBuilder] or initialize overlays manually.
+class _SOverlayInitializer extends StatefulWidget {
+  const _SOverlayInitializer({required this.child});
+  final Widget child;
+
+  @override
+  State<_SOverlayInitializer> createState() => _SOverlayInitializerState();
+}
+
+class _SOverlayInitializerState extends State<_SOverlayInitializer> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final OverlayState overlay = Overlay.of(context);
+      SSonner.initialize(overlay);
+      SFloatingPanel.initialize(overlay);
+      // ignore: deprecated_member_use_from_same_package
+      SToast.initialize(overlay);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.child;
 }

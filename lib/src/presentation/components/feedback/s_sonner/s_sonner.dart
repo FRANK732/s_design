@@ -27,18 +27,58 @@ class SSonner {
   /// Initializes the [SSonner] with the [OverlayState].
   /// This must be called before showing any toasts.
   // ignore: use_setters_to_change_properties
-  void initialize(
+  static void initialize(
       OverlayState
           overlayState) {
-    _overlayState =
+    _instance._overlayState =
         overlayState;
   }
 
   /// Shows a toast notification.
   ///
   /// Returns the unique ID of the toast.
-  String
+  static String
       show({
+    String?
+        message,
+    SSonnerConfig?
+        config,
+    SSonnerVariant variant =
+        SSonnerVariant.info,
+    Duration duration =
+        const Duration(seconds: 4),
+    SSonnerPosition position =
+        SSonnerPosition.bottom,
+    Widget?
+        action,
+    bool showCloseButton =
+        false,
+    VoidCallback?
+        onTap,
+    VoidCallback?
+        onDismiss,
+    IconData?
+        icon,
+    String?
+        id,
+  }) {
+    return _instance._show(
+      message: message,
+      config: config,
+      variant: variant,
+      duration: duration,
+      position: position,
+      action: action,
+      showCloseButton: showCloseButton,
+      onTap: onTap,
+      onDismiss: onDismiss,
+      icon: icon,
+      id: id,
+    );
+  }
+
+  String
+      _show({
     String?
         message,
     SSonnerConfig?
@@ -102,7 +142,13 @@ class SSonner {
   }
 
   /// Dismisses a toast by its ID.
-  void dismiss(
+  static void dismiss(
+      String
+          id) {
+    _instance._dismiss(id);
+  }
+
+  void _dismiss(
       String
           id) {
     final List<SSonnerConfig>

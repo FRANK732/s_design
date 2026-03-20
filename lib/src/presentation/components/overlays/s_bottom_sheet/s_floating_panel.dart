@@ -64,6 +64,8 @@ class SFloatingPanel {
         customBottomWidget,
     Duration?
         animationDuration,
+    bool showCloseButton =
+        false,
     bool isDismissable =
         true,
     BoxConstraints?
@@ -127,6 +129,8 @@ class SFloatingPanel {
           config?.animationDuration ??
           theme.animationDuration ??
           const Duration(milliseconds: 300),
+      showCloseButton:
+          showCloseButton || (config?.showCloseButton ?? false),
       isDismissable:
           isDismissable, // Logic, not typically themed but can be in config
       constraints: constraints ??
@@ -279,7 +283,28 @@ class SFloatingPanel {
                                   ),
                                 ],
                               ),
-                              child: effectiveConfig.content,
+                              child: Stack(
+                                children: [
+                                  effectiveConfig.content,
+                                  if (effectiveConfig.showCloseButton)
+                                    Positioned(
+                                      top: 0,
+                                      right: 0,
+                                      child: IconButton(
+                                        icon: const Icon(Icons.close, size: 20),
+                                        padding: EdgeInsets.zero,
+                                        constraints: const BoxConstraints(),
+                                        onPressed: () {
+                                          if (effectiveConfig.onClose != null) {
+                                            effectiveConfig.onClose!();
+                                          } else {
+                                            close();
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                ],
+                              ),
                             ),
                             if (effectiveConfig.customBottomWidget != null) ...<Widget>[
                               SizedBox(height: effectiveConfig.panelSpacing),

@@ -106,6 +106,7 @@ class _SFloatingPanelPageState
           ),
         ),
         barrierColor: Colors.black.withOpacity(0.7),
+        showCloseButton: true,
       ),
     );
   }

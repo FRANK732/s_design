@@ -82,6 +82,7 @@ export 'src/presentation/components/layout/s_tabs/s_sliver_tabs.dart';
 export 'src/presentation/components/layout/s_tabs/s_tab_nav_bar.dart';
 export 'src/presentation/components/layout/s_tabs/s_tab_view.dart';
 export 'src/presentation/components/layout/s_tabs/s_tabs.dart';
+export 'src/presentation/components/navigation/s_animated_bottom_bar/s_animated_bottom_bar.dart';
 export 'src/presentation/components/navigation/s_pagination/s_pagination.dart';
 export 'src/presentation/components/overlays/s_bottom_sheet/s_floating_panel.dart';
 export 'src/presentation/components/overlays/s_bottom_sheet/s_floating_panel_config.dart';

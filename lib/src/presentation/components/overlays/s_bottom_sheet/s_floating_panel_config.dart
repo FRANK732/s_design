@@ -11,6 +11,8 @@ class SFloatingPanelConfig {
     this.onClose,
     this.customBottomWidget,
     this.animationDuration,
+    this.showCloseButton =
+        false,
     this.isDismissable =
         true,
     this.constraints,
@@ -36,6 +38,8 @@ class SFloatingPanelConfig {
       customBottomWidget;
   final Duration?
       animationDuration;
+  final bool
+      showCloseButton;
   final bool
       isDismissable;
   final BoxConstraints?
