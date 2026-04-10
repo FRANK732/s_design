@@ -205,16 +205,15 @@ class _GalleryShellState
         Overlay.of(context);
     SFloatingPanel.initialize(
         overlayState);
-    SSonner
-        .instance
-        .initialize(overlayState);
+    SSonner.initialize(
+        overlayState);
     SToast.initialize(
         overlayState);
 
     final isDark =
         Theme.of(context).brightness == Brightness.dark;
 
-    return Scaffold(
+    return SScaffold(
       appBar:
           AppBar(
         elevation: 0,
@@ -224,7 +223,6 @@ class _GalleryShellState
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
         ),
         actions: [
-          // Theme toggle
           Tooltip(
             message: isDark ? 'Switch to light mode' : 'Switch to dark mode',
             child: IconButton(
@@ -237,7 +235,6 @@ class _GalleryShellState
             ),
           ),
           const SizedBox(width: 8),
-          // Language toggle
           PopupMenuButton<Locale>(
             tooltip: 'Change language',
             initialValue: widget.currentLocale,
@@ -265,7 +262,6 @@ class _GalleryShellState
           const SizedBox(width: 8),
         ],
       ),
-      // Responsive: drawer on mobile, sidebar on desktop
       drawer: MediaQuery.of(context).size.width < 700
           ? Drawer(
               child: NavSidebar(
@@ -281,7 +277,7 @@ class _GalleryShellState
               ),
             )
           : null,
-      body:
+      renderBody: (context) =>
           LayoutBuilder(
         builder: (context, constraints) {
           final isWide = constraints.maxWidth >= 700;
@@ -296,17 +292,14 @@ class _GalleryShellState
                   onSearchChanged: (q) => setState(() => _searchQuery = q),
                   onSelected: (item) => setState(() => _selected = item),
                 ),
-                // Vertical divider
                 VerticalDivider(
                   width: 1,
                   color: Theme.of(context).colorScheme.outlineVariant.withOpacity(0.4),
                 ),
-                // Content pane
                 Expanded(key: ValueKey(_selected.label), child: _selected.page),
               ],
             );
           } else {
-            // Mobile: full-width content with drawer
             return _selected.page;
           }
         },

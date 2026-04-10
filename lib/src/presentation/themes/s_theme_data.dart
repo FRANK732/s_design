@@ -165,7 +165,10 @@ class SThemeData
           colorToken.divider,
     );
     buttonTheme ??=
-        SButtonThemeData.fromColorScheme(matColorScheme);
+        SButtonThemeData.fromColorScheme(matColorScheme).copyWith(
+          defaultBackgroundColor: colorToken.buttonBackground,
+          defaultForegroundColor: colorToken.buttonText,
+        );
     cardTheme ??=
         SCardThemeData.fromColorScheme(matColorScheme);
     checkboxTheme ??=

@@ -27,9 +27,8 @@ class SSonner {
   /// Initializes the [SSonner] with the [OverlayState].
   /// This must be called before showing any toasts.
   // ignore: use_setters_to_change_properties
-  static void initialize(
-      OverlayState
-          overlayState) {
+  static void
+      initialize(OverlayState overlayState) {
     _instance._overlayState =
         overlayState;
   }
@@ -62,17 +61,28 @@ class SSonner {
     String?
         id,
   }) {
-    return _instance._show(
-      message: message,
-      config: config,
-      variant: variant,
-      duration: duration,
-      position: position,
-      action: action,
-      showCloseButton: showCloseButton,
-      onTap: onTap,
-      onDismiss: onDismiss,
-      icon: icon,
+    return _instance
+        ._show(
+      message:
+          message,
+      config:
+          config,
+      variant:
+          variant,
+      duration:
+          duration,
+      position:
+          position,
+      action:
+          action,
+      showCloseButton:
+          showCloseButton,
+      onTap:
+          onTap,
+      onDismiss:
+          onDismiss,
+      icon:
+          icon,
       id: id,
     );
   }
@@ -142,10 +152,10 @@ class SSonner {
   }
 
   /// Dismisses a toast by its ID.
-  static void dismiss(
-      String
-          id) {
-    _instance._dismiss(id);
+  static void
+      dismiss(String id) {
+    _instance
+        ._dismiss(id);
   }
 
   void _dismiss(
@@ -221,16 +231,13 @@ class _SonnerOverlay
       builder: (BuildContext context,
           List<SSonnerConfig> toasts,
           Widget? child) {
-        // We need to render toasts in different positions
-        // For simplicity, we'll support Top and Bottom stacks.
-
         final List<SSonnerConfig> topToasts = toasts.where((SSonnerConfig t) => t.position == SSonnerPosition.top).toList();
-        final List<SSonnerConfig> bottomToasts = toasts.where((SSonnerConfig t) => t.position == SSonnerPosition.bottom || t.position == SSonnerPosition.center).toList();
+        final List<SSonnerConfig> centerToasts = toasts.where((SSonnerConfig t) => t.position == SSonnerPosition.center).toList();
+        final List<SSonnerConfig> bottomToasts = toasts.where((SSonnerConfig t) => t.position == SSonnerPosition.bottom).toList();
 
         return SafeArea(
           child: Stack(
             children: <Widget>[
-              // Top Stack
               if (topToasts.isNotEmpty)
                 Positioned(
                   top: 0,
@@ -242,8 +249,17 @@ class _SonnerOverlay
                     onDismiss: onDismiss,
                   ),
                 ),
-
-              // Bottom Stack
+              if (centerToasts.isNotEmpty)
+                Positioned.fill(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: _ToastStack(
+                      toasts: centerToasts,
+                      isTop: false,
+                      onDismiss: onDismiss,
+                    ),
+                  ),
+                ),
               if (bottomToasts.isNotEmpty)
                 Positioned(
                   bottom: 0,

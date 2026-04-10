@@ -132,7 +132,7 @@ class _HomeOverviewPageState
                               child: const Text('Browse Components'),
                               onPressed: () {
                                 // Navigate to components
-                                SSonner.instance.show(message: 'Navigate using the sidebar!', variant: SSonnerVariant.success);
+                                SSonner.show(message: 'Navigate using the sidebar!', variant: SSonnerVariant.success);
                               },
                             ),
                           ],
@@ -366,7 +366,7 @@ class _LiveShowcaseState
                 children: [
                   SButton(
                     onPressed: () {
-                      SSonner.instance.show(
+                      SSonner.show(
                         message: 'Perfect! You triggered a success toast.',
                         variant: SSonnerVariant.success,
                       );

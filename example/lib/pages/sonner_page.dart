@@ -54,7 +54,7 @@ SSonner.instance.show(
               builder: (context) => SButton(
                     variant: SButtonVariant.outline,
                     onPressed: () {
-                      SSonner.instance.show(
+                      SSonner.show(
                         config: const SSonnerConfig(
                           message: 'File uploaded successfully.',
                           title: 'Upload complete',
@@ -80,7 +80,7 @@ SSonner.instance.show(
               builder: (context) => SButton(
                     variant: SButtonVariant.outline,
                     onPressed: () {
-                      SSonner.instance.show(
+                      SSonner.show(
                         message: 'Email archived',
                         action: TextButton(
                           onPressed: () {},
@@ -107,7 +107,7 @@ SSonner.instance.show(
               builder: (context) => SButton(
                     variant: SButtonVariant.outline,
                     onPressed: () {
-                      SSonner.instance.show(
+                      SSonner.show(
                         message: 'This appears at the top',
                         position: SSonnerPosition.top,
                       );
@@ -145,7 +145,7 @@ class _SonnerBtn
           SButtonVariant.outline,
       onPressed:
           () {
-        SSonner.instance.show(message: '$label notification', variant: variant);
+        SSonner.show(message: '$label notification', variant: variant);
       },
       child:
           Text(label),
