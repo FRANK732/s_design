@@ -33,31 +33,53 @@ class SSonner {
         overlayState;
   }
 
-  /// Shows a toast notification.
+  /// Shows a globally floating toast notification (Sonner style).
   ///
-  /// Returns the unique ID of the toast.
+  /// Returns the unique ID of the toast generated, which can be passed to [dismiss]
+  /// to forcefully remove this specific notification later.
   static String
       show({
+    /// The primary string payload displayed prominently in the toast.
     String?
         message,
+        
+    /// Custom configuration object overriding themes securely.
     SSonnerConfig?
         config,
+        
+    /// High-level intent mapping (e.g., success, warning, error) that dictates colors and icons natively.
     SSonnerVariant variant =
         SSonnerVariant.info,
+        
+    /// Length of time the toast lives on screen before auto-dismissal.
     Duration duration =
         const Duration(seconds: 4),
+        
+    /// Gravitational pull dictating if the toast clusters at the top, center, or bottom of the screen.
     SSonnerPosition position =
         SSonnerPosition.bottom,
+        
+    /// Inline widget appended to the right side of the message text (typically an undo [SButton]).
     Widget?
         action,
+        
+    /// Whether to force the rendering of a manual "X" dismissal button.
     bool showCloseButton =
         false,
+        
+    /// Callback triggered when the user physically taps the body of the toast.
     VoidCallback?
         onTap,
+        
+    /// Callback triggered the moment the toast dies (either via timeout, swipe, or close API).
     VoidCallback?
         onDismiss,
+        
+    /// Optional graphical icon overriding the default inferred icon dictated by [variant].
     IconData?
         icon,
+        
+    /// Hardcoded manual tracking ID. If omitted, the engine assigns an auto-generated unique ID.
     String?
         id,
   }) {

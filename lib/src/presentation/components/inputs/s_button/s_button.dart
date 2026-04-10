@@ -197,10 +197,17 @@ class SButton
   }
 
   // Configuration from domain layer
+
+  /// The visual variant of the button (e.g., primary, secondary, outline, text).
+  /// Modifies the overall look and feel by mapping to `sButtonTheme` definitions.
   final SButtonVariant
       variant;
+
+  /// The sizing scale of the button (e.g., small, medium, large, icon).
   final SButtonSize
       size;
+
+  /// Explicitly forces the button into a specific state logically (e.g., [SButtonState.disabled]).
   final SButtonState?
       state;
 
@@ -245,42 +252,80 @@ class SButton
       shortcut;
 
   // UI-specific properties (presentation layer)
+
+  /// An icon to display centered within the button. Primarily used by the [SButton.icon] constructor.
   final Widget?
       icon;
+
+  /// The primary content of the button, usually a [Text] widget or a complex custom layout.
   final Widget?
       child;
+
+  /// If `true`, the button replaces its content with a loading spinner and becomes completely unclickable.
   final bool
       loading;
+
+  /// Callback triggered when the standard tap gesture resolves. If `null`, the button becomes implicitly disabled.
   final VoidCallback?
       onPressed;
+
+  /// Callback triggered when a long-press gesture resolves.
   final VoidCallback?
       onLongPress;
+
+  /// Explicit pixel height of the button. Overrides the innate [size] metric.
   final double?
       height;
+
+  /// Explicit pixel width of the button. Overrides the innate [size] metric.
   final double?
       width;
+
+  /// The explicit padding mapped tightly around the button's internal child content.
   final EdgeInsetsGeometry?
       padding;
+
+  /// The overarching background fill color. Hard overrides the color mapped by [variant] and [size].
   final Color?
       backgroundColor;
+
+  /// The overarching foreground color for text and icons. Hard overrides the color mapped by [variant].
   final Color?
       foregroundColor;
+
+  /// A manual [ButtonStyle] injection for overriding fine-grained material behavior natively.
   final ButtonStyle?
       buttonStyle;
+
+  /// The curvature radius of the button's outer shell.
   final BorderRadiusGeometry?
       borderRadius;
+
+  /// The z-axis elevation driving the depth of the casting shadow.
   final double?
       elevation;
+
+  /// The tint color of the cast shadow.
   final Color?
       shadowColor;
+
+  /// Focus node mapped to the button to manually drive native focus mechanisms.
   final FocusNode?
       focusNode;
+
+  /// If `true`, automatically requests focus when the button is injected into the widget tree.
   final bool
       autofocus;
+
+  /// Manual text styling overriding the defaults provided by the [size] config.
   final TextStyle?
       textStyle;
+
+  /// The duration of the visual state transition animations (e.g., hovering or pressing).
   final Duration?
       animationDuration;
+
+  /// Standard semantic tooltip string deployed when hovering over the button.
   final String?
       tooltip;
 

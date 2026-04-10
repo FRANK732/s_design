@@ -321,110 +321,217 @@ class SDialog
   ///
   /// Uses [showGeneralDialog] so [animationType], [transitionDuration], and
   /// [animationCurve] are all honoured.
+  /// Shows an animated, highly customizable modal dialog.
+  ///
+  /// This wrapper around SDK's `showGeneralDialog` seamlessly integrates custom entry/exit
+  /// animations, layout behaviors, background filters, and native `SDialogTheme` capabilities.
   static Future<T?>
       show<T>({
+    /// Valid build context enabling theme lookups and overlay injections.
     required BuildContext
         context,
+
+    /// Optional structured config object to decouple properties.
     SDialogConfig?
         config,
+
+    /// Text forcefully rendered in the modal's primary title position.
     String?
         title,
+
+    /// Strongly typed custom widget superseding the raw `title` string if provided.
     Widget?
         titleWidget,
+
+    /// Subtext or explanatory paragraph displayed directly below the title.
     String?
         description,
+
+    /// Primary widget content inside the dialog body.
     Widget?
         content,
+
+    /// Row of widgets (typically buttons) rendered cleanly at the bottom of the modal.
     List<Widget>?
         actions,
+
+    /// Toggles whether clicking the darkened background safely dismisses the modal.
     bool barrierDismissible =
         true,
+
+    /// Tint of the backdrop overlay (defaults to `Colors.black54` if null).
     Color?
         barrierColor,
+
+    /// Timeline duration allotted for the modal entry/exit animations.
     Duration?
         transitionDuration,
+
+    /// Manual container outline logic overriding the native `ShapeDecoration`.
     ShapeDecoration?
         shapeDecoration,
+
+    /// The base fill color behind all dialog contents.
     Color?
         backgroundColor,
+
+    /// Spacing physically enforcing padding boundaries against the modal edge.
     EdgeInsetsGeometry?
         contentPadding,
+
+    /// Accessibility tracking label broadcast to engine screen-readers.
     String?
         semanticLabel,
+
+    /// Renders a native 'X' close button inside the modal frame if `true`.
     bool?
         showCloseButton,
+
+    /// Physical maximum pixel width the rendering agent is permitted to stretch the dialog box to.
     double?
         maxWidth,
+
+    /// Physical maximum pixel height. If content exceeds this, it becomes scrollable (if enabled).
     double?
         maxHeight,
+
+    /// Timing arc dictating the bezier interpolation of the `animationType`.
     Curve animationCurve =
         Curves.easeOutCubic,
+
+    /// Total timeline allotted for inner-modal child animations (different from `transitionDuration`).
     Duration?
         animationDuration,
+
+    /// Font style directly overriding the themed `TextTheme` for the title.
     TextStyle?
         titleStyle,
+
+    /// Font style overriding the themed `description` format.
     TextStyle?
         descriptionStyle,
+
+    /// Outer framing curvature mapping to a smooth UI look.
     BorderRadius?
         borderRadius,
+
+    /// Defines exactly how the UI flies into view (e.g. `SDialogAnimationType.fade`, `zoomIn`).
     SDialogAnimationType animationType =
         SDialogAnimationType.zoomIn,
+
+    /// Dictates backing effects like glassmorphism blurs vs standard dimming.
     SDialogBackgroundEffect backgroundEffect =
         SDialogBackgroundEffect.none,
+
+    /// Triggers rendering of a native separator line between content and actions.
     bool?
         showDivider,
+
+    /// Visual tint of the action separator line.
     Color?
         dividerColor,
+
+    /// Physical vertical thickness of the action separator line.
     double?
         dividerThickness,
+
+    /// Layout padding enforcing strict boundaries around the `actions` widget list.
     EdgeInsetsGeometry?
         actionsPadding,
+
+    /// Horizontal positioning gravity applied to the action layout. Defaults to `MainAxisAlignment.end`.
     MainAxisAlignment actionsAlignment =
         MainAxisAlignment.end,
+
+    /// Internal cross-axis alignment for the primary dialog layout sequence.
     CrossAxisAlignment contentCrossAlignment =
         CrossAxisAlignment.start,
+
+    /// Internal main-axis alignment for the primary dialog layout sequence.
     MainAxisAlignment contentMainAlignment =
         MainAxisAlignment.start,
+
+    /// Enables raw vertical scrolling if the internal widget content exceeds physical bounds.
     bool scrollable =
         false,
+
+    /// A tethered controller managing the `scrollable` state.
     ScrollController?
         scrollController,
+
+    /// Dictates raw physical bounce simulation algorithms (e.g. `BouncingScrollPhysics`).
     ScrollPhysics?
         scrollPhysics,
+
+    /// Box projection depth dictating the ambient shadow cast.
     double?
         elevation,
+
+    /// Bounds dialog against un-safe engine intrusion zones (margins/notches).
     bool useSafeArea =
         false,
+
+    /// Draws a separator under the title block.
     bool?
         showTitleDivider,
+
+    /// Colors the title block separator.
     Color?
         titleDividerColor,
+
+    /// Thickness of the title block separator.
     double?
         titleDividerThickness,
+
+    /// Padding isolating the title text frame natively.
     EdgeInsetsGeometry?
         titlePadding,
+
+    /// Padding visually separating the description text from nearby bodies.
     EdgeInsetsGeometry?
         descriptionPadding,
+
+    /// Renders a horizontal divider underneath the description parameter.
     bool?
         showDescriptionDivider,
+
+    /// Color driving the description separator line.
     Color?
         descriptionDividerColor,
+
+    /// Thickness of the description separator.
     double?
         descriptionDividerThickness,
+
+    /// Margin bounds safely isolating the entire `SDialog` container inside the screen payload.
     EdgeInsets?
         insetPadding,
+
+    /// High-level 2D coordinate gravity (e.g. `Alignment.center`) adjusting the modal position relative to screen scope.
     AlignmentGeometry?
         alignment,
+
+    /// Shadow ambient color.
     Color?
         shadowColor,
+
+    /// Emulation of Material 3 elevated surface tint.
     Color?
         surfaceTintColor,
+
+    /// Clip calculation bounding logic containing modal edge-painting.
     Clip?
         clipBehavior,
+
+    /// Icon visually stamped directly above the structural text nodes.
     Widget?
         iconWidget,
+
+    /// Custom widget trailing at the terminal end of the internal structure block (below content, above actions).
     Widget?
         footerWidget,
+
+    /// Toggles if multiple action widgets should overflow defensively onto a new line if constrained.
     bool actionsWrap =
         false,
   }) {

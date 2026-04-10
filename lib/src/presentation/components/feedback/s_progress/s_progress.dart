@@ -100,44 +100,79 @@ class SProgress
         bufferColor = null,
         vertical = false;
 
+  /// The current completion percentage ranging perfectly from `0.0` to `100.0`.
   final double
-      percent; // 0 to 100
+      percent;
+      
+  /// The geometric structure rendering the progress (e.g., line, circle, dashboard).
   final SProgressType
       type;
+      
+  /// The semantic state of the progress bar (e.g., active, exception, success).
   final SProgressStatus?
       status;
+      
+  /// Toggles the trailing text indicator showing the exact percentage or status icon.
   final bool
       showInfo;
+      
+  /// Overrides the trailing text indicator with a highly custom widget structure.
   final Widget?
       format;
+      
+  /// Explicitly forces the primary fill color of the active progress bounds.
   final Color?
       strokeColor;
+      
+  /// The tint of the un-filled bounding box tracking empty progress.
   final Color?
       trailColor;
+      
+  /// The physical thickness scaling the active fill line or circular stroke.
   final double?
       strokeWidth;
+      
+  /// Implements a dynamic gradient fill directly overriding the `strokeColor`.
   final Gradient?
       strokeGradient;
+      
+  /// Converts a fluid line progress into segmented stepping blocks.
   final int?
       steps;
+      
+  /// Absolute maximum width (for horizontal lines) or diameter (for circles).
   final double?
       width;
+      
+  /// Physical missing arc measured in degrees (used specifically for `dashboard` mode).
   final double?
       gapDegree;
+      
+  /// Axis gravity aligning where the dashboard gap is natively rendered.
   final SProgressGapPosition?
       gapPosition;
+      
+  /// Sets the stroke cap rendering style (rounded vs square ends).
   final StrokeCap
       strokeLinecap;
 
-  // New properties from SProgressBar
+  /// Activates the endless shimmer loading mode (ignoring the `percent` boundary).
   final bool
       indeterminate;
+      
+  /// Independent track calculating pre-buffered states like video loading (0 to 100).
   final double?
       bufferValue;
+      
+  /// The tint representing the pre-buffered track.
   final Color?
       bufferColor;
+      
+  /// Toggles layout painting bounds from horizontal tracking to strict vertical bars.
   final bool
       vertical;
+      
+  /// Interpolation timeline locking animated state adjustments.
   final Duration?
       animationDuration;
 

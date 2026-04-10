@@ -62,41 +62,73 @@ class SSlider
       type;
 
   // Single
+
+  /// The active progression mapping exactly where the thumb sits (specifically for `SSlider.single`).
   final double
       value;
+
+  /// Interaction callback triggered constantly during dragging for `SSlider.single`.
   final ValueChanged<double>?
       onChanged;
 
   // Range
+
+  /// Twin values defining the start and end thumbs (specifically for `SSlider.range`).
   final RangeValues?
       rangeValues;
+
+  /// Interaction callback triggered constantly during dragging for `SSlider.range`.
   final ValueChanged<RangeValues>?
       onRangeChanged;
 
   // Common
+
+  /// Callback fired specifically when the user initiates contact with the thumb.
   final ValueChanged<double>?
       onChangeStart;
+
+  /// Callback fired physically when the user releases the thumb.
   final ValueChanged<double>?
       onChangeEnd;
+
+  /// The absolute floor value mapping to the left-most edge (defaults to `0.0`).
   final double
       min;
+
+  /// The absolute ceiling value mapping to the right-most edge (defaults to `1.0`).
   final double
       max;
+
+  /// Enforces integer snapping steps if provided, breaking the smooth slide interpolation.
   final int?
       divisions;
+
+  /// Explicit string text overriding the physical tooltip value rendering.
   final String?
       label;
+
+  /// Explicit color dictating the active 'filled' track and thumb highlighting.
   final Color?
       activeColor;
+
+  /// Tint covering the remaining empty track.
   final Color?
       inactiveColor;
+
+  /// Tint covering the thumb handle explicitly (defaults to surface white).
   final Color?
       thumbColor;
+
+  /// Instructs the engine to render hovering tooltips above the active thumbs.
   final bool
       tooltipVisible;
+
+  /// Complex mapping of numeric step values to physical custom widgets (draws tick-marks labels underneath).
   final Map<
       double,
       Widget>? marks;
+
+  /// Instructs the rendering layout to rotate the slider 90 degrees into a vertical axis.
   final bool
       vertical;
 
@@ -116,7 +148,7 @@ class _SSliderState
     if (widget
         .vertical) {
       return RotatedBox(
-        quarterTurns: 3, // Rotates 270 degrees (Bottom to Top)
+        quarterTurns: 3,
         child: _buildSliderLayout(context),
       );
     }

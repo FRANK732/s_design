@@ -42,40 +42,77 @@ class SFloatingPanel {
     );
   }
 
+  /// Triggers a modern, floating bottom sheet overlay that mimics native iOS fluid sheets.
+  /// 
+  /// The panel is fully customizable, supporting background blur, floating margins, 
+  /// auto-resizing, and independent bottom utility areas.
   static Future<void>
       show({
+    /// Required valid build context to fetch Theme data and inject the Overlay.
     required BuildContext
         context,
+    
+    /// Optional structured configuration object packing the arguments below.
     SFloatingPanelConfig?
         config,
+        
+    /// The primary inner widget tree displayed inside the floating panel.
     Widget?
         content,
+        
+    /// Color of the modal backdrop blocking interaction with the underlying screen.
     Color?
         barrierColor,
+        
+    /// Distance from the left and right edges of the screen, creating the "floating" effect.
     double?
         horizontalMargin,
+        
+    /// Distance from the bottom of the screen (or keyboard) ensuring the floating effect.
     double?
         bottomMargin,
+        
+    /// Vertical gap between the primary [content] panel and the [customBottomWidget] (if provided).
     double?
         panelSpacing,
+        
+    /// Callback triggered when the panel fully closes or is dismissed.
     VoidCallback?
         onClose,
+        
+    /// A trailing floating widget rendered completely detached below the main panel.
     Widget?
         customBottomWidget,
+        
+    /// Transition speed of the slide and fade animations.
     Duration?
         animationDuration,
+        
+    /// Renders a native-styled 'X' close button securely positioned at the top right of the panel.
     bool showCloseButton =
         false,
+        
+    /// If `true`, tapping the darkened [barrierColor] background dismisses the panel.
     bool isDismissable =
         true,
+        
+    /// Physical sizing limitations strictly enforced on the panel's bounding box.
     BoxConstraints?
         constraints,
+        
+    /// Safe area padding forcefully wrapping the [content] inside the panel shell.
     EdgeInsetsGeometry?
         contentPadding,
+        
+    /// Intense iOS-styled glassmorphism blur applied to the backdrop behind the panel.
     double?
         backdropBlur,
+        
+    /// Depth tint of the casting shadow.
     Color?
         shadowColor,
+        
+    /// Overriding outline shape (e.g. extreme border radiuses) for the panel.
     ShapeBorder?
         shape,
   }) async {

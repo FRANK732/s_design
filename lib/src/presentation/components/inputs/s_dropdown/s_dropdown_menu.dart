@@ -179,58 +179,100 @@ class SDropdownMenu<
           'initialValues can only be used with SDropdownMenuItemType.multiSelect.',
         );
 
+  /// The list of items to populate the dropdown menu.
   final List<T>
       items;
+
+  /// Callback executed when an item (or multiple items) is selected.
   final ValueChanged<dynamic>
       onChanged;
+
+  /// Custom function to extract a string equivalent from the [T] object.
   final String
           Function(T)?
       itemLabel;
+
+  /// Custom builder for overriding how a dropdown item is visually rendered.
   final Widget Function(
       BuildContext,
       T,
       bool
           isSelected)? itemBuilder;
+
+  /// Custom builder for overriding how the actively selected item renders inside the trigger container.
   final Widget Function(
       BuildContext,
       T)? selectedItemBuilder;
+
+  /// Custom matching algorithm for search filtering.
   final bool Function(
       T item,
       String searchValue)? searchMatchFn;
+
+  /// Fetch items asynchronously using a search [query].
   final Future<List<T>>
           Function(String query)?
       asyncItems;
+
+  /// Function cleanly mapping an item [T] to a disabled state `true/false`.
   final bool
           Function(T)?
       itemDisabled;
+  /// Custom UI builder for an empty data set state.
   final WidgetBuilder?
       emptyBuilder;
+
+  /// Custom UI builder when [asyncItems] is resolving.
   final WidgetBuilder?
       loadingBuilder;
+
+  /// Custom UI builder tracking networking or async failures.
   final Widget Function(
       BuildContext,
       Object
           error)? errorBuilder;
+
+  /// Phantom layout string displayed when no selections exist.
   final String?
       hintText;
+
+  /// The standard trailing icon displayed in the trigger.
   final Widget?
       icon;
+
+  /// Padding applied inwards around the trigger box.
   final EdgeInsetsGeometry?
       padding;
+
+  /// Padding applied around the rendering perimeter of the internal popup menu sheet.
   final EdgeInsetsGeometry?
       menuPadding;
+
+  /// Background solid fill color for the trigger container.
   final Color?
       backgroundColor;
+
+  /// Hover state tint color.
   final Color?
       hoverColor;
+
+  /// Click interaction feedback tint.
   final Color?
       splashColor;
+
+  /// Interaction highlight tint.
   final Color?
       highlightColor;
+
+  /// Outer radius tracking the curvature of the trigger bounds.
   final double?
       borderRadius;
+
+  /// Outer radius dictating the curvature of the expanded menu popup window.
   final BorderRadius?
       menuBorderRadius;
+
+  /// Elevational shadow pushing the trigger off the z-axis.
   final BoxShadow?
       shadow;
   final List<BoxShadow>?

@@ -23,29 +23,50 @@ class STabs
         false,
   });
 
+  /// Comprehensive list of predefined tab nodes containing the headers and mapped child payloads.
   final List<STabItem>
       items;
+      
+  /// Explicit key forcing the active tab. Providing this delegates state control to the parent (controlled mode).
   final String?
       activeKey;
+      
+  /// Initialization key determining the active tab on the very first render (uncontrolled mode).
   final String?
       defaultActiveKey;
+      
+  /// Structural variant styling the tab navigation bar (e.g. `STabType.line`, `STabType.card`).
   final STabType
       type;
+      
+  /// Geometric orientation pinning the tab bar relative to the content payload.
   final STabPosition
       tabPosition;
+      
+  /// Physical bounding size scaling the typography, padding, and layout density of the headers.
   final STabSize
       size;
+      
+  /// Independent complex widget injected directly into the empty space of the nav bar (trailing edge).
   final Widget?
       tabBarExtraContent;
+      
+  /// Callback continuously streaming the key of the newly selected tab.
   final ValueChanged<String>?
       onTabClick;
+      
+  /// Advanced callback triggering when a user interacts with dynamic tab management buttons (add/remove).
   final void Function(
       String?
           key,
       String
           action)? onEdit;
+          
+  /// Forces the tab navigation bar to compress towards the physical center axis.
   final bool
       centered;
+      
+  /// Suppresses the native dynamic 'Add Tab' button when using editable tab variants.
   final bool
       hideAdd;
 

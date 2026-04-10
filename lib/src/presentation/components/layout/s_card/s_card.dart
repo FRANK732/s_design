@@ -224,82 +224,156 @@ class SCard
       hoverable;
 
   // Core Content
+  
+  /// Elevated primary text summarizing the card's data payload.
   final String?
       title;
+      
+  /// Specific typographic overrides for the title.
   final TextStyle?
       titleStyle;
+      
+  /// Supporting text explaining the core purpose of the card.
   final String?
       description;
+      
+  /// Specific typographic overrides for the description.
   final TextStyle?
       descriptionStyle;
+      
+  /// Complex widget replacing the simple title/description node at the top.
   final Widget?
       header;
+      
+  /// Auxiliary widget aligned to the top right of the card (e.g. an options menu or close button).
   final Widget?
       headerTrailing;
+      
+  /// The primary custom payload placed inside the visual constraints of the card footprint.
   final Widget?
       body;
+      
+  /// Horizontal layout node typically hosting interactive buttons. 
   final Widget?
       actions;
+      
+  /// Terminal payload locked to the strict bottom edge of the card boundary.
   final Widget?
       footer;
 
   // Layout & Spacing
+  
+  /// Surrounding exterior safe-area pushing the card away from neighbors.
   final EdgeInsetsGeometry?
       margin;
+      
+  /// Native intrinsic padding hugging the outermost content.
   final EdgeInsetsGeometry?
       padding;
+      
+  /// Local padding overriding default insets for the `header` zone.
   final EdgeInsetsGeometry?
       headerPadding;
+      
+  /// Local padding assigned specifically to the `body` zone.
   final EdgeInsetsGeometry?
       bodyPadding;
+      
+  /// Local padding isolating the `actions` button group.
   final EdgeInsetsGeometry?
       actionsPadding;
+      
+  /// Local padding buffering the `footer` widget area.
   final EdgeInsetsGeometry?
       footerPadding;
+      
+  /// Z-axis physical elevation pushing the card off the base canvas.
   final double?
       elevation;
+      
+  /// Enforced literal pixel height mapping.
   final double?
       height;
+      
+  /// Enforced literal pixel width mapping.
   final double?
       width;
+      
+  /// Flexible rendering limitation mapping maximum horizontal stretch.
   final double?
       maxWidth;
+      
+  /// Flexible rendering limitation mapping maximum vertical stretch.
   final double?
       maxHeight;
+      
+  /// 2D gravity alignment applied logically to internal payloads.
   final AlignmentGeometry?
       alignment;
 
   // Appearance
+  
+  /// Base solid tint mapping to the card surface.
   final Color?
       color;
+      
+  /// Fluid color gradient overriding `color` property natively.
   final Gradient?
       gradient;
+      
+  /// Rasterized or network graphical image structurally mapped to fill the card background natively.
   final ImageProvider?
       backgroundImage;
+      
+  /// Scaling algorithm resizing the specific `backgroundImage`.
   final BoxFit?
       backgroundFit;
+      
+  /// Advanced graphical mix filtering the background image over base color variants.
   final BlendMode?
       backgroundBlendMode;
+      
+  /// Predefined native edge outline rendering.
   final SCardShape
       shape;
+      
+  /// Extreme custom edge geometry explicitly rewriting `shape`.
   final ShapeBorder?
       customShape;
+      
+  /// The physical depth class assigned to the drop shadow.
   final SCardShadow
       shadowStyle;
+      
+  /// Manual shadow layout completely discarding the default lighting algorithms.
   final BoxShadow?
       customShadow;
+      
+  /// Tint of the explicit outer bounding box.
   final Color?
       borderColor;
+      
+  /// Physical thickness of the outer bounding box.
   final double?
       borderWidth;
+      
+  /// Edge curvature measuring logical rounding calculations.
   final double?
       borderRadius;
+      
+  /// Color of the emitted drop shadow behind the card container.
   final Color?
       shadowColor;
+      
+  /// 2D vector coordinates determining the exact X/Y lighting origin for the shadow.
   final Offset?
       shadowOffset;
+      
+  /// Pixel softening mapped to the shadow dispersion math.
   final double?
       blurRadius;
+      
+  /// Expansion factor physically increasing shadow volume.
   final double?
       spreadRadius;
 
