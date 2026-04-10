@@ -27,13 +27,12 @@
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
 
   <title>SDesign Package</title>
   <link rel="manifest" href="manifest.json">
 </head>
 <body style="background-color: #121212; margin: 0; padding: 0;">
-  <!-- Loading Indicator Container -->
   <div id="loading-indicator" style="
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -67,23 +66,17 @@
   <script src="flutter_bootstrap.js" async></script>
   
   <script>
-    // Remove the loading screen smoothly once Flutter is initialized
-    window.addEventListener('load', function(ev) {
-      _flutter.loader.load({
-        onEntrypointLoaded: async function(engineInitializer) {
-          const appRunner = await engineInitializer.initializeEngine();
-          
-          const loader = document.getElementById('loading-indicator');
-          if (loader) {
-            loader.style.opacity = '0';
-            setTimeout(() => {
-              loader.remove();
-            }, 500); // Wait for fade out
-          }
-          
-          await appRunner.runApp();
-        }
-      });
+    // Remove the loading screen smoothly once Flutter renders the first frame.
+    // NOTE: We don't call _flutter.loader.load() manually anymore because flutter_bootstrap.js
+    // automatically handles the engine initialization in modern Flutter.
+    window.addEventListener('flutter-first-frame', function() {
+      const loader = document.getElementById('loading-indicator');
+      if (loader) {
+        loader.style.opacity = '0';
+        setTimeout(() => {
+          loader.remove();
+        }, 500); // Wait for fade out
+      }
     });
   </script>
 </body>
