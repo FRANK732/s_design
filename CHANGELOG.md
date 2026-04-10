@@ -5,14 +5,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.0] - 2026-02-23
+## [2.0.0] - 2026-04-10
 
-### Major Architecture Upgrade & Redesign
+We are thrilled to announce **sDesign v2.0.0** — an absolute game-changer. This release marks sDesign’s graduation into a fully mature enterprise framework. We tore down the old architecture and completely rebuilt the core engine to be faster, sleeker, and infinitely more customizable. Say goodbye to bloated configurations and hello to pure, animated flow. Welcome to the new standard for Flutter UI. 🚀
 
-- **Massive redesign** of the underlying theme engine (`STheme` and `SThemeData`). Components now strictly adhere to a highly customizable design token system.
-- **Core Component Refactor**: Sweeping enhancements across `SCard`, `SButton`, `SInputField`, `SDatePicker`, `SCheckbox`, `SSlider`, `SSwitch` and many more. Components are now richer, support complex nested layouts, variants, and fluid animations natively out-of-the-box.
-- **Flawless Dark Mode Support**: The entire library now natively syncs with `SThemeData` for automatic, beautiful transitions between light and dark modes.
-- **Component Consolidation**: `SProgressBar` has been deprecated and its features (indeterminate states, custom buffering, and vertical orientation) have been completely merged into the single, versatile `SProgress.line()` component.
+### 🔥 Enter the New Ecosystem
+
+V2 brings an arsenal of highly anticipated, meticulously crafted components designed to handle robust enterprise use cases natively out-of-the-box.
+
+- **`SSonner` Toast System**: A gorgeous, physics-based, stackable notification ecosystem. Ditch the boring snackbars forever.
+- **`SFloatingPanel`**: A highly versatile and interactive draggable bottom-sheet overlay panel, perfect for complex contextual workflows.
+- **`SSelect` & `SDropdown` V2**: Completely rewritten from the ground up for adaptive UI workflows, supporting single/multi-selection modes, fuzzy search, and integrated tags.
+- **`SDatePicker` & `STimePicker`**: Natively localized, flawlessly themed, responsive date and time capture experiences.
+- **`SPagination`**: A powerhouse pagination widget inspired by Ant Design, featuring full parity and deep customizability.
+- **Layout Mastery**: The new `SScaffold` replaces basic layouts with integrated pull-to-refresh and loading states. `STabs` now provides mobile-first, sticky header views, while `SSteps` makes managing complex sequences an absolute breeze.
+- **Rich Display & Feedback**: Introduced comprehensive data visualization via the new `SAvatar` (with intelligent group scaling), `SRate` (star ratings), `SProgress` dashboards, `SQRCode`, and `SAlert`.
+
+### ⚡ Massive Enterprise Architecture Rebuild
+
+We didn't just add new paint; we upgraded the engine. v2.0.0 brings monumental leaps in performance and maintainability.
+
+- **The `SThemeData` Revolution**: We've eradicated the legacy `SColorsBase` system. Welcome to a strict, highly customizable design token ecosystem running purely on `ColorScheme`. Theming your entire app just became frictionless.
+- **Clean Architecture Migration**: Over the course of 4 sweeping architectural waves, we decoupled, modernized, and drastically reduced the memory footprint across every main component (including `SButton`, `SSelect`, `SScaffold`, `STabs`, `SDropdown`, `SListTile`, `SCard`, `SSwitch`, `SCheckbox` and `SInput`).
+- **Ruthless Consolidation**: We dropped the dead weight. `SProgressBar` and `SModals` were stripped out and gracefully merged into the far superior `SProgress` and `SDialog` ecosystems respectively.
+- **Flawless Dark Mode Sync**: Your entire UI now effortlessly syncs with `SThemeData` for automatic, visually stunning transitions between light and dark modes instantly.
+
+### 🛠️ Unleashing the New Developer Experience
+
+Your tooling matters. V2 ships with the absolute best-in-class developer and showcase infrastructure.
+
+- **The Modern Gallery Shell**: We launched a brand-new, ultra-smooth interactable Example Application powered by responsive sidebar/drawer navigation and persistent theming.
+- **Premium Landing Experience**: Prepare to be wowed. The gallery now features a fully animated, enterprise-level landing overview driven by the new official "Schrift Flow" vector graphics.
+- **Continuous Deployment (CI/CD)**: Built-in robust GitHub Pages deployment workflows to continuously host the interactive web gallery automatically on every push.
 
 ## [0.3.2+1] - 2025-06-05
 
