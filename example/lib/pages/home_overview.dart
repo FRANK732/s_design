@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../widgets/code_snippet.dart';
+import '../widgets/schrift_flow_logo.dart';
 
 /// Welcome/overview page shown when the app first opens.
 /// Redesigned to feature a premium, animated, Ant Design style landing experience.
@@ -273,11 +274,23 @@ class MyApp extends StatelessWidget {
 
               const SizedBox(height: 48),
               Center(
-                child: Text(
-                  'Built with passion by FRANK732. Licensed under MIT.',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: colors.disabled,
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Built with passion by ',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: colors.disabled,
+                      ),
+                    ),
+                    const SchriftFlowLogo(size: 24, withText: true),
+                    Text(
+                      '. Licensed under MIT.',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: colors.disabled,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
