@@ -70,7 +70,7 @@ class _HomeOverviewPageState
                               Icon(Icons.auto_awesome, size: 16, color: colors.secondary),
                               const SizedBox(width: 8),
                               Text(
-                                'sDesign v3.0.0 is out!',
+                                'sDesign v2.0.0 is out!',
                                 style: theme.textTheme.labelLarge?.copyWith(
                                   // color: ,
                                   fontWeight: FontWeight.bold,

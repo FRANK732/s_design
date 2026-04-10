@@ -2,7 +2,7 @@
 
 ## Overview
 
-Version 3.0.0 introduces a **production-ready centralized theming system** for all sDesign components. This guide helps you migrate from the previous implementation to the new theming system.
+Version 2.0.0 introduces a **production-ready centralized theming system** for all sDesign components. This guide helps you migrate from the previous implementation to the new theming system.
 
 ## Breaking Changes
 
