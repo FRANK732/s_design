@@ -35,8 +35,6 @@ We didn't just add new paint; we upgraded the engine. v2.0.0 brings monumental l
 Your tooling matters. V2 ships with the absolute best-in-class developer and showcase infrastructure.
 
 - **The Modern Gallery Shell**: We launched a brand-new, ultra-smooth interactable Example Application powered by responsive sidebar/drawer navigation and persistent theming.
-- **Premium Landing Experience**: Prepare to be wowed. The gallery now features a fully animated, enterprise-level landing overview driven by the new official "Schrift Flow" vector graphics.
-- **Continuous Deployment (CI/CD)**: Built-in robust GitHub Pages deployment workflows to continuously host the interactive web gallery automatically on every push.
 
 ## [0.3.2+1] - 2025-06-05
 

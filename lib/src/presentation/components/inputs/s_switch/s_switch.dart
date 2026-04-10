@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../../../domain/entities/config/s_switch_enums.dart';
 
+/// An elegant, heavily customizable switch component for toggling binary states.
+///
+/// The [SSwitch] natively supports animations, size variants, custom track widgets, 
+/// and an embedded [thumbIcon] while cleanly matching system design aesthetics.
 class SSwitch
     extends StatefulWidget {
   const SSwitch({
@@ -17,31 +21,60 @@ class SSwitch
     this.thumbColor,
     this.checkedChildren,
     this.unCheckedChildren,
+    this.thumbIcon,
     this.disabled =
         false,
     this.semanticLabel,
   });
 
+  /// Determines whether the switch is currently turned on (`true`) or off (`false`).
   final bool
       value;
+
+  /// Callback fired when the user taps on the switch. 
+  /// The switch does not mutate its own state; it expects the parent to update [value].
   final ValueChanged<bool>?
       onChanged;
+
+  /// If `true`, a circular loading spinner is rendered inside the thumb and the switch ignores interaction.
   final bool
       loading;
+
+  /// Determines if the switch is interactable. When `true`, the switch ignores interaction and visually dims.
   final bool
       disabled;
+
+  /// The physical sizing scale of the switch (defaults to [SSwitchSize.medium]).
   final SSwitchSize
       size;
+
+  /// The background color of the switch track when it is turned on.
+  /// Falls back to your application's primary theme color.
   final Color?
       activeColor;
+
+  /// The background color of the switch track when it is turned off.
   final Color?
       inactiveColor;
+
+  /// The color of the moving circular thumb. Defaults to white if null.
   final Color?
       thumbColor;
+
+  /// A widget (usually text or an icon) displayed inside the track's left side when the switch is turned ON.
   final Widget?
       checkedChildren;
+
+  /// A widget (usually text or an icon) displayed inside the track's right side when the switch is turned OFF.
   final Widget?
       unCheckedChildren;
+
+  /// A widget (usually an [Icon]) that is rendered directly inside the moving thumb circle.
+  /// Automatically scaled and perfectly centered via FittedBox.
+  final Widget?
+      thumbIcon;
+
+  /// An optional semantic representation of the switch, highly recommended for Accessibility/TalkBack tools.
   final String?
       semanticLabel;
 
@@ -269,7 +302,12 @@ class _SSwitchState
                                       color: widget.value ? activeColor : inactiveColor,
                                     ),
                                   )
-                                : null,
+                                : (widget.thumbIcon != null
+                                    ? Padding(
+                                        padding: const EdgeInsets.all(2.0),
+                                        child: FittedBox(child: widget.thumbIcon!),
+                                      )
+                                    : null),
                           ),
                         ),
                       ),

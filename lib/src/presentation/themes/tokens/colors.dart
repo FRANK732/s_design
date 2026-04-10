@@ -20,9 +20,15 @@ abstract class SColorsBase {
   Color
       get surface;
 
-  // Error Colors
+  // Status/Feedback Colors
   Color
       get error;
+  Color
+      get warning;
+  Color
+      get success;
+  Color
+      get info;
 
   // Text Colors
   Color
@@ -161,10 +167,22 @@ class SLightColors
   Color get surface =>
       const Color(0xFFFFFFFF);
 
-  // Error Colors
+  // Status/Feedback Colors
   @override
   Color get error =>
       const Color(0x99F6526E);
+
+  @override
+  Color get warning =>
+      const Color(0xFFFFA726);
+
+  @override
+  Color get success =>
+      primary;
+
+  @override
+  Color get info =>
+      secondary;
 
   // Text Colors
   @override
@@ -366,10 +384,22 @@ class SDarkColors
   Color get surface =>
       const Color(0xFF1E1E1E);
 
-  // Error Colors
+  // Status/Feedback Colors
   @override
   Color get error =>
       const Color(0xFFCF6679);
+
+  @override
+  Color get warning =>
+      const Color(0xFFFFA726);
+
+  @override
+  Color get success =>
+      primary;
+
+  @override
+  Color get info =>
+      secondary;
 
   // Text Colors
   @override

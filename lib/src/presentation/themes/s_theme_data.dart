@@ -156,9 +156,8 @@ class SThemeData
     );
     avatarTheme ??=
         SAvatarThemeData(
-      backgroundColor: isLight
-          ? const Color(0xFFE2E8F0)
-          : const Color(0xFF333333),
+      backgroundColor:
+          colorToken.primary.withOpacity(0.1),
       foregroundColor:
           colorToken.textPrimary,
       borderColor:
@@ -184,7 +183,7 @@ class SThemeData
       barrierColor:
           Colors.black54,
       shadowColor:
-          Colors.black26,
+          colorToken.shadow,
       elevation:
           8,
       borderRadius:
@@ -211,7 +210,7 @@ class SThemeData
       backgroundColor:
           colorToken.surface,
       shadowColor:
-          Colors.black12,
+          colorToken.shadow,
       shadowBlurRadius:
           10.0,
       shadowOffset:
@@ -282,13 +281,13 @@ class SThemeData
       textColor:
           colorToken.textPrimary,
       successColor:
-          colorToken.primary,
+          colorToken.success,
       errorColor:
           colorToken.error,
       infoColor:
-          colorToken.secondary,
+          colorToken.info,
       warningColor:
-          const Color(0xFFFFA726),
+          colorToken.warning,
       iconColor:
           colorToken.primary,
       borderRadius:
@@ -296,7 +295,7 @@ class SThemeData
       elevation:
           4.0,
       shadowColor:
-          Colors.black26,
+          colorToken.shadow,
       padding:
           const EdgeInsets.all(16.0),
       margin:
@@ -344,13 +343,13 @@ class SThemeData
       textColor:
           colorToken.surface,
       successColor:
-          colorToken.primary,
+          colorToken.success,
       errorColor:
           colorToken.error,
       infoColor:
-          colorToken.secondary,
+          colorToken.info,
       warningColor:
-          const Color(0xFFFFA726),
+          colorToken.warning,
     );
 
     return SThemeData
