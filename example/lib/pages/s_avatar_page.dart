@@ -92,10 +92,10 @@ class _SAvatarPageState
     const fallbackUrl =
         'http://abc.com/not-exist.jpg'; // deliberately broken
 
-    return Scaffold(
+    return SScaffold(
       appBar:
           AppBar(title: const Text('SAvatar')),
-      body:
+      renderBody: (context) =>
           SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),
         child: Column(

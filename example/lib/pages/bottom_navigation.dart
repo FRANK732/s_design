@@ -74,12 +74,12 @@ class _BottomNavigationPageState
   Widget build(
       BuildContext
           context) {
-    return Scaffold(
+    return SScaffold(
       appBar:
           AppBar(
         title: const Text('Animated Bottom Navigation'),
       ),
-      body:
+      renderBody: (context) =>
           SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(

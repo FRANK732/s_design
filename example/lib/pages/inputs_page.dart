@@ -115,12 +115,12 @@ class _InputFieldPageState
   Widget build(
       BuildContext
           context) {
-    return Scaffold(
+    return SScaffold(
       appBar:
           AppBar(
         title: const Text('SInputField Showcase'),
       ),
-      body:
+      renderBody: (context) =>
           SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -144,7 +144,6 @@ class _InputFieldPageState
               _buildSectionTitle('Password Field'),
               const SizedBox(height: 8),
               SInputField.password(
-                // size: SInputFieldSize.small,
                 controller: _passwordController,
                 focusNode: _passwordFocusNode,
                 hintText: 'Enter password',
@@ -192,7 +191,6 @@ class _InputFieldPageState
               _buildSectionTitle('Input Customization'),
               const SizedBox(height: 8),
               SInputField(
-                // initialValue: 'Hello',
                 size: SInputFieldSize.large,
                 controller: _customController,
                 focusNode: _customFocusNode,

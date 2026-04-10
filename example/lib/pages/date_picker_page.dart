@@ -46,10 +46,10 @@ class _DatePickerPageState
     final isDark =
         sTheme.brightness == Brightness.dark;
 
-    return Scaffold(
+    return SScaffold(
       appBar:
           AppBar(title: const Text('SDatePicker Showcase')),
-      body:
+      renderBody: (context) =>
           SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Column(

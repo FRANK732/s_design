@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:s_design/s_design.dart';
 
 class UnderConstruction
     extends StatelessWidget {
@@ -12,12 +13,12 @@ class UnderConstruction
   Widget build(
       BuildContext
           context) {
-    return Scaffold(
+    return SScaffold(
       appBar:
           AppBar(
         title: Text(pageTitle),
       ),
-      body:
+      renderBody: (context) =>
           const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

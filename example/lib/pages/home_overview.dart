@@ -32,10 +32,10 @@ class _HomeOverviewPageState
     final isDesktop =
         MediaQuery.of(context).size.width > 800;
 
-    return Scaffold(
+    return SScaffold(
       backgroundColor:
           colors.surface,
-      body:
+      renderBody: (context) =>
           Stack(
         children: [
           // Subtle animated background pattern using STheme colors
