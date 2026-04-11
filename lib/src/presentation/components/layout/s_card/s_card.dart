@@ -722,6 +722,7 @@ class _SCardState
 
   Widget
       _buildLoader() {
+    final Color skeletonColor = Theme.of(context).colorScheme.surfaceContainerHighest;
     return Padding(
       padding:
           const EdgeInsets.all(16.0),
@@ -734,27 +735,27 @@ class _SCardState
               Container(
                 width: 40,
                 height: 40,
-                decoration: BoxDecoration(color: Colors.grey.shade200, shape: BoxShape.circle),
+                decoration: BoxDecoration(color: skeletonColor, shape: BoxShape.circle),
               ),
               const SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Container(height: 16, width: 150, color: Colors.grey.shade200),
+                    Container(height: 16, width: 150, color: skeletonColor),
                     const SizedBox(height: 8),
-                    Container(height: 12, width: 100, color: Colors.grey.shade200),
+                    Container(height: 12, width: 100, color: skeletonColor),
                   ],
                 ),
               ),
             ],
           ),
           const SizedBox(height: 24),
-          Container(height: 12, width: double.infinity, color: Colors.grey.shade200),
+          Container(height: 12, width: double.infinity, color: skeletonColor),
           const SizedBox(height: 8),
-          Container(height: 12, width: double.infinity, color: Colors.grey.shade200),
+          Container(height: 12, width: double.infinity, color: skeletonColor),
           const SizedBox(height: 8),
-          Container(height: 12, width: 200, color: Colors.grey.shade200),
+          Container(height: 12, width: 200, color: skeletonColor),
         ],
       ),
     );
@@ -1258,7 +1259,9 @@ class SCardMeta
               if (description != null) ...<Widget>[
                 if (title != null) const SizedBox(height: 8),
                 DefaultTextStyle(
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey.shade600),
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
                   child: description!,
                 ),
               ],

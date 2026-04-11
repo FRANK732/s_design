@@ -266,7 +266,7 @@ class SListTile
       ColorScheme
           colorScheme) {
     if (showLoading) {
-      return Colors.grey.withOpacity(0.1);
+      return colorScheme.surfaceContainerHighest;
     }
     if (tileColor !=
         null) {

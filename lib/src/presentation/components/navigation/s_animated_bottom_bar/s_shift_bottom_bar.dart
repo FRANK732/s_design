@@ -63,11 +63,13 @@ class SShiftBottomBar
       onTap;
 
   /// The color of the icon and text when the item is selected.
-  final Color
+  /// Defaults to `colorScheme.onPrimary` if null.
+  final Color?
       selectedItemColor;
 
   /// The color of the icon and text when the item is not selected.
-  final Color
+  /// Defaults to `colorScheme.onPrimary.withOpacity(0.7)` if null.
+  final Color?
       unselectedItemColor;
 
   @override
@@ -80,6 +82,8 @@ class SShiftBottomBar
     // Determine the current bar background color based on the selected item
     final currentItemColor =
         items[currentIndex].selectedColor ?? theme.primaryColor;
+    final Color effectiveSelected = selectedItemColor ?? theme.colorScheme.onPrimary;
+    final Color effectiveUnselected = unselectedItemColor ?? theme.colorScheme.onPrimary.withOpacity(0.7);
 
     return TweenAnimationBuilder<
         Color?>(
@@ -121,7 +125,7 @@ class SShiftBottomBar
                                 offset: Offset(0, -6 * t),
                                 child: IconTheme(
                                   data: IconThemeData(
-                                    color: Color.lerp(unselectedItemColor, selectedItemColor, t),
+                                    color: Color.lerp(effectiveUnselected, effectiveSelected, t),
                                     size: 24,
                                   ),
                                   child: items.indexOf(item) == currentIndex ? item.activeIcon ?? item.icon : item.icon,
@@ -138,7 +142,7 @@ class SShiftBottomBar
                                       scale: 0.8 + (0.2 * t),
                                       child: DefaultTextStyle(
                                         style: TextStyle(
-                                          color: Color.lerp(selectedItemColor.withOpacity(0.0), selectedItemColor, t),
+                                          color: Color.lerp(effectiveSelected.withOpacity(0.0), effectiveSelected, t),
                                           fontWeight: FontWeight.w500,
                                           fontSize: 13,
                                         ),

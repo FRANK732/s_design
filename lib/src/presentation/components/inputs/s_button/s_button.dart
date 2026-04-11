@@ -405,6 +405,9 @@ class _SButtonState
     final SButtonThemeData
         theme =
         Theme.of(context).sButtonTheme;
+    final ColorScheme
+        colorScheme =
+        Theme.of(context).colorScheme;
 
     // Get colors based on variant and state
     final Color
@@ -416,6 +419,8 @@ class _SButtonState
           widget.variant,
       isDisabled:
           isDisabled,
+      colorScheme:
+          colorScheme,
     );
     final Color
         defaultForegroundColor =
@@ -426,6 +431,8 @@ class _SButtonState
           widget.variant,
       isDisabled:
           isDisabled,
+      colorScheme:
+          colorScheme,
     );
     final BorderSide?
         defaultBorderSide =
@@ -436,6 +443,8 @@ class _SButtonState
           widget.variant,
       isDisabled:
           isDisabled,
+      colorScheme:
+          colorScheme,
     );
 
     // Get padding

@@ -121,9 +121,7 @@ class _SInputOTPState
     if (isFocused) {
       return theme.primaryColor;
     }
-    return Colors
-        .grey
-        .shade300;
+    return theme.colorScheme.outline;
   }
 
   double
@@ -187,7 +185,7 @@ class _SInputOTPState
                   contentPadding: EdgeInsets.zero,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(6),
-                    borderSide: BorderSide(color: Colors.grey.shade300),
+                    borderSide: BorderSide(color: theme.colorScheme.outline),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(6),
@@ -197,8 +195,10 @@ class _SInputOTPState
                     borderRadius: BorderRadius.circular(6),
                     borderSide: BorderSide(color: _getBorderColor(theme, true)), // Focused border
                   ),
-                  filled: !widget.enabled,
-                  fillColor: widget.enabled ? Colors.white : Colors.grey.shade100,
+                  filled: true,
+                  fillColor: widget.enabled
+                      ? theme.colorScheme.surface
+                      : theme.colorScheme.surfaceContainerHighest,
                 ),
               ),
             );

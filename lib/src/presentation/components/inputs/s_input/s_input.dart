@@ -582,8 +582,7 @@ class _SInputState
           context,
       {required bool
           isBefore}) {
-    // Addons have a gray background and border, merging with the input
-    // This is a simplification; perfect merging requires careful border management
+    final ColorScheme cs = Theme.of(context).colorScheme;
     return Container(
       padding:
           const EdgeInsets.symmetric(horizontal: 11),
@@ -594,13 +593,13 @@ class _SInputState
           Alignment.center,
       decoration:
           BoxDecoration(
-        color: Colors.grey.shade100,
-        border: Border.all(color: Colors.grey.shade300),
+        color: cs.surfaceContainerHighest,
+        border: Border.all(color: cs.outline.withOpacity(0.5)),
         borderRadius: isBefore ? const BorderRadius.horizontal(left: Radius.circular(6)) : const BorderRadius.horizontal(right: Radius.circular(6)),
       ),
       child:
           DefaultTextStyle(
-        style: TextStyle(color: Colors.grey.shade800),
+        style: TextStyle(color: cs.onSurfaceVariant),
         child: child,
       ),
     );
@@ -711,7 +710,7 @@ class _SInputPasswordState
                 child: Icon(
                   _obscureText ? Icons.visibility_outlined : Icons.visibility_off_outlined,
                   size: 16,
-                  color: Colors.grey,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
               ),
             ),

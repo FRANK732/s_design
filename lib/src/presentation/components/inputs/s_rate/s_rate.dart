@@ -200,7 +200,7 @@ class _SRateState
       color:
           Colors.amber, // Default equivalent
       unselectedColor:
-          Colors.grey.shade200,
+          Theme.of(context).colorScheme.outlineVariant,
       size:
           20,
       gap:

@@ -15,20 +15,24 @@ class SButtonStyleHelper {
         variant,
     required bool
         isDisabled,
+    ColorScheme?
+        colorScheme,
   }) {
     if (_isOutlineVariant(
         variant)) {
       return Colors.transparent;
     }
 
+    final Color disabledBg = colorScheme?.onSurface.withOpacity(0.12) ?? Colors.transparent;
+
     switch (
         variant) {
       case SButtonVariant.defaultVariant:
-        return isDisabled ? Colors.grey.shade400 : theme.defaultBackgroundColor;
+        return isDisabled ? disabledBg : theme.defaultBackgroundColor;
       case SButtonVariant.destructive:
-        return isDisabled ? Colors.grey.shade400 : Colors.red;
+        return isDisabled ? disabledBg : (colorScheme?.error ?? theme.defaultBackgroundColor);
       case SButtonVariant.secondary:
-        return isDisabled ? Colors.grey.shade400 : Colors.grey.shade400;
+        return isDisabled ? disabledBg : (colorScheme?.secondaryContainer ?? theme.defaultBackgroundColor);
       case SButtonVariant.ghost:
       case SButtonVariant.link:
         return Colors.transparent;
@@ -47,14 +51,18 @@ class SButtonStyleHelper {
         variant,
     required bool
         isDisabled,
+    ColorScheme?
+        colorScheme,
   }) {
+    final Color disabledFg = colorScheme?.onSurface.withOpacity(0.38) ?? Colors.transparent;
+
     if (_isOutlineVariant(
         variant)) {
       switch (variant) {
         case SButtonVariant.outline:
-          return isDisabled ? Colors.grey : theme.outlineForegroundColor;
+          return isDisabled ? disabledFg : theme.outlineForegroundColor;
         case SButtonVariant.destructiveOutline:
-          return isDisabled ? Colors.grey : Colors.red;
+          return isDisabled ? disabledFg : (colorScheme?.error ?? theme.outlineForegroundColor);
         default:
           return theme.outlineForegroundColor;
       }
@@ -63,16 +71,18 @@ class SButtonStyleHelper {
     switch (
         variant) {
       case SButtonVariant.defaultVariant:
+        return isDisabled ? disabledFg : theme.defaultForegroundColor;
       case SButtonVariant.destructive:
+        return isDisabled ? disabledFg : (colorScheme?.onError ?? theme.defaultForegroundColor);
       case SButtonVariant.secondary:
-        return theme.defaultForegroundColor;
+        return isDisabled ? disabledFg : (colorScheme?.onSecondaryContainer ?? theme.defaultForegroundColor);
       case SButtonVariant.ghost:
-        return isDisabled ? Colors.grey : theme.ghostForegroundColor;
+        return isDisabled ? disabledFg : theme.ghostForegroundColor;
       case SButtonVariant.link:
-        return isDisabled ? Colors.grey : theme.linkForegroundColor;
+        return isDisabled ? disabledFg : theme.linkForegroundColor;
       case SButtonVariant.outline:
       case SButtonVariant.destructiveOutline:
-        return isDisabled ? Colors.grey : theme.outlineForegroundColor;
+        return isDisabled ? disabledFg : theme.outlineForegroundColor;
     }
   }
 
@@ -85,17 +95,21 @@ class SButtonStyleHelper {
         variant,
     required bool
         isDisabled,
+    ColorScheme?
+        colorScheme,
   }) {
+    final Color disabledBorder = colorScheme?.onSurface.withOpacity(0.12) ?? Colors.transparent;
+
     if (_isOutlineVariant(
         variant)) {
       switch (variant) {
         case SButtonVariant.outline:
           return BorderSide(
-            color: isDisabled ? Colors.grey : theme.outlineBorderColor,
+            color: isDisabled ? disabledBorder : theme.outlineBorderColor,
           );
         case SButtonVariant.destructiveOutline:
           return BorderSide(
-            color: isDisabled ? Colors.grey : Colors.red,
+            color: isDisabled ? disabledBorder : (colorScheme?.error ?? theme.outlineBorderColor),
           );
         default:
           return null;
@@ -152,14 +166,16 @@ class SButtonStyleHelper {
         theme,
     required SButtonVariant
         variant,
+    ColorScheme?
+        colorScheme,
   }) {
     switch (
         variant) {
       case SButtonVariant.destructive:
       case SButtonVariant.destructiveOutline:
-        return Colors.white;
+        return colorScheme?.onError ?? theme.defaultForegroundColor;
       case SButtonVariant.secondary:
-        return Colors.black;
+        return colorScheme?.onSecondaryContainer ?? theme.defaultForegroundColor;
       case SButtonVariant.link:
         return theme.linkForegroundColor;
       default:
@@ -209,8 +225,8 @@ class SButtonStyleHelper {
 
     return ButtonStyle(
       backgroundColor:
-          MaterialStateProperty.resolveWith((Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
+          WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
           return backgroundColor.withOpacity(DesignConstants.opacityDisabled);
         }
         if (isSelected) {
@@ -219,39 +235,39 @@ class SButtonStyleHelper {
         return backgroundColor;
       }),
       foregroundColor:
-          MaterialStateProperty.resolveWith((Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
+          WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
           return foregroundColor.withOpacity(DesignConstants.opacityDisabled);
         }
         return foregroundColor;
       }),
       elevation:
-          MaterialStateProperty.resolveWith((Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
+          WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
           return 0.0;
         }
-        if (states.contains(MaterialState.pressed)) {
+        if (states.contains(WidgetState.pressed)) {
           return computedElevation / 2;
         }
         return computedElevation;
       }),
       padding:
-          MaterialStateProperty.all(padding),
+          WidgetStateProperty.all(padding),
       shape:
-          MaterialStateProperty.all(
+          WidgetStateProperty.all(
         RoundedRectangleBorder(
           borderRadius: computedBorderRadius,
           side: borderSide ?? BorderSide.none,
         ),
       ),
       shadowColor:
-          MaterialStateProperty.all(shadowColor ?? Colors.black),
+          WidgetStateProperty.all(shadowColor),
       overlayColor:
-          MaterialStateProperty.resolveWith((Set<MaterialState> states) {
-        if (states.contains(MaterialState.pressed)) {
+          WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+        if (states.contains(WidgetState.pressed)) {
           return foregroundColor.withOpacity(DesignConstants.opacityPressed);
         }
-        if (states.contains(MaterialState.focused)) {
+        if (states.contains(WidgetState.focused)) {
           return foregroundColor.withOpacity(DesignConstants.opacityFocused);
         }
         return null;

@@ -38,43 +38,43 @@ class SQRCode
   /// The core exact data string logically mapped into the QR matrix.
   final String
       value;
-      
+
   /// The physical structural dimension scaling both height and width of the square.
   final double
       size;
-      
+
   /// Independent widget overlaid perfectly in the center (often a brand logo).
   final Widget?
       icon;
-      
+
   /// Physical dimension clamping the bounding box of the overlay `icon`.
   final double
       iconSize;
-      
+
   /// Extracted hex tint painting the active QR data modules.
   final Color
       color;
-      
+
   /// Replaces the default transparent layer behind the QR module grid.
   final Color
       backgroundColor;
-      
+
   /// Toggles the native structural outline tracing the QR padding bounds.
   final bool
       bordered;
-      
+
   /// Error correction complexity determining the grid density (defaults to M).
   final int
       errorLevel;
-      
+
   /// Current state mapping rendering overlays over the QR code (e.g. `loading`, `expired`).
   final SQRCodeStatus
       status;
-      
+
   /// Event trigger bound to the `Refresh` button displayed exclusively in the `expired` state.
   final VoidCallback?
       onRefresh;
-      
+
   /// The explicit quiet zone padding enforcing safe scanning distance from other layout boundaries.
   final EdgeInsetsGeometry
       padding;
@@ -180,13 +180,13 @@ class SQRCode
           ),
         );
       case SQRCodeStatus.scanned:
-        return const Center(
+        return Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Icon(Icons.check_circle_outline, color: Colors.green, size: 32),
-              SizedBox(height: 8),
-              Text('Scanned', style: TextStyle(color: Colors.grey)),
+              const Icon(Icons.check_circle_outline, color: Colors.green, size: 32),
+              const SizedBox(height: 8),
+              Text('Scanned', style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant)),
             ],
           ),
         );

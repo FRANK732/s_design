@@ -85,7 +85,7 @@ class _ModernSDesignExampleState
             return supportedLocale;
           }
         }
-        return supportedLocales.first; // fallback
+        return supportedLocales.first;
       },
       theme:
           SThemeData.light(),

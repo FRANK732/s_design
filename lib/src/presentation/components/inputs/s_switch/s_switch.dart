@@ -186,13 +186,13 @@ class _SSwitchState
         Theme.of(context);
     final Color
         activeColor =
-        widget.activeColor ?? theme.primaryColor;
+        widget.activeColor ?? theme.colorScheme.primary;
     final Color
         inactiveColor =
-        widget.inactiveColor ?? const Color(0xFFBFBFBF); // Gray (approx)
+        widget.inactiveColor ?? theme.colorScheme.surfaceContainerHighest;
     final Color
         thumbColor =
-        widget.thumbColor ?? Colors.white;
+        widget.thumbColor ?? (theme.brightness == Brightness.dark ? theme.colorScheme.onPrimary : theme.colorScheme.surface);
 
     return Semantics(
       label:
@@ -257,7 +257,7 @@ class _SSwitchState
                           left: 6,
                           child: Center(
                             child: DefaultTextStyle(
-                              style: TextStyle(color: Colors.white, fontSize: widget.size == SSwitchSize.small ? 10 : 12, fontWeight: FontWeight.w500),
+                              style: TextStyle(color: theme.colorScheme.onPrimary, fontSize: widget.size == SSwitchSize.small ? 10 : 12, fontWeight: FontWeight.w500),
                               child: widget.checkedChildren!,
                             ),
                           ),
@@ -268,7 +268,7 @@ class _SSwitchState
                           right: 6,
                           child: Center(
                             child: DefaultTextStyle(
-                              style: TextStyle(color: Colors.white, fontSize: widget.size == SSwitchSize.small ? 10 : 12, fontWeight: FontWeight.w500),
+                              style: TextStyle(color: theme.colorScheme.onPrimary, fontSize: widget.size == SSwitchSize.small ? 10 : 12, fontWeight: FontWeight.w500),
                               child: widget.unCheckedChildren!,
                             ),
                           ),
@@ -288,7 +288,7 @@ class _SSwitchState
                               shape: BoxShape.circle,
                               boxShadow: <BoxShadow>[
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
+                                  color: theme.colorScheme.shadow.withOpacity(0.15),
                                   blurRadius: 2,
                                   offset: const Offset(0, 1),
                                 ),

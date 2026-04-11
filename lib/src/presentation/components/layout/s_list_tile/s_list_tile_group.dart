@@ -67,10 +67,10 @@ class SListTileGroup
         BorderRadius.circular(16);
     final Color effectiveBackgroundColor = backgroundColor ??
         theme.groupBackgroundColor ??
-        Colors.grey.shade100;
+        Theme.of(context).colorScheme.surfaceContainerHighest;
     final Color effectiveDividerColor = dividerColor ??
         theme.dividerColor ??
-        Colors.grey.shade300;
+        Theme.of(context).colorScheme.outlineVariant;
 
     return Padding(
       padding:
