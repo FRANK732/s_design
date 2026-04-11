@@ -121,6 +121,53 @@ SSonner.instance.show(
   position: SSonnerPosition.top,
 );''',
         ),
+        ComponentSection(
+          title: 'Replace Instead of Stack',
+          description: 'Use the `replace: true` flag to instantly dismiss all active toasts and display the new one. Useful for throttling or preventing clutter during rapid events.',
+          demo: Builder(
+              builder: (context) => SButton(
+                    variant: SButtonVariant.outline,
+                    onPressed: () {
+                      SSonner.show(
+                        message: 'Replaced existing toasts! ${DateTime.now().second}s',
+                        variant: SSonnerVariant.warning,
+                        replace: true,
+                      );
+                    },
+                    child: const Text('Show & Replace'),
+                  )),
+          code: '''
+SSonner.show(
+  message: 'Replaced existing toasts!',
+  variant: SSonnerVariant.warning,
+  replace: true, // Instantly clears queue
+);''',
+        ),
+        ComponentSection(
+          title: 'Flat Toast (No Shadow)',
+          description: 'Use the `elevation: 0` property within `SSonnerConfig` to completely remove the drop-shadow for a flatter look.',
+          demo: Builder(
+              builder: (context) => SButton(
+                    variant: SButtonVariant.outline,
+                    onPressed: () {
+                      SSonner.show(
+                        config: const SSonnerConfig(
+                          message: 'I have no shadow!',
+                          variant: SSonnerVariant.info,
+                          elevation: 0,
+                        ),
+                      );
+                    },
+                    child: const Text('Show Flat Toast'),
+                  )),
+          code: '''
+SSonner.show(
+  config: const SSonnerConfig(
+    message: 'I have no shadow!',
+    elevation: 0, // <--- Removes shadow
+  ),
+);''',
+        ),
       ],
     );
   }

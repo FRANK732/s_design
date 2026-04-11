@@ -82,6 +82,10 @@ class SSonner {
     /// Hardcoded manual tracking ID. If omitted, the engine assigns an auto-generated unique ID.
     String?
         id,
+        
+    /// If true, clears any currently visible toasts and replaces them with this new one instead of stacking.
+    bool replace = 
+        false,
   }) {
     return _instance
         ._show(
@@ -106,6 +110,7 @@ class SSonner {
       icon:
           icon,
       id: id,
+      replace: replace,
     );
   }
 
@@ -133,6 +138,8 @@ class SSonner {
         icon,
     String?
         id,
+    bool replace = 
+        false,
   }) {
     if (_overlayState ==
         null) {
@@ -162,6 +169,15 @@ class SSonner {
     final List<SSonnerConfig>
         currentToasts =
         List<SSonnerConfig>.from(_toastsNotifier.value);
+        
+    if (replace) {
+      // Trigger onDismiss for existing toasts before clearing them (optional but good practice)
+      for (final t in currentToasts) {
+        t.onDismiss?.call();
+      }
+      currentToasts.clear();
+    }
+
     currentToasts
         .add(effectiveConfig);
     _toastsNotifier.value =
@@ -210,6 +226,10 @@ class SSonner {
       _ensureOverlay() {
     if (_overlayEntry !=
         null) {
+      if (_overlayEntry!.mounted) {
+        _overlayEntry!.remove();
+        _overlayState?.insert(_overlayEntry!);
+      }
       return;
     }
 
@@ -471,6 +491,9 @@ class _ToastWidgetState
     final Color
         textColor =
         config.textColor ?? theme.textColor;
+    final double
+        elevation =
+        config.elevation ?? theme.elevation;
 
     return Dismissible(
       key:
@@ -490,13 +513,13 @@ class _ToastWidgetState
               decoration: BoxDecoration(
                 borderRadius: theme.borderRadius,
                 border: Border.all(color: borderColor),
-                boxShadow: <BoxShadow>[
+                boxShadow: elevation > 0 ? <BoxShadow>[
                   BoxShadow(
-                    color: theme.shadowColor ?? Colors.black12,
-                    blurRadius: theme.elevation * 2,
-                    offset: Offset(0, theme.elevation),
+                     color: theme.shadowColor ?? Colors.black12,
+                     blurRadius: elevation * 2,
+                     offset: Offset(0, elevation),
                   ),
-                ],
+                ] : null,
               ),
               child: ClipRRect(
                 borderRadius: theme.borderRadius,

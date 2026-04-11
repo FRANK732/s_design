@@ -38,7 +38,7 @@ class _SFloatingPanelPageState
                 ),
                 const SizedBox(height: 24),
                 ElevatedButton(
-                  onPressed: () => SFloatingPanel.close(),
+                  onPressed: () => SFloatingPanel.close(context),
                   child: const Text('OK'),
                 ),
               ],
@@ -89,7 +89,7 @@ class _SFloatingPanelPageState
                   children: [
                     Expanded(
                       child: OutlinedButton(
-                        onPressed: () => SFloatingPanel.close(),
+                        onPressed: () => SFloatingPanel.close(context),
                         child: const Text('Cancel'),
                       ),
                     ),
@@ -117,65 +117,40 @@ class _SFloatingPanelPageState
     );
   }
 
-  Future<void> _showCustomBottomPanel(BuildContext context) async {
-    final theme = Theme.of(context);
-
-    await SFloatingPanel.show(
-      context: context,
-      config: SFloatingPanelConfig(
-        content: Container(
-          width: 450,
-          padding: const EdgeInsets.all(24),
-          child: const SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Special Offer!',
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 16),
-                Text('Get 50% off your next purchase. Limited time only!'),
-              ],
-            ),
-          ),
+  Future<void>
+      _showCustomBottomPanel(BuildContext context) async {
+    await SFloatingPanel
+        .show(
+      context:
+          context,
+      config:
+          SFloatingPanelConfig(
+        contentConfig: const SFloatingContentConfig(
+          icon: Icon(Icons.local_offer, size: 48, color: Colors.orange),
+          title: 'Special Offer!',
+          description: 'Get 50% off your next purchase. Limited time only!',
         ),
-        customBottomWidget: Container(
-          width: 450,
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: theme.colorScheme.primaryContainer.withAlpha(150),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: theme.colorScheme.primary.withAlpha(50),
+        bottomConfig: SFloatingBottomConfig(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          // backgroundColor: theme.colorScheme.transparent,
+          actions: [
+            SButton(
+              variant: SButtonVariant.outline,
+              onPressed: () => SFloatingPanel.close(context),
+              child: const Text('Maybe Later'),
             ),
-          ),
-          child: Wrap(
-            alignment: WrapAlignment.spaceBetween,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            spacing: 16,
-            runSpacing: 8,
-            children: [
-              const TextButton(
-                onPressed: null,
-                child: Text('Maybe Later'),
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: theme.colorScheme.primary,
-                  foregroundColor: theme.colorScheme.onPrimary,
-                  elevation: 0,
-                ),
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Offer claimed!')),
-                  );
-                },
-                child: const Text('Claim Offer'),
-              ),
-            ],
-          ),
+            SButton(
+              onPressed: () {
+                SFloatingPanel.close(context);
+                SSonner.show(
+                  message: 'Offer claimed!',
+                );
+              },
+              child: const Text('Claim Offer'),
+            ),
+          ],
         ),
+        elevation: 0,
       ),
     );
   }

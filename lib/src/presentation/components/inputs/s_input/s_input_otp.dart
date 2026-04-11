@@ -121,7 +121,9 @@ class _SInputOTPState
     if (isFocused) {
       return theme.primaryColor;
     }
-    return theme.colorScheme.outline;
+    return theme
+        .colorScheme
+        .outline;
   }
 
   double
@@ -133,7 +135,7 @@ class _SInputOTPState
       case SInputSize.large:
         return 40;
       default:
-        return 32; // Default Input height
+        return 32;
     }
   }
 
@@ -196,9 +198,7 @@ class _SInputOTPState
                     borderSide: BorderSide(color: _getBorderColor(theme, true)), // Focused border
                   ),
                   filled: true,
-                  fillColor: widget.enabled
-                      ? theme.colorScheme.surface
-                      : theme.colorScheme.surfaceContainerHighest,
+                  fillColor: widget.enabled ? theme.colorScheme.surface : theme.colorScheme.surfaceContainerHighest,
                 ),
               ),
             );

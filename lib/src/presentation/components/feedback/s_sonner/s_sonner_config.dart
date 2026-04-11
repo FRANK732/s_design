@@ -25,6 +25,7 @@ class SSonnerConfig {
     this.accentColor,
     this.backgroundColor,
     this.textColor,
+    this.elevation,
   });
 
   /// The main message of the toast.
@@ -92,6 +93,10 @@ class SSonnerConfig {
   final Color?
       textColor;
 
+  /// Overrides the elevation (shadow depth) for this toast. Set to 0 to remove the shadow.
+  final double?
+      elevation;
+
   /// Creates a copy of this config with the given fields replaced with the new values.
   SSonnerConfig
       copyWith({
@@ -127,6 +132,8 @@ class SSonnerConfig {
         backgroundColor,
     Color?
         textColor,
+    double?
+        elevation,
   }) {
     return SSonnerConfig(
       message:
@@ -161,6 +168,8 @@ class SSonnerConfig {
           backgroundColor ?? this.backgroundColor,
       textColor:
           textColor ?? this.textColor,
+      elevation:
+          elevation ?? this.elevation,
     );
   }
 }

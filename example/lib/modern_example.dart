@@ -101,10 +101,6 @@ class _ModernSDesignExampleState
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Gallery Shell
-// ─────────────────────────────────────────────────────────────────────────────
-
 class GalleryShell
     extends StatefulWidget {
   const GalleryShell({
@@ -200,11 +196,8 @@ class _GalleryShellState
   Widget build(
       BuildContext
           context) {
-    // Initialize overlays once
     final overlayState =
         Overlay.of(context);
-    SFloatingPanel.initialize(
-        overlayState);
     SSonner.initialize(
         overlayState);
     SToast.initialize(

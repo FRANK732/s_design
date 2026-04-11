@@ -1,494 +1,361 @@
-import 'dart:async';
-import 'dart:developer'
-    as dev;
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 import '../../../../../s_design.dart';
 
 class SFloatingPanel {
-  static OverlayState?
-      _overlayState;
-  static OverlayEntry?
-      _overlayEntry;
-  static VoidCallback?
-      _onCloseCallback;
-
-  static bool
-      _isPanelOpen =
-      false;
-  static AnimationController?
-      _animationController;
-  static Completer<void>?
-      _completer;
-
-  // Getter for isPanelOpen
-  static bool
-      get isPanelOpen =>
-          _isPanelOpen;
-
-  static void
-      initialize(OverlayState overlayState) {
-    _overlayState =
-        overlayState;
-    dev.log(
-      'SFloatingPanel initialized with overlay state',
-      name:
-          'SFloatingPanel',
-      time:
-          DateTime.now(),
-    );
-  }
+  /// Deprecated: SFloatingPanel now uses Navigator natively. 
+  /// This is a no-op to prevent breaking legacy code immediately.
+  @Deprecated('SFloatingPanel no longer requires global initialization. It hooks directly into Navigator.')
+  static void initialize(OverlayState overlayState) {}
 
   /// Triggers a modern, floating bottom sheet overlay that mimics native iOS fluid sheets.
   /// 
   /// The panel is fully customizable, supporting background blur, floating margins, 
   /// auto-resizing, and independent bottom utility areas.
-  static Future<void>
-      show({
-    /// Required valid build context to fetch Theme data and inject the Overlay.
-    required BuildContext
-        context,
-    
-    /// Optional structured configuration object packing the arguments below.
-    SFloatingPanelConfig?
-        config,
-        
-    /// The primary inner widget tree displayed inside the floating panel.
-    Widget?
-        content,
-        
-    /// Color of the modal backdrop blocking interaction with the underlying screen.
-    Color?
-        barrierColor,
-        
-    /// Distance from the left and right edges of the screen, creating the "floating" effect.
-    double?
-        horizontalMargin,
-        
-    /// Distance from the bottom of the screen (or keyboard) ensuring the floating effect.
-    double?
-        bottomMargin,
-        
-    /// Vertical gap between the primary [content] panel and the [customBottomWidget] (if provided).
-    double?
-        panelSpacing,
-        
-    /// Callback triggered when the panel fully closes or is dismissed.
-    VoidCallback?
-        onClose,
-        
-    /// A trailing floating widget rendered completely detached below the main panel.
-    Widget?
-        customBottomWidget,
-        
-    /// Transition speed of the slide and fade animations.
-    Duration?
-        animationDuration,
-        
-    /// Renders a native-styled 'X' close button securely positioned at the top right of the panel.
-    bool showCloseButton =
-        false,
-        
-    /// If `true`, tapping the darkened [barrierColor] background dismisses the panel.
-    bool isDismissable =
-        true,
-        
-    /// Physical sizing limitations strictly enforced on the panel's bounding box.
-    BoxConstraints?
-        constraints,
-        
-    /// Safe area padding forcefully wrapping the [content] inside the panel shell.
-    EdgeInsetsGeometry?
-        contentPadding,
-        
-    /// Intense iOS-styled glassmorphism blur applied to the backdrop behind the panel.
-    double?
-        backdropBlur,
-        
-    /// Depth tint of the casting shadow.
-    Color?
-        shadowColor,
-        
-    /// Overriding outline shape (e.g. extreme border radiuses) for the panel.
-    ShapeBorder?
-        shape,
+  static Future<void> show({
+    required BuildContext context,
+    SFloatingPanelConfig? config,
+    @Deprecated('Use contentConfig for structured panel data') Widget? content,
+    SFloatingContentConfig? contentConfig,
+    Color? barrierColor,
+    double? horizontalMargin,
+    double? bottomMargin,
+    double? panelSpacing,
+    VoidCallback? onClose,
+    @Deprecated('Use bottomConfig instead for structured footers') Widget? customBottomWidget,
+    SFloatingBottomConfig? bottomConfig,
+    Duration? animationDuration,
+    bool showCloseButton = false,
+    bool showDragIndicator = true,
+    double? elevation,
+    bool isDismissable = true,
+    BoxConstraints? constraints,
+    EdgeInsetsGeometry? contentPadding,
+    double? backdropBlur,
+    Color? shadowColor,
+    ShapeBorder? shape,
   }) async {
-    // If not initialized, try to use context (though initialize is preferred for global usage)
-    _overlayState ??=
-        Overlay.of(context);
+    final SFloatingPanelThemeData theme = Theme.of(context).sFloatingPanelTheme;
 
-    final SFloatingPanelThemeData
-        theme =
-        Theme.of(context).sFloatingPanelTheme;
-
-    // Remove existing panel if open
-    if (_isPanelOpen) {
-      close();
-    }
-
-    // Resolve effective values
     final double effectiveHorizontalMargin = horizontalMargin ??
         config?.horizontalMargin ??
         (theme.margin as EdgeInsets?)?.horizontal ??
-        16.0 * 2; // Assuming symmetrical margin
+        32.0;
 
     final double effectiveBottomMargin = bottomMargin ??
         config?.bottomMargin ??
         (theme.margin as EdgeInsets?)?.bottom ??
         16.0;
 
-    final SFloatingPanelConfig
-        effectiveConfig =
-        SFloatingPanelConfig(
-      content: content ??
-          config?.content ??
-          const SizedBox(),
+    final SFloatingPanelConfig effectiveConfig = SFloatingPanelConfig(
+      content: content ?? config?.content,
+      contentConfig: contentConfig ?? config?.contentConfig,
       barrierColor: barrierColor ??
           config?.barrierColor ??
           theme.barrierColor ??
           const Color(0x80000000),
-      horizontalMargin:
-          effectiveHorizontalMargin,
-      bottomMargin:
-          effectiveBottomMargin,
+      horizontalMargin: effectiveHorizontalMargin,
+      bottomMargin: effectiveBottomMargin,
       panelSpacing: panelSpacing ??
           config?.panelSpacing ??
           theme.panelSpacing ??
           15.0,
-      onClose:
-          onClose ?? config?.onClose,
-      customBottomWidget:
-          customBottomWidget ?? config?.customBottomWidget,
+      onClose: onClose ?? config?.onClose,
+      customBottomWidget: customBottomWidget ?? config?.customBottomWidget,
+      bottomConfig: bottomConfig ?? config?.bottomConfig,
       animationDuration: animationDuration ??
           config?.animationDuration ??
           theme.animationDuration ??
           const Duration(milliseconds: 300),
-      showCloseButton:
-          showCloseButton || (config?.showCloseButton ?? false),
-      isDismissable:
-          isDismissable, // Logic, not typically themed but can be in config
-      constraints: constraints ??
-          config?.constraints ??
-          theme.constraints,
-      contentPadding: contentPadding ??
-          config?.contentPadding ??
-          theme.contentPadding,
-      backdropBlur: backdropBlur ??
-          config?.backdropBlur ??
-          theme.backdropBlur ??
-          0.0,
-      shadowColor: shadowColor ??
-          config?.shadowColor ??
-          theme.shadowColor,
-      shape: shape ??
-          config?.shape ??
-          theme.shape,
+      showCloseButton: showCloseButton || (config?.showCloseButton ?? false),
+      showDragIndicator: showDragIndicator && (config?.showDragIndicator ?? true),
+      elevation: elevation ?? config?.elevation,
+      isDismissable: isDismissable,
+      constraints: constraints ?? config?.constraints ?? theme.constraints,
+      contentPadding: contentPadding ?? config?.contentPadding ?? theme.contentPadding,
+      backdropBlur: backdropBlur ?? config?.backdropBlur ?? theme.backdropBlur ?? 0.0,
+      shadowColor: shadowColor ?? config?.shadowColor ?? theme.shadowColor,
+      shape: shape ?? config?.shape ?? theme.shape,
     );
 
-    assert(
-        (effectiveConfig.horizontalMargin ?? 0) >= 0,
-        'Horizontal margin must be non-negative');
-    assert(
-        (effectiveConfig.bottomMargin ?? 0) >= 0,
-        'Bottom margin must be non-negative');
-    assert(
-        (effectiveConfig.panelSpacing ?? 0) >= 0,
-        'Panel spacing must be non-negative');
-
-    _onCloseCallback =
-        effectiveConfig.onClose;
-
-    dev.log(
-      'Showing panel (Hot Swap: $_isPanelOpen) with horizontalMargin: ${effectiveConfig.horizontalMargin}, bottomMargin: ${effectiveConfig.bottomMargin}, '
-      'panelSpacing: ${effectiveConfig.panelSpacing}, animationDuration: ${effectiveConfig.animationDuration?.inMilliseconds}ms, '
-      'hasCustomBottomWidget: ${effectiveConfig.customBottomWidget != null}, isDismissable: ${effectiveConfig.isDismissable}',
-      name:
-          'SFloatingPanel',
-      time:
-          DateTime.now(),
+    // Wait for the popup route to naturally dismiss
+    await Navigator.of(context, rootNavigator: true).push(
+      _SFloatingPanelRoute(config: effectiveConfig, theme: theme),
     );
 
-    // If already open, just update content and remeasure
-    if (_isPanelOpen &&
-        _overlayEntry != null &&
-        _animationController != null) {
-      _overlayEntry!.markNeedsBuild();
-
-      // Remeasure after build
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        // No longer need to measure widget sizes as the layout is handled by Positioned and Column
-      });
-      return _completer?.future ??
-          Future<void>.value();
-    }
-
-    // New Open
-    _hideOverlay();
-    _completer =
-        Completer<void>();
-
-    _animationController =
-        AnimationController(
-      duration:
-          effectiveConfig.animationDuration,
-      vsync:
-          TickerProviderImpl(),
-    );
-
-    _animationController!.addStatusListener((AnimationStatus
-        status) {
-      dev.log('Animation status: $status',
-          name: 'SFloatingPanel');
-    });
-
-    final Animation<Offset>
-        slideAnimation =
-        Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero).animate(
-      CurvedAnimation(
-          parent: _animationController!,
-          curve: Curves.easeOut),
-    );
-
-    final Animation<double>
-        opacityAnimation =
-        CurvedAnimation(parent: _animationController!, curve: Curves.easeIn);
-
-    _overlayEntry =
-        OverlayEntry(
-      builder:
-          (BuildContext context) {
-        return Stack(
-          children: <Widget>[
-            // Barrier
-            GestureDetector(
-              onTap: effectiveConfig.isDismissable ? close : null,
-              child: AnimatedBuilder(
-                animation: _animationController!,
-                builder: (BuildContext context, Widget? child) {
-                  final Color? color = ColorTween(
-                    begin: Colors.transparent,
-                    end: effectiveConfig.barrierColor,
-                  ).evaluate(_animationController!);
-
-                  Widget barrier = Container(color: color);
-                  if ((effectiveConfig.backdropBlur ?? 0) > 0) {
-                    barrier = BackdropFilter(
-                      filter: ImageFilter.blur(
-                        sigmaX: (effectiveConfig.backdropBlur ?? 0) * _animationController!.value,
-                        sigmaY: (effectiveConfig.backdropBlur ?? 0) * _animationController!.value,
-                      ),
-                      child: barrier,
-                    );
-                  }
-                  return barrier;
-                },
-              ),
-            ),
-            // Floating Panel
-            Positioned(
-              left: (effectiveConfig.horizontalMargin ?? 0) / 2,
-              right: (effectiveConfig.horizontalMargin ?? 0) / 2,
-              bottom: effectiveConfig.bottomMargin ?? 16.0,
-              child: SlideTransition(
-                position: slideAnimation,
-                child: FadeTransition(
-                  opacity: opacityAnimation,
-                  child: Center(
-                    child: ConstrainedBox(
-                      constraints: effectiveConfig.constraints ?? const BoxConstraints.tightFor(width: double.infinity),
-                      child: Material(
-                        type: MaterialType.transparency,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Container(
-                              padding: effectiveConfig.contentPadding,
-                              decoration: ShapeDecoration(
-                                color: theme.backgroundColor ?? Colors.white,
-                                shape: effectiveConfig.shape ??
-                                    RoundedRectangleBorder(
-                                      borderRadius: theme.borderRadius ?? BorderRadius.circular(16),
-                                    ),
-                                shadows: <BoxShadow>[
-                                  BoxShadow(
-                                    color: effectiveConfig.shadowColor ?? Colors.black12,
-                                    blurRadius: theme.elevation ?? 8,
-                                    offset: const Offset(0, 4),
-                                  ),
-                                ],
-                              ),
-                              child: Stack(
-                                children: [
-                                  effectiveConfig.content,
-                                  if (effectiveConfig.showCloseButton)
-                                    Positioned(
-                                      top: 0,
-                                      right: 0,
-                                      child: IconButton(
-                                        icon: const Icon(Icons.close, size: 20),
-                                        padding: EdgeInsets.zero,
-                                        constraints: const BoxConstraints(),
-                                        onPressed: () {
-                                          if (effectiveConfig.onClose != null) {
-                                            effectiveConfig.onClose!();
-                                          } else {
-                                            close();
-                                          }
-                                        },
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            ),
-                            if (effectiveConfig.customBottomWidget != null) ...<Widget>[
-                              SizedBox(height: effectiveConfig.panelSpacing),
-                              effectiveConfig.customBottomWidget!,
-                            ],
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-
-    _overlayState!
-        .insert(_overlayEntry!);
-    _isPanelOpen =
-        true;
-    _animationController!
-        .forward();
-
-    return _completer!
-        .future;
+    // Trigger the callback cleanly after unmounting
+    effectiveConfig.onClose?.call();
   }
 
-  static Future<void> _closePanel(
-      AnimationController?
-          animationController,
-      Completer<void>?
-          completer) async {
-    _isPanelOpen =
-        false;
-    dev.log(
-      'Closing panel, animationController: ${animationController != null}',
-      name:
-          'SFloatingPanel',
-      time:
-          DateTime.now(),
-    );
-    if (animationController !=
-        null) {
-      try {
-        await animationController.reverse();
-      } catch (e) {
-        dev.log('Animation reverse cancelled: $e', name: 'SFloatingPanel');
-      }
-
-      // GUARD: If global controller has changed (due to new 'show'), abort cleanup
-      if (_animationController !=
-          animationController) {
-        dev.log('Close preempted by new Show. Aborting old cleanup.', name: 'SFloatingPanel');
-        try {
-          animationController.dispose();
-        } catch (_) {}
-        return;
-      }
-
-      dev.log(
-        'Animation reversed, hiding overlay',
-        name: 'SFloatingPanel',
-        time: DateTime.now(),
-      );
-      _hideOverlay();
-      _onCloseCallback?.call();
-      try {
-        animationController.dispose();
-      } catch (_) {}
-      _animationController =
-          null;
-    } else {
-      _hideOverlay();
-      _onCloseCallback?.call();
-    }
-    _isPanelOpen =
-        false;
-    if (completer != null &&
-        !completer.isCompleted) {
-      completer.complete();
-    }
-    _completer =
-        null;
-  }
-
-  static void
-      _hideOverlay() {
-    dev.log(
-      'Hiding overlay and cleaning up resources',
-      name:
-          'SFloatingPanel',
-      time:
-          DateTime.now(),
-    );
-    _overlayEntry
-        ?.remove();
-    _overlayEntry =
-        null;
-    _onCloseCallback =
-        null;
-
-    // Cleanup Check
-    if (_animationController !=
-        null) {
-      _animationController!.dispose();
-      _animationController =
-          null;
-    }
-
-    if (_completer != null &&
-        !_completer!.isCompleted) {
-      _completer!.complete();
-      _completer =
-          null;
-    }
-
-    _isPanelOpen =
-        false;
-  }
-
-  static Future<void>
-      close() async {
-    if (!_isPanelOpen) {
-      dev.log(
-        'Close called but panel is not open',
-        name: 'SFloatingPanel',
-        time: DateTime.now(),
-      );
-      return;
-    }
-    await _closePanel(
-        _animationController,
-        _completer);
+  /// Closes the topmost navigation route. 
+  static Future<void> close(BuildContext context) async {
+    Navigator.of(context, rootNavigator: true).pop();
   }
 }
 
-class TickerProviderImpl
-    extends TickerProvider {
-  TickerProviderImpl();
+class _SFloatingPanelRoute extends PopupRoute<void> {
+  _SFloatingPanelRoute({required this.config, required this.theme});
+
+  final SFloatingPanelConfig config;
+  final SFloatingPanelThemeData theme;
 
   @override
-  Ticker createTicker(
-      TickerCallback
-          onTick) {
-    return Ticker(
-        onTick);
+  Color? get barrierColor => config.barrierColor;
+
+  @override
+  bool get barrierDismissible => config.isDismissable;
+
+  @override
+  String? get barrierLabel => 'Dismiss panel';
+
+  @override
+  Duration get transitionDuration =>
+      config.animationDuration ?? const Duration(milliseconds: 300);
+
+  @override
+  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+    Widget page = _SFloatingPanelContent(config: config, theme: theme);
+
+    // Handle high-performance Blur
+    if ((config.backdropBlur ?? 0) > 0) {
+      page = BackdropFilter(
+        filter: ImageFilter.blur(
+          sigmaX: config.backdropBlur!,
+          sigmaY: config.backdropBlur!,
+        ),
+        child: page,
+      );
+    }
+
+    return Semantics(
+      scopesRoute: true,
+      explicitChildNodes: true,
+      // Wrap in a Scaffold-like clear zone. 
+      child: SafeArea(
+        bottom: false,
+        child: page,
+      ),
+    );
+  }
+
+  @override
+  Widget buildTransitions(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+    final CurvedAnimation curvedAnimation = CurvedAnimation(parent: animation, curve: Curves.easeOutCubic);
+    final CurvedAnimation opacity = CurvedAnimation(parent: animation, curve: Curves.easeIn);
+    
+    return SlideTransition(
+      position: Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero).animate(curvedAnimation),
+      child: FadeTransition(
+        opacity: opacity,
+        child: child,
+      ),
+    );
+  }
+}
+
+class _SFloatingPanelContent extends StatefulWidget {
+  const _SFloatingPanelContent({
+    required this.config,
+    required this.theme,
+  });
+
+  final SFloatingPanelConfig config;
+  final SFloatingPanelThemeData theme;
+
+  @override
+  State<_SFloatingPanelContent> createState() => _SFloatingPanelContentState();
+}
+
+class _SFloatingPanelContentState extends State<_SFloatingPanelContent> {
+  double _dragOffset = 0.0;
+
+  void _onVerticalDragUpdate(DragUpdateDetails details) {
+    // Only allow dragging downwards.
+    if (details.delta.dy > 0) {
+      setState(() {
+        _dragOffset += details.delta.dy;
+      });
+    } else if (details.delta.dy < 0 && _dragOffset > 0) {
+      // Pull back up, but not past the origin.
+      setState(() {
+        _dragOffset += details.delta.dy;
+        if (_dragOffset < 0) {
+           _dragOffset = 0;
+        }
+      });
+    }
+  }
+
+  void _onVerticalDragEnd(DragEndDetails details) {
+    // If dragged past 100px OR flicked down rapidly (velocity > 300), pop.
+    if (_dragOffset > 100 || (details.primaryVelocity ?? 0) > 300) {
+      Navigator.of(context).pop();
+    } else {
+      // Snap it back to origin safely.
+      setState(() {
+        _dragOffset = 0.0;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final double effectiveHorizontalMargin = widget.config.horizontalMargin ?? 0;
+
+    return Transform.translate(
+      offset: Offset(0, _dragOffset),
+      child: GestureDetector(
+        onVerticalDragUpdate: widget.config.isDismissable ? _onVerticalDragUpdate : null,
+        onVerticalDragEnd: widget.config.isDismissable ? _onVerticalDragEnd : null,
+        // Block taps from bubbling into empty space so you can drag from anywhere inside
+        behavior: HitTestBehavior.deferToChild,
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: EdgeInsets.only(
+              left: effectiveHorizontalMargin / 2,
+              right: effectiveHorizontalMargin / 2,
+              bottom: widget.config.bottomMargin ?? 16.0,
+            ),
+            child: ConstrainedBox(
+              constraints: widget.config.constraints ?? const BoxConstraints.tightFor(width: double.infinity),
+              child: Material(
+                type: MaterialType.transparency,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Container(
+                      padding: widget.config.contentPadding,
+                      decoration: ShapeDecoration(
+                        color: widget.theme.backgroundColor ?? Colors.white,
+                        shape: widget.config.shape ??
+                            RoundedRectangleBorder(
+                              borderRadius: widget.theme.borderRadius ?? BorderRadius.circular(24),
+                              side: BorderSide(
+                                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.08),
+                              ),
+                            ),
+                        shadows: (widget.config.elevation ?? widget.theme.elevation ?? 12) <= 0 ? null : <BoxShadow>[
+                          // Wide ambient shadow
+                          BoxShadow(
+                            color: widget.config.shadowColor ?? Colors.black.withOpacity(0.12),
+                            blurRadius: (widget.config.elevation ?? widget.theme.elevation ?? 12) * 2,
+                            spreadRadius: 2,
+                            offset: Offset(0, widget.config.elevation ?? widget.theme.elevation ?? 12),
+                          ),
+                          // Tight crisp 3D depth shadow
+                          BoxShadow(
+                            color: widget.config.shadowColor ?? Colors.black.withOpacity(0.15),
+                            blurRadius: (widget.config.elevation ?? widget.theme.elevation ?? 8),
+                            spreadRadius: -2,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Stack(
+                        children: <Widget>[
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              if (widget.config.showDragIndicator)
+                                Center(
+                                  child: Container(
+                                    width: 32,
+                                    height: 4,
+                                    margin: const EdgeInsets.only(bottom: 16),
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.2),
+                                      borderRadius: BorderRadius.circular(2),
+                                    ),
+                                  ),
+                                ),
+                              if (widget.config.contentConfig != null) ...<Widget>[
+                                if (widget.config.contentConfig!.icon != null) ...<Widget>[
+                                  Center(child: widget.config.contentConfig!.icon),
+                                  const SizedBox(height: 16),
+                                ],
+                                if (widget.config.contentConfig!.title != null) ...<Widget>[
+                                  Text(
+                                    widget.config.contentConfig!.title!,
+                                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(height: 8),
+                                ],
+                                if (widget.config.contentConfig!.description != null) ...<Widget>[
+                                  Text(
+                                    widget.config.contentConfig!.description!,
+                                    style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7)),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(height: 16),
+                                ],
+                                if (widget.config.contentConfig!.child != null) widget.config.contentConfig!.child!,
+                              ],
+                              if (widget.config.content != null) widget.config.content!,
+                            ],
+                          ),
+                          if (widget.config.showCloseButton)
+                            Positioned(
+                              top: 0,
+                              right: 0,
+                              child: IconButton(
+                                icon: const Icon(Icons.close, size: 20),
+                                padding: EdgeInsets.zero,
+                                constraints: const BoxConstraints(),
+                                onPressed: () => Navigator.of(context).pop(),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                    if (widget.config.customBottomWidget != null) ...<Widget>[
+                      SizedBox(height: widget.config.panelSpacing),
+                      widget.config.customBottomWidget!,
+                    ],
+                    if (widget.config.bottomConfig != null) ...<Widget>[
+                      SizedBox(height: widget.config.panelSpacing),
+                      Container(
+                        padding: widget.config.bottomConfig!.padding,
+                        decoration: widget.config.bottomConfig!.backgroundColor != Colors.transparent ? ShapeDecoration(
+                          color: widget.config.bottomConfig!.backgroundColor ?? widget.theme.backgroundColor ?? Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: widget.config.bottomConfig!.borderRadius ?? BorderRadius.circular(20),
+                            side: BorderSide(
+                              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.08),
+                            ),
+                          ),
+                          shadows: widget.config.bottomConfig!.boxShadow ?? ((widget.config.elevation ?? widget.theme.elevation ?? 12) <= 0 ? null : <BoxShadow>[
+                            BoxShadow(
+                              color: widget.config.shadowColor ?? Colors.black.withOpacity(0.12),
+                              blurRadius: 16,
+                              offset: const Offset(0, 8),
+                            ),
+                          ]),
+                        ) : null,
+                        child: widget.config.bottomConfig!.customWidget ??
+                            (widget.config.bottomConfig!.layout == SFloatingBottomLayout.row
+                                ? Row(
+                                    children: widget.config.bottomConfig!.actions.map<Widget>((Widget action) => Expanded(child: Padding(padding: const EdgeInsets.symmetric(horizontal: 4.0), child: action))).toList(),
+                                  )
+                                : Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    children: widget.config.bottomConfig!.actions.map<Widget>((Widget action) => Padding(padding: const EdgeInsets.symmetric(vertical: 4.0), child: action)).toList(),
+                                  )),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
