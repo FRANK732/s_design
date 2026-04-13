@@ -453,14 +453,10 @@ class _SPaginationState
   // ── Responsive breakpoints ────────────────────────────────────────────────
 
   /// Minimum width (px) for a full-featured layout (±2 siblings, all extras).
-  static const double
-      _kWide =
-      600.0;
+  static const double _kWide = 500.0;
 
-  /// Minimum width (px) for medium mode (±1 sibling, no extras).
-  static const double
-      _kMedium =
-      360.0;
+  /// Minimum width (px) for medium mode (shows numerical buttons).
+  static const double _kMedium = 280.0;
 
   // ── Build ─────────────────────────────────────────────────────────────────
 
@@ -514,12 +510,8 @@ class _SPaginationState
         widget.showTotal != null && !isNarrow;
 
     // Number of sibling pages shown either side of current.
-    // Wide: 2, Medium: 1, Narrow: irrelevant (simple mode).
-    final int siblingCount = (!widget.responsive || availableWidth >= _kWide)
-        ? 2
-        : isMedium
-            ? 1
-            : 0;
+    // Full/Medium: 2, Narrow: irrelevant (simple mode).
+    final int siblingCount = (!widget.responsive || availableWidth >= _kMedium) ? 2 : 0;
 
     WrapAlignment
         wrapAlign;
