@@ -816,7 +816,6 @@ class _STimePickerState
         ?.call(null);
   }
 
-  // ── Overlay ────────────────────────────────────────────────────────────────
 
   void
       _insertEntry() {
@@ -838,7 +837,6 @@ class _STimePickerState
   void _rebuildEntry() =>
       _entry?.markNeedsBuild();
 
-  // ── Tokens ─────────────────────────────────────────────────────────────────
 
   _Tok _tok(
       BuildContext
@@ -930,7 +928,6 @@ class _STimePickerState
     );
   }
 
-  // ── Build ──────────────────────────────────────────────────────────────────
 
   @override
   Widget build(
@@ -1032,9 +1029,7 @@ class _STimePickerState
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 //  Panel overlay
-// ─────────────────────────────────────────────────────────────────────────────
 
 class _PanelOverlay
     extends StatefulWidget {
@@ -1223,7 +1218,6 @@ class _PanelOverlayState
     );
   }
 
-  // ── Columns area ────────────────────────────────────────────────────────────
 
   Widget _buildColumns(
       _Tok
@@ -1440,7 +1434,6 @@ class _PanelOverlayState
     );
   }
 
-  // ── Footer ─────────────────────────────────────────────────────────────────
 
   Widget _buildFooter(
       _Tok
@@ -1500,9 +1493,7 @@ class _PanelOverlayState
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 //  STimeRangePicker
-// ─────────────────────────────────────────────────────────────────────────────
 
 /// Two [STimePicker] fields side-by-side for selecting a time range.
 class STimeRangePicker

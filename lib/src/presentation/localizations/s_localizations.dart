@@ -28,9 +28,7 @@ abstract class SLocalizations {
       delegate =
       SLocalizationsDelegate();
 
-  // ---------------------------------------------------------------------------
   // General / Common Strings
-  // ---------------------------------------------------------------------------
   String
       get ok;
   String
@@ -50,9 +48,7 @@ abstract class SLocalizations {
   String
       get loading;
 
-  // ---------------------------------------------------------------------------
   // Date & Time Picker Strings
-  // ---------------------------------------------------------------------------
   String
       get selectDate;
   String
@@ -72,9 +68,7 @@ abstract class SLocalizations {
   String
       get second;
 
-  // ---------------------------------------------------------------------------
   // Pagination Strings
-  // ---------------------------------------------------------------------------
   String
       get previousPage;
   String
@@ -84,9 +78,7 @@ abstract class SLocalizations {
   String
       get of;
 
-  // ---------------------------------------------------------------------------
   // Category Strings for Example/Gallery
-  // ---------------------------------------------------------------------------
   String
       get home;
   String
@@ -98,9 +90,7 @@ abstract class SLocalizations {
   String
       get layout;
 
-  // ---------------------------------------------------------------------------
   // App Shell & Gallery Strings
-  // ---------------------------------------------------------------------------
   String
       get galleryTitle;
   String
@@ -122,9 +112,7 @@ abstract class SLocalizations {
   String
       get langZh;
 
-  // ---------------------------------------------------------------------------
   // Component Names
-  // ---------------------------------------------------------------------------
   String
       get compButton;
   String
@@ -182,9 +170,7 @@ abstract class SLocalizations {
   String
       get compCardBasic;
 
-  // ---------------------------------------------------------------------------
   // Home / Landing Page Strings
-  // ---------------------------------------------------------------------------
   String
       get heroTagline;
   String
@@ -237,9 +223,7 @@ abstract class SLocalizations {
   String
       get footerLicense;
 
-  // ---------------------------------------------------------------------------
   // Recurring Demo Labels
-  // ---------------------------------------------------------------------------
   String
       get demoWhenToUse;
   String
@@ -275,9 +259,7 @@ abstract class SLocalizations {
   String
       get demoStatus;
 
-  // ---------------------------------------------------------------------------
   // SButton Page
-  // ---------------------------------------------------------------------------
   String
       get buttonDesc;
   String
@@ -319,9 +301,7 @@ abstract class SLocalizations {
   String
       get buttonLabelFullWidth;
 
-  // ---------------------------------------------------------------------------
   // SCheckbox Page
-  // ---------------------------------------------------------------------------
   String
       get checkboxDesc;
   String
@@ -345,9 +325,7 @@ abstract class SLocalizations {
   String
       get checkboxLabelUncheckedDisabled;
 
-  // ---------------------------------------------------------------------------
   // SSwitch Page
-  // ---------------------------------------------------------------------------
   String
       get switchDesc;
   String
@@ -375,9 +353,7 @@ abstract class SLocalizations {
   String
       get switchLabelDisabledOff;
 
-  // ---------------------------------------------------------------------------
   // SInput Page
-  // ---------------------------------------------------------------------------
   String
       get inputDesc;
   String
@@ -421,9 +397,7 @@ abstract class SLocalizations {
   String
       get inputSectionTextArea;
 
-  // ---------------------------------------------------------------------------
   // SSelect Page
-  // ---------------------------------------------------------------------------
   String
       get selectDescExtended; // Already have selectPlaceholder, using selectDescExtended for the demo
   String
@@ -467,9 +441,7 @@ abstract class SLocalizations {
   String
       get selectSectionMulti;
 
-  // ---------------------------------------------------------------------------
   // SRate Page
-  // ---------------------------------------------------------------------------
   String
       get rateDesc;
   String
@@ -499,9 +471,7 @@ abstract class SLocalizations {
   String
       get rateDescCustomCount;
 
-  // ---------------------------------------------------------------------------
   // SDatePicker Page
-  // ---------------------------------------------------------------------------
   String
       get datePickerTitle;
   String
@@ -535,9 +505,7 @@ abstract class SLocalizations {
   String
       get datePickerLabelCustomTheme;
 
-  // ---------------------------------------------------------------------------
   // STimePicker Page
-  // ---------------------------------------------------------------------------
   String
       get timePickerTitle;
   String
@@ -632,9 +600,7 @@ abstract class SLocalizations {
       String
           end);
 
-  // ---------------------------------------------------------------------------
   // SAvatar Page
-  // ---------------------------------------------------------------------------
   String
       get avatarTitle;
   String
@@ -654,9 +620,7 @@ abstract class SLocalizations {
   String
       get avatarBtnChangeGap;
 
-  // ---------------------------------------------------------------------------
   // SSlider Page
-  // ---------------------------------------------------------------------------
   String
       get sliderDesc;
   String
@@ -682,9 +646,7 @@ abstract class SLocalizations {
       num step,
       num max);
 
-  // ---------------------------------------------------------------------------
   // SSteps Page
-  // ---------------------------------------------------------------------------
   String
       get stepsDesc;
   String
@@ -736,9 +698,7 @@ abstract class SLocalizations {
   String
       get stepsLabelPlaced;
 
-  // ---------------------------------------------------------------------------
   // SQRCode Page
-  // ---------------------------------------------------------------------------
   String
       get qrcodeDesc;
   String
@@ -758,9 +718,7 @@ abstract class SLocalizations {
   String
       get qrcodeSectionScanned;
 
-  // ---------------------------------------------------------------------------
   // SAlert Page
-  // ---------------------------------------------------------------------------
   String
       get alertTitle;
   String
@@ -852,9 +810,7 @@ abstract class SLocalizations {
   String
       get alertBtnLearnMore;
 
-  // ---------------------------------------------------------------------------
   // SDialog Page
-  // ---------------------------------------------------------------------------
   String
       get dialogDesc;
   String
@@ -892,9 +848,7 @@ abstract class SLocalizations {
   String
       get dialogBtnOpenInfo;
 
-  // ---------------------------------------------------------------------------
   // SToast Page
-  // ---------------------------------------------------------------------------
   String
       get toastDesc;
   String
@@ -928,9 +882,7 @@ abstract class SLocalizations {
   String
       get toastRecommendationText;
 
-  // ---------------------------------------------------------------------------
   // SSonner Page
-  // ---------------------------------------------------------------------------
   String
       get sonnerDesc;
   String
@@ -987,9 +939,7 @@ abstract class SLocalizations {
       String
           variant);
 
-  // ---------------------------------------------------------------------------
   // SFloatingPanel Page
-  // ---------------------------------------------------------------------------
   String
       get floatingTitle;
   String
@@ -1025,9 +975,7 @@ abstract class SLocalizations {
   String
       get floatingBtnShowCustom;
 
-  // ---------------------------------------------------------------------------
   // SProgress Page
-  // ---------------------------------------------------------------------------
   String
       get progressDesc;
   String
@@ -1049,9 +997,7 @@ abstract class SLocalizations {
   String
       get progressBtnIncrease;
 
-  // ---------------------------------------------------------------------------
   // SCard Page
-  // ---------------------------------------------------------------------------
   String
       get cardDesc;
   String
@@ -1101,9 +1047,7 @@ abstract class SLocalizations {
   String cardLabelItem(
       int index);
 
-  // ---------------------------------------------------------------------------
   // SListTile Page
-  // ---------------------------------------------------------------------------
   String
       get listTileDesc;
   String
@@ -1137,9 +1081,7 @@ abstract class SLocalizations {
   String
       get listTileLabelSpam;
 
-  // ---------------------------------------------------------------------------
   // STabs Page
-  // ---------------------------------------------------------------------------
   String
       get tabsDesc;
   String
@@ -1227,9 +1169,7 @@ abstract class SLocalizations {
   String
       get tabsTooltipExtra;
 
-  // ---------------------------------------------------------------------------
   // SPagination Page
-  // ---------------------------------------------------------------------------
   String
       get paginationTitle;
   String
@@ -1297,9 +1237,7 @@ abstract class SLocalizations {
   String
       get paginationLabelNext;
 
-  // ---------------------------------------------------------------------------
   // SScaffold Page
-  // ---------------------------------------------------------------------------
   String
       get scaffoldTitle;
   String
@@ -1315,9 +1253,7 @@ abstract class SLocalizations {
   String
       get scaffoldLabelFAB;
 
-  // ---------------------------------------------------------------------------
   // BottomNavigation Page
-  // ---------------------------------------------------------------------------
   String
       get navTitle;
   String
@@ -1329,9 +1265,7 @@ abstract class SLocalizations {
   String
       get navLabelProfile;
 
-  // ---------------------------------------------------------------------------
   // SInputField Page
-  // ---------------------------------------------------------------------------
   String
       get inputTitleShowcase;
   String
@@ -1597,9 +1531,7 @@ class SLocalizationsEn
   String get compCardBasic =>
       'SCard (Basic)';
 
-  // ---------------------------------------------------------------------------
   // Home / Landing Page Strings
-  // ---------------------------------------------------------------------------
   @override
   String get heroTagline =>
       'sDesign v2.0.0 is out!';

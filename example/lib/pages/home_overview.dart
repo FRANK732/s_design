@@ -51,7 +51,6 @@ class _HomeOverviewPageState
               vertical: isDesktop ? 80 : 40,
             ),
             children: [
-              // 1. HERO SECTION
               Align(
                 child: Container(
                   constraints: const BoxConstraints(maxWidth: 800),
@@ -146,7 +145,6 @@ class _HomeOverviewPageState
 
               const SizedBox(height: 100),
 
-              // 2. LIVE INTERACTIVE SHOWCASE
               const _EntranceAnimation(
                 delay: Duration(milliseconds: 500),
                 child: _LiveShowcase(),
@@ -154,7 +152,6 @@ class _HomeOverviewPageState
 
               const SizedBox(height: 100),
 
-              // 3. FEATURES GRID
               _EntranceAnimation(
                 delay: const Duration(milliseconds: 600),
                 child: Column(
@@ -203,7 +200,6 @@ class _HomeOverviewPageState
 
               const SizedBox(height: 100),
 
-              // 4. QUICK START
               _EntranceAnimation(
                 delay: const Duration(milliseconds: 700),
                 child: Column(
@@ -248,7 +244,6 @@ class MyApp extends StatelessWidget {
 
               const SizedBox(height: 100),
 
-              // 5. FOOTER / LINKS
               _EntranceAnimation(
                 delay: const Duration(milliseconds: 800),
                 child: Wrap(
