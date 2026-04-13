@@ -775,11 +775,9 @@ class _SScaffoldState
     } catch (e, stackTrace) {
       debugPrint('Refresh error: $e\n$stackTrace');
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Failed to refresh: $e'),
-            backgroundColor: Colors.red,
-          ),
+        SSonner.show(
+          message: 'Failed to refresh: $e',
+          variant: SSonnerVariant.error,
         );
       }
     } finally {

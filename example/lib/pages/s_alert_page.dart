@@ -114,8 +114,9 @@ class _SAlertPageState
             type: SAlertType.warning,
             title: l10n.alertWarningTitle,
             closable: true,
-            onClose: () => ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(l10n.alertClosedWarning)),
+            onClose: () => SSonner.show(
+              message: l10n.alertClosedWarning,
+              variant: SSonnerVariant.warning,
             ),
           ),
           const SizedBox(height: 8),
@@ -123,16 +124,18 @@ class _SAlertPageState
             type: SAlertType.success,
             title: l10n.alertSuccessTitle,
             closable: true,
-            onClose: () => ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(l10n.alertClosedSuccess)),
+            onClose: () => SSonner.show(
+              message: l10n.alertClosedSuccess,
+              variant: SSonnerVariant.success,
             ),
           ),
           const SizedBox(height: 8),
           SAlert(
             title: l10n.alertInfoTitle,
             closable: true,
-            onClose: () => ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(l10n.alertClosedInfo)),
+            onClose: () => SSonner.show(
+              message: l10n.alertClosedInfo,
+              variant: SSonnerVariant.info,
             ),
           ),
           const SizedBox(height: 8),
@@ -140,8 +143,9 @@ class _SAlertPageState
             type: SAlertType.error,
             title: l10n.alertErrorTitle,
             closable: true,
-            onClose: () => ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(l10n.alertClosedError)),
+            onClose: () => SSonner.show(
+              message: l10n.alertClosedError,
+              variant: SSonnerVariant.error,
             ),
           ),
           const SizedBox(height: 24),

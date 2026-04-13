@@ -257,14 +257,14 @@ class _SPaginationPageState
     );
   }
 
-  void _log(
-      BuildContext
-          context,
-      String
-          msg) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(msg),
-        duration: const Duration(seconds: 1)));
+  void _log(BuildContext context, String msg) {
+    SSonner.show(
+      config: SSonnerConfig(
+        message: msg,
+        elevation: 0,
+      ),
+      replace: true,
+    );
   }
 }
 

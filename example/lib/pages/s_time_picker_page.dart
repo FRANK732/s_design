@@ -246,14 +246,12 @@ class _STimePickerPageState
     );
   }
 
-  void _snack(
-      BuildContext
-          ctx,
-      String
-          msg) {
-    ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
-        content: Text(msg),
-        duration: const Duration(seconds: 1)));
+  void _snack(BuildContext ctx, String msg) {
+    SSonner.show(
+      message: msg,
+      replace: true,
+      duration: const Duration(seconds: 1),
+    );
   }
 }
 
