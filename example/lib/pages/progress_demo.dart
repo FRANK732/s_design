@@ -24,20 +24,19 @@ class _SProgressDemoPageState
   Widget build(
       BuildContext
           context) {
+    final l10n = SLocalizations.ofContext(context);
     return ComponentPage(
       name:
           'SProgress',
-      description:
-          'A progress indicator component supporting line, circle, and dashboard layouts. '
-          'Takes `percent` (0–100) and an optional `status` for success/error coloring.',
-      whenToUse: const [
-        'For uploads, downloads, or task completion percentages.',
-        'As a circular progress widget on dashboards.',
-        'When a dashboard-style gauge is needed.',
+      description: l10n.progressDesc,
+      whenToUse: [
+        l10n.progressTip1,
+        l10n.progressTip2,
+        l10n.progressTip3,
       ],
       sections: [
         ComponentSection(
-          title: 'Line Progress',
+          title: l10n.progressSectionLine,
           description: 'Use `SProgress.line()` for a horizontal bar.',
           demo: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,14 +49,14 @@ class _SProgressDemoPageState
                     size: SButtonSize.sm,
                     variant: SButtonVariant.outline,
                     onPressed: _percent > 0 ? () => setState(() => _percent = (_percent - 10).clamp(0, 100)) : null,
-                    child: const Text('- 10%'),
+                    child: Text(l10n.progressBtnDecrease),
                   ),
                   const SizedBox(width: 8),
                   SButton(
                     size: SButtonSize.sm,
                     variant: SButtonVariant.outline,
                     onPressed: _percent < 100 ? () => setState(() => _percent = (_percent + 10).clamp(0, 100)) : null,
-                    child: const Text('+ 10%'),
+                    child: Text(l10n.progressBtnIncrease),
                   ),
                   const SizedBox(width: 12),
                   Text('${_percent.toInt()}%'),
@@ -69,7 +68,7 @@ class _SProgressDemoPageState
 SProgress.line(percent: 65); // 65% progress''',
         ),
         ComponentSection(
-          title: 'Circle Progress',
+          title: l10n.progressSectionCircle,
           description: 'Use `SProgress.circle()` for a circular indicator.',
           demo: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -84,10 +83,10 @@ SProgress.circle(percent: 65, width: 80);
 SProgress.circle(percent: 100, width: 80, status: SProgressStatus.success);
 SProgress.circle(percent: 70, width: 80, status: SProgressStatus.exception);''',
         ),
-        const ComponentSection(
-          title: 'Status Variants',
+        ComponentSection(
+          title: l10n.progressSectionStatus,
           description: 'Apply status colors to indicate outcome on a line bar.',
-          demo: Column(
+          demo: const Column(
             children: [
               SProgress.line(percent: 100, status: SProgressStatus.success),
               SizedBox(height: 8),
@@ -102,7 +101,7 @@ SProgress.line(percent: 70, status: SProgressStatus.exception);
 SProgress.line(percent: 40, status: SProgressStatus.active);''',
         ),
         ComponentSection(
-          title: 'Dashboard Style',
+          title: l10n.progressSectionDashboard,
           description: 'Use `SProgress.dashboard()` for an arc gauge with a gap at the bottom.',
           demo: Center(
             child: SProgress.dashboard(percent: _percent, width: 100),

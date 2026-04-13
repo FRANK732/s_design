@@ -11,43 +11,42 @@ class SCardDemoPage
   Widget build(
       BuildContext
           context) {
+    final l10n = SLocalizations.ofContext(context);
     return ComponentPage(
       name:
           'SCard',
-      description:
-          'A flexible surface container that groups related content and actions. '
-          'Supports hover effects, custom headers, footers, cover images, and clickable interactions.',
-      whenToUse: const [
-        'To display grouped content such as user profiles, articles, or products.',
-        'As the primary surface in list or grid layouts.',
-        'For dashboard widgets, statistics displays, or settings panels.',
+      description: l10n.cardDesc,
+      whenToUse: [
+        l10n.cardTip1,
+        l10n.cardTip2,
+        l10n.cardTip3,
       ],
       sections: [
-        const ComponentSection(
-          title: 'Basic Card',
+        ComponentSection(
+          title: l10n.cardSectionBasic,
           description: 'A simple content container with a title.',
           demo: SCard(
-            title: 'Card Title',
-            body: Text('This is a basic card. It can contain any widget — text, images, buttons, or entire layouts.'),
+            title: l10n.cardLabelTitle,
+            body: Text(l10n.cardLabelBasicBody),
           ),
           code: '''
-const SCard(
+SCard(
   title: 'Card Title',
   body: Text('Card content goes here.'),
 );''',
         ),
         ComponentSection(
-          title: 'Card with Header Trailing',
+          title: l10n.cardSectionHeader,
           description: 'Add an action widget to the trailing slot of the header.',
           demo: SCard(
-            title: 'Monthly Stats',
+            title: l10n.cardLabelStats,
             headerTrailing: IconButton(icon: const Icon(Icons.more_horiz, size: 20), onPressed: () {}),
-            body: const Row(
+            body: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _Stat(label: 'Users', value: '12,830'),
-                _Stat(label: 'Revenue', value: r'$4,291'),
-                _Stat(label: 'Orders', value: '1,043'),
+                _Stat(label: l10n.cardLabelUsers, value: '12,830'),
+                _Stat(label: l10n.cardLabelRevenue, value: r'$4,291'),
+                _Stat(label: l10n.cardLabelOrders, value: '1,043'),
               ],
             ),
           ),
@@ -59,13 +58,13 @@ SCard(
 );''',
         ),
         ComponentSection(
-          title: 'Hoverable / Clickable',
+          title: l10n.cardSectionInteractivity,
           description: 'Pass `onTap` to make the card interactive.',
           demo: SCard(
-            title: 'Click Me',
+            title: l10n.cardLabelClickMe,
             hoverable: true,
             onTap: () {},
-            body: const Text('This card is clickable. Hover over it to see the effect.'),
+            body: Text(l10n.cardLabelClickableBody),
           ),
           code: '''
 SCard(
@@ -75,16 +74,16 @@ SCard(
   body: const Text('Clickable card.'),
 );''',
         ),
-        const ComponentSection(
-          title: 'Variants',
+        ComponentSection(
+          title: l10n.cardSectionVariants,
           description: 'Cards support elevated, filled, outlined, frosted, and borderless variants.',
           demo: Column(
             children: [
-              SCard(title: 'Elevated (default)', body: Text('Shadow card')),
-              SizedBox(height: 10),
-              SCard(title: 'Outlined', body: Text('Border card'), variant: SCardVariant.outlined),
-              SizedBox(height: 10),
-              SCard(title: 'Filled', body: Text('Surface-fill card'), variant: SCardVariant.filled),
+              SCard(title: l10n.cardLabelElevated, body: Text(l10n.cardLabelShadow)),
+              const SizedBox(height: 10),
+              SCard(title: l10n.cardLabelOutlined, body: Text(l10n.cardLabelBorder), variant: SCardVariant.outlined),
+              const SizedBox(height: 10),
+              SCard(title: l10n.cardLabelFilled, body: Text(l10n.cardLabelSurface), variant: SCardVariant.filled),
             ],
           ),
           code: '''
@@ -93,7 +92,7 @@ const SCard(title: 'Outlined', body: Text('...'), variant: SCardVariant.outlined
 const SCard(title: 'Filled', body: Text('...'), variant: SCardVariant.filled);''',
         ),
         ComponentSection(
-          title: 'Card Grid',
+          title: l10n.cardSectionGrid,
           description: 'Arrange cards in a responsive grid.',
           demo: GridView.count(
             crossAxisCount: 2,
@@ -105,9 +104,9 @@ const SCard(title: 'Filled', body: Text('...'), variant: SCardVariant.filled);''
             children: List.generate(
                 4,
                 (i) => SCard(
-                      title: 'Item ${i + 1}',
+                      title: l10n.cardLabelItem(i + 1),
                       onTap: () {},
-                      body: Text('Card ${i + 1}'),
+                      body: Text(l10n.cardLabelItem(i + 1)),
                     )),
           ),
           code: r'''

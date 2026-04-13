@@ -24,25 +24,24 @@ class _ListTilePageState
   Widget build(
       BuildContext
           context) {
+    final l10n = SLocalizations.ofContext(context);
     return ComponentPage(
       name:
           'SListTile',
-      description:
-          'A list tile component for displaying rows of content with consistent leading icons, '
-          'title, subtitle, and trailing widgets. Supports grouped and standalone layouts.',
-      whenToUse: const [
-        'To build list-based navigation menus or settings screens.',
-        'To display structured data rows with consistent formatting.',
-        'When items need a leading icon and an optional trailing action.',
+      description: l10n.listTileDesc,
+      whenToUse: [
+        l10n.listTileTip1,
+        l10n.listTileTip2,
+        l10n.listTileTip3,
       ],
       sections: [
         ComponentSection(
-          title: 'Basic List Tile',
+          title: l10n.listTileSectionBasic,
           description: 'A title + subtitle + leading icon combination.',
           demo: SListTile(
             leading: const Icon(Icons.account_circle_outlined),
-            title: const Text('John Doe'),
-            subtitle: const Text('Software Engineer'),
+            title: Text(l10n.listTileLabelName),
+            subtitle: Text(l10n.listTileLabelRole),
             trailing: const Icon(Icons.chevron_right),
             onTap: () {},
           ),
@@ -56,26 +55,26 @@ SListTile(
 );''',
         ),
         ComponentSection(
-          title: 'Grouped List',
+          title: l10n.listTileSectionGrouped,
           description: 'Group list tiles visually using `SListTileGroup`.',
           demo: SListTileGroup(
             children: [
               SListTile(
                 leading: const Icon(Icons.notifications_outlined),
-                title: const Text('Notifications'),
+                title: Text(l10n.listTileLabelNotifications),
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () {},
               ),
               SListTile(
                 leading: const Icon(Icons.lock_outline),
-                title: const Text('Privacy'),
+                title: Text(l10n.listTileLabelPrivacy),
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () {},
               ),
               SListTile(
                 leading: const Icon(Icons.language_outlined),
-                title: const Text('Language'),
-                trailing: const Text('English'),
+                title: Text(l10n.listTileLabelLanguage),
+                trailing: Text(l10n.langEn),
                 onTap: () {},
               ),
             ],
@@ -99,23 +98,23 @@ SListTileGroup(
 );''',
         ),
         ComponentSection(
-          title: 'Selectable Tiles',
+          title: l10n.listTileSectionSelectable,
           description: 'Track which tile is selected by comparing with item identity.',
           demo: Column(
             children: [
-              'Inbox',
-              'Sent',
-              'Drafts',
-              'Spam'
+              l10n.listTileLabelInbox,
+              l10n.listTileLabelSent,
+              l10n.listTileLabelDrafts,
+              l10n.listTileLabelSpam,
             ].map((label) {
               final isSelected = _selected == label;
               return SListTile(
                 leading: Icon(
-                  label == 'Inbox'
+                  label == l10n.listTileLabelInbox
                       ? Icons.inbox
-                      : label == 'Sent'
+                      : label == l10n.listTileLabelSent
                           ? Icons.send
-                          : label == 'Drafts'
+                          : label == l10n.listTileLabelDrafts
                               ? Icons.drafts
                               : Icons.report_gmailerrorred,
                   color: isSelected ? Theme.of(context).colorScheme.primary : null,

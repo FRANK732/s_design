@@ -47,19 +47,20 @@ class _TabsPageState
   }
 
   List<STabItem>
-      get _currentTabs {
+      _currentTabs(
+          SLocalizations
+              l10n) {
     if (_manyTabs) {
       return List.generate(20,
           (index) {
         return STabItem(
-          label: 'Tab ${index + 1}',
+          label: l10n.tabsLabelTab(index + 1),
           key: 'tab${index + 1}',
-          // Demo Full Width Content (No Padding)
           content: ListView.builder(
             itemCount: 20,
             padding: EdgeInsets.zero,
             itemBuilder: (context, i) => ListTile(
-              title: Text('List Item $i in Tab ${index + 1}'),
+              title: Text('${l10n.tabsLabelListItem(i)} ${l10n.tabsLabelInTab(index + 1)}'),
               leading: const Icon(Icons.circle, size: 8),
               tileColor: i.isEven ? Colors.grey.shade50 : Colors.white,
             ),
@@ -70,39 +71,39 @@ class _TabsPageState
 
     return [
       STabItem(
-        label: 'Short',
+        label: l10n.tabsLabelShort,
         key: 'tab1',
         icon: const Icon(Icons.home),
         content: ColoredBox(
           color: Colors.blue.shade50,
-          child: const Center(child: Text('Short Label Tab (Edge to Edge BG)')),
+          child: Center(child: Text(l10n.tabsContentShort)),
         ),
       ),
       STabItem(
-        label: 'Medium Length',
+        label: l10n.tabsLabelMedium,
         key: 'tab2',
         icon: const Icon(Icons.settings),
-        content: const Center(child: Text('Medium Length Label Tab')),
+        content: Center(child: Text(l10n.tabsContentMedium)),
       ),
       STabItem(
-        label: 'Card Style',
+        label: l10n.tabsLabelCard,
         key: 'tab3',
-        content: const Padding(
-          padding: EdgeInsets.all(16.0),
+        content: Padding(
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              Text('This tab has manual padding added.'),
-              SizedBox(height: 16),
-              SCard(title: 'Nested Card', body: Text('Demonstrating composition')),
+              Text(l10n.tabsContentPadding),
+              const SizedBox(height: 16),
+              SCard(title: l10n.tabsLabelNestedCard, body: Text(l10n.tabsLabelComposition)),
             ],
           ),
         ),
       ),
       STabItem(
-        label: 'Disabled',
+        label: l10n.tabsLabelDisabled,
         key: 'tab4',
         disabled: true,
-        content: const Center(child: Text('Disabled Tab')),
+        content: Center(child: Text(l10n.tabsLabelDisabledContent)),
       ),
     ];
   }
@@ -111,10 +112,11 @@ class _TabsPageState
   Widget build(
       BuildContext
           context) {
+    final l10n = SLocalizations.ofContext(context);
     return SScaffold(
       appBar:
           AppBar(
-        title: const Text('Tabs Showcase (Phase 2 Polish)'),
+        title: Text(l10n.tabsTitleShowcase),
       ),
       renderBody:
           (BuildContext context) {
@@ -134,19 +136,19 @@ class _TabsPageState
                       _buildDropdown<STabType>(
                         value: _type,
                         items: STabType.values,
-                        label: 'Type',
+                        label: l10n.tabsControlLabelType,
                         onChanged: (v) => setState(() => _type = v!),
                       ),
                       _buildDropdown<STabPosition>(
                         value: _position,
                         items: STabPosition.values,
-                        label: 'Position',
+                        label: l10n.tabsControlLabelPosition,
                         onChanged: (v) => setState(() => _position = v!),
                       ),
                       _buildDropdown<STabSize>(
                         value: _size,
                         items: STabSize.values,
-                        label: 'Size',
+                        label: l10n.tabsControlLabelSize,
                         onChanged: (v) => setState(() => _size = v!),
                       ),
                     ],
@@ -158,7 +160,7 @@ class _TabsPageState
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Text('Centered: '),
+                          Text(l10n.tabsControlLabelCentered),
                           Switch(
                             value: _centered,
                             onChanged: (v) => setState(() => _centered = v),
@@ -168,7 +170,7 @@ class _TabsPageState
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Text('Many Tabs (List): '),
+                          Text(l10n.tabsControlLabelMany),
                           Switch(
                             value: _manyTabs,
                             onChanged: (v) {
@@ -190,7 +192,7 @@ class _TabsPageState
               child: ColoredBox(
                 color: Colors.grey.shade100, // Background to see transparency
                 child: STabs(
-                  items: _currentTabs,
+                  items: _currentTabs(l10n),
                   activeKey: _activeKey,
                   onTabClick: (key) {
                     setState(() => _activeKey = key);
@@ -205,7 +207,7 @@ class _TabsPageState
                       : IconButton(
                           icon: const Icon(Icons.more_horiz),
                           onPressed: () {},
-                          tooltip: 'Extra Action',
+                          tooltip: l10n.tabsTooltipExtra,
                         ),
                   onEdit: (key, action) {
                     dev.log('Edit: $key, $action');

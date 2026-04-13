@@ -33,20 +33,19 @@ class _SwitchDemoPageState
   Widget build(
       BuildContext
           context) {
+    final l10n = SLocalizations.ofContext(context);
     return ComponentPage(
       name:
           'SSwitch',
-      description:
-          'A toggle switch component for binary on/off states. '
-          'SSwitch visually communicates state more clearly than a checkbox in settings-style UIs.',
-      whenToUse: const [
-        'To toggle a single setting or feature immediately (no confirmation needed).',
-        'In settings screens where compact space and clear on/off state matter.',
-        'When the effect of toggling is immediately reflected in the UI.',
+      description: l10n.switchDesc,
+      whenToUse: [
+        l10n.switchTip1,
+        l10n.switchTip2,
+        l10n.switchTip3,
       ],
       sections: [
         ComponentSection(
-          title: 'Basic Toggle',
+          title: l10n.switchSectionBasic,
           description: 'A simple controlled switch.',
           demo: Row(
             children: [
@@ -55,7 +54,7 @@ class _SwitchDemoPageState
                 onChanged: (v) => setState(() => _basic = v),
               ),
               const SizedBox(width: 12),
-              Text(_basic ? 'Enabled' : 'Disabled'),
+              Text(_basic ? l10n.switchStatusEnabled : l10n.switchStatusDisabled),
             ],
           ),
           code: '''
@@ -67,25 +66,25 @@ SSwitch(
 );''',
         ),
         ComponentSection(
-          title: 'Settings List Pattern',
+          title: l10n.switchSectionSettings,
           description: 'Switches are often used in a vertical list of settings.',
           demo: Column(
             children: [
               _SettingRow(
                 icon: Icons.wifi,
-                label: 'Wi-Fi',
+                label: l10n.switchLabelWifi,
                 value: _wifi,
                 onChanged: (v) => setState(() => _wifi = v),
               ),
               _SettingRow(
                 icon: Icons.bluetooth,
-                label: 'Bluetooth',
+                label: l10n.switchLabelBluetooth,
                 value: _bluetooth,
                 onChanged: (v) => setState(() => _bluetooth = v),
               ),
               _SettingRow(
                 icon: Icons.notifications_outlined,
-                label: 'Notifications',
+                label: l10n.switchLabelNotifications,
                 value: _notifications,
                 onChanged: (v) => setState(() => _notifications = v),
               ),
@@ -96,27 +95,27 @@ Row(
   children: [
     const Icon(Icons.wifi),
     const SizedBox(width: 12),
-    const Expanded(child: Text('Wi-Fi')),
+    const Expanded(child: Text(l10n.switchLabelWifi)),
     SSwitch(value: _wifi, onChanged: (v) => setState(() => _wifi = v)),
   ],
 );''',
         ),
-        const ComponentSection(
-          title: 'Disabled',
+        ComponentSection(
+          title: l10n.demoDisabled,
           description: 'Set `onChanged: null` to disable the switch.',
           demo: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(children: [
-                SSwitch(value: true, onChanged: null),
-                SizedBox(width: 12),
-                Text('Enabled & Disabled'),
+                const SSwitch(value: true, onChanged: null),
+                const SizedBox(width: 12),
+                Text(l10n.switchLabelEnabledDisabled),
               ]),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Row(children: [
-                SSwitch(value: false, onChanged: null),
-                SizedBox(width: 12),
-                Text('Disabled & Off'),
+                const SSwitch(value: false, onChanged: null),
+                const SizedBox(width: 12),
+                Text(l10n.switchLabelDisabledOff),
               ]),
             ],
           ),

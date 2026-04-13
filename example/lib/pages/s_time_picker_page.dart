@@ -25,10 +25,11 @@ class _STimePickerPageState
   Widget build(
       BuildContext
           context) {
+    final l10n = SLocalizations.ofContext(context);
     return SScaffold(
       appBar:
           AppBar(
-        title: const Text('STimePicker'),
+        title: Text(l10n.timePickerTitle),
         elevation: 0,
       ),
       scrollable:
@@ -40,38 +41,37 @@ class _STimePickerPageState
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // ── 1. Basic ────────────────────────────────────────────────────
-            _header('1. Basic'),
-            _desc('Default HH:mm:ss picker. Column scrolling only previews. '
-                'Value commits when you tap OK or dismiss the panel.'),
+            _header(l10n.demoBasicUsage),
+            _desc(l10n.timePickerDescBasic),
             STimePicker(
               defaultOpenValue: const TimeOfDay(hour: 0, minute: 0),
-              onChange: (t) => _snack(ctx, 'Time: $t'),
+              onChange: (t) => _snack(ctx, l10n.timePickerMsgTime(t?.format(context) ?? '')),
             ),
             const SizedBox(height: 32),
 
             // ── 2. 12-Hour ──────────────────────────────────────────────────
-            _header('2. 12-Hour Clock'),
-            _desc('use12Hours adds an AM/PM column. Format controls '
-                'whether seconds are shown.'),
+            _header(l10n.timePickerHeader12Hour),
+            _desc(l10n.timePickerDesc12Hour),
             Wrap(spacing: 12, runSpacing: 12, children: [
-              STimePicker(use12Hours: true, onChange: (t) => _snack(ctx, '$t')),
-              STimePicker(use12Hours: true, format: 'h:mm:ss A', onChange: (t) => _snack(ctx, '$t')),
-              STimePicker(use12Hours: true, format: 'h:mm a', onChange: (t) => _snack(ctx, '$t')),
+              STimePicker(use12Hours: true, onChange: (t) => _snack(ctx, l10n.timePickerMsgTime(t?.format(context) ?? ''))),
+              STimePicker(use12Hours: true, format: 'h:mm:ss A', onChange: (t) => _snack(ctx, l10n.timePickerMsgTime(t?.format(context) ?? ''))),
+              STimePicker(use12Hours: true, format: 'h:mm a', onChange: (t) => _snack(ctx, l10n.timePickerMsgTime(t?.format(context) ?? ''))),
             ]),
             const SizedBox(height: 32),
 
             // ── 3. Disabled ─────────────────────────────────────────────────
-            _header('3. Disabled'),
-            _desc('disabled: true grays out the field and prevents the panel opening.'),
-            const STimePicker(
-              defaultValue: TimeOfDay(hour: 12, minute: 8),
+            _header(l10n.demoDisabled),
+            _desc(l10n.timePickerDescDisabled),
+            STimePicker(
+              defaultValue: const TimeOfDay(hour: 12, minute: 8),
               disabled: true,
+              placeholder: l10n.demoDisabled,
             ),
             const SizedBox(height: 32),
 
             // ── 4. Size ─────────────────────────────────────────────────────
-            _header('4. Size'),
-            _desc('size: large (40 px) / middle (32 px, default) / small (24 px).'),
+            _header(l10n.demoSizes),
+            _desc(l10n.timePickerDescSize),
             const Wrap(spacing: 12, runSpacing: 12, children: [
               STimePicker(
                 size: STimePickerSize.large,
@@ -88,8 +88,8 @@ class _STimePickerPageState
             const SizedBox(height: 32),
 
             // ── 5. Hide Seconds (HH:mm) ─────────────────────────────────────
-            _header('5. Hide Seconds'),
-            _desc("format: 'HH:mm' removes the seconds column from the panel."),
+            _header(l10n.demoHideSeconds),
+            _desc(l10n.timePickerDescHideSeconds),
             const STimePicker(
               defaultValue: TimeOfDay(hour: 12, minute: 8),
               format: 'HH:mm',
@@ -97,31 +97,30 @@ class _STimePickerPageState
             const SizedBox(height: 32),
 
             // ── 6. Interval Options ─────────────────────────────────────────
-            _header('6. Interval Options'),
-            _desc('hourStep, minuteStep, secondStep filter column items.'),
+            _header(l10n.timePickerHeaderInterval),
+            _desc(l10n.timePickerDescInterval),
             STimePicker(
               minuteStep: 15,
               secondStep: 10,
-              onChange: (t) => _snack(ctx, '$t'),
+              onChange: (t) => _snack(ctx, l10n.timePickerMsgTime(t?.format(context) ?? '')),
             ),
             const SizedBox(height: 32),
 
             // ── 7. Addon / Extra Footer ─────────────────────────────────────
-            _header('7. Addon — renderExtraFooter'),
-            _desc('renderExtraFooter adds a custom widget in the panel footer, '
-                'alongside the built-in Now and OK buttons.'),
+            _header(l10n.timePickerHeaderAddon),
+            _desc(l10n.timePickerDescAddon),
             STimePicker(
-              renderExtraFooter: () => const Text(
-                '✏️ Custom footer',
-                style: TextStyle(fontSize: 11, color: Colors.grey),
+              renderExtraFooter: () => Text(
+                l10n.timePickerLabelCustomFooter,
+                style: const TextStyle(fontSize: 11, color: Colors.grey),
               ),
-              onChange: (t) => _snack(ctx, '$t'),
+              onChange: (t) => _snack(ctx, l10n.timePickerMsgTime(t?.format(context) ?? '')),
             ),
             const SizedBox(height: 32),
 
             // ── 8. Status ───────────────────────────────────────────────────
-            _header('8. Status'),
-            _desc('status: error (red border) or warning (yellow border).'),
+            _header(l10n.demoStatus),
+            _desc(l10n.timePickerDescStatus),
             const Wrap(spacing: 12, runSpacing: 12, children: [
               STimePicker(status: STimePickerStatus.error),
               STimePicker(status: STimePickerStatus.warning),
@@ -131,14 +130,13 @@ class _STimePickerPageState
             const SizedBox(height: 32),
 
             // ── 9. Suffix / Prefix ──────────────────────────────────────────
-            _header('9. Suffix & Prefix'),
-            _desc('suffixIcon replaces the default clock icon; prefix adds a '
-                'leading widget inside the field.'),
+            _header(l10n.timePickerDescSuffixPrefix),
+            _desc(l10n.timePickerDescSuffixPrefix),
             Wrap(spacing: 12, runSpacing: 12, children: [
               STimePicker(
                 suffixIcon: const Icon(Icons.sentiment_satisfied_alt, size: 16, color: Colors.amber),
                 defaultValue: const TimeOfDay(hour: 0, minute: 0),
-                onChange: (t) => _snack(ctx, '$t'),
+                onChange: (t) => _snack(ctx, l10n.timePickerMsgTime(t?.format(context) ?? '')),
               ),
               const STimePicker(
                 prefix: Icon(Icons.sentiment_satisfied_alt, size: 14, color: Colors.amber),
@@ -150,40 +148,40 @@ class _STimePickerPageState
             const SizedBox(height: 32),
 
             // ── 10. Variants ────────────────────────────────────────────────
-            _header('10. Variants'),
-            _desc('outlined (default) / filled / borderless / underlined.'),
-            const Column(
+            _header(l10n.timePickerHeaderVariants),
+            _desc(l10n.timePickerDescVariants),
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Wrap(spacing: 8, runSpacing: 8, children: [
-                  STimePicker(placeholder: 'Outlined'),
+                  STimePicker(placeholder: l10n.timePickerLabelOutlined),
                   STimeRangePicker(placeholder: (
-                    'Outlined Start',
-                    'Outlined End'
+                    l10n.timePickerLabelOutlinedStart,
+                    l10n.timePickerLabelOutlinedEnd
                   )),
                 ]),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Wrap(spacing: 8, runSpacing: 8, children: [
-                  STimePicker(variant: STimePickerVariant.filled, placeholder: 'Filled'),
+                  STimePicker(variant: STimePickerVariant.filled, placeholder: l10n.timePickerLabelFilled),
                   STimeRangePicker(variant: STimePickerVariant.filled, placeholder: (
-                    'Filled Start',
-                    'Filled End'
+                    l10n.timePickerLabelFilledStart,
+                    l10n.timePickerLabelFilledEnd
                   )),
                 ]),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Wrap(spacing: 8, runSpacing: 8, children: [
-                  STimePicker(variant: STimePickerVariant.borderless, placeholder: 'Borderless'),
+                  STimePicker(variant: STimePickerVariant.borderless, placeholder: l10n.timePickerLabelBorderless),
                   STimeRangePicker(variant: STimePickerVariant.borderless, placeholder: (
-                    'Borderless Start',
-                    'Borderless End'
+                    l10n.timePickerLabelBorderlessStart,
+                    l10n.timePickerLabelBorderlessEnd
                   )),
                 ]),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Wrap(spacing: 8, runSpacing: 8, children: [
-                  STimePicker(variant: STimePickerVariant.underlined, placeholder: 'Underlined'),
+                  STimePicker(variant: STimePickerVariant.underlined, placeholder: l10n.timePickerLabelUnderlined),
                   STimeRangePicker(variant: STimePickerVariant.underlined, placeholder: (
-                    'Underlined Start',
-                    'Underlined End'
+                    l10n.timePickerLabelUnderlinedStart,
+                    l10n.timePickerLabelUnderlinedEnd
                   )),
                 ]),
               ],
@@ -191,56 +189,55 @@ class _STimePickerPageState
             const SizedBox(height: 32),
 
             // ── 11. Controlled ──────────────────────────────────────────────
-            _header('11. Controlled Mode'),
-            _desc('value + onChange give the parent full control.'),
+            _header(l10n.timePickerHeaderControlled),
+            _desc(l10n.timePickerDescControlled),
             Wrap(spacing: 12, runSpacing: 8, children: [
               STimePicker(
                 value: _controlledTime,
                 onChange: (t) => setState(() => _controlledTime = t),
               ),
               Chip(
-                label: Text('State: ${_controlledTime?.format(context) ?? 'null'}'),
+                label: Text(l10n.timePickerLabelState(_controlledTime?.format(context) ?? 'null')),
               ),
             ]),
             const SizedBox(height: 32),
 
             // ── 12. needConfirm ─────────────────────────────────────────────
-            _header('12. needConfirm'),
-            _desc('Value is only committed when the user taps the OK button.'),
+            _header(l10n.timePickerHeaderNeedConfirm),
+            _desc(l10n.timePickerDescNeedConfirm),
             STimePicker(
               needConfirm: true,
-              onChange: (t) => _snack(ctx, 'Confirmed: $t'),
+              onChange: (t) => _snack(ctx, l10n.timePickerMsgConfirmed(t?.format(context) ?? '')),
             ),
             const SizedBox(height: 32),
 
             // ── 13. changeOnScroll ──────────────────────────────────────────
-            _header('13. changeOnScroll'),
-            _desc('onChange fires live as the user snaps each column '
-                '(needConfirm is false — default for changeOnScroll).'),
+            _header(l10n.timePickerHeaderChangeOnScroll),
+            _desc(l10n.timePickerDescChangeOnScroll),
             STimePicker(
               changeOnScroll: true,
-              onChange: (t) => _snack(ctx, 'Scroll→ $t'),
+              onChange: (t) => _snack(ctx, l10n.timePickerMsgScroll(t?.format(context) ?? '')),
             ),
             const SizedBox(height: 32),
 
             // ── 14. showNow: false ──────────────────────────────────────────
-            _header('14. showNow: false'),
-            _desc('Hides the Now shortcut from the footer (mirroring showNow prop).'),
+            _header(l10n.timePickerHeaderShowNowFalse),
+            _desc(l10n.timePickerDescShowNowFalse),
             STimePicker(
               showNow: false,
-              onChange: (t) => _snack(ctx, '$t'),
+              onChange: (t) => _snack(ctx, l10n.timePickerMsgTime(t?.format(context) ?? '')),
             ),
             const SizedBox(height: 32),
 
             // ── 14. RangePicker ─────────────────────────────────────────────
-            _header('14. Time Range Picker'),
-            _desc('STimeRangePicker renders two pickers side-by-side.'),
+            _header(l10n.timePickerHeaderRange),
+            _desc(l10n.timePickerDescRange),
             STimeRangePicker(
               defaultValue: (
                 const TimeOfDay(hour: 12, minute: 8),
                 const TimeOfDay(hour: 14, minute: 30),
               ),
-              onRangeChange: (s, e) => _snack(ctx, '$s → $e'),
+              onRangeChange: (s, e) => _snack(ctx, l10n.timePickerMsgRange(s?.format(context) ?? '', e?.format(context) ?? '')),
             ),
             const SizedBox(height: 40),
           ],

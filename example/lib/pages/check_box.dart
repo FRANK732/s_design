@@ -55,20 +55,19 @@ class _CheckboxPageState
   Widget build(
       BuildContext
           context) {
+    final l10n = SLocalizations.ofContext(context);
     return ComponentPage(
       name:
           'SCheckbox',
-      description:
-          'A checkbox component for selecting one or multiple options. '
-          'Supports checked, unchecked, and indeterminate states.',
-      whenToUse: const [
-        'When the user needs to select one or more items from a list.',
-        'To toggle a boolean setting on or off.',
-        'As part of a form where multi-selection is required.',
+      description: l10n.checkboxDesc,
+      whenToUse: [
+        l10n.checkboxTip1,
+        l10n.checkboxTip2,
+        l10n.checkboxTip3,
       ],
       sections: [
         ComponentSection(
-          title: 'Basic Checkbox',
+          title: l10n.demoBasicUsage,
           description: 'A simple controlled checkbox.',
           demo: Row(
             children: [
@@ -78,7 +77,7 @@ class _CheckboxPageState
                 onChanged: (v) => setState(() => _basic = v),
               ),
               const SizedBox(width: 8),
-              Text(_basic == SCheckboxState.checked ? 'Agreed' : 'Please agree'),
+              Text(_basic == SCheckboxState.checked ? l10n.checkboxLabelAgreed : l10n.checkboxLabelPleaseAgree),
             ],
           ),
           code: '''
@@ -90,26 +89,26 @@ SCheckbox(
 );''',
         ),
         ComponentSection(
-          title: 'Indeterminate / Select All',
+          title: l10n.checkboxSectionIndeterminate,
           description: 'Use `SCheckboxState.indeterminate` for a partial selection.',
           demo: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
-                  SCheckbox(
+                   SCheckbox(
                     value: _groupAll,
                     onChanged: (v) {
                       setState(() {
-                        _groupAll = v;
+                         _groupAll = v;
                         for (int i = 0; i < _group.length; i++) {
                           _group[i] = v == SCheckboxState.checked ? SCheckboxState.checked : SCheckboxState.unchecked;
-                        }
+                         }
                       });
                     },
                   ),
                   const SizedBox(width: 8),
-                  const Text('Select all', style: TextStyle(fontWeight: FontWeight.w600)),
+                  Text(l10n.checkboxLabelSelectAll, style: const TextStyle(fontWeight: FontWeight.w600)),
                 ],
               ),
               const SizedBox(height: 8),
@@ -127,7 +126,7 @@ SCheckbox(
                               },
                             ),
                             const SizedBox(width: 8),
-                            Text('Option ${i + 1}'),
+                            Text('${l10n.checkboxLabelOption} ${i + 1}'),
                           ],
                         ),
                       )),
@@ -140,8 +139,8 @@ SCheckbox(
   onChanged: (v) { /* select/deselect all */ },
 );''',
         ),
-        const ComponentSection(
-          title: 'Disabled',
+        ComponentSection(
+          title: l10n.demoDisabled,
           description: 'Pass `isDisabled: true` to prevent interaction.',
           demo: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,16 +148,16 @@ SCheckbox(
               Row(
                 children: [
                   SCheckbox(value: SCheckboxState.checked, onChanged: null, isDisabled: true),
-                  SizedBox(width: 8),
-                  Text('Checked & Disabled'),
+                  const SizedBox(width: 8),
+                  Text(l10n.checkboxLabelCheckedDisabled),
                 ],
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Row(
                 children: [
                   SCheckbox(value: SCheckboxState.unchecked, onChanged: null, isDisabled: true),
-                  SizedBox(width: 8),
-                  Text('Unchecked & Disabled'),
+                  const SizedBox(width: 8),
+                  Text(l10n.checkboxLabelUncheckedDisabled),
                 ],
               ),
             ],

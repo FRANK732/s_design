@@ -24,64 +24,63 @@ class _SButtonPageState
   Widget build(
       BuildContext
           context) {
+    final l10n = SLocalizations.ofContext(context);
     return ComponentPage(
       name:
           'SButton',
-      description:
-          'A versatile button component supporting multiple variants, sizes, states, and icons. '
-          'SButton follows modern design principles — every interaction has a clear visual response.',
-      whenToUse: const [
-        'Use the default variant for primary actions (e.g. Submit, Save).',
-        'Use outline buttons for secondary actions or alternatives.',
-        'Use destructive buttons for delete/irreversible actions.',
-        'Use ghost or link buttons for low-emphasis inline actions.',
+      description: l10n.buttonDesc,
+      whenToUse: [
+        l10n.buttonTip1,
+        l10n.buttonTip2,
+        l10n.buttonTip3,
+        l10n.buttonTip4,
       ],
       sections: [
         ComponentSection(
-          title: 'Variants',
+          title: l10n.demoVariants,
           description: 'Button variants control the visual weight and color scheme.',
           demo: Wrap(
             spacing: 12,
             runSpacing: 10,
             children: [
-              SButton(onPressed: () {}, child: const Text('Default')),
-              SButton(variant: SButtonVariant.outline, onPressed: () {}, child: const Text('Outline')),
-              SButton(variant: SButtonVariant.secondary, onPressed: () {}, child: const Text('Secondary')),
-              SButton(variant: SButtonVariant.ghost, onPressed: () {}, child: const Text('Ghost')),
-              SButton(variant: SButtonVariant.destructive, onPressed: () {}, child: const Text('Destructive')),
-              SButton(variant: SButtonVariant.link, onPressed: () {}, child: const Text('Link')),
+              SButton(onPressed: () {}, child: Text(l10n.buttonLabelDefault)),
+              SButton(variant: SButtonVariant.outline, onPressed: () {}, child: Text(l10n.buttonLabelOutline)),
+              SButton(variant: SButtonVariant.secondary, onPressed: () {}, child: Text(l10n.buttonLabelSecondary)),
+              SButton(variant: SButtonVariant.ghost, onPressed: () {}, child: Text(l10n.buttonLabelGhost)),
+              SButton(variant: SButtonVariant.destructive, onPressed: () {}, child: Text(l10n.buttonLabelDestructive)),
+              SButton(variant: SButtonVariant.link, onPressed: () {}, child: Text(l10n.buttonLabelLink)),
             ],
           ),
           code: '''
-SButton(onPressed: () {}, child: const Text('Default'));
-SButton(variant: SButtonVariant.outline, onPressed: () {}, child: const Text('Outline'));
-SButton(variant: SButtonVariant.secondary, onPressed: () {}, child: const Text('Secondary'));
-SButton(variant: SButtonVariant.ghost, onPressed: () {}, child: const Text('Ghost'));
-SButton(variant: SButtonVariant.destructive, onPressed: () {}, child: const Text('Destructive'));
-SButton(variant: SButtonVariant.link, onPressed: () {}, child: const Text('Link'));''',
+SButton(onPressed: () {}, child: Text(l10n.buttonLabelDefault));
+SButton(variant: SButtonVariant.outline, onPressed: () {}, child: Text(l10n.buttonLabelOutline));
+SButton(variant: SButtonVariant.secondary, onPressed: () {}, child: Text(l10n.buttonLabelSecondary));
+SButton(variant: SButtonVariant.ghost, onPressed: () {}, child: Text(l10n.buttonLabelGhost));
+SButton(variant: SButtonVariant.destructive, onPressed: () {}, child: Text(l10n.buttonLabelDestructive));
+SButton(variant: SButtonVariant.link, onPressed: () {}, child: Text(l10n.buttonLabelLink));''',
         ),
         ComponentSection(
-          title: 'Sizes',
+          title: l10n.demoSizes,
           description: 'Choose between large, medium (default), small, and icon sizes.',
           demo: Wrap(
             spacing: 12,
             runSpacing: 10,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              SButton(size: SButtonSize.lg, onPressed: () {}, child: const Text('Large')),
-              SButton(onPressed: () {}, child: const Text('Default')),
-              SButton(size: SButtonSize.sm, onPressed: () {}, child: const Text('Small')),
+              SButton(size: SButtonSize.lg, onPressed: () {}, child: Text(l10n.buttonLabelLarge)),
+              SButton(onPressed: () {}, child: Text(l10n.buttonLabelDefault)),
+              SButton(size: SButtonSize.sm, onPressed: () {}, child: Text(l10n.buttonLabelSmall)),
               SButton(size: SButtonSize.icon, onPressed: () {}, icon: const Icon(Icons.share, size: 16)),
             ],
           ),
           code: '''
-SButton(size: SButtonSize.lg, onPressed: () {}, child: const Text('Large'));
-SButton(onPressed: () {}, child: const Text('Default'));
-SButton(size: SButtonSize.sm, onPressed: () {}, child: const Text('Small'));
+SButton(size: SButtonSize.lg, onPressed: () {}, child: Text(l10n.buttonLabelLarge));
+SButton(onPressed: () {}, child: Text(l10n.buttonLabelDefault));
+SButton(size: SButtonSize.sm, onPressed: () {}, child: Text(l10n.buttonLabelSmall));
 SButton(size: SButtonSize.icon, onPressed: () {}, icon: const Icon(Icons.share));''',
         ),
         ComponentSection(
-          title: 'With Icons',
+          title: l10n.demoWithIcons,
           description: 'Add a leading or trailing icon for extra context.',
           demo: Wrap(
             spacing: 12,
@@ -90,13 +89,13 @@ SButton(size: SButtonSize.icon, onPressed: () {}, icon: const Icon(Icons.share))
               SButton(
                 onPressed: () {},
                 leadingIcon: const Icon(Icons.download, size: 16),
-                child: const Text('Download'),
+                child: Text(l10n.buttonLabelDownload),
               ),
               SButton(
                 variant: SButtonVariant.outline,
                 onPressed: () {},
                 trailingIcon: const Icon(Icons.arrow_forward, size: 16),
-                child: const Text('Next'),
+                child: Text(l10n.buttonLabelNext),
               ),
               SButton.icon(icon: const Icon(Icons.share), onPressed: () {}),
             ],
@@ -105,12 +104,12 @@ SButton(size: SButtonSize.icon, onPressed: () {}, icon: const Icon(Icons.share))
 SButton(
   onPressed: () {},
   leadingIcon: const Icon(Icons.download, size: 16),
-  child: const Text('Download'),
+  child: Text(l10n.buttonLabelDownload),
 );
 SButton.icon(icon: const Icon(Icons.share), onPressed: () {});''',
         ),
         ComponentSection(
-          title: 'Loading State',
+          title: l10n.demoLoadingState,
           description: 'Pass `loading: true` to show a spinner and disable the button.',
           demo: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,7 +124,7 @@ SButton.icon(icon: const Icon(Icons.share), onPressed: () {});''',
                     }
                   });
                 },
-                child: Text(_loading ? 'Processing...' : 'Click to load'),
+                child: Text(_loading ? l10n.buttonLabelProcessing : l10n.buttonLabelClickToLoad),
               ),
             ],
           ),
@@ -133,33 +132,33 @@ SButton.icon(icon: const Icon(Icons.share), onPressed: () {});''',
 SButton(
   loading: isLoading,
   onPressed: () { /* trigger async op */ },
-  child: const Text('Submit'),
+  child: Text(l10n.buttonLabelDefault),
 );''',
         ),
-        const ComponentSection(
-          title: 'Disabled',
+        ComponentSection(
+          title: l10n.demoDisabled,
           description: 'Set `onPressed: null` to disable a button.',
           demo: Wrap(
             spacing: 12,
             runSpacing: 10,
             children: [
-              SButton(onPressed: null, child: Text('Disabled')),
-              SButton(variant: SButtonVariant.outline, onPressed: null, child: Text('Disabled Outline')),
+              SButton(onPressed: null, child: Text(l10n.buttonLabelDisabled)),
+              SButton(variant: SButtonVariant.outline, onPressed: null, child: Text(l10n.buttonLabelDisabledOutline)),
             ],
           ),
           code: '''
-SButton(onPressed: null, child: const Text('Disabled'));''',
+SButton(onPressed: null, child: Text(l10n.buttonLabelDisabled));''',
         ),
         ComponentSection(
-          title: 'Full Width',
+          title: l10n.demoFullWidth,
           description: 'Use `isFullWidth: true` to stretch the button.',
           demo: SButton(
             isFullWidth: true,
             onPressed: () {},
-            child: const Text('Full Width Button'),
+            child: Text(l10n.buttonLabelFullWidth),
           ),
           code: '''
-SButton(isFullWidth: true, onPressed: () {}, child: const Text('Full Width Button'));''',
+SButton(isFullWidth: true, onPressed: () {}, child: Text(l10n.buttonLabelFullWidth));''',
         ),
       ],
     );

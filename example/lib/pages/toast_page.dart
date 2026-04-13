@@ -13,27 +13,25 @@ class ToastPage
   Widget build(
       BuildContext
           context) {
+    final l10n = SLocalizations.ofContext(context);
     return ComponentPage(
       name:
           'SToast',
-      description:
-          'A brief notification overlay that slides in from the top of the screen. '
-          '⚠️ Note: SToast is deprecated. Prefer using SSonner for all new toast notifications.\n\n'
-          'SToast is still usable for backward compatibility — it supports default and destructive variants.',
-      whenToUse: const [
-        'For quick top-bar notifications shown with minimal user disruption.',
-        'Use SSonner instead for new code — it supports more variants and stacking.',
+      description: l10n.toastDesc,
+      whenToUse: [
+        l10n.toastTip1,
+        l10n.toastTip2,
       ],
       sections: [
         ComponentSection(
-          title: 'Default Toast',
+          title: l10n.toastSectionDefault,
           description: 'Shows a standard notification at the top of the screen.',
           demo: SButton(
             onPressed: () {
               // ignore: deprecated_member_use
-              SToast.show(description: 'This is a toast message!');
+              SToast.show(description: l10n.toastLabelMessage);
             },
-            child: const Text('Show Toast'),
+            child: Text(l10n.toastBtnShow),
           ),
           code: '''
 // Initialize once in your root widget
@@ -45,18 +43,18 @@ SToast.initialize(Overlay.of(context));
 SToast.show(description: 'This is a toast message!');''',
         ),
         ComponentSection(
-          title: 'With Title',
+          title: l10n.toastSectionTitle,
           description: 'Add a bold title above the description for more context.',
           demo: SButton(
             variant: SButtonVariant.outline,
             onPressed: () {
               // ignore: deprecated_member_use
               SToast.show(
-                title: 'Success!',
-                description: 'Your changes have been saved.',
+                title: l10n.toastLabelSuccess,
+                description: l10n.toastLabelSaved,
               );
             },
-            child: const Text('Show with title'),
+            child: Text(l10n.toastBtnShowWithTitle),
           ),
           code: '''
 // ignore: deprecated_member_use
@@ -66,19 +64,19 @@ SToast.show(
 );''',
         ),
         ComponentSection(
-          title: 'Destructive Variant',
+          title: l10n.toastSectionDestructive,
           description: 'Show an error-style notification using `SToastVariant.destructive`.',
           demo: SButton(
             variant: SButtonVariant.destructive,
             onPressed: () {
               // ignore: deprecated_member_use
               SToast.show(
-                title: 'Error',
-                description: 'Something went wrong. Please try again.',
+                title: l10n.toastLabelError,
+                description: l10n.toastLabelWrong,
                 variant: SToastVariant.destructive,
               );
             },
-            child: const Text('Show error toast'),
+            child: Text(l10n.toastBtnShowError),
           ),
           code: '''
 // ignore: deprecated_member_use
@@ -89,10 +87,10 @@ SToast.show(
   variant: SToastVariant.destructive,
 );''',
         ),
-        const ComponentSection(
-          title: 'Use SSonner Instead',
+        ComponentSection(
+          title: l10n.toastSectionRecommendation,
           description: 'SSonner is the recommended replacement for SToast.',
-          demo: _SonnerRecommendation(),
+          demo: const _SonnerRecommendation(),
         ),
       ],
     );
@@ -107,6 +105,7 @@ class _SonnerRecommendation
   Widget build(
       BuildContext
           context) {
+    final l10n = SLocalizations.ofContext(context);
     return Container(
       padding:
           const EdgeInsets.all(12),
@@ -121,10 +120,10 @@ class _SonnerRecommendation
         children: [
           Icon(Icons.info_outline, size: 18, color: Theme.of(context).colorScheme.primary),
           const SizedBox(width: 10),
-          const Expanded(
+          Expanded(
             child: Text(
-              'SSonner supports success, error, warning, info variants and action buttons — making it the preferred toast system in SDesign.',
-              style: TextStyle(fontSize: 13),
+              l10n.toastRecommendationText,
+              style: const TextStyle(fontSize: 13),
             ),
           ),
         ],

@@ -32,6 +32,7 @@ class _HomeOverviewPageState
         STheme.of(context).colorToken;
     final isDesktop =
         MediaQuery.of(context).size.width > 800;
+    final l10n = SLocalizations.ofContext(context);
 
     return SScaffold(
       backgroundColor:
@@ -70,7 +71,7 @@ class _HomeOverviewPageState
                               Icon(Icons.auto_awesome, size: 16, color: colors.secondary),
                               const SizedBox(width: 8),
                               Text(
-                                'sDesign v2.0.0 is out!',
+                                l10n.heroTagline,
                                 style: theme.textTheme.labelLarge?.copyWith(
                                   // color: ,
                                   fontWeight: FontWeight.bold,
@@ -84,7 +85,7 @@ class _HomeOverviewPageState
                       _EntranceAnimation(
                         delay: const Duration(milliseconds: 200),
                         child: Text(
-                          'Craft Stunning UIs\nWith Minimal Code',
+                          l10n.heroTitle,
                           textAlign: TextAlign.center,
                           style: theme.textTheme.displayLarge?.copyWith(
                             fontWeight: FontWeight.w900,
@@ -99,8 +100,7 @@ class _HomeOverviewPageState
                       _EntranceAnimation(
                         delay: const Duration(milliseconds: 300),
                         child: Text(
-                          'A robust, highly customizable Flutter component library '
-                          "inspired by the world's best design systems. Built for mobile, web, and desktop.",
+                          l10n.heroDescription,
                           textAlign: TextAlign.center,
                           style: theme.textTheme.titleLarge?.copyWith(
                             color: colors.textSecondary,
@@ -121,7 +121,7 @@ class _HomeOverviewPageState
                             SButton(
                               size: SButtonSize.lg,
                               icon: const Icon(Icons.rocket_launch),
-                              child: const Text('Get Started'),
+                              child: Text(l10n.heroGetStarted),
                               onPressed: () {
                                 // Scroll down or navigate
                               },
@@ -130,7 +130,7 @@ class _HomeOverviewPageState
                               size: SButtonSize.lg,
                               variant: SButtonVariant.outline,
                               icon: const Icon(Icons.dashboard),
-                              child: const Text('Browse Components'),
+                              child: Text(l10n.heroBrowse),
                               onPressed: () {
                                 // Navigate to components
                                 SSonner.show(message: 'Navigate using the sidebar!', variant: SSonnerVariant.success);
@@ -160,7 +160,7 @@ class _HomeOverviewPageState
                 child: Column(
                   children: [
                     Text(
-                      'Why choose sDesign?',
+                      l10n.featuresTitle,
                       style: theme.textTheme.headlineLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -173,26 +173,26 @@ class _HomeOverviewPageState
                       children: [
                         _FeatureCard(
                           icon: Icons.palette,
-                          title: 'Limitless Customization',
-                          description: 'Every token is exposed. Seamlessly inject your brand colors into all components instantly using SThemeData.',
+                          title: l10n.featCustomTitle,
+                          description: l10n.featCustomDesc,
                           width: isDesktop ? 350 : double.infinity,
                         ),
                         _FeatureCard(
                           icon: Icons.dark_mode,
-                          title: 'Flawless Dark Mode',
-                          description: 'Intelligent color tokens ensure your UI looks premium and perfectly balanced in both light and dark modes out of the box.',
+                          title: l10n.featDarkTitle,
+                          description: l10n.featDarkDesc,
                           width: isDesktop ? 350 : double.infinity,
                         ),
                         _FeatureCard(
                           icon: Icons.language,
-                          title: 'Native Localization',
-                          description: "Speaks your users' languages natively. Built-in support for multiple languages including RTL without extra fuss.",
+                          title: l10n.featLocTitle,
+                          description: l10n.featLocDesc,
                           width: isDesktop ? 350 : double.infinity,
                         ),
                         _FeatureCard(
                           icon: Icons.animation,
-                          title: 'Micro-Interactions',
-                          description: 'Delightful spring physics, smooth hover states, and gorgeous transitions make your app feel incredibly responsive.',
+                          title: l10n.featAnimTitle,
+                          description: l10n.featAnimDesc,
                           width: isDesktop ? 350 : double.infinity,
                         ),
                       ],
@@ -209,7 +209,7 @@ class _HomeOverviewPageState
                 child: Column(
                   children: [
                     Text(
-                      'Minutes to integrate',
+                      l10n.footerIntegrate,
                       style: theme.textTheme.headlineLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -278,14 +278,14 @@ class MyApp extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Built with passion by ',
+                      l10n.footerBuiltBy,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: colors.disabled,
                       ),
                     ),
                     const SchriftFlowLogo(size: 24, withText: true),
                     Text(
-                      '. Licensed under MIT.',
+                      l10n.footerLicense,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: colors.disabled,
                       ),
@@ -333,6 +333,7 @@ class _LiveShowcaseState
         Theme.of(context);
     final colors =
         STheme.of(context).colorToken;
+    final l10n = SLocalizations.ofContext(context);
 
     return Container(
       width:
@@ -358,7 +359,7 @@ class _LiveShowcaseState
           Column(
         children: [
           Text(
-            'Interactive Live Preview',
+            l10n.showcaseTitle,
             style: theme.textTheme.titleMedium?.copyWith(
               color: colors.primary,
               fontWeight: FontWeight.bold,
@@ -380,11 +381,11 @@ class _LiveShowcaseState
                   SButton(
                     onPressed: () {
                       SSonner.show(
-                        message: 'Perfect! You triggered a success toast.',
+                        message: l10n.showcaseNotifySuccess,
                         variant: SSonnerVariant.success,
                       );
                     },
-                    child: const Text('Show Notification'),
+                    child: Text(l10n.showcaseNotifyBtn),
                   ),
                   const SizedBox(height: 24),
                   Row(
@@ -409,10 +410,10 @@ class _LiveShowcaseState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const SInputField(
-                    labelText: 'Email Address',
-                    hintText: 'you@example.com',
-                    startIcon: Icon(Icons.email_outlined),
+                  SInputField(
+                    labelText: l10n.showcaseEmailLabel,
+                    hintText: l10n.showcaseEmailHint,
+                    startIcon: const Icon(Icons.email_outlined),
                   ),
                   const SizedBox(height: 24),
                   Slider(
@@ -430,12 +431,12 @@ class _LiveShowcaseState
                 children: [
                   SInputField.datePicker(
                     controller: TextEditingController(),
-                    hintText: 'Select Date',
+                    hintText: l10n.showcaseDateHint,
                   ),
                   const SizedBox(height: 24),
                   SButton(
                     variant: SButtonVariant.outline,
-                    child: const Text('Delete Account', style: TextStyle(color: Colors.red)),
+                    child: Text(l10n.showcaseDeleteBtn, style: const TextStyle(color: Colors.red)),
                     onPressed: () {},
                   ),
                 ],

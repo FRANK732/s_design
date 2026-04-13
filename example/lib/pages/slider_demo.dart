@@ -31,27 +31,26 @@ class _SSliderDemoPageState
   Widget build(
       BuildContext
           context) {
+    final l10n = SLocalizations.ofContext(context);
     return ComponentPage(
       name:
           'SSlider',
-      description:
-          'A thumb-based slider for selecting a value or range on a continuous or stepped scale. '
-          'Supports single and range variants, marks, vertical orientation, and custom colors.',
-      whenToUse: const [
-        'For setting a numeric value the user can drag, like volume or brightness.',
-        'When choosing a min/max range (e.g. price filter).',
-        'For stepped increments (e.g. 0, 25, 50, 75, 100%).',
+      description: l10n.sliderDesc,
+      whenToUse: [
+        l10n.sliderTip1,
+        l10n.sliderTip2,
+        l10n.sliderTip3,
       ],
       sections: [
         ComponentSection(
-          title: 'Basic Single Slider',
+          title: l10n.sliderSectionBasic,
           description: 'Use `SSlider.single()` with `value` and `onChanged`.',
           demo: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SSlider.single(value: _basic, max: 100, onChanged: (v) => setState(() => _basic = v)),
               const SizedBox(height: 8),
-              Text('Value: ${_basic.toInt()}%'),
+              Text(l10n.sliderLabelValue(_basic.toInt())),
             ],
           ),
           code: '''
@@ -64,7 +63,7 @@ SSlider.single(
 );''',
         ),
         ComponentSection(
-          title: 'Range Slider',
+          title: l10n.sliderSectionRange,
           description: 'Use `SSlider.range()` with `rangeValues` and `onRangeChanged`.',
           demo: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +74,7 @@ SSlider.single(
                 onRangeChanged: (r) => setState(() => _range = r),
               ),
               const SizedBox(height: 8),
-              Text('Range: ${_range.start.toInt()}% – ${_range.end.toInt()}%'),
+              Text(l10n.sliderLabelRange(_range.start.toInt(), _range.end.toInt())),
             ],
           ),
           code: '''
@@ -88,7 +87,7 @@ SSlider.range(
 );''',
         ),
         ComponentSection(
-          title: 'Stepped (Discrete)',
+          title: l10n.sliderSectionStepped,
           description: 'Set `divisions` for stepped snapping.',
           demo: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,7 +99,7 @@ SSlider.range(
                 max: 4,
               ),
               const SizedBox(height: 8),
-              Text('Step: ${_stepped.toInt()} of 4'),
+              Text(l10n.sliderLabelStep(_stepped.toInt(), 4)),
             ],
           ),
           code: '''
@@ -112,7 +111,7 @@ SSlider.single(
 );''',
         ),
         ComponentSection(
-          title: 'With Marks',
+          title: l10n.sliderSectionMarks,
           description: 'Display custom labels below the track.',
           demo: SSlider.single(
             value: _basic,

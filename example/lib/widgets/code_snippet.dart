@@ -64,7 +64,6 @@ class _CodeSnippetState
           Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Toolbar
           Container(
             height: 36,
             padding: const EdgeInsets.symmetric(horizontal: 12),

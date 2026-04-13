@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:s_design/s_design.dart';
+import 's_design_logo.dart';
 
 /// Model for a single navigable item in the sidebar.
 class NavItem {
   const NavItem(
-      {required this.label,
+      {required this.id,
+      required this.label,
       required this.icon,
       required this.page});
+  final String
+      id;
   final String
       label;
   final IconData
@@ -97,34 +102,11 @@ class _NavSidebarState
         children: [
           // Logo header
           Container(
-            height: 56,
+            height: 64,
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: [
-                Container(
-                  width: 28,
-                  height: 28,
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.primary,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'S',
-                      style: TextStyle(
-                        color: theme.colorScheme.onPrimary,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Text(
-                  'SDesign',
-                  style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-                ),
-              ],
+            child: const SDesignLogo(
+              size: 28,
+              withText: true,
             ),
           ),
           // Search box
@@ -134,7 +116,7 @@ class _NavSidebarState
               onChanged: widget.onSearchChanged,
               style: const TextStyle(fontSize: 13),
               decoration: InputDecoration(
-                hintText: 'Search components...',
+                    hintText: SLocalizations.ofContext(context).searchComponents,
                 hintStyle: const TextStyle(fontSize: 13),
                 prefixIcon: const Icon(Icons.search, size: 18),
                 isDense: true,
@@ -154,7 +136,7 @@ class _NavSidebarState
                 if (_matchesSearch(widget.homeItem.label))
                   _NavItemTile(
                     item: widget.homeItem,
-                    isSelected: widget.selected.label == widget.homeItem.label,
+                    isSelected: widget.selected.id == widget.homeItem.id,
                     onTap: () => widget.onSelected(widget.homeItem),
                   ),
                 // Groups
@@ -204,7 +186,7 @@ class _NavSidebarState
                         ...visibleItems.map(
                           (item) => _NavItemTile(
                             item: item,
-                            isSelected: widget.selected.label == item.label,
+                            isSelected: widget.selected.id == item.id,
                             onTap: () => widget.onSelected(item),
                           ),
                         ),

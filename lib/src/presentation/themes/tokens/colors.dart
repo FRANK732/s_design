@@ -142,12 +142,20 @@ class SLightColors
     extends SColorsBase {
   // Primary Colors
   @override
-  Color get primary =>
-      const Color(0xFF03DAC6);
+  Color get primary => const Color
+      .fromARGB(
+      255,
+      3,
+      128,
+      218);
 
   @override
-  Color get primaryVariant =>
-      const Color(0xFF018786);
+  Color get primaryVariant => const Color
+      .fromARGB(
+      255,
+      3,
+      128,
+      218);
 
   // Secondary Colors
   @override
@@ -359,12 +367,20 @@ class SDarkColors
     extends SColorsBase {
   // Primary Colors
   @override
-  Color get primary =>
-      const Color(0xFF03DAC6);
+  Color get primary => const Color
+      .fromARGB(
+      255,
+      3,
+      128,
+      218);
 
   @override
-  Color get primaryVariant =>
-      const Color(0xFF03DAC6);
+  Color get primaryVariant => const Color
+      .fromARGB(
+      255,
+      3,
+      128,
+      218);
 
   // Secondary Colors
   @override
@@ -412,7 +428,7 @@ class SDarkColors
 
   @override
   Color get textOnPrimary =>
-      const Color(0xFF000000);
+      const Color(0xFFBDBDBD);
 
   @override
   Color get textOnSecondary =>

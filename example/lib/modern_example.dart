@@ -15,8 +15,8 @@ import 'pages/progress_indicator_page.dart';
 import 'pages/qrcode_demo_page.dart';
 import 'pages/rate_demo_page.dart';
 import 'pages/s_alert_page.dart';
-import 'pages/s_floating_panel_page.dart';
 import 'pages/s_avatar_page.dart';
+import 'pages/s_floating_panel_page.dart';
 import 'pages/s_modal_page.dart';
 import 'pages/s_pagination_page.dart';
 import 'pages/s_time_picker_page.dart';
@@ -31,6 +31,7 @@ import 'pages/switch_demo.dart';
 import 'pages/tabs_demo_v3.dart';
 import 'pages/toast_page.dart';
 import 'widgets/nav_sidebar.dart';
+import 'widgets/s_design_logo.dart';
 
 void
     main() {
@@ -132,70 +133,101 @@ class _GalleryShellState
       _searchQuery =
       '';
 
-  late final NavItem
-      _homeItem;
-  late final List<NavGroup>
-      _groups;
-
   @override
   void
       initState() {
     super
         .initState();
+    _selected =
+        _getHomeItem(null);
+  }
 
-    _homeItem = const NavItem(
-        label: 'Home',
-        icon: Icons.home_outlined,
-        page: HomeOverviewPage());
+  NavItem _getHomeItem(
+      BuildContext?
+          context) {
+    final l10n = context != null
+        ? SLocalizations.ofContext(context)
+        : null;
+    return NavItem(
+      id: 'home',
+      label:
+          l10n?.home ?? 'Home',
+      icon:
+          Icons.home_outlined,
+      page:
+          const HomeOverviewPage(),
+    );
+  }
 
-    _groups =
-        [
-      const NavGroup(title: 'Inputs', items: [
-        NavItem(label: 'SButton', icon: Icons.smart_button_outlined, page: SButtonPage()),
-        NavItem(label: 'SCheckbox', icon: Icons.check_box_outlined, page: CheckboxPage()),
-        NavItem(label: 'SSwitch', icon: Icons.toggle_on_outlined, page: SwitchDemoPage()),
-        NavItem(label: 'SInput', icon: Icons.text_fields_outlined, page: InputDemoPage()),
-        NavItem(label: 'SDropdown', icon: Icons.arrow_drop_down_circle_outlined, page: DropdownMenuPage()),
-        NavItem(label: 'SSelect', icon: Icons.list_alt_outlined, page: SelectPage()),
-        NavItem(label: 'SRate', icon: Icons.star_outline, page: RateDemoPage()),
-        NavItem(label: 'SDatePicker', icon: Icons.calendar_today_outlined, page: DatePickerPage()),
-        NavItem(label: 'STimePicker', icon: Icons.access_time_outlined, page: STimePickerPage()),
+  List<NavGroup>
+      _getGroups(BuildContext context) {
+    final l10n =
+        SLocalizations.ofContext(context);
+    return [
+      NavGroup(title: l10n.inputs, items: [
+        NavItem(id: 'button', label: l10n.compButton, icon: Icons.smart_button_outlined, page: const SButtonPage()),
+        NavItem(id: 'checkbox', label: l10n.compCheckbox, icon: Icons.check_box_outlined, page: const CheckboxPage()),
+        NavItem(id: 'switch', label: l10n.compSwitch, icon: Icons.toggle_on_outlined, page: const SwitchDemoPage()),
+        NavItem(id: 'input', label: l10n.compInput, icon: Icons.text_fields_outlined, page: const InputDemoPage()),
+        NavItem(id: 'dropdown', label: l10n.compDropdown, icon: Icons.arrow_drop_down_circle_outlined, page: const DropdownMenuPage()),
+        NavItem(id: 'select', label: l10n.compSelect, icon: Icons.list_alt_outlined, page: const SelectPage()),
+        NavItem(id: 'rate', label: l10n.compRate, icon: Icons.star_outline, page: const RateDemoPage()),
+        NavItem(id: 'datepicker', label: l10n.compDatePicker, icon: Icons.calendar_today_outlined, page: const DatePickerPage()),
+        NavItem(id: 'timepicker', label: l10n.compTimePicker, icon: Icons.access_time_outlined, page: const STimePickerPage()),
       ]),
-      const NavGroup(title: 'Display', items: [
-        NavItem(label: 'SAvatar', icon: Icons.account_circle_outlined, page: SAvatarPage()),
-        NavItem(label: 'SSlider', icon: Icons.tune_outlined, page: SSliderDemoPage()),
-        NavItem(label: 'SSteps', icon: Icons.format_list_numbered_outlined, page: StepsPage()),
-        NavItem(label: 'SQRCode', icon: Icons.qr_code_outlined, page: QRCodeDemoPage()),
+      NavGroup(title: l10n.display, items: [
+        NavItem(id: 'avatar', label: l10n.compAvatar, icon: Icons.account_circle_outlined, page: const SAvatarPage()),
+        NavItem(id: 'slider', label: l10n.compSlider, icon: Icons.tune_outlined, page: const SSliderDemoPage()),
+        NavItem(id: 'steps', label: l10n.compSteps, icon: Icons.format_list_numbered_outlined, page: const StepsPage()),
+        NavItem(id: 'qrcode', label: l10n.compQRCode, icon: Icons.qr_code_outlined, page: const QRCodeDemoPage()),
       ]),
-      const NavGroup(title: 'Feedback', items: [
-        NavItem(label: 'SAlert', icon: Icons.warning_amber_rounded, page: SAlertPage()),
-        NavItem(label: 'SDialog', icon: Icons.chat_bubble_outline, page: SModalPage()),
-        NavItem(label: 'SToast', icon: Icons.announcement_outlined, page: ToastPage()),
-        NavItem(label: 'SSonner', icon: Icons.notifications_active_outlined, page: SonnerPage()),
-        NavItem(label: 'SFloatingPanel', icon: Icons.picture_in_picture_alt_outlined, page: SFloatingPanelPage()),
-        NavItem(label: 'SProgress', icon: Icons.pie_chart_outline, page: SProgressDemoPage()),
-        NavItem(label: 'SProgress.line', icon: Icons.linear_scale_outlined, page: ProgressIndicatorPage()),
+      NavGroup(title: l10n.feedback, items: [
+        NavItem(id: 'alert', label: l10n.compAlert, icon: Icons.warning_amber_rounded, page: const SAlertPage()),
+        NavItem(id: 'dialog', label: l10n.compDialog, icon: Icons.chat_bubble_outline, page: const SModalPage()),
+        NavItem(id: 'toast', label: l10n.compToast, icon: Icons.announcement_outlined, page: const ToastPage()),
+        NavItem(id: 'sonner', label: l10n.compSonner, icon: Icons.notifications_active_outlined, page: const SonnerPage()),
+        NavItem(id: 'floatingpanel', label: l10n.compFloatingPanel, icon: Icons.picture_in_picture_alt_outlined, page: const SFloatingPanelPage()),
+        NavItem(id: 'progress', label: l10n.compProgress, icon: Icons.pie_chart_outline, page: const SProgressDemoPage()),
+        NavItem(id: 'progressline', label: l10n.compProgressLine, icon: Icons.linear_scale_outlined, page: const ProgressIndicatorPage()),
       ]),
-      const NavGroup(title: 'Layout', items: [
-        NavItem(label: 'SCard', icon: Icons.chrome_reader_mode_outlined, page: SCardDemoPage()),
-        NavItem(label: 'SListTile', icon: Icons.list_outlined, page: ListTilePage()),
-        NavItem(label: 'STabs', icon: Icons.tab_outlined, page: TabsDemoV3Page()),
-        NavItem(label: 'SPagination', icon: Icons.first_page_outlined, page: SPaginationPage()),
-        NavItem(label: 'SScaffold', icon: Icons.web_asset_outlined, page: BaseScaffoldPage()),
-        NavItem(label: 'SScaffold Slivers', icon: Icons.view_quilt_outlined, page: ScaffoldPage()),
-        NavItem(label: 'SBottom Navigation', icon: Icons.call_to_action_outlined, page: BottomNavigationPage()),
-        NavItem(label: 'SCard (Basic)', icon: Icons.dashboard_outlined, page: CardPage()),
+      NavGroup(title: l10n.layout, items: [
+        NavItem(id: 'card', label: l10n.compCard, icon: Icons.chrome_reader_mode_outlined, page: const SCardDemoPage()),
+        NavItem(id: 'listtile', label: l10n.compListTile, icon: Icons.list_outlined, page: const ListTilePage()),
+        NavItem(id: 'tabs', label: l10n.compTabs, icon: Icons.tab_outlined, page: const TabsDemoV3Page()),
+        NavItem(id: 'pagination', label: l10n.compPagination, icon: Icons.first_page_outlined, page: const SPaginationPage()),
+        NavItem(id: 'scaffold', label: l10n.compScaffold, icon: Icons.web_asset_outlined, page: const BaseScaffoldPage()),
+        NavItem(id: 'scaffoldslivers', label: l10n.compScaffoldSlivers, icon: Icons.view_quilt_outlined, page: const ScaffoldPage()),
+        NavItem(id: 'bottomnav', label: l10n.compBottomNav, icon: Icons.call_to_action_outlined, page: const BottomNavigationPage()),
+        NavItem(id: 'cardbasic', label: l10n.compCardBasic, icon: Icons.dashboard_outlined, page: const CardPage()),
       ]),
     ];
-
-    _selected =
-        _homeItem;
   }
 
   @override
   Widget build(
       BuildContext
           context) {
+    final homeItem =
+        _getHomeItem(context);
+    final groups =
+        _getGroups(context);
+
+    // Refresh selected item from the new translated sources
+    final allItems =
+        [
+      homeItem,
+      ...groups.expand((g) =>
+          g.items)
+    ];
+    _selected =
+        allItems.firstWhere(
+      (it) =>
+          it.id ==
+          _selected.id,
+      orElse: () =>
+          homeItem,
+    );
+
     final overlayState =
         Overlay.of(context);
     SSonner.initialize(
@@ -206,18 +238,21 @@ class _GalleryShellState
     final isDark =
         Theme.of(context).brightness == Brightness.dark;
 
+    final l10n =
+        SLocalizations.ofContext(context);
+
     return SScaffold(
       appBar:
           AppBar(
         elevation: 0,
         scrolledUnderElevation: 1,
-        title: const Text(
-          'SDesign Gallery',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        title: const SDesignLogo(
+          size: 24,
+          withText: true,
         ),
         actions: [
           Tooltip(
-            message: isDark ? 'Switch to light mode' : 'Switch to dark mode',
+            message: isDark ? l10n.themeSwitchLight : l10n.themeSwitchDark,
             child: IconButton(
               icon: Icon(isDark ? Icons.light_mode_outlined : Icons.dark_mode_outlined),
               onPressed: () {
@@ -229,26 +264,26 @@ class _GalleryShellState
           ),
           const SizedBox(width: 8),
           PopupMenuButton<Locale>(
-            tooltip: 'Change language',
+            tooltip: l10n.languageSwitch,
             initialValue: widget.currentLocale,
             onSelected: widget.onLocaleChanged,
             icon: const Icon(Icons.language_outlined),
             itemBuilder: (context) => [
-              const PopupMenuItem(
-                value: Locale('en', 'US'),
-                child: Text('English'),
+              PopupMenuItem(
+                value: const Locale('en', 'US'),
+                child: Text(l10n.langEn),
               ),
-              const PopupMenuItem(
-                value: Locale('fr', 'FR'),
-                child: Text('Français'),
+              PopupMenuItem(
+                value: const Locale('fr', 'FR'),
+                child: Text(l10n.langFr),
               ),
-              const PopupMenuItem(
-                value: Locale('ar', 'AE'),
-                child: Text('العربية'),
+              PopupMenuItem(
+                value: const Locale('ar', 'AE'),
+                child: Text(l10n.langAr),
               ),
-              const PopupMenuItem(
-                value: Locale('zh', 'CN'),
-                child: Text('中文'),
+              PopupMenuItem(
+                value: const Locale('zh', 'CN'),
+                child: Text(l10n.langZh),
               ),
             ],
           ),
@@ -258,8 +293,8 @@ class _GalleryShellState
       drawer: MediaQuery.of(context).size.width < 700
           ? Drawer(
               child: NavSidebar(
-                groups: _groups,
-                homeItem: _homeItem,
+                groups: groups,
+                homeItem: homeItem,
                 selected: _selected,
                 searchQuery: _searchQuery,
                 onSearchChanged: (q) => setState(() => _searchQuery = q),
@@ -278,8 +313,8 @@ class _GalleryShellState
             return Row(
               children: [
                 NavSidebar(
-                  groups: _groups,
-                  homeItem: _homeItem,
+                  groups: groups,
+                  homeItem: homeItem,
                   selected: _selected,
                   searchQuery: _searchQuery,
                   onSearchChanged: (q) => setState(() => _searchQuery = q),

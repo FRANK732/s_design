@@ -41,6 +41,8 @@ class _DatePickerPageState
   Widget build(
       BuildContext
           context) {
+    final l10n =
+        SLocalizations.ofContext(context);
     final sTheme =
         STheme.of(context);
     final isDark =
@@ -48,7 +50,7 @@ class _DatePickerPageState
 
     return SScaffold(
       appBar:
-          AppBar(title: const Text('SDatePicker Showcase')),
+          AppBar(title: Text(l10n.datePickerTitle)),
       renderBody: (context) =>
           SingleChildScrollView(
         padding: const EdgeInsets.all(24),
@@ -56,7 +58,7 @@ class _DatePickerPageState
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildSection(
-              'Basic DatePicker',
+              l10n.datePickerSectionBasic,
               SDatePicker(
                 value: _basicDate,
                 onChange: (date) => setState(() => _basicDate = date),
@@ -64,16 +66,16 @@ class _DatePickerPageState
             ),
             const SizedBox(height: 32),
             _buildSection(
-              'Disabled DatePicker',
+              l10n.datePickerSectionDisabled,
               SDatePicker(
                 value: _disabledDate,
                 disabled: true,
-                placeholder: 'Disabled',
+                placeholder: l10n.demoDisabled,
               ),
             ),
             const SizedBox(height: 32),
             _buildSection(
-              'Range Picker',
+              l10n.datePickerSectionRange,
               SDateRangePicker(
                 startDate: _rangeStart,
                 endDate: _rangeEnd,
@@ -87,60 +89,60 @@ class _DatePickerPageState
             ),
             const SizedBox(height: 32),
             _buildSection(
-              'Month Picker',
+              l10n.datePickerSectionMonth,
               SDatePicker(
                 value: _monthDate,
                 picker: SDatePickerMode.month,
-                placeholder: 'Select month',
+                placeholder: l10n.selectPlaceholder,
                 onChange: (date) => setState(() => _monthDate = date),
               ),
             ),
             const SizedBox(height: 32),
             _buildSection(
-              'Year Picker',
+              l10n.datePickerSectionYear,
               SDatePicker(
                 value: _yearDate,
                 picker: SDatePickerMode.year,
-                placeholder: 'Select year',
+                placeholder: l10n.selectPlaceholder,
                 onChange: (date) => setState(() => _yearDate = date),
               ),
             ),
             const SizedBox(height: 32),
             _buildSection(
-              'Presets DatePicker',
+              l10n.datePickerSectionPresetsDate,
               SDatePicker(
                 value: _presetDate,
                 presets: [
-                  SDatePickerPreset(label: 'Today', value: DateTime.now()),
-                  SDatePickerPreset(label: 'Tomorrow', value: DateTime.now().add(const Duration(days: 1))),
-                  SDatePickerPreset(label: 'Next Week', value: DateTime.now().add(const Duration(days: 7))),
+                  SDatePickerPreset(label: l10n.datePickerLabelToday, value: DateTime.now()),
+                  SDatePickerPreset(label: l10n.datePickerLabelTomorrow, value: DateTime.now().add(const Duration(days: 1))),
+                  SDatePickerPreset(label: l10n.datePickerLabelNextWeek, value: DateTime.now().add(const Duration(days: 7))),
                 ],
                 onChange: (date) => setState(() => _presetDate = date),
               ),
             ),
             const SizedBox(height: 32),
             _buildSection(
-              'Presets RangePicker',
+              l10n.datePickerSectionPresetsRange,
               SDateRangePicker(
                 startDate: _presetRangeStart,
                 endDate: _presetRangeEnd,
                 presets: [
                   SDatePickerPreset(
-                    label: 'This Week',
+                    label: l10n.datePickerLabelThisWeek,
                     value: DateTimeRange(
                       start: DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1)),
                       end: DateTime.now().add(Duration(days: 7 - DateTime.now().weekday)),
                     ),
                   ),
                   SDatePickerPreset(
-                    label: 'Last 7 Days',
+                    label: l10n.datePickerLabelLast7Days,
                     value: DateTimeRange(
                       start: DateTime.now().subtract(const Duration(days: 6)),
                       end: DateTime.now(),
                     ),
                   ),
                   SDatePickerPreset(
-                    label: 'Next 30 Days',
+                    label: l10n.datePickerLabelNext30Days,
                     value: DateTimeRange(
                       start: DateTime.now(),
                       end: DateTime.now().add(const Duration(days: 30)),
@@ -157,10 +159,10 @@ class _DatePickerPageState
             ),
             const SizedBox(height: 32),
             _buildSection(
-              'Custom Styling',
+              l10n.datePickerSectionCustom,
               SDatePicker(
                 value: _customDate,
-                placeholder: 'Custom Theme',
+                placeholder: l10n.datePickerLabelCustomTheme,
                 style: SDatePickerStyle(
                   inputDecoration: BoxDecoration(
                     color: isDark ? Colors.purple.shade900.withOpacity(0.2) : Colors.grey.shade50,

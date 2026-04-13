@@ -27,27 +27,26 @@ class _RateDemoPageState
   Widget build(
       BuildContext
           context) {
+    final l10n = SLocalizations.ofContext(context);
     return ComponentPage(
       name:
           'SRate',
-      description:
-          'A star rating component that lets users provide feedback on a numeric scale. '
-          'Supports full stars, half stars, custom icons, and read-only display.',
-      whenToUse: const [
-        'For product, service, or content rating interfaces.',
-        'To collect qualitative feedback on a scale.',
-        'To display an aggregate rating in a read-only mode.',
+      description: l10n.rateDesc,
+      whenToUse: [
+        l10n.rateTip1,
+        l10n.rateTip2,
+        l10n.rateTip3,
       ],
       sections: [
         ComponentSection(
-          title: 'Basic Rating',
-          description: 'Full star rating with 5 stars by default.',
+          title: l10n.rateSectionBasic,
+          description: l10n.rateDescBasic,
           demo: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SRate(value: _basic, onChange: (v) => setState(() => _basic = v)),
               const SizedBox(height: 8),
-              Text('Current: ${_basic.toInt()} stars'),
+              Text(l10n.rateLabelCurrent(_basic.toInt())),
             ],
           ),
           code: '''
@@ -59,14 +58,14 @@ SRate(
 );''',
         ),
         ComponentSection(
-          title: 'Half Stars',
-          description: 'Enable `allowHalf: true` for 0.5 precision.',
+          title: l10n.rateSectionHalf,
+          description: l10n.rateDescHalf,
           demo: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SRate(value: _half, allowHalf: true, onChange: (v) => setState(() => _half = v)),
               const SizedBox(height: 8),
-              Text('Current: $_half stars'),
+              Text(l10n.rateLabelCurrent(_half)),
             ],
           ),
           code: '''
@@ -76,28 +75,28 @@ SRate(
   onChange: (v) => setState(() => _rating = v),
 );''',
         ),
-        const ComponentSection(
-          title: 'Read-Only Display',
-          description: 'Pass `disabled: true` to render a non-interactive rating display.',
+        ComponentSection(
+          title: l10n.rateSectionReadOnly,
+          description: l10n.rateDescReadOnly,
           demo: Row(
             children: [
-              SRate(value: 4.5, allowHalf: true, disabled: true),
-              SizedBox(width: 8),
-              Text('4.5 / 5.0', style: TextStyle(fontWeight: FontWeight.w600)),
+              const SRate(value: 4.5, allowHalf: true, disabled: true),
+              const SizedBox(width: 8),
+              Text('4.5 / 5.0', style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
             ],
           ),
           code: '''
 const SRate(value: 4.5, allowHalf: true, disabled: true);''',
         ),
         ComponentSection(
-          title: 'Custom Star Count',
-          description: 'Change the total number of stars with `count`.',
+          title: l10n.rateSectionCustomCount,
+          description: l10n.rateDescCustomCount,
           demo: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SRate(value: 7, count: 10, onChange: (_) {}),
               const SizedBox(height: 4),
-              const Text('10-star scale'),
+              Text(l10n.rateLabel10Scale),
             ],
           ),
           code: '''

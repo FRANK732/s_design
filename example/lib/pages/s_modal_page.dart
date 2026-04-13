@@ -11,42 +11,41 @@ class SModalPage
   Widget build(
       BuildContext
           context) {
+    final l10n = SLocalizations.ofContext(context);
     return ComponentPage(
       name:
           'SDialog',
-      description:
-          'A highly customizable dialog with support for multiple animations and background effects. '
-          'Use SDialog.show() for a convenient static factory, or construct SDialog directly.',
-      whenToUse: const [
-        'For confirmation prompts before irreversible actions.',
-        'To show forms or detail content that require user focus.',
-        'For alerts or informational messages that block background interaction.',
+      description: l10n.dialogDesc,
+      whenToUse: [
+        l10n.dialogTip1,
+        l10n.dialogTip2,
+        l10n.dialogTip3,
       ],
       sections: [
         ComponentSection(
-          title: 'Confirmation Dialog',
+          title: l10n.dialogSectionConfirm,
           description: 'A basic confirmation dialog with Cancel and Confirm actions.',
           demo: SButton(
             onPressed: () {
               SDialog.show<void>(
                 context: context,
-                title: 'Delete Item',
-                description: 'This action cannot be undone. Are you sure you want to delete?',
+                title: l10n.dialogTitleDelete,
+                description: l10n.dialogDescDelete,
                 actions: [
                   SButton(
                     variant: SButtonVariant.outline,
                     onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('Cancel'),
+                    child: Text(l10n.demoCancel),
                   ),
                   SButton(
                     variant: SButtonVariant.destructive,
                     onPressed: () => Navigator.of(context).pop(true),
-                    child: const Text('Delete'),
+                    child: Text(l10n.demoDelete),
                   ),
                 ],
               );
             },
-            child: const Text('Open Confirmation'),
+            child: Text(l10n.dialogBtnOpenConfirm),
           ),
           code: '''
 SDialog.show<void>(
@@ -68,36 +67,36 @@ SDialog.show<void>(
 );''',
         ),
         ComponentSection(
-          title: 'Dialog with Content',
+          title: l10n.dialogSectionContent,
           description: 'Use the `content` parameter to show arbitrary widgets inside the dialog.',
           demo: SButton(
             variant: SButtonVariant.outline,
             onPressed: () {
               SDialog.show<void>(
                 context: context,
-                title: 'Edit Profile',
-                content: const Column(
+                title: l10n.dialogTitleEditProfile,
+                content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SInput(placeholder: 'Full name'),
-                    SizedBox(height: 12),
-                    SInput(placeholder: 'Email address', keyboardType: TextInputType.emailAddress),
+                    SInput(placeholder: l10n.dialogLabelFullName),
+                    const SizedBox(height: 12),
+                    SInput(placeholder: l10n.dialogLabelEmail, keyboardType: TextInputType.emailAddress),
                   ],
                 ),
                 actions: [
                   SButton(
                     variant: SButtonVariant.outline,
                     onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('Cancel'),
+                    child: Text(l10n.demoCancel),
                   ),
                   SButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('Save'),
+                    child: Text(l10n.demoSave),
                   ),
                 ],
               );
             },
-            child: const Text('Open Form Dialog'),
+            child: Text(l10n.dialogBtnOpenForm),
           ),
           code: '''
 SDialog.show<void>(
@@ -116,7 +115,7 @@ SDialog.show<void>(
 );''',
         ),
         ComponentSection(
-          title: 'Info Dialog with Icon',
+          title: l10n.dialogSectionInfo,
           description: 'Add an `iconWidget` for visual context at the top.',
           demo: SButton(
             variant: SButtonVariant.outline,
@@ -124,18 +123,18 @@ SDialog.show<void>(
               SDialog.show<void>(
                 context: context,
                 iconWidget: const Icon(Icons.info_outline, size: 36, color: Colors.blue),
-                title: 'Information',
-                description: 'Your session will expire in 5 minutes. Please save your work.',
+                title: l10n.dialogTitleInfo,
+                description: l10n.dialogDescSession,
                 actions: [
                   SButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('Got it'),
+                    child: Text(l10n.dialogBtnGotIt),
                   ),
                 ],
                 actionsAlignment: MainAxisAlignment.center,
               );
             },
-            child: const Text('Open Info Dialog'),
+            child: Text(l10n.dialogBtnOpenInfo),
           ),
           code: '''
 SDialog.show<void>(

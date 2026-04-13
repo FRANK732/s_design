@@ -10,30 +10,31 @@ class ScaffoldPage
   Widget build(
       BuildContext
           context) {
+    final l10n = SLocalizations.ofContext(context);
     return SScaffold
         .slivers(
       slivers: (context) =>
           [
-        const SliverAppBar(
-          title: Text('SScaffold Slivers Example'),
+        SliverAppBar(
+          title: Text(l10n.scaffoldTitle),
           floating: true,
           pinned: true,
           expandedHeight: 150.0,
-          flexibleSpace: FlexibleSpaceBar(
+          flexibleSpace: const FlexibleSpaceBar(
             background: FlutterLogo(),
           ),
         ),
-        const SliverToBoxAdapter(
+        SliverToBoxAdapter(
           child: Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Text(
-              'This demonstrates SScaffold with CustomScrollView.',
-              style: TextStyle(fontSize: 16),
+              l10n.scaffoldDesc,
+              style: const TextStyle(fontSize: 16),
             ),
           ),
         ),
         SliverPersistentHeader(
-          delegate: _StickyHeaderDelegate(title: 'Sticky Header'),
+          delegate: _StickyHeaderDelegate(title: l10n.scaffoldStickyHeader),
           pinned: true,
         ),
         SliverToBoxAdapter(
@@ -47,7 +48,7 @@ class ScaffoldPage
                 margin: const EdgeInsets.all(8),
                 color: Colors.blue[(index % 9 + 1) * 100],
                 alignment: Alignment.center,
-                child: Text('H-Item $index', style: const TextStyle(color: Colors.white)),
+                child: Text(l10n.scaffoldLabelHItem(index), style: const TextStyle(color: Colors.white)),
               ),
             ),
           ),
@@ -55,8 +56,8 @@ class ScaffoldPage
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) => SListTile(
-              title: Text('Item $index'),
-              subtitle: Text('Subtitle $index'),
+              title: Text(l10n.scaffoldLabelItem(index)),
+              subtitle: Text(l10n.scaffoldLabelSubtitle(index)),
               onTap: () {},
             ),
             childCount: 20,
@@ -74,7 +75,7 @@ class ScaffoldPage
           FloatingActionButtonConfig(
         floatingActionButton: SButton(
           onPressed: () {},
-          child: const Text('FAB'),
+          child: Text(l10n.scaffoldLabelFAB),
         ),
       ),
     );

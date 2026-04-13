@@ -11,31 +11,30 @@ class QRCodeDemoPage
   Widget build(
       BuildContext
           context) {
-    return const ComponentPage(
+    final l10n = SLocalizations.ofContext(context);
+    return ComponentPage(
       name:
           'SQRCode',
-      description:
-          'A QR code generator component built on top of `qr_flutter`. '
-          'Supports custom size, colors, icons, bordered style, and status overlays (expired, loading, scanned).',
+      description: l10n.qrcodeDesc,
       whenToUse: [
-        'For displaying payment or app-sharing QR codes.',
-        'When you need a scannable QR that shows a loading or expired state.',
-        'For embedding a logo or icon inside the QR code.',
+        l10n.qrcodeTip1,
+        l10n.qrcodeTip2,
+        l10n.qrcodeTip3,
       ],
       sections: [
         ComponentSection(
-          title: 'Basic QR Code',
+          title: l10n.qrcodeSectionBasic,
           description: 'Show a scannable QR code for any string.',
-          demo: Center(
+          demo: const Center(
             child: SQRCode(value: 'https://example.com'),
           ),
           code: '''
 const SQRCode(value: 'https://example.com');''',
         ),
         ComponentSection(
-          title: 'Custom Color',
+          title: l10n.qrcodeSectionColor,
           description: 'Change the QR color to match your brand.',
-          demo: Row(
+          demo: const Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               SQRCode(value: 'brand-blue', color: Colors.indigo, size: 100),
@@ -47,9 +46,9 @@ SQRCode(value: 'your-data', color: Colors.indigo, size: 100);
 SQRCode(value: 'your-data', color: Colors.teal, size: 100);''',
         ),
         ComponentSection(
-          title: 'With Icon',
+          title: l10n.qrcodeSectionIcon,
           description: 'Overlay an icon in the center of the QR code.',
-          demo: Center(
+          demo: const Center(
             child: SQRCode(
               value: 'https://flutter.dev',
               icon: Icon(Icons.flutter_dash, color: Colors.blue),
@@ -66,9 +65,9 @@ const SQRCode(
 );''',
         ),
         ComponentSection(
-          title: 'Status: Expired',
+          title: l10n.qrcodeSectionExpired,
           description: 'Show an expired overlay with `status: SQRCodeStatus.expired`.',
-          demo: Center(
+          demo: const Center(
             child: SQRCode(
               value: 'expired-session',
               status: SQRCodeStatus.expired,
@@ -83,9 +82,9 @@ const SQRCode(
 );''',
         ),
         ComponentSection(
-          title: 'Status: Scanned',
+          title: l10n.qrcodeSectionScanned,
           description: 'Show a check mark overlay with `status: SQRCodeStatus.scanned`.',
-          demo: Center(
+          demo: const Center(
             child: SQRCode(
               value: 'scanned-code',
               status: SQRCodeStatus.scanned,

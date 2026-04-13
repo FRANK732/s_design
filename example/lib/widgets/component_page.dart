@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:s_design/s_design.dart';
 import 'code_snippet.dart';
 
 /// The standard scaffold for all component detail pages.
@@ -39,7 +40,7 @@ class ComponentPage
         Text(description, style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.onSurface.withOpacity(0.75))),
         if (whenToUse != null && whenToUse!.isNotEmpty) ...[
           const SizedBox(height: 16),
-          Text('When to use', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600, color: theme.colorScheme.primary)),
+          Text(SLocalizations.ofContext(context).demoWhenToUse, style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600, color: theme.colorScheme.primary)),
           const SizedBox(height: 8),
           ...whenToUse!.map(
             (tip) => Padding(
@@ -121,7 +122,7 @@ class _SectionWidgetState
             TextButton.icon(
               onPressed: () => setState(() => _showCode = !_showCode),
               icon: Icon(_showCode ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down, size: 16),
-              label: Text(_showCode ? 'Hide code' : 'Show code', style: const TextStyle(fontSize: 13)),
+              label: Text(_showCode ? SLocalizations.ofContext(context).demoHideCode : SLocalizations.ofContext(context).demoShowCode, style: const TextStyle(fontSize: 13)),
               style: TextButton.styleFrom(padding: EdgeInsets.zero, tapTargetSize: MaterialTapTargetSize.shrinkWrap),
             ),
             if (_showCode) ...[

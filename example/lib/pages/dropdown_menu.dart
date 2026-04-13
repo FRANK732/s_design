@@ -21,49 +21,37 @@ class _DropdownMenuPageState
   final List<String?>
       _multi =
       [];
-
-  static final _fruits =
-      [
-    const SSelectItem(
-        value: 'apple',
-        label: 'Apple'),
-    const SSelectItem(
-        value: 'banana',
-        label: 'Banana'),
-    const SSelectItem(
-        value: 'cherry',
-        label: 'Cherry'),
-    const SSelectItem(
-        value: 'date',
-        label: 'Date'),
-    const SSelectItem(
-        value: 'elderberry',
-        label: 'Elderberry'),
-  ];
-
   @override
   Widget build(
       BuildContext
           context) {
+    final l10n = SLocalizations.ofContext(context);
+
+    final fruits = [
+      SSelectItem(value: 'apple', label: l10n.selectLabelApple),
+      SSelectItem(value: 'banana', label: l10n.selectLabelBanana),
+      SSelectItem(value: 'cherry', label: l10n.selectLabelCherry),
+      SSelectItem(value: 'date', label: l10n.selectLabelDate),
+      SSelectItem(value: 'elderberry', label: l10n.selectLabelElderberry),
+    ];
+
     return ComponentPage(
       name:
           'SSelect',
-      description:
-          'A powerful select dropdown component supporting single selection, multi-select, tags mode, '
-          'search/filter, grouped items, and custom icons.',
-      whenToUse: const [
-        'Replacing native <select> elements with richer UX.',
-        'Selecting one or multiple items from a long list.',
-        'When you need searchable dropdowns for form inputs.',
+      description: l10n.selectDescExtended,
+      whenToUse: [
+        l10n.selectTip1,
+        l10n.selectTip2,
+        l10n.selectTip3,
       ],
       sections: [
         ComponentSection(
-          title: 'Basic Single Select',
+          title: l10n.selectSectionSingle,
           description: 'Pick one item from a dropdown list.',
           demo: SSelect<String>(
-            items: _fruits,
+            items: fruits,
             value: _selected,
-            placeholder: 'Select a fruit',
+            placeholder: l10n.selectLabelPickFruit,
             onChanged: (v) => setState(() => _selected = v as String?),
           ),
           code: '''
@@ -74,7 +62,7 @@ SSelect<String>(
     SSelectItem(value: 'cherry', label: 'Cherry'),
   ],
   value: _selected,
-  placeholder: 'Select a fruit',
+  placeholder: l10n.selectLabelPickFruit,
   onChanged: (v) => setState(() => _selected = v),
 );''',
         ),
@@ -82,9 +70,9 @@ SSelect<String>(
           title: 'With Allow Clear',
           description: 'Add a clear button to reset the selection.',
           demo: SSelect<String>(
-            items: _fruits,
+            items: fruits,
             value: _selected,
-            placeholder: 'Select a fruit',
+            placeholder: l10n.selectLabelPickFruit,
             allowClear: true,
             onChanged: (v) => setState(() => _selected = v as String?),
           ),
@@ -100,9 +88,9 @@ SSelect<String>(
           title: 'Searchable',
           description: 'Enable `showSearch: true` for client-side filtering.',
           demo: SSelect<String>(
-            items: _fruits,
+            items: fruits,
             value: _selected,
-            placeholder: 'Search a fruit...',
+            placeholder: l10n.selectLabelSearchFruit,
             showSearch: true,
             onChanged: (v) => setState(() => _selected = v as String?),
           ),
@@ -115,13 +103,13 @@ SSelect<String>(
 );''',
         ),
         ComponentSection(
-          title: 'Multi-Select',
+          title: l10n.selectSectionMulti,
           description: 'Use `mode: SSelectMode.multiple` to allow picking several items.',
           demo: SSelect<String>(
-            items: _fruits,
+            items: fruits,
             value: _multi,
             mode: SSelectMode.multiple,
-            placeholder: 'Pick multiple fruits',
+            placeholder: l10n.selectLabelPickMultiple,
             onChanged: (v) => setState(() {
               _multi
                 ..clear()
@@ -135,15 +123,15 @@ SSelect<String>(
   items: items,
   value: _selected,
   mode: SSelectMode.multiple,
-  placeholder: 'Pick multiple',
+  placeholder: l10n.selectLabelPickMultiple,
   onChanged: (v) => setState(() => _selected = List<String>.from(v)),
 );''',
         ),
         ComponentSection(
-          title: 'Disabled',
+          title: l10n.demoDisabled,
           description: 'Set `disabled: true` to prevent interaction.',
           demo: SSelect<String>(
-            items: _fruits,
+            items: fruits,
             value: 'apple',
             disabled: true,
           ),

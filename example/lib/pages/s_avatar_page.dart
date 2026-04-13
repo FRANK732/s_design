@@ -87,6 +87,7 @@ class _SAvatarPageState
   Widget build(
       BuildContext
           context) {
+    final l10n = SLocalizations.ofContext(context);
     const url =
         'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png';
     const fallbackUrl =
@@ -94,7 +95,7 @@ class _SAvatarPageState
 
     return SScaffold(
       appBar:
-          AppBar(title: const Text('SAvatar')),
+          AppBar(title: Text(l10n.avatarTitle)),
       renderBody: (context) =>
           SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),
@@ -102,7 +103,7 @@ class _SAvatarPageState
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildSection(
-              'Basic',
+              l10n.avatarSectionBasic,
               const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -131,7 +132,7 @@ class _SAvatarPageState
               ),
             ),
             _buildSection(
-              'Type',
+              l10n.avatarSectionType,
               const Wrap(
                 spacing: 16,
                 crossAxisAlignment: WrapCrossAlignment.center,
@@ -153,7 +154,7 @@ class _SAvatarPageState
               ),
             ),
             _buildSection(
-              'Autoset Font Size',
+              l10n.avatarSectionAutoset,
               Wrap(
                 spacing: 16,
                 crossAxisAlignment: WrapCrossAlignment.center,
@@ -166,17 +167,17 @@ class _SAvatarPageState
                   ),
                   ElevatedButton(
                     onPressed: _changeUser,
-                    child: const Text('Change User'),
+                    child: Text(l10n.avatarBtnChangeUser),
                   ),
                   ElevatedButton(
                     onPressed: _changeGap,
-                    child: const Text('Change Gap'),
+                    child: Text(l10n.avatarBtnChangeGap),
                   ),
                 ],
               ),
             ),
             _buildSection(
-              'Fallback',
+              l10n.avatarSectionFallback,
               const Wrap(
                 spacing: 16,
                 children: [
@@ -186,7 +187,7 @@ class _SAvatarPageState
               ),
             ),
             _buildSection(
-              'With Badge (Placeholder since SBadge exists)',
+              l10n.avatarSectionBadge,
               const Wrap(
                 spacing: 24,
                 children: [
@@ -203,7 +204,7 @@ class _SAvatarPageState
               ),
             ),
             _buildSection(
-              'Avatar.Group',
+              l10n.avatarSectionGroup,
               const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

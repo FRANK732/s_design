@@ -20,138 +20,137 @@ class _InputDemoPageState
   Widget build(
       BuildContext
           context) {
+    final l10n = SLocalizations.ofContext(context);
     return ComponentPage(
       name:
           'SInput',
-      description:
-          'A text input field with support for prefix/suffix icons, addon before/after, '
-          'validation states (error, warning), clear button, and multiple sizes.',
-      whenToUse: const [
-        'When collecting text data from the user in a form.',
-        'For search fields, filters, and data-entry screens.',
-        'When you need built-in validation feedback (error, warning states).',
+      description: l10n.inputDesc,
+      whenToUse: [
+        l10n.inputTip1,
+        l10n.inputTip2,
+        l10n.inputTip3,
       ],
       sections: [
-        const ComponentSection(
-          title: 'Basic Input',
+        ComponentSection(
+          title: l10n.demoBasicUsage,
           description: 'A simple text field with a placeholder.',
-          demo: SInput(placeholder: 'Enter your username'),
+          demo: SInput(placeholder: l10n.inputLabelMiddle),
           code: '''
-const SInput(placeholder: 'Enter your username');''',
+SInput(placeholder: l10n.inputLabelMiddle);''',
         ),
         ComponentSection(
-          title: 'With Prefix and Suffix Widgets',
+          title: l10n.inputSectionPrefixSuffix,
           description: 'Add widgets inside the input field using `prefix` and `suffix`.',
           demo: Column(
             children: [
               SInput(
-                placeholder: 'Search...',
+                placeholder: l10n.inputLabelSearch,
                 prefix: Icon(Icons.search, size: 16, color: Colors.grey.shade600),
               ),
               const SizedBox(height: 12),
               SInput.password(
-                placeholder: 'Enter password',
+                placeholder: l10n.inputLabelPassword,
               ),
               const SizedBox(height: 12),
-              const SInput(
-                placeholder: 'amount',
-                addonBefore: Text(r'$'),
-                addonAfter: Text('USD'),
+              SInput(
+                placeholder: l10n.inputLabelAmount,
+                addonBefore: const Text(r'$'),
+                addonAfter: const Text('USD'),
               ),
             ],
           ),
           code: r'''
 SInput(
-  placeholder: 'Search...',
+  placeholder: l10n.inputLabelSearch,
   prefix: Icon(Icons.search, size: 16),
 );
 
-SInput.password(placeholder: 'Enter password');
+SInput.password(placeholder: l10n.inputLabelPassword);
 
 SInput(
-  placeholder: 'amount',
+  placeholder: l10n.inputLabelAmount,
   addonBefore: const Text('$'),
   addonAfter: const Text('USD'),
 );''',
         ),
-        const ComponentSection(
-          title: 'Validation States',
+        ComponentSection(
+          title: l10n.inputSectionValidation,
           description: 'Use `status` to communicate validation feedback to the user.',
           demo: Column(
             children: [
               SInput(
-                placeholder: 'Valid email required',
+                placeholder: l10n.inputLabelEmailError,
                 status: SInputStatus.error,
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               SInput(
-                placeholder: 'Password should be stronger',
+                placeholder: l10n.inputLabelPasswordWarning,
                 status: SInputStatus.warning,
               ),
             ],
           ),
           code: '''
 SInput(
-  placeholder: 'Valid email required',
+  placeholder: l10n.inputLabelEmailError,
   status: SInputStatus.error,
 );
 SInput(
-  placeholder: 'Password should be stronger',
+  placeholder: l10n.inputLabelPasswordWarning,
   status: SInputStatus.warning,
 );''',
         ),
-        const ComponentSection(
-          title: 'Sizes',
+        ComponentSection(
+          title: l10n.demoSizes,
           description: 'Three sizes: small, middle (default), large.',
           demo: Column(
             children: [
-              SInput(placeholder: 'Large input', size: SInputSize.large),
-              SizedBox(height: 8),
-              SInput(placeholder: 'Middle input (default)'),
-              SizedBox(height: 8),
-              SInput(placeholder: 'Small input', size: SInputSize.small),
+              SInput(placeholder: l10n.inputLabelLarge, size: SInputSize.large),
+              const SizedBox(height: 8),
+              SInput(placeholder: l10n.inputLabelMiddle),
+              const SizedBox(height: 8),
+              SInput(placeholder: l10n.inputLabelSmall, size: SInputSize.small),
             ],
           ),
           code: '''
-const SInput(placeholder: 'Large input', size: SInputSize.large);
-const SInput(placeholder: 'Middle input');
-const SInput(placeholder: 'Small input', size: SInputSize.small);''',
+SInput(placeholder: l10n.inputLabelLarge, size: SInputSize.large);
+SInput(placeholder: l10n.inputLabelMiddle);
+SInput(placeholder: l10n.inputLabelSmall, size: SInputSize.small);''',
         ),
-        const ComponentSection(
-          title: 'Disabled and ReadOnly',
+        ComponentSection(
+          title: l10n.inputSectionDisabled,
           description: 'Prevent user interaction using `enabled: false` or `readOnly: true`.',
           demo: Column(
             children: [
-              SInput(placeholder: 'Disabled', enabled: false),
-              SizedBox(height: 12),
-              SInput(initialValue: 'Cannot be changed', readOnly: true),
+              SInput(placeholder: l10n.inputLabelDisabled, enabled: false),
+              const SizedBox(height: 12),
+              SInput(initialValue: l10n.inputLabelReadOnly, readOnly: true),
             ],
           ),
           code: '''
-const SInput(placeholder: 'Disabled', enabled: false);
-const SInput(initialValue: 'Cannot be changed', readOnly: true);''',
+SInput(placeholder: l10n.inputLabelDisabled, enabled: false);
+SInput(initialValue: l10n.inputLabelReadOnly, readOnly: true);''',
         ),
-        const ComponentSection(
-          title: 'Allow Clear',
+        ComponentSection(
+          title: l10n.inputSectionClear,
           description: 'Show a clear button on the right when the field has content.',
           demo: SInput(
-            placeholder: 'Type something then clear it',
+            placeholder: l10n.inputLabelTypeClear,
             allowClear: true,
           ),
           code: '''
-const SInput(placeholder: 'Type something', allowClear: true);''',
+SInput(placeholder: l10n.inputLabelTypeClear, allowClear: true);''',
         ),
         ComponentSection(
-          title: 'Text Area',
+          title: l10n.inputSectionTextArea,
           description: 'Use `SInput.textArea()` for multi-line input.',
           demo: SInput.textArea(
-            placeholder: 'Write your message...',
+            placeholder: l10n.inputLabelMessage,
             maxLength: 200,
             showCount: true,
           ),
           code: '''
 SInput.textArea(
-  placeholder: 'Write your message...',
+  placeholder: l10n.inputLabelMessage,
   maxLength: 200,
   showCount: true,
 );''',

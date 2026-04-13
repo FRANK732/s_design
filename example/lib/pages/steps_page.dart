@@ -19,44 +19,42 @@ class _StepsPageState
   int _current =
       1;
 
-  static const _steps =
-      [
-    SStepItem(
-        title: Text('Order Placed'),
-        description: Text('Your order was received')),
-    SStepItem(
-        title: Text('Processing'),
-        description: Text('Being prepared')),
-    SStepItem(
-        title: Text('Shipped'),
-        description: Text('On its way')),
-    SStepItem(
-        title: Text('Delivered'),
-        description: Text('Enjoy!')),
-  ];
-
   @override
   Widget build(
       BuildContext
           context) {
+    final l10n = SLocalizations.ofContext(context);
+
+    final steps = [
+      SStepItem(
+          title: Text(l10n.stepsLabelOrderPlaced),
+          description: Text(l10n.stepsDescOrderReceived)),
+      SStepItem(
+          title: Text(l10n.stepsLabelProcessing),
+          description: Text(l10n.stepsDescPrepared)),
+      SStepItem(
+          title: Text(l10n.stepsLabelShipped),
+          description: Text(l10n.stepsDescOnWay)),
+      SStepItem(
+          title: Text(l10n.stepsLabelDelivered),
+          description: Text(l10n.stepsDescEnjoy)),
+    ];
     return ComponentPage(
       name:
           'SSteps',
-      description:
-          'A progress steps component that guides users through sequential processes. '
-          'Supports horizontal and vertical orientations, clickable steps, and status overrides.',
-      whenToUse: const [
-        'For multi-step wizards (checkout, onboarding, form completion).',
-        'To show progress through a sequence of tasks.',
-        'When you want users to understand where they are in a workflow.',
+      description: l10n.stepsDesc,
+      whenToUse: [
+        l10n.stepsTip1,
+        l10n.stepsTip2,
+        l10n.stepsTip3,
       ],
       sections: [
         ComponentSection(
-          title: 'Horizontal Steps',
+          title: l10n.stepsSectionHorizontal,
           description: 'Default horizontal layout with current step highlighted.',
           demo: Column(
             children: [
-              SSteps(items: _steps, current: _current),
+              SSteps(items: steps, current: _current),
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -65,13 +63,13 @@ class _StepsPageState
                     size: SButtonSize.sm,
                     variant: SButtonVariant.outline,
                     onPressed: _current > 0 ? () => setState(() => _current--) : null,
-                    child: const Text('Previous'),
+                    child: Text(l10n.stepsBtnPrevious),
                   ),
                   const SizedBox(width: 12),
                   SButton(
                     size: SButtonSize.sm,
-                    onPressed: _current < _steps.length - 1 ? () => setState(() => _current++) : null,
-                    child: const Text('Next'),
+                    onPressed: _current < steps.length - 1 ? () => setState(() => _current++) : null,
+                    child: Text(l10n.stepsBtnNext),
                   ),
                 ],
               ),
@@ -87,17 +85,17 @@ const steps = [
 
 SSteps(items: steps, current: 1);''',
         ),
-        const ComponentSection(
-          title: 'Vertical Steps',
+        ComponentSection(
+          title: l10n.stepsSectionVertical,
           description: 'Use `direction: Axis.vertical` for a vertical layout.',
           demo: SizedBox(
             height: 200,
             child: SSteps(
               direction: Axis.vertical,
               items: [
-                SStepItem(title: Text('Step 1'), description: Text('Create your account')),
-                SStepItem(title: Text('Step 2'), description: Text('Set up your profile')),
-                SStepItem(title: Text('Step 3'), description: Text('Explore features')),
+                SStepItem(title: Text(l10n.stepsLabelStep1), description: Text(l10n.stepsDescCreateAccount)),
+                SStepItem(title: Text(l10n.stepsLabelStep2), description: Text(l10n.stepsDescSetProfile)),
+                SStepItem(title: Text(l10n.stepsLabelStep3), description: Text(l10n.stepsDescExplore)),
               ],
               current: 1,
             ),
@@ -113,14 +111,14 @@ SSteps(
   current: 1,
 );''',
         ),
-        const ComponentSection(
-          title: 'Error Status',
+        ComponentSection(
+          title: l10n.stepsSectionError,
           description: 'Override step status to show errors using `SStepStatus.error`.',
           demo: SSteps(
             items: [
-              SStepItem(title: Text('Placed'), status: SStepStatus.finish),
-              SStepItem(title: Text('Processing'), status: SStepStatus.error),
-              SStepItem(title: Text('Shipped')),
+              SStepItem(title: Text(l10n.stepsLabelPlaced), status: SStepStatus.finish),
+              SStepItem(title: Text(l10n.stepsLabelProcessing), status: SStepStatus.error),
+              SStepItem(title: Text(l10n.stepsLabelShipped)),
             ],
             current: 1,
           ),
@@ -135,10 +133,10 @@ SSteps(
 );''',
         ),
         ComponentSection(
-          title: 'Clickable Steps',
+          title: l10n.stepsSectionClickable,
           description: 'Pass `onChange` to make steps interactive.',
           demo: SSteps(
-            items: _steps,
+            items: steps,
             current: _current,
             onChange: (i) => setState(() => _current = i),
           ),

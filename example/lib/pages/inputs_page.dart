@@ -115,10 +115,22 @@ class _InputFieldPageState
   Widget build(
       BuildContext
           context) {
+    final l10n = SLocalizations.ofContext(context);
+
+    String? validateNotEmpty(
+        String?
+            value) {
+      if (value == null ||
+          value.isEmpty) {
+        return l10n.inputErrorEmpty;
+      }
+      return null;
+    }
+
     return SScaffold(
       appBar:
           AppBar(
-        title: const Text('SInputField Showcase'),
+        title: Text(l10n.inputTitleShowcase),
       ),
       renderBody: (context) =>
           SingleChildScrollView(
@@ -127,40 +139,35 @@ class _InputFieldPageState
           key: _formKey,
           child: Column(
             children: <Widget>[
-              _buildSectionTitle('Default Input Field'),
+              _buildSectionTitle(l10n.inputSectionDefault),
               const SizedBox(height: 8),
               SInputField.number(
                 validator: (String? val) {
                   if (val!.isEmpty || val.length < 10) {
-                    return 'Please enter a valid number';
+                    return l10n.inputErrorNumber;
                   }
                   return null;
                 },
                 controller: _defaultController,
                 focusNode: _defaultFocusNode,
-                hintText: 'Enter number',
+                hintText: l10n.inputHintNumber,
               ),
               const Divider(height: 40),
-              _buildSectionTitle('Password Field'),
+              _buildSectionTitle(l10n.inputSectionPassword),
               const SizedBox(height: 8),
               SInputField.password(
                 controller: _passwordController,
                 focusNode: _passwordFocusNode,
-                hintText: 'Enter password',
+                hintText: l10n.inputHintPassword,
               ),
               const Divider(height: 40),
-              _buildSectionTitle('Input with Icons'),
+              _buildSectionTitle(l10n.inputSectionIcons),
               const SizedBox(height: 8),
               SInputField.search(
                 controller: _iconController,
                 focusNode: _iconFocusNode,
-                hintText: 'Search',
-                validator: (String? data) {
-                  if (data!.isEmpty) {
-                    return 'This field cannot be empty';
-                  }
-                  return null;
-                },
+                hintText: l10n.inputHintSearch,
+                validator: validateNotEmpty,
                 onChanged: (String value) {
                   if (value.isEmpty) {
                     _iconController.clear();
@@ -168,45 +175,45 @@ class _InputFieldPageState
                 },
               ),
               const Divider(height: 40),
-              _buildSectionTitle('Date Picker Input'),
+              _buildSectionTitle(l10n.inputSectionDatePicker),
               const SizedBox(height: 8),
               SInputField.datePicker(
                 controller: _dateController,
                 focusNode: _dateFocusNode,
-                hintText: 'Select date',
+                hintText: l10n.inputHintDate,
               ),
               const Divider(height: 40),
-              _buildSectionTitle('Input with Validation'),
+              _buildSectionTitle(l10n.inputSectionValidation),
               const SizedBox(height: 8),
               SInputField.email(
                 controller: _validationController,
                 focusNode: _validationFocusNode,
-                hintText: 'Enter your email',
-                validator: _validateNotEmpty,
+                hintText: l10n.inputHintEmail,
+                validator: validateNotEmpty,
                 onChanged: (String value) {
                   // Handle saved value
                 },
               ),
               const Divider(height: 40),
-              _buildSectionTitle('Input Customization'),
+              _buildSectionTitle(l10n.inputSectionCustom),
               const SizedBox(height: 8),
               SInputField(
                 size: SInputFieldSize.large,
                 controller: _customController,
                 focusNode: _customFocusNode,
-                hintText: 'Custom',
+                hintText: l10n.inputHintCustom,
                 onChanged: (String value) {
                   dev.log('Value changed: $value');
                 },
               ),
               const Divider(height: 40),
-              _buildSectionTitle('Formatted Input (Credit Card)'),
+              _buildSectionTitle(l10n.inputSectionCard),
               const SizedBox(height: 8),
               SInputField(
                 controller: TextEditingController(),
-                hintText: '0000 0000 0000 0000',
-                labelText: 'Card Number',
-                helperText: 'We do not store your card details',
+                hintText: l10n.inputHintCard,
+                labelText: l10n.inputLabelCard,
+                helperText: l10n.inputHelperCard,
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
                   _CreditCardFormatter(),
@@ -216,33 +223,33 @@ class _InputFieldPageState
               const SizedBox(height: 20),
               SButton(
                 onPressed: _onSubmit,
-                child: const Text('Submit'),
+                child: Text(l10n.inputBtnSubmit),
               ),
               const Divider(height: 40),
-              _buildSectionTitle('Real World Features'),
+              _buildSectionTitle(l10n.inputSectionRealWorld),
               const SizedBox(height: 8),
               SInputField(
                 controller: TextEditingController(),
-                labelText: 'Price',
-                hintText: '0.00',
+                labelText: l10n.inputLabelPrice,
+                hintText: l10n.inputHintPrice,
                 prefixText: r'$',
                 suffixText: 'USD',
-                helperText: 'Enter the price in USD',
+                helperText: l10n.inputHelperPrice,
                 size: SInputFieldSize.large,
               ),
               const SizedBox(height: 16),
               SInputField(
                 controller: TextEditingController(),
-                labelText: 'Server Status',
-                hintText: 'Checking...',
+                labelText: l10n.inputLabelStatus,
+                hintText: l10n.inputHintStatus,
                 isLoading: true,
-                helperText: 'Validating connection...',
+                helperText: l10n.inputHelperStatus,
               ),
               const SizedBox(height: 16),
               SInputField(
                 controller: TextEditingController(text: 'invalid_api_key'),
-                labelText: 'API Key',
-                errorText: 'Invalid API Key (Server Error)',
+                labelText: l10n.inputLabelApiKey,
+                errorText: l10n.inputErrorApiKey,
               ),
               const Divider(height: 40),
             ],

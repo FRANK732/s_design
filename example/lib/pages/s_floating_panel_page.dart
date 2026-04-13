@@ -17,6 +17,7 @@ class _SFloatingPanelPageState
         SFloatingPanelPage> {
   Future<void>
       _showSimplePanel(BuildContext context) async {
+    final l10n = SLocalizations.ofContext(context);
     await SFloatingPanel
         .show(
       context:
@@ -32,14 +33,14 @@ class _SFloatingPanelPageState
               children: [
                 const Icon(Icons.check_circle, size: 64, color: Colors.green),
                 const SizedBox(height: 16),
-                const Text(
-                  'Action Completed!',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                Text(
+                  l10n.floatingLabelActionCompleted,
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 24),
                 ElevatedButton(
                   onPressed: () => SFloatingPanel.close(context),
-                  child: const Text('OK'),
+                  child: Text(l10n.floatingBtnOk),
                 ),
               ],
             ),
@@ -51,6 +52,7 @@ class _SFloatingPanelPageState
 
   Future<void>
       _showAdvancedPanel(BuildContext context) async {
+    final l10n = SLocalizations.ofContext(context);
     await SFloatingPanel
         .show(
       context:
@@ -65,22 +67,22 @@ class _SFloatingPanelPageState
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Advanced Settings',
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                Text(
+                  l10n.floatingTitleAdvanced,
+                  style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 16),
-                const TextField(
+                TextField(
                   decoration: InputDecoration(
-                    labelText: 'Username',
-                    border: OutlineInputBorder(),
+                    labelText: l10n.floatingLabelUsername,
+                    border: const OutlineInputBorder(),
                   ),
                 ),
                 const SizedBox(height: 16),
-                const TextField(
+                TextField(
                   decoration: InputDecoration(
-                    labelText: 'Password',
-                    border: OutlineInputBorder(),
+                    labelText: l10n.floatingLabelPassword,
+                    border: const OutlineInputBorder(),
                   ),
                   obscureText: true,
                 ),
@@ -90,7 +92,7 @@ class _SFloatingPanelPageState
                     Expanded(
                       child: OutlinedButton(
                         onPressed: () => SFloatingPanel.close(context),
-                        child: const Text('Cancel'),
+                        child: Text(l10n.floatingBtnCancel),
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -99,10 +101,10 @@ class _SFloatingPanelPageState
                         onPressed: () {
                           // Perform some action
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Settings saved!')),
+                            SnackBar(content: Text(l10n.floatingMsgSettingsSaved)),
                           );
                         },
-                        child: const Text('Save'),
+                        child: Text(l10n.floatingBtnSave),
                       ),
                     ),
                   ],
@@ -119,16 +121,17 @@ class _SFloatingPanelPageState
 
   Future<void>
       _showCustomBottomPanel(BuildContext context) async {
+    final l10n = SLocalizations.ofContext(context);
     await SFloatingPanel
         .show(
       context:
           context,
       config:
           SFloatingPanelConfig(
-        contentConfig: const SFloatingContentConfig(
-          icon: Icon(Icons.local_offer, size: 48, color: Colors.orange),
-          title: 'Special Offer!',
-          description: 'Get 50% off your next purchase. Limited time only!',
+        contentConfig: SFloatingContentConfig(
+          icon: const Icon(Icons.local_offer, size: 48, color: Colors.orange),
+          title: l10n.floatingTitleSpecialOffer,
+          description: l10n.floatingDescSpecialOffer,
         ),
         bottomConfig: SFloatingBottomConfig(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -137,16 +140,16 @@ class _SFloatingPanelPageState
             SButton(
               variant: SButtonVariant.outline,
               onPressed: () => SFloatingPanel.close(context),
-              child: const Text('Maybe Later'),
+              child: Text(l10n.floatingBtnMaybeLater),
             ),
             SButton(
               onPressed: () {
                 SFloatingPanel.close(context);
                 SSonner.show(
-                  message: 'Offer claimed!',
+                  message: l10n.floatingMsgOfferClaimed,
                 );
               },
-              child: const Text('Claim Offer'),
+              child: Text(l10n.floatingBtnClaimOffer),
             ),
           ],
         ),
@@ -159,12 +162,13 @@ class _SFloatingPanelPageState
   Widget build(
       BuildContext
           context) {
+    final l10n = SLocalizations.ofContext(context);
     return SScaffold(
       centerBody:
           true,
       appBar:
           AppBar(
-        title: const Text('Floating Panel Demo'),
+        title: Text(l10n.floatingTitle),
       ),
       renderBody: (BuildContext context) =>
           SingleChildScrollView(
@@ -176,16 +180,16 @@ class _SFloatingPanelPageState
           children: [
             ElevatedButton(
               onPressed: () => _showSimplePanel(context),
-              child: const Text('Show Simple Panel'),
+              child: Text(l10n.floatingBtnShowSimple),
             ),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () => _showAdvancedPanel(context),
-              child: const Text('Show Advanced Panel'),
+              child: Text(l10n.floatingBtnShowAdvanced),
             ),
             ElevatedButton(
               onPressed: () => _showCustomBottomPanel(context),
-              child: const Text('Show Custom Bottom Panel'),
+              child: Text(l10n.floatingBtnShowCustom),
             ),
           ],
         ),

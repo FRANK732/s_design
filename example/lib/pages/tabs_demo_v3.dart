@@ -11,28 +11,27 @@ class TabsDemoV3Page
   Widget build(
       BuildContext
           context) {
+    final l10n = SLocalizations.ofContext(context);
     return ComponentPage(
       name:
           'STabs',
-      description:
-          'A tab navigation component for switching between multiple views or content sections. '
-          'Supports line, card and editable tab types, plus top/bottom/left/right positions.',
-      whenToUse: const [
-        'When you need to partition content into related, peer-level sections.',
-        'For content-heavy screens like product detail pages or profile views.',
-        'When left/right sidebar navigation supplements a main view.',
+      description: l10n.tabsDesc,
+      whenToUse: [
+        l10n.tabsTip1,
+        l10n.tabsTip2,
+        l10n.tabsTip3,
       ],
       sections: [
         ComponentSection(
-          title: 'Basic Tabs',
+          title: l10n.tabsSectionBasic,
           description: 'Pass `items: List<STabItem>` — each item defines a tab label and its content.',
           demo: SizedBox(
             height: 160,
             child: STabs(
               items: [
-                STabItem(label: 'Overview', content: const Center(child: Text('Overview content'))),
-                STabItem(label: 'Details', content: const Center(child: Text('Details content'))),
-                STabItem(label: 'Reviews', content: const Center(child: Text('Reviews content'))),
+                STabItem(label: l10n.tabsLabelOverview, content: Center(child: Text(l10n.tabsContentOverview))),
+                STabItem(label: l10n.tabsLabelDetails, content: Center(child: Text(l10n.tabsContentDetails))),
+                STabItem(label: l10n.tabsLabelReviews, content: Center(child: Text(l10n.tabsContentReviews))),
               ],
             ),
           ),
@@ -46,15 +45,15 @@ STabs(
 );''',
         ),
         ComponentSection(
-          title: 'Tabs with Icons',
+          title: l10n.tabsSectionIcons,
           description: 'Use the `icon` field on `STabItem` to add icons to tab labels.',
           demo: SizedBox(
             height: 160,
             child: STabs(
               items: [
-                STabItem(label: 'Home', icon: const Icon(Icons.home_outlined, size: 16), content: const Center(child: Text('Home'))),
-                STabItem(label: 'Search', icon: const Icon(Icons.search_outlined, size: 16), content: const Center(child: Text('Search'))),
-                STabItem(label: 'Profile', icon: const Icon(Icons.person_outline, size: 16), content: const Center(child: Text('Profile'))),
+                STabItem(label: l10n.tabsLabelHome, icon: const Icon(Icons.home_outlined, size: 16), content: Center(child: Text(l10n.tabsLabelHome))),
+                STabItem(label: l10n.tabsLabelSearch, icon: const Icon(Icons.search_outlined, size: 16), content: Center(child: Text(l10n.tabsLabelSearch))),
+                STabItem(label: l10n.tabsLabelProfile, icon: const Icon(Icons.person_outline, size: 16), content: Center(child: Text(l10n.tabsLabelProfile))),
               ],
             ),
           ),
@@ -67,16 +66,16 @@ STabs(
 );''',
         ),
         ComponentSection(
-          title: 'Card Type',
+          title: l10n.tabsSectionCard,
           description: 'Use `type: STabType.card` for a card-style tab bar.',
           demo: SizedBox(
             height: 160,
             child: STabs(
               type: STabType.card,
               items: [
-                STabItem(label: 'Card A', content: const Center(child: Text('Card A content'))),
-                STabItem(label: 'Card B', content: const Center(child: Text('Card B content'))),
-                STabItem(label: 'Card C', content: const Center(child: Text('Card C content'))),
+                STabItem(label: l10n.tabsLabelCardA, content: Center(child: Text(l10n.tabsContentCardA))),
+                STabItem(label: l10n.tabsLabelCardB, content: Center(child: Text(l10n.tabsContentCardB))),
+                STabItem(label: l10n.tabsLabelCardC, content: Center(child: Text(l10n.tabsContentCardC))),
               ],
             ),
           ),

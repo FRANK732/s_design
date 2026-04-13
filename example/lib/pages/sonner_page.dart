@@ -11,30 +11,30 @@ class SonnerPage
   Widget build(
       BuildContext
           context) {
+    final l10n =
+        SLocalizations.ofContext(context);
     return ComponentPage(
       name:
           'SSonner',
       description:
-          'A toast notification system inspired by the Sonner library. '
-          'Shows stacked, auto-dismissing notifications. '
-          'Supports success, error, warning, and info variants.',
-      whenToUse: const [
-        'To provide feedback on async operations (saved, deleted, error).',
-        "For non-intrusive notifications that don't block user flow.",
-        'When multiple sequential notifications may arrive.',
+          l10n.sonnerDesc,
+      whenToUse: [
+        l10n.sonnerTip1,
+        l10n.sonnerTip2,
+        l10n.sonnerTip3,
       ],
       sections: [
-        const ComponentSection(
-          title: 'Variants',
+        ComponentSection(
+          title: l10n.sonnerSectionVariants,
           description: 'Show success, error, warning, or info sonners.',
           demo: Wrap(
             spacing: 10,
             runSpacing: 10,
             children: [
-              _SonnerBtn(label: 'Success', variant: SSonnerVariant.success),
-              _SonnerBtn(label: 'Error', variant: SSonnerVariant.error),
-              _SonnerBtn(label: 'Warning', variant: SSonnerVariant.warning),
-              _SonnerBtn(label: 'Info', variant: SSonnerVariant.info),
+              _SonnerBtn(label: l10n.sonnerLabelSuccess, variant: SSonnerVariant.success),
+              _SonnerBtn(label: l10n.sonnerLabelError, variant: SSonnerVariant.error),
+              _SonnerBtn(label: l10n.sonnerLabelWarning, variant: SSonnerVariant.warning),
+              _SonnerBtn(label: l10n.sonnerLabelInfo, variant: SSonnerVariant.info),
             ],
           ),
           code: '''
@@ -48,21 +48,21 @@ SSonner.instance.show(
 );''',
         ),
         ComponentSection(
-          title: 'Via SSonnerConfig',
+          title: l10n.sonnerSectionConfig,
           description: 'Pass an `SSonnerConfig` for more detailed control including a title.',
           demo: Builder(
               builder: (context) => SButton(
                     variant: SButtonVariant.outline,
                     onPressed: () {
                       SSonner.show(
-                        config: const SSonnerConfig(
-                          message: 'File uploaded successfully.',
-                          title: 'Upload complete',
+                        config: SSonnerConfig(
+                          message: l10n.sonnerLabelMsgUploaded,
+                          title: l10n.sonnerLabelTitleUpload,
                           variant: SSonnerVariant.success,
                         ),
                       );
                     },
-                    child: const Text('Show with title'),
+                    child: Text(l10n.sonnerBtnShowWithTitle),
                   )),
           code: '''
 SSonner.instance.show(
@@ -74,21 +74,21 @@ SSonner.instance.show(
 );''',
         ),
         ComponentSection(
-          title: 'With Action Button',
+          title: l10n.sonnerSectionAction,
           description: 'Add an action widget (e.g. an Undo button) to the notification.',
           demo: Builder(
               builder: (context) => SButton(
                     variant: SButtonVariant.outline,
                     onPressed: () {
                       SSonner.show(
-                        message: 'Email archived',
+                        message: l10n.sonnerLabelMsgArchived,
                         action: TextButton(
                           onPressed: () {},
-                          child: const Text('Undo', style: TextStyle(fontSize: 12)),
+                          child: Text(l10n.demoUndo, style: const TextStyle(fontSize: 12)),
                         ),
                       );
                     },
-                    child: const Text('Show with action'),
+                    child: Text(l10n.sonnerBtnShowWithAction),
                   )),
           code: '''
 SSonner.instance.show(
@@ -101,18 +101,18 @@ SSonner.instance.show(
 );''',
         ),
         ComponentSection(
-          title: 'Position: Top',
+          title: l10n.sonnerSectionPosition,
           description: 'Change the position with `SSonnerPosition.top`.',
           demo: Builder(
               builder: (context) => SButton(
                     variant: SButtonVariant.outline,
                     onPressed: () {
                       SSonner.show(
-                        message: 'This appears at the top',
+                        message: l10n.sonnerLabelMsgTop,
                         position: SSonnerPosition.top,
                       );
                     },
-                    child: const Text('Show at top'),
+                    child: Text(l10n.sonnerBtnShowAtTop),
                   )),
           code: '''
 SSonner.instance.show(
@@ -122,19 +122,19 @@ SSonner.instance.show(
 );''',
         ),
         ComponentSection(
-          title: 'Replace Instead of Stack',
+          title: l10n.sonnerSectionReplace,
           description: 'Use the `replace: true` flag to instantly dismiss all active toasts and display the new one. Useful for throttling or preventing clutter during rapid events.',
           demo: Builder(
               builder: (context) => SButton(
                     variant: SButtonVariant.outline,
                     onPressed: () {
                       SSonner.show(
-                        message: 'Replaced existing toasts! ${DateTime.now().second}s',
+                        message: '${l10n.sonnerLabelMsgReplaced} ${DateTime.now().second}s',
                         variant: SSonnerVariant.warning,
                         replace: true,
                       );
                     },
-                    child: const Text('Show & Replace'),
+                    child: Text(l10n.sonnerBtnShowReplace),
                   )),
           code: '''
 SSonner.show(
@@ -144,21 +144,21 @@ SSonner.show(
 );''',
         ),
         ComponentSection(
-          title: 'Flat Toast (No Shadow)',
+          title: l10n.sonnerSectionShadow,
           description: 'Use the `elevation: 0` property within `SSonnerConfig` to completely remove the drop-shadow for a flatter look.',
           demo: Builder(
               builder: (context) => SButton(
                     variant: SButtonVariant.outline,
                     onPressed: () {
                       SSonner.show(
-                        config: const SSonnerConfig(
-                          message: 'I have no shadow!',
+                        config: SSonnerConfig(
+                          message: l10n.sonnerLabelMsgNoShadow,
                           variant: SSonnerVariant.info,
                           elevation: 0,
                         ),
                       );
                     },
-                    child: const Text('Show Flat Toast'),
+                    child: Text(l10n.sonnerBtnShowFlat),
                   )),
           code: '''
 SSonner.show(
@@ -187,12 +187,17 @@ class _SonnerBtn
   Widget build(
       BuildContext
           context) {
+    final l10n =
+        SLocalizations.ofContext(context);
     return SButton(
-      variant:
-          SButtonVariant.outline,
+      variant: variant == SSonnerVariant.error
+          ? SButtonVariant.destructive
+          : variant == SSonnerVariant.success
+              ? SButtonVariant.secondary
+              : SButtonVariant.outline,
       onPressed:
           () {
-        SSonner.show(message: '$label notification', variant: variant);
+        SSonner.show(message: l10n.sonnerLabelNotify(label), variant: variant);
       },
       child:
           Text(label),

@@ -9,75 +9,53 @@ class BottomNavigationPage
       {super.key});
 
   @override
-  State<BottomNavigationPage>
-      createState() =>
-          _BottomNavigationPageState();
+  State<BottomNavigationPage> createState() => _BottomNavigationPageState();
 }
 
 class _BottomNavigationPageState
-    extends State<
-        BottomNavigationPage> {
-  int _capsuleIndex =
-      0;
-  int _dotIndex =
-      0;
-  int _flashyIndex =
-      0;
-  int _shiftIndex =
-      0;
-
-  final items =
-      [
-    SAnimatedBottomBarItem(
-      icon:
-          const Icon(Icons.home_outlined),
-      activeIcon:
-          const Icon(Icons.home),
-      title:
-          const Text('Home'),
-      selectedColor:
-          Colors.blue,
-    ),
-    SAnimatedBottomBarItem(
-      icon:
-          const Icon(Icons.favorite_outline),
-      activeIcon:
-          const Icon(Icons.favorite),
-      title:
-          const Text('Likes'),
-      selectedColor:
-          Colors.red,
-    ),
-    SAnimatedBottomBarItem(
-      icon:
-          const Icon(Icons.search_outlined),
-      activeIcon:
-          const Icon(Icons.search),
-      title:
-          const Text('Search'),
-      selectedColor:
-          Colors.orange,
-    ),
-    SAnimatedBottomBarItem(
-      icon:
-          const Icon(Icons.person_outline),
-      activeIcon:
-          const Icon(Icons.person),
-      title:
-          const Text('Profile'),
-      selectedColor:
-          Colors.teal,
-    ),
-  ];
+    extends State<BottomNavigationPage> {
+  int _capsuleIndex = 0;
+  int _dotIndex = 0;
+  int _flashyIndex = 0;
+  int _shiftIndex = 0;
 
   @override
   Widget build(
       BuildContext
           context) {
+    final l10n = SLocalizations.ofContext(context);
+
+    final items = [
+      SAnimatedBottomBarItem(
+        icon: const Icon(Icons.home_outlined),
+        activeIcon: const Icon(Icons.home),
+        title: Text(l10n.navLabelHome),
+        selectedColor: Colors.blue,
+      ),
+      SAnimatedBottomBarItem(
+        icon: const Icon(Icons.favorite_outline),
+        activeIcon: const Icon(Icons.favorite),
+        title: Text(l10n.navLabelLikes),
+        selectedColor: Colors.red,
+      ),
+      SAnimatedBottomBarItem(
+        icon: const Icon(Icons.search_outlined),
+        activeIcon: const Icon(Icons.search),
+        title: Text(l10n.navLabelSearch),
+        selectedColor: Colors.orange,
+      ),
+      SAnimatedBottomBarItem(
+        icon: const Icon(Icons.person_outline),
+        activeIcon: const Icon(Icons.person),
+        title: Text(l10n.navLabelProfile),
+        selectedColor: Colors.teal,
+      ),
+    ];
+
     return SScaffold(
       appBar:
           AppBar(
-        title: const Text('Animated Bottom Navigation'),
+        title: Text(l10n.navTitle),
       ),
       renderBody: (context) =>
           SingleChildScrollView(
@@ -138,13 +116,13 @@ class _BottomNavigationPageState
               unselectedItemColor: Colors.white.withOpacity(0.5),
             ),
             const SizedBox(height: 32),
-            const CodeSnippet(
+            CodeSnippet(
               code: '''
 final items = [
   SAnimatedBottomBarItem(
     icon: Icon(Icons.home_outlined),
     activeIcon: Icon(Icons.home),
-    title: Text('Home'),
+    title: Text('${l10n.navLabelHome}'),
     selectedColor: SColors.blue500,
   ),
   // ... more items
