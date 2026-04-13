@@ -72,7 +72,6 @@ class SDialogConfig {
         false,
   });
 
-  // ── Content ──────────────────────────────────────────────────────────────
   /// Text title shown at the top of the dialog.
   final String?
       title;
@@ -97,7 +96,6 @@ class SDialogConfig {
   final Widget?
       footerWidget;
 
-  // ── Actions ───────────────────────────────────────────────────────────────
   /// Row of action widgets (buttons) shown at the bottom.
   final List<Widget>?
       actions;
@@ -106,7 +104,6 @@ class SDialogConfig {
   final bool
       actionsWrap;
 
-  // ── Barrier / dismissal ───────────────────────────────────────────────────
   /// Whether tapping outside the dialog dismisses it. Defaults to true.
   final bool
       barrierDismissible;
@@ -115,7 +112,6 @@ class SDialogConfig {
   final Color?
       barrierColor;
 
-  // ── Sizing ────────────────────────────────────────────────────────────────
   /// Maximum width. Defaults to `min(screenWidth − 48, 560)`.
   final double?
       maxWidth;
@@ -124,7 +120,6 @@ class SDialogConfig {
   final double?
       maxHeight;
 
-  // ── Animation ─────────────────────────────────────────────────────────────
   /// Entry/exit transition type. Defaults to [SDialogAnimationType.zoomIn].
   final SDialogAnimationType
       animationType;
@@ -142,12 +137,10 @@ class SDialogConfig {
   final Duration?
       transitionDuration;
 
-  // ── Background effect ─────────────────────────────────────────────────────
   /// Visual treatment applied behind the dialog. Defaults to [SDialogBackgroundEffect.none].
   final SDialogBackgroundEffect
       backgroundEffect;
 
-  // ── Appearance ────────────────────────────────────────────────────────────
   final ShapeDecoration?
       shapeDecoration;
   final Color?

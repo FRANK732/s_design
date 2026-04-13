@@ -39,7 +39,6 @@ class _SPaginationPageState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── 1. Basic ───────────────────────────────────────────────────
             _sectionHeader(l10n.paginationHeader1),
             _description(l10n.paginationDesc1),
             SPagination(
@@ -48,7 +47,6 @@ class _SPaginationPageState
             ),
             const SizedBox(height: 32),
 
-            // ── 2. More Pages (Ellipsis) ───────────────────────────────────
             _sectionHeader(l10n.paginationHeader2),
             _description(l10n.paginationDesc2),
             SPagination(
@@ -58,7 +56,6 @@ class _SPaginationPageState
             ),
             const SizedBox(height: 32),
 
-            // ── 3. Changer (Size Selector) ─────────────────────────────────
             _sectionHeader(l10n.paginationHeader3),
             _description(l10n.paginationDesc3),
             SPagination(
@@ -77,7 +74,6 @@ class _SPaginationPageState
             ),
             const SizedBox(height: 32),
 
-            // ── 4. Quick Jumper ────────────────────────────────────────────
             _sectionHeader(l10n.paginationHeader4),
             _description(l10n.paginationDesc4),
             SPagination(
@@ -95,7 +91,6 @@ class _SPaginationPageState
             ),
             const SizedBox(height: 32),
 
-            // ── 5. Mini Size ───────────────────────────────────────────────
             _sectionHeader(l10n.paginationHeader5),
             _description(l10n.paginationDesc5),
             const SPagination(size: SPaginationSize.small, total: 50),
@@ -150,7 +145,6 @@ class _SPaginationPageState
             ),
             const SizedBox(height: 32),
 
-            // ── 6. Simple Mode ─────────────────────────────────────────────
             _sectionHeader(l10n.paginationHeader6),
             _description(l10n.paginationDesc6),
             const SPagination(simple: true, defaultCurrent: 2, total: 50),
@@ -158,7 +152,6 @@ class _SPaginationPageState
             const SPagination(simple: true, defaultCurrent: 2, total: 50, disabled: true),
             const SizedBox(height: 32),
 
-            // ── 7. Controlled ──────────────────────────────────────────────
             _sectionHeader(l10n.paginationHeader7),
             _description(l10n.paginationDesc7),
             Wrap(
@@ -175,7 +168,6 @@ class _SPaginationPageState
             ),
             const SizedBox(height: 32),
 
-            // ── 8. Show Total ──────────────────────────────────────────────
             _sectionHeader(l10n.paginationHeader8),
             _description(l10n.paginationDesc8),
             SPagination(
@@ -191,7 +183,6 @@ class _SPaginationPageState
             ),
             const SizedBox(height: 32),
 
-            // ── 9. Custom Item Render ──────────────────────────────────────
             _sectionHeader(l10n.paginationHeader9),
             _description(l10n.paginationDesc9),
             SPagination(
@@ -214,7 +205,6 @@ class _SPaginationPageState
             ),
             const SizedBox(height: 32),
 
-            // ── 10. Alignment ──────────────────────────────────────────────
             _sectionHeader(l10n.paginationHeader10),
             _description(l10n.paginationDesc10),
             const SPagination(total: 50),
@@ -224,7 +214,6 @@ class _SPaginationPageState
             const SPagination(align: SPaginationAlign.end, total: 50),
             const SizedBox(height: 32),
 
-            // ── 11. All Features ───────────────────────────────────────────
             _sectionHeader(l10n.paginationHeader11),
             _description(l10n.paginationDesc11),
             SPagination(
@@ -235,7 +224,6 @@ class _SPaginationPageState
             ),
             const SizedBox(height: 32),
 
-            // ── 12. Open Customizability ───────────────────────────────────
             _sectionHeader(l10n.paginationHeader12),
             _description(l10n.paginationDesc12),
             SPagination(

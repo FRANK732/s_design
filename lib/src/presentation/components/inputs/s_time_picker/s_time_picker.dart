@@ -6,9 +6,6 @@ import '../../../themes/extensions/component_themes/s_time_picker_theme.dart';
 import '../../../themes/s_theme.dart';
 import '../../../themes/s_theme_data.dart';
 
-// ─────────────────────────────────────────────────────────────────────────────
-//  Format helpers
-// ─────────────────────────────────────────────────────────────────────────────
 
 bool _hasSeconds(
         String
@@ -114,9 +111,6 @@ int _to24(
       : displayH;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-//  Token bag
-// ─────────────────────────────────────────────────────────────────────────────
 
 class _Tok {
   const _Tok({
@@ -166,9 +160,6 @@ class _Tok {
       iconSz;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-//  Scrollable column  (one per time unit)
-// ─────────────────────────────────────────────────────────────────────────────
 
 /// A single scrollable column that snaps to items.
 /// Parent must give it tight [BoxConstraints] (use explicit SizedBox).
@@ -392,9 +383,6 @@ class _TimeColumnState
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-//  STimePicker
-// ─────────────────────────────────────────────────────────────────────────────
 
 /// Time picker for Flutter.
 ///
@@ -570,7 +558,6 @@ class _STimePickerState
       _hovered =
       false;
 
-  // ── Derived ────────────────────────────────────────────────────────────────
 
   bool get _is12h =>
       widget.use12Hours ||
@@ -612,7 +599,6 @@ class _STimePickerState
           i
       ];
 
-  // ── Lifecycle ──────────────────────────────────────────────────────────────
 
   @override
   void
@@ -648,7 +634,6 @@ class _STimePickerState
         .dispose();
   }
 
-  // ── Helpers ────────────────────────────────────────────────────────────────
 
   int _nearest(
       List<int>
@@ -722,7 +707,6 @@ class _STimePickerState
       : _secItems[_psIdx.clamp(0,
           _secItems.length - 1)];
 
-  // ── Open / close ───────────────────────────────────────────────────────────
 
   void
       _open() {

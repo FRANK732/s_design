@@ -82,7 +82,6 @@ class SAlert
     this.banner =
         false,
 
-    // ── Open customizability ──────────────────────────────────────────────
     this.backgroundColor,
     this.borderColor,
     this.borderWidth,
@@ -97,7 +96,6 @@ class SAlert
     this.constraints,
   });
 
-  // ── Props ──────────────────────────────────────────────────────
 
   /// Semantic type of the alert.
   final SAlertType
@@ -145,7 +143,6 @@ class SAlert
   final bool
       banner;
 
-  // ── Open customizability props (all nullable → fall back to theme) ────────
 
   /// Override background color.
   final Color?
@@ -357,7 +354,6 @@ class _SAlertState
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            // ── Icon ────────────────────────────────────────────────────────
             if (effectiveShowIcon) ...<Widget>[
               Padding(
                 padding: EdgeInsets.only(
@@ -373,7 +369,6 @@ class _SAlertState
               ),
             ],
 
-            // ── Content section ─────────────────────────────────────────────
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -388,13 +383,11 @@ class _SAlertState
               ),
             ),
 
-            // ── Action ──────────────────────────────────────────────────────
             if (widget.action != null) ...<Widget>[
               const SizedBox(width: 8),
               widget.action!,
             ],
 
-            // ── Close button ────────────────────────────────────────────────
             if (widget.closable) ...<Widget>[
               const SizedBox(width: 8),
               GestureDetector(
@@ -444,7 +437,6 @@ class _SAlertState
   }
 }
 
-// ─── Internal color resolver ───────────────────────────────────────────────────
 
 class _SAlertColors {
   const _SAlertColors({

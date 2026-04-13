@@ -24,7 +24,6 @@ class SPaginationThemeData
     this.totalTextStyle,
   });
 
-  // ── Active (selected page) ───────────────────────────────────────────────
   final Color?
       activeColor;
   final Color?
@@ -32,25 +31,21 @@ class SPaginationThemeData
   final Color?
       activeTextColor;
 
-  // ── Default state ────────────────────────────────────────────────────────
   final Color?
       defaultBorderColor;
   final Color?
       defaultTextColor;
 
-  // ── Disabled state ───────────────────────────────────────────────────────
   final Color?
       disabledColor;
   final Color?
       disabledTextColor;
 
-  // ── Hover state ──────────────────────────────────────────────────────────
   final Color?
       hoverBorderColor;
   final Color?
       hoverTextColor;
 
-  // ── Layout tokens ────────────────────────────────────────────────────────
   final double?
       itemSize;
   final double?
