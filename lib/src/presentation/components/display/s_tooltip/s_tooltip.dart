@@ -433,8 +433,9 @@ class _STooltipOverlay
       BuildContext
           context) {
     return Positioned(
-      child:
-          CompositedTransformFollower(
+      left: 0,
+      top: 0,
+      child: CompositedTransformFollower(
         link: layerLink,
         showWhenUnlinked: false,
         child: _STooltipPositioner(
@@ -878,19 +879,19 @@ class _RenderSTooltipPositioner
   }
 
   @override
-  void
-      performLayout() {
-    if (child !=
-        null) {
-      child!.layout(constraints.loosen(),
-          parentUsesSize: true);
-      size =
-          constraints.constrain(child!.size);
+  void performLayout() {
+    if (child != null) {
+      final EdgeInsets resolvedPadding = _padding?.resolve(TextDirection.ltr) ?? EdgeInsets.zero;
+      
+      // Deflate the constraints to layout the child with the available space minus padding
+      child!.layout(constraints.loosen().deflate(resolvedPadding), parentUsesSize: true);
+      
+      // Set our size to the child size inflated by the padding, constrained by original constraints
+      size = constraints.constrain(resolvedPadding.inflateSize(child!.size));
 
       _calculatePosition();
     } else {
-      size =
-          constraints.smallest;
+      size = constraints.smallest;
     }
   }
 
@@ -1117,8 +1118,8 @@ class _RenderSTooltipPositioner
       }
 
       // Paint child
-      context.paintChild(child!,
-          Offset.zero);
+      final EdgeInsets resolvedPadding = _padding?.resolve(TextDirection.ltr) ?? EdgeInsets.zero;
+      context.paintChild(child!, resolvedPadding.topLeft);
 
       canvas.restore();
     }
