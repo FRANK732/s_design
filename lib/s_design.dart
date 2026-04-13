@@ -44,6 +44,8 @@ export 'src/presentation/components/display/s_slider/s_slider.dart';
 export 'src/presentation/components/display/s_steps/s_step_item.dart';
 export 'src/presentation/components/display/s_steps/s_steps.dart';
 export 'src/presentation/components/display/s_steps/s_steps_style_helper.dart';
+export 'src/presentation/components/display/s_tooltip/s_tooltip.dart';
+// feedback
 export 'src/presentation/components/feedback/s_alert/s_alert.dart';
 export 'src/presentation/components/feedback/s_dialog/s_dialog.dart';
 export 'src/presentation/components/feedback/s_dialog/s_dialog_config.dart';
@@ -102,6 +104,7 @@ export 'src/presentation/themes/extensions/component_themes/s_pagination_theme.d
 export 'src/presentation/themes/extensions/component_themes/s_select_theme.dart';
 export 'src/presentation/themes/extensions/component_themes/s_sonner_theme.dart';
 export 'src/presentation/themes/extensions/component_themes/s_switch_theme.dart';
+export 'src/presentation/themes/extensions/component_themes/s_tooltip_theme.dart';
 export 'src/presentation/themes/extensions/component_themes/s_tabs_theme.dart';
 export 'src/presentation/themes/extensions/component_themes/s_time_picker_theme.dart';
 export 'src/presentation/themes/extensions/component_themes/s_toast_theme.dart';

@@ -140,6 +140,8 @@ abstract class SLocalizations {
   String
       get compQRCode;
   String
+      get compTooltip;
+  String
       get compAlert;
   String
       get compDialog;
@@ -1146,6 +1148,22 @@ abstract class SLocalizations {
       get tabsLabelShort;
   String
       get tabsLabelMedium;
+
+  // STooltip Page
+  String
+      get tooltipDesc;
+  String
+      get tooltipLabelHover;
+  String
+      get tooltipLabelClick;
+  String
+      get tooltipLabelLongPress;
+  String
+      get tooltipSectionPlacement;
+  String
+      get tooltipSectionTrigger;
+  String
+      get tooltipSectionColors;
   String
       get tabsLabelCard;
   String
@@ -1485,6 +1503,9 @@ class SLocalizationsEn
   @override
   String get compQRCode =>
       'SQRCode';
+  @override
+  String get compTooltip =>
+      'STooltip';
   @override
   String get compAlert =>
       'SAlert';
@@ -1928,15 +1949,6 @@ class SLocalizationsEn
   String get rateDesc =>
       'A star rating component that lets users provide feedback on a numeric scale. Supports full stars, half stars, custom icons, and read-only display.';
   @override
-  String get rateTip1 =>
-      'For product, service, or content rating interfaces.';
-  @override
-  String get rateTip2 =>
-      'To collect qualitative feedback on a scale.';
-  @override
-  String get rateTip3 =>
-      'To display an aggregate rating in a read-only mode.';
-  @override
   String rateLabelCurrent(num value) =>
       'Current: $value stars';
   @override
@@ -1966,6 +1978,15 @@ class SLocalizationsEn
   @override
   String get rateDescCustomCount =>
       'Change the total number of stars with `count`.';
+  @override
+  String get rateTip1 =>
+      'Rate components allow users to provide qualitative feedback easily.';
+  @override
+  String get rateTip2 =>
+      'Use half-star precision for more accurate rating interactions.';
+  @override
+  String get rateTip3 =>
+      'Read-only mode is perfect for displaying average ratings in reviews.';
 
   @override
   String get datePickerTitle =>
@@ -2177,16 +2198,16 @@ class SLocalizationsEn
 
   @override
   String get sliderDesc =>
-      'A thumb-based slider for selecting a value or range on a continuous or stepped scale. Supports single and range variants, marks, vertical orientation, and custom colors.';
+      'A thumb-based selector for choosing a value or range on a continuous or discrete scale. Supports both single and range variants, marks, vertical orientation, and custom coloring.';
   @override
   String get sliderTip1 =>
-      'For setting a numeric value the user can drag, like volume or brightness.';
+      'To adjust numeric values that the user can drag, like volume or brightness.';
   @override
   String get sliderTip2 =>
-      'When choosing a min/max range (e.g. price filter).';
+      'When choosing a Min/Max range (e.g. price filter).';
   @override
   String get sliderTip3 =>
-      'For stepped increments (e.g. 0, 25, 50, 75, 100%).';
+      'For discrete increments (e.g. 0, 25, 50, 75, 100%).';
   @override
   String get sliderSectionBasic =>
       'Basic Single Slider';
@@ -2209,20 +2230,20 @@ class SLocalizationsEn
   @override
   String sliderLabelStep(num step,
           num max) =>
-      'Step: $step of $max';
+      'Step: $step out of $max';
 
   @override
   String get stepsDesc =>
       'A progress steps component that guides users through sequential processes. Supports horizontal and vertical orientations, clickable steps, and status overrides.';
   @override
   String get stepsTip1 =>
-      'For multi-step wizards (checkout, onboarding, form completion).';
+      'Use steps to guide users through a multi-stage process.';
   @override
   String get stepsTip2 =>
-      'To show progress through a sequence of tasks.';
+      'Horizontal steps are best for shorter, simple workflows.';
   @override
   String get stepsTip3 =>
-      'When you want users to understand where they are in a workflow.';
+      'Vertical steps provide more room for detailed descriptions per stage.';
   @override
   String get stepsSectionHorizontal =>
       'Horizontal Steps';
@@ -2292,13 +2313,13 @@ class SLocalizationsEn
       'A QR code generator component built on top of `qr_flutter`. Supports custom size, colors, icons, bordered style, and status overlays (expired, loading, scanned).';
   @override
   String get qrcodeTip1 =>
-      'For displaying payment or app-sharing QR codes.';
+      'For displaying QR codes for payments or app sharing.';
   @override
   String get qrcodeTip2 =>
-      'When you need a scannable QR that shows a loading or expired state.';
+      'When you need a scannable QR code that shows a loading or expired state.';
   @override
   String get qrcodeTip3 =>
-      'For embedding a logo or icon inside the QR code.';
+      'To embed a logo or icon inside the QR code.';
   @override
   String get qrcodeSectionBasic =>
       'Basic QR Code';
@@ -2315,7 +2336,7 @@ class SLocalizationsEn
   String get qrcodeSectionScanned =>
       'Status: Scanned';
 
-   @override
+  @override
   String get alertTitle =>
       'SAlert';
   @override
@@ -2457,13 +2478,13 @@ class SLocalizationsEn
       'A highly customizable dialog with support for multiple animations and background effects. Use SDialog.show() for a convenient static factory, or construct SDialog directly.';
   @override
   String get dialogTip1 =>
-      'For confirmation prompts before irreversible actions.';
+      'Use dialogs for critical actions that require user confirmation.';
   @override
   String get dialogTip2 =>
-      'To show forms or detail content that require user focus.';
+      'Dialogs can contain forms for quick data entry without switching screens.';
   @override
   String get dialogTip3 =>
-      'For alerts or informational messages that block background interaction.';
+      'Use informational dialogs to show important system status or messages.';
   @override
   String get dialogSectionConfirm =>
       'Confirmation Dialog';
@@ -2512,10 +2533,10 @@ class SLocalizationsEn
       'A brief notification overlay that slides in from the top of the screen. ⚠️ Note: SToast is deprecated. Prefer using SSonner for all new toast notifications.\n\nSToast is still usable for backward compatibility — it supports default and destructive variants.';
   @override
   String get toastTip1 =>
-      'For quick top-bar notifications shown with minimal user disruption.';
+      'Toasts provide non-disruptive feedback for minor system events.';
   @override
   String get toastTip2 =>
-      'Use SSonner instead for new code — it supports more variants and stacking.';
+      'For more advanced notification features, consider using SSonner.';
   @override
   String get toastSectionDefault =>
       'Default Toast';
@@ -2561,13 +2582,13 @@ class SLocalizationsEn
       'A toast notification system inspired by the Sonner library. Shows stacked, auto-dismissing notifications. Supports success, error, warning, and info variants.';
   @override
   String get sonnerTip1 =>
-      'To provide feedback on async operations (saved, deleted, error).';
+      'Sonner provides a stacked notification system for multiple events.';
   @override
   String get sonnerTip2 =>
-      "For non-intrusive notifications that don't block user flow.";
+      'Customize position and duration per notification if needed.';
   @override
   String get sonnerTip3 =>
-      'When multiple sequential notifications may arrive.';
+      'Use actions in sonners to allow users to undo or retry operations.';
   @override
   String get sonnerSectionVariants =>
       'Variants';
@@ -2695,13 +2716,13 @@ class SLocalizationsEn
       'A progress indicator component supporting line, circle, and dashboard layouts. Takes `percent` (0–100) and an optional `status` for success/error coloring.';
   @override
   String get progressTip1 =>
-      'For uploads, downloads, or task completion percentages.';
+      'Use line progress for loading states in flat surfaces.';
   @override
   String get progressTip2 =>
-      'As a circular progress widget on dashboards.';
+      'Circular progress is ideal for small areas or dashboard widgets.';
   @override
   String get progressTip3 =>
-      'When a dashboard-style gauge is needed.';
+      'Use status colors (success, error) to provide feedback on the process.';
   @override
   String get progressSectionLine =>
       'Line Progress';
@@ -2726,13 +2747,13 @@ class SLocalizationsEn
       'A flexible surface container that groups related content and actions. Supports hover effects, custom headers, footers, cover images, and clickable interactions.';
   @override
   String get cardTip1 =>
-      'To display grouped content such as user profiles, articles, or products.';
+      'Use cards to group related information and actions together.';
   @override
   String get cardTip2 =>
-      'As the primary surface in list or grid layouts.';
+      'Use standard cards for primary list/grid items and outline cards for secondary info.';
   @override
   String get cardTip3 =>
-      'For dashboard widgets, statistics displays, or settings panels.';
+      'Interactive cards can be used to navigate or trigger specific actions.';
   @override
   String get cardSectionBasic =>
       'Basic Card';
@@ -2799,13 +2820,13 @@ class SLocalizationsEn
       'A list tile component for displaying rows of content with consistent leading icons, title, subtitle, and trailing widgets. Supports grouped and standalone layouts.';
   @override
   String get listTileTip1 =>
-      'To build list-based navigation menus or settings screens.';
+      'Use list tiles in settings or menus to show consistent rows of info.';
   @override
   String get listTileTip2 =>
-      'To display structured data rows with consistent formatting.';
+      'Group related list tiles under a section header for better organization.';
   @override
   String get listTileTip3 =>
-      'When items need a leading icon and an optional trailing action.';
+      'Selectable list tiles are perfect for choosing items from a list.';
   @override
   String get listTileSectionBasic =>
       'Basic List Tile';
@@ -2848,13 +2869,13 @@ class SLocalizationsEn
       'A tab navigation component for switching between multiple views or content sections. Supports line, card and editable tab types, plus top/bottom/left/right positions.';
   @override
   String get tabsTip1 =>
-      'When you need to partition content into related, peer-level sections.';
+      'Use tabs to organize related content at the same hierarchical level.';
   @override
   String get tabsTip2 =>
-      'For content-heavy screens like product detail pages or profile views.';
+      'Different styles (line, card) help match the tabs to your UI theme.';
   @override
   String get tabsTip3 =>
-      'When left/right sidebar navigation supplements a main view.';
+      'Vertical tabs are great for secondary navigation on larger screens.';
   @override
   String get tabsSectionBasic =>
       'Basic Tabs';
@@ -3188,9 +3209,30 @@ class SLocalizationsEn
       'Please enter a valid number';
 
   @override
+  String get tooltipDesc =>
+      'A simple text popup to show additional information on hover or click.';
+  @override
+  String get tooltipSectionPlacement =>
+      'Placement Directions';
+  @override
+  String get tooltipSectionTrigger =>
+      'Trigger Methods';
+  @override
+  String get tooltipSectionColors =>
+      'Status Colors';
+  @override
+  String get tooltipLabelHover =>
+      'Hover';
+  @override
+  String get tooltipLabelClick =>
+      'Click';
+  @override
+  String get tooltipLabelLongPress =>
+      'Long Press';
+
+  @override
   String get inputSectionCard =>
       'Formatted Input (Credit Card)';
-
   @override
   String get inputSectionCustom =>
       'Input Customization';
@@ -3412,7 +3454,7 @@ class SLocalizationsFr
   @override
   String get heroDescription =>
       'Une bibliothèque de composants Flutter robuste et hautement personnalisable '
-      "inspirée des meilleurs systèmes de design au monde. Conçue pour le mobile, le web et le bureau.";
+      'inspirée des meilleurs systèmes de design au monde. Conçue pour le mobile, le web et le bureau.';
   @override
   String get heroGetStarted =>
       'Commencer';
@@ -3428,7 +3470,7 @@ class SLocalizationsFr
       'Personnalisation illimitée';
   @override
   String get featCustomDesc =>
-      'Chaque jeton est exposé. Injectez instantanément vos couleurs de marque dans tous les composants à l\'aide de SThemeData.';
+      "Chaque jeton est exposé. Injectez instantanément vos couleurs de marque dans tous les composants à l'aide de SThemeData.";
   @override
   String get featDarkTitle =>
       'Mode sombre impeccable';
@@ -3440,7 +3482,7 @@ class SLocalizationsFr
       'Localisation native';
   @override
   String get featLocDesc =>
-      "Parle nativement la langue de vos utilisateurs. Prise en charge intégrée de plusieurs langues, y compris le RTL, sans tracas supplémentaire.";
+      'Parle nativement la langue de vos utilisateurs. Prise en charge intégrée de plusieurs langues, y compris le RTL, sans tracas supplémentaire.';
   @override
   String get featAnimTitle =>
       'Micro-interactions';
@@ -3546,7 +3588,7 @@ class SLocalizationsFr
       'Utilisez les boutons destructeurs pour les actions de suppression/irréversibles.';
   @override
   String get buttonTip4 =>
-      "Utilisez des boutons fantômes ou des liens pour des actions en ligne à faible intensité.";
+      'Utilisez des boutons fantômes ou des liens pour des actions en ligne à faible intensité.';
   @override
   String get buttonLabelDefault =>
       'Par défaut';
@@ -4172,7 +4214,11 @@ class SLocalizationsFr
       'Pour intégrer un logo ou une icône à l’intérieur du code QR.';
   @override
   String get qrcodeSectionBasic =>
-      'Code QR de base';
+      'Code QR';
+
+  @override
+  String get compTooltip =>
+      'Infobulle';
   @override
   String get qrcodeSectionColor =>
       'Couleur personnalisée';
@@ -4215,16 +4261,16 @@ class SLocalizationsFr
       'Personnalisation';
   @override
   String get alertWarningTitle =>
-      'Titre d\'avertissement';
+      "Titre d'avertissement";
   @override
   String get alertSuccessTitle =>
       'Titre de succès';
   @override
   String get alertInfoTitle =>
-      'Titre d\'information';
+      "Titre d'information";
   @override
   String get alertErrorTitle =>
-      'Titre de l\'erreur';
+      "Titre de l'erreur";
 
   @override
   String get alertSuccessText =>
@@ -5064,6 +5110,28 @@ class SLocalizationsFr
   @override
   String get inputErrorNumber =>
       'Veuillez entrer un numéro valide';
+
+  @override
+  String get tooltipDesc =>
+      'Un simple message contextuel texte pour afficher des informations supplémentaires au survol ou au clic.';
+  @override
+  String get tooltipSectionPlacement =>
+      'Directions de placement';
+  @override
+  String get tooltipSectionTrigger =>
+      'Méthodes de déclenchement';
+  @override
+  String get tooltipSectionColors =>
+      'Couleurs d’état';
+  @override
+  String get tooltipLabelHover =>
+      'Survol';
+  @override
+  String get tooltipLabelClick =>
+      'Clic';
+  @override
+  String get tooltipLabelLongPress =>
+      'Appui long';
 }
 
 /// Arabic implementation of [SLocalizations].
@@ -5309,7 +5377,7 @@ class SLocalizationsAr
       'تعريب أصلي';
   @override
   String get featLocDesc =>
-      "تتحدث لغة مستخدميك بشكل طبيعي. دعم مدمج للغات متعددة بما في ذلك RTL دون عناء إضافي.";
+      'تتحدث لغة مستخدميك بشكل طبيعي. دعم مدمج للغات متعددة بما في ذلك RTL دون عناء إضافي.';
   @override
   String get featAnimTitle =>
       'تفاعلات دقيقة';
@@ -5397,6 +5465,9 @@ class SLocalizationsAr
   @override
   String get demoHideSeconds =>
       'إخفاء الثواني';
+  @override
+  String get tooltipSectionColors =>
+      'الحالة واللون';
   @override
   String get demoStatus =>
       'الحالة';
@@ -6041,7 +6112,11 @@ class SLocalizationsAr
       'لدمج شعار أو أيقونة داخل كود QR.';
   @override
   String get qrcodeSectionBasic =>
-      'كود QR أساسي';
+      'كود QR';
+
+  @override
+  String get compTooltip =>
+      'تلميح';
   @override
   String get qrcodeSectionColor =>
       'لون مخصص';
@@ -6863,6 +6938,13 @@ class SLocalizationsAr
   @override
   String get inputSectionDatePicker =>
       'مدخل منتقي التاريخ';
+
+  @override
+  String get inputSectionCustom =>
+      'تخصيص الإدخال';
+  @override
+  String get inputSectionCard =>
+      'إدخال بطاقة الائتمان';
   @override
   String get inputSectionRealWorld =>
       'ميزات العالم الحقيقي';
@@ -6928,13 +7010,24 @@ class SLocalizationsAr
       'يرجى إدخال رقم صالح';
 
   @override
-  // TODO: implement inputSectionCard
-  String get inputSectionCard =>
-      'إدخال بطاقة الائتمان';
+  String get tooltipDesc =>
+      'نافذة نصية منبثقة بسيطة لإظهار معلومات إضافية عند الحوم أو النقر.';
+  @override
+  String get tooltipSectionPlacement =>
+      'اتجاهات الوضع';
+  @override
+  String get tooltipSectionTrigger =>
+      'طرق التفعيل';
 
   @override
-  String get inputSectionCustom =>
-      'تخصيص الإدخال';
+  String get tooltipLabelHover =>
+      'حوم';
+  @override
+  String get tooltipLabelClick =>
+      'نقر';
+  @override
+  String get tooltipLabelLongPress =>
+      'ضغط مطول';
 }
 
 /// Chinese implementation of [SLocalizations].
@@ -7087,9 +7180,6 @@ class SLocalizationsZh
   String get selectLabelGrape =>
       '葡萄';
   @override
-  String get selectLabelTech =>
-      '科技';
-  @override
   String get selectTip4 =>
       '当下拉列表很长（10个以上选项）且过滤功能很有帮助时。';
   @override
@@ -7208,7 +7298,7 @@ class SLocalizationsZh
       '原生语言支持';
   @override
   String get featLocDesc =>
-      "全球化语言支持。内置多语言支持，包括 RTL布局，无需额外配置。";
+      '全球化语言支持。内置多语言支持，包括 RTL布局，无需额外配置。';
   @override
   String get featAnimTitle =>
       '微交互';
@@ -7909,7 +7999,11 @@ class SLocalizationsZh
       '用于在二维码中嵌入 Logo 或图标。';
   @override
   String get qrcodeSectionBasic =>
-      '基础二维码';
+      '二维码';
+
+  @override
+  String get compTooltip =>
+      '文字提示';
   @override
   String get qrcodeSectionColor =>
       '自定义颜色';
@@ -8128,8 +8222,8 @@ class SLocalizationsZh
   String get toastSectionDefault =>
       '默认吐司';
   @override
-  String get toastSectionTitle =>
-      '带标题';
+  String get tooltipSectionColors =>
+      '状态与颜色';
   @override
   String get toastSectionDestructive =>
       '破坏性变体';
@@ -8796,7 +8890,6 @@ class SLocalizationsZh
       '请输入有效的数字';
 
   @override
-  // TODO: implement compDropdown
   String get compDropdown =>
       'SDropdown';
 
@@ -8807,4 +8900,31 @@ class SLocalizationsZh
   @override
   String get inputSectionCustom =>
       '输入自定义';
+
+  @override
+  String get selectLabelTech =>
+      '技术栈';
+  @override
+  String get toastSectionTitle =>
+      '带标题';
+
+  @override
+  String get tooltipDesc =>
+      '一个简单的文本弹出框，用于在悬停或点击时显示附加信息。';
+  @override
+  String get tooltipSectionPlacement =>
+      '放置方向';
+  @override
+  String get tooltipSectionTrigger =>
+      '触发方式';
+
+  @override
+  String get tooltipLabelHover =>
+      '悬停';
+  @override
+  String get tooltipLabelClick =>
+      '点击';
+  @override
+  String get tooltipLabelLongPress =>
+      '长按';
 }

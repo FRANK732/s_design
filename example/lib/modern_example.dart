@@ -20,6 +20,7 @@ import 'pages/s_floating_panel_page.dart';
 import 'pages/s_modal_page.dart';
 import 'pages/s_pagination_page.dart';
 import 'pages/s_time_picker_page.dart';
+import 'pages/s_tooltip_page.dart';
 import 'pages/sbutton.dart';
 import 'pages/scaffold_page.dart';
 import 'pages/select_page.dart';
@@ -180,6 +181,7 @@ class _GalleryShellState
         NavItem(id: 'slider', label: l10n.compSlider, icon: Icons.tune_outlined, page: const SSliderDemoPage()),
         NavItem(id: 'steps', label: l10n.compSteps, icon: Icons.format_list_numbered_outlined, page: const StepsPage()),
         NavItem(id: 'qrcode', label: l10n.compQRCode, icon: Icons.qr_code_outlined, page: const QRCodeDemoPage()),
+        NavItem(id: 'tooltip', label: l10n.compTooltip, icon: Icons.info_outline, page: const STooltipPage()),
       ]),
       NavGroup(title: l10n.feedback, items: [
         NavItem(id: 'alert', label: l10n.compAlert, icon: Icons.warning_amber_rounded, page: const SAlertPage()),
