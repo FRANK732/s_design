@@ -230,18 +230,11 @@ class _GalleryShellState
           homeItem,
     );
 
-    final overlayState =
-        Overlay.of(context);
-    SSonner.initialize(
-        overlayState);
-    SToast.initialize(
-        overlayState);
+    final l10n =
+        SLocalizations.ofContext(context);
 
     final isDark =
         Theme.of(context).brightness == Brightness.dark;
-
-    final l10n =
-        SLocalizations.ofContext(context);
 
     return SScaffold(
       appBar:

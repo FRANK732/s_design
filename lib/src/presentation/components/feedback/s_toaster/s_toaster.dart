@@ -260,13 +260,17 @@ class _SToastState
     developer.log(
         'SToast: Closing toast',
         name: 'SToast');
-    _animationController
-        .reverse()
-        .then((_) {
+    _animationController.reverse().then((_) {
+      if (!mounted) return;
       setState(() {
         _isVisible = false;
       });
       widget.onClose?.call();
+    }).catchError((dynamic e) {
+      // Handle ticker cancellation or other errors gracefully
+      if (mounted) {
+        widget.onClose?.call();
+      }
     });
   }
 
@@ -322,7 +326,7 @@ class _SToastState
         child: Material(
           color: Colors.transparent,
           child: Dismissible(
-            key: UniqueKey(),
+            key: ValueKey<String>(widget.description),
             onDismissed: (_) {
               developer.log('SToast: Toast dismissed by swipe', name: 'SToast');
               _closeToast();

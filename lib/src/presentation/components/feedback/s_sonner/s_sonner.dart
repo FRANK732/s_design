@@ -447,12 +447,17 @@ class _ToastWidgetState
     }
   }
 
-  Future<void>
-      _dismiss() async {
-    await _controller
-        .reverse();
-    widget
-        .onDismiss();
+  Future<void> _dismiss() async {
+    try {
+      if (!mounted) return;
+      await _controller.reverse();
+      if (!mounted) return;
+      widget.onDismiss();
+    } catch (e) {
+      if (mounted) {
+        widget.onDismiss();
+      }
+    }
   }
 
   @override
