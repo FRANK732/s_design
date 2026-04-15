@@ -1,13 +1,11 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 import '../../../../../s_design.dart';
 import 'widgets/s_select_dropdown.dart';
 import 'widgets/s_select_trigger.dart';
 
-/// An advanced select widget.
-/// Supports single selection, multiple selection, tags, search, and custom styling.
+/// An advanced select widget matching Ant Design's Select API.
+/// Supports single, multiple, tags modes with search, custom renders, and more.
 class SSelect<
         T>
     extends StatefulWidget {
@@ -52,24 +50,27 @@ class SSelect<
         SSelectVariant.outlined,
     this.suffixIcon,
     this.tagRender,
+    this.optionRender,
     this.triggerBuilder,
-    this.contentBuilder,
     this.prefix,
+    this.maxCount,
+    this.labelInValue =
+        false,
+    this.tokenSeparators,
+    this.filterSort,
   });
 
   /// The list of items to display in the dropdown.
   final List<SSelectItem<T>>
       items;
 
-  /// Current selected value.
-  /// - If [mode] is null or [SSelectMode.single], expected type is `T?`.
-  /// - If [mode] is [SSelectMode.multiple] or [SSelectMode.tags], expected type is `List<T>?`.
+  /// Current selected value (controlled).
+  /// - Single mode: `T?`
+  /// - Multiple/tags mode: `List<T>?`
   final dynamic
       value;
 
   /// Callback when value changes.
-  /// - If [mode] is null or [SSelectMode.single], callback returns `T?`.
-  /// - If [mode] is [SSelectMode.multiple] or [SSelectMode.tags], callback returns `List<T>`.
   final ValueChanged<dynamic>?
       onChanged;
 
@@ -81,7 +82,7 @@ class SSelect<
   final bool
       allowClear;
 
-  /// Whether to clear search input on selection (multiple/tags mode).
+  /// Whether to clear search input after selection in multiple/tags mode.
   final bool
       autoClearSearchValue;
 
@@ -89,11 +90,11 @@ class SSelect<
   final bool
       defaultActiveFirstOption;
 
-  /// Initial open state of dropdown.
+  /// Initial open state.
   final bool
       defaultOpen;
 
-  /// Initial selected value (same type rules as [value]).
+  /// Initial selected value (uncontrolled).
   final dynamic
       defaultValue;
 
@@ -101,32 +102,36 @@ class SSelect<
   final bool
       disabled;
 
-  /// Maximum height of the dropdown menu.
+  /// Maximum height of the dropdown panel.
   final double
       dropdownMaxHeight;
 
-  /// Custom builder for the dropdown content.
-  final WidgetBuilder?
-      dropdownRender;
+  /// Custom dropdown panel builder. Receives `(context, menu)` where `menu` is the
+  /// default options list — wrap or augment it as needed.
+  final Widget Function(
+      BuildContext
+          context,
+      Widget
+          menu)? dropdownRender;
 
-  /// Custom filter function: `bool Function(String inputValue, SSelectItem<T> option)`.
+  /// Custom filter predicate: `bool Function(String inputValue, SSelectItem<T> option)`.
   final bool Function(
       String,
       SSelectItem<T>)? filterOption;
 
-  /// Whether the component is in a loading state.
+  /// Whether the component is in loading state.
   final bool
       loading;
 
-  /// Max tag count to show.
+  /// Max tag count to display in multiple/tags mode.
   final int?
       maxTagCount;
 
-  /// Content to show when no items match.
+  /// Widget to show when no items match.
   final Widget?
       notFoundContent;
 
-  /// Callback when clear button is clicked.
+  /// Callback when the clear button is tapped.
   final VoidCallback?
       onClear;
 
@@ -134,7 +139,7 @@ class SSelect<
   final ValueChanged<bool>?
       onDropdownVisibleChange;
 
-  /// Callback when search input changes.
+  /// Callback when the search input changes.
   final ValueChanged<String>?
       onSearch;
 
@@ -146,7 +151,7 @@ class SSelect<
   final SSelectDropdownDirection
       placement;
 
-  /// Whether search is enabled.
+  /// Whether text search is enabled.
   final bool
       showSearch;
 
@@ -158,7 +163,7 @@ class SSelect<
   final SSelectStatus
       status;
 
-  /// Visual variant.
+  /// Visual variant (outlined, filled, borderless).
   final SSelectVariant
       variant;
 
@@ -170,26 +175,49 @@ class SSelect<
   final Widget?
       prefix;
 
-  /// Custom tag renderer.
+  /// Custom tag renderer in multiple/tags mode.
+  /// Signature: `Widget Function(String label, VoidCallback onClose)`
   final Widget Function(
       String
           label,
       VoidCallback
           onClose)? tagRender;
 
-  /// Custom trigger builder.
+  /// Custom renderer for each dropdown option row.
+  /// Signature: `Widget Function(BuildContext context, SSelectItem<T> option, int index)`
+  final Widget Function(
+      BuildContext
+          context,
+      SSelectItem<T>
+          option,
+      int index)? optionRender;
+
+  /// Custom trigger builder — replaces the default SSelectTrigger entirely.
+  /// Signature: `Widget Function(BuildContext context, dynamic value)`
   final Widget Function(
       BuildContext
           context,
       dynamic
           value)? triggerBuilder;
 
-  /// Legacy custom content builder (deprecated, prefer dropdownRender).
-  final Widget Function(
-      BuildContext
-          context,
-      Widget
-          menu)? contentBuilder;
+  /// Max number of selectable items. Only applies in multiple/tags mode.
+  final int?
+      maxCount;
+
+  /// If true, `onChanged` receives `SSelectItem<T>` instead of `T`.
+  final bool
+      labelInValue;
+
+  /// Token separators for auto-tokenizing input in tags mode.
+  final List<String>?
+      tokenSeparators;
+
+  /// Comparator to sort filtered options.
+  final int Function(
+      SSelectItem<T>
+          a,
+      SSelectItem<T>
+          b)? filterSort;
 
   @override
   State<
@@ -250,23 +278,21 @@ class _SSelectState<
           Curves.easeOut,
     );
     _scaleAnimation =
-        Tween<double>(begin: 0.9, end: 1.0).animate(
+        Tween<double>(begin: 0.92, end: 1.0).animate(
       CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeOutCubic,
-      ),
+          parent: _animationController,
+          curve: Curves.easeOutCubic),
     );
 
     if (widget
         .defaultOpen) {
       WidgetsBinding.instance.addPostFrameCallback((_) =>
-          _toggleDropdown());
+          _openDropdown());
     }
     _focusNode
         .addListener(_handleFocusChange);
   }
 
-  @override
   @override
   void didUpdateWidget(
       covariant SSelect<T>
@@ -275,9 +301,8 @@ class _SSelectState<
         oldWidget);
     if (widget.value !=
         oldWidget.value) {
-      setState(() {
-        _initSelectedValues();
-      });
+      setState(() =>
+          _initSelectedValues());
       if (_isOpen) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _overlayEntry?.markNeedsBuild();
@@ -288,18 +313,11 @@ class _SSelectState<
 
   void
       _initSelectedValues() {
-    if (widget.value ==
-        null) {
-      if (widget.defaultValue !=
-          null) {
-        _selectedValues = _normalizeValue(widget.defaultValue);
-      } else {
-        _selectedValues = <T>[];
-      }
-    } else {
-      _selectedValues =
-          _normalizeValue(widget.value);
-    }
+    final dynamic
+        raw =
+        widget.value ?? widget.defaultValue;
+    _selectedValues =
+        _normalizeValue(raw);
   }
 
   List<T> _normalizeValue(
@@ -320,9 +338,10 @@ class _SSelectState<
 
   void
       _handleFocusChange() {
+    // Close dropdown if focus moves completely outside
     if (!_focusNode.hasFocus &&
         _isOpen) {
-      Future<void>.delayed(const Duration(milliseconds: 100),
+      Future<void>.delayed(const Duration(milliseconds: 150),
           () {
         if (mounted && !_focusNode.hasFocus && _isOpen) {
           _closeDropdown();
@@ -336,7 +355,10 @@ class _SSelectState<
   @override
   void
       dispose() {
-    _removeOverlay();
+    _overlayEntry
+        ?.remove();
+    _overlayEntry =
+        null;
     _animationController
         .dispose();
     _focusNode
@@ -353,7 +375,6 @@ class _SSelectState<
         .disabled) {
       return;
     }
-
     if (_isOpen) {
       _closeDropdown();
     } else {
@@ -363,7 +384,8 @@ class _SSelectState<
 
   void
       _openDropdown() {
-    if (_isOpen) {
+    if (_isOpen ||
+        widget.disabled) {
       return;
     }
     final RenderBox?
@@ -373,54 +395,52 @@ class _SSelectState<
         null) {
       return;
     }
-
     final Size
         size =
         renderBox.size;
 
     _overlayEntry =
         OverlayEntry(
-      builder: (BuildContext context) =>
-          Stack(
-        children: <Widget>[
-          Positioned.fill(
-            child: GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: _closeDropdown,
+      builder:
+          (BuildContext ctx) {
+        return Stack(
+          children: <Widget>[
+            Positioned.fill(
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: _closeDropdown,
+              ),
             ),
-          ),
-          Positioned(
-            width: size.width,
-            child: CompositedTransformFollower(
-              link: _layerLink,
-              showWhenUnlinked: false,
-              offset: Offset(0, size.height + 4),
-              child: FadeTransition(
-                opacity: _fadeAnimation,
-                child: ScaleTransition(
-                  scale: _scaleAnimation,
-                  alignment: Alignment.topCenter,
-                  child: Material(
-                    elevation: 4,
-                    shadowColor: STheme.of(context).colorToken.shadow,
-                    borderRadius: BorderRadius.circular(DesignConstants.borderRadiusMedium),
-                    child: _buildDropdown(),
+            Positioned(
+              width: size.width,
+              child: CompositedTransformFollower(
+                link: _layerLink,
+                showWhenUnlinked: false,
+                offset: Offset(0, size.height + 4),
+                child: FadeTransition(
+                  opacity: _fadeAnimation,
+                  child: ScaleTransition(
+                    scale: _scaleAnimation,
+                    alignment: Alignment.topCenter,
+                    child: Material(
+                      elevation: 4,
+                      shadowColor: STheme.of(ctx).colorToken.shadow,
+                      borderRadius: BorderRadius.circular(DesignConstants.borderRadiusMedium),
+                      child: _buildDropdownContent(),
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
-      ),
+          ],
+        );
+      },
     );
 
     Overlay.of(context)
         .insert(_overlayEntry!);
-    setState(
-        () {
-      _isOpen =
-          true;
-    });
+    setState(() =>
+        _isOpen = true);
     _animationController
         .forward();
     widget
@@ -432,13 +452,19 @@ class _SSelectState<
 
   Future<void>
       _closeDropdown() async {
+    if (!_isOpen ||
+        !mounted) {
+      return;
+    }
     await _animationController
         .reverse();
     if (!mounted) {
       return;
     }
-
-    _removeOverlay();
+    _overlayEntry
+        ?.remove();
+    _overlayEntry =
+        null;
     setState(
         () {
       _isOpen =
@@ -451,17 +477,8 @@ class _SSelectState<
         ?.call(false);
   }
 
-  void
-      _removeOverlay() {
-    _overlayEntry
-        ?.remove();
-    _overlayEntry =
-        null;
-  }
-
   Widget
-      _buildDropdown() {
-    // Filter items on search
+      _buildDropdownContent() {
     final List<SSelectItem<T>>
         filteredItems =
         widget.items.where((SSelectItem<T> item) {
@@ -475,6 +492,11 @@ class _SSelectState<
       }
       return item.label.toLowerCase().contains(_searchValue.toLowerCase());
     }).toList();
+
+    if (widget.filterSort !=
+        null) {
+      filteredItems.sort(widget.filterSort);
+    }
 
     return SSelectDropdown<
         T>(
@@ -492,6 +514,10 @@ class _SSelectState<
           widget.notFoundContent,
       onSelect:
           _handleSelection,
+      dropdownRender:
+          widget.dropdownRender,
+      optionRender:
+          widget.optionRender,
     );
   }
 
@@ -499,48 +525,66 @@ class _SSelectState<
       T value) {
     if (widget.mode == null ||
         widget.mode == SSelectMode.single) {
-      setState(() {
-        _selectedValues = <T>[
-          value
-        ];
-      });
-      widget.onChanged?.call(value);
+      setState(() =>
+          _selectedValues = <T>[
+            value
+          ]);
+      _emitOnChanged();
       _closeDropdown();
     } else {
       setState(() {
         if (_selectedValues.contains(value)) {
           _selectedValues.remove(value);
         } else {
-          _selectedValues.add(value);
+          if (widget.maxCount == null || _selectedValues.length < widget.maxCount!) {
+            _selectedValues.add(value);
+          }
         }
       });
       _overlayEntry?.markNeedsBuild();
-      widget.onChanged?.call(_selectedValues);
+      _emitOnChanged();
       if (widget.autoClearSearchValue) {
-        _searchValue = '';
+        setState(() => _searchValue = '');
+      }
+    }
+  }
+
+  void
+      _emitOnChanged() {
+    if (widget.onChanged ==
+        null) {
+      return;
+    }
+    if (widget.mode == null ||
+        widget.mode == SSelectMode.single) {
+      if (_selectedValues.isEmpty) {
+        widget.onChanged!(null);
+      } else if (widget.labelInValue) {
+        final SSelectItem<T>? item = widget.items.where((SSelectItem<T> i) => i.value == _selectedValues.first).firstOrNull;
+        widget.onChanged!(item);
+      } else {
+        widget.onChanged!(_selectedValues.first);
+      }
+    } else {
+      if (widget.labelInValue) {
+        final List<SSelectItem<T>> items = widget.items.where((SSelectItem<T> i) => _selectedValues.contains(i.value)).toList();
+        widget.onChanged!(items);
+      } else {
+        widget.onChanged!(List<T>.from(_selectedValues));
       }
     }
   }
 
   void
       _handleClear() {
-    setState(
-        () {
-      _selectedValues =
-          <T>[];
-    });
+    setState(() =>
+        _selectedValues = <T>[]);
     _overlayEntry
         ?.markNeedsBuild();
     widget
         .onClear
         ?.call();
-
-    if (widget.mode == null ||
-        widget.mode == SSelectMode.single) {
-      widget.onChanged?.call(null);
-    } else {
-      widget.onChanged?.call(<T>[]);
-    }
+    _emitOnChanged();
   }
 
   @override
@@ -569,12 +613,30 @@ class _SSelectState<
               prefix: widget.prefix,
               suffixIcon: widget.suffixIcon,
               focusNode: _focusNode,
+              tagRender: widget.tagRender,
               onSearch: (String value) {
-                setState(() {
-                  _searchValue = value;
-                });
+                String currentValue = value;
+                // Token separator support for tags mode
+                if (widget.mode == SSelectMode.tags && widget.tokenSeparators != null && widget.tokenSeparators!.isNotEmpty) {
+                  for (final String sep in widget.tokenSeparators!) {
+                    if (currentValue.contains(sep)) {
+                      final List<String> parts = currentValue.split(sep);
+                      for (int i = 0; i < parts.length - 1; i++) {
+                        final String token = parts[i].trim();
+                        if (token.isNotEmpty && !_selectedValues.contains(token as T)) {
+                          if (widget.maxCount == null || _selectedValues.length < widget.maxCount!) {
+                            setState(() => _selectedValues.add(token as T));
+                          }
+                        }
+                      }
+                      currentValue = parts.last;
+                      _emitOnChanged();
+                    }
+                  }
+                }
+                setState(() => _searchValue = currentValue);
                 _overlayEntry?.markNeedsBuild();
-                widget.onSearch?.call(value);
+                widget.onSearch?.call(currentValue);
               },
               searchValue: _searchValue,
               maxTagCount: widget.maxTagCount,

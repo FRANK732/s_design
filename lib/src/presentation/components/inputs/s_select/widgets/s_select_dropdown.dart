@@ -13,8 +13,9 @@ class SSelectDropdown<
     this.maxHeight =
         256.0,
     this.emptyContent,
-    this.loading =
-        false,
+    this.loading = false,
+    this.dropdownRender,
+    this.optionRender,
   });
 
   final List<SSelectItem<T>>
@@ -29,8 +30,9 @@ class SSelectDropdown<
       maxHeight;
   final Widget?
       emptyContent;
-  final bool
-      loading;
+  final bool loading;
+  final Widget Function(BuildContext context, Widget menu)? dropdownRender;
+  final Widget Function(BuildContext context, SSelectItem<T> option, int index)? optionRender;
 
   @override
   Widget build(
@@ -63,11 +65,21 @@ class SSelectDropdown<
       );
     }
 
-    return Container(
-      constraints:
-          BoxConstraints(maxHeight: maxHeight),
-      decoration:
-          BoxDecoration(
+    final List<dynamic> flattenedItems = <dynamic>[];
+    String? currentGroup;
+    for (final SSelectItem<T> item in items) {
+      if (item.groupLabel != currentGroup) {
+        currentGroup = item.groupLabel;
+        if (currentGroup != null && currentGroup.isNotEmpty) {
+          flattenedItems.add(currentGroup);
+        }
+      }
+      flattenedItems.add(item);
+    }
+
+    Widget listWidget = Container(
+      constraints: BoxConstraints(maxHeight: maxHeight),
+      decoration: BoxDecoration(
         color: theme.colorToken.surface,
         borderRadius: BorderRadius.circular(DesignConstants.borderRadiusMedium),
         boxShadow: <BoxShadow>[
@@ -78,60 +90,85 @@ class SSelectDropdown<
           ),
         ],
       ),
-      child:
-          ListView.builder(
+      child: ListView.builder(
         padding: const EdgeInsets.symmetric(vertical: 4),
         shrinkWrap: true,
-        itemCount: items.length,
+        itemCount: flattenedItems.length,
+        prototypeItem: const SizedBox(height: 48), // Estimated height for virtual scroll performance
         itemBuilder: (BuildContext context, int index) {
-          final SSelectItem<T> item = items[index];
+          final dynamic listItem = flattenedItems[index];
+
+          if (listItem is String) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              child: Text(
+                listItem,
+                style: theme.typographyToken.bodySmall.copyWith(
+                  color: theme.colorToken.textSecondary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
+          }
+
+          final SSelectItem<T> item = listItem as SSelectItem<T>;
           final bool isSelected = selectedValues.contains(item.value);
 
-          return InkWell(
-            onTap: item.disabled ? null : () => onSelect(item.value),
-            hoverColor: theme.colorToken.primary.withOpacity(0.05), // Subtle hover
-            borderRadius: BorderRadius.circular(DesignConstants.borderRadiusSmall),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                color: isSelected && mode == SSelectMode.single ? theme.colorToken.primary.withOpacity(0.1) : null,
-                borderRadius: BorderRadius.circular(DesignConstants.borderRadiusSmall),
-              ),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          item.label,
-                          style: theme.typographyToken.bodyMedium.copyWith(
-                            color: item.disabled ? theme.colorToken.textSecondary.withOpacity(0.5) : (isSelected && mode == SSelectMode.single ? theme.colorToken.primary : theme.colorToken.textPrimary),
-                            fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                          ),
-                        ),
-                        if (item.subtitle != null)
-                          Text(
-                            item.subtitle!,
-                            style: theme.typographyToken.bodySmall.copyWith(
-                              color: theme.colorToken.textSecondary,
+          return Padding(
+            padding: EdgeInsets.only(left: item.groupLabel != null ? 12.0 : 0.0),
+            child: InkWell(
+              onTap: item.disabled ? null : () => onSelect(item.value),
+              hoverColor: theme.colorToken.primary.withOpacity(0.05), // Subtle hover
+              borderRadius: BorderRadius.circular(DesignConstants.borderRadiusSmall),
+              child: optionRender != null
+                  ? optionRender!(context, item, index)
+                  : Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: isSelected && mode == SSelectMode.single ? theme.colorToken.primary.withOpacity(0.1) : null,
+                        borderRadius: BorderRadius.circular(DesignConstants.borderRadiusSmall),
+                      ),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  item.label,
+                                  style: theme.typographyToken.bodyMedium.copyWith(
+                                    color: item.disabled ? theme.colorToken.textSecondary.withOpacity(0.5) : (isSelected && mode == SSelectMode.single ? theme.colorToken.primary : theme.colorToken.textPrimary),
+                                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                                  ),
+                                ),
+                                if (item.subtitle != null)
+                                  Text(
+                                    item.subtitle!,
+                                    style: theme.typographyToken.bodySmall.copyWith(
+                                      color: theme.colorToken.textSecondary,
+                                    ),
+                                  ),
+                              ],
                             ),
                           ),
-                      ],
+                          if (isSelected && (mode == SSelectMode.multiple || mode == SSelectMode.tags))
+                            Icon(
+                              Icons.check,
+                              size: 16,
+                              color: theme.colorToken.primary,
+                            ),
+                        ],
+                      ),
                     ),
-                  ),
-                  if (isSelected && (mode == SSelectMode.multiple || mode == SSelectMode.tags))
-                    Icon(
-                      Icons.check,
-                      size: 16,
-                      color: theme.colorToken.primary,
-                    ),
-                ],
-              ),
             ),
           );
         },
       ),
     );
+
+    if (dropdownRender != null) {
+      return dropdownRender!(context, listWidget);
+    }
+    return listWidget;
   }
 }
