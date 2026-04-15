@@ -30,8 +30,6 @@ enum STooltipTrigger {
   manual,
 }
 
-/// A production-ready tooltip component inspired by Ant Design.
-///
 /// Features premium aesthetics, 12 placement directions, auto-flipping
 /// logic when hitting screen boundaries, and smooth animations.
 class STooltip
@@ -243,7 +241,7 @@ class _STooltipState
         true;
     _overlayEntry =
         _createOverlayEntry();
-    Overlay.of(context)
+    Overlay.of(context, rootOverlay: true)
         .insert(_overlayEntry!);
     _animationController
         .forward();
@@ -252,23 +250,30 @@ class _STooltipState
         ?.call(true);
   }
 
-  void _hideTooltip() {
+  void
+      _hideTooltip() {
     if (!_isVisible) {
       return;
     }
 
-    _animationController.reverse().then((_) {
-      if (!mounted) return;
+    _animationController
+        .reverse()
+        .then((_) {
+      if (!mounted)
+        return;
       _overlayEntry?.remove();
-      _overlayEntry = null;
+      _overlayEntry =
+          null;
       setState(() {
         _isVisible = false;
       });
       widget.onVisibleChange?.call(false);
     }).catchError((_) {
-      if (!mounted) return;
+      if (!mounted)
+        return;
       _overlayEntry?.remove();
-      _overlayEntry = null;
+      _overlayEntry =
+          null;
       setState(() {
         _isVisible = false;
       });
@@ -295,6 +300,13 @@ class _STooltipState
 
   OverlayEntry
       _createOverlayEntry() {
+    final RenderBox?
+        renderBox =
+        context.findRenderObject() as RenderBox?;
+    final Rect targetGlobalRect = renderBox != null
+        ? (renderBox.localToGlobal(Offset.zero) & renderBox.size)
+        : Rect.zero;
+
     return OverlayEntry(
       builder:
           (BuildContext context) {
@@ -319,6 +331,7 @@ class _STooltipState
           elevation: theme.elevation,
           shadowColor: theme.shadowColor ?? Colors.black26,
           screenSize: MediaQuery.of(context).size,
+          targetGlobalRect: targetGlobalRect,
           content: DefaultTextStyle(
             style: theme.textStyle?.copyWith(color: widget.textColor ?? theme.textColor) ?? TextStyle(color: widget.textColor ?? theme.textColor, fontSize: 12),
             child: widget.content,
@@ -370,13 +383,17 @@ class _STooltipState
         onExit: (_) => _handleHover(false),
         child: result,
       );
-    } else if (widget.trigger == STooltipTrigger.click) {
-      result = Listener(
+    } else if (widget.trigger ==
+        STooltipTrigger
+            .click) {
+      result =
+          Listener(
         behavior: HitTestBehavior.translucent,
         onPointerDown: (_) => _toggleTooltip(),
         child: result,
       );
-    } else if (widget.trigger == STooltipTrigger.longPress) {
+    } else if (widget.trigger ==
+        STooltipTrigger.longPress) {
       result =
           GestureDetector(
         onLongPress: _showTooltip,
@@ -409,6 +426,7 @@ class _STooltipOverlay
     required this.shadowColor,
     required this.onHover,
     required this.screenSize,
+    required this.targetGlobalRect,
   });
 
   final LayerLink
@@ -443,6 +461,8 @@ class _STooltipOverlay
       shadowColor;
   final Size
       screenSize;
+  final Rect
+      targetGlobalRect;
   final ValueChanged<bool>
       onHover;
 
@@ -476,6 +496,7 @@ class _STooltipOverlay
           fadeAnimation: fadeAnimation,
           onHover: onHover,
           screenSize: screenSize,
+          targetGlobalRect: targetGlobalRect,
           child: content,
         ),
       ),
@@ -501,6 +522,7 @@ class _STooltipPositioner
     required this.fadeAnimation,
     required this.onHover,
     required this.screenSize,
+    required this.targetGlobalRect,
     this.padding,
     super.child,
   });
@@ -535,6 +557,8 @@ class _STooltipPositioner
       fadeAnimation;
   final Size
       screenSize;
+  final Rect
+      targetGlobalRect;
   final ValueChanged<bool>
       onHover;
 
@@ -574,6 +598,8 @@ class _STooltipPositioner
           onHover,
       screenSize:
           screenSize,
+      targetGlobalRect:
+          targetGlobalRect,
     );
   }
 
@@ -605,7 +631,9 @@ class _STooltipPositioner
       ..shadowColor =
           shadowColor
       ..screenSize =
-          screenSize;
+          screenSize
+      ..targetGlobalRect =
+          targetGlobalRect;
   }
 }
 
@@ -644,6 +672,8 @@ class _RenderSTooltipPositioner
         onHover,
     required Size
         screenSize,
+    required Rect
+        targetGlobalRect,
   })  : _layerLink = layerLink,
         _placement = placement,
         _offsetValue = offsetValue,
@@ -659,7 +689,8 @@ class _RenderSTooltipPositioner
         _scaleAnimation = scaleAnimation,
         _fadeAnimation = fadeAnimation,
         _onHover = onHover,
-        _screenSize = screenSize {
+        _screenSize = screenSize,
+        _targetGlobalRect = targetGlobalRect {
     _animation
         .addListener(markNeedsPaint);
   }
@@ -697,6 +728,8 @@ class _RenderSTooltipPositioner
       _shadowColor;
   Size
       _screenSize;
+  Rect
+      _targetGlobalRect;
   final Animation<double>
       _animation;
   final Animation<double>
@@ -874,6 +907,20 @@ class _RenderSTooltipPositioner
     markNeedsLayout();
   }
 
+  Rect get targetGlobalRect =>
+      _targetGlobalRect;
+  set targetGlobalRect(
+      Rect
+          value) {
+    if (_targetGlobalRect ==
+        value) {
+      return;
+    }
+    _targetGlobalRect =
+        value;
+    markNeedsLayout();
+  }
+
   @override
   void handleEvent(
       PointerEvent
@@ -948,7 +995,7 @@ class _RenderSTooltipPositioner
     if (_autoFlip) {
       _actualPlacement = _flipPlacementIfNeeded(
           _placement,
-          _targetRect,
+          _targetGlobalRect,
           size,
           _screenSize);
     }

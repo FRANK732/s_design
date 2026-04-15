@@ -1,6 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'Langs/arabic.dart';
+import 'Langs/chinese.dart';
+import 'Langs/english.dart';
+import 'Langs/french.dart';
 import 's_localizations.dart';
 
 /// A delegate factory for [SLocalizations].
