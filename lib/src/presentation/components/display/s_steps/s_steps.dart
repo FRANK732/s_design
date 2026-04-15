@@ -13,7 +13,7 @@ class SSteps
     required this.items,
     this.current =
         0,
-    this.status, // Override status for current step
+    this.status,
     this.direction =
         Axis.horizontal,
     this.labelPlacement =
@@ -30,35 +30,35 @@ class SSteps
   /// A structured list of nodes representing each sequential step in the process.
   final List<SStepItem>
       items;
-      
+
   /// The specific zero-based index of the currently active step.
   final int
       current;
-      
+
   /// Explicitly overrides the visual state of the `current` step (e.g. `error`, `wait`).
   final SStepStatus?
       status;
-      
+
   /// Layout geometry controlling whether the chain flows horizontally or vertically.
   final Axis
       direction;
-      
+
   /// Toggles whether step titles are textually rendered alongside or underneath the bubble icon.
   final SStepsLabelPlacement
       labelPlacement;
-      
+
   /// Physical dimension preset modifying the internal radius and line thickness.
   final SStepsSize
       size;
-      
+
   /// Instructs the chain to automatically collapse into a vertical list on critically small screens.
   final bool
       responsive;
-      
+
   /// Wraps the internal layout frame inside a viewport enabling raw touch scrolling.
   final bool
       scrollable;
-      
+
   /// Triggers a state interaction callback explicitly when a user physically taps a step bubble.
   final ValueChanged<int>?
       onChange;
@@ -121,8 +121,6 @@ class SSteps
 
   Widget
       _buildVerticalLayout() {
-    // For vertical layout, we need to ensure the line connects properly.
-    // The SStep widget handles drawing the line to the next step.
     final Widget
         col =
         Column(
@@ -142,7 +140,7 @@ class SSteps
             isLast: index == items.length - 1,
             size: size,
             direction: Axis.vertical,
-            labelPlacement: labelPlacement, // Vertical direction implies horizontal label placement implicitly usually
+            labelPlacement: labelPlacement,
             scrollable: scrollable,
             onTap: onChange != null ? () => onChange!(index) : null,
           ),

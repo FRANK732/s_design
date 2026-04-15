@@ -103,7 +103,6 @@ class SButtonContent
         gap =
         SizedBox(width: 8);
 
-    // Leading Icon (prioritize leadingIcon over icon)
     if (leadingIcon !=
         null) {
       contentWidgets.add(leadingIcon!);
@@ -152,7 +151,6 @@ class SButtonContent
         Row(
       mainAxisSize:
           MainAxisSize.min,
-      // If full width, center content usually, but MainAxisAlignment.center is default.
       mainAxisAlignment:
           MainAxisAlignment.center,
       children:

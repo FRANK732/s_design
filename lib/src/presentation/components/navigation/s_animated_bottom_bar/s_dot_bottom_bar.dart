@@ -89,7 +89,7 @@ class SDotBottomBar
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            for (final item in items)
+            for (final SAnimatedBottomBarItem item in items)
               TweenAnimationBuilder<double>(
                 tween: Tween(
                   end: items.indexOf(item) == currentIndex ? 1.0 : 0.0,
@@ -97,11 +97,11 @@ class SDotBottomBar
                 curve: curve,
                 duration: duration,
                 builder: (context, t, _) {
-                  final _selectedColor = item.selectedColor ?? selectedItemColor ?? theme.primaryColor;
+                  final Color selectedColor = item.selectedColor ?? selectedItemColor ?? theme.primaryColor;
 
-                  final _unselectedColor = item.unselectedColor ?? unselectedItemColor ?? theme.iconTheme.color;
+                  final Color? unselectedColor = item.unselectedColor ?? unselectedItemColor ?? theme.iconTheme.color;
 
-                  final _dotColor = dotIndicatorColor ?? _selectedColor;
+                  final Color dotColor = dotIndicatorColor ?? selectedColor;
 
                   return GestureDetector(
                     onTap: () => onTap?.call(items.indexOf(item)),
@@ -115,7 +115,7 @@ class SDotBottomBar
                             offset: Offset(0, -5 * t),
                             child: IconTheme(
                               data: IconThemeData(
-                                color: Color.lerp(_unselectedColor, _selectedColor, t),
+                                color: Color.lerp(unselectedColor, selectedColor, t),
                                 size: 24,
                               ),
                               child: items.indexOf(item) == currentIndex ? item.activeIcon ?? item.icon : item.icon,
@@ -130,7 +130,7 @@ class SDotBottomBar
                                 width: 5,
                                 height: 5,
                                 decoration: BoxDecoration(
-                                  color: _dotColor,
+                                  color: dotColor,
                                   shape: BoxShape.circle,
                                 ),
                               ),

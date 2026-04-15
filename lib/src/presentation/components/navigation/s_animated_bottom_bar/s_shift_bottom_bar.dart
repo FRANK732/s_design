@@ -82,8 +82,12 @@ class SShiftBottomBar
     // Determine the current bar background color based on the selected item
     final currentItemColor =
         items[currentIndex].selectedColor ?? theme.primaryColor;
-    final Color effectiveSelected = selectedItemColor ?? theme.colorScheme.onPrimary;
-    final Color effectiveUnselected = unselectedItemColor ?? theme.colorScheme.onPrimary.withOpacity(0.7);
+    final Color
+        effectiveSelected =
+        selectedItemColor ?? theme.colorScheme.onPrimary;
+    final Color
+        effectiveUnselected =
+        unselectedItemColor ?? theme.colorScheme.onPrimary.withOpacity(0.7);
 
     return TweenAnimationBuilder<
         Color?>(
@@ -94,9 +98,9 @@ class SShiftBottomBar
       ),
       duration:
           duration,
-      builder: (context,
-          color,
-          child) {
+      builder: (BuildContext context,
+          Color? color,
+          Widget? child) {
         return Material(
           color: color,
           elevation: elevation,
@@ -105,14 +109,14 @@ class SShiftBottomBar
             child: Row(
               mainAxisAlignment: items.length <= 3 ? MainAxisAlignment.spaceEvenly : MainAxisAlignment.spaceAround,
               children: [
-                for (final item in items)
+                for (final SAnimatedBottomBarItem item in items)
                   TweenAnimationBuilder<double>(
                     tween: Tween(
                       end: items.indexOf(item) == currentIndex ? 1.0 : 0.0,
                     ),
                     curve: curve,
                     duration: duration,
-                    builder: (context, t, _) {
+                    builder: (BuildContext context, double t, _) {
                       return GestureDetector(
                         onTap: () => onTap?.call(items.indexOf(item)),
                         behavior: HitTestBehavior.opaque,

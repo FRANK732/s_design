@@ -103,55 +103,55 @@ class SProgress
   /// The current completion percentage ranging perfectly from `0.0` to `100.0`.
   final double
       percent;
-      
+
   /// The geometric structure rendering the progress (e.g., line, circle, dashboard).
   final SProgressType
       type;
-      
+
   /// The semantic state of the progress bar (e.g., active, exception, success).
   final SProgressStatus?
       status;
-      
+
   /// Toggles the trailing text indicator showing the exact percentage or status icon.
   final bool
       showInfo;
-      
+
   /// Overrides the trailing text indicator with a highly custom widget structure.
   final Widget?
       format;
-      
+
   /// Explicitly forces the primary fill color of the active progress bounds.
   final Color?
       strokeColor;
-      
+
   /// The tint of the un-filled bounding box tracking empty progress.
   final Color?
       trailColor;
-      
+
   /// The physical thickness scaling the active fill line or circular stroke.
   final double?
       strokeWidth;
-      
+
   /// Implements a dynamic gradient fill directly overriding the `strokeColor`.
   final Gradient?
       strokeGradient;
-      
+
   /// Converts a fluid line progress into segmented stepping blocks.
   final int?
       steps;
-      
+
   /// Absolute maximum width (for horizontal lines) or diameter (for circles).
   final double?
       width;
-      
+
   /// Physical missing arc measured in degrees (used specifically for `dashboard` mode).
   final double?
       gapDegree;
-      
+
   /// Axis gravity aligning where the dashboard gap is natively rendered.
   final SProgressGapPosition?
       gapPosition;
-      
+
   /// Sets the stroke cap rendering style (rounded vs square ends).
   final StrokeCap
       strokeLinecap;
@@ -159,19 +159,19 @@ class SProgress
   /// Activates the endless shimmer loading mode (ignoring the `percent` boundary).
   final bool
       indeterminate;
-      
+
   /// Independent track calculating pre-buffered states like video loading (0 to 100).
   final double?
       bufferValue;
-      
+
   /// The tint representing the pre-buffered track.
   final Color?
       bufferColor;
-      
+
   /// Toggles layout painting bounds from horizontal tracking to strict vertical bars.
   final bool
       vertical;
-      
+
   /// Interpolation timeline locking animated state adjustments.
   final Duration?
       animationDuration;
@@ -247,7 +247,6 @@ class SProgress
       final double
           size =
           width ?? constraints.maxWidth;
-      // Ensure specific size if constraints are infinite (e.g. inside Column)
       final double effectiveSize = size.isFinite
           ? size
           : 120.0;
@@ -357,7 +356,6 @@ class SProgress
         ),
       );
 
-      // Wrap with Info if not vertical (usually vertical bars don't have text besides them in the same row)
       if (showInfo &&
           !vertical) {
         return Row(
@@ -392,7 +390,6 @@ class SProgress
           strokeColor,
       Color
           trailColor) {
-    // Implement steps logic separately if needed using Row of containers
     return Row(
       children: <Widget>[
         Expanded(
@@ -407,8 +404,6 @@ class SProgress
                   height: strokeWidth ?? 8.0,
                   decoration: BoxDecoration(
                     color: isActive ? strokeColor : trailColor,
-                    // Only first and last get rounded corners? Or all? Usually all rounded.
-                    // But if small gap, maybe. Let's assume typical step bar.
                   ),
                 ),
               );
@@ -449,7 +444,7 @@ class SProgress
         SProgressStatus.exception) {
       return Icon(Icons.cancel,
           color: colorToken.error,
-          size: 16); // Circle Cross
+          size: 16);
     }
     if (status ==
         SProgressStatus.success) {
@@ -551,12 +546,9 @@ class _ActivePainter
     final double
         width =
         size.width;
-    // The shimmer effect needs to move from left to right.
-    // We create a gradient that spans a portion of the width and translate it.
-
     final double
         shimmerWidth =
-        width * 0.3; // 30% of width is the shine
+        width * 0.3;
     final double
         startX =
         (width + shimmerWidth) * value - shimmerWidth;
@@ -623,10 +615,9 @@ class _CircleProgressPainter
         radius =
         (math.min(size.width, size.height) - strokeWidth) / 2;
 
-    // Calculate angles based on gap
     double
         startAngle =
-        -math.pi / 2; // Default top
+        -math.pi / 2;
     double
         sweepAngle =
         2 * math.pi;
@@ -651,7 +642,6 @@ class _CircleProgressPainter
       }
     }
 
-    // Draw Trail
     final Paint
         trailPaint =
         Paint()
@@ -692,8 +682,6 @@ class _CircleProgressPainter
           transform: GradientRotation(startAngle),
           // Note: Gradient rotation might need adjustment matching startAngle
         ).createShader(Rect.fromCircle(center: center, radius: radius));
-        // Sweep gradient covers 360, but we want it to cover the progress...
-        // For simple usage, applying standard SweepGradient is usually acceptable behavior.
       }
 
       canvas.drawArc(
@@ -784,9 +772,6 @@ class _IndeterminateProgressAnimationState
           _animation,
       builder:
           (BuildContext context, Widget? child) {
-        // alignValue calculates from -2.33 to +2.33. That mathematically
-        // places a 40% width box fully outside the left edge (-2.33), smoothly
-        // sliding until it gets fully outside the right edge (+2.33).
         final double alignValue = (_animation.value * 4.66) - 2.33;
 
         return Stack(

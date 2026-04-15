@@ -218,12 +218,6 @@ class _SCheckboxState
         ? theme.errorColor
         : (widget.borderColor ?? theme.borderColor);
 
-    // Determine overlay color for focus/hover - handled by InkResponse splash/highlight
-    // but we might want to keep focus ring logic if InkResponse doesn't do it perfectly for non-touch focus.
-    // However, InkResponse handles focusColor/hoverColor if configured.
-    // Let's rely on InkResponse for hover/splash, but keep focus ring on the container if needed.
-    // Actually, SCheckbox usually has a custom focus ring.
-
     return Semantics(
       checked:
           _currentValue == SCheckboxState.checked,
@@ -250,7 +244,6 @@ class _SCheckboxState
           child: Container(
             padding: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
-              // visual focus ring could be here if needed, or rely on InkResponse focusColor
               borderRadius: BorderRadius.circular(20),
             ),
             child: AnimatedBuilder(

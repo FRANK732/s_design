@@ -100,9 +100,8 @@ class SQRCode
           Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          // QR Code
           Opacity(
-            opacity: status == SQRCodeStatus.active ? 1.0 : 0.2, // Fade if not active
+            opacity: status == SQRCodeStatus.active ? 1.0 : 0.2,
             child: QrImageView(
               data: value,
               errorCorrectionLevel: errorLevel,
@@ -129,7 +128,7 @@ class SQRCode
                 decoration: BoxDecoration(
                   color: backgroundColor,
                   borderRadius: BorderRadius.circular(4),
-                  border: Border.all(color: Colors.white, width: 2), // White border around icon
+                  border: Border.all(color: Colors.white, width: 2),
                   boxShadow: <BoxShadow>[
                     BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 4),
                   ],
@@ -138,7 +137,6 @@ class SQRCode
               ),
             ),
 
-          // Status Overlay
           if (status != SQRCodeStatus.active) _buildStatusOverlay(context),
         ],
       ),
@@ -152,7 +150,7 @@ class SQRCode
         status) {
       case SQRCodeStatus.loading:
         return const Center(
-          child: CircularProgressIndicator(), // Use SSpin if available
+          child: CircularProgressIndicator(),
         );
       case SQRCodeStatus.expired:
         return Center(

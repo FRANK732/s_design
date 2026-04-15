@@ -19,7 +19,6 @@ class SDatePickerStyle {
     this.rangeHoverColor,
   });
 
-  // Input
   final BoxDecoration?
       inputDecoration;
   final TextStyle?
@@ -29,11 +28,9 @@ class SDatePickerStyle {
   final Widget?
       icon;
 
-  // Popup / Panel
   final BoxDecoration?
       popupDecoration;
 
-  // Calendar
   final TextStyle?
       headerTextStyle;
   final TextStyle?
@@ -49,11 +46,9 @@ class SDatePickerStyle {
   final TextStyle?
       disabledDayTextStyle;
 
-  // Range specifics
   final Color?
       rangeHoverColor;
 
-  // Presets
   final BoxDecoration?
       presetsSidebarDecoration;
   final TextStyle?

@@ -30,7 +30,6 @@ class SAlertThemeData
     this.shadowColor,
   });
 
-  // ── Per-type background colors ───────────────────────────────────────────
   final Color?
       successBackgroundColor;
   final Color?
@@ -40,7 +39,6 @@ class SAlertThemeData
   final Color?
       errorBackgroundColor;
 
-  // ── Per-type border colors ────────────────────────────────────────────────
   final Color?
       successBorderColor;
   final Color?
@@ -50,7 +48,6 @@ class SAlertThemeData
   final Color?
       errorBorderColor;
 
-  // ── Per-type icon colors ──────────────────────────────────────────────────
   final Color?
       successIconColor;
   final Color?
@@ -60,7 +57,6 @@ class SAlertThemeData
   final Color?
       errorIconColor;
 
-  // ── Shared style tokens ───────────────────────────────────────────────────
   final BorderRadius?
       borderRadius;
   final double?

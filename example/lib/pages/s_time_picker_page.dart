@@ -40,7 +40,6 @@ class _STimePickerPageState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── 1. Basic ────────────────────────────────────────────────────
             _header(l10n.demoBasicUsage),
             _desc(l10n.timePickerDescBasic),
             STimePicker(
@@ -49,7 +48,6 @@ class _STimePickerPageState
             ),
             const SizedBox(height: 32),
 
-            // ── 2. 12-Hour ──────────────────────────────────────────────────
             _header(l10n.timePickerHeader12Hour),
             _desc(l10n.timePickerDesc12Hour),
             Wrap(spacing: 12, runSpacing: 12, children: [
@@ -59,7 +57,6 @@ class _STimePickerPageState
             ]),
             const SizedBox(height: 32),
 
-            // ── 3. Disabled ─────────────────────────────────────────────────
             _header(l10n.demoDisabled),
             _desc(l10n.timePickerDescDisabled),
             STimePicker(
@@ -69,7 +66,6 @@ class _STimePickerPageState
             ),
             const SizedBox(height: 32),
 
-            // ── 4. Size ─────────────────────────────────────────────────────
             _header(l10n.demoSizes),
             _desc(l10n.timePickerDescSize),
             const Wrap(spacing: 12, runSpacing: 12, children: [
@@ -87,7 +83,6 @@ class _STimePickerPageState
             ]),
             const SizedBox(height: 32),
 
-            // ── 5. Hide Seconds (HH:mm) ─────────────────────────────────────
             _header(l10n.demoHideSeconds),
             _desc(l10n.timePickerDescHideSeconds),
             const STimePicker(
@@ -96,7 +91,6 @@ class _STimePickerPageState
             ),
             const SizedBox(height: 32),
 
-            // ── 6. Interval Options ─────────────────────────────────────────
             _header(l10n.timePickerHeaderInterval),
             _desc(l10n.timePickerDescInterval),
             STimePicker(
@@ -106,7 +100,6 @@ class _STimePickerPageState
             ),
             const SizedBox(height: 32),
 
-            // ── 7. Addon / Extra Footer ─────────────────────────────────────
             _header(l10n.timePickerHeaderAddon),
             _desc(l10n.timePickerDescAddon),
             STimePicker(
@@ -118,7 +111,6 @@ class _STimePickerPageState
             ),
             const SizedBox(height: 32),
 
-            // ── 8. Status ───────────────────────────────────────────────────
             _header(l10n.demoStatus),
             _desc(l10n.timePickerDescStatus),
             const Wrap(spacing: 12, runSpacing: 12, children: [
@@ -129,7 +121,6 @@ class _STimePickerPageState
             ]),
             const SizedBox(height: 32),
 
-            // ── 9. Suffix / Prefix ──────────────────────────────────────────
             _header(l10n.timePickerDescSuffixPrefix),
             _desc(l10n.timePickerDescSuffixPrefix),
             Wrap(spacing: 12, runSpacing: 12, children: [
@@ -147,7 +138,6 @@ class _STimePickerPageState
             ]),
             const SizedBox(height: 32),
 
-            // ── 10. Variants ────────────────────────────────────────────────
             _header(l10n.timePickerHeaderVariants),
             _desc(l10n.timePickerDescVariants),
             Column(
@@ -188,7 +178,6 @@ class _STimePickerPageState
             ),
             const SizedBox(height: 32),
 
-            // ── 11. Controlled ──────────────────────────────────────────────
             _header(l10n.timePickerHeaderControlled),
             _desc(l10n.timePickerDescControlled),
             Wrap(spacing: 12, runSpacing: 8, children: [
@@ -202,7 +191,6 @@ class _STimePickerPageState
             ]),
             const SizedBox(height: 32),
 
-            // ── 12. needConfirm ─────────────────────────────────────────────
             _header(l10n.timePickerHeaderNeedConfirm),
             _desc(l10n.timePickerDescNeedConfirm),
             STimePicker(
@@ -211,7 +199,6 @@ class _STimePickerPageState
             ),
             const SizedBox(height: 32),
 
-            // ── 13. changeOnScroll ──────────────────────────────────────────
             _header(l10n.timePickerHeaderChangeOnScroll),
             _desc(l10n.timePickerDescChangeOnScroll),
             STimePicker(
@@ -220,7 +207,6 @@ class _STimePickerPageState
             ),
             const SizedBox(height: 32),
 
-            // ── 14. showNow: false ──────────────────────────────────────────
             _header(l10n.timePickerHeaderShowNowFalse),
             _desc(l10n.timePickerDescShowNowFalse),
             STimePicker(
@@ -229,7 +215,6 @@ class _STimePickerPageState
             ),
             const SizedBox(height: 32),
 
-            // ── 14. RangePicker ─────────────────────────────────────────────
             _header(l10n.timePickerHeaderRange),
             _desc(l10n.timePickerDescRange),
             STimeRangePicker(
@@ -246,14 +231,12 @@ class _STimePickerPageState
     );
   }
 
-  void _snack(
-      BuildContext
-          ctx,
-      String
-          msg) {
-    ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
-        content: Text(msg),
-        duration: const Duration(seconds: 1)));
+  void _snack(BuildContext ctx, String msg) {
+    SSonner.show(
+      message: msg,
+      replace: true,
+      duration: const Duration(seconds: 1),
+    );
   }
 }
 

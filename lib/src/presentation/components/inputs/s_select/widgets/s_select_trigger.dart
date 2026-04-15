@@ -36,6 +36,7 @@ class SSelectTrigger<
     this.prefix,
     this.onItemRemove,
     this.onInputTap,
+    this.tagRender,
   });
 
   final List<T>
@@ -80,6 +81,11 @@ class SSelectTrigger<
       onItemRemove;
   final VoidCallback?
       onInputTap;
+  final Widget Function(
+      String
+          label,
+      VoidCallback
+          onClose)? tagRender;
 
   @override
   State<
@@ -324,14 +330,80 @@ class _SSelectTriggerState<
         <Widget>[];
 
     // Add selected items
-    for (final T value
-        in widget.values) {
+    int renderCount = widget
+        .values
+        .length;
+    bool
+        hasMore =
+        false;
+    if (widget.maxTagCount != null &&
+        widget.maxTagCount! > 0 &&
+        widget.values.length > widget.maxTagCount!) {
+      renderCount =
+          widget.maxTagCount!;
+      hasMore =
+          true;
+    }
+
+    for (int i = 0;
+        i < renderCount;
+        i++) {
+      final T
+          value =
+          widget.values[i];
       final SSelectItem<T>
           item =
           widget.items.firstWhere(
         (SSelectItem<T> i) => i.value == value,
         orElse: () => SSelectItem<T>(value: value, label: value.toString()),
       );
+      if (widget.tagRender !=
+          null) {
+        children.add(
+          widget.tagRender!(
+            item.label,
+            () {
+              if (!widget.disabled) {
+                widget.onItemRemove?.call(value);
+              }
+            },
+          ),
+        );
+      } else {
+        children.add(
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+            decoration: BoxDecoration(
+              color: STheme.of(context).colorToken.divider.withOpacity(0.5),
+              borderRadius: BorderRadius.circular(DesignConstants.borderRadiusSmall),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  item.label,
+                  style: const TextStyle(fontSize: 12),
+                ),
+                if (!widget.disabled) ...<Widget>[
+                  const SizedBox(width: 4),
+                  InkWell(
+                    onTap: () {
+                      widget.onItemRemove?.call(value);
+                    },
+                    child: Icon(Icons.close, size: 10, color: STheme.of(context).colorToken.textSecondary),
+                  ),
+                ]
+              ],
+            ),
+          ),
+        );
+      }
+    }
+
+    if (hasMore) {
+      final int
+          excess =
+          widget.values.length - widget.maxTagCount!;
       children.add(
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
@@ -339,23 +411,9 @@ class _SSelectTriggerState<
             color: STheme.of(context).colorToken.divider.withOpacity(0.5),
             borderRadius: BorderRadius.circular(DesignConstants.borderRadiusSmall),
           ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Text(
-                item.label,
-                style: const TextStyle(fontSize: 12),
-              ),
-              if (!widget.disabled) ...<Widget>[
-                const SizedBox(width: 4),
-                InkWell(
-                  onTap: () {
-                    widget.onItemRemove?.call(value);
-                  },
-                  child: Icon(Icons.close, size: 10, color: STheme.of(context).colorToken.textSecondary),
-                ),
-              ]
-            ],
+          child: Text(
+            '+$excess ...',
+            style: const TextStyle(fontSize: 12),
           ),
         ),
       );

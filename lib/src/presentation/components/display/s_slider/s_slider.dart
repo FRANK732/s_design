@@ -273,8 +273,6 @@ class _SSliderState
       builder:
           (BuildContext context, BoxConstraints constraints) {
         final double width = constraints.maxWidth;
-        // Slider has default padding depending on thumb size.
-        // We assume standard Material Slider padding of 24.
         const double sidePadding = 24.0;
         final double trackWidth = width - (sidePadding * 2);
 
@@ -288,12 +286,11 @@ class _SSliderState
               final double value = entry.key;
               final Widget label = entry.value;
 
-              // Normalize value to 0..1
               final double percent = (value - widget.min) / (widget.max - widget.min);
               final double left = percent * trackWidth;
 
               return Positioned(
-                left: left - 15, // center 30 wide box
+                left: left - 15,
                 width: 30,
                 top: 4,
                 child: Center(
@@ -311,7 +308,6 @@ class _SSliderState
   }
 }
 
-// Custom Paint for Handle (White circle with border and shadow)
 class _DefaultThumbShape
     extends SliderComponentShape {
   const _DefaultThumbShape();
@@ -362,7 +358,6 @@ class _DefaultThumbShape
         canvas =
         context.canvas;
 
-    // Shadow
     final Path
         shadowPath =
         Path()..addOval(Rect.fromCircle(center: center, radius: thumbRadius + 2));
@@ -372,7 +367,6 @@ class _DefaultThumbShape
         3.0,
         true);
 
-    // Fill
     final Paint
         fillPaint =
         Paint()
@@ -383,7 +377,6 @@ class _DefaultThumbShape
         thumbRadius,
         fillPaint);
 
-    // Border (Primary Color)
     final Paint
         borderPaint =
         Paint()
@@ -394,9 +387,6 @@ class _DefaultThumbShape
         center,
         thumbRadius,
         borderPaint);
-
-    // Specific: On hover/active, the thumb might grow or show tooltip.
-    // SliderTheme handles overlay.
   }
 }
 

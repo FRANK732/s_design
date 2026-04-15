@@ -7,10 +7,10 @@ import 's_step_item.dart';
 class SStepsStyleHelper {
   static const double
       defaultIconSize =
-      32.0; // 'default'
+      32.0;
   static const double
       smallIconSize =
-      24.0; // 'small'
+      24.0;
 
   static double
       getIconSize(SStepsSize size) {
@@ -52,7 +52,6 @@ class SStepsStyleHelper {
     switch (
         status) {
       case SStepStatus.finish:
-        // If custom icon, it might not need color override, but usually colors it primary
         return theme.colorToken.primary;
       case SStepStatus.process:
         return theme.colorToken.primary;
@@ -77,7 +76,7 @@ class SStepsStyleHelper {
       case SStepStatus.finish:
       case SStepStatus.error:
       case SStepStatus.wait:
-        return Colors.transparent; // Only process has filled background in default style
+        return Colors.transparent;
     }
   }
 
@@ -93,7 +92,7 @@ class SStepsStyleHelper {
       case SStepStatus.process:
         return theme.colorToken.primary;
       case SStepStatus.finish:
-        return theme.colorToken.primary; // Finish is usually outlined with primary, checkmark inside
+        return theme.colorToken.primary;
       case SStepStatus.error:
         return theme.colorToken.error;
       case SStepStatus.wait:

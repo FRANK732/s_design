@@ -102,7 +102,6 @@ class _SDatePickerState
         overlayWidth =
         SDatePickerStyleHelper.panelWidth + (widget.presets != null && widget.presets!.isNotEmpty ? 120 : 0);
 
-    // Vertical Flip Logic
     const double
         estimatedHeight =
         350.0;
@@ -115,7 +114,6 @@ class _SDatePickerState
           true;
     }
 
-    // Width Constraint
     double
         finalWidth =
         overlayWidth;
@@ -125,7 +123,6 @@ class _SDatePickerState
           screenWidth - 16;
     }
 
-    // Horizontal Alignment
     double
         dx =
         0;
@@ -134,26 +131,25 @@ class _SDatePickerState
       dx =
           size.width - finalWidth;
     }
-    // Safety check for left edge
     if (offset.dx + dx <
         8) {
       dx =
-          8 - offset.dx; // Ensure at least 8px from left
+          8 - offset.dx;
     }
 
     _overlayEntry =
-        OverlayEntry(
-      builder: (BuildContext context) =>
-          Stack(
+        OverlayEntry(builder: (BuildContext context) {
+      if (!mounted) {
+        return const SizedBox.shrink();
+      }
+      return Stack(
         children: <Widget>[
-          // Dismissible barrier
           Positioned.fill(
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: _closeDropdown,
             ),
           ),
-          // Dropdown content
           Positioned(
             width: finalWidth,
             child: CompositedTransformFollower(
@@ -168,7 +164,7 @@ class _SDatePickerState
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: ConstrainedBox(
-                    constraints: BoxConstraints(minWidth: finalWidth), // Ensure it fills if smaller
+                    constraints: BoxConstraints(minWidth: finalWidth),
                     child: SDatePickerPanel(
                       value: widget.value,
                       pickerMode: widget.picker,
@@ -185,8 +181,8 @@ class _SDatePickerState
             ),
           ),
         ],
-      ),
-    );
+      );
+    });
 
     Overlay.of(context)
         .insert(_overlayEntry!);
@@ -226,7 +222,6 @@ class _SDatePickerState
         ? sTheme.colorToken.primary
         : sTheme.colorToken.divider;
 
-    // Use custom decoration if provided, else default
     final BoxDecoration decoration = widget.style?.inputDecoration ??
         BoxDecoration(
           color: widget.disabled ? sTheme.colorToken.background : sTheme.colorToken.surface,
@@ -246,7 +241,6 @@ class _SDatePickerState
         ? (widget.style?.inputTextStyle ?? TextStyle(color: sTheme.colorToken.textPrimary))
         : (widget.style?.placeholderStyle ?? TextStyle(color: sTheme.colorToken.textSecondary));
 
-    // Mimic SSelect Trigger style
     return CompositedTransformTarget(
       link:
           _layerLink,
@@ -271,7 +265,7 @@ class _SDatePickerState
                 InkWell(
                   onTap: () {
                     widget.onChange?.call(null);
-                  }, // Hover to clear not implemented yet, simple click to clear if logic added
+                  },
                   child: Icon(Icons.close, size: 14, color: sTheme.colorToken.textSecondary),
                 )
               else

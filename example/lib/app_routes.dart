@@ -10,6 +10,7 @@ import 'pages/list_tile_page.dart';
 import 'pages/progress_indicator_page.dart';
 import 'pages/s_floating_panel_page.dart';
 import 'pages/s_modal_page.dart';
+import 'pages/s_tooltip_page.dart';
 import 'pages/sbutton.dart';
 import 'pages/slider_page.dart';
 import 'pages/sonner_page.dart';
@@ -184,6 +185,15 @@ class AppRoutes {
           '/date_picker_page',
       page: () =>
           const DatePickerPage(),
+      transition:
+          Transition.rightToLeft,
+    ),
+    GetPage<
+        dynamic>(
+      name:
+          '/tooltip_page',
+      page: () =>
+          const STooltipPage(),
       transition:
           Transition.rightToLeft,
     ),

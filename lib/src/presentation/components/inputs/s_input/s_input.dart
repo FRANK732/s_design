@@ -384,7 +384,7 @@ class _SInputState
     }
     if (widget.status ==
         SInputStatus.warning) {
-      return Colors.amber; // Warning color (could be added to theme later)
+      return Colors.amber;
     }
     if (_isFocused) {
       return theme.inputFieldTheme.focusedBorderColor;
@@ -401,7 +401,7 @@ class _SInputState
       _getFontSize() {
     return widget.size == SInputSize.small
         ? 14
-        : 14; // Uses 14px mostly
+        : 14;
   }
 
   EdgeInsetsGeometry
@@ -473,7 +473,7 @@ class _SInputState
                     ]
                   : null),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 11), // Padding for prefix/suffix
+        padding: const EdgeInsets.symmetric(horizontal: 11),
         child: Row(
           crossAxisAlignment: widget.maxLines != 1 ? CrossAxisAlignment.start : CrossAxisAlignment.center,
           children: <Widget>[
@@ -499,7 +499,7 @@ class _SInputState
                   errorBorder: InputBorder.none,
                   disabledBorder: InputBorder.none,
                   contentPadding: _getPadding(),
-                  counterText: '', // Hide default counter
+                  counterText: '',
                 ),
                 style: widget.style?.copyWith(fontSize: _getFontSize(), color: ext.textColor) ?? TextStyle(fontSize: _getFontSize(), color: ext.textColor),
                 keyboardType: widget.keyboardType,
@@ -515,7 +515,7 @@ class _SInputState
                 minLines: widget.minLines,
                 maxLength: widget.maxLength,
                 onChanged: (String val) {
-                  setState(() {}); // Rebuild for clear button / count
+                  setState(() {});
                   widget.onChanged?.call(val);
                 },
                 onTap: widget.onTap,
@@ -582,7 +582,9 @@ class _SInputState
           context,
       {required bool
           isBefore}) {
-    final ColorScheme cs = Theme.of(context).colorScheme;
+    final ColorScheme
+        cs =
+        Theme.of(context).colorScheme;
     return Container(
       padding:
           const EdgeInsets.symmetric(horizontal: 11),
@@ -852,15 +854,10 @@ class _SInputSearchState
 
     return SInput(
       controller:
-          _controller, // Use local controller if not provided? No, shared logic needed
+          _controller,
       initialValue: widget.initialValue == null && widget.controller == null
           ? null
-          : widget.initialValue, // Fix logic
-      // Actually if I pass controller to SInput it works, but I need access to text for search.
-      // SInput handles controller creation if null. But I need it here.
-      // So I should pass _controller down.
-      // But wait _controller init above logic is distinct from SInput state.
-      // I will pass _controller to SInput.
+          : widget.initialValue,
       placeholder:
           widget.placeholder,
       size:
@@ -875,7 +872,7 @@ class _SInputSearchState
           widget.addonBefore,
       addonAfter: activeAddonAfter != widget.addonAfter
           ? activeAddonAfter
-          : widget.addonAfter, // If modified, use modified
+          : widget.addonAfter,
       allowClear:
           widget.allowClear,
       onChanged:

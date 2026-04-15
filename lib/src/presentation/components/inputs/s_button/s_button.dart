@@ -196,8 +196,6 @@ class SButton
     );
   }
 
-  // Configuration from domain layer
-
   /// The visual variant of the button (e.g., primary, secondary, outline, text).
   /// Modifies the overall look and feel by mapping to `sButtonTheme` definitions.
   final SButtonVariant
@@ -396,12 +394,10 @@ class _SButtonState
   Widget build(
       BuildContext
           context) {
-    // Determine if button is disabled
     final bool
         isDisabled =
         _isDisabled();
 
-    // Retrieve theme data
     final SButtonThemeData
         theme =
         Theme.of(context).sButtonTheme;
@@ -409,7 +405,6 @@ class _SButtonState
         colorScheme =
         Theme.of(context).colorScheme;
 
-    // Get colors based on variant and state
     final Color
         defaultBackgroundColor =
         SButtonStyleHelper.getBackgroundColor(
@@ -447,12 +442,10 @@ class _SButtonState
           colorScheme,
     );
 
-    // Get padding
     final EdgeInsetsGeometry
         computedPadding =
         widget.padding ?? SButtonStyleHelper.getPaddingForSize(widget.size);
 
-    // Build content
     final Widget
         content =
         SButtonContent(
@@ -482,7 +475,6 @@ class _SButtonState
           widget.child,
     );
 
-    // Create button style
     final ButtonStyle
         defaultStyle =
         SButtonStyleHelper.getButtonStyle(
@@ -510,7 +502,6 @@ class _SButtonState
           widget.borderRadius,
     );
 
-    // Select button type based on variant
     final VoidCallback? effectiveOnPressed = isDisabled
         ? null
         : _handlePressed;
@@ -537,7 +528,6 @@ class _SButtonState
           widget.autofocus,
     );
 
-    // Apply sizing
     double?
         effectiveWidth =
         widget.width;
@@ -557,7 +547,6 @@ class _SButtonState
       );
     }
 
-    // Apply tooltip
     final String? effectiveTooltip = isDisabled
         ? (widget.disabledTooltip ?? widget.tooltip)
         : widget.tooltip;
@@ -571,7 +560,6 @@ class _SButtonState
       );
     }
 
-    // Apply shortcut
     if (widget.shortcut != null &&
         !isDisabled &&
         widget.onPressed != null) {

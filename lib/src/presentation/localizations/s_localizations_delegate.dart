@@ -1,6 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'Langs/arabic.dart';
+import 'Langs/chinese.dart';
+import 'Langs/english.dart';
+import 'Langs/french.dart';
 import 's_localizations.dart';
 
 /// A delegate factory for [SLocalizations].
@@ -43,8 +47,6 @@ class SLocalizationsDelegate
   @override
   Future<SLocalizations>
       load(Locale locale) {
-    // Returning a SynchronousFuture here because we don't need to load
-    // from disk or network, the strings are compiled in.
     return SynchronousFuture<SLocalizations>(_supportedLanguages[locale.languageCode] ??
         const SLocalizationsEn());
   }

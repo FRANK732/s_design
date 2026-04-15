@@ -46,7 +46,7 @@ double _getAvatarWidth(
         child.child!,
         ext);
   }
-  return 32.0; // fallback
+  return 32.0;
 }
 
 /// A group of avatars, often overlapping, with support to cap the number
@@ -124,10 +124,7 @@ class SAvatarGroup
 
       return SAvatar(
         key: child.key,
-        shape: child.shape, // We don't override if explicitly set in child constructor unless they are default...
-        // We'll trust the child properties unless we really need to force. SAvatar uses default middle/circle.
-        // If we want exact cascade we would read their values.
-        // For simplicity we create a clone setting the cascaded values if child has defaults.
+        shape: child.shape,
         size: size ?? child.size,
         customSize: child.customSize,
         gap: child.gap,
@@ -170,7 +167,6 @@ class SAvatarGroup
           List<Widget>.from(children);
     }
 
-    // Cascade props
     final List<Widget>
         cascadedShow =
         childrenToShow.map((Widget c) => _cloneWithCascade(context, c)).toList();

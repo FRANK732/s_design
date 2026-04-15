@@ -338,10 +338,6 @@ class _STabNavBarState
           t =
           value - leftIndex;
 
-      // Worm Effect Calculation
-      // Leading edge moves faster (easeOut), Trailing edge moves slower (easeIn)
-      // This creates a stretch effect during movement
-
       final double
           leftT =
           Curves.easeInCubic.transform(t);
@@ -426,7 +422,6 @@ class _STabNavBarState
         isVertical =
         widget.tabPosition == STabPosition.left || widget.tabPosition == STabPosition.right;
 
-    // Size adjustments
     final double itemPaddingVertical = widget.size == STabSize.small
         ? 6
         : (widget.size == STabSize.large ? 12 : 10);
@@ -525,7 +520,6 @@ class _STabNavBarState
         isCard =
         widget.type == STabType.card || widget.type == STabType.editableCard;
 
-    // Background color for cards
     Color?
         bgColor;
     if (isCard) {
@@ -551,10 +545,10 @@ class _STabNavBarState
         EdgeInsets.zero;
     if (isCard) {
       margin =
-          const EdgeInsets.only(right: 2); // Gap between cards
+          const EdgeInsets.only(right: 2);
     } else {
       margin =
-          const EdgeInsets.symmetric(horizontal: 16); // Gap for line tabs
+          const EdgeInsets.symmetric(horizontal: 16);
       if (isVertical) {
         margin = const EdgeInsets.symmetric(vertical: 8);
       }
@@ -629,7 +623,7 @@ class _STabNavBarState
               Positioned(
                 top: 0,
                 left: 0,
-                right: 2, // Match card margin
+                right: 2,
                 height: 2,
                 child: DecoratedBox(
                   decoration: BoxDecoration(

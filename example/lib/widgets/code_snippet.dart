@@ -105,7 +105,6 @@ class _CodeSnippetState
               ],
             ),
           ),
-          // Code
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.all(16),

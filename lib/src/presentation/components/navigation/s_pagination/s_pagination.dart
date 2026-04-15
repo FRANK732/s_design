@@ -88,7 +88,6 @@ class SPagination
     this.itemRender,
     this.responsive =
         true,
-    // ── Open customizability ──────────────────────────────────────────────
     this.activeColor,
     this.activeBorderColor,
     this.activeTextColor,
@@ -105,7 +104,6 @@ class SPagination
     this.totalTextStyle,
   });
 
-  // ── Core pagination props ─────────────────────────────────────────────────
 
   /// Total number of items.
   final int
@@ -198,7 +196,6 @@ class SPagination
   final bool
       responsive;
 
-  // ── Open customizability props ────────────────────────────────────────────
 
   final Color?
       activeColor;
@@ -358,7 +355,6 @@ class _SPaginationState
         _pageSize);
   }
 
-  // ── Token resolution ──────────────────────────────────────────────────────
 
   _PaginationTokens
       _tokens(BuildContext context) {
@@ -450,19 +446,13 @@ class _SPaginationState
     );
   }
 
-  // ── Responsive breakpoints ────────────────────────────────────────────────
 
   /// Minimum width (px) for a full-featured layout (±2 siblings, all extras).
-  static const double
-      _kWide =
-      600.0;
+  static const double _kWide = 500.0;
 
-  /// Minimum width (px) for medium mode (±1 sibling, no extras).
-  static const double
-      _kMedium =
-      360.0;
+  /// Minimum width (px) for medium mode (shows numerical buttons).
+  static const double _kMedium = 280.0;
 
-  // ── Build ─────────────────────────────────────────────────────────────────
 
   @override
   Widget build(
@@ -489,7 +479,6 @@ class _SPaginationState
         total =
         _totalPages;
 
-    // ── Responsive overrides ──────────────────────────────────────────────
     final bool
         isNarrow =
         widget.responsive && availableWidth < _kMedium;
@@ -514,12 +503,8 @@ class _SPaginationState
         widget.showTotal != null && !isNarrow;
 
     // Number of sibling pages shown either side of current.
-    // Wide: 2, Medium: 1, Narrow: irrelevant (simple mode).
-    final int siblingCount = (!widget.responsive || availableWidth >= _kWide)
-        ? 2
-        : isMedium
-            ? 1
-            : 0;
+    // Full/Medium: 2, Narrow: irrelevant (simple mode).
+    final int siblingCount = (!widget.responsive || availableWidth >= _kMedium) ? 2 : 0;
 
     WrapAlignment
         wrapAlign;
@@ -570,7 +555,6 @@ class _SPaginationState
     );
   }
 
-  // ── Full mode ─────────────────────────────────────────────────────────────
 
   Widget
       _buildFullMode(
@@ -778,7 +762,6 @@ class _SPaginationState
     return defaultWidget;
   }
 
-  // ── Simple mode ───────────────────────────────────────────────────────────
 
   Widget _buildSimpleMode(
       _PaginationTokens
@@ -816,7 +799,6 @@ class _SPaginationState
     );
   }
 
-  // ── Auxiliary widgets ─────────────────────────────────────────────────────
 
   Widget _buildTotalLabel(
       _PaginationTokens
@@ -878,7 +860,6 @@ class _SPaginationState
   }
 }
 
-// ─── Internal sub-widgets ────────────────────────────────────────────────────
 
 class _PaginationTokens {
   const _PaginationTokens({

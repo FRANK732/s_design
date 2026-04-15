@@ -294,7 +294,6 @@ class _SAppState
         themeData =
         theme(context);
 
-    // Convert SDesign primary token to a basic Material ColorScheme
     final m
         .ColorScheme
         colorScheme =
@@ -307,7 +306,6 @@ class _SAppState
         useMaterial3: true,
         colorScheme: colorScheme,
         scaffoldBackgroundColor: themeData.colorToken.background,
-        // Material widgets will fallback to these properties
         textTheme: m.TextTheme(
           bodyMedium: themeData.typographyToken.bodyMedium,
           bodyLarge: themeData.typographyToken.bodyLarge,
@@ -467,24 +465,42 @@ class _SAppState
 /// This is required because [SApp._builder] runs above the [Navigator] in the
 /// widget tree, so [Overlay.of] would fail. Instead we own an [Overlay] and
 /// initialize all overlay-dependent services with its state after the first frame.
-class _SOverlayInitializer extends StatefulWidget {
-  const _SOverlayInitializer({required this.child});
-  final Widget child;
+class _SOverlayInitializer
+    extends StatefulWidget {
+  const _SOverlayInitializer(
+      {required this.child});
+  final Widget
+      child;
 
   @override
-  State<_SOverlayInitializer> createState() => _SOverlayInitializerState();
+  State<_SOverlayInitializer>
+      createState() =>
+          _SOverlayInitializerState();
 }
 
-class _SOverlayInitializerState extends State<_SOverlayInitializer> {
-  final GlobalKey<OverlayState> _overlayKey = GlobalKey<OverlayState>();
+class _SOverlayInitializerState
+    extends State<
+        _SOverlayInitializer> {
+  final GlobalKey<OverlayState>
+      _overlayKey =
+      GlobalKey<OverlayState>();
 
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
-      final OverlayState? overlay = _overlayKey.currentState;
-      if (overlay == null) return;
+  void
+      initState() {
+    super
+        .initState();
+    WidgetsBinding
+        .instance
+        .addPostFrameCallback((_) {
+      if (!mounted)
+        return;
+      final OverlayState?
+          overlay =
+          _overlayKey.currentState;
+      if (overlay ==
+          null)
+        return;
       SSonner.initialize(overlay);
       SFloatingPanel.initialize(overlay);
       // ignore: deprecated_member_use_from_same_package
@@ -493,7 +509,9 @@ class _SOverlayInitializerState extends State<_SOverlayInitializer> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+      BuildContext
+          context) {
     return Stack(
       children: <Widget>[
         widget.child,

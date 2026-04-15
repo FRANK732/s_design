@@ -32,7 +32,6 @@ class _SAlertPageState
           ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          // ── 1. Basic ──────────────────────────────────────────────────────
           _sectionHeader(l10n.demoBasicUsage),
           SAlert(type: SAlertType.success, title: l10n.alertSuccessText),
           const SizedBox(height: 8),
@@ -43,7 +42,6 @@ class _SAlertPageState
           SAlert(type: SAlertType.error, title: l10n.alertErrorText),
           const SizedBox(height: 24),
 
-          // ── 2. Description ────────────────────────────────────────────────
           _sectionHeader(l10n.alertSectionDescription),
           SAlert(
             type: SAlertType.success,
@@ -69,7 +67,6 @@ class _SAlertPageState
           ),
           const SizedBox(height: 24),
 
-          // ── 3. Icon ───────────────────────────────────────────────────────
           _sectionHeader(l10n.alertSectionIcon),
           SAlert(type: SAlertType.success, title: l10n.alertSuccessTips, showIcon: true),
           const SizedBox(height: 8),
@@ -108,14 +105,14 @@ class _SAlertPageState
           ),
           const SizedBox(height: 24),
 
-          // ── 4. Closable ───────────────────────────────────────────────────
           _sectionHeader(l10n.alertSectionClosable),
           SAlert(
             type: SAlertType.warning,
             title: l10n.alertWarningTitle,
             closable: true,
-            onClose: () => ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(l10n.alertClosedWarning)),
+            onClose: () => SSonner.show(
+              message: l10n.alertClosedWarning,
+              variant: SSonnerVariant.warning,
             ),
           ),
           const SizedBox(height: 8),
@@ -123,16 +120,18 @@ class _SAlertPageState
             type: SAlertType.success,
             title: l10n.alertSuccessTitle,
             closable: true,
-            onClose: () => ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(l10n.alertClosedSuccess)),
+            onClose: () => SSonner.show(
+              message: l10n.alertClosedSuccess,
+              variant: SSonnerVariant.success,
             ),
           ),
           const SizedBox(height: 8),
           SAlert(
             title: l10n.alertInfoTitle,
             closable: true,
-            onClose: () => ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(l10n.alertClosedInfo)),
+            onClose: () => SSonner.show(
+              message: l10n.alertClosedInfo,
+              variant: SSonnerVariant.info,
             ),
           ),
           const SizedBox(height: 8),
@@ -140,13 +139,13 @@ class _SAlertPageState
             type: SAlertType.error,
             title: l10n.alertErrorTitle,
             closable: true,
-            onClose: () => ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(l10n.alertClosedError)),
+            onClose: () => SSonner.show(
+              message: l10n.alertClosedError,
+              variant: SSonnerVariant.error,
             ),
           ),
           const SizedBox(height: 24),
 
-          // ── 5. Action ─────────────────────────────────────────────────────
           _sectionHeader(l10n.alertSectionAction),
           SAlert(
             type: SAlertType.success,
@@ -235,7 +234,6 @@ class _SAlertPageState
           ),
           const SizedBox(height: 24),
 
-          // ── 6. Banner ─────────────────────────────────────────────────────
           _sectionHeader(l10n.alertSectionBanner),
           SAlert(title: l10n.alertWarningText, banner: true),
           const SizedBox(height: 8),
@@ -253,7 +251,6 @@ class _SAlertPageState
           SAlert(type: SAlertType.error, title: l10n.alertErrorText, banner: true),
           const SizedBox(height: 24),
 
-          // ── 7. Custom Icon ────────────────────────────────────────────────
           _sectionHeader(l10n.alertSectionCustomIcon),
           SAlert(
             icon: const Icon(Icons.sentiment_satisfied_alt, color: Colors.orange),
@@ -297,7 +294,6 @@ class _SAlertPageState
           ),
           const SizedBox(height: 24),
 
-          // ── 8. Smooth Close ───────────────────────────────────────────────
           _sectionHeader(l10n.alertSectionSmoothClose),
           if (_smoothCloseVisible)
             SAlert(
@@ -321,7 +317,6 @@ class _SAlertPageState
           ),
           const SizedBox(height: 24),
 
-          // ── 9. Open Customizability ───────────────────────────────────────
           _sectionHeader(l10n.alertSectionCustomizability),
           SAlert(
             type: SAlertType.error,

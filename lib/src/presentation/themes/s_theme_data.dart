@@ -19,6 +19,7 @@ import 'extensions/component_themes/s_switch_theme.dart';
 import 'extensions/component_themes/s_tabs_theme.dart';
 import 'extensions/component_themes/s_time_picker_theme.dart';
 import 'extensions/component_themes/s_toast_theme.dart';
+import 'extensions/component_themes/s_tooltip_theme.dart';
 import 'tokens/colors.dart';
 import 'tokens/typography.dart';
 
@@ -57,24 +58,26 @@ class SThemeData
         floatingPanelTheme,
     SInputFieldThemeData?
         inputFieldTheme,
-    SListTileThemeData?
-        listTileTheme,
-    SLoadingIndicatorThemeData?
-        loadingIndicatorTheme,
-    SPaginationThemeData?
-        paginationTheme,
-    SSelectThemeData?
-        selectTheme,
-    SSonnerThemeData?
-        sonnerTheme,
-    SSwitchThemeData?
-        switchTheme,
-    STabsThemeData?
-        tabsTheme,
-    STimePickerThemeData?
-        timePickerTheme,
-    SToastThemeData?
-        toastTheme,
+      SListTileThemeData?
+          listTileTheme,
+      SLoadingIndicatorThemeData?
+          loadingIndicatorTheme,
+      SPaginationThemeData?
+          paginationTheme,
+      SSelectThemeData?
+          selectTheme,
+      SSonnerThemeData?
+          sonnerTheme,
+      SSwitchThemeData?
+          switchTheme,
+      STabsThemeData?
+          tabsTheme,
+      STimePickerThemeData?
+          timePickerTheme,
+      SToastThemeData?
+          toastTheme,
+      STooltipThemeData?
+          tooltipTheme,
   }) {
     brightness ??=
         Brightness.light;
@@ -351,6 +354,15 @@ class SThemeData
       warningColor:
           colorToken.warning,
     );
+    tooltipTheme ??= STooltipThemeData(
+      backgroundColor: colorToken.inverseSurface.withOpacity(0.9),
+      textColor: colorToken.onInverseSurface,
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      borderRadius: BorderRadius.circular(4),
+      arrowSize: 6.0,
+      shadowColor: Colors.black26,
+      textStyle: typographyToken.bodySmall.copyWith(fontSize: 12),
+    );
 
     return SThemeData
         .raw(
@@ -396,6 +408,8 @@ class SThemeData
           timePickerTheme,
       toastTheme:
           toastTheme,
+      tooltipTheme:
+          tooltipTheme,
     );
   }
 
@@ -421,6 +435,7 @@ class SThemeData
     required this.tabsTheme,
     required this.timePickerTheme,
     required this.toastTheme,
+    required this.tooltipTheme,
   });
 
   /// The overall brightness of this theme.
@@ -472,6 +487,8 @@ class SThemeData
       timePickerTheme;
   final SToastThemeData
       toastTheme;
+  final STooltipThemeData
+      tooltipTheme;
 
   /// Creates a default light theme.
   static SThemeData
@@ -532,6 +549,8 @@ class SThemeData
         timePickerTheme,
     SToastThemeData?
         toastTheme,
+    STooltipThemeData?
+        tooltipTheme,
   }) {
     return SThemeData
         .raw(
@@ -577,6 +596,8 @@ class SThemeData
           timePickerTheme ?? this.timePickerTheme,
       toastTheme:
           toastTheme ?? this.toastTheme,
+      tooltipTheme:
+          tooltipTheme ?? this.tooltipTheme,
     );
   }
 
@@ -644,6 +665,8 @@ class SThemeData
           a.timePickerTheme.lerp(b.timePickerTheme, t),
       toastTheme:
           a.toastTheme.lerp(b.toastTheme, t),
+      tooltipTheme:
+          a.tooltipTheme.lerp(b.tooltipTheme, t),
     );
   }
 
@@ -681,7 +704,8 @@ class SThemeData
         other.switchTheme == switchTheme &&
         other.tabsTheme == tabsTheme &&
         other.timePickerTheme == timePickerTheme &&
-        other.toastTheme == toastTheme;
+        other.toastTheme == toastTheme &&
+        other.tooltipTheme == tooltipTheme;
   }
 
   @override
@@ -709,6 +733,7 @@ class SThemeData
       tabsTheme,
       timePickerTheme,
       toastTheme,
+      tooltipTheme,
     ]);
   }
 }

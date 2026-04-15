@@ -201,7 +201,6 @@ class SDialog
     );
   }
 
-  // ── Content ───────────────────────────────────────────────────────────────
   final String?
       title;
   final Widget?
@@ -215,25 +214,21 @@ class SDialog
   final Widget?
       footerWidget;
 
-  // ── Actions ───────────────────────────────────────────────────────────────
   final List<Widget>?
       actions;
   final bool
       actionsWrap;
 
-  // ── Barrier ───────────────────────────────────────────────────────────────
   final bool
       barrierDismissible;
   final Color?
       barrierColor;
 
-  // ── Sizing ────────────────────────────────────────────────────────────────
   final double?
       maxWidth;
   final double?
       maxHeight;
 
-  // ── Animation ─────────────────────────────────────────────────────────────
   final SDialogAnimationType
       animationType;
   final Curve
@@ -243,11 +238,9 @@ class SDialog
   final Duration?
       transitionDuration;
 
-  // ── Background effect ─────────────────────────────────────────────────────
   final SDialogBackgroundEffect
       backgroundEffect;
 
-  // ── Appearance ────────────────────────────────────────────────────────────
   final ShapeDecoration?
       shapeDecoration;
   final Color?
@@ -315,7 +308,6 @@ class SDialog
   final Clip?
       clipBehavior;
 
-  // ── Static show factory ───────────────────────────────────────────────────
 
   /// Shows the dialog and returns its result.
   ///
@@ -691,9 +683,6 @@ class SDialog
           _SDialogState();
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// State
-// ─────────────────────────────────────────────────────────────────────────────
 
 class _SDialogState
     extends State<
@@ -786,7 +775,6 @@ class _SDialogState
     );
   }
 
-  // ── Surface ────────────────────────────────────────────────────────────────
 
   Widget
       _buildSurface(
@@ -848,7 +836,6 @@ class _SDialogState
     );
   }
 
-  // ── Body layout ────────────────────────────────────────────────────────────
 
   Widget
       _buildBody(
@@ -871,19 +858,15 @@ class _SDialogState
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: widget.contentCrossAlignment,
         children: <Widget>[
-          // Optional icon above the title.
           if (widget.iconWidget != null) ...<Widget>[
             widget.iconWidget!,
             const SizedBox(height: 12),
           ],
 
-          // Title row (text or custom widget).
           if (widget.title != null || widget.titleWidget != null) _buildTitleRow(context, theme, dialogTheme),
 
-          // Description.
           if (widget.description != null && widget.description!.isNotEmpty) _buildDescription(context, theme, dialogTheme),
 
-          // Content body — scrollable if requested.
           if (widget.content != null) ...<Widget>[
             const SizedBox(height: 16),
             if (widget.scrollable)
@@ -898,7 +881,6 @@ class _SDialogState
               widget.content!,
           ],
 
-          // Optional pre-actions divider.
           if (widget.showDivider ?? dialogTheme.showDivider ?? false) ...<Widget>[
             const SizedBox(height: 16),
             Divider(
@@ -908,10 +890,8 @@ class _SDialogState
             ),
           ],
 
-          // Actions row / wrap.
           if (widget.actions != null && widget.actions!.isNotEmpty) _buildActions(context, dialogTheme),
 
-          // Optional footer.
           if (widget.footerWidget != null) ...<Widget>[
             const SizedBox(height: 12),
             widget.footerWidget!,
@@ -921,7 +901,6 @@ class _SDialogState
     );
   }
 
-  // ── Title row ──────────────────────────────────────────────────────────────
 
   Widget
       _buildTitleRow(
@@ -985,7 +964,6 @@ class _SDialogState
     );
   }
 
-  // ── Description ────────────────────────────────────────────────────────────
 
   Widget
       _buildDescription(
@@ -1025,7 +1003,6 @@ class _SDialogState
     );
   }
 
-  // ── Actions ────────────────────────────────────────────────────────────────
 
   Widget _buildActions(
       BuildContext

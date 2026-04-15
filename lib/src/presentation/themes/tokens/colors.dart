@@ -19,6 +19,10 @@ abstract class SColorsBase {
       get background;
   Color
       get surface;
+  Color
+      get inverseSurface;
+  Color
+      get onInverseSurface;
 
   // Status/Feedback Colors
   Color
@@ -174,6 +178,14 @@ class SLightColors
   @override
   Color get surface =>
       const Color(0xFFFFFFFF);
+
+  @override
+  Color get inverseSurface =>
+      const Color(0xFF313131);
+
+  @override
+  Color get onInverseSurface =>
+      const Color(0xFFF5F5F5);
 
   // Status/Feedback Colors
   @override
@@ -399,6 +411,14 @@ class SDarkColors
   @override
   Color get surface =>
       const Color(0xFF1E1E1E);
+
+  @override
+  Color get inverseSurface =>
+      const Color(0xFFE3E3E3);
+
+  @override
+  Color get onInverseSurface =>
+      const Color(0xFF1F1F1F);
 
   // Status/Feedback Colors
   @override
