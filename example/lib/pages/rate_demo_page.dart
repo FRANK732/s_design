@@ -27,11 +27,13 @@ class _RateDemoPageState
   Widget build(
       BuildContext
           context) {
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
     return ComponentPage(
       name:
           'SRate',
-      description: l10n.rateDesc,
+      description:
+          l10n.rateDesc,
       whenToUse: [
         l10n.rateTip1,
         l10n.rateTip2,
@@ -101,6 +103,47 @@ const SRate(value: 4.5, allowHalf: true, disabled: true);''',
           ),
           code: '''
 SRate(value: 7, count: 10, onChange: (v) => setState(() => _rating = v));''',
+        ),
+        ComponentSection(
+          title: 'Custom Numbers',
+          description: 'Use `characterBuilder` to render index-based text like numbers.',
+          demo: SRate(
+            defaultValue: 3,
+            characterBuilder: (context, index) => Text('${index + 1}'),
+          ),
+          code: '''
+SRate(
+  count: 5,
+  characterBuilder: (context, index) => Text('\${index + 1}'),
+)''',
+        ),
+        ComponentSection(
+          title: 'Custom Emojis',
+          description: 'Use `characterBuilder` to render different emojis for each rating level.',
+          demo: SRate(
+            count: 5,
+            allowHalf: false,
+            colorCharacters: false,
+            characterBuilder: (context, index) {
+              const icons = [
+                '😠',
+                '😐',
+                '🙂',
+                '😊',
+                '😍'
+              ];
+              return Text(icons[index]);
+            },
+          ),
+          code: '''
+SRate(
+  count: 5,
+  colorCharacters: false,
+  characterBuilder: (context, index) {
+    const icons = ['😠', '😐', '🙂', '😊', '😍'];
+    return Text(icons[index]);
+  },
+)''',
         ),
       ],
     );

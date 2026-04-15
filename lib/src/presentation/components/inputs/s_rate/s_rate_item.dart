@@ -9,6 +9,7 @@ class SRateItem
     this.color,
     this.unselectedColor,
     this.size,
+    this.applyColor = true,
   });
 
   /// 0.0 to 1.0 (0=empty, 0.5=half, 1.0=full)
@@ -22,6 +23,8 @@ class SRateItem
       unselectedColor;
   final double?
       size;
+  final bool
+      applyColor;
 
   @override
   Widget build(
@@ -47,14 +50,25 @@ class SRateItem
     // Base character (background/unselected)
     final Widget
         base =
-        IconTheme(
-      data:
-          iconTheme.copyWith(
-        color: effectiveUnselectedColor,
-        size: iconSize,
-      ),
+        Opacity(
+      opacity: applyColor ? 1.0 : 0.3,
       child:
-          character,
+          IconTheme(
+        data:
+            iconTheme.copyWith(
+          color: applyColor ? effectiveUnselectedColor : null,
+          size: iconSize,
+        ),
+        child:
+            DefaultTextStyle(
+          style: TextStyle(
+            color: applyColor ? effectiveUnselectedColor : null,
+            fontSize: iconSize,
+          ),
+          child:
+              character,
+        ),
+      ),
     );
 
     if (percent <=
@@ -64,12 +78,21 @@ class SRateItem
 
     if (percent >=
         1) {
-      return IconTheme(
-        data: iconTheme.copyWith(
-          color: effectiveColor,
-          size: iconSize,
+      return Opacity(
+        opacity: 1.0,
+        child: IconTheme(
+          data: iconTheme.copyWith(
+            color: applyColor ? effectiveColor : null,
+            size: iconSize,
+          ),
+          child: DefaultTextStyle(
+            style: TextStyle(
+              color: applyColor ? effectiveColor : null,
+              fontSize: iconSize,
+            ),
+            child: character,
+          ),
         ),
-        child: character,
       );
     }
 
@@ -79,12 +102,21 @@ class SRateItem
         base,
         ClipRect(
           clipper: _HalfClipper(),
-          child: IconTheme(
-            data: iconTheme.copyWith(
-              color: effectiveColor,
-              size: iconSize,
+          child: Opacity(
+            opacity: 1.0,
+            child: IconTheme(
+              data: iconTheme.copyWith(
+                color: applyColor ? effectiveColor : null,
+                size: iconSize,
+              ),
+              child: DefaultTextStyle(
+                style: TextStyle(
+                  color: applyColor ? effectiveColor : null,
+                  fontSize: iconSize,
+                ),
+                child: character,
+              ),
             ),
-            child: character,
           ),
         ),
       ],
