@@ -52,7 +52,7 @@ class _DropdownMenuPageState
           'SDropdown',
       description:
           'A generic overlay wrapper to display menus or actions floating over '
-          'any element, inspired by Ant Design\'s Dropdown component.',
+          'any element.',
       whenToUse: const [
         'When you need a context-action menu triggered on hover, click, or right-click.',
         'When you want actions that don\'t submit form data (use SSelect for data entry).',
@@ -394,7 +394,7 @@ SDropdown(
         ComponentSection(
           title: 'Split Button (SDropdownButton)',
           description: 'Use `SDropdownButton` to pair a primary action with a dropdown '
-              'of secondary actions — mirroring Ant Design\'s `Dropdown.Button`.',
+              'of secondary actions.',
           demo: Center(
             child: Wrap(
               spacing: 16,
@@ -443,8 +443,7 @@ SDropdownButton(
         // ── Arrows and Extra Styles ──────────────────────────────────────
         ComponentSection(
           title: 'Arrows and Item States',
-          description:
-              'Set `arrow: true` to show a geometric pointer. '
+          description: 'Set `arrow: true` to show a geometric pointer. '
               'Menus also support `selected` and `loading` states.',
           demo: Center(
             child: SDropdown(
