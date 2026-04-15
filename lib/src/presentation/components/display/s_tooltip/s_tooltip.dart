@@ -252,23 +252,26 @@ class _STooltipState
         ?.call(true);
   }
 
-  void
-      _hideTooltip() {
+  void _hideTooltip() {
     if (!_isVisible) {
       return;
     }
 
-    _animationController
-        .reverse()
-        .then((_) {
+    _animationController.reverse().then((_) {
+      if (!mounted) return;
       _overlayEntry?.remove();
-      _overlayEntry =
-          null;
-      if (mounted) {
-        setState(() {
-          _isVisible = false;
-        });
-      }
+      _overlayEntry = null;
+      setState(() {
+        _isVisible = false;
+      });
+      widget.onVisibleChange?.call(false);
+    }).catchError((_) {
+      if (!mounted) return;
+      _overlayEntry?.remove();
+      _overlayEntry = null;
+      setState(() {
+        _isVisible = false;
+      });
       widget.onVisibleChange?.call(false);
     });
   }
@@ -300,7 +303,7 @@ class _STooltipState
         final EdgeInsetsGeometry? actualPadding = widget.padding ?? theme.padding;
         final BorderRadiusGeometry actualBorderRadius = widget.borderRadius ?? theme.borderRadius ?? BorderRadius.circular(4);
 
-        return _STooltipOverlay(
+        Widget overlayBody = _STooltipOverlay(
           layerLink: _layerLink,
           placement: widget.placement,
           offset: widget.offset,
@@ -322,6 +325,24 @@ class _STooltipState
           ),
           onHover: _handleHover,
         );
+
+        if (widget.trigger == STooltipTrigger.click) {
+          return Stack(
+            children: [
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: _hideTooltip,
+                child: Container(
+                  color: Colors.transparent,
+                  width: double.infinity,
+                  height: double.infinity,
+                ),
+              ),
+              overlayBody,
+            ],
+          );
+        }
+        return overlayBody;
       },
     );
   }
@@ -349,16 +370,13 @@ class _STooltipState
         onExit: (_) => _handleHover(false),
         child: result,
       );
-    } else if (widget.trigger ==
-        STooltipTrigger
-            .click) {
-      result =
-          GestureDetector(
-        onTap: _toggleTooltip,
+    } else if (widget.trigger == STooltipTrigger.click) {
+      result = Listener(
+        behavior: HitTestBehavior.translucent,
+        onPointerDown: (_) => _toggleTooltip(),
         child: result,
       );
-    } else if (widget.trigger ==
-        STooltipTrigger.longPress) {
+    } else if (widget.trigger == STooltipTrigger.longPress) {
       result =
           GestureDetector(
         onLongPress: _showTooltip,
@@ -433,9 +451,12 @@ class _STooltipOverlay
       BuildContext
           context) {
     return Positioned(
-      left: 0,
-      top: 0,
-      child: CompositedTransformFollower(
+      left:
+          0,
+      top:
+          0,
+      child:
+          CompositedTransformFollower(
         link: layerLink,
         showWhenUnlinked: false,
         child: _STooltipPositioner(
@@ -641,6 +662,15 @@ class _RenderSTooltipPositioner
         _screenSize = screenSize {
     _animation
         .addListener(markNeedsPaint);
+  }
+
+  @override
+  void
+      dispose() {
+    _animation
+        .removeListener(markNeedsPaint);
+    super
+        .dispose();
   }
 
   final LayerLink
@@ -879,19 +909,24 @@ class _RenderSTooltipPositioner
   }
 
   @override
-  void performLayout() {
-    if (child != null) {
-      final EdgeInsets resolvedPadding = _padding?.resolve(TextDirection.ltr) ?? EdgeInsets.zero;
-      
-      // Deflate the constraints to layout the child with the available space minus padding
-      child!.layout(constraints.loosen().deflate(resolvedPadding), parentUsesSize: true);
-      
-      // Set our size to the child size inflated by the padding, constrained by original constraints
-      size = constraints.constrain(resolvedPadding.inflateSize(child!.size));
+  void
+      performLayout() {
+    if (child !=
+        null) {
+      final EdgeInsets
+          resolvedPadding =
+          _padding?.resolve(TextDirection.ltr) ?? EdgeInsets.zero;
+
+      child!.layout(constraints.loosen().deflate(resolvedPadding),
+          parentUsesSize: true);
+
+      size =
+          constraints.constrain(resolvedPadding.inflateSize(child!.size));
 
       _calculatePosition();
     } else {
-      size = constraints.smallest;
+      size =
+          constraints.smallest;
     }
   }
 
@@ -900,7 +935,8 @@ class _RenderSTooltipPositioner
     final Size?
         leaderSize =
         _layerLink.leaderSize;
-    if (leaderSize == null) {
+    if (leaderSize ==
+        null) {
       return;
     }
 
@@ -1118,8 +1154,11 @@ class _RenderSTooltipPositioner
       }
 
       // Paint child
-      final EdgeInsets resolvedPadding = _padding?.resolve(TextDirection.ltr) ?? EdgeInsets.zero;
-      context.paintChild(child!, resolvedPadding.topLeft);
+      final EdgeInsets
+          resolvedPadding =
+          _padding?.resolve(TextDirection.ltr) ?? EdgeInsets.zero;
+      context.paintChild(child!,
+          resolvedPadding.topLeft);
 
       canvas.restore();
     }

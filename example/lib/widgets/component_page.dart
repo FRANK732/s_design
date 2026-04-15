@@ -33,10 +33,8 @@ class ComponentPage
       padding:
           const EdgeInsets.all(32),
       children: [
-        // Title
         Text(name, style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold)),
         const SizedBox(height: 12),
-        // Description
         Text(description, style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.onSurface.withOpacity(0.75))),
         if (whenToUse != null && whenToUse!.isNotEmpty) ...[
           const SizedBox(height: 16),
@@ -58,7 +56,6 @@ class ComponentPage
         const SizedBox(height: 32),
         const Divider(),
         const SizedBox(height: 24),
-        // Sections
         ...sections.map((s) => _SectionWidget(section: s)),
       ],
     );
@@ -100,15 +97,13 @@ class _SectionWidgetState
           Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Section title
           Text(s.title, style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600)),
           const SizedBox(height: 6),
           if (s.description != null) Text(s.description!, style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurface.withOpacity(0.65))),
           const SizedBox(height: 16),
-          // Demo card
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.all(24),
+            padding: s.padding ?? const EdgeInsets.all(24),
             decoration: BoxDecoration(
               color: theme.colorScheme.surfaceContainerLowest,
               borderRadius: BorderRadius.circular(12),
@@ -116,7 +111,6 @@ class _SectionWidgetState
             ),
             child: s.demo,
           ),
-          // Code toggle
           if (s.code != null) ...[
             const SizedBox(height: 8),
             TextButton.icon(
@@ -139,6 +133,7 @@ class _SectionWidgetState
 /// Represents one variant/sample section in a component page.
 class ComponentSection {
   const ComponentSection({
+    this.padding,
     required this.title,
     this.description,
     required this.demo,
@@ -153,4 +148,6 @@ class ComponentSection {
       demo;
   final String?
       code;
+  final EdgeInsetsGeometry?
+      padding;
 }
