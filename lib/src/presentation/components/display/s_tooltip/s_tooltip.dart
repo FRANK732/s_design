@@ -10,31 +10,9 @@ part 's_tooltip_enums.dart';
 part 's_tooltip_overlay.dart';
 part 's_tooltip_positioner.dart';
 
-/// A production-ready tooltip component inspired by Ant Design.
-///
 /// Features premium aesthetics, 12 placement directions, auto-flipping
 /// logic when hitting screen boundaries, and smooth animations.
 ///
-/// ## Usage
-///
-/// ```dart
-/// STooltip(
-///   content: const Text('This is a helpful tip!'),
-///   placement: STooltipPlacement.top,
-///   trigger: STooltipTrigger.hover,
-///   child: ElevatedButton(onPressed: () {}, child: Text('Hover Me')),
-/// )
-/// ```
-///
-/// ## API Overview
-/// * **[child]**: The widget that triggers the tooltip when interacted with.
-/// * **[content]**: The widget to display inside the tooltip bubble.
-/// * **[placement]**: The preferred orientation of the tooltip relative to the child. Features 12 directions (e.g., `top`, `bottomRight`, `leftTop`). Defaults to `STooltipPlacement.top`.
-/// * **[trigger]**: The interaction that triggers the tooltip. Supports `hover`, `click`, `longPress`, and `manual`. Defaults to `STooltipTrigger.hover`.
-/// * **[autoFlip]**: Whether the tooltip should automatically flip to the opposite side if it hits the screen boundaries. Defaults to `true`.
-/// * **[color]** / **[textColor]**: Optionally override the theme's background and text colors.
-/// * **[offset]**: The gap distance between the trigger widget and the tooltip. Defaults to `8.0`.
-/// * **[visible]** / **[onVisibleChange]**: Use these for `STooltipTrigger.manual` to programmatically control the visibility state.
 class STooltip
     extends StatefulWidget {
   const STooltip({
@@ -305,21 +283,23 @@ class _STooltipState
 
   OverlayEntry
       _createOverlayEntry() {
-    final RenderBox? renderBox = context.findRenderObject() as RenderBox?;
+    final RenderBox?
+        renderBox =
+        context.findRenderObject() as RenderBox?;
     final Rect targetGlobalRect = renderBox != null
         ? (renderBox.localToGlobal(Offset.zero) & renderBox.size)
         : Rect.zero;
 
     return OverlayEntry(
-      builder: (BuildContext context) {
+      builder:
+          (BuildContext context) {
         if (!mounted) {
           return const SizedBox.shrink();
         }
         final STooltipThemeData theme = Theme.of(context).sTooltipTheme;
         final Color backgroundColor = widget.color ?? theme.backgroundColor;
         final EdgeInsetsGeometry? actualPadding = widget.padding ?? theme.padding;
-        final BorderRadiusGeometry actualBorderRadius =
-            widget.borderRadius ?? theme.borderRadius ?? BorderRadius.circular(4);
+        final BorderRadiusGeometry actualBorderRadius = widget.borderRadius ?? theme.borderRadius ?? BorderRadius.circular(4);
 
         final Widget overlayBody = _STooltipOverlay(
           layerLink: _layerLink,

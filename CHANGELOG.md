@@ -17,7 +17,7 @@ V2 brings an arsenal of highly anticipated, meticulously crafted components desi
 - **`SFloatingPanel`**: A highly versatile and interactive draggable bottom-sheet overlay panel, perfect for complex contextual workflows.
 - **`SSelect` & `SDropdown` V2**: Completely rewritten from the ground up for adaptive UI workflows, supporting single/multi-selection modes, fuzzy search, and integrated tags.
 - **`SDatePicker` & `STimePicker`**: Natively localized, flawlessly themed, responsive date and time capture experiences.
-- **`SPagination`**: A powerhouse pagination widget inspired by Ant Design, featuring full parity and deep customizability.
+- **`SPagination`**: A powerhouse pagination widget featuring full parity and deep customizability.
 - **Layout Mastery**: The new `SScaffold` replaces basic layouts with integrated pull-to-refresh and loading states. `STabs` now provides mobile-first, sticky header views, while `SSteps` makes managing complex sequences an absolute breeze.
 - **Rich Display & Feedback**: Introduced comprehensive data visualization via the new `SAvatar` (with intelligent group scaling), `SRate` (star ratings), `SProgress` dashboards, `SQRCode`, and `SAlert`.
 

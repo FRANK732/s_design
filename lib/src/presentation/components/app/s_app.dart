@@ -331,6 +331,7 @@ class _SAppState
           themeData.tabsTheme,
           themeData.timePickerTheme,
           themeData.toastTheme,
+          themeData.tooltipTheme,
         ],
       ),
       child:

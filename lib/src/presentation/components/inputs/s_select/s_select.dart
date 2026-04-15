@@ -4,7 +4,7 @@ import '../../../../../s_design.dart';
 import 'widgets/s_select_dropdown.dart';
 import 'widgets/s_select_trigger.dart';
 
-/// An advanced select widget matching Ant Design's Select API.
+/// An advanced select widget.
 /// Supports single, multiple, tags modes with search, custom renders, and more.
 class SSelect<
         T>
@@ -401,7 +401,8 @@ class _SSelectState<
 
     _overlayEntry =
         OverlayEntry(
-      builder: (BuildContext ctx) {
+      builder:
+          (BuildContext ctx) {
         if (!mounted) {
           return const SizedBox.shrink();
         }

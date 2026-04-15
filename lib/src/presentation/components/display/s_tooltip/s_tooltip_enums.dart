@@ -1,6 +1,6 @@
 part of 's_tooltip.dart';
 
-/// Supported placements for [STooltip], matching Ant Design standards.
+/// Supported placements for [STooltip].
 enum STooltipPlacement {
   top,
   topLeft,

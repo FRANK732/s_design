@@ -24,6 +24,8 @@ class SRate
     this.onChange,
     this.onHoverChange,
     this.style,
+    this.characterBuilder,
+    this.colorCharacters = true,
   });
 
   /// Current value (controlled mode).
@@ -69,6 +71,15 @@ class SRate
   /// Styling configuration.
   final SRateStyle?
       style;
+
+  /// Custom character builder for each index.
+  final Widget Function(BuildContext context, int index)?
+      characterBuilder;
+
+  /// Whether to apply the theme color to characters.
+  /// Set to false for multi-color emojis.
+  final bool
+      colorCharacters;
 
   @override
   State<SRate>
@@ -223,9 +234,6 @@ class _SRateState
     final double
         displayValue =
         _hoverValue ?? _value;
-    final Widget
-        effectiveCharacter =
-        widget.character ?? const Icon(Icons.star_rate_rounded);
 
     return Row(
       mainAxisSize:
@@ -235,6 +243,10 @@ class _SRateState
         final double itemValue = index + 1.0;
         final bool isFull = displayValue >= itemValue;
         final bool isHalf = widget.allowHalf && (displayValue + 0.5 >= itemValue) && !isFull;
+
+        final Widget effectiveCharacter = widget.characterBuilder != null
+            ? widget.characterBuilder!(context, index)
+            : (widget.character ?? const Icon(Icons.star_rate_rounded));
 
         // Render Item Logic
         // 0 = empty, 0.5 = half, 1 = full
@@ -251,6 +263,7 @@ class _SRateState
           color: widget.disabled && widget.style?.disabledColor != null ? widget.style?.disabledColor : effectiveColor,
           unselectedColor: effectiveUnselectedColor,
           size: effectiveSize,
+          applyColor: widget.colorCharacters,
         );
 
         if (widget.tooltips != null && index < widget.tooltips!.length) {

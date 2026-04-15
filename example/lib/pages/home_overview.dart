@@ -7,7 +7,6 @@ import '../widgets/code_snippet.dart';
 import '../widgets/schrift_flow_logo.dart';
 
 /// Welcome/overview page shown when the app first opens.
-/// Redesigned to feature a premium, animated, Ant Design style landing experience.
 class HomeOverviewPage
     extends StatefulWidget {
   const HomeOverviewPage(
