@@ -32,7 +32,8 @@ class _HomeOverviewPageState
         STheme.of(context).colorToken;
     final isDesktop =
         MediaQuery.of(context).size.width > 800;
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
 
     return SScaffold(
       backgroundColor:
@@ -40,11 +41,9 @@ class _HomeOverviewPageState
       renderBody: (context) =>
           Stack(
         children: [
-          // Subtle animated background pattern using STheme colors
           const Positioned.fill(
             child: _AnimatedBackground(),
           ),
-
           ListView(
             padding: EdgeInsets.symmetric(
               horizontal: isDesktop ? 64 : 24,
@@ -72,7 +71,6 @@ class _HomeOverviewPageState
                               Text(
                                 l10n.heroTagline,
                                 style: theme.textTheme.labelLarge?.copyWith(
-                                  // color: ,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -131,7 +129,6 @@ class _HomeOverviewPageState
                               icon: const Icon(Icons.dashboard),
                               child: Text(l10n.heroBrowse),
                               onPressed: () {
-                                // Navigate to components
                                 SSonner.show(message: 'Navigate using the sidebar!', variant: SSonnerVariant.success);
                               },
                             ),
@@ -142,16 +139,12 @@ class _HomeOverviewPageState
                   ),
                 ),
               ),
-
               const SizedBox(height: 100),
-
               const _EntranceAnimation(
                 delay: Duration(milliseconds: 500),
                 child: _LiveShowcase(),
               ),
-
               const SizedBox(height: 100),
-
               _EntranceAnimation(
                 delay: const Duration(milliseconds: 600),
                 child: Column(
@@ -197,9 +190,7 @@ class _HomeOverviewPageState
                   ],
                 ),
               ),
-
               const SizedBox(height: 100),
-
               _EntranceAnimation(
                 delay: const Duration(milliseconds: 700),
                 child: Column(
@@ -241,9 +232,7 @@ class MyApp extends StatelessWidget {
                   ],
                 ),
               ),
-
               const SizedBox(height: 100),
-
               _EntranceAnimation(
                 delay: const Duration(milliseconds: 800),
                 child: Wrap(
@@ -266,7 +255,6 @@ class MyApp extends StatelessWidget {
                   ],
                 ),
               ),
-
               const SizedBox(height: 48),
               Center(
                 child: Row(
@@ -328,7 +316,8 @@ class _LiveShowcaseState
         Theme.of(context);
     final colors =
         STheme.of(context).colorToken;
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
 
     return Container(
       width:

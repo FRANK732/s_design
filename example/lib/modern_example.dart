@@ -214,7 +214,6 @@ class _GalleryShellState
     final groups =
         _getGroups(context);
 
-    // Refresh selected item from the new translated sources
     final allItems =
         [
       homeItem,

@@ -88,9 +88,6 @@ class _SInputOTPState
         widget.onCompleted?.call(code);
       }
     } else {
-      // Handle backspace moving to previous field is usually handled by RawKeyboardListener wrap
-      // but here onChanged is triggered after text change.
-      // If empty, it means text was deleted.
       if (index >
           0) {
         _focusNodes[index - 1].requestFocus();
@@ -146,10 +143,6 @@ class _SInputOTPState
     final ThemeData
         theme =
         Theme.of(context);
-
-    // Since focus state is per-input, we need multiple focus listeners or just use Focus widget logic.
-    // For simplicity, we build individual boxes.
-
     return Row(
       mainAxisSize:
           MainAxisSize.min,
@@ -162,14 +155,8 @@ class _SInputOTPState
           height: _getSize(),
           margin: const EdgeInsets.symmetric(horizontal: 4),
           child: Builder(builder: (BuildContext context) {
-            // We need to listen to focus change to update border color, but FocusNode listener requires setState.
-            // Using Focus widget or AnimatedContainer with manual focus tracking.
-            // Let's wrap in a Stateful builder for focus or just rely on Flutter rebuilds if possible?
-            // Actually TextField repaints on focus. But border is on Container? No, border should be on TextField decoration or Container.
-            // OTP is individual boxes.
-
             return Focus(
-              onFocusChange: (bool focused) => setState(() {}), // Trigger rebuild to update border
+              onFocusChange: (bool focused) => setState(() {}),
               child: TextField(
                 controller: _controllers[index],
                 focusNode: _focusNodes[index],
@@ -195,7 +182,7 @@ class _SInputOTPState
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(6),
-                    borderSide: BorderSide(color: _getBorderColor(theme, true)), // Focused border
+                    borderSide: BorderSide(color: _getBorderColor(theme, true)),
                   ),
                   filled: true,
                   fillColor: widget.enabled ? theme.colorScheme.surface : theme.colorScheme.surfaceContainerHighest,

@@ -69,7 +69,6 @@ class SInputGroup
 
         return Flexible(
           child: Container(
-            // Negative margin to merge borders
             transform: Matrix4.translationValues(compact && !isFirst ? -1.0 * index : 0.0, 0.0, 0.0),
             // We wrap each child in a Scope so SInput can read its position
             child: SInputGroupScope(

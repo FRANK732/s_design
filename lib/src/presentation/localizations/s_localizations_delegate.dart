@@ -43,8 +43,6 @@ class SLocalizationsDelegate
   @override
   Future<SLocalizations>
       load(Locale locale) {
-    // Returning a SynchronousFuture here because we don't need to load
-    // from disk or network, the strings are compiled in.
     return SynchronousFuture<SLocalizations>(_supportedLanguages[locale.languageCode] ??
         const SLocalizationsEn());
   }

@@ -322,7 +322,6 @@ class _SSelectState<
       _handleFocusChange() {
     if (!_focusNode.hasFocus &&
         _isOpen) {
-      // Delay closing to allow tap events on dropdown items to register
       Future<void>.delayed(const Duration(milliseconds: 100),
           () {
         if (mounted && !_focusNode.hasFocus && _isOpen) {
@@ -331,7 +330,7 @@ class _SSelectState<
       });
     }
     setState(
-        () {}); // Rebuild for border color change
+        () {});
   }
 
   @override
@@ -450,7 +449,6 @@ class _SSelectState<
     widget
         .onDropdownVisibleChange
         ?.call(false);
-    // _focusNode.unfocus(); // Keep focus logic flexible
   }
 
   void
@@ -463,7 +461,7 @@ class _SSelectState<
 
   Widget
       _buildDropdown() {
-    // Filter items based on search
+    // Filter items on search
     final List<SSelectItem<T>>
         filteredItems =
         widget.items.where((SSelectItem<T> item) {
@@ -516,7 +514,7 @@ class _SSelectState<
           _selectedValues.add(value);
         }
       });
-      _overlayEntry?.markNeedsBuild(); // Update dropdown UI
+      _overlayEntry?.markNeedsBuild();
       widget.onChanged?.call(_selectedValues);
       if (widget.autoClearSearchValue) {
         _searchValue = '';
@@ -532,7 +530,7 @@ class _SSelectState<
           <T>[];
     });
     _overlayEntry
-        ?.markNeedsBuild(); // Update dropdown UI
+        ?.markNeedsBuild();
     widget
         .onClear
         ?.call();
@@ -580,7 +578,7 @@ class _SSelectState<
               },
               searchValue: _searchValue,
               maxTagCount: widget.maxTagCount,
-              onItemRemove: _handleSelection, // Re-use handleSelection to toggle/remove
+              onItemRemove: _handleSelection,
             ),
     );
   }

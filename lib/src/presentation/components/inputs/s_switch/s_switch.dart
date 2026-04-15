@@ -4,7 +4,7 @@ import '../../../../domain/entities/config/s_switch_enums.dart';
 
 /// An elegant, heavily customizable switch component for toggling binary states.
 ///
-/// The [SSwitch] natively supports animations, size variants, custom track widgets, 
+/// The [SSwitch] natively supports animations, size variants, custom track widgets,
 /// and an embedded [thumbIcon] while cleanly matching system design aesthetics.
 class SSwitch
     extends StatefulWidget {
@@ -31,7 +31,7 @@ class SSwitch
   final bool
       value;
 
-  /// Callback fired when the user taps on the switch. 
+  /// Callback fired when the user taps on the switch.
   /// The switch does not mutate its own state; it expects the parent to update [value].
   final ValueChanged<bool>?
       onChanged;
@@ -222,26 +222,17 @@ class _SSwitchState
                   child: Stack(
                     alignment: Alignment.center,
                     children: <Widget>[
-                      // 1. Ghost Layout determines intrinsics
-                      // We show both contents (invisible) to reserve space for the largest one?
-                      // Or just the visible one? Resizes.
-                      // Let's use the currently relevant children plus thumb space to size it.
                       Opacity(
                         opacity: 0,
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            // Left Text Space
                             if (widget.checkedChildren != null && widget.value)
                               Padding(
                                 padding: const EdgeInsets.only(left: 6, right: 4),
                                 child: widget.checkedChildren,
                               ),
-
-                            // Thumb Space
                             SizedBox(width: thumbSize),
-
-                            // Right Text Space
                             if (widget.unCheckedChildren != null && !widget.value)
                               Padding(
                                 padding: const EdgeInsets.only(left: 4, right: 6),
@@ -250,8 +241,6 @@ class _SSwitchState
                           ],
                         ),
                       ),
-
-                      // 2. Visible Children (Positioned)
                       if (widget.value && widget.checkedChildren != null)
                         Positioned(
                           left: 6,
@@ -262,7 +251,6 @@ class _SSwitchState
                             ),
                           ),
                         ),
-
                       if (!widget.value && widget.unCheckedChildren != null)
                         Positioned(
                           right: 6,
@@ -273,10 +261,6 @@ class _SSwitchState
                             ),
                           ),
                         ),
-
-                      // 3. Thumb (Align inside Positioned.fill)
-                      // Positioned.fill forces the Align widget to match the Stack's size (determined by Ghost Layout)
-                      // instead of expanding to infinity.
                       Positioned.fill(
                         child: Align(
                           alignment: _alignmentAnimation.value,

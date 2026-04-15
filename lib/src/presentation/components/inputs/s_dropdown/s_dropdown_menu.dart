@@ -218,6 +218,7 @@ class SDropdownMenu<
   final bool
           Function(T)?
       itemDisabled;
+
   /// Custom UI builder for an empty data set state.
   final WidgetBuilder?
       emptyBuilder;
@@ -931,10 +932,7 @@ class _SDropdownMenuState<
                   if (!_isMenuOpen) {
                     _toggleMenu();
                   } else {
-                    // Navigate down
-                    // This requires tracking a 'highlighted' index separately from selectedItems
-                    // For now, let's just use it to open/toggle or maybe cycle selection if single select?
-                    // Proper keyboard nav usually requires a highlightedIndex state.
+                    // TDOD: Proper keyboard nav usually requires a highlightedIndex state.
                   }
                   return KeyEventResult.handled;
                 } else if (event.logicalKey == LogicalKeyboardKey.escape) {
@@ -944,7 +942,6 @@ class _SDropdownMenuState<
                   }
                 } else if (event.logicalKey == LogicalKeyboardKey.enter) {
                   if (_isMenuOpen) {
-                    // Select highlighted
                   } else {
                     _toggleMenu();
                   }

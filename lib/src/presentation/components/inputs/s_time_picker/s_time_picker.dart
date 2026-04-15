@@ -6,7 +6,6 @@ import '../../../themes/extensions/component_themes/s_time_picker_theme.dart';
 import '../../../themes/s_theme.dart';
 import '../../../themes/s_theme_data.dart';
 
-
 bool _hasSeconds(
         String
             fmt) =>
@@ -111,7 +110,6 @@ int _to24(
       : displayH;
 }
 
-
 class _Tok {
   const _Tok({
     required this.primary,
@@ -159,7 +157,6 @@ class _Tok {
   final double
       iconSz;
 }
-
 
 /// A single scrollable column that snaps to items.
 /// Parent must give it tight [BoxConstraints] (use explicit SizedBox).
@@ -383,13 +380,6 @@ class _TimeColumnState
   }
 }
 
-
-/// Time picker for Flutter.
-///
-/// **Commit rules:**
-/// * Default → value commits when panel is dismissed (OK or tap-outside).
-/// * `needConfirm: true` → only when the user taps **OK**.
-/// * `changeOnScroll: true` → `onChange` fires live on every column snap.
 class STimePicker
     extends StatefulWidget {
   const STimePicker({
@@ -533,7 +523,6 @@ class _STimePickerState
   int _committedSec =
       0;
 
-  // Pending values – indices into the respective items lists
   int _phIdx =
       0; // hour column index
   int _pmIdx =
@@ -557,7 +546,6 @@ class _STimePickerState
   bool
       _hovered =
       false;
-
 
   bool get _is12h =>
       widget.use12Hours ||
@@ -599,7 +587,6 @@ class _STimePickerState
           i
       ];
 
-
   @override
   void
       initState() {
@@ -633,7 +620,6 @@ class _STimePickerState
     super
         .dispose();
   }
-
 
   int _nearest(
       List<int>
@@ -706,7 +692,6 @@ class _STimePickerState
       ? 0
       : _secItems[_psIdx.clamp(0,
           _secItems.length - 1)];
-
 
   void
       _open() {
@@ -816,7 +801,6 @@ class _STimePickerState
         ?.call(null);
   }
 
-
   void
       _insertEntry() {
     _removeEntry();
@@ -836,7 +820,6 @@ class _STimePickerState
 
   void _rebuildEntry() =>
       _entry?.markNeedsBuild();
-
 
   _Tok _tok(
       BuildContext
@@ -879,7 +862,7 @@ class _STimePickerState
       case STimePickerStatus.error:
         bc = th.colorToken.error;
       case STimePickerStatus.warning:
-        bc = const Color(0xFFFAAD14); // Keep warning as amber
+        bc = const Color(0xFFFAAD14);
       default:
         bc = widget.borderColor ?? ext.borderColor ?? th.colorToken.divider;
     }
@@ -927,7 +910,6 @@ class _STimePickerState
           iz,
     );
   }
-
 
   @override
   Widget build(
@@ -1028,8 +1010,6 @@ class _STimePickerState
     );
   }
 }
-
-//  Panel overlay
 
 class _PanelOverlay
     extends StatefulWidget {
@@ -1147,7 +1127,6 @@ class _PanelOverlayState
     final double
         panelW =
         cols * tk.colW + (cols - 1) * 1.0;
-    // panelH = 7 rows + footer
     final double
         panelH =
         tk.itemH * 7 + 40;
@@ -1217,7 +1196,6 @@ class _PanelOverlayState
       ],
     );
   }
-
 
   Widget _buildColumns(
       _Tok
@@ -1362,7 +1340,6 @@ class _PanelOverlayState
             ],
           ),
 
-          // ② Top gradient — fades top 1 item
           Positioned(
             left: 0,
             right: 0,
@@ -1385,7 +1362,6 @@ class _PanelOverlayState
             ),
           ),
 
-          // ③ Bottom gradient — fades bottom 1 item
           Positioned(
             left: 0,
             right: 0,
@@ -1433,7 +1409,6 @@ class _PanelOverlayState
       ),
     );
   }
-
 
   Widget _buildFooter(
       _Tok
@@ -1492,8 +1467,6 @@ class _PanelOverlayState
     );
   }
 }
-
-//  STimeRangePicker
 
 /// Two [STimePicker] fields side-by-side for selecting a time range.
 class STimeRangePicker
