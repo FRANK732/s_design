@@ -1105,6 +1105,9 @@ class _PanelOverlayState
     final _STimePickerState
         s =
         widget.state;
+    if (!s.mounted) {
+      return const SizedBox.shrink();
+    }
     final _Tok
         tk =
         s._tok(context);

@@ -160,11 +160,16 @@ class _STriggerState
         oldWidget);
     if (widget.popupVisible != null &&
         widget.popupVisible != oldWidget.popupVisible) {
-      if (widget.popupVisible!) {
-        _showPopup();
-      } else {
-        _hidePopup();
-      }
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) {
+          return;
+        }
+        if (widget.popupVisible!) {
+          _showPopup();
+        } else {
+          _hidePopup();
+        }
+      });
     }
   }
 
@@ -187,8 +192,9 @@ class _STriggerState
       bool
           visible) {
     if (widget
-        .disabled)
+        .disabled) {
       return;
+    }
     if (widget.popupVisible ==
         null) {
       if (visible) {
@@ -226,11 +232,13 @@ class _STriggerState
   void
       _showPopup() {
     if (_isVisible &&
-        _overlayEntry != null)
+        _overlayEntry != null) {
       return;
+    }
     if (widget
-        .disabled)
+        .disabled) {
       return;
+    }
 
     _overlayEntry =
         _createOverlayEntry();
@@ -244,15 +252,17 @@ class _STriggerState
 
   Future<void>
       _hidePopup() async {
-    if (!_isVisible)
+    if (!_isVisible) {
       return;
+    }
     setState(() =>
         _isVisible = false);
     await _animationController
         .reverse();
     if (!mounted ||
-        _isVisible)
+        _isVisible) {
       return;
+    }
     _removeOverlay();
   }
 
@@ -267,11 +277,14 @@ class _STriggerState
   OverlayEntry
       _createOverlayEntry() {
     return OverlayEntry(
-      builder:
-          (BuildContext ctx) {
-        final RenderBox? box = context.findRenderObject() as RenderBox?;
-        if (box == null || !box.attached)
+      builder: (BuildContext ctx) {
+        if (!mounted) {
           return const SizedBox.shrink();
+        }
+        final RenderBox? box = context.findRenderObject() as RenderBox?;
+        if (box == null || !box.attached) {
+          return const SizedBox.shrink();
+        }
 
         final Offset globalOffset = box.localToGlobal(Offset.zero);
         final Size triggerSize = box.size;
@@ -312,7 +325,9 @@ class _STriggerState
           Listener(
         behavior: HitTestBehavior.translucent,
         onPointerDown: (PointerDownEvent event) {
-          if (widget.disabled) return;
+          if (widget.disabled) {
+            return;
+          }
 
           final bool isLeftClick = event.buttons == 1; // kPrimaryButton
           final bool isRightClick = event.buttons == 2; // kSecondaryButton
@@ -434,10 +449,14 @@ class _STriggerOverlay
           child: IntrinsicWidth(
             child: MouseRegion(
               onEnter: (_) {
-                if (isHoverAction) onPopupHoverEnter();
+                if (isHoverAction) {
+                  onPopupHoverEnter();
+                }
               },
               onExit: (_) {
-                if (isHoverAction) onPopupHoverExit();
+                if (isHoverAction) {
+                  onPopupHoverExit();
+                }
               },
               child: FadeTransition(
                 opacity: fadeAnimation,

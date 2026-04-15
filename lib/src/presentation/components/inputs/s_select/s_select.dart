@@ -401,8 +401,10 @@ class _SSelectState<
 
     _overlayEntry =
         OverlayEntry(
-      builder:
-          (BuildContext ctx) {
+      builder: (BuildContext ctx) {
+        if (!mounted) {
+          return const SizedBox.shrink();
+        }
         return Stack(
           children: <Widget>[
             Positioned.fill(

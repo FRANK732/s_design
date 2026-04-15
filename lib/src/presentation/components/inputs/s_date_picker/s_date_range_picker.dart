@@ -144,9 +144,11 @@ class _SDateRangePickerState
     }
 
     _overlayEntry =
-        OverlayEntry(
-      builder: (BuildContext context) =>
-          Stack(
+        OverlayEntry(builder: (BuildContext context) {
+      if (!mounted) {
+        return const SizedBox.shrink();
+      }
+      return Stack(
         children: <Widget>[
           Positioned.fill(
             child: GestureDetector(
@@ -187,8 +189,8 @@ class _SDateRangePickerState
             ),
           ),
         ],
-      ),
-    );
+      );
+    });
 
     Overlay.of(context)
         .insert(_overlayEntry!);

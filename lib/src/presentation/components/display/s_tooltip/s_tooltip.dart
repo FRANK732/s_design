@@ -311,8 +311,10 @@ class _STooltipState
         : Rect.zero;
 
     return OverlayEntry(
-      builder:
-          (BuildContext context) {
+      builder: (BuildContext context) {
+        if (!mounted) {
+          return const SizedBox.shrink();
+        }
         final STooltipThemeData theme = Theme.of(context).sTooltipTheme;
         final Color backgroundColor = widget.color ?? theme.backgroundColor;
         final EdgeInsetsGeometry? actualPadding = widget.padding ?? theme.padding;
