@@ -908,14 +908,8 @@ class _SScaffoldState
             : content,
       );
     } else {
-      // Non-scrollable content.
-      // If refresh is enabled, we still need a scrollable for RefreshIndicator to work broadly?
-      // Existing logic seemed to imply wrapping in ConstrainedBox if refresh enabled?
-      // If not scrollable and not refresh, just return content.
       if (widget.refreshConfig?.enabled ??
           widget.enableRefresh) {
-        // Attempt to make it scrollable for refresh?
-        // Converting to SingleChildScrollView to support pull-to-refresh
         bodyWidget = SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           child: widget.centerBody

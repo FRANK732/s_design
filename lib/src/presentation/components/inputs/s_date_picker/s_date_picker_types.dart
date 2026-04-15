@@ -4,7 +4,7 @@ enum SDatePickerMode {
   month,
   year,
   quarter,
-  decade, // Internal use mainly
+  decade,
 }
 
 class SDatePickerPreset<

@@ -14,7 +14,7 @@ class SDatePickerStyleHelper {
 
   static const double
       panelWidth =
-      280.0; // Standard width
+      280.0;
   static const double
       panelPadding =
       8.0;

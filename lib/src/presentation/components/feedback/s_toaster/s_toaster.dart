@@ -260,14 +260,16 @@ class _SToastState
     developer.log(
         'SToast: Closing toast',
         name: 'SToast');
-    _animationController.reverse().then((_) {
-      if (!mounted) return;
+    _animationController.reverse().then(
+        (_) {
+      if (!mounted)
+        return;
       setState(() {
         _isVisible = false;
       });
       widget.onClose?.call();
-    }).catchError((dynamic e) {
-      // Handle ticker cancellation or other errors gracefully
+    }).catchError((dynamic
+        e) {
       if (mounted) {
         widget.onClose?.call();
       }

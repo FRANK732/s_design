@@ -42,49 +42,49 @@ class SSonner {
     /// The primary string payload displayed prominently in the toast.
     String?
         message,
-        
+
     /// Custom configuration object overriding themes securely.
     SSonnerConfig?
         config,
-        
+
     /// High-level intent mapping (e.g., success, warning, error) that dictates colors and icons natively.
     SSonnerVariant variant =
         SSonnerVariant.info,
-        
+
     /// Length of time the toast lives on screen before auto-dismissal.
     Duration duration =
         const Duration(seconds: 4),
-        
+
     /// Gravitational pull dictating if the toast clusters at the top, center, or bottom of the screen.
     SSonnerPosition position =
         SSonnerPosition.bottom,
-        
+
     /// Inline widget appended to the right side of the message text (typically an undo [SButton]).
     Widget?
         action,
-        
+
     /// Whether to force the rendering of a manual "X" dismissal button.
     bool showCloseButton =
         false,
-        
+
     /// Callback triggered when the user physically taps the body of the toast.
     VoidCallback?
         onTap,
-        
+
     /// Callback triggered the moment the toast dies (either via timeout, swipe, or close API).
     VoidCallback?
         onDismiss,
-        
+
     /// Optional graphical icon overriding the default inferred icon dictated by [variant].
     IconData?
         icon,
-        
+
     /// Hardcoded manual tracking ID. If omitted, the engine assigns an auto-generated unique ID.
     String?
         id,
-        
+
     /// If true, clears any currently visible toasts and replaces them with this new one instead of stacking.
-    bool replace = 
+    bool replace =
         false,
   }) {
     return _instance
@@ -110,7 +110,8 @@ class SSonner {
       icon:
           icon,
       id: id,
-      replace: replace,
+      replace:
+          replace,
     );
   }
 
@@ -138,7 +139,7 @@ class SSonner {
         icon,
     String?
         id,
-    bool replace = 
+    bool replace =
         false,
   }) {
     if (_overlayState ==
@@ -165,14 +166,13 @@ class SSonner {
           icon: icon,
         );
 
-    // Add to list
     final List<SSonnerConfig>
         currentToasts =
         List<SSonnerConfig>.from(_toastsNotifier.value);
-        
+
     if (replace) {
-      // Trigger onDismiss for existing toasts before clearing them (optional but good practice)
-      for (final t in currentToasts) {
+      for (final t
+          in currentToasts) {
         t.onDismiss?.call();
       }
       currentToasts.clear();
@@ -208,17 +208,13 @@ class SSonner {
 
     if (index !=
         -1) {
-      // Trigger callback if exists
       currentToasts[index].onDismiss?.call();
 
       currentToasts.removeAt(index);
       _toastsNotifier.value =
           currentToasts;
 
-      if (currentToasts.isEmpty) {
-        // We could remove the overlay here, but keeping it is fine for performance
-        // if we expect more toasts. For now, leave it.
-      }
+      if (currentToasts.isEmpty) {}
     }
   }
 
@@ -423,12 +419,10 @@ class _ToastWidgetState
     _controller
         .forward();
 
-    // Auto dismiss
     Future<void>.delayed(
         widget.config.duration,
         () {
       if (mounted) {
-        // Trigger exit animation
         _dismiss();
       }
     });
@@ -447,11 +441,16 @@ class _ToastWidgetState
     }
   }
 
-  Future<void> _dismiss() async {
+  Future<void>
+      _dismiss() async {
     try {
-      if (!mounted) return;
+      if (!mounted) {
+        return;
+      }
       await _controller.reverse();
-      if (!mounted) return;
+      if (!mounted) {
+        return;
+      }
       widget.onDismiss();
     } catch (e) {
       if (mounted) {
@@ -480,7 +479,6 @@ class _ToastWidgetState
         config =
         widget.config;
 
-    // Per-toast overrides take priority; fall back to variant colour from theme.
     final Color
         variantAccentColor =
         config.accentColor ?? SSonnerUtils.getIconColor(config.variant, context);
@@ -518,13 +516,15 @@ class _ToastWidgetState
               decoration: BoxDecoration(
                 borderRadius: theme.borderRadius,
                 border: Border.all(color: borderColor),
-                boxShadow: elevation > 0 ? <BoxShadow>[
-                  BoxShadow(
-                     color: theme.shadowColor ?? Colors.black12,
-                     blurRadius: elevation * 2,
-                     offset: Offset(0, elevation),
-                  ),
-                ] : null,
+                boxShadow: elevation > 0
+                    ? <BoxShadow>[
+                        BoxShadow(
+                          color: theme.shadowColor ?? Colors.black12,
+                          blurRadius: elevation * 2,
+                          offset: Offset(0, elevation),
+                        ),
+                      ]
+                    : null,
               ),
               child: ClipRRect(
                 borderRadius: theme.borderRadius,
@@ -532,9 +532,7 @@ class _ToastWidgetState
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      // Coloured left accent stripe — reflects the variant.
                       Container(width: 4, color: variantAccentColor),
-                      // Main toast body.
                       Expanded(
                         child: ColoredBox(
                           color: backgroundColor,

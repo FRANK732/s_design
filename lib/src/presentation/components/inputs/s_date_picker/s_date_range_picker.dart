@@ -108,7 +108,6 @@ class _SDateRangePickerState
         16 +
         (widget.presets != null && widget.presets!.isNotEmpty ? 120 : 0);
 
-    // Vertical Flip Logic
     const double
         estimatedHeight =
         350.0;
@@ -121,7 +120,6 @@ class _SDateRangePickerState
           true;
     }
 
-    // Width Constraint
     double
         finalWidth =
         overlayWidth;
@@ -131,7 +129,6 @@ class _SDateRangePickerState
           screenWidth - 16;
     }
 
-    // Horizontal Alignment
     double
         dx =
         0;
@@ -140,11 +137,10 @@ class _SDateRangePickerState
       dx =
           size.width - finalWidth;
     }
-    // Safety check for left edge
     if (offset.dx + dx <
         8) {
       dx =
-          8 - offset.dx; // Ensure at least 8px from left
+          8 - offset.dx;
     }
 
     _overlayEntry =
@@ -232,7 +228,6 @@ class _SDateRangePickerState
         ? sTheme.colorToken.primary
         : sTheme.colorToken.divider;
 
-    // Use custom decoration if provided, else default
     final BoxDecoration decoration = widget.style?.inputDecoration ??
         BoxDecoration(
           color: widget.disabled ? sTheme.colorToken.background : sTheme.colorToken.surface,
