@@ -71,11 +71,11 @@ class SCheckbox
   final bool
       isError;
 
-  /// {@macro flutter.widgets.Focus.focusNode}
+  /// An optional focus node for the checkbox.
   final FocusNode?
       focusNode;
 
-  /// {@macro flutter.widgets.Focus.autofocus}
+  /// Whether the checkbox should be focused automatically.
   final bool
       autofocus;
 

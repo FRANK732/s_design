@@ -1,4 +1,4 @@
-import '../../../../s_design.dart';
+import '../s_localizations.dart';
 
 /// Default English implementation of [SLocalizations].
 class SLocalizationsEn

@@ -41,7 +41,7 @@ class SDatePickerYearGrid
         i < 4;
         i++) {
       rows.add(Row(
-        children: List.generate(3, (int colIndex) {
+        children: List<Widget>.generate(3, (int colIndex) {
           final int index = (i * 3) + colIndex;
           final int year = startYear - 1 + index;
           final DateTime date = DateTime(year);

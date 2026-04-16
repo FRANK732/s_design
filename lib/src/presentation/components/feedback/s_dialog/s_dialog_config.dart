@@ -112,7 +112,7 @@ class SDialogConfig {
   final Color?
       barrierColor;
 
-  /// Maximum width. Defaults to `min(screenWidth − 48, 560)`.
+  /// Maximum width. Defaults to `min(screenWidth - 48, 560)`.
   final double?
       maxWidth;
 

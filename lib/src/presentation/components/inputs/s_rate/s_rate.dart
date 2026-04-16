@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import '../../display/s_tooltip/s_tooltip.dart';
 import 's_rate_item.dart';
 import 's_rate_style.dart';
 
@@ -25,7 +26,8 @@ class SRate
     this.onHoverChange,
     this.style,
     this.characterBuilder,
-    this.colorCharacters = true,
+    this.colorCharacters =
+        true,
   });
 
   /// Current value (controlled mode).
@@ -73,8 +75,10 @@ class SRate
       style;
 
   /// Custom character builder for each index.
-  final Widget Function(BuildContext context, int index)?
-      characterBuilder;
+  final Widget Function(
+      BuildContext
+          context,
+      int index)? characterBuilder;
 
   /// Whether to apply the theme color to characters.
   /// Set to false for multi-color emojis.
@@ -244,12 +248,8 @@ class _SRateState
         final bool isFull = displayValue >= itemValue;
         final bool isHalf = widget.allowHalf && (displayValue + 0.5 >= itemValue) && !isFull;
 
-        final Widget effectiveCharacter = widget.characterBuilder != null
-            ? widget.characterBuilder!(context, index)
-            : (widget.character ?? const Icon(Icons.star_rate_rounded));
+        final Widget effectiveCharacter = widget.characterBuilder != null ? widget.characterBuilder!(context, index) : (widget.character ?? const Icon(Icons.star_rate_rounded));
 
-        // Render Item Logic
-        // 0 = empty, 0.5 = half, 1 = full
         double percent = 0;
         if (isFull) {
           percent = 1;
@@ -267,8 +267,8 @@ class _SRateState
         );
 
         if (widget.tooltips != null && index < widget.tooltips!.length) {
-          item = Tooltip(
-            message: widget.tooltips![index],
+          item = STooltip(
+            content: Text(widget.tooltips![index]),
             child: item,
           );
         }
@@ -279,9 +279,7 @@ class _SRateState
             onEnter: (_) {},
             onExit: (_) {},
             child: GestureDetector(
-              onTapUp: (TapUpDetails details) {
-                // Logic moved to inner items
-              },
+              onTapUp: (TapUpDetails details) {},
               child: _buildInteractiveItem(index, item),
             ),
           ),

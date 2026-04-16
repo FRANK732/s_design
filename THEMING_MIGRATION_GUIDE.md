@@ -66,8 +66,8 @@ MaterialApp(
 
 ```dart
 MaterialApp(
-  theme: STheme().getLightTheme(),      // All component themes included
-  darkTheme: STheme().getDarkTheme(),   // Dark mode support
+  theme: STheme().getLightTheme(),
+  darkTheme: STheme().getDarkTheme(),
   themeMode: ThemeMode.system,
   home: MyApp(),
 );

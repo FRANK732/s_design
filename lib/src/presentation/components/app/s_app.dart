@@ -494,14 +494,16 @@ class _SOverlayInitializerState
     WidgetsBinding
         .instance
         .addPostFrameCallback((_) {
-      if (!mounted)
+      if (!mounted) {
         return;
+      }
       final OverlayState?
           overlay =
           _overlayKey.currentState;
       if (overlay ==
-          null)
+          null) {
         return;
+      }
       SSonner.initialize(overlay);
       SFloatingPanel.initialize(overlay);
       // ignore: deprecated_member_use_from_same_package
@@ -516,7 +518,7 @@ class _SOverlayInitializerState
     return Stack(
       children: <Widget>[
         widget.child,
-        Overlay(key: _overlayKey, initialEntries: const <OverlayEntry>[]),
+        Overlay(key: _overlayKey),
       ],
     );
   }

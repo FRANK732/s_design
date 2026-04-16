@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../../../s_design.dart';
 import 'widgets/s_select_dropdown.dart';
@@ -35,7 +36,6 @@ class SSelect<
     this.maxTagCount,
     this.notFoundContent,
     this.onClear,
-    this.onDropdownVisibleChange,
     this.onSearch,
     this.placeholder,
     this.placement =
@@ -58,6 +58,10 @@ class SSelect<
         false,
     this.tokenSeparators,
     this.filterSort,
+    this.maxTagPlaceholder,
+    this.onOpenChange,
+    this.onFocus,
+    this.onBlur,
   });
 
   /// The list of items to display in the dropdown.
@@ -107,7 +111,7 @@ class SSelect<
       dropdownMaxHeight;
 
   /// Custom dropdown panel builder. Receives `(context, menu)` where `menu` is the
-  /// default options list — wrap or augment it as needed.
+  /// default options list - wrap or augment it as needed.
   final Widget Function(
       BuildContext
           context,
@@ -137,11 +141,25 @@ class SSelect<
 
   /// Callback when dropdown visibility changes.
   final ValueChanged<bool>?
-      onDropdownVisibleChange;
+      onOpenChange;
 
   /// Callback when the search input changes.
   final ValueChanged<String>?
       onSearch;
+
+  /// Callback when the select gains focus.
+  final VoidCallback?
+      onFocus;
+
+  /// Callback when the select loses focus.
+  final VoidCallback?
+      onBlur;
+
+  /// Placeholder for omitted tags in multiple/tags mode.
+  /// Signature: `Widget Function(List<T> omittedValues)`
+  final Widget
+          Function(List<T> omittedValues)?
+      maxTagPlaceholder;
 
   /// Placeholder text.
   final String?
@@ -192,7 +210,7 @@ class SSelect<
           option,
       int index)? optionRender;
 
-  /// Custom trigger builder — replaces the default SSelectTrigger entirely.
+  /// Custom trigger builder - replaces the default SSelectTrigger entirely.
   /// Signature: `Widget Function(BuildContext context, dynamic value)`
   final Widget Function(
       BuildContext
@@ -245,6 +263,8 @@ class _SSelectState<
   String
       _searchValue =
       '';
+  int _highlightedIndex =
+      -1;
   final FocusNode
       _focusNode =
       FocusNode();
@@ -293,6 +313,28 @@ class _SSelectState<
         .addListener(_handleFocusChange);
   }
 
+  List<SSelectItem<T>>
+      get _allFlattenedItems {
+    final List<SSelectItem<T>>
+        flattened =
+        <SSelectItem<T>>[];
+    void flatten(
+        List<SSelectItem<T>> items) {
+      for (final SSelectItem<T> item
+          in items) {
+        if (item.isGroup) {
+          flatten(item.options!);
+        } else {
+          flattened.add(item);
+        }
+      }
+    }
+
+    flatten(
+        widget.items);
+    return flattened;
+  }
+
   @override
   void didUpdateWidget(
       covariant SSelect<T>
@@ -338,6 +380,14 @@ class _SSelectState<
 
   void
       _handleFocusChange() {
+    if (_focusNode
+        .hasFocus) {
+      widget.onFocus?.call();
+    } else {
+      widget.onBlur?.call();
+      _highlightedIndex =
+          -1;
+    }
     // Close dropdown if focus moves completely outside
     if (!_focusNode.hasFocus &&
         _isOpen) {
@@ -442,15 +492,28 @@ class _SSelectState<
 
     Overlay.of(context)
         .insert(_overlayEntry!);
-    setState(() =>
-        _isOpen = true);
+    setState(
+        () {
+      _isOpen =
+          true;
+      _highlightedIndex =
+          -1;
+    });
     _animationController
         .forward();
     widget
-        .onDropdownVisibleChange
+        .onOpenChange
         ?.call(true);
-    _focusNode
-        .requestFocus();
+    // Defer requestFocus to the next frame so the TextField is
+    // mounted before the browser <input> element receives focus.
+    WidgetsBinding
+        .instance
+        .addPostFrameCallback((_) {
+      if (mounted &&
+          _isOpen) {
+        _focusNode.requestFocus();
+      }
+    });
   }
 
   Future<void>
@@ -476,30 +539,43 @@ class _SSelectState<
           '';
     });
     widget
-        .onDropdownVisibleChange
+        .onOpenChange
         ?.call(false);
   }
 
   Widget
       _buildDropdownContent() {
+    List<SSelectItem<T>>
+        filterItems(List<SSelectItem<T>> items) {
+      final List<SSelectItem<T>>
+          filtered =
+          <SSelectItem<T>>[];
+      for (final SSelectItem<T> item
+          in items) {
+        if (item.isGroup) {
+          final List<SSelectItem<T>> children = filterItems(item.options!);
+          if (children.isNotEmpty) {
+            filtered.add(SSelectItem<T>(
+              label: item.label,
+              options: children,
+            ));
+          }
+        } else {
+          final bool matches = !widget.showSearch || _searchValue.isEmpty || (widget.filterOption != null ? widget.filterOption!(_searchValue, item) : item.label!.toLowerCase().contains(_searchValue.toLowerCase()));
+          if (matches) {
+            filtered.add(item);
+          }
+        }
+      }
+      return filtered;
+    }
+
     final List<SSelectItem<T>>
         filteredItems =
-        widget.items.where((SSelectItem<T> item) {
-      if (!widget.showSearch ||
-          _searchValue.isEmpty) {
-        return true;
-      }
-      if (widget.filterOption !=
-          null) {
-        return widget.filterOption!(_searchValue, item);
-      }
-      return item.label.toLowerCase().contains(_searchValue.toLowerCase());
-    }).toList();
+        filterItems(widget.items);
 
     if (widget.filterSort !=
-        null) {
-      filteredItems.sort(widget.filterSort);
-    }
+        null) {}
 
     return SSelectDropdown<
         T>(
@@ -521,7 +597,58 @@ class _SSelectState<
           widget.dropdownRender,
       optionRender:
           widget.optionRender,
+      highlightedIndex:
+          _highlightedIndex,
     );
+  }
+
+  void _handleKeyDown(
+      KeyEvent
+          event) {
+    if (event
+        is! KeyDownEvent) {
+      return;
+    }
+
+    final List<SSelectItem<T>>
+        items =
+        _allFlattenedItems;
+    final List<SSelectItem<T>>
+        selectableItems =
+        items.where((SSelectItem<T> i) => !i.disabled).toList();
+
+    if (event.logicalKey ==
+        LogicalKeyboardKey
+            .arrowDown) {
+      if (!_isOpen) {
+        _openDropdown();
+      } else {
+        setState(() {
+          _highlightedIndex = (_highlightedIndex + 1).clamp(-1, selectableItems.length - 1);
+        });
+        _overlayEntry?.markNeedsBuild();
+      }
+    } else if (event.logicalKey ==
+        LogicalKeyboardKey
+            .arrowUp) {
+      if (_isOpen) {
+        setState(() {
+          _highlightedIndex = (_highlightedIndex - 1).clamp(-1, selectableItems.length - 1);
+        });
+        _overlayEntry?.markNeedsBuild();
+      }
+    } else if (event.logicalKey == LogicalKeyboardKey.enter ||
+        event.logicalKey == LogicalKeyboardKey.numpadEnter) {
+      if (_isOpen &&
+          _highlightedIndex >= 0 &&
+          _highlightedIndex < selectableItems.length) {
+        _handleSelection(selectableItems[_highlightedIndex].value as T);
+      } else if (!_isOpen) {
+        _openDropdown();
+      }
+    } else if (event.logicalKey == LogicalKeyboardKey.escape) {
+      _closeDropdown();
+    }
   }
 
   void _handleSelection(
@@ -563,14 +690,14 @@ class _SSelectState<
       if (_selectedValues.isEmpty) {
         widget.onChanged!(null);
       } else if (widget.labelInValue) {
-        final SSelectItem<T>? item = widget.items.where((SSelectItem<T> i) => i.value == _selectedValues.first).firstOrNull;
+        final SSelectItem<T>? item = _allFlattenedItems.where((SSelectItem<T> i) => i.value == _selectedValues.first).firstOrNull;
         widget.onChanged!(item);
       } else {
         widget.onChanged!(_selectedValues.first);
       }
     } else {
       if (widget.labelInValue) {
-        final List<SSelectItem<T>> items = widget.items.where((SSelectItem<T> i) => _selectedValues.contains(i.value)).toList();
+        final List<SSelectItem<T>> items = _allFlattenedItems.where((SSelectItem<T> i) => _selectedValues.contains(i.value)).toList();
         widget.onChanged!(items);
       } else {
         widget.onChanged!(List<T>.from(_selectedValues));
@@ -595,56 +722,59 @@ class _SSelectState<
       BuildContext
           context) {
     return CompositedTransformTarget(
-      link:
-          _layerLink,
-      child: widget.triggerBuilder != null
-          ? widget.triggerBuilder!(context, widget.value)
-          : SSelectTrigger<T>(
-              values: _selectedValues,
-              items: widget.items,
-              mode: widget.mode ?? SSelectMode.single,
-              onPressed: _toggleDropdown,
-              placeholder: widget.placeholder ?? SLocalizations.ofContext(context).selectPlaceholder,
-              disabled: widget.disabled,
-              loading: widget.loading,
-              allowClear: widget.allowClear,
-              onClear: _handleClear,
-              size: widget.size,
-              status: widget.status,
-              variant: widget.variant,
-              showSearch: widget.showSearch,
-              prefix: widget.prefix,
-              suffixIcon: widget.suffixIcon,
-              focusNode: _focusNode,
-              tagRender: widget.tagRender,
-              onSearch: (String value) {
-                String currentValue = value;
-                // Token separator support for tags mode
-                if (widget.mode == SSelectMode.tags && widget.tokenSeparators != null && widget.tokenSeparators!.isNotEmpty) {
-                  for (final String sep in widget.tokenSeparators!) {
-                    if (currentValue.contains(sep)) {
-                      final List<String> parts = currentValue.split(sep);
-                      for (int i = 0; i < parts.length - 1; i++) {
-                        final String token = parts[i].trim();
-                        if (token.isNotEmpty && !_selectedValues.contains(token as T)) {
-                          if (widget.maxCount == null || _selectedValues.length < widget.maxCount!) {
-                            setState(() => _selectedValues.add(token as T));
+        link: _layerLink,
+        child: KeyboardListener(
+          focusNode: FocusNode(), // Dummy for the listener
+          onKeyEvent: _handleKeyDown,
+          child: widget.triggerBuilder != null
+              ? widget.triggerBuilder!(context, widget.value)
+              : SSelectTrigger<T>(
+                  values: _selectedValues,
+                  items: _allFlattenedItems,
+                  mode: widget.mode ?? SSelectMode.single,
+                  onPressed: _toggleDropdown,
+                  placeholder: widget.placeholder ?? SLocalizations.ofContext(context).selectPlaceholder,
+                  disabled: widget.disabled,
+                  loading: widget.loading,
+                  allowClear: widget.allowClear,
+                  onClear: _handleClear,
+                  size: widget.size,
+                  status: widget.status,
+                  variant: widget.variant,
+                  showSearch: widget.showSearch,
+                  prefix: widget.prefix,
+                  suffixIcon: widget.suffixIcon,
+                  focusNode: _focusNode,
+                  tagRender: widget.tagRender,
+                  maxTagPlaceholder: widget.maxTagPlaceholder,
+                  onSearch: (String value) {
+                    String currentValue = value;
+                    // Token separator support for tags mode
+                    if (widget.mode == SSelectMode.tags && widget.tokenSeparators != null && widget.tokenSeparators!.isNotEmpty) {
+                      for (final String sep in widget.tokenSeparators!) {
+                        if (currentValue.contains(sep)) {
+                          final List<String> parts = currentValue.split(sep);
+                          for (int i = 0; i < parts.length - 1; i++) {
+                            final String token = parts[i].trim();
+                            if (token.isNotEmpty && !_selectedValues.contains(token as T)) {
+                              if (widget.maxCount == null || _selectedValues.length < widget.maxCount!) {
+                                setState(() => _selectedValues.add(token as T));
+                              }
+                            }
                           }
+                          currentValue = parts.last;
+                          _emitOnChanged();
                         }
                       }
-                      currentValue = parts.last;
-                      _emitOnChanged();
                     }
-                  }
-                }
-                setState(() => _searchValue = currentValue);
-                _overlayEntry?.markNeedsBuild();
-                widget.onSearch?.call(currentValue);
-              },
-              searchValue: _searchValue,
-              maxTagCount: widget.maxTagCount,
-              onItemRemove: _handleSelection,
-            ),
-    );
+                    setState(() => _searchValue = currentValue);
+                    _overlayEntry?.markNeedsBuild();
+                    widget.onSearch?.call(currentValue);
+                  },
+                  searchValue: _searchValue,
+                  maxTagCount: widget.maxTagCount,
+                  onItemRemove: _handleSelection,
+                ),
+        ));
   }
 }

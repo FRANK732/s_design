@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="example/web/favicon.svg" alt="Schrift Flow Logo" width="90" height="90">
+<img src="assets/s_design.jpg" alt="Schrift Flow Logo" height="250">
 
-# ✨ sDesign ✨
+<img src="example/web/favicon.svg" alt="Schrift Flow Logo" width="20" height="20"> ✨ sDesign ✨
 
 **The Fluid, Animated, and Enterprise-Ready UI Component Library for Flutter.**
 
@@ -39,14 +39,14 @@ Designed with impeccable attention to margin, padding, typography, and optical a
 
 ## 🧩 The Arsenal
 
-We provide **20+ robust, accessible modules** that seamlessly adapt to all 6 major Flutter platforms (iOS, Android, Web, Windows, macOS, Linux).
+We provide **28+ robust, accessible modules** that seamlessly adapt to all 6 major Flutter platforms (iOS, Android, Web, Windows, macOS, Linux).
 
-| Category        | High-End Components                                                 |
-| :-------------- | :------------------------------------------------------------------ |
-| **🕹️ Inputs**   | `SButton`, `SInput`, `SSelect`, `SSwitch`, `SDatePicker`, `SSlider` |
-| **🏗️ Layout**   | `SScaffold` (w/ Pull-to-refresh), `SCard`, `STabs`, `SPagination`   |
-| **💬 Feedback** | `SSonner` (Stackable Toasts), `SAlert`, `SDialog`, `SFloatingPanel` |
-| **📱 Display**  | `SAvatar`, `SSteps`, `SQRCode`, `SProgress`                         |
+| Category        | High-End Components                                                                                                     |
+| :-------------- | :---------------------------------------------------------------------------------------------------------------------- |
+| **🕹️ Inputs**   | `SButton`, `SInput`, `SSelect`, `SSwitch`, `SDatePicker`, `SSlider`,`SCheckbox`,`SDatePicker`,`STimePicker`,`SDropdown` |
+| **🏗️ Layout**   | `SScaffold` (w/ Pull-to-refresh), `SCard`, `STabs`, `SPagination` ,`SListTile`,`SBottom Navigation`                     |
+| **💬 Feedback** | `SSonner` (Stackable Toasts), `SAlert`, `SDialog`, `SFloatingPanel`,                                                    |
+| **📱 Display**  | `SAvatar`, `SSteps`, `SQRCode`, `SProgress`, `STooltip`, `SAvatar` ,`SSlider`,                                          |
 
 ---
 

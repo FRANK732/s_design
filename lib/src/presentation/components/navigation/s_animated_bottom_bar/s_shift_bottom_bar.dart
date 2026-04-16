@@ -6,8 +6,7 @@ import 's_animated_bottom_bar_item.dart';
 class SShiftBottomBar
     extends StatelessWidget {
   const SShiftBottomBar({
-    Key?
-        key,
+    super.key,
     required this.items,
     this.currentIndex =
         0,
@@ -28,7 +27,7 @@ class SShiftBottomBar
         Curves.easeInOut,
     this.elevation =
         8.0,
-  }) : super(key: key);
+  });
 
   /// The index of the currently active tab.
   final int
@@ -59,7 +58,8 @@ class SShiftBottomBar
       items;
 
   /// Callback when a tab is tapped.
-  final Function(int)?
+  final void
+          Function(int)?
       onTap;
 
   /// The color of the icon and text when the item is selected.
@@ -76,11 +76,13 @@ class SShiftBottomBar
   Widget build(
       BuildContext
           context) {
-    final theme =
+    final ThemeData
+        theme =
         Theme.of(context);
 
     // Determine the current bar background color based on the selected item
-    final currentItemColor =
+    final Color
+        currentItemColor =
         items[currentIndex].selectedColor ?? theme.primaryColor;
     final Color
         effectiveSelected =
@@ -108,10 +110,10 @@ class SShiftBottomBar
             minimum: margin,
             child: Row(
               mainAxisAlignment: items.length <= 3 ? MainAxisAlignment.spaceEvenly : MainAxisAlignment.spaceAround,
-              children: [
+              children: <Widget>[
                 for (final SAnimatedBottomBarItem item in items)
                   TweenAnimationBuilder<double>(
-                    tween: Tween(
+                    tween: Tween<double>(
                       end: items.indexOf(item) == currentIndex ? 1.0 : 0.0,
                     ),
                     curve: curve,
@@ -124,7 +126,7 @@ class SShiftBottomBar
                           padding: itemPadding,
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
-                            children: [
+                            children: <Widget>[
                               Transform.translate(
                                 offset: Offset(0, -6 * t),
                                 child: IconTheme(

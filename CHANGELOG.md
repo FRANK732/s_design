@@ -14,12 +14,13 @@ We are thrilled to announce **sDesign v2.0.0** — an absolute game-changer. Thi
 V2 brings an arsenal of highly anticipated, meticulously crafted components designed to handle robust enterprise use cases natively out-of-the-box.
 
 - **`SSonner` Toast System**: A gorgeous, physics-based, stackable notification ecosystem. Ditch the boring snackbars forever.
+- **`SToolTip`**: A highly versatile and interactive tooltip widget.
 - **`SFloatingPanel`**: A highly versatile and interactive draggable bottom-sheet overlay panel, perfect for complex contextual workflows.
 - **`SSelect` & `SDropdown` V2**: Completely rewritten from the ground up for adaptive UI workflows, supporting single/multi-selection modes, fuzzy search, and integrated tags.
 - **`SDatePicker` & `STimePicker`**: Natively localized, flawlessly themed, responsive date and time capture experiences.
 - **`SPagination`**: A powerhouse pagination widget featuring full parity and deep customizability.
 - **Layout Mastery**: The new `SScaffold` replaces basic layouts with integrated pull-to-refresh and loading states. `STabs` now provides mobile-first, sticky header views, while `SSteps` makes managing complex sequences an absolute breeze.
-- **Rich Display & Feedback**: Introduced comprehensive data visualization via the new `SAvatar` (with intelligent group scaling), `SRate` (star ratings), `SProgress` dashboards, `SQRCode`, and `SAlert`.
+- **Rich Display & Feedback**: Introduced comprehensive data visualization via the new `SAvatar` (with intelligent group scaling), `SRate` (star ratings,customizable characters and tooltips), `SProgress` dashboards, `SQRCode`, and `SAlert`.
 
 ### ⚡ Massive Enterprise Architecture Rebuild
 

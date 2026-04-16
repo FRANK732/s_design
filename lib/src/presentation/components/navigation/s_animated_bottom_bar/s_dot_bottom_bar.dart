@@ -6,8 +6,7 @@ import 's_animated_bottom_bar_item.dart';
 class SDotBottomBar
     extends StatelessWidget {
   const SDotBottomBar({
-    Key?
-        key,
+    super.key,
     required this.items,
     this.backgroundColor,
     this.currentIndex =
@@ -27,7 +26,7 @@ class SDotBottomBar
     this.curve =
         Curves.easeOutCubic,
     this.dotIndicatorColor,
-  }) : super(key: key);
+  });
 
   /// The background color of the bar.
   final Color?
@@ -58,7 +57,8 @@ class SDotBottomBar
       items;
 
   /// Callback when a tab is tapped.
-  final Function(int)?
+  final void
+          Function(int)?
       onTap;
 
   /// The color of the icon and text when the item is selected.
@@ -77,7 +77,8 @@ class SDotBottomBar
   Widget build(
       BuildContext
           context) {
-    final theme =
+    final ThemeData
+        theme =
         Theme.of(context);
 
     return ColoredBox(
@@ -88,15 +89,15 @@ class SDotBottomBar
         minimum: margin,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
+          children: <Widget>[
             for (final SAnimatedBottomBarItem item in items)
               TweenAnimationBuilder<double>(
-                tween: Tween(
+                tween: Tween<double>(
                   end: items.indexOf(item) == currentIndex ? 1.0 : 0.0,
                 ),
                 curve: curve,
                 duration: duration,
-                builder: (context, t, _) {
+                builder: (BuildContext context, double t, _) {
                   final Color selectedColor = item.selectedColor ?? selectedItemColor ?? theme.primaryColor;
 
                   final Color? unselectedColor = item.unselectedColor ?? unselectedItemColor ?? theme.iconTheme.color;
@@ -110,7 +111,7 @@ class SDotBottomBar
                       padding: itemPadding,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
-                        children: [
+                        children: <Widget>[
                           Transform.translate(
                             offset: Offset(0, -5 * t),
                             child: IconTheme(

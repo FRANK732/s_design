@@ -30,9 +30,9 @@ enum STimePickerStatus {
   /// Normal, no status (default).
   none,
 
-  /// Red border — indicates validation error.
+  /// Red border - indicates validation error.
   error,
 
-  /// Yellow/orange border — indicates a warning.
+  /// Yellow/orange border - indicates a warning.
   warning,
 }

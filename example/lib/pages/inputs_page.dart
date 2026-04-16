@@ -101,25 +101,15 @@ class _InputFieldPageState
         .dispose();
   }
 
-  String? _validateNotEmpty(
-      String?
-          value) {
-    if (value == null ||
-        value.isEmpty) {
-      return 'This field cannot be empty.';
-    }
-    return null;
-  }
-
   @override
   Widget build(
       BuildContext
           context) {
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
 
-    String? validateNotEmpty(
-        String?
-            value) {
+    String?
+        validateNotEmpty(String? value) {
       if (value == null ||
           value.isEmpty) {
         return l10n.inputErrorEmpty;

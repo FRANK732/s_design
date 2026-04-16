@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// Theme data for [SSonner].
-/// Theme data for [SSonner].
+@immutable
 class SSonnerThemeData
     extends ThemeExtension<
         SSonnerThemeData> {

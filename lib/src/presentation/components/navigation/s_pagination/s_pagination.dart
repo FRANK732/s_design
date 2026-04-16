@@ -10,19 +10,19 @@ import '../../../themes/s_theme_data.dart';
 /// Pagination component for Flutter.
 ///
 /// ## Features
-/// - Page number buttons with automatic ellipsis (…) when there are many pages
+/// - Page number buttons with automatic ellipsis (...) when there are many pages
 /// - Previous / Next navigation arrows
 /// - Jump-backward / Jump-forward (skip 5 pages) via ellipsis buttons
-/// - **Simple mode** — shows `current / total` input instead of page buttons
-/// - **Size changer** — dropdown to choose page size (10 / 20 / 50 / 100)
-/// - **Quick jumper** — text field to jump directly to a page number
-/// - **showTotal** — renders a total-count label
-/// - **itemRender** — fully custom prev/next/page widgets
-/// - **disabled** — entire component grayed out
-/// - **size** — `normal`, `small`, `large`
-/// - **align** — `start`, `center`, `end`
-/// - **Controlled mode** — via `current` + `onChange`
-/// - **Uncontrolled mode** — via `defaultCurrent`
+/// - **Simple mode** - shows `current / total` input instead of page buttons
+/// - **Size changer** - dropdown to choose page size (10 / 20 / 50 / 100)
+/// - **Quick jumper** - text field to jump directly to a page number
+/// - **showTotal** - renders a total-count label
+/// - **itemRender** - fully custom prev/next/page widgets
+/// - **disabled** - entire component grayed out
+/// - **size** - `normal`, `small`, `large`
+/// - **align** - `start`, `center`, `end`
+/// - **Controlled mode** - via `current` + `onChange`
+/// - **Uncontrolled mode** - via `defaultCurrent`
 ///
 /// ## Open Customizability
 /// Per-instance overrides: `activeColor`, `borderRadius`, `itemSize`,
@@ -104,7 +104,6 @@ class SPagination
     this.totalTextStyle,
   });
 
-
   /// Total number of items.
   final int
       total;
@@ -172,9 +171,9 @@ class SPagination
       align;
 
   /// Custom item renderer.
-  /// [page] is the page number (null for prev/next/ellipsis),
-  /// [type] is [SPaginationItemType].
-  /// [defaultWidget] is the default widget — return it for default rendering.
+  /// `page` is the page number (null for prev/next/ellipsis),
+  /// `type` is [SPaginationItemType].
+  /// `defaultWidget` is the default widget - return it for default rendering.
   final Widget Function(
       int?
           page,
@@ -185,8 +184,8 @@ class SPagination
 
   /// When `true` (default), the component automatically adapts its layout
   /// based on available width:
-  /// - **Wide (≥ 600 px)**: full mode — ±2 sibling pages, all extras visible.
-  /// - **Medium (360–599 px)**: ±1 sibling page; size changer and quick
+  /// - **Wide (>= 600 px)**: full mode - +/-2 sibling pages, all extras visible.
+  /// - **Medium (360-599 px)**: +/-1 sibling page; size changer and quick
   ///   jumper are hidden unless the parent has room.
   /// - **Narrow (< 360 px)**: collapses to simple `current / total` mode;
   ///   only prev/next arrows and the page input are shown.
@@ -195,7 +194,6 @@ class SPagination
   /// the full layout regardless of available width.
   final bool
       responsive;
-
 
   final Color?
       activeColor;
@@ -355,7 +353,6 @@ class _SPaginationState
         _pageSize);
   }
 
-
   _PaginationTokens
       _tokens(BuildContext context) {
     final SThemeData
@@ -446,13 +443,15 @@ class _SPaginationState
     );
   }
 
-
-  /// Minimum width (px) for a full-featured layout (±2 siblings, all extras).
-  static const double _kWide = 500.0;
+  /// Minimum width (px) for a full-featured layout (+/-2 siblings, all extras).
+  static const double
+      _kWide =
+      500.0;
 
   /// Minimum width (px) for medium mode (shows numerical buttons).
-  static const double _kMedium = 280.0;
-
+  static const double
+      _kMedium =
+      280.0;
 
   @override
   Widget build(
@@ -504,7 +503,9 @@ class _SPaginationState
 
     // Number of sibling pages shown either side of current.
     // Full/Medium: 2, Narrow: irrelevant (simple mode).
-    final int siblingCount = (!widget.responsive || availableWidth >= _kMedium) ? 2 : 0;
+    final int siblingCount = (!widget.responsive || availableWidth >= _kMedium)
+        ? 2
+        : 0;
 
     WrapAlignment
         wrapAlign;
@@ -554,7 +555,6 @@ class _SPaginationState
       ),
     );
   }
-
 
   Widget
       _buildFullMode(
@@ -762,7 +762,6 @@ class _SPaginationState
     return defaultWidget;
   }
 
-
   Widget _buildSimpleMode(
       _PaginationTokens
           tokens,
@@ -798,7 +797,6 @@ class _SPaginationState
       ],
     );
   }
-
 
   Widget _buildTotalLabel(
       _PaginationTokens
@@ -859,7 +857,6 @@ class _SPaginationState
     );
   }
 }
-
 
 class _PaginationTokens {
   const _PaginationTokens({

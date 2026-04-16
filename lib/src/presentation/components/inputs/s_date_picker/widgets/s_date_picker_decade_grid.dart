@@ -39,12 +39,7 @@ class SDatePickerDecadeGrid
 
     final int
         startYear =
-        (viewDate.year ~/ 100) * 100; // e.g., 2024 -> 2000
-
-    // We show 12 items.
-    // -1 decade (1990-1999)
-    // 0..9 decades (2000-2009 ... 2090-2099)
-    // +1 decade (2100-2109)
+        (viewDate.year ~/ 100) * 100;
 
     final List<Widget>
         rows =
@@ -53,7 +48,7 @@ class SDatePickerDecadeGrid
         i < 4;
         i++) {
       rows.add(Row(
-        children: List.generate(3, (int colIndex) {
+        children: List<Widget>.generate(3, (int colIndex) {
           final int index = (i * 3) + colIndex;
           // index 0 is startYear - 10
           final int decadeStartYear = startYear + (index - 1) * 10;

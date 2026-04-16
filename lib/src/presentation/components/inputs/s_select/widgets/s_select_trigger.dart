@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../../../../s_design.dart';
 import '../s_select_style_helper.dart';
@@ -37,6 +38,7 @@ class SSelectTrigger<
     this.onItemRemove,
     this.onInputTap,
     this.tagRender,
+    this.maxTagPlaceholder,
   });
 
   final List<T>
@@ -86,6 +88,9 @@ class SSelectTrigger<
           label,
       VoidCallback
           onClose)? tagRender;
+  final Widget
+          Function(List<T> omittedValues)?
+      maxTagPlaceholder;
 
   @override
   State<
@@ -103,6 +108,9 @@ class _SSelectTriggerState<
       false;
   late TextEditingController
       _searchController;
+  final FocusNode
+      _keyboardFocusNode =
+      FocusNode();
 
   @override
   void
@@ -111,6 +119,16 @@ class _SSelectTriggerState<
         .initState();
     _searchController =
         TextEditingController(text: widget.searchValue);
+    widget
+        .focusNode
+        ?.addListener(_onFocusChange);
+  }
+
+  void
+      _onFocusChange() {
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
@@ -119,17 +137,30 @@ class _SSelectTriggerState<
           oldWidget) {
     super.didUpdateWidget(
         oldWidget);
+    if (widget.focusNode !=
+        oldWidget.focusNode) {
+      oldWidget.focusNode?.removeListener(_onFocusChange);
+      widget.focusNode?.addListener(_onFocusChange);
+    }
     if (widget.searchValue != oldWidget.searchValue &&
         widget.searchValue != _searchController.text) {
-      _searchController.text =
-          widget.searchValue ?? '';
+      _searchController.value =
+          TextEditingValue(
+        text: widget.searchValue ?? '',
+        selection: TextSelection.collapsed(offset: (widget.searchValue ?? '').length),
+      );
     }
   }
 
   @override
   void
       dispose() {
+    widget
+        .focusNode
+        ?.removeListener(_onFocusChange);
     _searchController
+        .dispose();
+    _keyboardFocusNode
         .dispose();
     super
         .dispose();
@@ -191,13 +222,15 @@ class _SSelectTriggerState<
           setState(() => _isHovering = false),
       child:
           InkWell(
+        canRequestFocus: false,
         onTap: widget.disabled
             ? null
             : () {
                 widget.onPressed?.call();
-                // Ensure focus for search when clicked
                 if (widget.showSearch && widget.focusNode != null && !widget.focusNode!.hasFocus) {
-                  widget.focusNode!.requestFocus();
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    widget.focusNode!.requestFocus();
+                  });
                 }
               },
         borderRadius: BorderRadius.circular(DesignConstants.borderRadiusMedium),
@@ -248,31 +281,21 @@ class _SSelectTriggerState<
       return _buildWrap(textStyle);
     }
 
-    // Single Selection Mode
+    if (widget
+        .showSearch) {
+      return _buildSingleSearchContent(theme,
+          textStyle);
+    }
+
     if (widget
         .values
         .isEmpty) {
-      if (widget.showSearch &&
-          (widget.focusNode?.hasFocus ?? false)) {
-        return _buildSearchInput(textStyle);
-      }
       return Text(
         widget.placeholder ?? '',
         style: textStyle.copyWith(color: theme.colorToken.textSecondary.withOpacity(0.7)),
         overflow: TextOverflow.ellipsis,
       );
     }
-
-    if (widget.showSearch &&
-        (widget.focusNode?.hasFocus ?? false)) {
-      // For single select, when searching, we show the input.
-      // Ideally, the selected value should be hidden or shown as placeholder if the search is empty.
-      // Behavior: If search is empty, show selected value? Or just show input?
-      // The selected value is hidden while searching, but if search is empty, the placeholder is the selected value label (opacity reduced).
-      // For simplicity: Just show the input.
-      return _buildSearchInput(textStyle);
-    }
-
     final SSelectItem<T>
         selectedItem =
         widget.items.firstWhere(
@@ -282,9 +305,9 @@ class _SSelectTriggerState<
       orElse: () =>
           SSelectItem<T>(value: widget.values.first, label: widget.values.first.toString()),
     );
-
     return Text(
-      selectedItem.label,
+      selectedItem.label ??
+          '',
       style:
           textStyle,
       overflow:
@@ -292,34 +315,90 @@ class _SSelectTriggerState<
     );
   }
 
-  Widget _buildSearchInput(
+  Widget _buildSingleSearchContent(
+      SThemeData
+          theme,
       TextStyle
           textStyle) {
+    final bool
+        isFocused =
+        widget.focusNode?.hasFocus ?? false;
     final SThemeData
         sTheme =
         STheme.of(context);
-    return TextField(
-      controller:
-          _searchController,
-      focusNode:
-          widget.focusNode,
-      style:
-          textStyle,
-      cursorColor:
-          sTheme.colorToken.primary,
-      onChanged:
-          widget.onSearch,
-      decoration:
-          const InputDecoration(
-        isDense: true,
-        contentPadding: EdgeInsets.zero,
-        border: InputBorder.none,
-        focusedBorder: InputBorder.none,
-        enabledBorder: InputBorder.none,
-        errorBorder: InputBorder.none,
-        disabledBorder: InputBorder.none,
-      ),
+
+    final String? hintText = widget.values.isNotEmpty
+        ? (widget.items
+            .firstWhere(
+              (SSelectItem<T> i) => i.value == widget.values.first,
+              orElse: () => SSelectItem<T>(value: widget.values.first, label: widget.values.first.toString()),
+            )
+            .label)
+        : widget.placeholder;
+
+    final Widget backgroundText = widget.values.isEmpty
+        ? Text(
+            widget.placeholder ?? '',
+            style: textStyle.copyWith(color: sTheme.colorToken.textSecondary.withOpacity(0.7)),
+            overflow: TextOverflow.ellipsis,
+          )
+        : Text(
+            widget.items
+                    .firstWhere(
+                      (SSelectItem<T> i) => i.value == widget.values.first,
+                      orElse: () => SSelectItem<T>(value: widget.values.first, label: widget.values.first.toString()),
+                    )
+                    .label ??
+                '',
+            style: textStyle,
+            overflow: TextOverflow.ellipsis,
+          );
+
+    return Stack(
+      alignment:
+          Alignment.centerLeft,
+      children: <Widget>[
+        IgnorePointer(
+          ignoring: !isFocused,
+          child: Opacity(
+            opacity: isFocused ? 1.0 : 0.0,
+            child: TextField(
+              controller: _searchController,
+              focusNode: widget.focusNode,
+              style: textStyle,
+              cursorColor: sTheme.colorToken.primary,
+              onChanged: widget.onSearch,
+              onTap: widget.onInputTap,
+              decoration: InputDecoration(
+                isDense: true,
+                contentPadding: EdgeInsets.zero,
+                border: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                errorBorder: InputBorder.none,
+                disabledBorder: InputBorder.none,
+                hintText: isFocused ? hintText : null,
+                hintStyle: textStyle.copyWith(color: sTheme.colorToken.textSecondary.withOpacity(0.5)),
+              ),
+            ),
+          ),
+        ),
+        if (!isFocused)
+          IgnorePointer(child: backgroundText),
+      ],
     );
+  }
+
+  void _handleKeyPress(
+      KeyEvent
+          event) {
+    if (event is KeyDownEvent &&
+        event.logicalKey == LogicalKeyboardKey.backspace &&
+        _searchController.text.isEmpty &&
+        widget.values.isNotEmpty &&
+        (widget.mode == SSelectMode.multiple || widget.mode == SSelectMode.tags)) {
+      widget.onItemRemove?.call(widget.values.last);
+    }
   }
 
   Widget _buildWrap(
@@ -329,7 +408,6 @@ class _SSelectTriggerState<
         children =
         <Widget>[];
 
-    // Add selected items
     int renderCount = widget
         .values
         .length;
@@ -361,7 +439,7 @@ class _SSelectTriggerState<
           null) {
         children.add(
           widget.tagRender!(
-            item.label,
+            item.label ?? '',
             () {
               if (!widget.disabled) {
                 widget.onItemRemove?.call(value);
@@ -381,7 +459,7 @@ class _SSelectTriggerState<
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text(
-                  item.label,
+                  item.label ?? '',
                   style: const TextStyle(fontSize: 12),
                 ),
                 if (!widget.disabled) ...<Widget>[
@@ -404,52 +482,63 @@ class _SSelectTriggerState<
       final int
           excess =
           widget.values.length - widget.maxTagCount!;
-      children.add(
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-          decoration: BoxDecoration(
-            color: STheme.of(context).colorToken.divider.withOpacity(0.5),
-            borderRadius: BorderRadius.circular(DesignConstants.borderRadiusSmall),
+      final List<T>
+          omittedValues =
+          widget.values.sublist(widget.maxTagCount!);
+
+      if (widget.maxTagPlaceholder !=
+          null) {
+        children.add(widget.maxTagPlaceholder!(omittedValues));
+      } else {
+        children.add(
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+            decoration: BoxDecoration(
+              color: STheme.of(context).colorToken.divider.withOpacity(0.5),
+              borderRadius: BorderRadius.circular(DesignConstants.borderRadiusSmall),
+            ),
+            child: Text(
+              '+$excess ...',
+              style: const TextStyle(fontSize: 12),
+            ),
           ),
-          child: Text(
-            '+$excess ...',
-            style: const TextStyle(fontSize: 12),
-          ),
-        ),
-      );
+        );
+      }
     }
 
-    // Add search input at the end
     if (widget.showSearch &&
         !widget.disabled) {
       children.add(
         ConstrainedBox(
           constraints: const BoxConstraints(minWidth: 4),
           child: IntrinsicWidth(
-            child: TextField(
-              controller: _searchController,
-              focusNode: widget.focusNode,
-              style: textStyle,
-              cursorColor: STheme.of(context).colorToken.primary,
-              onChanged: widget.onSearch,
-              onTap: widget.onInputTap,
-              decoration: const InputDecoration(
-                isDense: true,
-                contentPadding: EdgeInsets.zero,
-                border: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                errorBorder: InputBorder.none,
-                disabledBorder: InputBorder.none,
+            child: KeyboardListener(
+              focusNode: _keyboardFocusNode,
+              onKeyEvent: _handleKeyPress,
+              child: TextField(
+                controller: _searchController,
+                focusNode: widget.focusNode,
+                style: textStyle,
+                cursorColor: STheme.of(context).colorToken.primary,
+                onChanged: widget.onSearch,
+                onTap: widget.onInputTap,
+                decoration: const InputDecoration(
+                  isDense: true,
+                  contentPadding: EdgeInsets.zero,
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                ),
+                minLines: 1,
               ),
-              minLines: 1,
             ),
           ),
         ),
       );
     }
 
-    // If no values and no search (or search empty/not focused), show placeholder
     if (widget.values.isEmpty &&
         (!widget.showSearch || (widget.searchValue?.isEmpty ?? true) && !(widget.focusNode?.hasFocus ?? false))) {
       return Text(
@@ -500,8 +589,16 @@ class _SSelectTriggerState<
       );
     }
 
-    if (widget
-        .showSearch) {
+    if (widget.suffixIcon !=
+        null) {
+      return widget.suffixIcon!;
+    }
+
+    final bool
+        isFocused =
+        widget.focusNode?.hasFocus ?? false;
+    if (widget.showSearch &&
+        isFocused) {
       return Icon(
         Icons.search,
         size: 16,
@@ -509,11 +606,12 @@ class _SSelectTriggerState<
       );
     }
 
-    return widget.suffixIcon ??
-        Icon(
-          Icons.keyboard_arrow_down,
-          size: 16,
-          color: theme.colorToken.textSecondary.withOpacity(0.5),
-        );
+    return Icon(
+      Icons.keyboard_arrow_down,
+      size:
+          16,
+      color:
+          theme.colorToken.textSecondary.withOpacity(0.5),
+    );
   }
 }

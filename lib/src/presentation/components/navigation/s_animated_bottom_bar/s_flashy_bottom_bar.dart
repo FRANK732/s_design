@@ -6,8 +6,7 @@ import 's_animated_bottom_bar_item.dart';
 class SFlashyBottomBar
     extends StatelessWidget {
   const SFlashyBottomBar({
-    Key?
-        key,
+    super.key,
     required this.items,
     this.backgroundColor,
     this.currentIndex =
@@ -29,7 +28,7 @@ class SFlashyBottomBar
         Curves.fastOutSlowIn,
     this.iconSize =
         24.0,
-  }) : super(key: key);
+  });
 
   /// The background color of the bar.
   final Color?
@@ -64,7 +63,8 @@ class SFlashyBottomBar
       items;
 
   /// Callback when a tab is tapped.
-  final Function(int)?
+  final void
+          Function(int)?
       onTap;
 
   /// The opacity of color of the touchable background when the item is selected.
@@ -83,7 +83,8 @@ class SFlashyBottomBar
   Widget build(
       BuildContext
           context) {
-    final theme =
+    final ThemeData
+        theme =
         Theme.of(context);
 
     return ColoredBox(
@@ -94,26 +95,25 @@ class SFlashyBottomBar
         minimum: margin,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            for (final item in items)
+          children: <Widget>[
+            for (final SAnimatedBottomBarItem item in items)
               TweenAnimationBuilder<double>(
-                tween: Tween(
+                tween: Tween<double>(
                   end: items.indexOf(item) == currentIndex ? 1.0 : 0.0,
                 ),
                 curve: curve,
                 duration: duration,
-                builder: (context, t, _) {
-                  final _selectedColor = item.selectedColor ?? selectedItemColor ?? theme.primaryColor;
+                builder: (BuildContext context, double t, _) {
+                  final Color selectedColor = item.selectedColor ?? selectedItemColor ?? theme.primaryColor;
 
-                  final _unselectedColor = item.unselectedColor ?? unselectedItemColor ?? theme.iconTheme.color;
+                  final Color? unselectedColor = item.unselectedColor ?? unselectedItemColor ?? theme.iconTheme.color;
 
                   return GestureDetector(
                     onTap: () => onTap?.call(items.indexOf(item)),
                     behavior: HitTestBehavior.opaque,
                     child: Stack(
                       alignment: Alignment.center,
-                      children: [
-                        // Flashy background bubble
+                      children: <Widget>[
                         Opacity(
                           opacity: t * (selectedColorOpacity ?? 0.1),
                           child: Transform.scale(
@@ -122,7 +122,7 @@ class SFlashyBottomBar
                               height: iconSize * 2,
                               width: iconSize * 2,
                               decoration: BoxDecoration(
-                                color: _selectedColor,
+                                color: selectedColor,
                                 shape: BoxShape.circle,
                               ),
                             ),
@@ -134,12 +134,12 @@ class SFlashyBottomBar
                           padding: itemPadding,
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
-                            children: [
+                            children: <Widget>[
                               Transform.translate(
                                 offset: Offset(0, -5 * t),
                                 child: IconTheme(
                                   data: IconThemeData(
-                                    color: Color.lerp(_unselectedColor, _selectedColor, t),
+                                    color: Color.lerp(unselectedColor, selectedColor, t),
                                     size: iconSize,
                                   ),
                                   child: items.indexOf(item) == currentIndex ? item.activeIcon ?? item.icon : item.icon,
@@ -156,7 +156,7 @@ class SFlashyBottomBar
                                       offset: Offset(0, 10 * (1 - t)),
                                       child: DefaultTextStyle(
                                         style: TextStyle(
-                                          color: Color.lerp(_selectedColor.withOpacity(0.0), _selectedColor, t),
+                                          color: Color.lerp(selectedColor.withOpacity(0.0), selectedColor, t),
                                           fontWeight: FontWeight.w600,
                                           fontSize: 12,
                                         ),

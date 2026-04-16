@@ -20,7 +20,7 @@ class SSelectUtils {
       return items;
     }
     return items
-        .where((SSelectItem<T> item) => item.label.toLowerCase().contains(query.toLowerCase()))
+        .where((SSelectItem<T> item) => item.label?.toLowerCase().contains(query.toLowerCase()) ?? false)
         .toList();
   }
 

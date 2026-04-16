@@ -118,12 +118,17 @@ SRate(
 )''',
         ),
         ComponentSection(
-          title: 'Custom Emojis',
+          title: 'Custom Emojis with tooltips',
           description: 'Use `characterBuilder` to render different emojis for each rating level.',
           demo: SRate(
-            count: 5,
-            allowHalf: false,
             colorCharacters: false,
+            tooltips: const [
+              'Sad',
+              'Neutral',
+              'Happy',
+              'Very Happy',
+              'Love',
+            ],
             characterBuilder: (context, index) {
               const icons = [
                 '😠',

@@ -34,7 +34,7 @@ class STabView
   final ScrollPhysics?
       physics;
 
-  /// {@macro flutter.widgets.scrollable.dragStartBehavior}
+  /// Determines the way that drag start behavior is handled.
   final DragStartBehavior
       dragStartBehavior;
 

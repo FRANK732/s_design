@@ -706,7 +706,7 @@ class SScaffold
 
   /// The custom shimmer widget to display during loading with shimmer loader type.
   /// Deprecated: Use [loadingConfig] instead.
-  /// Only used when [loadingIndicator]'s [loaderType] is [SLoaderType.shimmer].
+  /// Only used when [loadingIndicator]'s [SLoadingIndicator.loaderType] is [SLoaderType.shimmer].
   /// If [loadingConfig] is not provided, this is used to construct a [LoadingConfig] internally.
   @Deprecated(
       'Use loadingConfig instead')

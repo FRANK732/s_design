@@ -23,7 +23,9 @@ class SButtonStyleHelper {
       return Colors.transparent;
     }
 
-    final Color disabledBg = colorScheme?.onSurface.withOpacity(0.12) ?? Colors.transparent;
+    final Color
+        disabledBg =
+        colorScheme?.onSurface.withOpacity(0.12) ?? Colors.transparent;
 
     switch (
         variant) {
@@ -54,7 +56,9 @@ class SButtonStyleHelper {
     ColorScheme?
         colorScheme,
   }) {
-    final Color disabledFg = colorScheme?.onSurface.withOpacity(0.38) ?? Colors.transparent;
+    final Color
+        disabledFg =
+        colorScheme?.onSurface.withOpacity(0.38) ?? Colors.transparent;
 
     if (_isOutlineVariant(
         variant)) {
@@ -98,7 +102,9 @@ class SButtonStyleHelper {
     ColorScheme?
         colorScheme,
   }) {
-    final Color disabledBorder = colorScheme?.onSurface.withOpacity(0.12) ?? Colors.transparent;
+    final Color
+        disabledBorder =
+        colorScheme?.onSurface.withOpacity(0.12) ?? Colors.transparent;
 
     if (_isOutlineVariant(
         variant)) {

@@ -143,7 +143,7 @@ class _SSelectMenuState<
           _filteredItems = widget.items;
         } else {
           _filteredItems = widget.items.where((SSelectItem<T> item) {
-            return item.label.toLowerCase().contains(lowerQuery);
+            return item.label?.toLowerCase().contains(lowerQuery) ?? false;
           }).toList();
         }
       });
@@ -166,11 +166,12 @@ class _SSelectMenuState<
       if (currentValues.contains(item.value)) {
         currentValues.remove(item.value);
       } else {
-        currentValues.add(item.value);
+        currentValues.add(item.value as T);
       }
       widget.onMultiSelect?.call(currentValues);
     } else {
-      widget.onSingleSelect?.call(item.value);
+      widget.onSingleSelect?.call(item.value
+          as T);
     }
   }
 
@@ -217,7 +218,7 @@ class _SSelectMenuState<
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    item.label,
+                    item.label ?? '',
                     style: sTheme.typographyToken.bodyMedium.copyWith(
                       color: item.disabled ? disabledColor : sTheme.colorToken.textPrimary,
                       fontWeight: isSelected ? FontWeight.w600 : null,

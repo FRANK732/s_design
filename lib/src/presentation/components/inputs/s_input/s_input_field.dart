@@ -13,7 +13,7 @@ part 's_input_field_state.dart';
 
 class SInputField
     extends StatefulWidget {
-  /// Main constructor (use the factories below for specialized input “types”).
+  /// Main constructor (use the factories below for specialized input "types").
   const SInputField({
     super.key,
     this.inputType =
@@ -853,7 +853,7 @@ class SInputField
     );
   }
 
-  /// High-level “type” of this field (e.g., password, email, etc.).
+  /// High-level "type" of this field (e.g., password, email, etc.).
   final SInputFieldType
       inputType;
 
@@ -882,11 +882,11 @@ class SInputField
       obscureText;
 
   /// The keyboard type (text, number, etc.).
-  /// If null, it’s inferred from [inputType].
+  /// If null, it's inferred from [inputType].
   final TextInputType?
       keyboardType;
 
-  /// Defines the action button (e.g., “search”, “done”).
+  /// Defines the action button (e.g., "search", "done").
   final TextInputAction?
       textInputAction;
 
@@ -898,7 +898,7 @@ class SInputField
   final ValueChanged<String>?
       onChanged;
 
-  /// Called when the user indicates submission (keyboard “enter”).
+  /// Called when the user indicates submission (keyboard "enter").
   final ValueChanged<String>?
       onFieldSubmitted;
 
@@ -938,7 +938,7 @@ class SInputField
   final String?
       hintText;
 
-  /// Provides custom decoration, if you’d like to override all defaults.
+  /// Provides custom decoration, if you'd like to override all defaults.
   final InputDecoration?
       decoration;
 
@@ -990,7 +990,7 @@ class SInputField
   final TextDirection?
       textDirection;
 
-  /// Called when the user taps the “done” button.
+  /// Called when the user taps the "done" button.
   final VoidCallback?
       onEditingComplete;
 

@@ -27,8 +27,8 @@ class SSonner {
   /// Initializes the [SSonner] with the [OverlayState].
   /// This must be called before showing any toasts.
   // ignore: use_setters_to_change_properties
-  static void
-      initialize(OverlayState overlayState) {
+  static Future<void>
+      initialize(OverlayState overlayState) async {
     _instance._overlayState =
         overlayState;
   }
@@ -171,7 +171,7 @@ class SSonner {
         List<SSonnerConfig>.from(_toastsNotifier.value);
 
     if (replace) {
-      for (final t
+      for (final SSonnerConfig t
           in currentToasts) {
         t.onDismiss?.call();
       }
@@ -290,7 +290,6 @@ class _SonnerOverlay
               if (centerToasts.isNotEmpty)
                 Positioned.fill(
                   child: Align(
-                    alignment: Alignment.center,
                     child: _ToastStack(
                       toasts: centerToasts,
                       isTop: false,

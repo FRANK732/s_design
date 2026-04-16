@@ -66,36 +66,53 @@ class SAlert
     extends StatefulWidget {
   const SAlert({
     super.key,
-    this.type =
-        SAlertType.info,
+    /// Semantic type of the alert (success, info, warning, error).
+    this.type = SAlertType.info,
+    /// Primary message. Rendered in bold in the upper region.
     this.title,
+    /// Secondary supporting detail text or widget.
     this.description,
-    this.showIcon =
-        false,
+    /// Whether to show the type icon. In [banner] mode defaults to `true`.
+    this.showIcon = false,
+    /// Custom icon widget. Used only when [showIcon] is `true`.
     this.icon,
-    this.closable =
-        false,
+    /// Whether the alert can be closed by the user.
+    this.closable = false,
+    /// Custom close button widget. Defaults to an `x` icon.
     this.closeIcon,
+    /// Called when the close button is tapped.
     this.onClose,
+    /// Called after the collapse animation completes.
     this.afterClose,
+    /// Optional action widget rendered in the trailing area (right side).
     this.action,
-    this.banner =
-        false,
-
+    /// If `true`, renders as a full-width banner.
+    this.banner = false,
+    /// Override background color.
     this.backgroundColor,
+    /// Override border color.
     this.borderColor,
+    /// Override border width. Defaults to `1`.
     this.borderWidth,
+    /// Override corner border radius. Has no effect in [banner] mode.
     this.borderRadius,
+    /// Override inner padding.
     this.padding,
+    /// Override icon color.
     this.iconColor,
+    /// Override icon size.
     this.iconSize,
+    /// Override title text style.
     this.titleStyle,
+    /// Override description text style.
     this.descriptionStyle,
+    /// Elevation of the alert shadow.
     this.elevation,
+    /// Color of the shadow when [elevation] > 0.
     this.shadowColor,
+    /// Size constraints applied to the alert widget.
     this.constraints,
   });
-
 
   /// Semantic type of the alert.
   final SAlertType
@@ -122,7 +139,7 @@ class SAlert
   final bool
       closable;
 
-  /// Custom close button widget. Defaults to an `×` icon.
+  /// Custom close button widget. Defaults to an `x` icon.
   final Widget?
       closeIcon;
 
@@ -142,7 +159,6 @@ class SAlert
   /// showIcon defaults to `true`).
   final bool
       banner;
-
 
   /// Override background color.
   final Color?
@@ -368,7 +384,6 @@ class _SAlertState
                     ),
               ),
             ],
-
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -382,12 +397,10 @@ class _SAlertState
                 ],
               ),
             ),
-
             if (widget.action != null) ...<Widget>[
               const SizedBox(width: 8),
               widget.action!,
             ],
-
             if (widget.closable) ...<Widget>[
               const SizedBox(width: 8),
               GestureDetector(
@@ -436,7 +449,6 @@ class _SAlertState
     }
   }
 }
-
 
 class _SAlertColors {
   const _SAlertColors({

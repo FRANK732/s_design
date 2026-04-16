@@ -1,4 +1,4 @@
-import '../../../../s_design.dart';
+import '../s_localizations.dart';
 
 /// French implementation of [SLocalizations].
 class SLocalizationsFr

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// Theme data for [SToast].
+@immutable
 class SToastThemeData
     extends ThemeExtension<
         SToastThemeData> {

@@ -12,7 +12,7 @@ enum SInputVariant {
   subtle,
 }
 
-/// A variety of “types” that approximate HTML input types.
+/// A variety of "types" that approximate HTML input types.
 enum SInputFieldType {
   text,
   password,
