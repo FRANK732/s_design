@@ -13,9 +13,12 @@ class SSelectDropdown<
     this.maxHeight =
         256.0,
     this.emptyContent,
-    this.loading = false,
+    this.loading =
+        false,
     this.dropdownRender,
     this.optionRender,
+    this.highlightedIndex =
+        -1,
   });
 
   final List<SSelectItem<T>>
@@ -30,9 +33,21 @@ class SSelectDropdown<
       maxHeight;
   final Widget?
       emptyContent;
-  final bool loading;
-  final Widget Function(BuildContext context, Widget menu)? dropdownRender;
-  final Widget Function(BuildContext context, SSelectItem<T> option, int index)? optionRender;
+  final bool
+      loading;
+  final Widget Function(
+      BuildContext
+          context,
+      Widget
+          menu)? dropdownRender;
+  final Widget Function(
+      BuildContext
+          context,
+      SSelectItem<T>
+          option,
+      int index)? optionRender;
+  final int
+      highlightedIndex;
 
   @override
   Widget build(
@@ -65,21 +80,41 @@ class SSelectDropdown<
       );
     }
 
-    final List<dynamic> flattenedItems = <dynamic>[];
-    String? currentGroup;
-    for (final SSelectItem<T> item in items) {
-      if (item.groupLabel != currentGroup) {
-        currentGroup = item.groupLabel;
-        if (currentGroup != null && currentGroup.isNotEmpty) {
-          flattenedItems.add(currentGroup);
+    final List<dynamic>
+        flattenedItems =
+        <dynamic>[];
+
+    void flatten(
+        List<SSelectItem<T>> items,
+        {bool isNested = false}) {
+      for (final item
+          in items) {
+        if (item.isGroup) {
+          flattenedItems.add({
+            'type': 'group',
+            'label': item.label
+          });
+          flatten(item.options!, isNested: true);
+        } else {
+          flattenedItems.add({
+            'type': 'item',
+            'item': item,
+            'nested': isNested
+          });
         }
       }
-      flattenedItems.add(item);
     }
 
-    Widget listWidget = Container(
-      constraints: BoxConstraints(maxHeight: maxHeight),
-      decoration: BoxDecoration(
+    flatten(
+        items);
+
+    Widget
+        listWidget =
+        Container(
+      constraints:
+          BoxConstraints(maxHeight: maxHeight),
+      decoration:
+          BoxDecoration(
         color: theme.colorToken.surface,
         borderRadius: BorderRadius.circular(DesignConstants.borderRadiusMedium),
         boxShadow: <BoxShadow>[
@@ -90,42 +125,46 @@ class SSelectDropdown<
           ),
         ],
       ),
-      child: ListView.builder(
+      child:
+          ListView.builder(
         padding: const EdgeInsets.symmetric(vertical: 4),
         shrinkWrap: true,
         itemCount: flattenedItems.length,
-        prototypeItem: const SizedBox(height: 48), // Estimated height for virtual scroll performance
+        prototypeItem: const SizedBox(height: 48),
         itemBuilder: (BuildContext context, int index) {
           final dynamic listItem = flattenedItems[index];
 
-          if (listItem is String) {
+          if (listItem is Map && listItem['type'] == 'group') {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               child: Text(
-                listItem,
+                listItem['label'] as String,
                 style: theme.typographyToken.bodySmall.copyWith(
                   color: theme.colorToken.textSecondary,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 12,
                 ),
               ),
             );
           }
 
-          final SSelectItem<T> item = listItem as SSelectItem<T>;
+          final Map itemMap = listItem as Map;
+          final SSelectItem<T> item = itemMap['item'] as SSelectItem<T>;
+          final bool isNested = itemMap['nested'] as bool;
           final bool isSelected = selectedValues.contains(item.value);
+          final bool isHighlighted = highlightedIndex == index;
 
           return Padding(
-            padding: EdgeInsets.only(left: item.groupLabel != null ? 12.0 : 0.0),
+            padding: EdgeInsets.only(left: isNested ? 12.0 : 0.0),
             child: InkWell(
-              onTap: item.disabled ? null : () => onSelect(item.value),
-              hoverColor: theme.colorToken.primary.withOpacity(0.05), // Subtle hover
-              borderRadius: BorderRadius.circular(DesignConstants.borderRadiusSmall),
+              onTap: item.disabled ? null : () => onSelect(item.value as T),
+              hoverColor: theme.colorToken.primary.withOpacity(0.05),
               child: optionRender != null
                   ? optionRender!(context, item, index)
                   : Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                       decoration: BoxDecoration(
-                        color: isSelected && mode == SSelectMode.single ? theme.colorToken.primary.withOpacity(0.1) : null,
+                        color: (isSelected && mode == SSelectMode.single) || isHighlighted ? theme.colorToken.primary.withOpacity(0.1) : null,
                         borderRadius: BorderRadius.circular(DesignConstants.borderRadiusSmall),
                       ),
                       child: Row(
@@ -135,10 +174,10 @@ class SSelectDropdown<
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  item.label,
+                                  item.label!,
                                   style: theme.typographyToken.bodyMedium.copyWith(
                                     color: item.disabled ? theme.colorToken.textSecondary.withOpacity(0.5) : (isSelected && mode == SSelectMode.single ? theme.colorToken.primary : theme.colorToken.textPrimary),
-                                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                                    fontWeight: isSelected || isHighlighted ? FontWeight.w600 : FontWeight.normal,
                                   ),
                                 ),
                                 if (item.subtitle != null)
@@ -166,8 +205,10 @@ class SSelectDropdown<
       ),
     );
 
-    if (dropdownRender != null) {
-      return dropdownRender!(context, listWidget);
+    if (dropdownRender !=
+        null) {
+      return dropdownRender!(context,
+          listWidget);
     }
     return listWidget;
   }

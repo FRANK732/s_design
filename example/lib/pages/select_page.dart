@@ -212,7 +212,7 @@ SSelect<String>(
                   children: [
                     const Icon(Icons.person, size: 16, color: Colors.blue),
                     const SizedBox(width: 8),
-                    Text(option.label, style: const TextStyle(fontWeight: FontWeight.bold)),
+                    Text(option.label ?? '', style: const TextStyle(fontWeight: FontWeight.bold)),
                   ],
                 ),
               );
@@ -274,6 +274,50 @@ SSelect<String>(
     color: Colors.orange,
     child: Text(label),
   ),
+);''',
+        ),
+        ComponentSection(
+          title: 'Option Group',
+          description: 'Use hierarchical `options` to group items.',
+          demo: SSelect<String>(
+            items: [
+              SSelectItem(
+                label: 'Manager',
+                options: [
+                  SSelectItem(value: 'jack', label: 'Jack'),
+                  SSelectItem(value: 'lucy', label: 'Lucy'),
+                ],
+              ),
+              SSelectItem(
+                label: 'Engineer',
+                options: [
+                  SSelectItem(value: 'chloe', label: 'Chloe'),
+                  SSelectItem(value: 'lucas', label: 'Lucas'),
+                ],
+              ),
+            ],
+            placeholder: 'Select a person',
+            onChanged: (v) => setState(() => _single = v as String?),
+          ),
+          code: '''
+SSelect<String>(
+  items: [
+    SSelectItem(
+      label: 'Manager',
+      options: [
+        SSelectItem(value: 'jack', label: 'Jack'),
+        SSelectItem(value: 'lucy', label: 'Lucy'),
+      ],
+    ),
+    SSelectItem(
+      label: 'Engineer',
+      options: [
+        SSelectItem(value: 'chloe', label: 'Chloe'),
+        SSelectItem(value: 'lucas', label: 'Lucas'),
+      ],
+    ),
+  ],
+  onChanged: (v) => print(v),
 );''',
         ),
       ],

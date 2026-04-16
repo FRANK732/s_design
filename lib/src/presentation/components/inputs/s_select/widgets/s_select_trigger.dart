@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../../../../s_design.dart';
 import '../s_select_style_helper.dart';
@@ -37,6 +38,7 @@ class SSelectTrigger<
     this.onItemRemove,
     this.onInputTap,
     this.tagRender,
+    this.maxTagPlaceholder,
   });
 
   final List<T>
@@ -86,6 +88,9 @@ class SSelectTrigger<
           label,
       VoidCallback
           onClose)? tagRender;
+  final Widget
+          Function(List<T> omittedValues)?
+      maxTagPlaceholder;
 
   @override
   State<
@@ -111,10 +116,13 @@ class _SSelectTriggerState<
         .initState();
     _searchController =
         TextEditingController(text: widget.searchValue);
-    widget.focusNode?.addListener(_onFocusChange);
+    widget
+        .focusNode
+        ?.addListener(_onFocusChange);
   }
 
-  void _onFocusChange() {
+  void
+      _onFocusChange() {
     if (mounted) {
       setState(() {});
     }
@@ -126,7 +134,8 @@ class _SSelectTriggerState<
           oldWidget) {
     super.didUpdateWidget(
         oldWidget);
-    if (widget.focusNode != oldWidget.focusNode) {
+    if (widget.focusNode !=
+        oldWidget.focusNode) {
       oldWidget.focusNode?.removeListener(_onFocusChange);
       widget.focusNode?.addListener(_onFocusChange);
     }
@@ -140,7 +149,9 @@ class _SSelectTriggerState<
   @override
   void
       dispose() {
-    widget.focusNode?.removeListener(_onFocusChange);
+    widget
+        .focusNode
+        ?.removeListener(_onFocusChange);
     _searchController
         .dispose();
     super
@@ -278,11 +289,6 @@ class _SSelectTriggerState<
 
     if (widget.showSearch &&
         (widget.focusNode?.hasFocus ?? false)) {
-      // For single select, when searching, we show the input.
-      // Ideally, the selected value should be hidden or shown as placeholder if the search is empty.
-      // Behavior: If search is empty, show selected value? Or just show input?
-      // The selected value is hidden while searching, but if search is empty, the placeholder is the selected value label (opacity reduced).
-      // For simplicity: Just show the input.
       return _buildSearchInput(textStyle);
     }
 
@@ -297,7 +303,8 @@ class _SSelectTriggerState<
     );
 
     return Text(
-      selectedItem.label,
+      selectedItem.label ??
+          '',
       style:
           textStyle,
       overflow:
@@ -312,15 +319,21 @@ class _SSelectTriggerState<
         sTheme =
         STheme.of(context);
 
-    String? hint;
-    if (widget.mode == SSelectMode.single && widget.values.isNotEmpty) {
-      final SSelectItem<T> item = widget.items.firstWhere(
+    String?
+        hint;
+    if (widget.mode == SSelectMode.single &&
+        widget.values.isNotEmpty) {
+      final SSelectItem<T>
+          item =
+          widget.items.firstWhere(
         (i) => i.value == widget.values.first,
         orElse: () => SSelectItem<T>(value: widget.values.first, label: widget.values.first.toString()),
       );
-      hint = item.label;
+      hint =
+          item.label;
     } else {
-      hint = widget.placeholder;
+      hint =
+          widget.placeholder;
     }
 
     return TextField(
@@ -334,7 +347,14 @@ class _SSelectTriggerState<
           sTheme.colorToken.primary,
       onChanged:
           widget.onSearch,
-      decoration: InputDecoration(
+      onAppPrivateCommand:
+          (command, args) {},
+      onSubmitted:
+          (_) {},
+      onTap:
+          widget.onInputTap,
+      decoration:
+          InputDecoration(
         isDense: true,
         contentPadding: EdgeInsets.zero,
         border: InputBorder.none,
@@ -348,6 +368,18 @@ class _SSelectTriggerState<
     );
   }
 
+  void _handleKeyPress(
+      KeyEvent
+          event) {
+    if (event is KeyDownEvent &&
+        event.logicalKey == LogicalKeyboardKey.backspace &&
+        _searchController.text.isEmpty &&
+        widget.values.isNotEmpty &&
+        (widget.mode == SSelectMode.multiple || widget.mode == SSelectMode.tags)) {
+      widget.onItemRemove?.call(widget.values.last);
+    }
+  }
+
   Widget _buildWrap(
       TextStyle
           textStyle) {
@@ -355,7 +387,6 @@ class _SSelectTriggerState<
         children =
         <Widget>[];
 
-    // Add selected items
     int renderCount = widget
         .values
         .length;
@@ -387,7 +418,7 @@ class _SSelectTriggerState<
           null) {
         children.add(
           widget.tagRender!(
-            item.label,
+            item.label ?? '',
             () {
               if (!widget.disabled) {
                 widget.onItemRemove?.call(value);
@@ -407,7 +438,7 @@ class _SSelectTriggerState<
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text(
-                  item.label,
+                  item.label ?? '',
                   style: const TextStyle(fontSize: 12),
                 ),
                 if (!widget.disabled) ...<Widget>[
@@ -430,52 +461,63 @@ class _SSelectTriggerState<
       final int
           excess =
           widget.values.length - widget.maxTagCount!;
-      children.add(
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-          decoration: BoxDecoration(
-            color: STheme.of(context).colorToken.divider.withOpacity(0.5),
-            borderRadius: BorderRadius.circular(DesignConstants.borderRadiusSmall),
+      final List<T>
+          omittedValues =
+          widget.values.sublist(widget.maxTagCount!);
+
+      if (widget.maxTagPlaceholder !=
+          null) {
+        children.add(widget.maxTagPlaceholder!(omittedValues));
+      } else {
+        children.add(
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+            decoration: BoxDecoration(
+              color: STheme.of(context).colorToken.divider.withOpacity(0.5),
+              borderRadius: BorderRadius.circular(DesignConstants.borderRadiusSmall),
+            ),
+            child: Text(
+              '+$excess ...',
+              style: const TextStyle(fontSize: 12),
+            ),
           ),
-          child: Text(
-            '+$excess ...',
-            style: const TextStyle(fontSize: 12),
-          ),
-        ),
-      );
+        );
+      }
     }
 
-    // Add search input at the end
     if (widget.showSearch &&
         !widget.disabled) {
       children.add(
         ConstrainedBox(
           constraints: const BoxConstraints(minWidth: 4),
           child: IntrinsicWidth(
-            child: TextField(
-              controller: _searchController,
-              focusNode: widget.focusNode,
-              style: textStyle,
-              cursorColor: STheme.of(context).colorToken.primary,
-              onChanged: widget.onSearch,
-              onTap: widget.onInputTap,
-              decoration: const InputDecoration(
-                isDense: true,
-                contentPadding: EdgeInsets.zero,
-                border: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                errorBorder: InputBorder.none,
-                disabledBorder: InputBorder.none,
+            child: KeyboardListener(
+              focusNode: FocusNode(),
+              onKeyEvent: _handleKeyPress,
+              child: TextField(
+                controller: _searchController,
+                focusNode: widget.focusNode,
+                style: textStyle,
+                cursorColor: STheme.of(context).colorToken.primary,
+                onChanged: widget.onSearch,
+                onTap: widget.onInputTap,
+                decoration: const InputDecoration(
+                  isDense: true,
+                  contentPadding: EdgeInsets.zero,
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                ),
+                minLines: 1,
               ),
-              minLines: 1,
             ),
           ),
         ),
       );
     }
 
-    // If no values and no search (or search empty/not focused), show placeholder
     if (widget.values.isEmpty &&
         (!widget.showSearch || (widget.searchValue?.isEmpty ?? true) && !(widget.focusNode?.hasFocus ?? false))) {
       return Text(
