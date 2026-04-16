@@ -18,48 +18,69 @@ class SInput
     extends StatefulWidget {
   const SInput({
     super.key,
+    /// Controller for the text field.
     this.controller,
+    /// Initial value if no controller is provided.
     this.initialValue,
+    /// Focus node for the text field.
     this.focusNode,
+    /// Type of keyboard to display.
     this.keyboardType,
+    /// Action button on the keyboard.
     this.textInputAction,
-    this.textCapitalization =
-        TextCapitalization.none,
+    /// Text capitalization strategy.
+    this.textCapitalization = TextCapitalization.none,
+    /// Style for the input text.
     this.style,
-    this.textAlign =
-        TextAlign.start,
-    this.readOnly =
-        false,
-    this.enabled =
-        true,
-    this.autofocus =
-        false,
-    this.obscureText =
-        false,
-    this.autocorrect =
-        true,
-    this.maxLines =
-        1,
+    /// Horizontal alignment of the text.
+    this.textAlign = TextAlign.start,
+    /// Whether the field is read-only.
+    this.readOnly = false,
+    /// Whether the field is interactive.
+    this.enabled = true,
+    /// Whether to automatically gain focus.
+    this.autofocus = false,
+    /// Whether to hide the text (for passwords).
+    this.obscureText = false,
+    /// Whether to enable autocorrect.
+    this.autocorrect = true,
+    /// Maximum number of lines (null for auto-expanding).
+    this.maxLines = 1,
+    /// Minimum number of lines.
     this.minLines,
+    /// Maximum number of characters allowed.
     this.maxLength,
+    /// Callback when text changes.
     this.onChanged,
+    /// Callback when the field is tapped.
     this.onTap,
+    /// Callback when editing is complete.
     this.onEditingComplete,
+    /// Callback when the text is submitted.
     this.onSubmitted,
+    /// List of formatters for the input text.
     this.inputFormatters,
+    /// Placeholder text shown when empty.
     this.placeholder,
-    this.size =
-        SInputSize.middle,
+    /// Size variant (small, middle, large).
+    this.size = SInputSize.middle,
+    /// Validation status (error, warning).
     this.status,
+    /// Widget to display at the start of the field.
     this.prefix,
+    /// Widget to display at the end of the field.
     this.suffix,
+    /// Widget to display before the input box.
     this.addonBefore,
+    /// Widget to display after the input box.
     this.addonAfter,
-    this.allowClear =
-        false,
-    this.showCount =
-        false,
+    /// Whether to show a clear button.
+    this.allowClear = false,
+    /// Whether to show the character count.
+    this.showCount = false,
+    /// Custom builder for the character count.
     this.countBuilder,
+    /// Custom border radius.
     this.borderRadius,
   });
 

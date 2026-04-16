@@ -66,32 +66,51 @@ class SAlert
     extends StatefulWidget {
   const SAlert({
     super.key,
-    this.type =
-        SAlertType.info,
+    /// Semantic type of the alert (success, info, warning, error).
+    this.type = SAlertType.info,
+    /// Primary message. Rendered in bold in the upper region.
     this.title,
+    /// Secondary supporting detail text or widget.
     this.description,
-    this.showIcon =
-        false,
+    /// Whether to show the type icon. In [banner] mode defaults to `true`.
+    this.showIcon = false,
+    /// Custom icon widget. Used only when [showIcon] is `true`.
     this.icon,
-    this.closable =
-        false,
+    /// Whether the alert can be closed by the user.
+    this.closable = false,
+    /// Custom close button widget. Defaults to an `×` icon.
     this.closeIcon,
+    /// Called when the close button is tapped.
     this.onClose,
+    /// Called after the collapse animation completes.
     this.afterClose,
+    /// Optional action widget rendered in the trailing area (right side).
     this.action,
-    this.banner =
-        false,
+    /// If `true`, renders as a full-width banner.
+    this.banner = false,
+    /// Override background color.
     this.backgroundColor,
+    /// Override border color.
     this.borderColor,
+    /// Override border width. Defaults to `1`.
     this.borderWidth,
+    /// Override corner border radius. Has no effect in [banner] mode.
     this.borderRadius,
+    /// Override inner padding.
     this.padding,
+    /// Override icon color.
     this.iconColor,
+    /// Override icon size.
     this.iconSize,
+    /// Override title text style.
     this.titleStyle,
+    /// Override description text style.
     this.descriptionStyle,
+    /// Elevation of the alert shadow.
     this.elevation,
+    /// Color of the shadow when [elevation] > 0.
     this.shadowColor,
+    /// Size constraints applied to the alert widget.
     this.constraints,
   });
 

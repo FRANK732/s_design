@@ -171,9 +171,9 @@ class SPagination
       align;
 
   /// Custom item renderer.
-  /// [page] is the page number (null for prev/next/ellipsis),
-  /// [type] is [SPaginationItemType].
-  /// [defaultWidget] is the default widget — return it for default rendering.
+  /// `page` is the page number (null for prev/next/ellipsis),
+  /// `type` is [SPaginationItemType].
+  /// `defaultWidget` is the default widget — return it for default rendering.
   final Widget Function(
       int?
           page,

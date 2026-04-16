@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-/// A function that returns a [Widget Function(BuildContext, Widget?)],
-/// used for the [builder] property of your app.
-/// Pass in any [OverlayEntry] they want to show above [child].
+/// A function that returns a builder function for the app.
+/// This is typically used for the builder property of a [MaterialApp].
+/// Pass in any [OverlayEntry] to show widgets above the main app child.
 Widget Function(
     BuildContext,
     Widget?) sOverlayBuilder({
