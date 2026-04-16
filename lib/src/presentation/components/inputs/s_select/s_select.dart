@@ -492,8 +492,7 @@ class _SSelectState<
 
     Overlay.of(context)
         .insert(_overlayEntry!);
-    setState(
-        () {
+    setState(() {
       _isOpen =
           true;
       _highlightedIndex =
@@ -504,8 +503,13 @@ class _SSelectState<
     widget
         .onOpenChange
         ?.call(true);
-    _focusNode
-        .requestFocus();
+    // Defer requestFocus to the next frame so the TextField is
+    // mounted before the browser <input> element receives focus.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && _isOpen) {
+        _focusNode.requestFocus();
+      }
+    });
   }
 
   Future<void>
