@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../s_design.dart';
@@ -317,10 +318,21 @@ class _STriggerState
         target =
         widget.child;
 
-    // Use a combined Listener for click/contextMenu to ensure we see the events
-    // even if children (like SButton) are interactive.
-    if (widget.action.contains(STriggerAction.click) ||
-        widget.action.contains(STriggerAction.contextMenu)) {
+    // Use a combined Listener for click/contextMenu/hover-touch-fallback to
+    // ensure we see the events even if children are interactive.
+    final bool
+        hasHover =
+        widget.action.contains(STriggerAction.hover);
+    final bool
+        hasClick =
+        widget.action.contains(STriggerAction.click);
+    final bool
+        hasContextMenu =
+        widget.action.contains(STriggerAction.contextMenu);
+
+    if (hasClick ||
+        hasHover ||
+        hasContextMenu) {
       target =
           Listener(
         behavior: HitTestBehavior.translucent,
@@ -329,12 +341,15 @@ class _STriggerState
             return;
           }
 
-          final bool isLeftClick = event.buttons == 1; // kPrimaryButton
-          final bool isRightClick = event.buttons == 2; // kSecondaryButton
+          final bool isTouch = event.kind == PointerDeviceKind.touch || event.kind == PointerDeviceKind.stylus;
+          final bool isLeftClick = event.buttons == 1;
+          final bool isRightClick = event.buttons == 2;
 
-          if (isLeftClick && widget.action.contains(STriggerAction.click)) {
+          if (isTouch && hasHover && !hasClick) {
             _onClick();
-          } else if (isRightClick && widget.action.contains(STriggerAction.contextMenu)) {
+          } else if (isLeftClick && hasClick) {
+            _onClick();
+          } else if (isRightClick && hasContextMenu) {
             _onContextMenu();
           }
         },
@@ -353,7 +368,6 @@ class _STriggerState
       );
     }
 
-    // Still use GestureDetector specifically for LongPress (mobile context menu)
     if (widget
         .action
         .contains(STriggerAction.contextMenu)) {

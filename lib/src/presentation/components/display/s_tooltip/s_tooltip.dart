@@ -363,11 +363,16 @@ class _STooltipState
         STooltipTrigger
             .hover) {
       result =
-          MouseRegion(
-        cursor: widget.mouseCursor,
-        onEnter: (_) => _handleHover(true),
-        onExit: (_) => _handleHover(false),
-        child: result,
+          GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onLongPress: _showTooltip,
+        onLongPressEnd: (_) => _hideTooltip(),
+        child: MouseRegion(
+          cursor: widget.mouseCursor,
+          onEnter: (_) => _handleHover(true),
+          onExit: (_) => _handleHover(false),
+          child: result,
+        ),
       );
     } else if (widget.trigger ==
         STooltipTrigger
