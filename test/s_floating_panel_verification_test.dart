@@ -34,7 +34,7 @@ void
       animationDuration:
           const Duration(milliseconds: 100),
       config:
-          SFloatingPanelConfig(
+          const SFloatingPanelConfig(
         content: Material(
           // Ensuring content itself is fine to verify wrapper
           child: Column(
@@ -92,10 +92,9 @@ void
       animationDuration:
           const Duration(milliseconds: 100),
       config:
-          SFloatingPanelConfig(
+          const SFloatingPanelConfig(
         content: Material(
           child: TextField(
-            // NO Material wrapper here
             key: Key('test_field'),
             decoration: InputDecoration(
               labelText: 'Username',

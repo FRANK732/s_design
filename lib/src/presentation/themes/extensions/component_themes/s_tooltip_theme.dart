@@ -116,8 +116,9 @@ class STooltipThemeData
       double
           t) {
     if (other
-        is! STooltipThemeData)
+        is! STooltipThemeData) {
       return this;
+    }
     return STooltipThemeData(
       backgroundColor: Color.lerp(
           backgroundColor,
@@ -162,11 +163,13 @@ class STooltipThemeData
           other) {
     if (identical(
         this,
-        other))
+        other)) {
       return true;
+    }
     if (other.runtimeType !=
-        runtimeType)
+        runtimeType) {
       return false;
+    }
     return other is STooltipThemeData &&
         other.backgroundColor == backgroundColor &&
         other.textColor == textColor &&
@@ -208,10 +211,6 @@ extension STooltipThemeExtension
         textColor: colorScheme.onInverseSurface,
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
         borderRadius: BorderRadius.circular(4),
-        showArrow: true,
-        arrowSize: 6.0,
-        elevation: 2.0,
-        animationDuration: const Duration(milliseconds: 200),
         shadowColor: Colors.black26,
         textStyle: textTheme.bodySmall?.copyWith(fontSize: 12),
       );

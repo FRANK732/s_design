@@ -289,7 +289,7 @@ class _SSwitchState
                                 : (widget.thumbIcon != null
                                     ? Padding(
                                         padding: const EdgeInsets.all(2.0),
-                                        child: FittedBox(child: widget.thumbIcon!),
+                                        child: FittedBox(child: widget.thumbIcon),
                                       )
                                     : null),
                           ),

@@ -197,7 +197,6 @@ class _SFloatingPanelRoute
         page =
         _SFloatingPanelContent(config: config, theme: theme);
 
-    // Handle high-performance Blur
     if ((config.backdropBlur ?? 0) >
         0) {
       page =
@@ -215,7 +214,6 @@ class _SFloatingPanelRoute
           true,
       explicitChildNodes:
           true,
-      // Wrap in a Scaffold-like clear zone.
       child:
           SafeArea(
         bottom: false,
@@ -281,7 +279,6 @@ class _SFloatingPanelContentState
   void _onVerticalDragUpdate(
       DragUpdateDetails
           details) {
-    // Only allow dragging downwards.
     if (details.delta.dy >
         0) {
       setState(() {
@@ -289,7 +286,6 @@ class _SFloatingPanelContentState
       });
     } else if (details.delta.dy < 0 &&
         _dragOffset > 0) {
-      // Pull back up, but not past the origin.
       setState(() {
         _dragOffset += details.delta.dy;
         if (_dragOffset < 0) {
@@ -302,12 +298,10 @@ class _SFloatingPanelContentState
   void _onVerticalDragEnd(
       DragEndDetails
           details) {
-    // If dragged past 100px OR flicked down rapidly (velocity > 300), pop.
     if (_dragOffset > 100 ||
         (details.primaryVelocity ?? 0) > 300) {
       Navigator.of(context).pop();
     } else {
-      // Snap it back to origin safely.
       setState(() {
         _dragOffset = 0.0;
       });
@@ -330,7 +324,6 @@ class _SFloatingPanelContentState
           GestureDetector(
         onVerticalDragUpdate: widget.config.isDismissable ? _onVerticalDragUpdate : null,
         onVerticalDragEnd: widget.config.isDismissable ? _onVerticalDragEnd : null,
-        // Block taps from bubbling into empty space so you can drag from anywhere inside
         behavior: HitTestBehavior.deferToChild,
         child: Align(
           alignment: Alignment.bottomCenter,
@@ -362,17 +355,15 @@ class _SFloatingPanelContentState
                         shadows: (widget.config.elevation ?? widget.theme.elevation ?? 12) <= 0
                             ? null
                             : <BoxShadow>[
-                                // Wide ambient shadow
                                 BoxShadow(
                                   color: widget.config.shadowColor ?? Colors.black.withOpacity(0.12),
                                   blurRadius: (widget.config.elevation ?? widget.theme.elevation ?? 12) * 2,
                                   spreadRadius: 2,
                                   offset: Offset(0, widget.config.elevation ?? widget.theme.elevation ?? 12),
                                 ),
-                                // Tight crisp 3D depth shadow
                                 BoxShadow(
                                   color: widget.config.shadowColor ?? Colors.black.withOpacity(0.15),
-                                  blurRadius: (widget.config.elevation ?? widget.theme.elevation ?? 8),
+                                  blurRadius: widget.config.elevation ?? widget.theme.elevation ?? 8,
                                   spreadRadius: -2,
                                   offset: const Offset(0, 4),
                                 ),

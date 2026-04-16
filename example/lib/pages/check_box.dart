@@ -55,11 +55,13 @@ class _CheckboxPageState
   Widget build(
       BuildContext
           context) {
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
     return ComponentPage(
       name:
           'SCheckbox',
-      description: l10n.checkboxDesc,
+      description:
+          l10n.checkboxDesc,
       whenToUse: [
         l10n.checkboxTip1,
         l10n.checkboxTip2,
@@ -96,14 +98,14 @@ SCheckbox(
             children: [
               Row(
                 children: [
-                   SCheckbox(
+                  SCheckbox(
                     value: _groupAll,
                     onChanged: (v) {
                       setState(() {
-                         _groupAll = v;
+                        _groupAll = v;
                         for (int i = 0; i < _group.length; i++) {
                           _group[i] = v == SCheckboxState.checked ? SCheckboxState.checked : SCheckboxState.unchecked;
-                         }
+                        }
                       });
                     },
                   ),
@@ -147,7 +149,7 @@ SCheckbox(
             children: [
               Row(
                 children: [
-                  SCheckbox(value: SCheckboxState.checked, onChanged: null, isDisabled: true),
+                  const SCheckbox(value: SCheckboxState.checked, onChanged: null, isDisabled: true),
                   const SizedBox(width: 8),
                   Text(l10n.checkboxLabelCheckedDisabled),
                 ],
@@ -155,7 +157,7 @@ SCheckbox(
               const SizedBox(height: 8),
               Row(
                 children: [
-                  SCheckbox(value: SCheckboxState.unchecked, onChanged: null, isDisabled: true),
+                  const SCheckbox(value: SCheckboxState.unchecked, onChanged: null, isDisabled: true),
                   const SizedBox(width: 8),
                   Text(l10n.checkboxLabelUncheckedDisabled),
                 ],

@@ -105,10 +105,10 @@ export 'src/presentation/themes/extensions/component_themes/s_pagination_theme.d
 export 'src/presentation/themes/extensions/component_themes/s_select_theme.dart';
 export 'src/presentation/themes/extensions/component_themes/s_sonner_theme.dart';
 export 'src/presentation/themes/extensions/component_themes/s_switch_theme.dart';
-export 'src/presentation/themes/extensions/component_themes/s_tooltip_theme.dart';
 export 'src/presentation/themes/extensions/component_themes/s_tabs_theme.dart';
 export 'src/presentation/themes/extensions/component_themes/s_time_picker_theme.dart';
 export 'src/presentation/themes/extensions/component_themes/s_toast_theme.dart';
+export 'src/presentation/themes/extensions/component_themes/s_tooltip_theme.dart';
 // themes
 export 'src/presentation/themes/s_theme.dart';
 export 'src/presentation/themes/s_theme_data.dart';

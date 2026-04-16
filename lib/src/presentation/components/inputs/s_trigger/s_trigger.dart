@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 import '../../../../../s_design.dart';
 
@@ -33,7 +32,7 @@ class STrigger
     required this.child,
     required this.popup,
     this.action =
-        const [
+        const <STriggerAction>[
       STriggerAction.hover
     ],
     this.placement =
@@ -818,7 +817,7 @@ class _TriggerArrow
         angle = -3.14159 / 2;
     }
 
-    Widget
+    final Widget
         arrow =
         Center(
       child:

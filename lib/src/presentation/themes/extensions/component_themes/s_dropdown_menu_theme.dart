@@ -9,9 +9,7 @@ class SDropdownMenuThemeData
         Diagnosticable {
   const SDropdownMenuThemeData();
 
-  factory SDropdownMenuThemeData.fromColorScheme(
-      ColorScheme
-          scheme) {
+  factory SDropdownMenuThemeData.fromColorScheme() {
     return const SDropdownMenuThemeData();
   }
 

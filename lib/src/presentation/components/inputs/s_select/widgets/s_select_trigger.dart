@@ -345,7 +345,7 @@ class _SSelectTriggerState<
         : Text(
             widget.items
                     .firstWhere(
-                      (i) => i.value == widget.values.first,
+                      (SSelectItem<T> i) => i.value == widget.values.first,
                       orElse: () => SSelectItem<T>(value: widget.values.first, label: widget.values.first.toString()),
                     )
                     .label ??

@@ -93,10 +93,6 @@ class SThemeData
         ? SLightTypography(colors: colorToken)
         : SDarkTypography(colors: colorToken);
 
-    // Map exact SColorsBase tokens to the underlying Material ColorScheme.
-    // This ensures all component themes using `.fromColorScheme(matColorScheme)`
-    // accurately reflect our carefully curated light/dark colors (e.g. pure dark surface)
-    // rather than the auto-generated tonal palettes from Material 3.
     final ColorScheme
         matColorScheme =
         ColorScheme(
@@ -180,7 +176,7 @@ class SThemeData
     dialogTheme ??=
         SDialogThemeData.fromColorScheme(matColorScheme);
     dropdownMenuTheme ??=
-        SDropdownMenuThemeData.fromColorScheme(matColorScheme);
+        SDropdownMenuThemeData.fromColorScheme();
     floatingPanelTheme ??=
         SFloatingPanelThemeData(
       backgroundColor:

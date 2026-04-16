@@ -312,7 +312,7 @@ class _DefaultThumbShape
     extends SliderComponentShape {
   const _DefaultThumbShape();
 
-  final double
+  static const double
       thumbRadius =
       10.0;
 
@@ -322,7 +322,8 @@ class _DefaultThumbShape
           isEnabled,
       bool
           isDiscrete) {
-    return Size.fromRadius(
+    return const Size
+        .fromRadius(
         thumbRadius);
   }
 
@@ -394,7 +395,7 @@ class _DefaultRangeThumbShape
     extends RangeSliderThumbShape {
   const _DefaultRangeThumbShape();
 
-  final double
+  static const double
       thumbRadius =
       10.0;
 
@@ -404,7 +405,8 @@ class _DefaultRangeThumbShape
           isEnabled,
       bool
           isDiscrete) {
-    return Size.fromRadius(
+    return const Size
+        .fromRadius(
         thumbRadius);
   }
 

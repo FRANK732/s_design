@@ -1,9 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import '../../display/s_tooltip/s_tooltip.dart';
 import 's_rate_item.dart';
 import 's_rate_style.dart';
-import '../../display/s_tooltip/s_tooltip.dart';
 
 class SRate
     extends StatefulWidget {

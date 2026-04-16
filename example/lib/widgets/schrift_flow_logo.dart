@@ -26,7 +26,7 @@ class SchriftFlowLogo
   Widget build(
       BuildContext
           context) {
-    Widget
+    final Widget
         logoIcon =
         CustomPaint(
       size:
@@ -35,8 +35,9 @@ class SchriftFlowLogo
           _SchriftFlowLogoPainter(),
     );
 
-    if (!withText)
+    if (!withText) {
       return logoIcon;
+    }
 
     final theme =
         Theme.of(context);
@@ -48,8 +49,6 @@ class SchriftFlowLogo
     return Row(
       mainAxisSize:
           MainAxisSize.min,
-      crossAxisAlignment:
-          CrossAxisAlignment.center,
       children: [
         logoIcon,
         SizedBox(width: size * 0.3),
