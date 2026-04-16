@@ -209,7 +209,7 @@ class SLocalizationsFr
 
   @override
   String get heroTagline =>
-      'sDesign v2.0.0 est disponible !';
+      'sDesign v2.0.0 arrive le 1er mai !';
   @override
   String get heroTitle =>
       'Créez des interfaces époustouflantes avec un minimum de code';

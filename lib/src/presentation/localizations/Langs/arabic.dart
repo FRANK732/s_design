@@ -209,7 +209,7 @@ class SLocalizationsAr
 
   @override
   String get heroTagline =>
-      'تم إصدار sDesign v2.0.0!';
+      'sDesign v2.0.0 قادم في 1 مايو!';
   @override
   String get heroTitle =>
       'صمم واجهات مستخدم مذهلة بأقل قدر من الكود';

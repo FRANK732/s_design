@@ -213,7 +213,7 @@ class SLocalizationsEn
   // Home / Landing Page Strings
   @override
   String get heroTagline =>
-      'sDesign v2.0.0 is out!';
+      'sDesign v2.0.0 is coming on May 1st!';
   @override
   String get heroTitle =>
       'Craft Stunning UIs\nWith Minimal Code';

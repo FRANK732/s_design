@@ -234,7 +234,7 @@ class SLocalizationsZh
 
   @override
   String get heroTagline =>
-      'sDesign v2.0.0 正式发布！';
+      'sDesign v2.0.0 将于 5 月 1 日发布！';
   @override
   String get heroTitle =>
       '以极简代码打造惊艳 UI';
