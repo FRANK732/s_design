@@ -23,7 +23,7 @@ class SDateRangePicker
         false,
     this.presets,
     this.style,
-    this.elevation,
+    this.elevation = 0.0,
   });
 
   final DateTime?
@@ -44,7 +44,7 @@ class SDateRangePicker
       presets;
   final SDatePickerStyle?
       style;
-  final double?
+  final double
       elevation;
 
   @override
@@ -168,7 +168,7 @@ class _SDateRangePickerState
               followerAnchor: showAbove ? Alignment.bottomLeft : Alignment.topLeft,
               offset: Offset(dx, showAbove ? -4 : 4),
               child: Material(
-                elevation: widget.elevation ?? 4,
+                elevation: widget.elevation,
                 borderRadius: BorderRadius.circular(2),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,

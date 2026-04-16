@@ -308,7 +308,7 @@ extension SSonnerThemeExtension
         warningColor: const Color(0xFFFFA726),
         iconColor: colorScheme.onInverseSurface,
         borderRadius: BorderRadius.circular(8.0),
-        elevation: 4.0,
+        elevation: 0.0,
         shadowColor: Colors.black26,
         padding: const EdgeInsets.all(16.0),
         margin: const EdgeInsets.symmetric(horizontal: 16.0),

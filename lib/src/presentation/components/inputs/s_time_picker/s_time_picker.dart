@@ -431,7 +431,7 @@ class STimePicker
     this.itemTextStyle,
     this.itemHeight,
     this.columnWidth,
-    this.elevation,
+    this.elevation = 0.0,
   });
 
   final TimeOfDay?
@@ -508,7 +508,7 @@ class STimePicker
       itemHeight;
   final double?
       columnWidth;
-  final double?
+  final double
       elevation;
 
   @override
@@ -1185,7 +1185,7 @@ class _PanelOverlayState
             child: FadeTransition(
               opacity: _fade,
               child: Material(
-                elevation: s.widget.elevation ?? 8,
+                elevation: s.widget.elevation,
                 borderRadius: tk.radius,
                 color: tk.panelBg,
                 clipBehavior: Clip.antiAlias,

@@ -33,7 +33,7 @@ class SFloatingPanelThemeData
       panelSpacing:
           16.0,
       elevation:
-          8.0,
+          0.0,
       borderRadius:
           BorderRadius.circular(16),
       animationDuration:

@@ -15,7 +15,7 @@ class STooltipThemeData
     this.arrowSize =
         5.0,
     this.elevation =
-        2.0,
+        0.0,
     this.animationDuration =
         const Duration(milliseconds: 200),
     this.textStyle,

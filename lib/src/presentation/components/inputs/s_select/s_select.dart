@@ -62,7 +62,7 @@ class SSelect<
     this.onOpenChange,
     this.onFocus,
     this.onBlur,
-    this.elevation,
+    this.elevation = 0.0,
   });
 
   /// The list of items to display in the dropdown.
@@ -239,7 +239,7 @@ class SSelect<
           b)? filterSort;
 
   /// The z-axis elevation for the dropdown panel override.
-  final double?
+  final double
       elevation;
 
   @override
@@ -481,7 +481,7 @@ class _SSelectState<
                     scale: _scaleAnimation,
                     alignment: Alignment.topCenter,
                     child: Material(
-                      elevation: widget.elevation ?? 4,
+                      elevation: widget.elevation,
                       shadowColor: STheme.of(ctx).colorToken.shadow,
                       borderRadius: BorderRadius.circular(DesignConstants.borderRadiusMedium),
                       child: _buildDropdownContent(),
