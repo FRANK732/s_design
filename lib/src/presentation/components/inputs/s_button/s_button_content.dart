@@ -54,10 +54,30 @@ class SButtonContent
   Widget build(
       BuildContext
           context) {
+    final Widget
+        content =
+        _buildContent();
+
     if (loading) {
-      return _buildLoader();
+      return Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          Visibility(
+            maintainSize: true,
+            maintainAnimation: true,
+            maintainState: true,
+            visible: false,
+            child: content,
+          ),
+          Positioned.fill(
+            child: Align(
+              child: _buildLoader(),
+            ),
+          ),
+        ],
+      );
     }
-    return _buildContent();
+    return content;
   }
 
   /// Builds loading indicator
@@ -90,7 +110,15 @@ class SButtonContent
       );
     }
 
-    return spinner;
+    return Row(
+      mainAxisSize:
+          MainAxisSize.min,
+      mainAxisAlignment:
+          MainAxisAlignment.center,
+      children: <Widget>[
+        spinner
+      ],
+    );
   }
 
   /// Builds button content with icons and text
