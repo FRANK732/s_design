@@ -568,8 +568,14 @@ class _SSelectTriggerState<
       );
     }
 
-    if (widget
-        .showSearch) {
+    if (widget.suffixIcon != null) {
+      return widget.suffixIcon!;
+    }
+
+    // Ant Design: show search icon when dropdown is open in search mode,
+    // otherwise show the chevron down arrow.
+    final bool isFocused = widget.focusNode?.hasFocus ?? false;
+    if (widget.showSearch && isFocused) {
       return Icon(
         Icons.search,
         size: 16,
@@ -577,11 +583,10 @@ class _SSelectTriggerState<
       );
     }
 
-    return widget.suffixIcon ??
-        Icon(
-          Icons.keyboard_arrow_down,
-          size: 16,
-          color: theme.colorToken.textSecondary.withOpacity(0.5),
-        );
+    return Icon(
+      Icons.keyboard_arrow_down,
+      size: 16,
+      color: theme.colorToken.textSecondary.withOpacity(0.5),
+    );
   }
 }

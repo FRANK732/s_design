@@ -54,7 +54,7 @@ class SSelectStyleHelper {
     }
     if (status ==
         SSelectStatus.warning) {
-      return const Color(0xFFFAAD14); // Standard warning amber
+      return const Color(0xFFFAAD14);
     }
 
     if (isFocused) {
@@ -80,14 +80,14 @@ class SSelectStyleHelper {
       return theme.colorToken.background;
     }
 
-    if (variant ==
-        SSelectVariant.filled) {
-      return theme.colorToken.background;
+    switch (variant) {
+      case SSelectVariant.filled:
+        // Ant Design "filled" uses a subtle background tint
+        return theme.colorToken.primary.withOpacity(0.04);
+      case SSelectVariant.borderless:
+      case SSelectVariant.outlined:
+        return theme.colorToken.surface;
     }
-
-    return theme
-        .colorToken
-        .surface;
   }
 
   /// Gets the text style for the select trigger.
