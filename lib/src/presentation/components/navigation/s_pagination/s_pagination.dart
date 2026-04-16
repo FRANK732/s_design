@@ -104,7 +104,6 @@ class SPagination
     this.totalTextStyle,
   });
 
-
   /// Total number of items.
   final int
       total;
@@ -195,7 +194,6 @@ class SPagination
   /// the full layout regardless of available width.
   final bool
       responsive;
-
 
   final Color?
       activeColor;
@@ -355,7 +353,6 @@ class _SPaginationState
         _pageSize);
   }
 
-
   _PaginationTokens
       _tokens(BuildContext context) {
     final SThemeData
@@ -446,13 +443,15 @@ class _SPaginationState
     );
   }
 
-
   /// Minimum width (px) for a full-featured layout (±2 siblings, all extras).
-  static const double _kWide = 500.0;
+  static const double
+      _kWide =
+      500.0;
 
   /// Minimum width (px) for medium mode (shows numerical buttons).
-  static const double _kMedium = 280.0;
-
+  static const double
+      _kMedium =
+      280.0;
 
   @override
   Widget build(
@@ -504,7 +503,9 @@ class _SPaginationState
 
     // Number of sibling pages shown either side of current.
     // Full/Medium: 2, Narrow: irrelevant (simple mode).
-    final int siblingCount = (!widget.responsive || availableWidth >= _kMedium) ? 2 : 0;
+    final int siblingCount = (!widget.responsive || availableWidth >= _kMedium)
+        ? 2
+        : 0;
 
     WrapAlignment
         wrapAlign;
@@ -554,7 +555,6 @@ class _SPaginationState
       ),
     );
   }
-
 
   Widget
       _buildFullMode(
@@ -762,7 +762,6 @@ class _SPaginationState
     return defaultWidget;
   }
 
-
   Widget _buildSimpleMode(
       _PaginationTokens
           tokens,
@@ -798,7 +797,6 @@ class _SPaginationState
       ],
     );
   }
-
 
   Widget _buildTotalLabel(
       _PaginationTokens
@@ -859,7 +857,6 @@ class _SPaginationState
     );
   }
 }
-
 
 class _PaginationTokens {
   const _PaginationTokens({

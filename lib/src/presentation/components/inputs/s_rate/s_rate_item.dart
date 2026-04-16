@@ -9,7 +9,8 @@ class SRateItem
     this.color,
     this.unselectedColor,
     this.size,
-    this.applyColor = true,
+    this.applyColor =
+        true,
   });
 
   /// 0.0 to 1.0 (0=empty, 0.5=half, 1.0=full)
@@ -51,22 +52,21 @@ class SRateItem
     final Widget
         base =
         Opacity(
-      opacity: applyColor ? 1.0 : 0.3,
+      opacity: applyColor
+          ? 1.0
+          : 0.3,
       child:
           IconTheme(
-        data:
-            iconTheme.copyWith(
+        data: iconTheme.copyWith(
           color: applyColor ? effectiveUnselectedColor : null,
           size: iconSize,
         ),
-        child:
-            DefaultTextStyle(
+        child: DefaultTextStyle(
           style: TextStyle(
             color: applyColor ? effectiveUnselectedColor : null,
             fontSize: iconSize,
           ),
-          child:
-              character,
+          child: character,
         ),
       ),
     );

@@ -12,7 +12,8 @@ repository: https://github.com/FRANK732/s_design
 dependencies:
   flutter:
     sdk: flutter
-  flutter_spinkit: 5.2.1
+  flutter_spinkit: ^5.2.1
+
   provider: ^6.1.5
   intl: ^0.20.2
   shimmer: ^3.0.0

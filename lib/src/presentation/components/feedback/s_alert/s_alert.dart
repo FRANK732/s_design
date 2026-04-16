@@ -81,7 +81,6 @@ class SAlert
     this.action,
     this.banner =
         false,
-
     this.backgroundColor,
     this.borderColor,
     this.borderWidth,
@@ -95,7 +94,6 @@ class SAlert
     this.shadowColor,
     this.constraints,
   });
-
 
   /// Semantic type of the alert.
   final SAlertType
@@ -142,7 +140,6 @@ class SAlert
   /// showIcon defaults to `true`).
   final bool
       banner;
-
 
   /// Override background color.
   final Color?
@@ -368,7 +365,6 @@ class _SAlertState
                     ),
               ),
             ],
-
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -382,12 +378,10 @@ class _SAlertState
                 ],
               ),
             ),
-
             if (widget.action != null) ...<Widget>[
               const SizedBox(width: 8),
               widget.action!,
             ],
-
             if (widget.closable) ...<Widget>[
               const SizedBox(width: 8),
               GestureDetector(
@@ -436,7 +430,6 @@ class _SAlertState
     }
   }
 }
-
 
 class _SAlertColors {
   const _SAlertColors({

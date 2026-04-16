@@ -5,39 +5,69 @@ import 'package:flutter/material.dart';
 import '../../../../../s_design.dart';
 
 class SFloatingPanel {
-  /// Deprecated: SFloatingPanel now uses Navigator natively. 
+  /// Deprecated: SFloatingPanel now uses Navigator natively.
   /// This is a no-op to prevent breaking legacy code immediately.
-  @Deprecated('SFloatingPanel no longer requires global initialization. It hooks directly into Navigator.')
-  static void initialize(OverlayState overlayState) {}
+  @Deprecated(
+      'SFloatingPanel no longer requires global initialization. It hooks directly into Navigator.')
+  static void
+      initialize(OverlayState overlayState) {}
 
   /// Triggers a modern, floating bottom sheet overlay that mimics native iOS fluid sheets.
-  /// 
-  /// The panel is fully customizable, supporting background blur, floating margins, 
+  ///
+  /// The panel is fully customizable, supporting background blur, floating margins,
   /// auto-resizing, and independent bottom utility areas.
-  static Future<void> show({
-    required BuildContext context,
-    SFloatingPanelConfig? config,
-    @Deprecated('Use contentConfig for structured panel data') Widget? content,
-    SFloatingContentConfig? contentConfig,
-    Color? barrierColor,
-    double? horizontalMargin,
-    double? bottomMargin,
-    double? panelSpacing,
-    VoidCallback? onClose,
-    @Deprecated('Use bottomConfig instead for structured footers') Widget? customBottomWidget,
-    SFloatingBottomConfig? bottomConfig,
-    Duration? animationDuration,
-    bool showCloseButton = false,
-    bool showDragIndicator = true,
-    double? elevation,
-    bool isDismissable = true,
-    BoxConstraints? constraints,
-    EdgeInsetsGeometry? contentPadding,
-    double? backdropBlur,
-    Color? shadowColor,
-    ShapeBorder? shape,
+  static Future<void>
+      show({
+    required BuildContext
+        context,
+    SFloatingPanelConfig?
+        config,
+    @Deprecated(
+        'Use contentConfig for structured panel data')
+    Widget?
+        content,
+    SFloatingContentConfig?
+        contentConfig,
+    Color?
+        barrierColor,
+    double?
+        horizontalMargin,
+    double?
+        bottomMargin,
+    double?
+        panelSpacing,
+    VoidCallback?
+        onClose,
+    @Deprecated(
+        'Use bottomConfig instead for structured footers')
+    Widget?
+        customBottomWidget,
+    SFloatingBottomConfig?
+        bottomConfig,
+    Duration?
+        animationDuration,
+    bool showCloseButton =
+        false,
+    bool showDragIndicator =
+        true,
+    double?
+        elevation,
+    bool isDismissable =
+        true,
+    BoxConstraints?
+        constraints,
+    EdgeInsetsGeometry?
+        contentPadding,
+    double?
+        backdropBlur,
+    Color?
+        shadowColor,
+    ShapeBorder?
+        shape,
   }) async {
-    final SFloatingPanelThemeData theme = Theme.of(context).sFloatingPanelTheme;
+    final SFloatingPanelThemeData
+        theme =
+        Theme.of(context).sFloatingPanelTheme;
 
     final double effectiveHorizontalMargin = horizontalMargin ??
         config?.horizontalMargin ??
@@ -49,78 +79,129 @@ class SFloatingPanel {
         (theme.margin as EdgeInsets?)?.bottom ??
         16.0;
 
-    final SFloatingPanelConfig effectiveConfig = SFloatingPanelConfig(
-      content: content ?? config?.content,
-      contentConfig: contentConfig ?? config?.contentConfig,
+    final SFloatingPanelConfig
+        effectiveConfig =
+        SFloatingPanelConfig(
+      content:
+          content ?? config?.content,
+      contentConfig:
+          contentConfig ?? config?.contentConfig,
       barrierColor: barrierColor ??
           config?.barrierColor ??
           theme.barrierColor ??
           const Color(0x80000000),
-      horizontalMargin: effectiveHorizontalMargin,
-      bottomMargin: effectiveBottomMargin,
+      horizontalMargin:
+          effectiveHorizontalMargin,
+      bottomMargin:
+          effectiveBottomMargin,
       panelSpacing: panelSpacing ??
           config?.panelSpacing ??
           theme.panelSpacing ??
           15.0,
-      onClose: onClose ?? config?.onClose,
-      customBottomWidget: customBottomWidget ?? config?.customBottomWidget,
-      bottomConfig: bottomConfig ?? config?.bottomConfig,
+      onClose:
+          onClose ?? config?.onClose,
+      customBottomWidget:
+          customBottomWidget ?? config?.customBottomWidget,
+      bottomConfig:
+          bottomConfig ?? config?.bottomConfig,
       animationDuration: animationDuration ??
           config?.animationDuration ??
           theme.animationDuration ??
           const Duration(milliseconds: 300),
-      showCloseButton: showCloseButton || (config?.showCloseButton ?? false),
-      showDragIndicator: showDragIndicator && (config?.showDragIndicator ?? true),
-      elevation: elevation ?? config?.elevation,
-      isDismissable: isDismissable,
-      constraints: constraints ?? config?.constraints ?? theme.constraints,
-      contentPadding: contentPadding ?? config?.contentPadding ?? theme.contentPadding,
-      backdropBlur: backdropBlur ?? config?.backdropBlur ?? theme.backdropBlur ?? 0.0,
-      shadowColor: shadowColor ?? config?.shadowColor ?? theme.shadowColor,
-      shape: shape ?? config?.shape ?? theme.shape,
+      showCloseButton:
+          showCloseButton || (config?.showCloseButton ?? false),
+      showDragIndicator:
+          showDragIndicator && (config?.showDragIndicator ?? true),
+      elevation:
+          elevation ?? config?.elevation,
+      isDismissable:
+          isDismissable,
+      constraints: constraints ??
+          config?.constraints ??
+          theme.constraints,
+      contentPadding: contentPadding ??
+          config?.contentPadding ??
+          theme.contentPadding,
+      backdropBlur: backdropBlur ??
+          config?.backdropBlur ??
+          theme.backdropBlur ??
+          0.0,
+      shadowColor: shadowColor ??
+          config?.shadowColor ??
+          theme.shadowColor,
+      shape: shape ??
+          config?.shape ??
+          theme.shape,
     );
 
     // Wait for the popup route to naturally dismiss
-    await Navigator.of(context, rootNavigator: true).push(
-      _SFloatingPanelRoute(config: effectiveConfig, theme: theme),
+    await Navigator.of(context, rootNavigator: true)
+        .push(
+      _SFloatingPanelRoute(
+          config: effectiveConfig,
+          theme: theme),
     );
 
     // Trigger the callback cleanly after unmounting
-    effectiveConfig.onClose?.call();
+    effectiveConfig
+        .onClose
+        ?.call();
   }
 
-  /// Closes the topmost navigation route. 
-  static Future<void> close(BuildContext context) async {
-    Navigator.of(context, rootNavigator: true).pop();
+  /// Closes the topmost navigation route.
+  static Future<void>
+      close(BuildContext context) async {
+    Navigator.of(context, rootNavigator: true)
+        .pop();
   }
 }
 
-class _SFloatingPanelRoute extends PopupRoute<void> {
-  _SFloatingPanelRoute({required this.config, required this.theme});
+class _SFloatingPanelRoute
+    extends PopupRoute<
+        void> {
+  _SFloatingPanelRoute(
+      {required this.config,
+      required this.theme});
 
-  final SFloatingPanelConfig config;
-  final SFloatingPanelThemeData theme;
+  final SFloatingPanelConfig
+      config;
+  final SFloatingPanelThemeData
+      theme;
 
   @override
-  Color? get barrierColor => config.barrierColor;
+  Color? get barrierColor =>
+      config.barrierColor;
 
   @override
-  bool get barrierDismissible => config.isDismissable;
+  bool get barrierDismissible =>
+      config.isDismissable;
 
   @override
-  String? get barrierLabel => 'Dismiss panel';
+  String? get barrierLabel =>
+      'Dismiss panel';
 
   @override
   Duration get transitionDuration =>
-      config.animationDuration ?? const Duration(milliseconds: 300);
+      config.animationDuration ??
+      const Duration(milliseconds: 300);
 
   @override
-  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-    Widget page = _SFloatingPanelContent(config: config, theme: theme);
+  Widget buildPage(
+      BuildContext
+          context,
+      Animation<double>
+          animation,
+      Animation<double>
+          secondaryAnimation) {
+    Widget
+        page =
+        _SFloatingPanelContent(config: config, theme: theme);
 
     // Handle high-performance Blur
-    if ((config.backdropBlur ?? 0) > 0) {
-      page = BackdropFilter(
+    if ((config.backdropBlur ?? 0) >
+        0) {
+      page =
+          BackdropFilter(
         filter: ImageFilter.blur(
           sigmaX: config.backdropBlur!,
           sigmaY: config.backdropBlur!,
@@ -130,10 +211,13 @@ class _SFloatingPanelRoute extends PopupRoute<void> {
     }
 
     return Semantics(
-      scopesRoute: true,
-      explicitChildNodes: true,
-      // Wrap in a Scaffold-like clear zone. 
-      child: SafeArea(
+      scopesRoute:
+          true,
+      explicitChildNodes:
+          true,
+      // Wrap in a Scaffold-like clear zone.
+      child:
+          SafeArea(
         bottom: false,
         child: page,
       ),
@@ -141,13 +225,27 @@ class _SFloatingPanelRoute extends PopupRoute<void> {
   }
 
   @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
-    final CurvedAnimation curvedAnimation = CurvedAnimation(parent: animation, curve: Curves.easeOutCubic);
-    final CurvedAnimation opacity = CurvedAnimation(parent: animation, curve: Curves.easeIn);
-    
+  Widget buildTransitions(
+      BuildContext
+          context,
+      Animation<double>
+          animation,
+      Animation<double>
+          secondaryAnimation,
+      Widget
+          child) {
+    final CurvedAnimation
+        curvedAnimation =
+        CurvedAnimation(parent: animation, curve: Curves.easeOutCubic);
+    final CurvedAnimation
+        opacity =
+        CurvedAnimation(parent: animation, curve: Curves.easeIn);
+
     return SlideTransition(
-      position: Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero).animate(curvedAnimation),
-      child: FadeTransition(
+      position:
+          Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero).animate(curvedAnimation),
+      child:
+          FadeTransition(
         opacity: opacity,
         child: child,
       ),
@@ -155,42 +253,58 @@ class _SFloatingPanelRoute extends PopupRoute<void> {
   }
 }
 
-class _SFloatingPanelContent extends StatefulWidget {
+class _SFloatingPanelContent
+    extends StatefulWidget {
   const _SFloatingPanelContent({
     required this.config,
     required this.theme,
   });
 
-  final SFloatingPanelConfig config;
-  final SFloatingPanelThemeData theme;
+  final SFloatingPanelConfig
+      config;
+  final SFloatingPanelThemeData
+      theme;
 
   @override
-  State<_SFloatingPanelContent> createState() => _SFloatingPanelContentState();
+  State<_SFloatingPanelContent>
+      createState() =>
+          _SFloatingPanelContentState();
 }
 
-class _SFloatingPanelContentState extends State<_SFloatingPanelContent> {
-  double _dragOffset = 0.0;
+class _SFloatingPanelContentState
+    extends State<
+        _SFloatingPanelContent> {
+  double
+      _dragOffset =
+      0.0;
 
-  void _onVerticalDragUpdate(DragUpdateDetails details) {
+  void _onVerticalDragUpdate(
+      DragUpdateDetails
+          details) {
     // Only allow dragging downwards.
-    if (details.delta.dy > 0) {
+    if (details.delta.dy >
+        0) {
       setState(() {
         _dragOffset += details.delta.dy;
       });
-    } else if (details.delta.dy < 0 && _dragOffset > 0) {
+    } else if (details.delta.dy < 0 &&
+        _dragOffset > 0) {
       // Pull back up, but not past the origin.
       setState(() {
         _dragOffset += details.delta.dy;
         if (_dragOffset < 0) {
-           _dragOffset = 0;
+          _dragOffset = 0;
         }
       });
     }
   }
 
-  void _onVerticalDragEnd(DragEndDetails details) {
+  void _onVerticalDragEnd(
+      DragEndDetails
+          details) {
     // If dragged past 100px OR flicked down rapidly (velocity > 300), pop.
-    if (_dragOffset > 100 || (details.primaryVelocity ?? 0) > 300) {
+    if (_dragOffset > 100 ||
+        (details.primaryVelocity ?? 0) > 300) {
       Navigator.of(context).pop();
     } else {
       // Snap it back to origin safely.
@@ -201,12 +315,19 @@ class _SFloatingPanelContentState extends State<_SFloatingPanelContent> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final double effectiveHorizontalMargin = widget.config.horizontalMargin ?? 0;
+  Widget build(
+      BuildContext
+          context) {
+    final double
+        effectiveHorizontalMargin =
+        widget.config.horizontalMargin ?? 0;
 
-    return Transform.translate(
-      offset: Offset(0, _dragOffset),
-      child: GestureDetector(
+    return Transform
+        .translate(
+      offset:
+          Offset(0, _dragOffset),
+      child:
+          GestureDetector(
         onVerticalDragUpdate: widget.config.isDismissable ? _onVerticalDragUpdate : null,
         onVerticalDragEnd: widget.config.isDismissable ? _onVerticalDragEnd : null,
         // Block taps from bubbling into empty space so you can drag from anywhere inside
@@ -238,22 +359,24 @@ class _SFloatingPanelContentState extends State<_SFloatingPanelContent> {
                                 color: Theme.of(context).colorScheme.onSurface.withOpacity(0.08),
                               ),
                             ),
-                        shadows: (widget.config.elevation ?? widget.theme.elevation ?? 12) <= 0 ? null : <BoxShadow>[
-                          // Wide ambient shadow
-                          BoxShadow(
-                            color: widget.config.shadowColor ?? Colors.black.withOpacity(0.12),
-                            blurRadius: (widget.config.elevation ?? widget.theme.elevation ?? 12) * 2,
-                            spreadRadius: 2,
-                            offset: Offset(0, widget.config.elevation ?? widget.theme.elevation ?? 12),
-                          ),
-                          // Tight crisp 3D depth shadow
-                          BoxShadow(
-                            color: widget.config.shadowColor ?? Colors.black.withOpacity(0.15),
-                            blurRadius: (widget.config.elevation ?? widget.theme.elevation ?? 8),
-                            spreadRadius: -2,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
+                        shadows: (widget.config.elevation ?? widget.theme.elevation ?? 12) <= 0
+                            ? null
+                            : <BoxShadow>[
+                                // Wide ambient shadow
+                                BoxShadow(
+                                  color: widget.config.shadowColor ?? Colors.black.withOpacity(0.12),
+                                  blurRadius: (widget.config.elevation ?? widget.theme.elevation ?? 12) * 2,
+                                  spreadRadius: 2,
+                                  offset: Offset(0, widget.config.elevation ?? widget.theme.elevation ?? 12),
+                                ),
+                                // Tight crisp 3D depth shadow
+                                BoxShadow(
+                                  color: widget.config.shadowColor ?? Colors.black.withOpacity(0.15),
+                                  blurRadius: (widget.config.elevation ?? widget.theme.elevation ?? 8),
+                                  spreadRadius: -2,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
                       ),
                       child: Stack(
                         children: <Widget>[
@@ -321,22 +444,27 @@ class _SFloatingPanelContentState extends State<_SFloatingPanelContent> {
                       SizedBox(height: widget.config.panelSpacing),
                       Container(
                         padding: widget.config.bottomConfig!.padding,
-                        decoration: widget.config.bottomConfig!.backgroundColor != Colors.transparent ? ShapeDecoration(
-                          color: widget.config.bottomConfig!.backgroundColor ?? widget.theme.backgroundColor ?? Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: widget.config.bottomConfig!.borderRadius ?? BorderRadius.circular(20),
-                            side: BorderSide(
-                              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.08),
-                            ),
-                          ),
-                          shadows: widget.config.bottomConfig!.boxShadow ?? ((widget.config.elevation ?? widget.theme.elevation ?? 12) <= 0 ? null : <BoxShadow>[
-                            BoxShadow(
-                              color: widget.config.shadowColor ?? Colors.black.withOpacity(0.12),
-                              blurRadius: 16,
-                              offset: const Offset(0, 8),
-                            ),
-                          ]),
-                        ) : null,
+                        decoration: widget.config.bottomConfig!.backgroundColor != Colors.transparent
+                            ? ShapeDecoration(
+                                color: widget.config.bottomConfig!.backgroundColor ?? widget.theme.backgroundColor ?? Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: widget.config.bottomConfig!.borderRadius ?? BorderRadius.circular(20),
+                                  side: BorderSide(
+                                    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.08),
+                                  ),
+                                ),
+                                shadows: widget.config.bottomConfig!.boxShadow ??
+                                    ((widget.config.elevation ?? widget.theme.elevation ?? 12) <= 0
+                                        ? null
+                                        : <BoxShadow>[
+                                            BoxShadow(
+                                              color: widget.config.shadowColor ?? Colors.black.withOpacity(0.12),
+                                              blurRadius: 16,
+                                              offset: const Offset(0, 8),
+                                            ),
+                                          ]),
+                              )
+                            : null,
                         child: widget.config.bottomConfig!.customWidget ??
                             (widget.config.bottomConfig!.layout == SFloatingBottomLayout.row
                                 ? Row(

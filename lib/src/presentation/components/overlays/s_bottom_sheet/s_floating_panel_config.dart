@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 enum SFloatingBottomLayout {
   /// Actions span horizontally next to each other
   row,
+
   /// Actions stack vertically, expanding to full width
   column,
 }
@@ -11,35 +12,46 @@ enum SFloatingBottomLayout {
 /// A highly customizable footer widget config for SFloatingPanel.
 class SFloatingBottomConfig {
   const SFloatingBottomConfig({
-    this.actions = const <Widget>[],
-    this.layout = SFloatingBottomLayout.row,
+    this.actions =
+        const <Widget>[],
+    this.layout =
+        SFloatingBottomLayout.row,
     this.customWidget,
-    this.padding = const EdgeInsets.all(16),
+    this.padding = const EdgeInsets
+        .all(
+        16),
     this.backgroundColor,
     this.borderRadius,
     this.boxShadow,
   });
 
   /// A structured list of action buttons (e.g. SButton).
-  final List<Widget> actions;
+  final List<Widget>
+      actions;
 
   /// Defines how the [actions] are laid out geometrically.
-  final SFloatingBottomLayout layout;
+  final SFloatingBottomLayout
+      layout;
 
   /// A completely custom widget to override the standard [actions] rendering.
-  final Widget? customWidget;
+  final Widget?
+      customWidget;
 
   /// Internal padding of the bottom container.
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry
+      padding;
 
   /// Background color of the isolated floating bottom action block.
-  final Color? backgroundColor;
+  final Color?
+      backgroundColor;
 
   /// Corner radiuses of the bottom block. Defaults to theme standard if null.
-  final BorderRadiusGeometry? borderRadius;
+  final BorderRadiusGeometry?
+      borderRadius;
 
   /// Custom shadow underlying the bottom action block.
-  final List<BoxShadow>? boxShadow;
+  final List<BoxShadow>?
+      boxShadow;
 }
 
 /// A highly customizable content block config for SFloatingPanel.
@@ -52,22 +64,28 @@ class SFloatingContentConfig {
   });
 
   /// Primary title rendered heavily.
-  final String? title;
+  final String?
+      title;
 
   /// Secondary description block rendered mildly.
-  final String? description;
+  final String?
+      description;
 
   /// Center-aligned header icon.
-  final Widget? icon;
+  final Widget?
+      icon;
 
   /// An appended custom child widget inserted into the flow.
-  final Widget? child;
+  final Widget?
+      child;
 }
 
 /// Configuration for SFloatingPanel.
 class SFloatingPanelConfig {
   const SFloatingPanelConfig({
-    @Deprecated('Use contentConfig for structured data') this.content,
+    @Deprecated(
+        'Use contentConfig for structured data')
+    this.content,
     this.contentConfig,
     this.barrierColor,
     this.horizontalMargin,
@@ -92,14 +110,15 @@ class SFloatingPanelConfig {
     this.shape,
   });
 
-  @Deprecated('Use contentConfig instead')
+  @Deprecated(
+      'Use contentConfig instead')
   final Widget?
       content;
-      
+
   /// Explicit structured definition for the main panel body.
   final SFloatingContentConfig?
       contentConfig;
-      
+
   final Color?
       barrierColor;
   final double?
@@ -112,6 +131,7 @@ class SFloatingPanelConfig {
       onClose;
   final Widget?
       customBottomWidget;
+
   /// Explicit structured definition for the bottom utility/footer bar.
   final SFloatingBottomConfig?
       bottomConfig;
@@ -119,9 +139,11 @@ class SFloatingPanelConfig {
       animationDuration;
   final bool
       showCloseButton;
+
   /// Renders a small grey visual pill at the top of the panel hinting at drag-to-dismiss behavior.
   final bool
       showDragIndicator;
+
   /// Explicitly control the shadow extrusion height. Set to 0 for a flat UI footprint.
   final double?
       elevation;

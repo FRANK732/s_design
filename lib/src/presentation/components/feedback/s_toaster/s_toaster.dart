@@ -262,8 +262,9 @@ class _SToastState
         name: 'SToast');
     _animationController.reverse().then(
         (_) {
-      if (!mounted)
+      if (!mounted) {
         return;
+      }
       setState(() {
         _isVisible = false;
       });

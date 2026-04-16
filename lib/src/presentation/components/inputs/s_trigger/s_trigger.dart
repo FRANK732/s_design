@@ -277,7 +277,8 @@ class _STriggerState
   OverlayEntry
       _createOverlayEntry() {
     return OverlayEntry(
-      builder: (BuildContext ctx) {
+      builder:
+          (BuildContext ctx) {
         if (!mounted) {
           return const SizedBox.shrink();
         }

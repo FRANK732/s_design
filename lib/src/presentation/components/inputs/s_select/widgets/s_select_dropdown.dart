@@ -80,9 +80,9 @@ class SSelectDropdown<
       );
     }
 
-    final List<dynamic>
+    final List<Map<String, dynamic>>
         flattenedItems =
-        <dynamic>[];
+        <Map<String, dynamic>>[];
 
     void flatten(
         List<SSelectItem<T>> items,
@@ -90,13 +90,13 @@ class SSelectDropdown<
       for (final SSelectItem<T> item
           in items) {
         if (item.isGroup) {
-          flattenedItems.add({
+          flattenedItems.add(<String, dynamic>{
             'type': 'group',
             'label': item.label
           });
           flatten(item.options!, isNested: true);
         } else {
-          flattenedItems.add({
+          flattenedItems.add(<String, dynamic>{
             'type': 'item',
             'item': item,
             'nested': isNested
@@ -132,9 +132,9 @@ class SSelectDropdown<
         itemCount: flattenedItems.length,
         prototypeItem: const SizedBox(height: 48),
         itemBuilder: (BuildContext context, int index) {
-          final dynamic listItem = flattenedItems[index];
+          final Map<String, dynamic> listItem = flattenedItems[index];
 
-          if (listItem is Map && listItem['type'] == 'group') {
+          if (listItem['type'] == 'group') {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               child: Text(
@@ -148,7 +148,8 @@ class SSelectDropdown<
             );
           }
 
-          final Map itemMap = listItem as Map;
+          final Map<String, dynamic> itemMap = listItem;
+
           final SSelectItem<T> item = itemMap['item'] as SSelectItem<T>;
           final bool isNested = itemMap['nested'] as bool;
           final bool isSelected = selectedValues.contains(item.value);

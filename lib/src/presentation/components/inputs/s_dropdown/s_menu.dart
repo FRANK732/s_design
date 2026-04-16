@@ -45,10 +45,14 @@ class SMenuItem
     this.onTap,
     this.icon,
     this.trailing,
-    this.disabled = false,
-    this.danger = false,
-    this.selected = false,
-    this.loading = false,
+    this.disabled =
+        false,
+    this.danger =
+        false,
+    this.selected =
+        false,
+    this.loading =
+        false,
   });
 
   /// The primary content of the menu item.
@@ -146,59 +150,57 @@ class _SMenuItemState
           GestureDetector(
         onTap: widget.disabled ? null : widget.onTap,
         behavior: HitTestBehavior.opaque,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            decoration: BoxDecoration(
-              color: _isHovering && !widget.disabled && !widget.loading
-                  ? hoverColor
-                  : Colors.transparent,
-            ),
-            child: Row(
-              children: <Widget>[
-                // Leading Icon / Loader
-                if (widget.loading) ...<Widget>[
-                  SizedBox(
-                    width: 14,
-                    height: 14,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(iconColor),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                ] else if (widget.icon != null) ...<Widget>[
-                  IconTheme(
-                    data: IconThemeData(color: iconColor, size: 16),
-                    child: widget.icon!,
-                  ),
-                  const SizedBox(width: 8),
-                ],
-
-                // Content
-                Expanded(
-                  child: DefaultTextStyle(
-                    style: theme.typographyToken.bodyMedium.copyWith(
-                      color: textColor,
-                      fontWeight: widget.selected ? FontWeight.w600 : null,
-                    ),
-                    child: widget.child,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          decoration: BoxDecoration(
+            color: _isHovering && !widget.disabled && !widget.loading ? hoverColor : Colors.transparent,
+          ),
+          child: Row(
+            children: <Widget>[
+              // Leading Icon / Loader
+              if (widget.loading) ...<Widget>[
+                SizedBox(
+                  width: 14,
+                  height: 14,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    valueColor: AlwaysStoppedAnimation<Color>(iconColor),
                   ),
                 ),
-
-                // Trailing / Selected Indicator
-                if (widget.selected) ...<Widget>[
-                  const SizedBox(width: 8),
-                  Icon(Icons.check, size: 14, color: theme.colorToken.primary),
-                ] else if (widget.trailing != null) ...<Widget>[
-                  const SizedBox(width: 8),
-                  IconTheme(
-                    data: IconThemeData(color: iconColor, size: 14),
-                    child: widget.trailing!,
-                  ),
-                ],
+                const SizedBox(width: 10),
+              ] else if (widget.icon != null) ...<Widget>[
+                IconTheme(
+                  data: IconThemeData(color: iconColor, size: 16),
+                  child: widget.icon!,
+                ),
+                const SizedBox(width: 8),
               ],
-            ),
+
+              // Content
+              Expanded(
+                child: DefaultTextStyle(
+                  style: theme.typographyToken.bodyMedium.copyWith(
+                    color: textColor,
+                    fontWeight: widget.selected ? FontWeight.w600 : null,
+                  ),
+                  child: widget.child,
+                ),
+              ),
+
+              // Trailing / Selected Indicator
+              if (widget.selected) ...<Widget>[
+                const SizedBox(width: 8),
+                Icon(Icons.check, size: 14, color: theme.colorToken.primary),
+              ] else if (widget.trailing != null) ...<Widget>[
+                const SizedBox(width: 8),
+                IconTheme(
+                  data: IconThemeData(color: iconColor, size: 14),
+                  child: widget.trailing!,
+                ),
+              ],
+            ],
           ),
+        ),
       ),
     );
   }

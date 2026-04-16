@@ -308,7 +308,6 @@ class SDialog
   final Clip?
       clipBehavior;
 
-
   /// Shows the dialog and returns its result.
   ///
   /// Uses [showGeneralDialog] so [animationType], [transitionDuration], and
@@ -683,7 +682,6 @@ class SDialog
           _SDialogState();
 }
 
-
 class _SDialogState
     extends State<
         SDialog>
@@ -775,7 +773,6 @@ class _SDialogState
     );
   }
 
-
   Widget
       _buildSurface(
     BuildContext
@@ -836,7 +833,6 @@ class _SDialogState
     );
   }
 
-
   Widget
       _buildBody(
     BuildContext
@@ -862,11 +858,8 @@ class _SDialogState
             widget.iconWidget!,
             const SizedBox(height: 12),
           ],
-
           if (widget.title != null || widget.titleWidget != null) _buildTitleRow(context, theme, dialogTheme),
-
           if (widget.description != null && widget.description!.isNotEmpty) _buildDescription(context, theme, dialogTheme),
-
           if (widget.content != null) ...<Widget>[
             const SizedBox(height: 16),
             if (widget.scrollable)
@@ -880,7 +873,6 @@ class _SDialogState
             else
               widget.content!,
           ],
-
           if (widget.showDivider ?? dialogTheme.showDivider ?? false) ...<Widget>[
             const SizedBox(height: 16),
             Divider(
@@ -889,9 +881,7 @@ class _SDialogState
               height: 1,
             ),
           ],
-
           if (widget.actions != null && widget.actions!.isNotEmpty) _buildActions(context, dialogTheme),
-
           if (widget.footerWidget != null) ...<Widget>[
             const SizedBox(height: 12),
             widget.footerWidget!,
@@ -900,7 +890,6 @@ class _SDialogState
       ),
     );
   }
-
 
   Widget
       _buildTitleRow(
@@ -964,7 +953,6 @@ class _SDialogState
     );
   }
 
-
   Widget
       _buildDescription(
     BuildContext
@@ -1002,7 +990,6 @@ class _SDialogState
       ),
     );
   }
-
 
   Widget _buildActions(
       BuildContext

@@ -58,26 +58,26 @@ class SThemeData
         floatingPanelTheme,
     SInputFieldThemeData?
         inputFieldTheme,
-      SListTileThemeData?
-          listTileTheme,
-      SLoadingIndicatorThemeData?
-          loadingIndicatorTheme,
-      SPaginationThemeData?
-          paginationTheme,
-      SSelectThemeData?
-          selectTheme,
-      SSonnerThemeData?
-          sonnerTheme,
-      SSwitchThemeData?
-          switchTheme,
-      STabsThemeData?
-          tabsTheme,
-      STimePickerThemeData?
-          timePickerTheme,
-      SToastThemeData?
-          toastTheme,
-      STooltipThemeData?
-          tooltipTheme,
+    SListTileThemeData?
+        listTileTheme,
+    SLoadingIndicatorThemeData?
+        loadingIndicatorTheme,
+    SPaginationThemeData?
+        paginationTheme,
+    SSelectThemeData?
+        selectTheme,
+    SSonnerThemeData?
+        sonnerTheme,
+    SSwitchThemeData?
+        switchTheme,
+    STabsThemeData?
+        tabsTheme,
+    STimePickerThemeData?
+        timePickerTheme,
+    SToastThemeData?
+        toastTheme,
+    STooltipThemeData?
+        tooltipTheme,
   }) {
     brightness ??=
         Brightness.light;
@@ -168,9 +168,11 @@ class SThemeData
     );
     buttonTheme ??=
         SButtonThemeData.fromColorScheme(matColorScheme).copyWith(
-          defaultBackgroundColor: colorToken.buttonBackground,
-          defaultForegroundColor: colorToken.buttonText,
-        );
+      defaultBackgroundColor:
+          colorToken.buttonBackground,
+      defaultForegroundColor:
+          colorToken.buttonText,
+    );
     cardTheme ??=
         SCardThemeData.fromColorScheme(matColorScheme);
     checkboxTheme ??=
@@ -354,14 +356,22 @@ class SThemeData
       warningColor:
           colorToken.warning,
     );
-    tooltipTheme ??= STooltipThemeData(
-      backgroundColor: colorToken.inverseSurface.withOpacity(0.9),
-      textColor: colorToken.onInverseSurface,
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-      borderRadius: BorderRadius.circular(4),
-      arrowSize: 6.0,
-      shadowColor: Colors.black26,
-      textStyle: typographyToken.bodySmall.copyWith(fontSize: 12),
+    tooltipTheme ??=
+        STooltipThemeData(
+      backgroundColor:
+          colorToken.inverseSurface.withOpacity(0.9),
+      textColor:
+          colorToken.onInverseSurface,
+      padding:
+          const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      borderRadius:
+          BorderRadius.circular(4),
+      arrowSize:
+          6.0,
+      shadowColor:
+          Colors.black26,
+      textStyle:
+          typographyToken.bodySmall.copyWith(fontSize: 12),
     );
 
     return SThemeData

@@ -317,10 +317,10 @@ class _SSelectState<
       get _allFlattenedItems {
     final List<SSelectItem<T>>
         flattened =
-        [];
+        <SSelectItem<T>>[];
     void flatten(
         List<SSelectItem<T>> items) {
-      for (final item
+      for (final SSelectItem<T> item
           in items) {
         if (item.isGroup) {
           flatten(item.options!);
@@ -549,8 +549,8 @@ class _SSelectState<
         filterItems(List<SSelectItem<T>> items) {
       final List<SSelectItem<T>>
           filtered =
-          [];
-      for (final item
+          <SSelectItem<T>>[];
+      for (final SSelectItem<T> item
           in items) {
         if (item.isGroup) {
           final List<SSelectItem<T>> children = filterItems(item.options!);
@@ -606,17 +606,16 @@ class _SSelectState<
       KeyEvent
           event) {
     if (event
-        is! KeyDownEvent)
+        is! KeyDownEvent) {
       return;
+    }
 
     final List<SSelectItem<T>>
         items =
-        _allFlattenedItems; // Note: this flattens only items, not groups
-    // Actually, for navigation, we need the list as shown in the dropdown (including headers but headers are skipped)
-    // Let's get the truly selectable items
-    final selectableItems = items
-        .where((i) => !i.disabled)
-        .toList();
+        _allFlattenedItems;
+    final List<SSelectItem<T>>
+        selectableItems =
+        items.where((SSelectItem<T> i) => !i.disabled).toList();
 
     if (event.logicalKey ==
         LogicalKeyboardKey
