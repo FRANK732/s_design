@@ -39,6 +39,7 @@ class STooltip
     this.autoFlip =
         true,
     this.animationDuration,
+    this.elevation,
   });
 
   /// The widget that triggers the tooltip.
@@ -104,6 +105,10 @@ class STooltip
   /// Duration of the fade/scale animation.
   final Duration?
       animationDuration;
+
+  /// The z-axis elevation for the tooltip overlay.
+  final double?
+      elevation;
 
   @override
   State<STooltip>
@@ -314,7 +319,7 @@ class _STooltipState
           backgroundColor: backgroundColor,
           padding: actualPadding,
           borderRadius: actualBorderRadius,
-          elevation: theme.elevation,
+          elevation: widget.elevation ?? theme.elevation,
           shadowColor: theme.shadowColor ?? Colors.black26,
           screenSize: MediaQuery.of(context).size,
           targetGlobalRect: targetGlobalRect,
