@@ -611,7 +611,7 @@ class SLocalizationsEn
 
   @override
   String get rateDesc =>
-      'A star rating component that lets users provide feedback on a numeric scale. Supports full stars, half stars, custom icons, and read-only display.';
+      'A rating component that lets users provide feedback on a numeric scale. Supports full stars, half stars, custom icons, and read-only display.';
   @override
   String rateLabelCurrent(num value) =>
       'Current: $value stars';
