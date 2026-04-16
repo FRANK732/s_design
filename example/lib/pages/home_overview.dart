@@ -393,10 +393,9 @@ class _LiveShowcaseState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SInputField(
+                  SInputField.email(
                     labelText: l10n.showcaseEmailLabel,
                     hintText: l10n.showcaseEmailHint,
-                    startIcon: const Icon(Icons.email_outlined),
                   ),
                   const SizedBox(height: 24),
                   Slider(
