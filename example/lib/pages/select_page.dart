@@ -406,11 +406,11 @@ SSelect<String>(
         // ──────────────────────────────────────────────────────────
         ComponentSection(
           title: 'Option Group',
-          description: 'Use nested `options` to create grouped items, equivalent to Ant Design\'s `OptGroup`.',
+          description: 'Use nested `options` to create grouped items.',
           demo: SizedBox(
             width: 240,
             child: SSelect<String>(
-              items: [
+              items: const [
                 SSelectItem(
                   label: 'Manager',
                   options: [

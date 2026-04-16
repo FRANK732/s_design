@@ -80,9 +80,9 @@ class SSelectStyleHelper {
       return theme.colorToken.background;
     }
 
-    switch (variant) {
+    switch (
+        variant) {
       case SSelectVariant.filled:
-        // Ant Design "filled" uses a subtle background tint
         return theme.colorToken.primary.withOpacity(0.04);
       case SSelectVariant.borderless:
       case SSelectVariant.outlined:

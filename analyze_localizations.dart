@@ -2,12 +2,11 @@ import 'dart:io';
 
 void
     main() {
-  final file =
+  final File
+      file =
       File('lib/src/presentation/localizations/s_localizations.dart');
   if (!file
       .existsSync()) {
-    print(
-        'File not found');
     return;
   }
 
@@ -18,84 +17,69 @@ void
   final int
       abstractStart =
       content.indexOf('abstract class SLocalizations');
-  final abstractEnd =
+  final int
+      abstractEnd =
       content.indexOf('class SLocalizationsEn');
-  final abstractBlock = content.substring(
-      abstractStart,
-      abstractEnd);
+  final String
+      abstractBlock =
+      content.substring(abstractStart,
+          abstractEnd);
 
-  final enStart =
+  final int
+      enStart =
       content.indexOf('class SLocalizationsEn');
-  final frStart =
+  final int
+      frStart =
       content.indexOf('class SLocalizationsFr');
-  final arStart =
+  final int
+      arStart =
       content.indexOf('class SLocalizationsAr');
-  final zhStart =
+  final int
+      zhStart =
       content.indexOf('class SLocalizationsZh');
 
-  final enBlock = content.substring(
-      enStart,
-      frStart);
-  final frBlock = content.substring(
-      frStart,
-      arStart);
-  final arBlock = content.substring(
-      arStart,
-      zhStart);
-  final zhBlock =
+  final String
+      enBlock =
+      content.substring(enStart,
+          frStart);
+  final String
+      frBlock =
+      content.substring(frStart,
+          arStart);
+  final String
+      arBlock =
+      content.substring(arStart,
+          zhStart);
+  final String
+      zhBlock =
       content.substring(zhStart);
 
   Set<String>
-      findMembers(String block) {
-    Set<String>
-        members =
-        {};
-    final getterRegex = RegExp(
-        r'String\s+get\s+(\w+)',
-        multiLine: true);
-    for (var match
-        in getterRegex.allMatches(block)) {
-      members.add(match.group(1)!);
-    }
-
-    final methodRegex = RegExp(
-        r'String\s+(\w+)\(',
-        multiLine: true);
-    for (var match
-        in methodRegex.allMatches(block)) {
-      final name =
-          match.group(1)!;
-      if (name != 'SLocalizations' &&
-          name != 'ofContext') {
-        members.add(name);
-      }
-    }
-    return members;
-  }
-
-  Set<String>
       findMembersStrict(String block) {
-    Set<String>
+    final Set<String>
         members =
-        {};
+        <String>{};
 
-    final lines =
+    final List<String>
+        lines =
         block.split('\n');
     for (int i = 0;
         i < lines.length - 1;
         i++) {
-      final line =
+      final String
+          line =
           lines[i].trim();
-      final nextLine =
+      final String
+          nextLine =
           lines[i + 1].trim();
 
       if (line ==
           'String') {
         if (nextLine.startsWith('get ')) {
-          final name = nextLine.substring(4).replaceAll(';', '').trim();
+          final String name = nextLine.substring(4).replaceAll(';', '').trim();
           members.add(name);
         } else if (nextLine.contains('(')) {
-          final name = nextLine.split('(')[0].trim();
+          final String name = nextLine.split('(')[0].trim();
           if (name != 'SLocalizations' && name != 'ofContext') {
             members.add(name);
           }
@@ -105,32 +89,24 @@ void
     return members;
   }
 
-  final abstractMembers =
+  final Set<String>
+      abstractMembers =
       findMembersStrict(abstractBlock);
-  print(
-      'Total abstract members found: ${abstractMembers.length}');
 
   void check(
       String
           name,
       String
           block) {
-    final implemented =
+    final Set<String>
+        implemented =
         findMembersStrict(block);
-    final missing =
+    final Set<String>
+        missing =
         abstractMembers.difference(implemented);
-    print(
-        '\n$name:');
-    print(
-        'Implemented: ${implemented.length}');
-    print(
-        'Missing: ${missing.length}');
+
     if (missing
-        .isNotEmpty) {
-      final list = missing.toList()
-        ..sort();
-      print('Missing: ${list.join(", ")}');
-    }
+        .isNotEmpty) {}
   }
 
   check(

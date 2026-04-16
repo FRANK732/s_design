@@ -492,7 +492,8 @@ class _SSelectState<
 
     Overlay.of(context)
         .insert(_overlayEntry!);
-    setState(() {
+    setState(
+        () {
       _isOpen =
           true;
       _highlightedIndex =
@@ -505,8 +506,11 @@ class _SSelectState<
         ?.call(true);
     // Defer requestFocus to the next frame so the TextField is
     // mounted before the browser <input> element receives focus.
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted && _isOpen) {
+    WidgetsBinding
+        .instance
+        .addPostFrameCallback((_) {
+      if (mounted &&
+          _isOpen) {
         _focusNode.requestFocus();
       }
     });
@@ -571,11 +575,7 @@ class _SSelectState<
         filterItems(widget.items);
 
     if (widget.filterSort !=
-        null) {
-      // Flatten for sorting might be complex for hierarchical lists,
-      // Ant Design usually sorts within groups or ignores groups for sort.
-      // We'll keep it simple for now and only sort top-level items if they are not groups.
-    }
+        null) {}
 
     return SSelectDropdown<
         T>(

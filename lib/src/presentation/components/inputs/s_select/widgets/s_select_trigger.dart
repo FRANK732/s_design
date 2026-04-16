@@ -108,7 +108,6 @@ class _SSelectTriggerState<
       false;
   late TextEditingController
       _searchController;
-  // Stable FocusNode for KeyboardListener in multi/tags mode (not recreated each build)
   final FocusNode
       _keyboardFocusNode =
       FocusNode();
@@ -145,11 +144,10 @@ class _SSelectTriggerState<
     }
     if (widget.searchValue != oldWidget.searchValue &&
         widget.searchValue != _searchController.text) {
-      // Keep cursor at end when updating programmatically
-      _searchController.value = TextEditingValue(
+      _searchController.value =
+          TextEditingValue(
         text: widget.searchValue ?? '',
-        selection: TextSelection.collapsed(
-            offset: (widget.searchValue ?? '').length),
+        selection: TextSelection.collapsed(offset: (widget.searchValue ?? '').length),
       );
     }
   }
@@ -229,10 +227,7 @@ class _SSelectTriggerState<
             ? null
             : () {
                 widget.onPressed?.call();
-                // Request focus after frame so TextField <input> is mounted
-                if (widget.showSearch &&
-                    widget.focusNode != null &&
-                    !widget.focusNode!.hasFocus) {
+                if (widget.showSearch && widget.focusNode != null && !widget.focusNode!.hasFocus) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     widget.focusNode!.requestFocus();
                   });
@@ -286,73 +281,72 @@ class _SSelectTriggerState<
       return _buildWrap(textStyle);
     }
 
-    // ── Single mode ──────────────────────────────────────────────
-    // When showSearch is ON, ALWAYS keep the TextField in the tree
-    // (opacity:0 when unfocused). This prevents the Flutter-Web
-    // timing bug where requestFocus() fires before the <input>
-    // element exists in the browser DOM.
-    if (widget.showSearch) {
-      return _buildSingleSearchContent(theme, textStyle);
+    if (widget
+        .showSearch) {
+      return _buildSingleSearchContent(theme,
+          textStyle);
     }
 
-    // Non-search single mode
-    if (widget.values.isEmpty) {
+    if (widget
+        .values
+        .isEmpty) {
       return Text(
         widget.placeholder ?? '',
-        style: textStyle.copyWith(
-            color: theme.colorToken.textSecondary.withOpacity(0.7)),
+        style: textStyle.copyWith(color: theme.colorToken.textSecondary.withOpacity(0.7)),
         overflow: TextOverflow.ellipsis,
       );
     }
-    final SSelectItem<T> selectedItem = widget.items.firstWhere(
-      (SSelectItem<T> item) => item.value == widget.values.first,
-      orElse: () => SSelectItem<T>(
-          value: widget.values.first, label: widget.values.first.toString()),
+    final SSelectItem<T>
+        selectedItem =
+        widget.items.firstWhere(
+      (SSelectItem<T> item) =>
+          item.value ==
+          widget.values.first,
+      orElse: () =>
+          SSelectItem<T>(value: widget.values.first, label: widget.values.first.toString()),
     );
     return Text(
-      selectedItem.label ?? '',
-      style: textStyle,
-      overflow: TextOverflow.ellipsis,
+      selectedItem.label ??
+          '',
+      style:
+          textStyle,
+      overflow:
+          TextOverflow.ellipsis,
     );
   }
 
-  /// Builds the single-mode content area when [showSearch] is true.
-  /// The TextField is always mounted; we use Opacity + IgnorePointer
-  /// to hide/show it without unmounting, ensuring Flutter Web can
-  /// correctly attach browser focus to the underlying <input> element.
   Widget _buildSingleSearchContent(
-      SThemeData theme,
-      TextStyle textStyle) {
-    final bool isFocused = widget.focusNode?.hasFocus ?? false;
-    final sTheme = STheme.of(context);
+      SThemeData
+          theme,
+      TextStyle
+          textStyle) {
+    final bool
+        isFocused =
+        widget.focusNode?.hasFocus ?? false;
+    final SThemeData
+        sTheme =
+        STheme.of(context);
 
-    // Determine hint text for the search input
     final String? hintText = widget.values.isNotEmpty
         ? (widget.items
-                .firstWhere(
-                  (i) => i.value == widget.values.first,
-                  orElse: () => SSelectItem<T>(
-                      value: widget.values.first,
-                      label: widget.values.first.toString()),
-                )
-                .label)
+            .firstWhere(
+              (i) => i.value == widget.values.first,
+              orElse: () => SSelectItem<T>(value: widget.values.first, label: widget.values.first.toString()),
+            )
+            .label)
         : widget.placeholder;
 
-    // Text shown behind the search input when not focused
     final Widget backgroundText = widget.values.isEmpty
         ? Text(
             widget.placeholder ?? '',
-            style: textStyle.copyWith(
-                color: sTheme.colorToken.textSecondary.withOpacity(0.7)),
+            style: textStyle.copyWith(color: sTheme.colorToken.textSecondary.withOpacity(0.7)),
             overflow: TextOverflow.ellipsis,
           )
         : Text(
             widget.items
                     .firstWhere(
                       (i) => i.value == widget.values.first,
-                      orElse: () => SSelectItem<T>(
-                          value: widget.values.first,
-                          label: widget.values.first.toString()),
+                      orElse: () => SSelectItem<T>(value: widget.values.first, label: widget.values.first.toString()),
                     )
                     .label ??
                 '',
@@ -361,33 +355,34 @@ class _SSelectTriggerState<
           );
 
     return Stack(
-      alignment: Alignment.centerLeft,
+      alignment:
+          Alignment.centerLeft,
       children: <Widget>[
-        // ① TextField – always in tree, opacity controlled
-        Opacity(
-          opacity: isFocused ? 1.0 : 0.0,
-          child: TextField(
-            controller: _searchController,
-            focusNode: widget.focusNode,
-            style: textStyle,
-            cursorColor: sTheme.colorToken.primary,
-            onChanged: widget.onSearch,
-            onTap: widget.onInputTap,
-            decoration: InputDecoration(
-              isDense: true,
-              contentPadding: EdgeInsets.zero,
-              border: InputBorder.none,
-              focusedBorder: InputBorder.none,
-              enabledBorder: InputBorder.none,
-              errorBorder: InputBorder.none,
-              disabledBorder: InputBorder.none,
-              hintText: isFocused ? hintText : null,
-              hintStyle: textStyle.copyWith(
-                  color: sTheme.colorToken.textSecondary.withOpacity(0.5)),
+        IgnorePointer(
+          ignoring: !isFocused,
+          child: Opacity(
+            opacity: isFocused ? 1.0 : 0.0,
+            child: TextField(
+              controller: _searchController,
+              focusNode: widget.focusNode,
+              style: textStyle,
+              cursorColor: sTheme.colorToken.primary,
+              onChanged: widget.onSearch,
+              onTap: widget.onInputTap,
+              decoration: InputDecoration(
+                isDense: true,
+                contentPadding: EdgeInsets.zero,
+                border: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                errorBorder: InputBorder.none,
+                disabledBorder: InputBorder.none,
+                hintText: isFocused ? hintText : null,
+                hintStyle: textStyle.copyWith(color: sTheme.colorToken.textSecondary.withOpacity(0.5)),
+              ),
             ),
           ),
         ),
-        // ② Value/placeholder label – shown when not focused
         if (!isFocused)
           IgnorePointer(child: backgroundText),
       ],
@@ -594,14 +589,16 @@ class _SSelectTriggerState<
       );
     }
 
-    if (widget.suffixIcon != null) {
+    if (widget.suffixIcon !=
+        null) {
       return widget.suffixIcon!;
     }
 
-    // Ant Design: show search icon when dropdown is open in search mode,
-    // otherwise show the chevron down arrow.
-    final bool isFocused = widget.focusNode?.hasFocus ?? false;
-    if (widget.showSearch && isFocused) {
+    final bool
+        isFocused =
+        widget.focusNode?.hasFocus ?? false;
+    if (widget.showSearch &&
+        isFocused) {
       return Icon(
         Icons.search,
         size: 16,
@@ -611,8 +608,10 @@ class _SSelectTriggerState<
 
     return Icon(
       Icons.keyboard_arrow_down,
-      size: 16,
-      color: theme.colorToken.textSecondary.withOpacity(0.5),
+      size:
+          16,
+      color:
+          theme.colorToken.textSecondary.withOpacity(0.5),
     );
   }
 }

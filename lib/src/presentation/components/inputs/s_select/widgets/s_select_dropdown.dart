@@ -87,7 +87,7 @@ class SSelectDropdown<
     void flatten(
         List<SSelectItem<T>> items,
         {bool isNested = false}) {
-      for (final item
+      for (final SSelectItem<T> item
           in items) {
         if (item.isGroup) {
           flattenedItems.add({
@@ -108,7 +108,7 @@ class SSelectDropdown<
     flatten(
         items);
 
-    Widget
+    final Widget
         listWidget =
         Container(
       constraints:
