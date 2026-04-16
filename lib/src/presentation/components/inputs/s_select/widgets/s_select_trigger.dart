@@ -111,6 +111,13 @@ class _SSelectTriggerState<
         .initState();
     _searchController =
         TextEditingController(text: widget.searchValue);
+    widget.focusNode?.addListener(_onFocusChange);
+  }
+
+  void _onFocusChange() {
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
@@ -119,6 +126,10 @@ class _SSelectTriggerState<
           oldWidget) {
     super.didUpdateWidget(
         oldWidget);
+    if (widget.focusNode != oldWidget.focusNode) {
+      oldWidget.focusNode?.removeListener(_onFocusChange);
+      widget.focusNode?.addListener(_onFocusChange);
+    }
     if (widget.searchValue != oldWidget.searchValue &&
         widget.searchValue != _searchController.text) {
       _searchController.text =
@@ -129,6 +140,7 @@ class _SSelectTriggerState<
   @override
   void
       dispose() {
+    widget.focusNode?.removeListener(_onFocusChange);
     _searchController
         .dispose();
     super
@@ -191,6 +203,7 @@ class _SSelectTriggerState<
           setState(() => _isHovering = false),
       child:
           InkWell(
+        canRequestFocus: false,
         onTap: widget.disabled
             ? null
             : () {
@@ -298,6 +311,18 @@ class _SSelectTriggerState<
     final SThemeData
         sTheme =
         STheme.of(context);
+
+    String? hint;
+    if (widget.mode == SSelectMode.single && widget.values.isNotEmpty) {
+      final SSelectItem<T> item = widget.items.firstWhere(
+        (i) => i.value == widget.values.first,
+        orElse: () => SSelectItem<T>(value: widget.values.first, label: widget.values.first.toString()),
+      );
+      hint = item.label;
+    } else {
+      hint = widget.placeholder;
+    }
+
     return TextField(
       controller:
           _searchController,
@@ -309,8 +334,7 @@ class _SSelectTriggerState<
           sTheme.colorToken.primary,
       onChanged:
           widget.onSearch,
-      decoration:
-          const InputDecoration(
+      decoration: InputDecoration(
         isDense: true,
         contentPadding: EdgeInsets.zero,
         border: InputBorder.none,
@@ -318,6 +342,8 @@ class _SSelectTriggerState<
         enabledBorder: InputBorder.none,
         errorBorder: InputBorder.none,
         disabledBorder: InputBorder.none,
+        hintText: hint,
+        hintStyle: textStyle.copyWith(color: sTheme.colorToken.textSecondary.withOpacity(0.5)),
       ),
     );
   }
