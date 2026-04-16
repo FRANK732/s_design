@@ -1,4 +1,4 @@
-import '../../../../s_design.dart';
+import '../s_localizations.dart';
 
 /// Chinese implementation of [SLocalizations].
 class SLocalizationsZh

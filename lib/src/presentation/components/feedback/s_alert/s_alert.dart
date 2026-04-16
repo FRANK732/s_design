@@ -78,7 +78,7 @@ class SAlert
     this.icon,
     /// Whether the alert can be closed by the user.
     this.closable = false,
-    /// Custom close button widget. Defaults to an `×` icon.
+    /// Custom close button widget. Defaults to an `x` icon.
     this.closeIcon,
     /// Called when the close button is tapped.
     this.onClose,
@@ -139,7 +139,7 @@ class SAlert
   final bool
       closable;
 
-  /// Custom close button widget. Defaults to an `×` icon.
+  /// Custom close button widget. Defaults to an `x` icon.
   final Widget?
       closeIcon;
 

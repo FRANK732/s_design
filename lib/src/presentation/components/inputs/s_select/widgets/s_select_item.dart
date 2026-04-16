@@ -39,7 +39,7 @@ class SSelectItem<
   final List<SSelectItem<T>>?
       options;
 
-  /// @deprecated Use [options] for hierarchical grouping.
+  /// Deprecated: Use [options] for hierarchical grouping.
   /// This remains for backward compatibility but nested [options] is preferred.
   final String?
       groupLabel;

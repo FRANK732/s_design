@@ -1,14 +1,14 @@
 /// Alert type variants.
 enum SAlertType {
-  /// Green — positive/completed outcome.
+  /// Green - positive/completed outcome.
   success,
 
-  /// Blue — informational message.
+  /// Blue - informational message.
   info,
 
-  /// Yellow/amber — caution or advisory.
+  /// Yellow/amber - caution or advisory.
   warning,
 
-  /// Red — error or critical problem.
+  /// Red - error or critical problem.
   error,
 }

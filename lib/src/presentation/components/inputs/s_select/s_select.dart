@@ -111,7 +111,7 @@ class SSelect<
       dropdownMaxHeight;
 
   /// Custom dropdown panel builder. Receives `(context, menu)` where `menu` is the
-  /// default options list — wrap or augment it as needed.
+  /// default options list - wrap or augment it as needed.
   final Widget Function(
       BuildContext
           context,
@@ -210,7 +210,7 @@ class SSelect<
           option,
       int index)? optionRender;
 
-  /// Custom trigger builder — replaces the default SSelectTrigger entirely.
+  /// Custom trigger builder - replaces the default SSelectTrigger entirely.
   /// Signature: `Widget Function(BuildContext context, dynamic value)`
   final Widget Function(
       BuildContext
