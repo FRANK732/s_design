@@ -56,24 +56,35 @@ class _HomeOverviewPageState
                     children: [
                       _EntranceAnimation(
                         delay: const Duration(milliseconds: 100),
-                        child: SCard(
-                          elevation: 0,
-                          color: colors.surface,
+                        child: SAlert(
+                          constraints: const BoxConstraints(maxWidth: 450),
+                          backgroundColor: colors.surface,
                           borderColor: colors.secondary,
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          borderRadius: 20.0,
-                          body: Row(
+                          showIcon: true,
+                          icon: Icon(Icons.auto_awesome, size: 16, color: colors.secondary),
+                          elevation: 10,
+                          title: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(Icons.auto_awesome, size: 16, color: colors.secondary),
-                              const SizedBox(width: 8),
                               Text(
                                 l10n.heroTagline,
-                                style: theme.textTheme.labelLarge?.copyWith(
-                                  fontWeight: FontWeight.bold,
+                                style: const TextStyle(letterSpacing: 2.0),
+                              ),
+                              _PulsatingDate(
+                                child: Text(
+                                  ' ${l10n.heroTaglineDate}',
+                                  style: TextStyle(
+                                    color: colors.primary,
+                                  ),
                                 ),
                               ),
                             ],
+                          ),
+                          description: l10n.heroTaglineDesc,
+                          titleStyle: theme.textTheme.labelLarge?.copyWith(
+                            fontWeight: FontWeight.w900,
+                            fontSize: 16,
                           ),
                         ),
                       ),
@@ -412,7 +423,7 @@ class _LiveShowcaseState
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SInputField.datePicker(
-                    controller: TextEditingController(),
+                    controller: TextEditingController(text: '2026-04-16'),
                     hintText: l10n.showcaseDateHint,
                   ),
                   const SizedBox(height: 24),
@@ -827,5 +838,76 @@ class _BackgroundPainter
           oldDelegate) {
     return oldDelegate.animation != animation ||
         oldDelegate.color != color;
+  }
+}
+
+class _PulsatingDate
+    extends StatefulWidget {
+  const _PulsatingDate(
+      {required this.child});
+  final Widget
+      child;
+
+  @override
+  State<_PulsatingDate>
+      createState() =>
+          _PulsatingDateState();
+}
+
+class _PulsatingDateState
+    extends State<
+        _PulsatingDate>
+    with
+        SingleTickerProviderStateMixin {
+  late AnimationController
+      _controller;
+  late Animation<double>
+      _scaleAnimation;
+
+  @override
+  void
+      initState() {
+    super
+        .initState();
+    _controller =
+        AnimationController(
+      vsync:
+          this,
+      duration:
+          const Duration(seconds: 1),
+    )..repeat(reverse: true);
+
+    _scaleAnimation =
+        Tween<double>(begin: 1.0, end: 1.05).animate(
+      CurvedAnimation(
+          parent: _controller,
+          curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void
+      dispose() {
+    _controller
+        .dispose();
+    super
+        .dispose();
+  }
+
+  @override
+  Widget build(
+      BuildContext
+          context) {
+    return AnimatedBuilder(
+      animation:
+          _controller,
+      builder:
+          (context, child) {
+        return Transform.scale(
+          scale: _scaleAnimation.value,
+          child: widget.child,
+        );
+      },
+    );
   }
 }

@@ -209,7 +209,13 @@ class SLocalizationsAr
 
   @override
   String get heroTagline =>
-      'sDesign v2.0.0 قادم في 1 مايو!';
+      'sDesign v2.0.0 قادم في ';
+  @override
+  String get heroTaglineDate =>
+      '1 مايو!';
+  @override
+  String get heroTaglineDesc =>
+      'استعد لنظرة حصرية على الجيل القادم من مكونات واجهة المستخدم Flutter.';
   @override
   String get heroTitle =>
       'صمم واجهات مستخدم مذهلة بأقل قدر من الكود';

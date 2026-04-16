@@ -118,8 +118,8 @@ class SAlert
   final SAlertType
       type;
 
-  /// Primary message. Rendered in bold.
-  final String?
+  /// Primary message. Rendered in bold in the upper region.
+  final dynamic
       title;
 
   /// Secondary supporting detail text or widget.
@@ -389,7 +389,8 @@ class _SAlertState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  if (widget.title != null) Text(widget.title!, style: effectiveTitleStyle),
+                  if (widget.title != null)
+                    if (widget.title is String) Text(widget.title as String, style: effectiveTitleStyle) else DefaultTextStyle(style: effectiveTitleStyle, child: widget.title as Widget),
                   if (widget.description != null) ...<Widget>[
                     if (widget.title != null) const SizedBox(height: 4),
                     if (widget.description is String) Text(widget.description as String, style: effectiveDescStyle) else if (widget.description is Widget) widget.description as Widget,
