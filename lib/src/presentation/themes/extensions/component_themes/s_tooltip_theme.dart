@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// Theme data for [STooltip].
+@immutable
 class STooltipThemeData
     extends ThemeExtension<
         STooltipThemeData> {

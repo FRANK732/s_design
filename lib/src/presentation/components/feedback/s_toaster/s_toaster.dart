@@ -17,6 +17,10 @@ import '../../../themes/s_theme_data.dart';
 )
 class SToast
     extends StatefulWidget {
+  @Deprecated(
+    'SToast is deprecated. Use SAlert for inline alerts or SSonner for toast notifications. '
+    'This class will be removed in a future version.',
+  )
   const SToast({
     super.key,
     required this.description,

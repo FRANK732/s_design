@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// Theme data for [SInputField].
+@immutable
 class SInputFieldThemeData
     extends ThemeExtension<
         SInputFieldThemeData> {

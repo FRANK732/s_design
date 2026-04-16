@@ -48,7 +48,7 @@ class SDatePickerDecadeGrid
         i < 4;
         i++) {
       rows.add(Row(
-        children: List.generate(3, (int colIndex) {
+        children: List<Widget>.generate(3, (int colIndex) {
           final int index = (i * 3) + colIndex;
           // index 0 is startYear - 10
           final int decadeStartYear = startYear + (index - 1) * 10;
