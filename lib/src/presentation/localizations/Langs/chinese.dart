@@ -234,7 +234,13 @@ class SLocalizationsZh
 
   @override
   String get heroTagline =>
-      'sDesign v2.0.0 将于 5 月 1 日发布！';
+      'sDesign v2.0.0 将于 ';
+  @override
+  String get heroTaglineDate =>
+      '5 月 1 日发布！';
+  @override
+  String get heroTaglineDesc =>
+      '准备好独家预览新一代 Flutter UI 组件。';
   @override
   String get heroTitle =>
       '以极简代码打造惊艳 UI';

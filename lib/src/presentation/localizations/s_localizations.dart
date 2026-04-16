@@ -177,6 +177,10 @@ abstract class SLocalizations {
   String
       get heroTagline;
   String
+      get heroTaglineDate;
+  String
+      get heroTaglineDesc;
+  String
       get heroTitle;
   String
       get heroDescription;
