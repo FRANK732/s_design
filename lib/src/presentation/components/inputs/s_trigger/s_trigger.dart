@@ -112,6 +112,8 @@ class _STriggerState
       _overlayEntry;
   Timer?
       _delayTimer;
+  ScrollPosition?
+      _scrollPosition;
 
   late AnimationController
       _animationController;
@@ -153,6 +155,20 @@ class _STriggerState
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _scrollPosition?.removeListener(_handleScroll);
+    _scrollPosition = Scrollable.maybeOf(context)?.position;
+    _scrollPosition?.addListener(_handleScroll);
+  }
+
+  void _handleScroll() {
+    if (_isVisible) {
+      _fireVisibleChange(false);
+    }
+  }
+
+  @override
   void didUpdateWidget(
       covariant STrigger
           oldWidget) {
@@ -176,6 +192,7 @@ class _STriggerState
   @override
   void
       dispose() {
+    _scrollPosition?.removeListener(_handleScroll);
     _delayTimer
         ?.cancel();
     _animationController
