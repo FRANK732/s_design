@@ -2,8 +2,27 @@ import 'package:flutter/material.dart';
 
 import '../../../../../s_design.dart';
 
+class SMenuScope extends InheritedWidget {
+  const SMenuScope({
+    super.key,
+    required this.activeSubMenuId,
+    required super.child,
+  });
+
+  final ValueNotifier<String?> activeSubMenuId;
+
+  static SMenuScope? of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<SMenuScope>();
+  }
+
+  @override
+  bool updateShouldNotify(SMenuScope oldWidget) {
+    return activeSubMenuId != oldWidget.activeSubMenuId;
+  }
+}
+
 class SMenu
-    extends StatelessWidget {
+    extends StatefulWidget {
   const SMenu({
     super.key,
     required this.children,
@@ -21,17 +40,33 @@ class SMenu
       padding;
 
   @override
+  State<SMenu> createState() => _SMenuState();
+}
+
+class _SMenuState extends State<SMenu> {
+  final ValueNotifier<String?> _activeSubMenuId = ValueNotifier<String?>(null);
+
+  @override
+  void dispose() {
+    _activeSubMenuId.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(
       BuildContext
           context) {
-    return Padding(
-      padding:
-          padding,
-      child:
-          Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: children,
+    return SMenuScope(
+      activeSubMenuId: _activeSubMenuId,
+      child: Padding(
+        padding:
+            widget.padding,
+        child:
+            Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: widget.children,
+        ),
       ),
     );
   }

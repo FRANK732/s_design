@@ -322,7 +322,6 @@ SDropdown(
               trigger: const [
                 SDropdownTrigger.click
               ],
-              placement: SDropdownPlacement.bottomLeft,
               overlay: SMenu(
                 children: [
                   SMenuItem(child: const Text('New File'), onTap: () {}),
@@ -353,9 +352,11 @@ SDropdown(
                   ),
                   const SMenuDivider(),
                   SMenuItem(
-                    child: const Text('Delete'),
                     danger: true,
-                    onTap: () {},
+                    onTap: () {
+                      SSonner.show(message: 'Successfully deleted', variant: SSonnerVariant.success);
+                    },
+                    child: const Text('Delete'),
                   ),
                 ],
               ),
