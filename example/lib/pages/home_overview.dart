@@ -57,13 +57,12 @@ class _HomeOverviewPageState
                       _EntranceAnimation(
                         delay: const Duration(milliseconds: 100),
                         child: SAlert(
-                          constraints: const BoxConstraints(maxWidth: 450),
+                          constraints: const BoxConstraints(maxWidth: 460),
                           backgroundColor: colors.surface,
                           borderColor: colors.secondary,
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                           showIcon: true,
                           icon: Icon(Icons.auto_awesome, size: 16, color: colors.secondary),
-                          elevation: 10,
                           title: Text.rich(
                             TextSpan(
                               children: [
