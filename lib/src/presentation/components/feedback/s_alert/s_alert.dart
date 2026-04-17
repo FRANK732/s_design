@@ -66,50 +66,77 @@ class SAlert
     extends StatefulWidget {
   const SAlert({
     super.key,
+
     /// Semantic type of the alert (success, info, warning, error).
-    this.type = SAlertType.info,
+    this.type =
+        SAlertType.info,
+
     /// Primary message. Rendered in bold in the upper region.
     this.title,
+
     /// Secondary supporting detail text or widget.
     this.description,
+
     /// Whether to show the type icon. In [banner] mode defaults to `true`.
-    this.showIcon = false,
+    this.showIcon =
+        false,
+
     /// Custom icon widget. Used only when [showIcon] is `true`.
     this.icon,
+
     /// Whether the alert can be closed by the user.
-    this.closable = false,
+    this.closable =
+        false,
+
     /// Custom close button widget. Defaults to an `x` icon.
     this.closeIcon,
+
     /// Called when the close button is tapped.
     this.onClose,
+
     /// Called after the collapse animation completes.
     this.afterClose,
+
     /// Optional action widget rendered in the trailing area (right side).
     this.action,
+
     /// If `true`, renders as a full-width banner.
-    this.banner = false,
+    this.banner =
+        false,
+
     /// Override background color.
     this.backgroundColor,
+
     /// Override border color.
     this.borderColor,
+
     /// Override border width. Defaults to `1`.
     this.borderWidth,
+
     /// Override corner border radius. Has no effect in [banner] mode.
     this.borderRadius,
+
     /// Override inner padding.
     this.padding,
+
     /// Override icon color.
     this.iconColor,
+
     /// Override icon size.
     this.iconSize,
+
     /// Override title text style.
     this.titleStyle,
+
     /// Override description text style.
     this.descriptionStyle,
+
     /// Elevation of the alert shadow.
     this.elevation,
+
     /// Color of the shadow when [elevation] > 0.
     this.shadowColor,
+
     /// Size constraints applied to the alert widget.
     this.constraints,
   });
@@ -357,9 +384,15 @@ class _SAlertState
         boxShadow: elev > 0
             ? <BoxShadow>[
                 BoxShadow(
-                  color: shadowColor ?? Colors.black12,
-                  blurRadius: elev * 2,
-                  offset: Offset(0, elev / 2),
+                  color: (shadowColor == null || shadowColor == Colors.transparent) ? Theme.of(context).colorScheme.shadow : shadowColor,
+                  blurRadius: elev * 2.5,
+                  spreadRadius: elev * 0.1,
+                  offset: Offset(0, elev * 0.8),
+                ),
+                BoxShadow(
+                  color: (shadowColor == null || shadowColor == Colors.transparent) ? Theme.of(context).colorScheme.shadow : shadowColor,
+                  blurRadius: elev,
+                  offset: Offset(0, elev * 0.3),
                 ),
               ]
             : null,
@@ -420,15 +453,16 @@ class _SAlertState
           _controller,
       builder:
           (BuildContext ctx, Widget? child) {
-        return ClipRect(
-          child: Align(
-            heightFactor: _heightFactor.value,
-            child: Opacity(
-              opacity: _opacity.value,
-              child: child,
-            ),
+        final Widget aligned = Align(
+          heightFactor: _heightFactor.value,
+          child: Opacity(
+            opacity: _opacity.value,
+            child: child,
           ),
         );
+
+        // Only clip during the collapse animation to allow shadows to render cleanly when fully open
+        return _controller.value == 1.0 ? aligned : ClipRect(child: aligned);
       },
       child:
           content,

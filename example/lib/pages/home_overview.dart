@@ -64,22 +64,26 @@ class _HomeOverviewPageState
                           showIcon: true,
                           icon: Icon(Icons.auto_awesome, size: 16, color: colors.secondary),
                           elevation: 10,
-                          title: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                l10n.heroTagline,
-                                style: const TextStyle(letterSpacing: 2.0),
-                              ),
-                              _PulsatingDate(
-                                child: Text(
-                                  ' ${l10n.heroTaglineDate}',
-                                  style: TextStyle(
-                                    color: colors.primary,
+                          title: Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: l10n.heroTagline,
+                                  style: const TextStyle(letterSpacing: 2.0),
+                                ),
+                                WidgetSpan(
+                                  alignment: PlaceholderAlignment.middle,
+                                  child: _PulsatingDate(
+                                    child: Text(
+                                      ' ${l10n.heroTaglineDate}',
+                                      style: TextStyle(
+                                        color: colors.primary,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           description: l10n.heroTaglineDesc,
                           titleStyle: theme.textTheme.labelLarge?.copyWith(
