@@ -5,7 +5,7 @@ import '../../../../../s_design.dart';
 ///
 /// Use inside [SMenu] anywhere you need cascading sub-menus
 class SSubMenu
-    extends StatelessWidget {
+    extends StatefulWidget {
   const SSubMenu({
     super.key,
     required this.title,
@@ -18,6 +18,10 @@ class SSubMenu
     this.popupOffset = const Offset(
         4,
         0),
+    this.backgroundColor,
+    this.borderColor,
+    this.borderRadius,
+    this.trigger = const <STriggerAction>[STriggerAction.hover],
   });
 
   /// The label shown in the parent menu row.
@@ -44,6 +48,62 @@ class SSubMenu
   final Offset
       popupOffset;
 
+  /// Override background color of the sub-menu.
+  final Color? backgroundColor;
+
+  /// Override border color of the sub-menu.
+  final Color? borderColor;
+
+  /// Override border radius of the sub-menu.
+  final BorderRadius? borderRadius;
+
+  /// Trigger actions for opening the sub-menu.
+  final List<STriggerAction> trigger;
+
+  @override
+  State<SSubMenu> createState() => _SSubMenuState();
+}
+
+class _SSubMenuState extends State<SSubMenu> {
+  final String _menuId = UniqueKey().toString();
+  bool _isOpen = false;
+  SMenuScope? _scope;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final SMenuScope? newScope = SMenuScope.of(context);
+    if (_scope != newScope) {
+      _scope?.activeSubMenuId.removeListener(_onScopeChanged);
+      _scope = newScope;
+      _scope?.activeSubMenuId.addListener(_onScopeChanged);
+    }
+  }
+
+  @override
+  void dispose() {
+    _scope?.activeSubMenuId.removeListener(_onScopeChanged);
+    super.dispose();
+  }
+
+  void _onScopeChanged() {
+    final String? activeId = _scope?.activeSubMenuId.value;
+    if (activeId != _menuId && _isOpen) {
+      setState(() => _isOpen = false);
+    }
+  }
+
+  void _handleVisibleChange(bool visible) {
+    setState(() => _isOpen = visible);
+    if (visible) {
+      _scope?.activeSubMenuId.value = _menuId;
+    } else {
+      if (_scope?.activeSubMenuId.value == _menuId) {
+        _scope?.activeSubMenuId.value = null;
+      }
+    }
+  }
+
   @override
   Widget build(
       BuildContext
@@ -52,53 +112,75 @@ class SSubMenu
         theme =
         STheme.of(context);
 
-    final Color textColor = disabled
+    final Color textColor = widget.disabled
         ? theme.colorToken.textSecondary.withOpacity(0.5)
         : theme.colorToken.textPrimary;
-    final Color iconColor = disabled
+    final Color iconColor = widget.disabled
         ? theme.colorToken.textSecondary.withOpacity(0.3)
         : theme.colorToken.textSecondary;
+
+    final SDropdownMenuThemeData dropdownTheme = theme.dropdownMenuTheme;
+
+    final Color effectiveBackgroundColor = widget.backgroundColor ?? 
+        dropdownTheme.backgroundColor ?? 
+        theme.colorToken.surface;
+    
+    final Color effectiveBorderColor = widget.borderColor ?? 
+        dropdownTheme.borderColor ?? 
+        theme.colorToken.divider.withOpacity(0.4);
+    
+    final BorderRadius effectiveBorderRadius = widget.borderRadius ?? 
+        dropdownTheme.borderRadius ?? 
+        BorderRadius.circular(DesignConstants.borderRadiusMedium);
+    
+    final double effectiveElevation = dropdownTheme.elevation ?? 8.0;
 
     final Widget
         popup =
         Material(
       elevation:
-          8,
+          effectiveElevation,
       shadowColor:
           theme.colorToken.shadow.withOpacity(0.15),
       color:
           Colors.transparent,
       borderRadius:
-          BorderRadius.circular(DesignConstants.borderRadiusMedium),
+          effectiveBorderRadius,
       child:
           Container(
         decoration: BoxDecoration(
-          color: theme.colorToken.surface,
-          borderRadius: BorderRadius.circular(DesignConstants.borderRadiusMedium),
-          border: Border.all(color: theme.colorToken.divider.withOpacity(0.4)),
+          color: effectiveBackgroundColor,
+          borderRadius: effectiveBorderRadius,
+          border: Border.all(color: effectiveBorderColor),
         ),
-        child: SMenu(children: children),
+        child: SMenu(children: widget.children),
       ),
     );
 
     return STrigger(
       placement:
-          placement,
+          widget.placement,
       disabled:
-          disabled,
+          widget.disabled,
       mouseEnterDelay:
           const Duration(milliseconds: 80),
       mouseLeaveDelay:
           const Duration(milliseconds: 120),
+      action:
+          widget.trigger,
+      popupVisible: 
+          _isOpen,
+      onPopupVisibleChange: 
+          _handleVisibleChange,
       popup:
           popup,
       child:
           _SSubMenuRow(
-        title: title,
-        icon: icon,
+        title: widget.title,
+        icon: widget.icon,
         textColor: textColor,
         iconColor: iconColor,
-        disabled: disabled,
+        disabled: widget.disabled,
         theme: theme,
       ),
     );

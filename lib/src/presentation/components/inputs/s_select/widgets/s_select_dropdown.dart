@@ -115,7 +115,7 @@ class SSelectDropdown<
           BoxConstraints(maxHeight: maxHeight),
       decoration:
           BoxDecoration(
-        color: theme.colorToken.surface,
+        color: theme.selectTheme.backgroundColor,
         borderRadius: BorderRadius.circular(DesignConstants.borderRadiusMedium),
         boxShadow: <BoxShadow>[
           BoxShadow(

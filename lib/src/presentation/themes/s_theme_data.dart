@@ -176,7 +176,7 @@ class SThemeData
     dialogTheme ??=
         SDialogThemeData.fromColorScheme(matColorScheme);
     dropdownMenuTheme ??=
-        SDropdownMenuThemeData.fromColorScheme();
+        SDropdownMenuThemeData.fromColorScheme(matColorScheme);
     floatingPanelTheme ??=
         SFloatingPanelThemeData(
       backgroundColor:

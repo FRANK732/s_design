@@ -2,8 +2,27 @@ import 'package:flutter/material.dart';
 
 import '../../../../../s_design.dart';
 
+class SMenuScope extends InheritedWidget {
+  const SMenuScope({
+    super.key,
+    required this.activeSubMenuId,
+    required super.child,
+  });
+
+  final ValueNotifier<String?> activeSubMenuId;
+
+  static SMenuScope? of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<SMenuScope>();
+  }
+
+  @override
+  bool updateShouldNotify(SMenuScope oldWidget) {
+    return activeSubMenuId != oldWidget.activeSubMenuId;
+  }
+}
+
 class SMenu
-    extends StatelessWidget {
+    extends StatefulWidget {
   const SMenu({
     super.key,
     required this.children,
@@ -21,17 +40,33 @@ class SMenu
       padding;
 
   @override
+  State<SMenu> createState() => _SMenuState();
+}
+
+class _SMenuState extends State<SMenu> {
+  final ValueNotifier<String?> _activeSubMenuId = ValueNotifier<String?>(null);
+
+  @override
+  void dispose() {
+    _activeSubMenuId.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(
       BuildContext
           context) {
-    return Padding(
-      padding:
-          padding,
-      child:
-          Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: children,
+    return SMenuScope(
+      activeSubMenuId: _activeSubMenuId,
+      child: Padding(
+        padding:
+            widget.padding,
+        child:
+            Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: widget.children,
+        ),
       ),
     );
   }
@@ -53,6 +88,8 @@ class SMenuItem
         false,
     this.loading =
         false,
+    this.closeOnTap =
+        true,
   });
 
   /// The primary content of the menu item.
@@ -86,6 +123,10 @@ class SMenuItem
   /// Whether the item is in a loading state (renders a spinner).
   final bool
       loading;
+
+  /// Whether to close the menu when this item is tapped.
+  final bool
+      closeOnTap;
 
   @override
   State<SMenuItem>
@@ -148,7 +189,14 @@ class _SMenuItemState
           : SystemMouseCursors.click,
       child:
           GestureDetector(
-        onTap: widget.disabled ? null : widget.onTap,
+        onTap: widget.disabled || widget.loading
+            ? null
+            : () {
+                if (widget.closeOnTap) {
+                  STrigger.close(context);
+                }
+                widget.onTap?.call();
+              },
         behavior: HitTestBehavior.opaque,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

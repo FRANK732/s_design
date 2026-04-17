@@ -45,6 +45,9 @@ class SDropdown
         false,
     this.minWidth,
     this.elevation = 0.0,
+    this.backgroundColor,
+    this.borderColor,
+    this.borderRadius,
   });
 
   final Widget
@@ -69,6 +72,9 @@ class SDropdown
       minWidth;
   final double
       elevation;
+  final Color? backgroundColor;
+  final Color? borderColor;
+  final BorderRadius? borderRadius;
 
   @override
   Widget build(
@@ -119,26 +125,42 @@ class SDropdown
         triggerPlacement = STriggerPlacement.rightBottom;
     }
 
+    final SDropdownMenuThemeData dropdownTheme = STheme.of(context).dropdownMenuTheme;
+
+    final Color effectiveBackgroundColor = backgroundColor ?? 
+        dropdownTheme.backgroundColor ?? 
+        STheme.of(context).colorToken.surface;
+    
+    final Color effectiveBorderColor = borderColor ?? 
+        dropdownTheme.borderColor ?? 
+        STheme.of(context).colorToken.divider.withOpacity(0.5);
+    
+    final BorderRadius effectiveBorderRadius = borderRadius ?? 
+        dropdownTheme.borderRadius ?? 
+        BorderRadius.circular(DesignConstants.borderRadiusMedium);
+    
+    final double effectiveElevation = elevation > 0 ? elevation : (dropdownTheme.elevation ?? 0.0);
+
     final Widget
         styledOverlay =
         Material(
       elevation:
-          elevation,
+          effectiveElevation,
       shadowColor:
           STheme.of(context).colorToken.shadow.withOpacity(0.2),
       color:
           Colors.transparent,
       borderRadius:
-          BorderRadius.circular(DesignConstants.borderRadiusMedium),
+          effectiveBorderRadius,
       child:
           Container(
         constraints: BoxConstraints(
           minWidth: minWidth ?? 100, // Using 100 as fallback since we can't measure root perfectly here yet
         ),
         decoration: BoxDecoration(
-          color: STheme.of(context).colorToken.surface,
-          borderRadius: BorderRadius.circular(DesignConstants.borderRadiusMedium),
-          border: Border.all(color: STheme.of(context).colorToken.divider.withOpacity(0.5)),
+          color: effectiveBackgroundColor,
+          borderRadius: effectiveBorderRadius,
+          border: Border.all(color: effectiveBorderColor),
         ),
         child: overlay,
       ),

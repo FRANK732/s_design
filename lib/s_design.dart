@@ -97,6 +97,7 @@ export 'src/presentation/themes/extensions/component_themes/s_button_theme.dart'
 export 'src/presentation/themes/extensions/component_themes/s_card_theme.dart';
 export 'src/presentation/themes/extensions/component_themes/s_checkbox_theme.dart';
 export 'src/presentation/themes/extensions/component_themes/s_dialog_theme.dart';
+export 'src/presentation/themes/extensions/component_themes/s_dropdown_menu_theme.dart';
 
 export 'src/presentation/themes/extensions/component_themes/s_floating_panel_theme.dart';
 export 'src/presentation/themes/extensions/component_themes/s_input_field_theme.dart';
