@@ -44,6 +44,7 @@ class SDropdown
     this.destroyOnHidden =
         false,
     this.minWidth,
+    this.elevation = 0.0,
   });
 
   final Widget
@@ -66,6 +67,8 @@ class SDropdown
       destroyOnHidden;
   final double?
       minWidth;
+  final double
+      elevation;
 
   @override
   Widget build(
@@ -120,7 +123,7 @@ class SDropdown
         styledOverlay =
         Material(
       elevation:
-          8,
+          elevation,
       shadowColor:
           STheme.of(context).colorToken.shadow.withOpacity(0.2),
       color:

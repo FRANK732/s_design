@@ -34,7 +34,7 @@ class SCardThemeData
       borderColor:
           colorScheme.outlineVariant,
       elevation:
-          2.0,
+          0.0,
       borderRadius:
           12.0,
       dividerColor:

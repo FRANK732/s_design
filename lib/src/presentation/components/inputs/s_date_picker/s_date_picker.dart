@@ -21,6 +21,7 @@ class SDatePicker
         SDatePickerMode.date,
     this.presets,
     this.style,
+    this.elevation = 0.0,
   });
 
   final DateTime?
@@ -37,6 +38,8 @@ class SDatePicker
       presets;
   final SDatePickerStyle?
       style;
+  final double
+      elevation;
 
   @override
   State<SDatePicker>
@@ -159,7 +162,7 @@ class _SDatePickerState
               followerAnchor: showAbove ? Alignment.bottomLeft : Alignment.topLeft,
               offset: Offset(dx, showAbove ? -4 : 4),
               child: Material(
-                elevation: 4,
+                elevation: widget.elevation,
                 borderRadius: BorderRadius.circular(2),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,

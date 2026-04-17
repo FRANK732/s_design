@@ -51,7 +51,7 @@ class SDialogThemeData
       borderRadius:
           BorderRadius.circular(16),
       elevation:
-          6.0,
+          0.0,
       contentPadding:
           const EdgeInsets.all(24.0),
       actionsPadding:

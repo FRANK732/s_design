@@ -11,7 +11,7 @@ class DesignConstants {
       8.0;
   static const double
       buttonElevationDefault =
-      2.0;
+      0.0;
   static const Duration
       buttonAnimationDuration =
       Duration(milliseconds: 200);
