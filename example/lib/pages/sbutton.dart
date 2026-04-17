@@ -24,11 +24,13 @@ class _SButtonPageState
   Widget build(
       BuildContext
           context) {
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
     return ComponentPage(
       name:
           'SButton',
-      description: l10n.buttonDesc,
+      description:
+          l10n.buttonDesc,
       whenToUse: [
         l10n.buttonTip1,
         l10n.buttonTip2,
@@ -116,6 +118,7 @@ SButton.icon(icon: const Icon(Icons.share), onPressed: () {});''',
             children: [
               SButton(
                 loading: _loading,
+                width: double.infinity,
                 onPressed: () {
                   setState(() => _loading = true);
                   Future.delayed(const Duration(seconds: 2), () {
