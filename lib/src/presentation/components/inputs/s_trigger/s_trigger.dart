@@ -26,6 +26,23 @@ enum STriggerPlacement {
   rightBottom,
 }
 
+class STriggerScope extends InheritedWidget {
+  const STriggerScope({
+    super.key,
+    required this.onClose,
+    required super.child,
+  });
+
+  final VoidCallback onClose;
+
+  static STriggerScope? of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<STriggerScope>();
+  }
+
+  @override
+  bool updateShouldNotify(STriggerScope oldWidget) => false;
+}
+
 class STrigger
     extends StatefulWidget {
   const STrigger({
@@ -94,6 +111,11 @@ class STrigger
   final dynamic
       getPopupContainer;
 
+  /// Closes the nearest ancestor [STrigger] and triggers its parent cascade dismissal.
+  static void close(BuildContext context) {
+    STriggerScope.of(context)?.onClose();
+  }
+
   @override
   State<STrigger>
       createState() =>
@@ -108,6 +130,15 @@ class _STriggerState
   bool
       _isVisible =
       false;
+
+  DateTime? _mountedAt;
+
+  STriggerScope? _parentScope;
+
+  void _handleClose() {
+    _fireVisibleChange(false);
+    _parentScope?.onClose();
+  }
   OverlayEntry?
       _overlayEntry;
   Timer?
@@ -127,6 +158,7 @@ class _STriggerState
       initState() {
     super
         .initState();
+    _mountedAt = DateTime.now();
     _isVisible =
         widget.popupVisible ?? false;
     _animationController =
@@ -157,6 +189,7 @@ class _STriggerState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    _parentScope = STriggerScope.of(context);
     _scrollPosition?.removeListener(_handleScroll);
     _scrollPosition = Scrollable.maybeOf(context)?.position;
     _scrollPosition?.addListener(_handleScroll);
@@ -227,6 +260,14 @@ class _STriggerState
 
   void
       _onMouseEnter() {
+    // Guard: Ignore hovers for the first 150ms to prevent auto-opening 
+    // when a menu appears directly under the pointer (common on mobile).
+    final bool isTooSoon = _mountedAt != null && 
+        DateTime.now().difference(_mountedAt!).inMilliseconds < 150;
+    if (isTooSoon) {
+      return;
+    }
+
     _clearTimer();
     _delayTimer = Timer(
         widget.mouseEnterDelay,
@@ -321,7 +362,10 @@ class _STriggerState
           onPopupHoverEnter: _clearTimer,
           onPopupHoverExit: _onMouseLeave,
           onBackgroundTap: () => _fireVisibleChange(false),
-          popup: widget.popup,
+          popup: STriggerScope(
+            onClose: _handleClose,
+            child: widget.popup,
+          ),
         );
       },
     );
@@ -362,7 +406,14 @@ class _STriggerState
           final bool isLeftClick = event.buttons == 1;
           final bool isRightClick = event.buttons == 2;
 
+          // Guard: Ignore events that occur too soon after the trigger is mounted.
+          final bool isTooSoon = _mountedAt != null && 
+              DateTime.now().difference(_mountedAt!).inMilliseconds < 100;
+
           if (isTouch && hasHover && !hasClick) {
+            if (isTooSoon) {
+              return;
+            }
             _onClick();
           } else if (isLeftClick && hasClick) {
             _onClick();

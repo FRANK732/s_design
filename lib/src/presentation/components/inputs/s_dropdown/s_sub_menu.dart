@@ -21,6 +21,7 @@ class SSubMenu
     this.backgroundColor,
     this.borderColor,
     this.borderRadius,
+    this.trigger = const <STriggerAction>[STriggerAction.hover],
   });
 
   /// The label shown in the parent menu row.
@@ -55,6 +56,9 @@ class SSubMenu
 
   /// Override border radius of the sub-menu.
   final BorderRadius? borderRadius;
+
+  /// Trigger actions for opening the sub-menu.
+  final List<STriggerAction> trigger;
 
   @override
   State<SSubMenu> createState() => _SSubMenuState();
@@ -162,6 +166,8 @@ class _SSubMenuState extends State<SSubMenu> {
           const Duration(milliseconds: 80),
       mouseLeaveDelay:
           const Duration(milliseconds: 120),
+      action:
+          widget.trigger,
       popupVisible: 
           _isOpen,
       onPopupVisibleChange: 

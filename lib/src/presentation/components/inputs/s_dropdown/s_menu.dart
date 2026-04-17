@@ -88,6 +88,8 @@ class SMenuItem
         false,
     this.loading =
         false,
+    this.closeOnTap =
+        true,
   });
 
   /// The primary content of the menu item.
@@ -121,6 +123,10 @@ class SMenuItem
   /// Whether the item is in a loading state (renders a spinner).
   final bool
       loading;
+
+  /// Whether to close the menu when this item is tapped.
+  final bool
+      closeOnTap;
 
   @override
   State<SMenuItem>
@@ -183,7 +189,14 @@ class _SMenuItemState
           : SystemMouseCursors.click,
       child:
           GestureDetector(
-        onTap: widget.disabled ? null : widget.onTap,
+        onTap: widget.disabled || widget.loading
+            ? null
+            : () {
+                if (widget.closeOnTap) {
+                  STrigger.close(context);
+                }
+                widget.onTap?.call();
+              },
         behavior: HitTestBehavior.opaque,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
