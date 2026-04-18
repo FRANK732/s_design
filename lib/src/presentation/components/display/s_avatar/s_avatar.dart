@@ -222,11 +222,11 @@ class _SAvatarState
         case SAvatarSize.small:
           dimension = ext.smallSize ?? 24.0;
         case SAvatarSize.middle:
+        case SAvatarSize.custom:
           dimension = ext.middleSize ?? 32.0;
       }
     }
 
-    // Resolve colors
     Color?
         bgCol;
     Color?
@@ -234,8 +234,6 @@ class _SAvatarState
 
     if (widget.src != null &&
         !_imageFailed) {
-      // Images don't usually need a background unless they have transparency,
-      // but we use transparent default.
       bgCol = widget.backgroundColor ??
           ext.backgroundColor ??
           Colors.transparent;
@@ -278,12 +276,12 @@ class _SAvatarState
           case SAvatarSize.small:
             borderRadius = ext.smallRadius ?? BorderRadius.circular(4);
           case SAvatarSize.middle:
+          case SAvatarSize.custom:
             borderRadius = ext.middleRadius ?? BorderRadius.circular(6);
         }
       }
     }
 
-    // Resolve contents
     Widget
         content;
 
@@ -300,7 +298,6 @@ class _SAvatarState
             WidgetsBinding.instance.addPostFrameCallback((_) {
               _handleImageError(err, stack);
             });
-            // Temporary empty box while it triggers the rebuild fallback
             return const SizedBox.shrink();
           },
         );
@@ -323,7 +320,6 @@ class _SAvatarState
       }
     } else if (widget.icon !=
         null) {
-      // Ensure icon takes relative size
       final double
           iconSize =
           dimension / 2;
@@ -334,7 +330,6 @@ class _SAvatarState
       );
     } else if (widget.text !=
         null) {
-      // Text styling
       final double
           defaultFontSize =
           dimension / 2;
@@ -356,7 +351,13 @@ class _SAvatarState
           widget.widget!;
     } else {
       content =
-          const SizedBox.shrink();
+          Image.asset(
+        'assets/images/default_avatar.png',
+        package: 's_design',
+        fit: BoxFit.cover,
+        width: dimension,
+        height: dimension,
+      );
     }
 
     // Make circle or square clip

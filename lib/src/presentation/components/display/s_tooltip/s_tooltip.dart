@@ -38,9 +38,21 @@ class STooltip
         8.0,
     this.autoFlip =
         true,
+    this.autoShow =
+        false,
+    this.autoShowDuration =
+        const Duration(seconds: 5),
     this.animationDuration,
     this.elevation,
   });
+
+  /// Whether to automatically show the tooltip when it is first built.
+  final bool
+      autoShow;
+
+  /// The duration to keep the tooltip visible when [autoShow] is true. Defaults to 5 seconds.
+  final Duration
+      autoShowDuration;
 
   /// The widget that triggers the tooltip.
   final Widget
@@ -131,6 +143,8 @@ class _STooltipState
       false;
   Timer?
       _hoverTimer;
+  Timer?
+      _autoHideTimer;
 
   late final AnimationController
       _animationController;
@@ -171,8 +185,24 @@ class _STooltipState
       _isVisible =
           widget.visible!;
       if (_isVisible) {
-        _showTooltip();
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            _showTooltip();
+          }
+        });
       }
+    } else if (widget
+        .autoShow) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _showTooltip();
+          _autoHideTimer = Timer(widget.autoShowDuration, () {
+            if (mounted) {
+              _hideTooltip();
+            }
+          });
+        }
+      });
     }
   }
 
@@ -195,6 +225,8 @@ class _STooltipState
   @override
   void
       dispose() {
+    _autoHideTimer
+        ?.cancel();
     _overlayEntry
         ?.remove();
     _overlayEntry =
@@ -238,6 +270,8 @@ class _STooltipState
 
   void
       _hideTooltip() {
+    _autoHideTimer
+        ?.cancel();
     if (!_isVisible) {
       return;
     }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../../../../s_design.dart';
 import 'utils/s_sonner_utils.dart';
@@ -171,11 +172,21 @@ class SSonner {
         List<SSonnerConfig>.from(_toastsNotifier.value);
 
     if (replace) {
-      for (final SSonnerConfig t
-          in currentToasts) {
-        t.onDismiss?.call();
+      if (id !=
+          null) {
+        final int index = currentToasts.indexWhere((SSonnerConfig t) => t.id == id);
+        if (index != -1) {
+          currentToasts[index] = effectiveConfig;
+          _toastsNotifier.value = currentToasts;
+          _ensureOverlay();
+          return toastId;
+        }
+      } else {
+        for (final SSonnerConfig t in currentToasts) {
+          t.onDismiss?.call();
+        }
+        currentToasts.clear();
       }
-      currentToasts.clear();
     }
 
     currentToasts
@@ -388,6 +399,21 @@ class _ToastWidgetState
       _opacity;
   late Animation<Offset>
       _offset;
+  Timer?
+      _timer;
+
+  void
+      _startTimer() {
+    _timer
+        ?.cancel();
+    _timer = Timer(
+        widget.config.duration,
+        () {
+      if (mounted) {
+        _dismiss();
+      }
+    });
+  }
 
   @override
   void
@@ -418,13 +444,17 @@ class _ToastWidgetState
     _controller
         .forward();
 
-    Future<void>.delayed(
-        widget.config.duration,
-        () {
-      if (mounted) {
-        _dismiss();
-      }
-    });
+    _startTimer();
+  }
+
+  @override
+  void didUpdateWidget(
+      _ToastWidget
+          oldWidget) {
+    super.didUpdateWidget(
+        oldWidget);
+    // Restart the timer so the updated toast stays visible for its full duration
+    _startTimer();
   }
 
   Offset _getBeginOffset(
@@ -461,6 +491,8 @@ class _ToastWidgetState
   @override
   void
       dispose() {
+    _timer
+        ?.cancel();
     _controller
         .dispose();
     super

@@ -37,6 +37,7 @@ double _getAvatarWidth(
       case SAvatarSize.small:
         return ext?.smallSize ?? 24.0;
       case SAvatarSize.middle:
+      case SAvatarSize.custom:
         return ext?.middleSize ?? 32.0;
     }
   }

@@ -5,6 +5,7 @@ enum SAvatarSize {
   large,
   middle,
   small,
+  custom,
 }
 
 /// Defines the shape of the [SAvatar].
