@@ -507,6 +507,8 @@ class _SButtonState
           theme,
       variant:
           widget.variant,
+      size:
+          widget.size,
       isDisabled:
           isDisabled,
       isSelected:

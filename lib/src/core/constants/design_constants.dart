@@ -56,6 +56,11 @@ class DesignConstants {
       buttonPaddingIcon =
       12.0;
 
+  // Button Size - Icon (fixed square touch target)
+  static const double
+      buttonSizeIcon =
+      40.0;
+
   // Loading Indicator Sizes
   static const double
       loaderSizeSm =

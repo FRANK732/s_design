@@ -203,6 +203,8 @@ class SButtonStyleHelper {
         theme,
     required SButtonVariant
         variant,
+    required SButtonSize
+        size,
     required bool
         isDisabled,
     required bool
@@ -257,8 +259,17 @@ class SButtonStyleHelper {
         }
         return computedElevation;
       }),
-      padding:
-          WidgetStateProperty.all(padding),
+      padding: size == SButtonSize.icon
+          ? WidgetStateProperty.all(EdgeInsets.zero)
+          : WidgetStateProperty.all(padding),
+      fixedSize: size == SButtonSize.icon
+          ? WidgetStateProperty.all(
+              const Size(DesignConstants.buttonSizeIcon, DesignConstants.buttonSizeIcon),
+            )
+          : null,
+      alignment: size == SButtonSize.icon
+          ? Alignment.center
+          : null,
       shape:
           WidgetStateProperty.all(
         RoundedRectangleBorder(
