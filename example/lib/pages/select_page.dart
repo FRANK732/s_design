@@ -20,15 +20,15 @@ class _SelectPageState
   String?
       _single;
   // Multiple / Tags
-  List<String>
+  final List<String>
       _multi =
       [];
   // Tags
-  List<String>
+  final List<String>
       _tags =
       [];
   // Tokenize
-  List<String>
+  final List<String>
       _tokenized =
       [];
   // Coordinate
@@ -39,11 +39,11 @@ class _SelectPageState
       _city =
       'Kumasi';
   // Hide selected
-  List<String>
+  final List<String>
       _hideSelected =
       [];
   // Max tag count
-  List<String>
+  final List<String>
       _maxTag =
       [
     'a10',
@@ -99,10 +99,10 @@ class _SelectPageState
       SSelectItem<
           String>> get _personItems =>
       [
-        SSelectItem(value: 'schrift', label: 'Schrift'),
-        SSelectItem(value: 'lya', label: 'Lya'),
-        SSelectItem(value: 'tom', label: 'Tom'),
-        SSelectItem(value: 'disabled', label: 'Disabled', disabled: true),
+        const SSelectItem(value: 'schrift', label: 'Schrift'),
+        const SSelectItem(value: 'lya', label: 'Lya'),
+        const SSelectItem(value: 'tom', label: 'Tom'),
+        const SSelectItem(value: 'disabled', label: 'Disabled', disabled: true),
       ];
 
   @override
@@ -183,7 +183,7 @@ class _SelectPageState
                   onChanged: (v) => setState(() => _single = v as String?),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 160,
                 child: SSelect<String>(
                   items: [
@@ -193,7 +193,7 @@ class _SelectPageState
                   disabled: true,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 160,
                 child: SSelect<String>(
                   items: [
@@ -287,7 +287,6 @@ SSelect<String>(
                 mode: SSelectMode.multiple,
                 disabled: true,
                 placeholder: 'Please select',
-                onChanged: null,
               ),
             ],
           ),
@@ -321,7 +320,6 @@ SSelect<String>(
               SSelect<String>(
                 items: _personItems,
                 placeholder: 'Middle (default)',
-                size: SSelectSize.middle,
                 onChanged: (_) {},
               ),
               const SizedBox(height: 8),
@@ -540,7 +538,6 @@ SSelect<String>(items: items, status: SSelectStatus.warning, onChanged: (_) {});
                     child: SSelect<String>(
                   items: fruits,
                   placeholder: 'Outlined',
-                  variant: SSelectVariant.outlined,
                   onChanged: (_) {},
                 )),
                 const SizedBox(width: 8),
@@ -550,7 +547,6 @@ SSelect<String>(items: items, status: SSelectStatus.warning, onChanged: (_) {});
                   value: _multi.isEmpty ? null : _multi.first,
                   placeholder: 'Outlined (multiple)',
                   mode: SSelectMode.multiple,
-                  variant: SSelectVariant.outlined,
                   onChanged: (_) {},
                 )),
               ]),
@@ -714,13 +710,13 @@ SSelect<String>(
               ),
             ],
           ),
-          code: '''
+          code: r'''
 SSelect<String>(
   items: items,
   value: _selected,
   mode: SSelectMode.multiple,
   maxTagCount: 3,
-  maxTagPlaceholder: (omitted) => Text('+\${omitted.length} more'),
+  maxTagPlaceholder: (omitted) => Text('+${omitted.length} more'),
   onChanged: (v) => setState(() => _selected = List<String>.from(v)),
 );''',
         ),
@@ -745,9 +741,9 @@ SSelect<String>(
                     padding: const EdgeInsets.all(8.0),
                     child: SButton(
                       variant: SButtonVariant.secondary,
-                      child: const Text('+ Add new item'),
                       onPressed: () {},
                       isFullWidth: true,
+                      child: const Text('+ Add new item'),
                     ),
                   ),
                 ],
@@ -893,7 +889,6 @@ SSelect<String>(
                   ],
                   mode: SSelectMode.multiple,
                   disabled: true,
-                  onChanged: null,
                 ),
               ),
             ],

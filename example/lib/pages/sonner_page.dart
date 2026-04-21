@@ -153,7 +153,6 @@ SSonner.show(
                       SSonner.show(
                         config: SSonnerConfig(
                           message: l10n.sonnerLabelMsgNoShadow,
-                          variant: SSonnerVariant.info,
                           elevation: 0,
                         ),
                       );

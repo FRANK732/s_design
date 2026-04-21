@@ -215,7 +215,7 @@ class SLocalizationsFr
       '1er mai !';
   @override
   String get heroTaglineDesc =>
-      'Préparez-vous pour un aperçu exclusif de la prochaine génération de composants de l\'interface utilisateur Flutter.';
+      "Préparez-vous pour un aperçu exclusif de la prochaine génération de composants de l'interface utilisateur Flutter.";
   @override
   String get heroTitle =>
       'Créez des interfaces époustouflantes avec un minimum de code';
