@@ -5,136 +5,101 @@ import 'package:flutter/material.dart';
 import '../../../../../s_design.dart';
 
 class SFloatingPanel {
-  /// Deprecated: SFloatingPanel now uses Navigator natively.
-  /// This is a no-op to prevent breaking legacy code immediately.
-  @Deprecated(
-      'SFloatingPanel no longer requires global initialization. It hooks directly into Navigator.')
-  static void
-      initialize(OverlayState overlayState) {}
-
-  /// Triggers a modern, floating bottom sheet overlay that mimics native iOS fluid sheets.
+  /// Shows a modern floating bottom sheet panel.
   ///
-  /// The panel is fully customizable, supporting background blur, floating margins,
-  /// auto-resizing, and independent bottom utility areas.
+  /// All configuration is passed through [config]:
+  ///
+  /// ```dart
+  /// SFloatingPanel.show(
+  ///   context: context,
+  ///   config: SFloatingPanelConfig(
+  ///     icon: Icon(Icons.check_circle, size: 48, color: Colors.green),
+  ///     title: 'Done!',
+  ///     description: 'Your changes have been saved.',
+  ///     actions: [
+  ///       SButton(onPressed: () => SFloatingPanel.close(context), child: Text('OK')),
+  ///     ],
+  ///   ),
+  /// );
+  /// ```
   static Future<void>
       show({
     required BuildContext
         context,
-    SFloatingPanelConfig?
+    required SFloatingPanelConfig
         config,
-    @Deprecated(
-        'Use contentConfig for structured panel data')
-    Widget?
-        content,
-    SFloatingContentConfig?
-        contentConfig,
-    Color?
-        barrierColor,
-    double?
-        horizontalMargin,
-    double?
-        bottomMargin,
-    double?
-        panelSpacing,
-    VoidCallback?
-        onClose,
-    @Deprecated(
-        'Use bottomConfig instead for structured footers')
-    Widget?
-        customBottomWidget,
-    SFloatingBottomConfig?
-        bottomConfig,
-    Duration?
-        animationDuration,
-    bool showCloseButton =
-        false,
-    bool showDragIndicator =
-        true,
-    double?
-        elevation,
-    bool isDismissable =
-        true,
-    BoxConstraints?
-        constraints,
-    EdgeInsetsGeometry?
-        contentPadding,
-    double?
-        backdropBlur,
-    Color?
-        shadowColor,
-    ShapeBorder?
-        shape,
   }) async {
     final SFloatingPanelThemeData
         theme =
         Theme.of(context).sFloatingPanelTheme;
 
-    final double effectiveHorizontalMargin = horizontalMargin ??
-        config?.horizontalMargin ??
-        (theme.margin as EdgeInsets?)?.horizontal ??
-        32.0;
-
-    final double effectiveBottomMargin = bottomMargin ??
-        config?.bottomMargin ??
-        (theme.margin as EdgeInsets?)?.bottom ??
-        16.0;
-
     final SFloatingPanelConfig
         effectiveConfig =
         SFloatingPanelConfig(
-      content:
-          content ?? config?.content,
-      contentConfig:
-          contentConfig ?? config?.contentConfig,
-      barrierColor: barrierColor ??
-          config?.barrierColor ??
+      icon:
+          config.icon,
+      title:
+          config.title,
+      description:
+          config.description,
+      child:
+          config.child,
+      scrollable:
+          config.scrollable,
+      maxContentHeight:
+          config.maxContentHeight,
+      actions:
+          config.actions,
+      actionsLayout:
+          config.actionsLayout,
+      actionsWidget:
+          config.actionsWidget,
+      actionsPadding:
+          config.actionsPadding,
+      actionsBackgroundColor:
+          config.actionsBackgroundColor,
+      actionsRadius:
+          config.actionsRadius,
+      actionsShadow:
+          config.actionsShadow,
+      barrierColor: config.barrierColor ??
           theme.barrierColor ??
           const Color(0x80000000),
-      horizontalMargin:
-          effectiveHorizontalMargin,
-      bottomMargin:
-          effectiveBottomMargin,
-      panelSpacing: panelSpacing ??
-          config?.panelSpacing ??
+      horizontalMargin: config.horizontalMargin ??
+          (theme.margin as EdgeInsets?)?.horizontal ??
+          32.0,
+      bottomMargin: config.bottomMargin ??
+          (theme.margin as EdgeInsets?)?.bottom ??
+          16.0,
+      panelSpacing: config.panelSpacing ??
           theme.panelSpacing ??
           15.0,
       onClose:
-          onClose ?? config?.onClose,
-      customBottomWidget:
-          customBottomWidget ?? config?.customBottomWidget,
-      bottomConfig:
-          bottomConfig ?? config?.bottomConfig,
-      animationDuration: animationDuration ??
-          config?.animationDuration ??
+          config.onClose,
+      animationDuration: config.animationDuration ??
           theme.animationDuration ??
           const Duration(milliseconds: 300),
       showCloseButton:
-          showCloseButton || (config?.showCloseButton ?? false),
+          config.showCloseButton,
       showDragIndicator:
-          showDragIndicator && (config?.showDragIndicator ?? true),
+          config.showDragIndicator,
       elevation:
-          elevation ?? config?.elevation,
+          config.elevation,
       isDismissable:
-          isDismissable,
-      constraints: constraints ??
-          config?.constraints ??
-          theme.constraints,
-      contentPadding: contentPadding ??
-          config?.contentPadding ??
-          theme.contentPadding,
-      backdropBlur: backdropBlur ??
-          config?.backdropBlur ??
+          config.isDismissable,
+      constraints:
+          config.constraints ?? theme.constraints,
+      contentPadding:
+          config.contentPadding ?? theme.contentPadding,
+      backdropBlur: config.backdropBlur ??
           theme.backdropBlur ??
           0.0,
-      shadowColor: shadowColor ??
-          config?.shadowColor ??
-          theme.shadowColor,
-      shape: shape ??
-          config?.shape ??
-          theme.shape,
+      shadowColor:
+          config.shadowColor ?? theme.shadowColor,
+      shape:
+          config.shape ?? theme.shape,
     );
 
-    // Wait for the popup route to naturally dismiss
     await Navigator.of(context, rootNavigator: true)
         .push(
       _SFloatingPanelRoute(
@@ -142,19 +107,20 @@ class SFloatingPanel {
           theme: theme),
     );
 
-    // Trigger the callback cleanly after unmounting
     effectiveConfig
         .onClose
         ?.call();
   }
 
-  /// Closes the topmost navigation route.
+  /// Closes the topmost SFloatingPanel.
   static Future<void>
       close(BuildContext context) async {
     Navigator.of(context, rootNavigator: true)
         .pop();
   }
 }
+
+// ── Internal route ───────────────────────────────────────────────────────────
 
 class _SFloatingPanelRoute
     extends PopupRoute<
@@ -215,10 +181,7 @@ class _SFloatingPanelRoute
       explicitChildNodes:
           true,
       child:
-          SafeArea(
-        bottom: false,
-        child: page,
-      ),
+          SafeArea(bottom: false, child: page),
     );
   }
 
@@ -232,31 +195,25 @@ class _SFloatingPanelRoute
           secondaryAnimation,
       Widget
           child) {
-    final CurvedAnimation
-        curvedAnimation =
-        CurvedAnimation(parent: animation, curve: Curves.easeOutCubic);
-    final CurvedAnimation
-        opacity =
-        CurvedAnimation(parent: animation, curve: Curves.easeIn);
-
     return SlideTransition(
       position:
-          Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero).animate(curvedAnimation),
+          Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero).animate(CurvedAnimation(parent: animation, curve: Curves.easeOutCubic)),
       child:
           FadeTransition(
-        opacity: opacity,
+        opacity: CurvedAnimation(parent: animation, curve: Curves.easeIn),
         child: child,
       ),
     );
   }
 }
 
+// ── Internal content widget ──────────────────────────────────────────────────
+
 class _SFloatingPanelContent
     extends StatefulWidget {
-  const _SFloatingPanelContent({
-    required this.config,
-    required this.theme,
-  });
+  const _SFloatingPanelContent(
+      {required this.config,
+      required this.theme});
 
   final SFloatingPanelConfig
       config;
@@ -281,16 +238,12 @@ class _SFloatingPanelContentState
           details) {
     if (details.delta.dy >
         0) {
-      setState(() {
-        _dragOffset += details.delta.dy;
-      });
+      setState(() =>
+          _dragOffset += details.delta.dy);
     } else if (details.delta.dy < 0 &&
         _dragOffset > 0) {
       setState(() {
-        _dragOffset += details.delta.dy;
-        if (_dragOffset < 0) {
-          _dragOffset = 0;
-        }
+        _dragOffset = (_dragOffset + details.delta.dy).clamp(0.0, double.infinity);
       });
     }
   }
@@ -302,18 +255,22 @@ class _SFloatingPanelContentState
         (details.primaryVelocity ?? 0) > 300) {
       Navigator.of(context).pop();
     } else {
-      setState(() {
-        _dragOffset = 0.0;
-      });
+      setState(() =>
+          _dragOffset = 0.0);
     }
   }
+
+  bool get _hasFooter =>
+      widget.config.actions.isNotEmpty ||
+      widget.config.actionsWidget !=
+          null;
 
   @override
   Widget build(
       BuildContext
           context) {
     final double
-        effectiveHorizontalMargin =
+        hMargin =
         widget.config.horizontalMargin ?? 0;
 
     return Transform
@@ -329,8 +286,8 @@ class _SFloatingPanelContentState
           alignment: Alignment.bottomCenter,
           child: Padding(
             padding: EdgeInsets.only(
-              left: effectiveHorizontalMargin / 2,
-              right: effectiveHorizontalMargin / 2,
+              left: hMargin / 2,
+              right: hMargin / 2,
               bottom: widget.config.bottomMargin ?? 16.0,
             ),
             child: ConstrainedBox(
@@ -341,132 +298,13 @@ class _SFloatingPanelContentState
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    Container(
-                      padding: widget.config.contentPadding,
-                      decoration: ShapeDecoration(
-                        color: widget.theme.backgroundColor ?? Colors.white,
-                        shape: widget.config.shape ??
-                            RoundedRectangleBorder(
-                              borderRadius: widget.theme.borderRadius ?? BorderRadius.circular(24),
-                              side: BorderSide(
-                                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.08),
-                              ),
-                            ),
-                        shadows: (widget.config.elevation ?? widget.theme.elevation ?? 12) <= 0
-                            ? null
-                            : <BoxShadow>[
-                                BoxShadow(
-                                  color: widget.config.shadowColor ?? Colors.black.withOpacity(0.12),
-                                  blurRadius: (widget.config.elevation ?? widget.theme.elevation ?? 12) * 2,
-                                  spreadRadius: 2,
-                                  offset: Offset(0, widget.config.elevation ?? widget.theme.elevation ?? 12),
-                                ),
-                                BoxShadow(
-                                  color: widget.config.shadowColor ?? Colors.black.withOpacity(0.15),
-                                  blurRadius: widget.config.elevation ?? widget.theme.elevation ?? 8,
-                                  spreadRadius: -2,
-                                  offset: const Offset(0, 4),
-                                ),
-                              ],
-                      ),
-                      child: Stack(
-                        children: <Widget>[
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: <Widget>[
-                              if (widget.config.showDragIndicator)
-                                Center(
-                                  child: Container(
-                                    width: 32,
-                                    height: 4,
-                                    margin: const EdgeInsets.only(bottom: 16),
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.2),
-                                      borderRadius: BorderRadius.circular(2),
-                                    ),
-                                  ),
-                                ),
-                              if (widget.config.contentConfig != null) ...<Widget>[
-                                if (widget.config.contentConfig!.icon != null) ...<Widget>[
-                                  Center(child: widget.config.contentConfig!.icon),
-                                  const SizedBox(height: 16),
-                                ],
-                                if (widget.config.contentConfig!.title != null) ...<Widget>[
-                                  Text(
-                                    widget.config.contentConfig!.title!,
-                                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  const SizedBox(height: 8),
-                                ],
-                                if (widget.config.contentConfig!.description != null) ...<Widget>[
-                                  Text(
-                                    widget.config.contentConfig!.description!,
-                                    style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7)),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  const SizedBox(height: 16),
-                                ],
-                                if (widget.config.contentConfig!.child != null) widget.config.contentConfig!.child!,
-                              ],
-                              if (widget.config.content != null) widget.config.content!,
-                            ],
-                          ),
-                          if (widget.config.showCloseButton)
-                            Positioned(
-                              top: 0,
-                              right: 0,
-                              child: IconButton(
-                                icon: const Icon(Icons.close, size: 20),
-                                padding: EdgeInsets.zero,
-                                constraints: const BoxConstraints(),
-                                onPressed: () => Navigator.of(context).pop(),
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                    if (widget.config.customBottomWidget != null) ...<Widget>[
-                      SizedBox(height: widget.config.panelSpacing),
-                      widget.config.customBottomWidget!,
-                    ],
-                    if (widget.config.bottomConfig != null) ...<Widget>[
-                      SizedBox(height: widget.config.panelSpacing),
-                      Container(
-                        padding: widget.config.bottomConfig!.padding,
-                        decoration: widget.config.bottomConfig!.backgroundColor != Colors.transparent
-                            ? ShapeDecoration(
-                                color: widget.config.bottomConfig!.backgroundColor ?? widget.theme.backgroundColor ?? Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: widget.config.bottomConfig!.borderRadius ?? BorderRadius.circular(20),
-                                  side: BorderSide(
-                                    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.08),
-                                  ),
-                                ),
-                                shadows: widget.config.bottomConfig!.boxShadow ??
-                                    ((widget.config.elevation ?? widget.theme.elevation ?? 12) <= 0
-                                        ? null
-                                        : <BoxShadow>[
-                                            BoxShadow(
-                                              color: widget.config.shadowColor ?? Colors.black.withOpacity(0.12),
-                                              blurRadius: 16,
-                                              offset: const Offset(0, 8),
-                                            ),
-                                          ]),
-                              )
-                            : null,
-                        child: widget.config.bottomConfig!.customWidget ??
-                            (widget.config.bottomConfig!.layout == SFloatingBottomLayout.row
-                                ? Row(
-                                    children: widget.config.bottomConfig!.actions.map<Widget>((Widget action) => Expanded(child: Padding(padding: const EdgeInsets.symmetric(horizontal: 4.0), child: action))).toList(),
-                                  )
-                                : Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                                    children: widget.config.bottomConfig!.actions.map<Widget>((Widget action) => Padding(padding: const EdgeInsets.symmetric(vertical: 4.0), child: action)).toList(),
-                                  )),
-                      ),
+                    // ── Main panel card ──────────────────────────────────
+                    _buildPanelCard(context),
+
+                    // ── Floating footer ──────────────────────────────────
+                    if (_hasFooter) ...<Widget>[
+                      SizedBox(height: widget.config.panelSpacing ?? 15.0),
+                      _buildFooter(context),
                     ],
                   ],
                 ),
@@ -475,6 +313,190 @@ class _SFloatingPanelContentState
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildPanelCard(
+      BuildContext
+          context) {
+    final double elev = widget.config.elevation ??
+        widget.theme.elevation ??
+        12;
+
+    // Build the content column (drag pill + icon + title + description + child)
+    final Widget
+        contentColumn =
+        Column(
+      mainAxisSize:
+          MainAxisSize.min,
+      crossAxisAlignment:
+          CrossAxisAlignment.stretch,
+      children: <Widget>[
+        if (widget.config.showDragIndicator)
+          Center(
+            child: Container(
+              width: 32,
+              height: 4,
+              margin: const EdgeInsets.only(bottom: 16),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          ),
+        if (widget.config.icon != null) ...<Widget>[
+          Center(child: widget.config.icon),
+          const SizedBox(height: 16),
+        ],
+        if (widget.config.title != null) ...<Widget>[
+          Text(
+            widget.config.title!,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 8),
+        ],
+        if (widget.config.description != null) ...<Widget>[
+          Text(
+            widget.config.description!,
+            style: TextStyle(
+              fontSize: 14,
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+        ],
+        if (widget.config.child != null)
+          widget.config.child!,
+      ],
+    );
+
+    final Widget panelBody = widget.config.scrollable
+        ? ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: widget.config.maxContentHeight ?? MediaQuery.of(context).size.height,
+            ),
+            child: SingleChildScrollView(child: contentColumn),
+          )
+        : contentColumn;
+
+    return Container(
+      padding:
+          widget.config.contentPadding,
+      decoration:
+          ShapeDecoration(
+        color: widget.config.backgroundColor ?? widget.theme.backgroundColor ?? Colors.white,
+        shape: widget.config.shape ??
+            RoundedRectangleBorder(
+              borderRadius: widget.theme.borderRadius ?? BorderRadius.circular(24),
+              side: BorderSide(
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.08),
+              ),
+            ),
+        shadows: elev <= 0
+            ? null
+            : <BoxShadow>[
+                BoxShadow(
+                  color: widget.config.shadowColor ?? Colors.black.withOpacity(0.12),
+                  blurRadius: elev * 2,
+                  spreadRadius: 2,
+                  offset: Offset(0, elev),
+                ),
+                BoxShadow(
+                  color: widget.config.shadowColor ?? Colors.black.withOpacity(0.15),
+                  blurRadius: elev,
+                  spreadRadius: -2,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+      ),
+      child:
+          Stack(
+        children: <Widget>[
+          panelBody,
+          if (widget.config.showCloseButton)
+            Positioned(
+              top: 0,
+              right: 0,
+              child: IconButton(
+                icon: const Icon(Icons.close, size: 20),
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFooter(
+      BuildContext
+          context) {
+    final double elev = widget.config.elevation ??
+        widget.theme.elevation ??
+        12;
+    final Color?
+        bg =
+        widget.config.actionsBackgroundColor;
+    final bool
+        hasBg =
+        bg != null && bg != Colors.transparent;
+
+    Widget footerContent = widget.config.actionsWidget ??
+        (widget.config.actionsLayout == SFloatingBottomLayout.row
+            ? Row(
+                children: widget.config.actions
+                    .map<Widget>(
+                      (Widget a) => Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                          child: a,
+                        ),
+                      ),
+                    )
+                    .toList(),
+              )
+            : Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: widget.config.actions
+                    .map<Widget>(
+                      (Widget a) => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: a,
+                      ),
+                    )
+                    .toList(),
+              ));
+
+    return Container(
+      padding:
+          widget.config.actionsPadding,
+      decoration: hasBg
+          ? ShapeDecoration(
+              color: bg,
+              shape: RoundedRectangleBorder(
+                borderRadius: widget.config.actionsRadius ?? BorderRadius.circular(20),
+                side: BorderSide(
+                  color: Theme.of(context).colorScheme.onSurface.withOpacity(0.08),
+                ),
+              ),
+              shadows: widget.config.actionsShadow ??
+                  (elev <= 0
+                      ? null
+                      : <BoxShadow>[
+                          BoxShadow(
+                            color: widget.config.shadowColor ?? Colors.black.withOpacity(0.12),
+                            blurRadius: 16,
+                            offset: const Offset(0, 8),
+                          ),
+                        ]),
+            )
+          : null,
+      child:
+          footerContent,
     );
   }
 }
