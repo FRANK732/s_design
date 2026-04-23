@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../../domain/entities/config/button_config_entity.dart';
+import '../../../../domain/entities/config/s_button_selectable_config.dart';
 import '../../../themes/extensions/component_themes/s_button_theme.dart';
 import 's_button_content.dart';
+import 's_button_selectable.dart';
 import 's_button_style_helper.dart';
 
 /// Presentation layer button widget following clean architecture.
@@ -218,6 +220,132 @@ class SButton
           shortcut,
       child:
           label,
+    );
+  }
+
+  /// Creates a selectable / toggle button via [SButtonSelectable].
+  ///
+  /// Works in **uncontrolled** mode (manages its own state) when only
+  /// [onSelectionChanged] is provided, or in **controlled** mode when the
+  /// caller also supplies [isSelected] and updates it externally.
+  ///
+  /// ```dart
+  /// // Uncontrolled
+  /// SButton.selectable(
+  ///   child: const Text('Notifications'),
+  ///   config: SButtonSelectableConfig(showCheckIcon: true),
+  ///   onSelectionChanged: (v) => debugPrint('$v'),
+  /// )
+  ///
+  /// // Controlled
+  /// SButton.selectable(
+  ///   isSelected: _bold,
+  ///   onSelectionChanged: (v) => setState(() => _bold = v),
+  ///   child: const Text('Bold'),
+  /// )
+  /// ```
+  static SButtonSelectable selectable({
+    Key? key,
+    bool isSelected = false,
+    ValueChanged<bool>? onSelectionChanged,
+    SButtonSelectableConfig config = const SButtonSelectableConfig(),
+    SButtonVariant variant = SButtonVariant.outline,
+    SButtonSize size = SButtonSize.defaultSize,
+    SButtonState? state,
+    Widget? icon,
+    Color? backgroundColor,
+    Color? foregroundColor,
+    bool loading = false,
+    VoidCallback? onLongPress,
+    Widget? child,
+    double? height,
+    double? width,
+    EdgeInsetsGeometry? padding,
+    BorderRadiusGeometry? borderRadius,
+    double? elevation,
+    Color? shadowColor,
+    FocusNode? focusNode,
+    bool autofocus = false,
+    TextStyle? textStyle,
+    String? tooltip,
+    ButtonStyle? buttonStyle,
+    bool isFullWidth = false,
+    Duration? debounceDuration,
+    bool enableHapticFeedback = false,
+    Widget? leadingIcon,
+    Widget? trailingIcon,
+    String? loadingText,
+    String? disabledTooltip,
+    Widget? badge,
+    SingleActivator? shortcut,
+  }) {
+    return SButtonSelectable(
+      key:
+          key,
+      isSelected:
+          isSelected,
+      onSelectionChanged:
+          onSelectionChanged,
+      config:
+          config,
+      variant:
+          variant,
+      size:
+          size,
+      state:
+          state,
+      icon:
+          icon,
+      backgroundColor:
+          backgroundColor,
+      foregroundColor:
+          foregroundColor,
+      loading:
+          loading,
+      onLongPress:
+          onLongPress,
+      height:
+          height,
+      width:
+          width,
+      padding:
+          padding,
+      borderRadius:
+          borderRadius,
+      elevation:
+          elevation,
+      shadowColor:
+          shadowColor,
+      focusNode:
+          focusNode,
+      autofocus:
+          autofocus,
+      textStyle:
+          textStyle,
+      tooltip:
+          tooltip,
+      buttonStyle:
+          buttonStyle,
+      isFullWidth:
+          isFullWidth,
+      debounceDuration:
+          debounceDuration,
+      enableHapticFeedback:
+          enableHapticFeedback,
+      leadingIcon:
+          leadingIcon,
+      trailingIcon:
+          trailingIcon,
+      loadingText:
+          loadingText,
+      disabledTooltip:
+          disabledTooltip,
+      badge:
+          badge,
+      shortcut:
+          shortcut,
+      child:
+          child,
     );
   }
 

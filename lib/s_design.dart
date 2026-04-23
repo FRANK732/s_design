@@ -6,6 +6,7 @@ export 'src/core/utils/s_input_field_utils.dart';
 // DOMAIN LAYER
 export 'src/domain/entities/config/button_config_entity.dart';
 export 'src/domain/entities/config/s_alert_type.dart';
+export 'src/domain/entities/config/s_button_selectable_config.dart';
 export 'src/domain/entities/config/s_avatar_enums.dart';
 export 'src/domain/entities/config/s_card_shadow.dart';
 export 'src/domain/entities/config/s_card_shape.dart';
@@ -56,6 +57,8 @@ export 'src/presentation/components/feedback/s_sonner/s_sonner_config.dart';
 export 'src/presentation/components/feedback/s_toaster/s_toaster.dart';
 export 'src/presentation/components/inputs/s_button/s_button.dart';
 export 'src/presentation/components/inputs/s_button/s_button_poc.dart';
+export 'src/presentation/components/inputs/s_button/s_button_selectable.dart';
+export 'src/presentation/components/inputs/s_button/s_button_select_group.dart';
 export 'src/presentation/components/inputs/s_checkbox/s_checkbox.dart';
 export 'src/presentation/components/inputs/s_checkbox/s_checkbox_form_field.dart';
 export 'src/presentation/components/inputs/s_checkbox/s_checkbox_list_tile.dart';
