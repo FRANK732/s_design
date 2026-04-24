@@ -44,7 +44,13 @@ class STooltip
         const Duration(seconds: 5),
     this.animationDuration,
     this.elevation,
+    this.showCloseButton =
+        false,
   });
+
+  /// Whether to show a close button. If true, the tooltip remains visible until closed manually.
+  final bool
+      showCloseButton;
 
   /// Whether to automatically show the tooltip when it is first built.
   final bool
@@ -196,11 +202,13 @@ class _STooltipState
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
           _showTooltip();
-          _autoHideTimer = Timer(widget.autoShowDuration, () {
-            if (mounted) {
-              _hideTooltip();
-            }
-          });
+          if (!widget.showCloseButton) {
+            _autoHideTimer = Timer(widget.autoShowDuration, () {
+              if (mounted) {
+                _hideTooltip();
+              }
+            });
+          }
         }
       });
     }
@@ -315,8 +323,9 @@ class _STooltipState
     if (hovering) {
       _showTooltip();
     } else {
-      _hoverTimer =
-          Timer(const Duration(milliseconds: 100), _hideTooltip);
+      if (!widget.showCloseButton) {
+        _hoverTimer = Timer(const Duration(milliseconds: 100), _hideTooltip);
+      }
     }
   }
 
@@ -359,7 +368,28 @@ class _STooltipState
           targetGlobalRect: targetGlobalRect,
           content: DefaultTextStyle(
             style: theme.textStyle?.copyWith(color: widget.textColor ?? theme.textColor) ?? TextStyle(color: widget.textColor ?? theme.textColor, fontSize: 12),
-            child: widget.content,
+            child: widget.showCloseButton
+                ? Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      widget.content,
+                      const SizedBox(width: 8),
+                      MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: _hideTooltip,
+                          child: Icon(
+                            Icons.close,
+                            size: 14,
+                            color: widget.textColor ?? theme.textColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                : widget.content,
           ),
           onHover: _handleHover,
         );

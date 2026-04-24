@@ -107,6 +107,14 @@ STooltip(
                 textColor: theme.colorScheme.onError,
                 child: SButton(onPressed: () {}, child: const Text('Error')),
               ),
+              STooltip(
+                content: const Text('Error Tooltip with close'),
+                color: theme.colorScheme.error,
+                showCloseButton: true,
+                autoShow: true,
+                textColor: theme.colorScheme.onError,
+                child: SButton(onPressed: () {}, child: const Text('Error')),
+              ),
             ],
           ),
           code: '''

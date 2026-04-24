@@ -433,6 +433,63 @@ class _RenderSTooltipPositioner
   }
 
   @override
+  bool hitTestChildren(
+      BoxHitTestResult
+          result,
+      {required Offset
+          position}) {
+    if (child != null &&
+        _animation.value > 0) {
+      final double
+          scale =
+          _scaleAnimation.value;
+      if (scale ==
+          0) {
+        return false;
+      }
+
+      Offset
+          pivot =
+          Offset(size.width / 2, size.height / 2);
+      switch (_actualPlacement) {
+        case STooltipPlacement.top:
+          pivot = Offset(size.width / 2, size.height);
+        case STooltipPlacement.bottom:
+          pivot = Offset(size.width / 2, 0);
+        case STooltipPlacement.left:
+          pivot = Offset(size.width, size.height / 2);
+        case STooltipPlacement.right:
+          pivot = Offset(0, size.height / 2);
+        default:
+          break;
+      }
+
+      final EdgeInsets
+          resolvedPadding =
+          _padding?.resolve(TextDirection.ltr) ?? EdgeInsets.zero;
+
+      Offset
+          transformed =
+          position - _tooltipOffset;
+      transformed =
+          transformed - pivot;
+      transformed =
+          transformed / scale;
+      transformed =
+          transformed + pivot;
+
+      return result.addWithPaintOffset(
+        offset: resolvedPadding.topLeft,
+        position: transformed,
+        hitTest: (BoxHitTestResult result, Offset position) {
+          return child!.hitTest(result, position: position);
+        },
+      );
+    }
+    return false;
+  }
+
+  @override
   bool hitTest(
       BoxHitTestResult
           result,
@@ -444,9 +501,11 @@ class _RenderSTooltipPositioner
         position - _tooltipOffset;
     if (size
         .contains(translatedPosition)) {
-      result.add(BoxHitTestEntry(this,
-          position));
-      return true;
+      if (hitTestChildren(result, position: position) ||
+          hitTestSelf(position)) {
+        result.add(BoxHitTestEntry(this, position));
+        return true;
+      }
     }
     return false;
   }
