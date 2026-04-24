@@ -107,12 +107,19 @@ class _STabsState
 
   void
       _initController() {
-    final int
-        initialIndex =
-        widget.items.indexWhere((STabItem item) => item.key == _activeKey);
-    _currentIndex = initialIndex != -1
-        ? initialIndex
-        : 0;
+    int initialIndex = widget.items.indexWhere((STabItem item) =>
+        item.key ==
+        _activeKey);
+    if (initialIndex ==
+        -1) {
+      initialIndex =
+          0;
+      if (widget.items.isNotEmpty) {
+        _activeKey = widget.items.first.key;
+      }
+    }
+    _currentIndex =
+        initialIndex;
 
     _controller =
         TabController(
@@ -259,7 +266,7 @@ class _STabsState
       controller:
           _controller,
       children:
-          widget.items.map((STabItem item) => item.content).toList(),
+          widget.items.map((STabItem item) => item.content ?? const SizedBox.shrink()).toList(),
     );
 
     final Widget flexibleContent = widget.expanded

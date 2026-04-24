@@ -92,7 +92,7 @@ class _SAvatarPageState
     const url =
         'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png';
     const fallbackUrl =
-        'http://abc.com/not-exist.jpg'; // deliberately broken
+        'http://abc.com/not-exist.jpg';
 
     return SScaffold(
       appBar:
