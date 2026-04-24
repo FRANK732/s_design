@@ -43,7 +43,8 @@ enum SCardBadgePosition {
 /// A customizable card widget with support for content sections, styling, animations, dismissible behavior, and accessibility features.
 ///
 /// Enhanced with "Future-Ready" features: Variants, Horizontal Layout, Media Slots, and Badges.
-class SCard extends StatefulWidget {
+class SCard
+    extends StatefulWidget {
   const SCard({
     super.key,
     this.title,
@@ -70,11 +71,14 @@ class SCard extends StatefulWidget {
     this.color,
     this.gradient,
     this.backgroundImage,
-    this.backgroundFit = BoxFit.cover,
+    this.backgroundFit =
+        BoxFit.cover,
     this.backgroundBlendMode,
-    this.shape = SCardShape.rounded,
+    this.shape =
+        SCardShape.rounded,
     this.customShape,
-    this.shadowStyle = SCardShadow.subtle,
+    this.shadowStyle =
+        SCardShadow.subtle,
     this.customShadow,
     this.dismissIcon,
     this.dismissSecondaryIcon,
@@ -90,34 +94,50 @@ class SCard extends StatefulWidget {
     this.onHover,
     this.onScroll,
     this.onDoubleTap,
-    this.enableFeedback = true,
-    this.enableInteractiveDismiss = true,
-    this.animationDuration = const Duration(milliseconds: 200),
-    this.animationCurve = Curves.easeInOut,
-    this.animateOnLoad = false,
-    this.hoverElevation = 4.0,
+    this.enableFeedback =
+        true,
+    this.enableInteractiveDismiss =
+        true,
+    this.animationDuration =
+        const Duration(milliseconds: 200),
+    this.animationCurve =
+        Curves.easeInOut,
+    this.animateOnLoad =
+        false,
+    this.hoverElevation =
+        4.0,
     this.hoverColor,
-    this.tapScale = 0.95,
+    this.tapScale =
+        0.95,
     this.dismissKey,
     this.dismissBackground,
     this.dismissSecondaryBackground,
     this.confirmDismiss,
     this.onDismissed,
-    this.direction = DismissDirection.horizontal,
-    this.resizeDuration = const Duration(milliseconds: 300),
-    this.dismissThresholds = const <DismissDirection, double>{},
-    this.movementDuration = const Duration(milliseconds: 200),
-    this.crossAxisEndOffset = 0.0,
-    this.dragStartBehavior = DragStartBehavior.start,
-    this.behavior = HitTestBehavior.opaque,
+    this.direction =
+        DismissDirection.horizontal,
+    this.resizeDuration =
+        const Duration(milliseconds: 300),
+    this.dismissThresholds =
+        const <DismissDirection, double>{},
+    this.movementDuration =
+        const Duration(milliseconds: 200),
+    this.crossAxisEndOffset =
+        0.0,
+    this.dragStartBehavior =
+        DragStartBehavior.start,
+    this.behavior =
+        HitTestBehavior.opaque,
     this.dismissBackgroundColor,
     this.dismissSecondaryBackgroundColor,
     this.dismissBackgroundLabel,
     this.dismissSecondaryBackgroundLabel,
     this.dismissBackgroundLabelStyle,
     this.dismissSecondaryBackgroundLabelStyle,
-    this.dismissBackgroundOpacity = 1.0,
-    this.dismissBackgroundAnimationCurve = Curves.linear,
+    this.dismissBackgroundOpacity =
+        1.0,
+    this.dismissBackgroundAnimationCurve =
+        Curves.linear,
     this.dismissBackgroundPadding,
     this.dismissBackgroundAlignment,
     this.semanticLabel,
@@ -150,30 +170,42 @@ class SCard extends StatefulWidget {
     this.customSemanticsActions,
     this.textDirection,
     this.focusNode,
-    this.canRequestFocus = true,
-    this.isDraggable = false,
+    this.canRequestFocus =
+        true,
+    this.isDraggable =
+        false,
     this.scrollController,
     this.customBorder,
-    this.clipBehavior = Clip.antiAlias,
-    this.materialType = MaterialType.card,
+    this.clipBehavior =
+        Clip.antiAlias,
+    this.materialType =
+        MaterialType.card,
     this.additionalShadows,
     this.colorBlendMode,
-    this.showDivider = false,
+    this.showDivider =
+        false,
     this.dividerColor,
-    this.isLoading = false,
-    this.isSelected = false,
+    this.isLoading =
+        false,
+    this.isSelected =
+        false,
     this.selectionColor,
     this.onSelectionChanged,
-    this.variant = SCardVariant.elevated,
-    this.axis = Axis.vertical,
+    this.variant =
+        SCardVariant.elevated,
+    this.axis =
+        Axis.vertical,
     this.media,
     this.mediaHeight,
     this.mediaWidth,
-    this.mediaPosition = SCardImagePosition.top,
+    this.mediaPosition =
+        SCardImagePosition.top,
     this.badge,
-    this.badgePosition = SCardBadgePosition.topRight,
+    this.badgePosition =
+        SCardBadgePosition.topRight,
     this.badgeOffset,
-    this.hoverable = false,
+    this.hoverable =
+        false,
   })  : assert(
           !(gradient != null && backgroundImage != null),
           'Cannot provide both gradient and backgroundImage.',
@@ -188,262 +220,405 @@ class SCard extends StatefulWidget {
         );
 
   /// Whether the card can be hovered to lift up.
-  final bool hoverable;
+  final bool
+      hoverable;
 
   // Core Content
 
   /// Elevated primary text summarizing the card's data payload.
-  final String? title;
+  final String?
+      title;
 
   /// Specific typographic overrides for the title.
-  final TextStyle? titleStyle;
+  final TextStyle?
+      titleStyle;
 
   /// Supporting text explaining the core purpose of the card.
-  final String? description;
+  final String?
+      description;
 
   /// Specific typographic overrides for the description.
-  final TextStyle? descriptionStyle;
+  final TextStyle?
+      descriptionStyle;
 
   /// Complex widget replacing the simple title/description node at the top.
-  final Widget? header;
+  final Widget?
+      header;
 
   /// Auxiliary widget aligned to the top right of the card (e.g. an options menu or close button).
-  final Widget? headerTrailing;
+  final Widget?
+      headerTrailing;
 
   /// The primary custom payload placed inside the visual constraints of the card footprint.
-  final Widget? body;
+  final Widget?
+      body;
 
   /// Horizontal layout node typically hosting interactive buttons.
-  final Widget? actions;
+  final Widget?
+      actions;
 
   /// Terminal payload locked to the strict bottom edge of the card boundary.
-  final Widget? footer;
+  final Widget?
+      footer;
 
   // Layout & Spacing
 
   /// Surrounding exterior safe-area pushing the card away from neighbors.
-  final EdgeInsetsGeometry? margin;
+  final EdgeInsetsGeometry?
+      margin;
 
   /// Native intrinsic padding hugging the outermost content.
-  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry?
+      padding;
 
   /// Local padding overriding default insets for the `header` zone.
-  final EdgeInsetsGeometry? headerPadding;
+  final EdgeInsetsGeometry?
+      headerPadding;
 
   /// Local padding assigned specifically to the `body` zone.
-  final EdgeInsetsGeometry? bodyPadding;
+  final EdgeInsetsGeometry?
+      bodyPadding;
 
   /// Local padding isolating the `actions` button group.
-  final EdgeInsetsGeometry? actionsPadding;
+  final EdgeInsetsGeometry?
+      actionsPadding;
 
   /// Local padding buffering the `footer` widget area.
-  final EdgeInsetsGeometry? footerPadding;
+  final EdgeInsetsGeometry?
+      footerPadding;
 
   /// Z-axis physical elevation pushing the card off the base canvas.
-  final double? elevation;
+  final double?
+      elevation;
 
   /// Enforced literal pixel height mapping.
-  final double? height;
+  final double?
+      height;
 
   /// Enforced literal pixel width mapping.
-  final double? width;
+  final double?
+      width;
 
   /// Flexible rendering limitation mapping maximum horizontal stretch.
-  final double? maxWidth;
+  final double?
+      maxWidth;
 
   /// Flexible rendering limitation mapping maximum vertical stretch.
-  final double? maxHeight;
+  final double?
+      maxHeight;
 
   /// 2D gravity alignment applied logically to internal payloads.
-  final AlignmentGeometry? alignment;
+  final AlignmentGeometry?
+      alignment;
 
   // Appearance
 
   /// Base solid tint mapping to the card surface.
-  final Color? color;
+  final Color?
+      color;
 
   /// Fluid color gradient overriding `color` property natively.
-  final Gradient? gradient;
+  final Gradient?
+      gradient;
 
   /// Rasterized or network graphical image structurally mapped to fill the card background natively.
-  final ImageProvider? backgroundImage;
+  final ImageProvider?
+      backgroundImage;
 
   /// Scaling algorithm resizing the specific `backgroundImage`.
-  final BoxFit? backgroundFit;
+  final BoxFit?
+      backgroundFit;
 
   /// Advanced graphical mix filtering the background image over base color variants.
-  final BlendMode? backgroundBlendMode;
+  final BlendMode?
+      backgroundBlendMode;
 
   /// Predefined native edge outline rendering.
-  final SCardShape shape;
+  final SCardShape
+      shape;
 
   /// Extreme custom edge geometry explicitly rewriting `shape`.
-  final ShapeBorder? customShape;
+  final ShapeBorder?
+      customShape;
 
   /// The physical depth class assigned to the drop shadow.
-  final SCardShadow shadowStyle;
+  final SCardShadow
+      shadowStyle;
 
   /// Manual shadow layout completely discarding the default lighting algorithms.
-  final BoxShadow? customShadow;
+  final BoxShadow?
+      customShadow;
 
   /// Tint of the explicit outer bounding box.
-  final Color? borderColor;
+  final Color?
+      borderColor;
 
   /// Physical thickness of the outer bounding box.
-  final double? borderWidth;
+  final double?
+      borderWidth;
 
   /// Edge curvature measuring logical rounding calculations.
-  final double? borderRadius;
+  final double?
+      borderRadius;
 
   /// Color of the emitted drop shadow behind the card container.
-  final Color? shadowColor;
+  final Color?
+      shadowColor;
 
   /// 2D vector coordinates determining the exact X/Y lighting origin for the shadow.
-  final Offset? shadowOffset;
+  final Offset?
+      shadowOffset;
 
   /// Pixel softening mapped to the shadow dispersion math.
-  final double? blurRadius;
+  final double?
+      blurRadius;
 
   /// Expansion factor physically increasing shadow volume.
-  final double? spreadRadius;
+  final double?
+      spreadRadius;
 
   // Interactions
-  final VoidCallback? onTap;
-  final VoidCallback? onLongPress;
-  final ValueChanged<bool>? onHover;
-  final ScrollPhysics? onScroll;
-  final GestureTapCallback? onDoubleTap;
-  final bool enableFeedback;
-  final bool enableInteractiveDismiss;
+  final VoidCallback?
+      onTap;
+  final VoidCallback?
+      onLongPress;
+  final ValueChanged<bool>?
+      onHover;
+  final ScrollPhysics?
+      onScroll;
+  final GestureTapCallback?
+      onDoubleTap;
+  final bool
+      enableFeedback;
+  final bool
+      enableInteractiveDismiss;
 
   // Animation
-  final Duration? animationDuration;
-  final Curve? animationCurve;
-  final bool animateOnLoad;
-  final double? hoverElevation;
-  final Color? hoverColor;
-  final double? tapScale;
+  final Duration?
+      animationDuration;
+  final Curve?
+      animationCurve;
+  final bool
+      animateOnLoad;
+  final double?
+      hoverElevation;
+  final Color?
+      hoverColor;
+  final double?
+      tapScale;
 
   // Dismissible Properties
-  final Key? dismissKey;
-  final Widget? dismissBackground;
-  final Widget? dismissSecondaryBackground;
-  final Future<bool?> Function(DismissDirection)? confirmDismiss;
-  final void Function(DismissDirection)? onDismissed;
-  final DismissDirection direction;
-  final Duration resizeDuration;
-  final Map<DismissDirection, double> dismissThresholds;
-  final Duration movementDuration;
-  final double crossAxisEndOffset;
-  final DragStartBehavior dragStartBehavior;
-  final HitTestBehavior behavior;
-  final IconData? dismissIcon;
-  final IconData? dismissSecondaryIcon;
-  final Color? dismissBackgroundColor;
-  final Color? dismissSecondaryBackgroundColor;
-  final String? dismissBackgroundLabel;
-  final String? dismissSecondaryBackgroundLabel;
-  final TextStyle? dismissBackgroundLabelStyle;
-  final TextStyle? dismissSecondaryBackgroundLabelStyle;
-  final double? dismissBackgroundOpacity;
-  final Curve? dismissBackgroundAnimationCurve;
-  final EdgeInsetsGeometry? dismissBackgroundPadding;
-  final AlignmentGeometry? dismissBackgroundAlignment;
+  final Key?
+      dismissKey;
+  final Widget?
+      dismissBackground;
+  final Widget?
+      dismissSecondaryBackground;
+  final Future<bool?>
+          Function(DismissDirection)?
+      confirmDismiss;
+  final void
+          Function(DismissDirection)?
+      onDismissed;
+  final DismissDirection
+      direction;
+  final Duration
+      resizeDuration;
+  final Map<
+      DismissDirection,
+      double> dismissThresholds;
+  final Duration
+      movementDuration;
+  final double
+      crossAxisEndOffset;
+  final DragStartBehavior
+      dragStartBehavior;
+  final HitTestBehavior
+      behavior;
+  final IconData?
+      dismissIcon;
+  final IconData?
+      dismissSecondaryIcon;
+  final Color?
+      dismissBackgroundColor;
+  final Color?
+      dismissSecondaryBackgroundColor;
+  final String?
+      dismissBackgroundLabel;
+  final String?
+      dismissSecondaryBackgroundLabel;
+  final TextStyle?
+      dismissBackgroundLabelStyle;
+  final TextStyle?
+      dismissSecondaryBackgroundLabelStyle;
+  final double?
+      dismissBackgroundOpacity;
+  final Curve?
+      dismissBackgroundAnimationCurve;
+  final EdgeInsetsGeometry?
+      dismissBackgroundPadding;
+  final AlignmentGeometry?
+      dismissBackgroundAlignment;
 
   // Advanced Features
-  final bool isDraggable;
-  final ScrollController? scrollController;
-  final Border? customBorder;
-  final Clip clipBehavior;
-  final MaterialType materialType;
-  final List<BoxShadow>? additionalShadows;
-  final BlendMode? colorBlendMode;
+  final bool
+      isDraggable;
+  final ScrollController?
+      scrollController;
+  final Border?
+      customBorder;
+  final Clip
+      clipBehavior;
+  final MaterialType
+      materialType;
+  final List<BoxShadow>?
+      additionalShadows;
+  final BlendMode?
+      colorBlendMode;
 
   // Semantics
-  final String? semanticLabel;
-  final String? semanticValue;
-  final String? semanticHint;
-  final String? semanticTooltip;
-  final bool? semanticEnabled;
-  final bool? semanticChecked;
-  final bool? semanticSelected;
-  final bool? semanticToggled;
-  final bool? semanticButton;
-  final bool? semanticHeader;
-  final int? semanticHeadingLevel;
-  final bool? semanticTextField;
-  final bool? semanticReadOnly;
-  final bool? semanticFocusable;
-  final bool? semanticFocused;
-  final bool? semanticHidden;
-  final bool? semanticImage;
-  final bool? semanticLiveRegion;
-  final String? onTapHint;
-  final String? onLongPressHint;
-  final VoidCallback? onScrollLeft;
-  final VoidCallback? onScrollRight;
-  final VoidCallback? onScrollUp;
-  final VoidCallback? onScrollDown;
-  final VoidCallback? onIncrease;
-  final VoidCallback? onDecrease;
-  final VoidCallback? onDismissSemantics;
-  final Map<CustomSemanticsAction, VoidCallback>? customSemanticsActions;
-  final TextDirection? textDirection;
-  final FocusNode? focusNode;
-  final bool canRequestFocus;
+  final String?
+      semanticLabel;
+  final String?
+      semanticValue;
+  final String?
+      semanticHint;
+  final String?
+      semanticTooltip;
+  final bool?
+      semanticEnabled;
+  final bool?
+      semanticChecked;
+  final bool?
+      semanticSelected;
+  final bool?
+      semanticToggled;
+  final bool?
+      semanticButton;
+  final bool?
+      semanticHeader;
+  final int?
+      semanticHeadingLevel;
+  final bool?
+      semanticTextField;
+  final bool?
+      semanticReadOnly;
+  final bool?
+      semanticFocusable;
+  final bool?
+      semanticFocused;
+  final bool?
+      semanticHidden;
+  final bool?
+      semanticImage;
+  final bool?
+      semanticLiveRegion;
+  final String?
+      onTapHint;
+  final String?
+      onLongPressHint;
+  final VoidCallback?
+      onScrollLeft;
+  final VoidCallback?
+      onScrollRight;
+  final VoidCallback?
+      onScrollUp;
+  final VoidCallback?
+      onScrollDown;
+  final VoidCallback?
+      onIncrease;
+  final VoidCallback?
+      onDecrease;
+  final VoidCallback?
+      onDismissSemantics;
+  final Map<
+      CustomSemanticsAction,
+      VoidCallback>? customSemanticsActions;
+  final TextDirection?
+      textDirection;
+  final FocusNode?
+      focusNode;
+  final bool
+      canRequestFocus;
 
   // Wave 17 Features
-  final bool showDivider;
-  final Color? dividerColor;
-  final bool isLoading;
-  final bool isSelected;
-  final Color? selectionColor;
-  final ValueChanged<bool>? onSelectionChanged;
+  final bool
+      showDivider;
+  final Color?
+      dividerColor;
+  final bool
+      isLoading;
+  final bool
+      isSelected;
+  final Color?
+      selectionColor;
+  final ValueChanged<bool>?
+      onSelectionChanged;
 
   // Wave 18 Advanced Features
   /// The visual style variant of the card (elevated, filled, outlined, frosted).
-  final SCardVariant variant;
+  final SCardVariant
+      variant;
 
   /// The layout axis of the card (vertical or horizontal).
-  final Axis axis;
+  final Axis
+      axis;
 
   /// Dedicated slot for hero media (image/video).
-  final Widget? media;
+  final Widget?
+      media;
 
   /// Fixed height for the media slot.
-  final double? mediaHeight;
+  final double?
+      mediaHeight;
 
   /// Fixed width for the media slot.
-  final double? mediaWidth;
+  final double?
+      mediaWidth;
 
   /// Position of the media relative to content.
-  final SCardImagePosition mediaPosition;
+  final SCardImagePosition
+      mediaPosition;
 
   /// Badge widget overlaid on the card.
-  final Widget? badge;
+  final Widget?
+      badge;
 
   /// Position of the badge.
-  final SCardBadgePosition badgePosition;
+  final SCardBadgePosition
+      badgePosition;
 
   /// Custom offset for the badge.
-  final Offset? badgeOffset;
+  final Offset?
+      badgeOffset;
 
   @override
-  State<SCard> createState() => _SCardState();
+  State<SCard>
+      createState() =>
+          _SCardState();
 }
 
-class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
-  bool _isHovering = false;
+class _SCardState
+    extends State<
+        SCard>
+    with
+        SingleTickerProviderStateMixin {
+  late AnimationController
+      _controller;
+  late Animation<double>
+      _scaleAnimation;
+  bool
+      _isHovering =
+      false;
 
   @override
-  void initState() {
-    super.initState();
+  void
+      initState() {
+    super
+        .initState();
     _controller = AnimationController(
         vsync: this,
-        duration:
-            widget.animationDuration ?? const Duration(milliseconds: 200));
+        duration: widget.animationDuration ?? const Duration(milliseconds: 200));
     _scaleAnimation =
         Tween<double>(begin: 1.0, end: widget.tapScale ?? 0.95).animate(
       CurvedAnimation(
@@ -452,82 +627,104 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
       ),
     );
 
-    if (widget.animateOnLoad) {
+    if (widget
+        .animateOnLoad) {
       _controller.forward();
     }
   }
 
   @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+  void
+      dispose() {
+    _controller
+        .dispose();
+    super
+        .dispose();
   }
 
-  Widget _buildSection(Widget? content, EdgeInsetsGeometry? padding) {
-    if (content == null) {
+  Widget _buildSection(
+      Widget?
+          content,
+      EdgeInsetsGeometry?
+          padding) {
+    if (content ==
+        null) {
       return const SizedBox.shrink();
     }
     return Padding(
-      padding: padding ?? const EdgeInsets.all(16.0),
-      child: content,
+      padding:
+          padding ?? const EdgeInsets.all(16.0),
+      child:
+          content,
     );
   }
 
-  List<BoxShadow> _getShadows(SCardThemeData theme) {
+  List<BoxShadow>
+      _getShadows(SCardThemeData theme) {
     // No shadows for filled or outlined variants unless explicitly requested?
     // Actually, usually filled/outlined have no shadow. Elevated has shadow.
     if (!widget.hoverable &&
-        (widget.variant == SCardVariant.filled ||
-            widget.variant == SCardVariant.outlined ||
-            widget.variant == SCardVariant.frosted ||
-            widget.variant == SCardVariant.borderless)) {
-      return widget.additionalShadows ?? <BoxShadow>[];
+        (widget.variant == SCardVariant.filled || widget.variant == SCardVariant.outlined || widget.variant == SCardVariant.frosted || widget.variant == SCardVariant.borderless)) {
+      return widget.additionalShadows ??
+          <BoxShadow>[];
     }
 
-    final List<BoxShadow> shadows = <BoxShadow>[];
+    final List<BoxShadow>
+        shadows =
+        <BoxShadow>[];
 
     // If hovering, show shadow even if variant usually doesn't have it (if hoverable is true)
     // Actually Card only lifts if hoverable is true.
-    final bool showShadow = (widget.shadowStyle != SCardShadow.none &&
-            widget.variant == SCardVariant.elevated) ||
-        (widget.hoverable && _isHovering);
+    final bool
+        showShadow =
+        (widget.shadowStyle != SCardShadow.none && widget.variant == SCardVariant.elevated) || (widget.hoverable && _isHovering);
 
-    if (showShadow && !widget.isLoading) {
+    if (showShadow &&
+        !widget.isLoading) {
       shadows.add(
         widget.customShadow ??
             BoxShadow(
               color: widget.shadowColor ?? theme.shadowColor,
               offset: widget.shadowOffset ?? const Offset(0, 2),
-              blurRadius: _isHovering && widget.hoverable
-                  ? (widget.hoverElevation ?? 8.0)
-                  : (widget.blurRadius ?? 4.0),
+              blurRadius: _isHovering && widget.hoverable ? (widget.hoverElevation ?? 8.0) : (widget.blurRadius ?? 4.0),
               spreadRadius: widget.spreadRadius ?? 0.0,
             ),
       );
     }
-    if (widget.additionalShadows != null) {
+    if (widget.additionalShadows !=
+        null) {
       shadows.addAll(widget.additionalShadows!);
     }
     return shadows;
   }
 
-  Widget _buildDivider(SCardThemeData theme) {
-    if (!widget.showDivider) {
+  Widget _buildDivider(
+      SCardThemeData
+          theme) {
+    if (!widget
+        .showDivider) {
       return const SizedBox.shrink();
     }
     return Divider(
-      height: 1,
-      thickness: 1,
-      color: widget.dividerColor ?? theme.dividerColor,
+      height:
+          1,
+      thickness:
+          1,
+      color:
+          widget.dividerColor ?? theme.dividerColor,
     );
   }
 
-  Widget _buildLoader() {
-    final Color skeletonColor =
+  Widget
+      _buildLoader() {
+    final Color
+        skeletonColor =
         Theme.of(context).colorScheme.surfaceContainerHighest;
     return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
+      padding:
+          const EdgeInsets.all(16.0),
+      child:
+          Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Row(
@@ -535,8 +732,7 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
               Container(
                 width: 40,
                 height: 40,
-                decoration:
-                    BoxDecoration(color: skeletonColor, shape: BoxShape.circle),
+                decoration: BoxDecoration(color: skeletonColor, shape: BoxShape.circle),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -562,17 +758,22 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
     );
   }
 
-  Color _resolveBackgroundColor(SCardThemeData theme) {
-    if (widget.isSelected) {
+  Color _resolveBackgroundColor(
+      SCardThemeData
+          theme) {
+    if (widget
+        .isSelected) {
       return widget.selectionColor?.withOpacity(0.1) ??
           theme.selectedBackgroundColor ??
           theme.backgroundColor;
     }
-    if (widget.color != null) {
+    if (widget.color !=
+        null) {
       return widget.color!;
     }
 
-    switch (widget.variant) {
+    switch (
+        widget.variant) {
       case SCardVariant.filled:
         return theme.filledColor ?? theme.backgroundColor;
       case SCardVariant.outlined:
@@ -586,17 +787,22 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
     }
   }
 
-  Color _resolveBorderColor(SCardThemeData theme) {
-    if (widget.isSelected) {
+  Color _resolveBorderColor(
+      SCardThemeData
+          theme) {
+    if (widget
+        .isSelected) {
       return widget.selectionColor ??
           theme.selectedBorderColor ??
           theme.borderColor;
     }
-    if (widget.borderColor != null) {
+    if (widget.borderColor !=
+        null) {
       return widget.borderColor!;
     }
 
-    switch (widget.variant) {
+    switch (
+        widget.variant) {
       case SCardVariant.outlined:
         return theme.outlinedBorderColor ?? theme.borderColor;
       case SCardVariant.filled:
@@ -608,10 +814,12 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
     }
   }
 
-  Widget _buildContent(BuildContext context, SCardThemeData theme) {
-    final Column? headerWidget = (widget.header != null ||
-            widget.title != null ||
-            widget.headerTrailing != null)
+  Widget _buildContent(
+      BuildContext
+          context,
+      SCardThemeData
+          theme) {
+    final Column? headerWidget = (widget.header != null || widget.title != null || widget.headerTrailing != null)
         ? Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -625,17 +833,10 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              if (widget.title != null)
-                                Text(widget.title!,
-                                    style: widget.titleStyle ??
-                                        Theme.of(context)
-                                            .textTheme
-                                            .titleMedium),
+                              if (widget.title != null) Text(widget.title!, style: widget.titleStyle ?? Theme.of(context).textTheme.titleMedium),
                               if (widget.description != null) ...<Widget>[
                                 const SizedBox(height: 4),
-                                Text(widget.description!,
-                                    style: widget.descriptionStyle ??
-                                        Theme.of(context).textTheme.bodySmall),
+                                Text(widget.description!, style: widget.descriptionStyle ?? Theme.of(context).textTheme.bodySmall),
                               ],
                             ],
                           ),
@@ -658,8 +859,7 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               _buildSection(widget.body, widget.bodyPadding),
-              if (widget.footer != null || widget.actions != null)
-                _buildDivider(theme),
+              if (widget.footer != null || widget.actions != null) _buildDivider(theme),
             ],
           )
         : null;
@@ -672,36 +872,50 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
         ? _buildSection(widget.footer, widget.footerPadding)
         : null;
 
-    final List<Widget> children = <Widget>[
-      if (headerWidget != null) headerWidget,
-      if (bodyWidget != null)
-        (widget.axis == Axis.vertical)
-            ? Flexible(child: bodyWidget)
-            : Expanded(child: bodyWidget),
-      if (actionsWidget != null) actionsWidget,
-      if (footerWidget != null) footerWidget,
+    final List<Widget>
+        children =
+        <Widget>[
+      if (headerWidget !=
+          null)
+        headerWidget,
+      if (bodyWidget !=
+          null)
+        (widget.axis == Axis.vertical) ? Flexible(child: bodyWidget) : Expanded(child: bodyWidget),
+      if (actionsWidget !=
+          null)
+        actionsWidget,
+      if (footerWidget !=
+          null)
+        footerWidget,
     ];
 
-    final MainAxisSize axisSize =
-        widget.height != null ? MainAxisSize.max : MainAxisSize.min;
+    final MainAxisSize axisSize = widget.height != null
+        ? MainAxisSize.max
+        : MainAxisSize.min;
 
-    Widget mainContent;
-    if (widget.axis == Axis.vertical) {
-      mainContent = Column(
+    Widget
+        mainContent;
+    if (widget.axis ==
+        Axis.vertical) {
+      mainContent =
+          Column(
         mainAxisSize: axisSize,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: children,
       );
     } else {
-      mainContent = Column(
+      mainContent =
+          Column(
         mainAxisSize: axisSize,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: children,
       );
     }
 
-    if (widget.media != null) {
-      if (widget.axis == Axis.vertical) {
+    if (widget.media !=
+        null) {
+      if (widget.axis ==
+          Axis.vertical) {
         if (widget.mediaPosition == SCardImagePosition.bottom) {
           mainContent = Column(
             mainAxisSize: MainAxisSize.min,
@@ -745,17 +959,27 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
     return mainContent;
   }
 
-  Widget _buildMedia(SCardThemeData theme) {
-    final double? w =
-        widget.axis == Axis.horizontal ? widget.mediaWidth ?? 120.0 : null;
-    final double? h =
-        widget.axis == Axis.vertical ? widget.mediaHeight ?? 150.0 : null;
+  Widget _buildMedia(
+      SCardThemeData
+          theme) {
+    final double? w = widget.axis == Axis.horizontal
+        ? widget.mediaWidth ?? 120.0
+        : null;
+    final double? h = widget.axis == Axis.vertical
+        ? widget.mediaHeight ?? 150.0
+        : null;
 
-    final double r = widget.borderRadius ?? theme.borderRadius;
-    BorderRadius mediaRadius = BorderRadius.zero;
+    final double
+        r =
+        widget.borderRadius ?? theme.borderRadius;
+    BorderRadius
+        mediaRadius =
+        BorderRadius.zero;
 
-    if (widget.axis == Axis.vertical) {
-      if (widget.mediaPosition == SCardImagePosition.top) {
+    if (widget.axis ==
+        Axis.vertical) {
+      if (widget.mediaPosition ==
+          SCardImagePosition.top) {
         mediaRadius = BorderRadius.vertical(top: Radius.circular(r));
       } else if (widget.mediaPosition == SCardImagePosition.bottom) {
         mediaRadius = BorderRadius.vertical(bottom: Radius.circular(r));
@@ -770,8 +994,10 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
     }
 
     return ClipRRect(
-      borderRadius: mediaRadius,
-      child: SizedBox(
+      borderRadius:
+          mediaRadius,
+      child:
+          SizedBox(
         width: w,
         height: h,
         child: widget.media,
@@ -779,15 +1005,25 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _buildBadge(Widget child) {
-    if (widget.badge == null) {
+  Widget _buildBadge(
+      Widget
+          child) {
+    if (widget.badge ==
+        null) {
       return child;
     }
 
-    double? top, bottom, left, right;
-    final Offset offset = widget.badgeOffset ?? Offset.zero;
+    double?
+        top,
+        bottom,
+        left,
+        right;
+    final Offset
+        offset =
+        widget.badgeOffset ?? Offset.zero;
 
-    switch (widget.badgePosition) {
+    switch (
+        widget.badgePosition) {
       case SCardBadgePosition.topLeft:
         top = 12 + offset.dy;
         left = 12 + offset.dx;
@@ -803,7 +1039,8 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
     }
 
     return Stack(
-      clipBehavior: Clip.none,
+      clipBehavior:
+          Clip.none,
       children: <Widget>[
         child,
         Positioned(
@@ -818,24 +1055,42 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final SCardThemeData theme = Theme.of(context).sCardTheme;
+  Widget build(
+      BuildContext
+          context) {
+    final SCardThemeData
+        theme =
+        Theme.of(context).sCardTheme;
 
-    final Color backgroundColor = _resolveBackgroundColor(theme);
-    final Color borderColor = _resolveBorderColor(theme);
-    final double borderWidth =
+    final Color
+        backgroundColor =
+        _resolveBackgroundColor(theme);
+    final Color
+        borderColor =
+        _resolveBorderColor(theme);
+    final double
+        borderWidth =
         widget.borderWidth ?? (widget.isSelected ? 2.0 : 1.0);
-    final double borderRadius = widget.borderRadius ?? theme.borderRadius;
+    final double
+        borderRadius =
+        widget.borderRadius ?? theme.borderRadius;
 
-    Widget card = Container(
-      width: widget.width,
-      height: widget.height,
-      constraints: BoxConstraints(
+    Widget
+        card =
+        Container(
+      width:
+          widget.width,
+      height:
+          widget.height,
+      constraints:
+          BoxConstraints(
         maxWidth: widget.maxWidth ?? double.infinity,
         maxHeight: widget.maxHeight ?? double.infinity,
       ),
-      margin: widget.margin,
-      decoration: BoxDecoration(
+      margin:
+          widget.margin,
+      decoration:
+          BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(borderRadius),
         border: Border.all(
@@ -848,14 +1103,12 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
             ? DecorationImage(
                 image: widget.backgroundImage!,
                 fit: widget.backgroundFit,
-                colorFilter: widget.backgroundBlendMode != null
-                    ? ColorFilter.mode(
-                        backgroundColor, widget.backgroundBlendMode!)
-                    : null,
+                colorFilter: widget.backgroundBlendMode != null ? ColorFilter.mode(backgroundColor, widget.backgroundBlendMode!) : null,
               )
             : null,
       ),
-      child: Material(
+      child:
+          Material(
         type: MaterialType.transparency,
         child: InkWell(
           onTap: widget.isLoading
@@ -880,8 +1133,10 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
       ),
     );
 
-    if (widget.variant == SCardVariant.frosted) {
-      card = ClipRRect(
+    if (widget.variant ==
+        SCardVariant.frosted) {
+      card =
+          ClipRRect(
         borderRadius: BorderRadius.circular(borderRadius),
         child: BackdropFilter(
           filter: ImageFilter.blur(
@@ -893,10 +1148,13 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
       );
     }
 
-    card = _buildBadge(card);
+    card =
+        _buildBadge(card);
 
-    if (widget.tapScale != null && widget.onTap != null) {
-      card = ScaleTransition(
+    if (widget.tapScale != null &&
+        widget.onTap != null) {
+      card =
+          ScaleTransition(
         scale: _scaleAnimation,
         child: GestureDetector(
           onTapDown: (_) => _controller.forward(),
@@ -907,8 +1165,10 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
       );
     }
 
-    if (widget.isLoading) {
-      card = Stack(
+    if (widget
+        .isLoading) {
+      card =
+          Stack(
         children: <Widget>[
           card,
           Positioned.fill(
@@ -925,7 +1185,8 @@ class _SCardState extends State<SCard> with SingleTickerProviderStateMixin {
   }
 }
 
-class SCardMeta extends StatelessWidget {
+class SCardMeta
+    extends StatelessWidget {
   const SCardMeta({
     super.key,
     this.avatar,
@@ -933,14 +1194,20 @@ class SCardMeta extends StatelessWidget {
     this.description,
   });
 
-  final Widget? avatar;
-  final Widget? title;
-  final Widget? description;
+  final Widget?
+      avatar;
+  final Widget?
+      title;
+  final Widget?
+      description;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+      BuildContext
+          context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment:
+          CrossAxisAlignment.start,
       children: <Widget>[
         if (avatar != null) ...<Widget>[
           avatar!,
@@ -952,10 +1219,7 @@ class SCardMeta extends StatelessWidget {
             children: <Widget>[
               if (title != null)
                 DefaultTextStyle(
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium!
-                      .copyWith(fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
                   child: title!,
                 ),
               if (description != null) ...<Widget>[
@@ -975,35 +1239,57 @@ class SCardMeta extends StatelessWidget {
   }
 }
 
-class SCardGrid extends StatelessWidget {
+class SCardGrid
+    extends StatelessWidget {
   const SCardGrid({
     super.key,
     required this.children,
-    this.crossAxisCount = 3,
-    this.childAspectRatio = 1.0,
-    this.mainAxisSpacing = 0.0,
-    this.crossAxisSpacing = 0.0,
+    this.crossAxisCount =
+        3,
+    this.childAspectRatio =
+        1.0,
+    this.mainAxisSpacing =
+        0.0,
+    this.crossAxisSpacing =
+        0.0,
     this.padding,
   });
 
-  final List<Widget> children;
-  final int crossAxisCount;
-  final double childAspectRatio;
-  final double mainAxisSpacing;
-  final double crossAxisSpacing;
-  final EdgeInsetsGeometry? padding;
+  final List<Widget>
+      children;
+  final int
+      crossAxisCount;
+  final double
+      childAspectRatio;
+  final double
+      mainAxisSpacing;
+  final double
+      crossAxisSpacing;
+  final EdgeInsetsGeometry?
+      padding;
 
   @override
-  Widget build(BuildContext context) {
-    return GridView.count(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      crossAxisCount: crossAxisCount,
-      childAspectRatio: childAspectRatio,
-      mainAxisSpacing: mainAxisSpacing,
-      crossAxisSpacing: crossAxisSpacing,
-      padding: padding,
-      children: children,
+  Widget build(
+      BuildContext
+          context) {
+    return GridView
+        .count(
+      shrinkWrap:
+          true,
+      physics:
+          const NeverScrollableScrollPhysics(),
+      crossAxisCount:
+          crossAxisCount,
+      childAspectRatio:
+          childAspectRatio,
+      mainAxisSpacing:
+          mainAxisSpacing,
+      crossAxisSpacing:
+          crossAxisSpacing,
+      padding:
+          padding,
+      children:
+          children,
     );
   }
 }

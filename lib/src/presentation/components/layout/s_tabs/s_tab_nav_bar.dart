@@ -433,8 +433,6 @@ class _STabNavBarState
         : (widget.size == STabSize.large ? 16 : 14);
 
     return Container(
-      key:
-          _barKey,
       color: widget.type == STabType.card
           ? theme.cardBackgroundColor
           : null,
@@ -452,6 +450,7 @@ class _STabNavBarState
               child: Stack(
                 children: <Widget>[
                   Flex(
+                    key: _barKey,
                     direction: isVertical ? Axis.vertical : Axis.horizontal,
                     mainAxisSize: MainAxisSize.min,
                     children: widget.items.map((STabItem item) {
@@ -544,21 +543,92 @@ class _STabNavBarState
         margin =
         EdgeInsets.zero;
     if (isCard) {
-      margin =
-          const EdgeInsets.only(right: 2);
+      margin = isVertical
+          ? const EdgeInsets.only(bottom: 2)
+          : const EdgeInsets.only(right: 2);
     } else {
-      margin =
-          const EdgeInsets.symmetric(horizontal: 16);
-      if (isVertical) {
-        margin = const EdgeInsets.symmetric(vertical: 8);
+      margin = isVertical
+          ? const EdgeInsets.symmetric(vertical: 8, horizontal: 16)
+          : const EdgeInsets.symmetric(horizontal: 16);
+    }
+
+    BorderRadius?
+        cardRadius;
+    if (isCard) {
+      switch (widget.tabPosition) {
+        case STabPosition.top:
+          cardRadius = const BorderRadius.vertical(top: Radius.circular(6));
+          break;
+        case STabPosition.bottom:
+          cardRadius = const BorderRadius.vertical(bottom: Radius.circular(6));
+          break;
+        case STabPosition.left:
+          cardRadius = const BorderRadius.horizontal(left: Radius.circular(6));
+          break;
+        case STabPosition.right:
+          cardRadius = const BorderRadius.horizontal(right: Radius.circular(6));
+          break;
       }
+    }
+
+    Positioned?
+        cardIndicator;
+    if (isCard &&
+        isActive) {
+      double?
+          top,
+          bottom,
+          left,
+          right,
+          width,
+          height;
+      switch (widget.tabPosition) {
+        case STabPosition.top:
+          top = 0;
+          left = 0;
+          right = 2;
+          height = 2;
+          break;
+        case STabPosition.bottom:
+          bottom = 0;
+          left = 0;
+          right = 2;
+          height = 2;
+          break;
+        case STabPosition.left:
+          left = 0;
+          top = 0;
+          bottom = 2;
+          width = 2;
+          break;
+        case STabPosition.right:
+          right = 0;
+          top = 0;
+          bottom = 2;
+          width = 2;
+          break;
+      }
+      cardIndicator =
+          Positioned(
+        top: top,
+        bottom: bottom,
+        left: left,
+        right: right,
+        width: width,
+        height: height,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: theme.indicatorColor,
+            borderRadius: cardRadius,
+          ),
+        ),
+      );
     }
 
     return GestureDetector(
       onTap: item.disabled
           ? null
           : () {
-              HapticFeedback.selectionClick();
               HapticFeedback.selectionClick();
               if (widget.controller != null) {
                 final int index = widget.items.indexOf(item);
@@ -579,7 +649,7 @@ class _STabNavBarState
               decoration: BoxDecoration(
                 color: bgColor,
                 border: border,
-                borderRadius: isCard ? const BorderRadius.vertical(top: Radius.circular(6)) : null,
+                borderRadius: cardRadius,
               ),
               child: Row(
                 key: _tabKeys[item.key],
@@ -619,19 +689,7 @@ class _STabNavBarState
                 ],
               ),
             ),
-            if (isCard && isActive)
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 2,
-                height: 2,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: theme.indicatorColor,
-                    borderRadius: const BorderRadius.vertical(top: Radius.circular(6)),
-                  ),
-                ),
-              ),
+            if (cardIndicator != null) cardIndicator,
           ],
         ),
       ),

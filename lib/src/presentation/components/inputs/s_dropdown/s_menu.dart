@@ -2,22 +2,29 @@ import 'package:flutter/material.dart';
 
 import '../../../../../s_design.dart';
 
-class SMenuScope extends InheritedWidget {
+class SMenuScope
+    extends InheritedWidget {
   const SMenuScope({
     super.key,
     required this.activeSubMenuId,
     required super.child,
   });
 
-  final ValueNotifier<String?> activeSubMenuId;
+  final ValueNotifier<String?>
+      activeSubMenuId;
 
-  static SMenuScope? of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<SMenuScope>();
+  static SMenuScope?
+      of(BuildContext context) {
+    return context
+        .dependOnInheritedWidgetOfExactType<SMenuScope>();
   }
 
   @override
-  bool updateShouldNotify(SMenuScope oldWidget) {
-    return activeSubMenuId != oldWidget.activeSubMenuId;
+  bool updateShouldNotify(
+      SMenuScope
+          oldWidget) {
+    return activeSubMenuId !=
+        oldWidget.activeSubMenuId;
   }
 }
 
@@ -40,16 +47,25 @@ class SMenu
       padding;
 
   @override
-  State<SMenu> createState() => _SMenuState();
+  State<SMenu>
+      createState() =>
+          _SMenuState();
 }
 
-class _SMenuState extends State<SMenu> {
-  final ValueNotifier<String?> _activeSubMenuId = ValueNotifier<String?>(null);
+class _SMenuState
+    extends State<
+        SMenu> {
+  final ValueNotifier<String?>
+      _activeSubMenuId =
+      ValueNotifier<String?>(null);
 
   @override
-  void dispose() {
-    _activeSubMenuId.dispose();
-    super.dispose();
+  void
+      dispose() {
+    _activeSubMenuId
+        .dispose();
+    super
+        .dispose();
   }
 
   @override
@@ -57,12 +73,12 @@ class _SMenuState extends State<SMenu> {
       BuildContext
           context) {
     return SMenuScope(
-      activeSubMenuId: _activeSubMenuId,
-      child: Padding(
-        padding:
-            widget.padding,
-        child:
-            Column(
+      activeSubMenuId:
+          _activeSubMenuId,
+      child:
+          Padding(
+        padding: widget.padding,
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: widget.children,

@@ -17,50 +17,80 @@ class SButtonSelectableConfig {
     this.selectedBorderColor,
 
     /// Border width in the selected state. Defaults to [1.5].
-    this.selectedBorderWidth = 1.5,
+    this.selectedBorderWidth =
+        1.5,
 
     /// Whether to show a check icon when the button is selected.
-    this.showCheckIcon = false,
+    this.showCheckIcon =
+        false,
 
     /// Position of the check icon. Defaults to [SSelectableCheckAlignment.leading].
-    this.checkAlignment = SSelectableCheckAlignment.leading,
+    this.checkAlignment =
+        SSelectableCheckAlignment.leading,
 
     /// Animation duration for the selection transition.
     /// Defaults to 200ms — snappy but noticeable.
-    this.animationDuration = const Duration(milliseconds: 200),
+    this.animationDuration =
+        const Duration(milliseconds: 200),
 
     /// Animation curve for the selection transition.
-    this.animationCurve = SSelectableCurve.easeInOut,
+    this.animationCurve =
+        SSelectableCurve.easeInOut,
   });
 
-  final SColorValue? selectedBackgroundColor;
-  final SColorValue? selectedForegroundColor;
-  final SColorValue? selectedBorderColor;
-  final double selectedBorderWidth;
-  final bool showCheckIcon;
-  final SSelectableCheckAlignment checkAlignment;
-  final Duration animationDuration;
-  final SSelectableCurve animationCurve;
+  final SColorValue?
+      selectedBackgroundColor;
+  final SColorValue?
+      selectedForegroundColor;
+  final SColorValue?
+      selectedBorderColor;
+  final double
+      selectedBorderWidth;
+  final bool
+      showCheckIcon;
+  final SSelectableCheckAlignment
+      checkAlignment;
+  final Duration
+      animationDuration;
+  final SSelectableCurve
+      animationCurve;
 
-  SButtonSelectableConfig copyWith({
-    SColorValue? selectedBackgroundColor,
-    SColorValue? selectedForegroundColor,
-    SColorValue? selectedBorderColor,
-    double? selectedBorderWidth,
-    bool? showCheckIcon,
-    SSelectableCheckAlignment? checkAlignment,
-    Duration? animationDuration,
-    SSelectableCurve? animationCurve,
+  SButtonSelectableConfig
+      copyWith({
+    SColorValue?
+        selectedBackgroundColor,
+    SColorValue?
+        selectedForegroundColor,
+    SColorValue?
+        selectedBorderColor,
+    double?
+        selectedBorderWidth,
+    bool?
+        showCheckIcon,
+    SSelectableCheckAlignment?
+        checkAlignment,
+    Duration?
+        animationDuration,
+    SSelectableCurve?
+        animationCurve,
   }) {
     return SButtonSelectableConfig(
-      selectedBackgroundColor: selectedBackgroundColor ?? this.selectedBackgroundColor,
-      selectedForegroundColor: selectedForegroundColor ?? this.selectedForegroundColor,
-      selectedBorderColor: selectedBorderColor ?? this.selectedBorderColor,
-      selectedBorderWidth: selectedBorderWidth ?? this.selectedBorderWidth,
-      showCheckIcon: showCheckIcon ?? this.showCheckIcon,
-      checkAlignment: checkAlignment ?? this.checkAlignment,
-      animationDuration: animationDuration ?? this.animationDuration,
-      animationCurve: animationCurve ?? this.animationCurve,
+      selectedBackgroundColor:
+          selectedBackgroundColor ?? this.selectedBackgroundColor,
+      selectedForegroundColor:
+          selectedForegroundColor ?? this.selectedForegroundColor,
+      selectedBorderColor:
+          selectedBorderColor ?? this.selectedBorderColor,
+      selectedBorderWidth:
+          selectedBorderWidth ?? this.selectedBorderWidth,
+      showCheckIcon:
+          showCheckIcon ?? this.showCheckIcon,
+      checkAlignment:
+          checkAlignment ?? this.checkAlignment,
+      animationDuration:
+          animationDuration ?? this.animationDuration,
+      animationCurve:
+          animationCurve ?? this.animationCurve,
     );
   }
 }
@@ -69,14 +99,20 @@ class SButtonSelectableConfig {
 ///
 /// Converted to [Color] by the presentation layer.
 class SColorValue {
-  const SColorValue(this.value);
+  const SColorValue(
+      this.value);
 
   /// Creates from ARGB channel values (0–255).
-  const SColorValue.fromARGB(int a, int r, int g, int b)
+  const SColorValue.fromARGB(
+      int a,
+      int r,
+      int g,
+      int b)
       : value = (a << 24) | (r << 16) | (g << 8) | b;
 
   /// The packed 32-bit ARGB integer.
-  final int value;
+  final int
+      value;
 }
 
 /// Position of the check icon inside a selectable button.

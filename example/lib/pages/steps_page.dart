@@ -23,9 +23,11 @@ class _StepsPageState
   Widget build(
       BuildContext
           context) {
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
 
-    final steps = [
+    final steps =
+        [
       SStepItem(
           title: Text(l10n.stepsLabelOrderPlaced),
           description: Text(l10n.stepsDescOrderReceived)),
@@ -42,7 +44,8 @@ class _StepsPageState
     return ComponentPage(
       name:
           'SSteps',
-      description: l10n.stepsDesc,
+      description:
+          l10n.stepsDesc,
       whenToUse: [
         l10n.stepsTip1,
         l10n.stepsTip2,

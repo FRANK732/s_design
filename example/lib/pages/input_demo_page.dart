@@ -20,11 +20,13 @@ class _InputDemoPageState
   Widget build(
       BuildContext
           context) {
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
     return ComponentPage(
       name:
           'SInput',
-      description: l10n.inputDesc,
+      description:
+          l10n.inputDesc,
       whenToUse: [
         l10n.inputTip1,
         l10n.inputTip2,

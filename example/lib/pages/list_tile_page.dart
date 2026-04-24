@@ -24,11 +24,13 @@ class _ListTilePageState
   Widget build(
       BuildContext
           context) {
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
     return ComponentPage(
       name:
           'SListTile',
-      description: l10n.listTileDesc,
+      description:
+          l10n.listTileDesc,
       whenToUse: [
         l10n.listTileTip1,
         l10n.listTileTip2,

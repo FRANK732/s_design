@@ -24,11 +24,13 @@ class _SProgressDemoPageState
   Widget build(
       BuildContext
           context) {
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
     return ComponentPage(
       name:
           'SProgress',
-      description: l10n.progressDesc,
+      description:
+          l10n.progressDesc,
       whenToUse: [
         l10n.progressTip1,
         l10n.progressTip2,

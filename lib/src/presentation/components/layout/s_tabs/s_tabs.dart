@@ -21,6 +21,8 @@ class STabs
         false,
     this.hideAdd =
         false,
+    this.expanded =
+        true,
   });
 
   /// Comprehensive list of predefined tab nodes containing the headers and mapped child payloads.
@@ -69,6 +71,10 @@ class STabs
   /// Suppresses the native dynamic 'Add Tab' button when using editable tab variants.
   final bool
       hideAdd;
+
+  /// Whether the tab view content should be wrapped in an Expanded widget.
+  final bool
+      expanded;
 
   @override
   State<STabs>
@@ -247,37 +253,40 @@ class _STabsState
           widget.centered,
     );
 
-    final Expanded
+    final Widget
         content =
-        Expanded(
-      child:
-          STabView(
-        controller: _controller,
-        children: widget.items.map((STabItem item) => item.content).toList(),
-      ),
+        STabView(
+      controller:
+          _controller,
+      children:
+          widget.items.map((STabItem item) => item.content).toList(),
     );
+
+    final Widget flexibleContent = widget.expanded
+        ? Expanded(child: content)
+        : content;
 
     List<Widget>
         children;
     if (isVertical) {
       children = isPositionRight
           ? <Widget>[
-              content,
+              flexibleContent,
               navBar
             ]
           : <Widget>[
               navBar,
-              content
+              flexibleContent
             ];
     } else {
       children = isPositionBottom
           ? <Widget>[
-              content,
+              flexibleContent,
               navBar
             ]
           : <Widget>[
               navBar,
-              content
+              flexibleContent
             ];
     }
 

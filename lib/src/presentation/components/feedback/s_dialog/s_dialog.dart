@@ -28,104 +28,163 @@ class SDialog
   const SDialog({
     /// Primary title text.
     this.title,
+
     /// Custom widget for the title, takes precedence over [title].
     this.titleWidget,
+
     /// Supporting description text shown below the title.
     this.description,
+
     /// Primary content widget for the dialog body.
     this.content,
+
     /// List of widgets (buttons) at the bottom.
     this.actions,
+
     /// Whether the dialog can be dismissed by tapping the barrier.
-    this.barrierDismissible = true,
+    this.barrierDismissible =
+        true,
+
     /// Custom colour for the barrier backdrop.
     this.barrierColor,
+
     /// Duration for the entry/exit transitions.
     this.transitionDuration,
+
     /// Custom decoration for the dialog container.
     this.shapeDecoration,
+
     /// Background color of the dialog.
     this.backgroundColor,
+
     /// Padding for the central content block.
     this.contentPadding,
+
     /// Accessibility label for screen readers.
     this.semanticLabel,
+
     /// Whether to show a close icon in the corner.
     this.showCloseButton,
+
     /// Maximum width of the dialog.
     this.maxWidth,
+
     /// Maximum height of the dialog.
     this.maxHeight,
+
     /// Timing curve for the entry animation.
-    this.animationCurve = Curves.easeOutCubic,
+    this.animationCurve =
+        Curves.easeOutCubic,
+
     /// Duration for inner-modal animations.
     this.animationDuration,
+
     /// Custom style for the title text.
     this.titleStyle,
+
     /// Custom style for the description text.
     this.descriptionStyle,
+
     /// Custom border radius for the container.
     this.borderRadius,
+
     /// Type of entry animation (scale, fade, slide).
-    this.animationType = SDialogAnimationType.zoomIn,
+    this.animationType =
+        SDialogAnimationType.zoomIn,
+
     /// Background filter effects like glassmorphism.
-    this.backgroundEffect = SDialogBackgroundEffect.none,
+    this.backgroundEffect =
+        SDialogBackgroundEffect.none,
+
     /// Whether to show a divider above the actions.
     this.showDivider,
+
     /// Custom divider color.
     this.dividerColor,
+
     /// Custom divider vertical thickness.
     this.dividerThickness,
+
     /// Padding wrapping the action buttons.
     this.actionsPadding,
+
     /// Alignment of actions within the bottom area.
-    this.actionsAlignment = MainAxisAlignment.end,
+    this.actionsAlignment =
+        MainAxisAlignment.end,
+
     /// Cross-axis alignment for the body content.
-    this.contentCrossAlignment = CrossAxisAlignment.start,
+    this.contentCrossAlignment =
+        CrossAxisAlignment.start,
+
     /// Main-axis alignment for the body content.
-    this.contentMainAlignment = MainAxisAlignment.start,
+    this.contentMainAlignment =
+        MainAxisAlignment.start,
+
     /// Whether the content area should be scrollable.
-    this.scrollable = false,
+    this.scrollable =
+        false,
+
     /// Custom scroll controller for the content.
     this.scrollController,
+
     /// Custom scroll physics for the content.
     this.scrollPhysics,
+
     /// Elevation shadow depth.
     this.elevation,
+
     /// Whether to wrap the dialog in a SafeArea.
-    this.useSafeArea = false,
+    this.useSafeArea =
+        false,
+
     /// Whether to show a divider below the title.
     this.showTitleDivider,
+
     /// Color for the title divider.
     this.titleDividerColor,
+
     /// Thickness for the title divider.
     this.titleDividerThickness,
+
     /// Padding wrapping the title area.
     this.titlePadding,
+
     /// Padding wrapping the description area.
     this.descriptionPadding,
+
     /// Whether to show a divider below the description.
     this.showDescriptionDivider,
+
     /// Color for the description divider.
     this.descriptionDividerColor,
+
     /// Thickness for the description divider.
     this.descriptionDividerThickness,
+
     /// Margin padding around the entire dialog container.
     this.insetPadding,
+
     /// Positional alignment of the dialog on screen.
     this.alignment,
+
     /// Shadow color for the elevation effect.
     this.shadowColor,
+
     /// Material 3 surface tint color.
     this.surfaceTintColor,
+
     /// Clip behavior for the dialog contents.
     this.clipBehavior,
+
     /// Optional graphical icon at the top of the dialog.
     this.iconWidget,
+
     /// Custom widget trailing at the end of the body.
     this.footerWidget,
+
     /// Whether actions should wrap if space is constrained.
-    this.actionsWrap = false,
+    this.actionsWrap =
+        false,
     super.key,
   });
 

@@ -26,21 +26,26 @@ enum STriggerPlacement {
   rightBottom,
 }
 
-class STriggerScope extends InheritedWidget {
+class STriggerScope
+    extends InheritedWidget {
   const STriggerScope({
     super.key,
     required this.onClose,
     required super.child,
   });
 
-  final VoidCallback onClose;
+  final VoidCallback
+      onClose;
 
-  static STriggerScope? of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<STriggerScope>();
+  static STriggerScope?
+      of(BuildContext context) {
+    return context
+        .dependOnInheritedWidgetOfExactType<STriggerScope>();
   }
 
   @override
-  bool updateShouldNotify(STriggerScope oldWidget) => false;
+  bool updateShouldNotify(STriggerScope oldWidget) =>
+      false;
 }
 
 class STrigger
@@ -112,8 +117,10 @@ class STrigger
       getPopupContainer;
 
   /// Closes the nearest ancestor [STrigger] and triggers its parent cascade dismissal.
-  static void close(BuildContext context) {
-    STriggerScope.of(context)?.onClose();
+  static void
+      close(BuildContext context) {
+    STriggerScope.of(context)
+        ?.onClose();
   }
 
   @override
@@ -131,14 +138,20 @@ class _STriggerState
       _isVisible =
       false;
 
-  DateTime? _mountedAt;
+  DateTime?
+      _mountedAt;
 
-  STriggerScope? _parentScope;
+  STriggerScope?
+      _parentScope;
 
-  void _handleClose() {
-    _fireVisibleChange(false);
-    _parentScope?.onClose();
+  void
+      _handleClose() {
+    _fireVisibleChange(
+        false);
+    _parentScope
+        ?.onClose();
   }
+
   OverlayEntry?
       _overlayEntry;
   Timer?
@@ -158,7 +171,8 @@ class _STriggerState
       initState() {
     super
         .initState();
-    _mountedAt = DateTime.now();
+    _mountedAt =
+        DateTime.now();
     _isVisible =
         widget.popupVisible ?? false;
     _animationController =
@@ -187,15 +201,22 @@ class _STriggerState
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _parentScope = STriggerScope.of(context);
-    _scrollPosition?.removeListener(_handleScroll);
-    _scrollPosition = Scrollable.maybeOf(context)?.position;
-    _scrollPosition?.addListener(_handleScroll);
+  void
+      didChangeDependencies() {
+    super
+        .didChangeDependencies();
+    _parentScope =
+        STriggerScope.of(context);
+    _scrollPosition
+        ?.removeListener(_handleScroll);
+    _scrollPosition =
+        Scrollable.maybeOf(context)?.position;
+    _scrollPosition
+        ?.addListener(_handleScroll);
   }
 
-  void _handleScroll() {
+  void
+      _handleScroll() {
     if (_isVisible) {
       _fireVisibleChange(false);
     }
@@ -225,7 +246,8 @@ class _STriggerState
   @override
   void
       dispose() {
-    _scrollPosition?.removeListener(_handleScroll);
+    _scrollPosition
+        ?.removeListener(_handleScroll);
     _delayTimer
         ?.cancel();
     _animationController
@@ -260,10 +282,11 @@ class _STriggerState
 
   void
       _onMouseEnter() {
-    // Guard: Ignore hovers for the first 150ms to prevent auto-opening 
+    // Guard: Ignore hovers for the first 150ms to prevent auto-opening
     // when a menu appears directly under the pointer (common on mobile).
-    final bool isTooSoon = _mountedAt != null && 
-        DateTime.now().difference(_mountedAt!).inMilliseconds < 150;
+    final bool
+        isTooSoon =
+        _mountedAt != null && DateTime.now().difference(_mountedAt!).inMilliseconds < 150;
     if (isTooSoon) {
       return;
     }
@@ -407,8 +430,7 @@ class _STriggerState
           final bool isRightClick = event.buttons == 2;
 
           // Guard: Ignore events that occur too soon after the trigger is mounted.
-          final bool isTooSoon = _mountedAt != null && 
-              DateTime.now().difference(_mountedAt!).inMilliseconds < 100;
+          final bool isTooSoon = _mountedAt != null && DateTime.now().difference(_mountedAt!).inMilliseconds < 100;
 
           if (isTouch && hasHover && !hasClick) {
             if (isTooSoon) {

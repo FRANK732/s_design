@@ -21,7 +21,10 @@ class SSubMenu
     this.backgroundColor,
     this.borderColor,
     this.borderRadius,
-    this.trigger = const <STriggerAction>[STriggerAction.hover],
+    this.trigger =
+        const <STriggerAction>[
+      STriggerAction.hover
+    ],
   });
 
   /// The label shown in the parent menu row.
@@ -49,56 +52,89 @@ class SSubMenu
       popupOffset;
 
   /// Override background color of the sub-menu.
-  final Color? backgroundColor;
+  final Color?
+      backgroundColor;
 
   /// Override border color of the sub-menu.
-  final Color? borderColor;
+  final Color?
+      borderColor;
 
   /// Override border radius of the sub-menu.
-  final BorderRadius? borderRadius;
+  final BorderRadius?
+      borderRadius;
 
   /// Trigger actions for opening the sub-menu.
-  final List<STriggerAction> trigger;
+  final List<STriggerAction>
+      trigger;
 
   @override
-  State<SSubMenu> createState() => _SSubMenuState();
+  State<SSubMenu>
+      createState() =>
+          _SSubMenuState();
 }
 
-class _SSubMenuState extends State<SSubMenu> {
-  final String _menuId = UniqueKey().toString();
-  bool _isOpen = false;
-  SMenuScope? _scope;
+class _SSubMenuState
+    extends State<
+        SSubMenu> {
+  final String
+      _menuId =
+      UniqueKey().toString();
+  bool
+      _isOpen =
+      false;
+  SMenuScope?
+      _scope;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final SMenuScope? newScope = SMenuScope.of(context);
-    if (_scope != newScope) {
+  void
+      didChangeDependencies() {
+    super
+        .didChangeDependencies();
+    final SMenuScope?
+        newScope =
+        SMenuScope.of(context);
+    if (_scope !=
+        newScope) {
       _scope?.activeSubMenuId.removeListener(_onScopeChanged);
-      _scope = newScope;
+      _scope =
+          newScope;
       _scope?.activeSubMenuId.addListener(_onScopeChanged);
     }
   }
 
   @override
-  void dispose() {
-    _scope?.activeSubMenuId.removeListener(_onScopeChanged);
-    super.dispose();
+  void
+      dispose() {
+    _scope
+        ?.activeSubMenuId
+        .removeListener(_onScopeChanged);
+    super
+        .dispose();
   }
 
-  void _onScopeChanged() {
-    final String? activeId = _scope?.activeSubMenuId.value;
-    if (activeId != _menuId && _isOpen) {
-      setState(() => _isOpen = false);
+  void
+      _onScopeChanged() {
+    final String?
+        activeId =
+        _scope?.activeSubMenuId.value;
+    if (activeId != _menuId &&
+        _isOpen) {
+      setState(() =>
+          _isOpen = false);
     }
   }
 
-  void _handleVisibleChange(bool visible) {
-    setState(() => _isOpen = visible);
+  void _handleVisibleChange(
+      bool
+          visible) {
+    setState(() =>
+        _isOpen = visible);
     if (visible) {
-      _scope?.activeSubMenuId.value = _menuId;
+      _scope?.activeSubMenuId.value =
+          _menuId;
     } else {
-      if (_scope?.activeSubMenuId.value == _menuId) {
+      if (_scope?.activeSubMenuId.value ==
+          _menuId) {
         _scope?.activeSubMenuId.value = null;
       }
     }
@@ -119,21 +155,25 @@ class _SSubMenuState extends State<SSubMenu> {
         ? theme.colorToken.textSecondary.withOpacity(0.3)
         : theme.colorToken.textSecondary;
 
-    final SDropdownMenuThemeData dropdownTheme = theme.dropdownMenuTheme;
+    final SDropdownMenuThemeData
+        dropdownTheme =
+        theme.dropdownMenuTheme;
 
-    final Color effectiveBackgroundColor = widget.backgroundColor ?? 
-        dropdownTheme.backgroundColor ?? 
+    final Color effectiveBackgroundColor = widget.backgroundColor ??
+        dropdownTheme.backgroundColor ??
         theme.colorToken.surface;
-    
-    final Color effectiveBorderColor = widget.borderColor ?? 
-        dropdownTheme.borderColor ?? 
+
+    final Color effectiveBorderColor = widget.borderColor ??
+        dropdownTheme.borderColor ??
         theme.colorToken.divider.withOpacity(0.4);
-    
-    final BorderRadius effectiveBorderRadius = widget.borderRadius ?? 
-        dropdownTheme.borderRadius ?? 
+
+    final BorderRadius effectiveBorderRadius = widget.borderRadius ??
+        dropdownTheme.borderRadius ??
         BorderRadius.circular(DesignConstants.borderRadiusMedium);
-    
-    final double effectiveElevation = dropdownTheme.elevation ?? 8.0;
+
+    final double
+        effectiveElevation =
+        dropdownTheme.elevation ?? 8.0;
 
     final Widget
         popup =
@@ -168,9 +208,9 @@ class _SSubMenuState extends State<SSubMenu> {
           const Duration(milliseconds: 120),
       action:
           widget.trigger,
-      popupVisible: 
+      popupVisible:
           _isOpen,
-      onPopupVisibleChange: 
+      onPopupVisibleChange:
           _handleVisibleChange,
       popup:
           popup,

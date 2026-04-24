@@ -11,11 +11,13 @@ class TabsDemoV3Page
   Widget build(
       BuildContext
           context) {
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
     return ComponentPage(
       name:
           'STabs',
-      description: l10n.tabsDesc,
+      description:
+          l10n.tabsDesc,
       whenToUse: [
         l10n.tabsTip1,
         l10n.tabsTip2,

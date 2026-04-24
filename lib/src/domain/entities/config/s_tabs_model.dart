@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class STabItem {
   STabItem({
     required this.label,
-    required this.content,
+    this.content,
     this.icon,
     this.disabled =
         false,
@@ -15,7 +15,7 @@ class STabItem {
 
   final String
       label;
-  final Widget
+  final Widget?
       content;
   final Widget?
       icon;

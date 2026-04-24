@@ -13,11 +13,13 @@ class ToastPage
   Widget build(
       BuildContext
           context) {
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
     return ComponentPage(
       name:
           'SToast',
-      description: l10n.toastDesc,
+      description:
+          l10n.toastDesc,
       whenToUse: [
         l10n.toastTip1,
         l10n.toastTip2,
@@ -105,7 +107,8 @@ class _SonnerRecommendation
   Widget build(
       BuildContext
           context) {
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
     return Container(
       padding:
           const EdgeInsets.all(12),
