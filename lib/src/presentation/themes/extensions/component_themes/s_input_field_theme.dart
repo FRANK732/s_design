@@ -26,7 +26,7 @@ class SInputFieldThemeData
           colorScheme) {
     return SInputFieldThemeData(
       backgroundColor:
-          colorScheme.surface,
+          colorScheme.onSurface.withOpacity(0.05),
       borderColor:
           colorScheme.outline,
       focusedBorderColor:

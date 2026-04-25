@@ -111,6 +111,10 @@ class _SInputFieldState
                   tooltip: _obscureText ? 'Show Password' : 'Hide Password',
                 )
               : null),
+      filled:
+          widget.filled,
+      hasBorder:
+          widget.hasBorder,
       contentPadding:
           widget.contentPadding,
       userDecoration:

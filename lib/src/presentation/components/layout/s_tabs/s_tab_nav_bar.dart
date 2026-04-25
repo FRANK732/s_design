@@ -275,12 +275,15 @@ class _STabNavBarState
         activeRenderObject.size.height,
       );
 
-      if (_indicatorRect !=
+      if (_targetIndicatorRect !=
           newRect) {
-        _targetIndicatorRect = newRect;
         if (_indicatorRect == null) {
           _indicatorRect = newRect;
         } else {
+          _indicatorRect = _currentAnimatedRect;
+        }
+        _targetIndicatorRect = newRect;
+        if (_indicatorRect != _targetIndicatorRect) {
           _indicatorController.forward(from: 0.0);
         }
       }
@@ -552,7 +555,8 @@ class _STabNavBarState
           : const EdgeInsets.symmetric(horizontal: 16);
     }
 
-    BorderRadius? cardRadius;
+    BorderRadius?
+        cardRadius;
     if (isCard) {
       switch (widget.tabPosition) {
         case STabPosition.top:
@@ -566,18 +570,38 @@ class _STabNavBarState
       }
     }
 
-    Positioned? cardIndicator;
-    if (isCard && isActive) {
-      double? top, bottom, left, right, width, height;
+    Positioned?
+        cardIndicator;
+    if (isCard &&
+        isActive) {
+      double?
+          top,
+          bottom,
+          left,
+          right,
+          width,
+          height;
       switch (widget.tabPosition) {
         case STabPosition.top:
-          top = 0; left = 0; right = 2; height = 2;
+          top = 0;
+          left = 0;
+          right = 2;
+          height = 2;
         case STabPosition.bottom:
-          bottom = 0; left = 0; right = 2; height = 2;
+          bottom = 0;
+          left = 0;
+          right = 2;
+          height = 2;
         case STabPosition.left:
-          left = 0; top = 0; bottom = 2; width = 2;
+          left = 0;
+          top = 0;
+          bottom = 2;
+          width = 2;
         case STabPosition.right:
-          right = 0; top = 0; bottom = 2; width = 2;
+          right = 0;
+          top = 0;
+          bottom = 2;
+          width = 2;
       }
       cardIndicator =
           Positioned(
