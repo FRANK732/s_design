@@ -62,7 +62,8 @@ class SSelect<
     this.onOpenChange,
     this.onFocus,
     this.onBlur,
-    this.elevation = 0.0,
+    this.elevation =
+        0.0,
   });
 
   /// The list of items to display in the dropdown.

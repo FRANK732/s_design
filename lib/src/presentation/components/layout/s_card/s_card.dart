@@ -669,11 +669,6 @@ class _SCardState
           <BoxShadow>[];
     }
 
-    // Borderless/Filled/Outlined usually don't have shadow unless hovered?
-    // Borderless = No border, no shadow.
-    // Outlined = Border, no shadow.
-    // Hoverable = Adds shadow on hover.
-
     final List<BoxShadow>
         shadows =
         <BoxShadow>[];
@@ -782,14 +777,13 @@ class _SCardState
       case SCardVariant.filled:
         return theme.filledColor ?? theme.backgroundColor;
       case SCardVariant.outlined:
-        return Colors.transparent; // Outlined usually transparent bg
+        return Colors.transparent;
       case SCardVariant.frosted:
-        // For frosted, we return a semi-transparent color base
         return theme.backgroundColor.withOpacity(theme.frostedOpacity);
       case SCardVariant.elevated:
         return theme.backgroundColor;
       case SCardVariant.borderless:
-        return theme.backgroundColor; // Or transparent? Uses background for standard cards even if borderless
+        return theme.backgroundColor;
     }
   }
 
@@ -814,8 +808,6 @@ class _SCardState
       case SCardVariant.filled:
       case SCardVariant.elevated:
       case SCardVariant.frosted:
-        // Usually no border for these, or standard subtle border
-        // Usually no border for these, or standard subtle border
         return Colors.transparent;
       case SCardVariant.borderless:
         return Colors.transparent;
@@ -827,7 +819,6 @@ class _SCardState
           context,
       SCardThemeData
           theme) {
-    // 1. Organize main content chunks
     final Column? headerWidget = (widget.header != null || widget.title != null || widget.headerTrailing != null)
         ? Column(
             mainAxisSize: MainAxisSize.min,
@@ -881,7 +872,6 @@ class _SCardState
         ? _buildSection(widget.footer, widget.footerPadding)
         : null;
 
-    // 2. Arrange in List for rendering
     final List<Widget>
         children =
         <Widget>[
@@ -890,7 +880,7 @@ class _SCardState
         headerWidget,
       if (bodyWidget !=
           null)
-        (widget.axis == Axis.vertical) ? Flexible(child: bodyWidget) : Expanded(child: bodyWidget), // Expanded for Row
+        (widget.axis == Axis.vertical) ? Flexible(child: bodyWidget) : Expanded(child: bodyWidget),
       if (actionsWidget !=
           null)
         actionsWidget,
@@ -899,36 +889,33 @@ class _SCardState
         footerWidget,
     ];
 
-    // 3. Assemble Layout based on Axis
+    final MainAxisSize axisSize = widget.height != null
+        ? MainAxisSize.max
+        : MainAxisSize.min;
+
     Widget
         mainContent;
     if (widget.axis ==
         Axis.vertical) {
       mainContent =
           Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: axisSize,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: children,
       );
     } else {
-      // Horizontal Layout
-      // Ideally header, actions, footer might behave differently in horizontal.
-      // For now, we stack them horizontally? Or keep them as a block?
-      // A common pattern for horizontal card: Image (Left) | Content (Right)
-      // Content (Right) is a Column of Header, Body, Footer.
-      mainContent = Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: children);
+      mainContent =
+          Column(
+        mainAxisSize: axisSize,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: children,
+      );
     }
 
-    // 4. Incorporate Media
     if (widget.media !=
         null) {
-      // Media Layout
       if (widget.axis ==
           Axis.vertical) {
-        // Vertical: Media usually at Top or Bottom
         if (widget.mediaPosition == SCardImagePosition.bottom) {
           mainContent = Column(
             mainAxisSize: MainAxisSize.min,
@@ -939,7 +926,6 @@ class _SCardState
             ],
           );
         } else {
-          // Default to Top
           mainContent = Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -950,8 +936,6 @@ class _SCardState
           );
         }
       } else {
-        // Horizontal: Media at Start or End
-        // We wrap mainContent in Expanded to fill space next to image
         if (widget.mediaPosition == SCardImagePosition.end) {
           mainContent = Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -961,7 +945,6 @@ class _SCardState
             ],
           );
         } else {
-          // Default to Start
           mainContent = Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
@@ -979,9 +962,6 @@ class _SCardState
   Widget _buildMedia(
       SCardThemeData
           theme) {
-    // Determine dimensions
-    // In vertical layout, width is usually full, height is fixed or content based.
-    // In horizontal layout, width is fixed, height is full.
     final double? w = widget.axis == Axis.horizontal
         ? widget.mediaWidth ?? 120.0
         : null;
@@ -989,8 +969,6 @@ class _SCardState
         ? widget.mediaHeight ?? 150.0
         : null;
 
-    // Determine BorderRadius for clipping
-    // The media needs to match the card's corners on the side it touches
     final double
         r =
         widget.borderRadius ?? theme.borderRadius;
@@ -1009,7 +987,6 @@ class _SCardState
     } else {
       if (widget.mediaPosition == SCardImagePosition.start ||
           widget.mediaPosition == SCardImagePosition.top) {
-        // treating top as start for horizontal
         mediaRadius = BorderRadius.horizontal(left: Radius.circular(r));
       } else {
         mediaRadius = BorderRadius.horizontal(right: Radius.circular(r));
@@ -1036,7 +1013,6 @@ class _SCardState
       return child;
     }
 
-    // Default positioning
     double?
         top,
         bottom,
@@ -1046,14 +1022,6 @@ class _SCardState
         offset =
         widget.badgeOffset ?? Offset.zero;
 
-    /*
-    enum SCardBadgePosition {
-      topLeft,
-      topRight,
-      bottomLeft,
-      bottomRight,
-    }
-    */
     switch (
         widget.badgePosition) {
       case SCardBadgePosition.topLeft:
@@ -1165,7 +1133,6 @@ class _SCardState
       ),
     );
 
-    // Frosted Glass Effect
     if (widget.variant ==
         SCardVariant.frosted) {
       card =
@@ -1181,11 +1148,9 @@ class _SCardState
       );
     }
 
-    // Badge Overlay
     card =
         _buildBadge(card);
 
-    // Selection/Interaction Handling (Scale)
     if (widget.tapScale != null &&
         widget.onTap != null) {
       card =
@@ -1200,7 +1165,6 @@ class _SCardState
       );
     }
 
-    // Loading Overlay
     if (widget
         .isLoading) {
       card =
@@ -1308,9 +1272,6 @@ class SCardGrid
   Widget build(
       BuildContext
           context) {
-    // SCardGrid usually renders a grid of Cards with specific styling (often borderless inside grid)
-    // Grid Card is actually just a Grid where each cell is a Card.
-    // We can use GridView for this.
     return GridView
         .count(
       shrinkWrap:

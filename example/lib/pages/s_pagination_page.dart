@@ -24,7 +24,8 @@ class _SPaginationPageState
   Widget build(
       BuildContext
           context) {
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
     return SScaffold(
       appBar:
           AppBar(
@@ -46,7 +47,6 @@ class _SPaginationPageState
               onChange: (page, size) => _log(ctx, 'Page: $page, PageSize: $size'),
             ),
             const SizedBox(height: 32),
-
             _sectionHeader(l10n.paginationHeader2),
             _description(l10n.paginationDesc2),
             SPagination(
@@ -55,7 +55,6 @@ class _SPaginationPageState
               onChange: (page, size) => _log(ctx, 'Page: $page'),
             ),
             const SizedBox(height: 32),
-
             _sectionHeader(l10n.paginationHeader3),
             _description(l10n.paginationDesc3),
             SPagination(
@@ -73,7 +72,6 @@ class _SPaginationPageState
               onShowSizeChange: (cur, size) => _log(ctx, 'Current: $cur, PageSize: $size'),
             ),
             const SizedBox(height: 32),
-
             _sectionHeader(l10n.paginationHeader4),
             _description(l10n.paginationDesc4),
             SPagination(
@@ -90,7 +88,6 @@ class _SPaginationPageState
               disabled: true,
             ),
             const SizedBox(height: 32),
-
             _sectionHeader(l10n.paginationHeader5),
             _description(l10n.paginationDesc5),
             const SPagination(size: SPaginationSize.small, total: 50),
@@ -117,7 +114,6 @@ class _SPaginationPageState
               showQuickJumper: true,
             ),
             const SizedBox(height: 24),
-
             _sectionHeader(l10n.paginationHeader5b),
             _description(l10n.paginationDesc5b),
             const SPagination(size: SPaginationSize.large, total: 50),
@@ -144,14 +140,12 @@ class _SPaginationPageState
               showQuickJumper: true,
             ),
             const SizedBox(height: 32),
-
             _sectionHeader(l10n.paginationHeader6),
             _description(l10n.paginationDesc6),
             const SPagination(simple: true, defaultCurrent: 2, total: 50),
             const SizedBox(height: 12),
             const SPagination(simple: true, defaultCurrent: 2, total: 50, disabled: true),
             const SizedBox(height: 32),
-
             _sectionHeader(l10n.paginationHeader7),
             _description(l10n.paginationDesc7),
             Wrap(
@@ -167,7 +161,6 @@ class _SPaginationPageState
               ],
             ),
             const SizedBox(height: 32),
-
             _sectionHeader(l10n.paginationHeader8),
             _description(l10n.paginationDesc8),
             SPagination(
@@ -182,7 +175,6 @@ class _SPaginationPageState
               defaultPageSize: 20,
             ),
             const SizedBox(height: 32),
-
             _sectionHeader(l10n.paginationHeader9),
             _description(l10n.paginationDesc9),
             SPagination(
@@ -204,7 +196,6 @@ class _SPaginationPageState
               },
             ),
             const SizedBox(height: 32),
-
             _sectionHeader(l10n.paginationHeader10),
             _description(l10n.paginationDesc10),
             const SPagination(total: 50),
@@ -213,7 +204,6 @@ class _SPaginationPageState
             const SizedBox(height: 12),
             const SPagination(align: SPaginationAlign.end, total: 50),
             const SizedBox(height: 32),
-
             _sectionHeader(l10n.paginationHeader11),
             _description(l10n.paginationDesc11),
             SPagination(
@@ -223,7 +213,6 @@ class _SPaginationPageState
               showTotal: (total, _) => l10n.paginationLabelTotal(total),
             ),
             const SizedBox(height: 32),
-
             _sectionHeader(l10n.paginationHeader12),
             _description(l10n.paginationDesc12),
             SPagination(
@@ -245,13 +234,20 @@ class _SPaginationPageState
     );
   }
 
-  void _log(BuildContext context, String msg) {
-    SSonner.show(
-      config: SSonnerConfig(
+  void _log(
+      BuildContext
+          context,
+      String
+          msg) {
+    SSonner
+        .show(
+      config:
+          SSonnerConfig(
         message: msg,
         elevation: 0,
       ),
-      replace: true,
+      replace:
+          true,
     );
   }
 }

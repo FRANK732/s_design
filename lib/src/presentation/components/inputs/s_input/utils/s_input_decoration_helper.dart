@@ -30,6 +30,10 @@ class SInputDecorationHelper {
         endIcon,
     required Widget?
         suffixIconOverride,
+    required bool
+        filled,
+    required bool
+        hasBorder,
     required EdgeInsetsGeometry?
         contentPadding,
     required InputDecoration?
@@ -68,32 +72,41 @@ class SInputDecorationHelper {
           suffixText,
       suffixStyle:
           suffixStyle,
+      filled:
+          filled,
+      fillColor: filled
+          ? theme.backgroundColor
+          : null,
       contentPadding:
           contentPadding ?? defaultContentPadding,
       border:
           inputBorder.copyWith(
+        borderSide: hasBorder ? BorderSide(
+          color: theme.borderColor,
+          width: theme.borderWidth,
+        ) : BorderSide.none,
         borderRadius: BorderRadius.circular(theme.borderRadius),
       ),
       enabledBorder:
           inputBorder.copyWith(
-        borderSide: BorderSide(
+        borderSide: hasBorder ? BorderSide(
           color: theme.borderColor,
           width: theme.borderWidth,
-        ),
+        ) : BorderSide.none,
       ),
       focusedBorder:
           inputBorder.copyWith(
-        borderSide: BorderSide(
+        borderSide: hasBorder ? BorderSide(
           color: theme.focusedBorderColor,
           width: theme.focusedBorderWidth,
-        ),
+        ) : BorderSide.none,
       ),
       disabledBorder:
           inputBorder.copyWith(
-        borderSide: BorderSide(
+        borderSide: hasBorder ? BorderSide(
           color: theme.disabledBorderColor,
           width: theme.borderWidth,
-        ),
+        ) : BorderSide.none,
       ),
       prefixIcon:
           startIcon,

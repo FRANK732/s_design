@@ -9,23 +9,32 @@ class BottomNavigationPage
       {super.key});
 
   @override
-  State<BottomNavigationPage> createState() => _BottomNavigationPageState();
+  State<BottomNavigationPage>
+      createState() =>
+          _BottomNavigationPageState();
 }
 
 class _BottomNavigationPageState
-    extends State<BottomNavigationPage> {
-  int _capsuleIndex = 0;
-  int _dotIndex = 0;
-  int _flashyIndex = 0;
-  int _shiftIndex = 0;
+    extends State<
+        BottomNavigationPage> {
+  int _capsuleIndex =
+      0;
+  int _dotIndex =
+      0;
+  int _flashyIndex =
+      0;
+  int _shiftIndex =
+      0;
 
   @override
   Widget build(
       BuildContext
           context) {
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
 
-    final items = [
+    final items =
+        [
       SAnimatedBottomBarItem(
         icon: const Icon(Icons.home_outlined),
         activeIcon: const Icon(Icons.home),

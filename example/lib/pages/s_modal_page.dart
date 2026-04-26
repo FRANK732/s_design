@@ -11,11 +11,13 @@ class SModalPage
   Widget build(
       BuildContext
           context) {
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
     return ComponentPage(
       name:
           'SDialog',
-      description: l10n.dialogDesc,
+      description:
+          l10n.dialogDesc,
       whenToUse: [
         l10n.dialogTip1,
         l10n.dialogTip2,

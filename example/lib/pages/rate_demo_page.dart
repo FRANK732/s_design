@@ -111,10 +111,10 @@ SRate(value: 7, count: 10, onChange: (v) => setState(() => _rating = v));''',
             defaultValue: 3,
             characterBuilder: (context, index) => Text('${index + 1}'),
           ),
-          code: '''
+          code: r'''
 SRate(
   count: 5,
-  characterBuilder: (context, index) => Text('\${index + 1}'),
+  characterBuilder: (context, index) => Text('${index + 1}'),
 )''',
         ),
         ComponentSection(

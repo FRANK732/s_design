@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../../domain/entities/config/button_config_entity.dart';
+import '../../../../domain/entities/config/s_button_selectable_config.dart';
 import '../../../themes/extensions/component_themes/s_button_theme.dart';
 import 's_button_content.dart';
+import 's_button_selectable.dart';
 import 's_button_style_helper.dart';
 
 /// Presentation layer button widget following clean architecture.
@@ -18,68 +20,107 @@ class SButton
   /// Creates a button widget.
   const SButton({
     super.key,
+
     /// The visual variant of the button (e.g., primary, secondary, outline, text).
-    this.variant = SButtonVariant.defaultVariant,
+    this.variant =
+        SButtonVariant.defaultVariant,
+
     /// The sizing scale of the button (e.g., small, medium, large, icon).
-    this.size = SButtonSize.defaultSize,
+    this.size =
+        SButtonSize.defaultSize,
+
     /// Explicitly forces the button into a specific state logically (e.g., [SButtonState.disabled]).
     this.state,
+
     /// An icon to display centered within the button. Primarily used by the [SButton.icon] constructor.
     this.icon,
+
     /// The overarching background fill color. Hard overrides the color mapped by [variant] and [size].
     this.backgroundColor,
+
     /// The overarching foreground color for text and icons. Hard overrides the color mapped by [variant].
     this.foregroundColor,
+
     /// If `true`, the button replaces its content with a loading spinner and becomes completely unclickable.
-    this.loading = false,
+    this.loading =
+        false,
+
     /// Callback triggered when the standard tap gesture resolves. If `null`, the button becomes implicitly disabled.
     required this.onPressed,
+
     /// Callback triggered when a long-press gesture resolves.
     this.onLongPress,
+
     /// The primary content of the button, usually a [Text] widget or a complex custom layout.
     this.child,
+
     /// Explicit pixel height of the button. Overrides the innate [size] metric.
     this.height,
+
     /// Explicit pixel width of the button. Overrides the innate [size] metric.
     this.width,
+
     /// The explicit padding mapped tightly around the button's internal child content.
     this.padding,
+
     /// The curvature radius of the button's outer shell.
     this.borderRadius,
+
     /// The z-axis elevation driving the depth of the casting shadow.
     this.elevation,
+
     /// The tint color of the cast shadow.
     this.shadowColor,
+
     /// Focus node mapped to the button to manually drive native focus mechanisms.
     this.focusNode,
+
     /// If `true`, automatically requests focus when the button is injected into the widget tree.
-    this.autofocus = false,
+    this.autofocus =
+        false,
+
     /// Manual text styling overriding the defaults provided by the [size] config.
     this.textStyle,
+
     /// The duration of the visual state transition animations (e.g., hovering or pressing).
     this.animationDuration,
+
     /// Standard semantic tooltip string deployed when hovering over the button.
     this.tooltip,
+
     /// A manual [ButtonStyle] injection for overriding fine-grained material behavior natively.
     this.buttonStyle,
+
     /// Whether the button should stretch to fill the available width.
-    this.isFullWidth = false,
+    this.isFullWidth =
+        false,
+
     /// Duration to debounce the button press.
     this.debounceDuration,
+
     /// Whether to trigger haptic feedback on press.
-    this.enableHapticFeedback = false,
+    this.enableHapticFeedback =
+        false,
+
     /// Icon to display before the label.
     this.leadingIcon,
+
     /// Icon to display after the label.
     this.trailingIcon,
+
     /// Text to show alongside the spinner when loading.
     this.loadingText,
+
     /// Tooltip to show when the button is disabled.
     this.disabledTooltip,
+
     /// Whether the button is in a selected/toggled state.
-    this.isSelected = false,
+    this.isSelected =
+        false,
+
     /// Badge to display on the button (usually a count or status).
     this.badge,
+
     /// Keyboard shortcut to trigger the button.
     this.shortcut,
   });
@@ -218,6 +259,166 @@ class SButton
           shortcut,
       child:
           label,
+    );
+  }
+
+  /// Creates a selectable / toggle button via [SButtonSelectable].
+  ///
+  /// Works in **uncontrolled** mode (manages its own state) when only
+  /// [onSelectionChanged] is provided, or in **controlled** mode when the
+  /// caller also supplies [isSelected] and updates it externally.
+  ///
+  /// ```dart
+  /// // Uncontrolled
+  /// SButton.selectable(
+  ///   child: const Text('Notifications'),
+  ///   config: SButtonSelectableConfig(showCheckIcon: true),
+  ///   onSelectionChanged: (v) => debugPrint('$v'),
+  /// )
+  ///
+  /// // Controlled
+  /// SButton.selectable(
+  ///   isSelected: _bold,
+  ///   onSelectionChanged: (v) => setState(() => _bold = v),
+  ///   child: const Text('Bold'),
+  /// )
+  /// ```
+  static SButtonSelectable
+      selectable({
+    Key?
+        key,
+    bool isSelected =
+        false,
+    ValueChanged<bool>?
+        onSelectionChanged,
+    SButtonSelectableConfig config =
+        const SButtonSelectableConfig(),
+    SButtonVariant variant =
+        SButtonVariant.outline,
+    SButtonSize size =
+        SButtonSize.defaultSize,
+    SButtonState?
+        state,
+    Widget?
+        icon,
+    Color?
+        backgroundColor,
+    Color?
+        foregroundColor,
+    bool loading =
+        false,
+    VoidCallback?
+        onLongPress,
+    Widget?
+        child,
+    double?
+        height,
+    double?
+        width,
+    EdgeInsetsGeometry?
+        padding,
+    BorderRadiusGeometry?
+        borderRadius,
+    double?
+        elevation,
+    Color?
+        shadowColor,
+    FocusNode?
+        focusNode,
+    bool autofocus =
+        false,
+    TextStyle?
+        textStyle,
+    String?
+        tooltip,
+    ButtonStyle?
+        buttonStyle,
+    bool isFullWidth =
+        false,
+    Duration?
+        debounceDuration,
+    bool enableHapticFeedback =
+        false,
+    Widget?
+        leadingIcon,
+    Widget?
+        trailingIcon,
+    String?
+        loadingText,
+    String?
+        disabledTooltip,
+    Widget?
+        badge,
+    SingleActivator?
+        shortcut,
+  }) {
+    return SButtonSelectable(
+      key:
+          key,
+      isSelected:
+          isSelected,
+      onSelectionChanged:
+          onSelectionChanged,
+      config:
+          config,
+      variant:
+          variant,
+      size:
+          size,
+      state:
+          state,
+      icon:
+          icon,
+      backgroundColor:
+          backgroundColor,
+      foregroundColor:
+          foregroundColor,
+      loading:
+          loading,
+      onLongPress:
+          onLongPress,
+      height:
+          height,
+      width:
+          width,
+      padding:
+          padding,
+      borderRadius:
+          borderRadius,
+      elevation:
+          elevation,
+      shadowColor:
+          shadowColor,
+      focusNode:
+          focusNode,
+      autofocus:
+          autofocus,
+      textStyle:
+          textStyle,
+      tooltip:
+          tooltip,
+      buttonStyle:
+          buttonStyle,
+      isFullWidth:
+          isFullWidth,
+      debounceDuration:
+          debounceDuration,
+      enableHapticFeedback:
+          enableHapticFeedback,
+      leadingIcon:
+          leadingIcon,
+      trailingIcon:
+          trailingIcon,
+      loadingText:
+          loadingText,
+      disabledTooltip:
+          disabledTooltip,
+      badge:
+          badge,
+      shortcut:
+          shortcut,
+      child:
+          child,
     );
   }
 
@@ -507,6 +708,8 @@ class _SButtonState
           theme,
       variant:
           widget.variant,
+      size:
+          widget.size,
       isDisabled:
           isDisabled,
       isSelected:

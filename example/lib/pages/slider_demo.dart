@@ -31,11 +31,13 @@ class _SSliderDemoPageState
   Widget build(
       BuildContext
           context) {
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
     return ComponentPage(
       name:
           'SSlider',
-      description: l10n.sliderDesc,
+      description:
+          l10n.sliderDesc,
       whenToUse: [
         l10n.sliderTip1,
         l10n.sliderTip2,

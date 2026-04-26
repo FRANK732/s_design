@@ -38,9 +38,27 @@ class STooltip
         8.0,
     this.autoFlip =
         true,
+    this.autoShow =
+        false,
+    this.autoShowDuration =
+        const Duration(seconds: 5),
     this.animationDuration,
     this.elevation,
+    this.showCloseButton =
+        false,
   });
+
+  /// Whether to show a close button. If true, the tooltip remains visible until closed manually.
+  final bool
+      showCloseButton;
+
+  /// Whether to automatically show the tooltip when it is first built.
+  final bool
+      autoShow;
+
+  /// The duration to keep the tooltip visible when [autoShow] is true. Defaults to 5 seconds.
+  final Duration
+      autoShowDuration;
 
   /// The widget that triggers the tooltip.
   final Widget
@@ -131,6 +149,8 @@ class _STooltipState
       false;
   Timer?
       _hoverTimer;
+  Timer?
+      _autoHideTimer;
 
   late final AnimationController
       _animationController;
@@ -171,8 +191,26 @@ class _STooltipState
       _isVisible =
           widget.visible!;
       if (_isVisible) {
-        _showTooltip();
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            _showTooltip();
+          }
+        });
       }
+    } else if (widget
+        .autoShow) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _showTooltip();
+          if (!widget.showCloseButton) {
+            _autoHideTimer = Timer(widget.autoShowDuration, () {
+              if (mounted) {
+                _hideTooltip();
+              }
+            });
+          }
+        }
+      });
     }
   }
 
@@ -195,6 +233,8 @@ class _STooltipState
   @override
   void
       dispose() {
+    _autoHideTimer
+        ?.cancel();
     _overlayEntry
         ?.remove();
     _overlayEntry =
@@ -238,6 +278,8 @@ class _STooltipState
 
   void
       _hideTooltip() {
+    _autoHideTimer
+        ?.cancel();
     if (!_isVisible) {
       return;
     }
@@ -281,8 +323,9 @@ class _STooltipState
     if (hovering) {
       _showTooltip();
     } else {
-      _hoverTimer =
-          Timer(const Duration(milliseconds: 100), _hideTooltip);
+      if (!widget.showCloseButton) {
+        _hoverTimer = Timer(const Duration(milliseconds: 100), _hideTooltip);
+      }
     }
   }
 
@@ -325,7 +368,28 @@ class _STooltipState
           targetGlobalRect: targetGlobalRect,
           content: DefaultTextStyle(
             style: theme.textStyle?.copyWith(color: widget.textColor ?? theme.textColor) ?? TextStyle(color: widget.textColor ?? theme.textColor, fontSize: 12),
-            child: widget.content,
+            child: widget.showCloseButton
+                ? Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      widget.content,
+                      const SizedBox(width: 8),
+                      MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: _hideTooltip,
+                          child: Icon(
+                            Icons.close,
+                            size: 14,
+                            color: widget.textColor ?? theme.textColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                : widget.content,
           ),
           onHover: _handleHover,
         );

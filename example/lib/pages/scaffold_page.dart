@@ -10,7 +10,8 @@ class ScaffoldPage
   Widget build(
       BuildContext
           context) {
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
     return SScaffold
         .slivers(
       slivers: (context) =>

@@ -17,49 +17,47 @@ class _SFloatingPanelPageState
         SFloatingPanelPage> {
   Future<void>
       _showSimplePanel(BuildContext context) async {
-    final l10n = SLocalizations.ofContext(context);
-    await SFloatingPanel
-        .show(
-      context:
-          context,
-      config:
-          SFloatingPanelConfig(
-        content: Container(
-          constraints: const BoxConstraints(maxWidth: 400),
-          padding: const EdgeInsets.all(24),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.check_circle, size: 64, color: Colors.green),
-                const SizedBox(height: 16),
-                Text(
-                  l10n.floatingLabelActionCompleted,
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: () => SFloatingPanel.close(context),
-                  child: Text(l10n.floatingBtnOk),
-                ),
-              ],
+    final l10n =
+        SLocalizations.ofContext(context);
+    await SFloatingPanel.show(
+        context: context,
+        config: SFloatingPanelConfig(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 400),
+            padding: const EdgeInsets.all(24),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.check_circle, size: 64, color: Colors.green),
+                  const SizedBox(height: 16),
+                  Text(
+                    l10n.floatingLabelActionCompleted,
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 24),
+                  ElevatedButton(
+                    onPressed: () => SFloatingPanel.close(context),
+                    child: Text(l10n.floatingBtnOk),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 
   Future<void>
       _showAdvancedPanel(BuildContext context) async {
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
     await SFloatingPanel
         .show(
       context:
           context,
       config:
           SFloatingPanelConfig(
-        content: Container(
+        child: Container(
           constraints: const BoxConstraints(maxWidth: 450),
           padding: const EdgeInsets.all(24),
           child: SingleChildScrollView(
@@ -121,22 +119,19 @@ class _SFloatingPanelPageState
 
   Future<void>
       _showCustomBottomPanel(BuildContext context) async {
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
     await SFloatingPanel
         .show(
       context:
           context,
       config:
           SFloatingPanelConfig(
-        contentConfig: SFloatingContentConfig(
-          icon: const Icon(Icons.local_offer, size: 48, color: Colors.orange),
-          title: l10n.floatingTitleSpecialOffer,
-          description: l10n.floatingDescSpecialOffer,
-        ),
-        bottomConfig: SFloatingBottomConfig(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          // backgroundColor: theme.colorScheme.transparent,
-          actions: [
+        icon: const Icon(Icons.local_offer, size: 48, color: Colors.orange),
+        title: l10n.floatingTitleSpecialOffer,
+        description: l10n.floatingDescSpecialOffer,
+        actionsWidget: Row(
+          children: [
             SButton(
               variant: SButtonVariant.outline,
               onPressed: () => SFloatingPanel.close(context),
@@ -162,7 +157,8 @@ class _SFloatingPanelPageState
   Widget build(
       BuildContext
           context) {
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
     return SScaffold(
       centerBody:
           true,

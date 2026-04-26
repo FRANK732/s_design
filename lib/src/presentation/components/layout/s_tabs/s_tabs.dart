@@ -21,6 +21,8 @@ class STabs
         false,
     this.hideAdd =
         false,
+    this.expanded =
+        true,
   });
 
   /// Comprehensive list of predefined tab nodes containing the headers and mapped child payloads.
@@ -70,6 +72,10 @@ class STabs
   final bool
       hideAdd;
 
+  /// Whether the tab view content should be wrapped in an Expanded widget.
+  final bool
+      expanded;
+
   @override
   State<STabs>
       createState() =>
@@ -101,12 +107,19 @@ class _STabsState
 
   void
       _initController() {
-    final int
-        initialIndex =
-        widget.items.indexWhere((STabItem item) => item.key == _activeKey);
-    _currentIndex = initialIndex != -1
-        ? initialIndex
-        : 0;
+    int initialIndex = widget.items.indexWhere((STabItem item) =>
+        item.key ==
+        _activeKey);
+    if (initialIndex ==
+        -1) {
+      initialIndex =
+          0;
+      if (widget.items.isNotEmpty) {
+        _activeKey = widget.items.first.key;
+      }
+    }
+    _currentIndex =
+        initialIndex;
 
     _controller =
         TabController(
@@ -247,37 +260,40 @@ class _STabsState
           widget.centered,
     );
 
-    final Expanded
+    final Widget
         content =
-        Expanded(
-      child:
-          STabView(
-        controller: _controller,
-        children: widget.items.map((STabItem item) => item.content).toList(),
-      ),
+        STabView(
+      controller:
+          _controller,
+      children:
+          widget.items.map((STabItem item) => item.content ?? const SizedBox.shrink()).toList(),
     );
+
+    final Widget flexibleContent = widget.expanded
+        ? Expanded(child: content)
+        : content;
 
     List<Widget>
         children;
     if (isVertical) {
       children = isPositionRight
           ? <Widget>[
-              content,
+              flexibleContent,
               navBar
             ]
           : <Widget>[
               navBar,
-              content
+              flexibleContent
             ];
     } else {
       children = isPositionBottom
           ? <Widget>[
-              content,
+              flexibleContent,
               navBar
             ]
           : <Widget>[
               navBar,
-              content
+              flexibleContent
             ];
     }
 

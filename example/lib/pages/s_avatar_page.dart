@@ -87,11 +87,12 @@ class _SAvatarPageState
   Widget build(
       BuildContext
           context) {
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
     const url =
         'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png';
     const fallbackUrl =
-        'http://abc.com/not-exist.jpg'; // deliberately broken
+        'http://abc.com/not-exist.jpg';
 
     return SScaffold(
       appBar:

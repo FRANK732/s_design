@@ -33,11 +33,13 @@ class _SwitchDemoPageState
   Widget build(
       BuildContext
           context) {
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
     return ComponentPage(
       name:
           'SSwitch',
-      description: l10n.switchDesc,
+      description:
+          l10n.switchDesc,
       whenToUse: [
         l10n.switchTip1,
         l10n.switchTip2,

@@ -1,99 +1,58 @@
 import 'package:flutter/material.dart';
 
-/// Defines the layout styling for standard bottom panel actions.
+/// How the [SFloatingPanelConfig.actions] are arranged in the footer.
 enum SFloatingBottomLayout {
-  /// Actions span horizontally next to each other
+  /// Actions sit side-by-side in a [Row].
   row,
 
-  /// Actions stack vertically, expanding to full width
+  /// Actions stack vertically in a [Column].
   column,
 }
 
-/// A highly customizable footer widget config for SFloatingPanel.
-class SFloatingBottomConfig {
-  const SFloatingBottomConfig({
-    this.actions =
-        const <Widget>[],
-    this.layout =
-        SFloatingBottomLayout.row,
-    this.customWidget,
-    this.padding = const EdgeInsets
-        .all(
-        16),
-    this.backgroundColor,
-    this.borderRadius,
-    this.boxShadow,
-  });
-
-  /// A structured list of action buttons (e.g. SButton).
-  final List<Widget>
-      actions;
-
-  /// Defines how the [actions] are laid out geometrically.
-  final SFloatingBottomLayout
-      layout;
-
-  /// A completely custom widget to override the standard [actions] rendering.
-  final Widget?
-      customWidget;
-
-  /// Internal padding of the bottom container.
-  final EdgeInsetsGeometry
-      padding;
-
-  /// Background color of the isolated floating bottom action block.
-  final Color?
-      backgroundColor;
-
-  /// Corner radiuses of the bottom block. Defaults to theme standard if null.
-  final BorderRadiusGeometry?
-      borderRadius;
-
-  /// Custom shadow underlying the bottom action block.
-  final List<BoxShadow>?
-      boxShadow;
-}
-
-/// A highly customizable content block config for SFloatingPanel.
-class SFloatingContentConfig {
-  const SFloatingContentConfig({
-    this.title,
-    this.description,
-    this.icon,
-    this.child,
-  });
-
-  /// Primary title rendered heavily.
-  final String?
-      title;
-
-  /// Secondary description block rendered mildly.
-  final String?
-      description;
-
-  /// Center-aligned header icon.
-  final Widget?
-      icon;
-
-  /// An appended custom child widget inserted into the flow.
-  final Widget?
-      child;
-}
-
-/// Configuration for SFloatingPanel.
+/// Single configuration object for [SFloatingPanel.show].
+///
+/// All content, footer, and panel-shell options live here — no nested config
+/// objects required:
+///
+/// ```dart
+/// SFloatingPanel.show(
+///   context: context,
+///   config: SFloatingPanelConfig(
+///     icon: Icon(Icons.local_offer, size: 48),
+///     title: 'Special Offer',
+///     description: 'Limited time deal just for you.',
+///     actions: [
+///       SButton(onPressed: () => SFloatingPanel.close(context), child: Text('Claim')),
+///     ],
+///   ),
+/// );
+/// ```
 class SFloatingPanelConfig {
   const SFloatingPanelConfig({
-    @Deprecated(
-        'Use contentConfig for structured data')
-    this.content,
-    this.contentConfig,
+    // ── Content ──────────────────────────────────────────────────────────
+    this.icon,
+    this.title,
+    this.description,
+    this.child,
+    this.scrollable =
+        false,
+    this.maxContentHeight,
+    this.actions =
+        const <Widget>[],
+    this.actionsLayout =
+        SFloatingBottomLayout.row,
+    this.actionsWidget,
+    this.actionsPadding = const EdgeInsets
+        .all(
+        16),
+    this.actionsBackgroundColor,
+    this.actionsRadius,
+    this.actionsShadow,
     this.barrierColor,
     this.horizontalMargin,
     this.bottomMargin,
     this.panelSpacing,
     this.onClose,
-    this.customBottomWidget, // DEPRECATED: use bottomConfig instead for defined structures
-    this.bottomConfig,
     this.animationDuration,
     this.showCloseButton =
         false,
@@ -110,55 +69,127 @@ class SFloatingPanelConfig {
     this.shape,
   });
 
-  @Deprecated(
-      'Use contentConfig instead')
+  /// Center-aligned icon at the top of the panel body.
   final Widget?
-      content;
+      icon;
 
-  /// Explicit structured definition for the main panel body.
-  final SFloatingContentConfig?
-      contentConfig;
+  /// Primary bold title text.
+  final String?
+      title;
 
+  /// Secondary muted description text below the title.
+  final String?
+      description;
+
+  /// Any custom widget appended below the structured content fields.
+  final Widget?
+      child;
+
+  /// If `true`, the main content area (icon, title, description, child) is
+  /// wrapped in a [SingleChildScrollView]. The footer ([actions]) always
+  /// stays pinned outside the scroll.
+  final bool
+      scrollable;
+
+  /// Maximum height of the scrollable content area in logical pixels.
+  /// Defaults to 60 % of the screen height when [scrollable] is `true`.
+  /// Has no effect when [scrollable] is `false`.
+  final double?
+      maxContentHeight;
+
+  // ── Footer actions ───────────────────────────────────────────────────────
+
+  /// Action buttons rendered in the floating footer block.
+  final List<Widget>
+      actions;
+
+  /// How [actions] are arranged — [SFloatingBottomLayout.row] or [SFloatingBottomLayout.column].
+  final SFloatingBottomLayout
+      actionsLayout;
+
+  /// A fully custom footer widget that replaces the [actions] list entirely.
+  final Widget?
+      actionsWidget;
+
+  /// Internal padding of the footer container.
+  final EdgeInsetsGeometry
+      actionsPadding;
+
+  /// Background color of the floating footer block.
+  final Color?
+      actionsBackgroundColor;
+
+  /// Corner radius of the footer block.
+  final BorderRadiusGeometry?
+      actionsRadius;
+
+  /// Custom shadow for the footer block.
+  final List<BoxShadow>?
+      actionsShadow;
+
+  // ── Panel shell ──────────────────────────────────────────────────────────
+
+  /// The translucent scrim color behind the panel.
   final Color?
       barrierColor;
+
+  /// Left + right gap keeping the panel inset from screen edges.
   final double?
       horizontalMargin;
+
+  /// Gap between the bottom of the panel and the screen bottom.
   final double?
       bottomMargin;
+
+  /// Gap between the main panel card and the footer block.
   final double?
       panelSpacing;
+
+  /// Called once after the panel has fully dismissed.
   final VoidCallback?
       onClose;
-  final Widget?
-      customBottomWidget;
 
-  /// Explicit structured definition for the bottom utility/footer bar.
-  final SFloatingBottomConfig?
-      bottomConfig;
+  /// Duration of the slide-in / slide-out animation.
   final Duration?
       animationDuration;
+
+  /// Show an `×` close icon in the top-right corner of the panel.
   final bool
       showCloseButton;
 
-  /// Renders a small grey visual pill at the top of the panel hinting at drag-to-dismiss behavior.
+  /// Show the grey drag-indicator pill at the top of the panel.
   final bool
       showDragIndicator;
 
-  /// Explicitly control the shadow extrusion height. Set to 0 for a flat UI footprint.
+  /// Shadow depth beneath the panel card. Set to `0` for flat appearance.
   final double?
       elevation;
+
+  /// Whether tapping the barrier or dragging down dismisses the panel.
   final bool
       isDismissable;
+
+  /// Hard size constraints on the panel shell.
   final BoxConstraints?
       constraints;
+
+  /// Internal padding inside the panel card shell.
   final EdgeInsetsGeometry?
       contentPadding;
+
+  /// Gaussian blur applied to content behind the panel.
   final double?
       backdropBlur;
+
+  /// Background color of the panel card.
   final Color?
       backgroundColor;
+
+  /// Tint of the drop shadow cast by the panel.
   final Color?
       shadowColor;
+
+  /// Custom [ShapeBorder] for the panel card outline and corner radius.
   final ShapeBorder?
       shape;
 }

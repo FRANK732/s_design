@@ -2,17 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
 import '../widgets/component_page.dart';
 
-class STooltipPage extends StatelessWidget {
-  const STooltipPage({super.key});
+class STooltipPage
+    extends StatelessWidget {
+  const STooltipPage(
+      {super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final l10n = SLocalizations.ofContext(context);
-    final theme = Theme.of(context);
+  Widget build(
+      BuildContext
+          context) {
+    final l10n =
+        SLocalizations.ofContext(context);
+    final theme =
+        Theme.of(context);
 
     return ComponentPage(
-      name: 'STooltip',
-      description: l10n.tooltipDesc,
+      name:
+          'STooltip',
+      description:
+          l10n.tooltipDesc,
       whenToUse: const [
         'A simple text popup to show additional information on hover or click.',
         'When you want to show a tooltip on a button, icon, or link.',
@@ -38,7 +46,6 @@ STooltip(
             children: [
               STooltip(
                 content: const Text('This appears on hover'),
-                trigger: STooltipTrigger.hover,
                 child: SButton(
                   onPressed: () {},
                   child: Text(l10n.tooltipLabelHover),
@@ -100,6 +107,14 @@ STooltip(
                 textColor: theme.colorScheme.onError,
                 child: SButton(onPressed: () {}, child: const Text('Error')),
               ),
+              STooltip(
+                content: const Text('Error Tooltip with close'),
+                color: theme.colorScheme.error,
+                showCloseButton: true,
+                autoShow: true,
+                textColor: theme.colorScheme.onError,
+                child: SButton(onPressed: () {}, child: const Text('Error')),
+              ),
             ],
           ),
           code: '''
@@ -115,13 +130,17 @@ STooltip(
   }
 }
 
-class _PlacementDemo extends StatelessWidget {
+class _PlacementDemo
+    extends StatelessWidget {
   const _PlacementDemo();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+      BuildContext
+          context) {
     return Center(
-      child: Column(
+      child:
+          Column(
         children: [
           Row(
             mainAxisSize: MainAxisSize.min,
@@ -174,11 +193,18 @@ class _PlacementDemo extends StatelessWidget {
     );
   }
 
-  Widget _box(STooltipPlacement p, String label) {
+  Widget _box(
+      STooltipPlacement
+          p,
+      String
+          label) {
     return STooltip(
-      placement: p,
-      content: const Text('Prompt Text'),
-      child: Container(
+      placement:
+          p,
+      content:
+          const Text('Prompt Text'),
+      child:
+          Container(
         width: 70,
         height: 35,
         alignment: Alignment.center,

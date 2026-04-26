@@ -15,6 +15,7 @@ import 'pages/progress_indicator_page.dart';
 import 'pages/qrcode_demo_page.dart';
 import 'pages/rate_demo_page.dart';
 import 'pages/s_alert_page.dart';
+import 'pages/s_app_state_page.dart';
 import 'pages/s_avatar_page.dart';
 import 'pages/s_floating_panel_page.dart';
 import 'pages/s_modal_page.dart';
@@ -185,6 +186,7 @@ class _GalleryShellState
       ]),
       NavGroup(title: l10n.feedback, items: [
         NavItem(id: 'alert', label: l10n.compAlert, icon: Icons.warning_amber_rounded, page: const SAlertPage()),
+        NavItem(id: 'appstate', label: 'App State', icon: Icons.miscellaneous_services_outlined, page: const AppStateDemoPage()),
         NavItem(id: 'dialog', label: l10n.compDialog, icon: Icons.chat_bubble_outline, page: const SModalPage()),
         NavItem(id: 'toast', label: l10n.compToast, icon: Icons.announcement_outlined, page: const ToastPage()),
         NavItem(id: 'sonner', label: l10n.compSonner, icon: Icons.notifications_active_outlined, page: const SonnerPage()),

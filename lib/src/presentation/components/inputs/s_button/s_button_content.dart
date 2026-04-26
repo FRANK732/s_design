@@ -71,7 +71,10 @@ class SButtonContent
           ),
           Positioned.fill(
             child: Align(
-              child: _buildLoader(),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: _buildLoader(),
+              ),
             ),
           ),
         ],
@@ -110,15 +113,7 @@ class SButtonContent
       );
     }
 
-    return Row(
-      mainAxisSize:
-          MainAxisSize.min,
-      mainAxisAlignment:
-          MainAxisAlignment.center,
-      children: <Widget>[
-        spinner
-      ],
-    );
+    return spinner;
   }
 
   /// Builds button content with icons and text

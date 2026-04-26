@@ -47,9 +47,7 @@ class _TabsPageState
   }
 
   List<STabItem>
-      _currentTabs(
-          SLocalizations
-              l10n) {
+      _currentTabs(SLocalizations l10n) {
     if (_manyTabs) {
       return List.generate(20,
           (index) {
@@ -112,7 +110,8 @@ class _TabsPageState
   Widget build(
       BuildContext
           context) {
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
     return SScaffold(
       appBar:
           AppBar(

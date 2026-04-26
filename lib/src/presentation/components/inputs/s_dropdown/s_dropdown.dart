@@ -44,7 +44,8 @@ class SDropdown
     this.destroyOnHidden =
         false,
     this.minWidth,
-    this.elevation = 0.0,
+    this.elevation =
+        0.0,
     this.backgroundColor,
     this.borderColor,
     this.borderRadius,
@@ -72,9 +73,12 @@ class SDropdown
       minWidth;
   final double
       elevation;
-  final Color? backgroundColor;
-  final Color? borderColor;
-  final BorderRadius? borderRadius;
+  final Color?
+      backgroundColor;
+  final Color?
+      borderColor;
+  final BorderRadius?
+      borderRadius;
 
   @override
   Widget build(
@@ -125,21 +129,25 @@ class SDropdown
         triggerPlacement = STriggerPlacement.rightBottom;
     }
 
-    final SDropdownMenuThemeData dropdownTheme = STheme.of(context).dropdownMenuTheme;
+    final SDropdownMenuThemeData
+        dropdownTheme =
+        STheme.of(context).dropdownMenuTheme;
 
-    final Color effectiveBackgroundColor = backgroundColor ?? 
-        dropdownTheme.backgroundColor ?? 
+    final Color effectiveBackgroundColor = backgroundColor ??
+        dropdownTheme.backgroundColor ??
         STheme.of(context).colorToken.surface;
-    
-    final Color effectiveBorderColor = borderColor ?? 
-        dropdownTheme.borderColor ?? 
+
+    final Color effectiveBorderColor = borderColor ??
+        dropdownTheme.borderColor ??
         STheme.of(context).colorToken.divider.withOpacity(0.5);
-    
-    final BorderRadius effectiveBorderRadius = borderRadius ?? 
-        dropdownTheme.borderRadius ?? 
+
+    final BorderRadius effectiveBorderRadius = borderRadius ??
+        dropdownTheme.borderRadius ??
         BorderRadius.circular(DesignConstants.borderRadiusMedium);
-    
-    final double effectiveElevation = elevation > 0 ? elevation : (dropdownTheme.elevation ?? 0.0);
+
+    final double effectiveElevation = elevation > 0
+        ? elevation
+        : (dropdownTheme.elevation ?? 0.0);
 
     final Widget
         styledOverlay =

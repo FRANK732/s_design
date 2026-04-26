@@ -25,7 +25,8 @@ class _STimePickerPageState
   Widget build(
       BuildContext
           context) {
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
     return SScaffold(
       appBar:
           AppBar(
@@ -47,7 +48,6 @@ class _STimePickerPageState
               onChange: (t) => _snack(ctx, l10n.timePickerMsgTime(t?.format(context) ?? '')),
             ),
             const SizedBox(height: 32),
-
             _header(l10n.timePickerHeader12Hour),
             _desc(l10n.timePickerDesc12Hour),
             Wrap(spacing: 12, runSpacing: 12, children: [
@@ -56,7 +56,6 @@ class _STimePickerPageState
               STimePicker(use12Hours: true, format: 'h:mm a', onChange: (t) => _snack(ctx, l10n.timePickerMsgTime(t?.format(context) ?? ''))),
             ]),
             const SizedBox(height: 32),
-
             _header(l10n.demoDisabled),
             _desc(l10n.timePickerDescDisabled),
             STimePicker(
@@ -65,7 +64,6 @@ class _STimePickerPageState
               placeholder: l10n.demoDisabled,
             ),
             const SizedBox(height: 32),
-
             _header(l10n.demoSizes),
             _desc(l10n.timePickerDescSize),
             const Wrap(spacing: 12, runSpacing: 12, children: [
@@ -82,7 +80,6 @@ class _STimePickerPageState
               ),
             ]),
             const SizedBox(height: 32),
-
             _header(l10n.demoHideSeconds),
             _desc(l10n.timePickerDescHideSeconds),
             const STimePicker(
@@ -90,7 +87,6 @@ class _STimePickerPageState
               format: 'HH:mm',
             ),
             const SizedBox(height: 32),
-
             _header(l10n.timePickerHeaderInterval),
             _desc(l10n.timePickerDescInterval),
             STimePicker(
@@ -99,7 +95,6 @@ class _STimePickerPageState
               onChange: (t) => _snack(ctx, l10n.timePickerMsgTime(t?.format(context) ?? '')),
             ),
             const SizedBox(height: 32),
-
             _header(l10n.timePickerHeaderAddon),
             _desc(l10n.timePickerDescAddon),
             STimePicker(
@@ -110,7 +105,6 @@ class _STimePickerPageState
               onChange: (t) => _snack(ctx, l10n.timePickerMsgTime(t?.format(context) ?? '')),
             ),
             const SizedBox(height: 32),
-
             _header(l10n.demoStatus),
             _desc(l10n.timePickerDescStatus),
             const Wrap(spacing: 12, runSpacing: 12, children: [
@@ -120,7 +114,6 @@ class _STimePickerPageState
               STimeRangePicker(status: STimePickerStatus.warning),
             ]),
             const SizedBox(height: 32),
-
             _header(l10n.timePickerDescSuffixPrefix),
             _desc(l10n.timePickerDescSuffixPrefix),
             Wrap(spacing: 12, runSpacing: 12, children: [
@@ -137,7 +130,6 @@ class _STimePickerPageState
               ),
             ]),
             const SizedBox(height: 32),
-
             _header(l10n.timePickerHeaderVariants),
             _desc(l10n.timePickerDescVariants),
             Column(
@@ -177,7 +169,6 @@ class _STimePickerPageState
               ],
             ),
             const SizedBox(height: 32),
-
             _header(l10n.timePickerHeaderControlled),
             _desc(l10n.timePickerDescControlled),
             Wrap(spacing: 12, runSpacing: 8, children: [
@@ -190,7 +181,6 @@ class _STimePickerPageState
               ),
             ]),
             const SizedBox(height: 32),
-
             _header(l10n.timePickerHeaderNeedConfirm),
             _desc(l10n.timePickerDescNeedConfirm),
             STimePicker(
@@ -198,7 +188,6 @@ class _STimePickerPageState
               onChange: (t) => _snack(ctx, l10n.timePickerMsgConfirmed(t?.format(context) ?? '')),
             ),
             const SizedBox(height: 32),
-
             _header(l10n.timePickerHeaderChangeOnScroll),
             _desc(l10n.timePickerDescChangeOnScroll),
             STimePicker(
@@ -206,7 +195,6 @@ class _STimePickerPageState
               onChange: (t) => _snack(ctx, l10n.timePickerMsgScroll(t?.format(context) ?? '')),
             ),
             const SizedBox(height: 32),
-
             _header(l10n.timePickerHeaderShowNowFalse),
             _desc(l10n.timePickerDescShowNowFalse),
             STimePicker(
@@ -214,7 +202,6 @@ class _STimePickerPageState
               onChange: (t) => _snack(ctx, l10n.timePickerMsgTime(t?.format(context) ?? '')),
             ),
             const SizedBox(height: 32),
-
             _header(l10n.timePickerHeaderRange),
             _desc(l10n.timePickerDescRange),
             STimeRangePicker(
@@ -231,11 +218,19 @@ class _STimePickerPageState
     );
   }
 
-  void _snack(BuildContext ctx, String msg) {
-    SSonner.show(
-      message: msg,
-      replace: true,
-      duration: const Duration(seconds: 1),
+  void _snack(
+      BuildContext
+          ctx,
+      String
+          msg) {
+    SSonner
+        .show(
+      message:
+          msg,
+      replace:
+          true,
+      duration:
+          const Duration(seconds: 1),
     );
   }
 }

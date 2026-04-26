@@ -23,7 +23,8 @@ class SDateRangePicker
         false,
     this.presets,
     this.style,
-    this.elevation = 0.0,
+    this.elevation =
+        0.0,
   });
 
   final DateTime?

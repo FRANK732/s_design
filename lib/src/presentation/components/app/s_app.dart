@@ -505,8 +505,6 @@ class _SOverlayInitializerState
         return;
       }
       SSonner.initialize(overlay);
-      SFloatingPanel.initialize(overlay);
-      // ignore: deprecated_member_use_from_same_package
       SToast.initialize(overlay);
     });
   }

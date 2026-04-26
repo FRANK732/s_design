@@ -24,7 +24,8 @@ class _SAlertPageState
   Widget build(
       BuildContext
           context) {
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
     return SScaffold(
       appBar:
           AppBar(title: Text(l10n.alertTitle)),
@@ -41,7 +42,6 @@ class _SAlertPageState
           const SizedBox(height: 8),
           SAlert(type: SAlertType.error, title: l10n.alertErrorText),
           const SizedBox(height: 24),
-
           _sectionHeader(l10n.alertSectionDescription),
           SAlert(
             type: SAlertType.success,
@@ -66,7 +66,6 @@ class _SAlertPageState
             description: l10n.alertErrorDesc,
           ),
           const SizedBox(height: 24),
-
           _sectionHeader(l10n.alertSectionIcon),
           SAlert(type: SAlertType.success, title: l10n.alertSuccessTips, showIcon: true),
           const SizedBox(height: 8),
@@ -104,7 +103,6 @@ class _SAlertPageState
             showIcon: true,
           ),
           const SizedBox(height: 24),
-
           _sectionHeader(l10n.alertSectionClosable),
           SAlert(
             type: SAlertType.warning,
@@ -131,7 +129,6 @@ class _SAlertPageState
             closable: true,
             onClose: () => SSonner.show(
               message: l10n.alertClosedInfo,
-              variant: SSonnerVariant.info,
             ),
           ),
           const SizedBox(height: 8),
@@ -145,7 +142,6 @@ class _SAlertPageState
             ),
           ),
           const SizedBox(height: 24),
-
           _sectionHeader(l10n.alertSectionAction),
           SAlert(
             type: SAlertType.success,
@@ -233,7 +229,6 @@ class _SAlertPageState
             ),
           ),
           const SizedBox(height: 24),
-
           _sectionHeader(l10n.alertSectionBanner),
           SAlert(title: l10n.alertWarningText, banner: true),
           const SizedBox(height: 8),
@@ -250,7 +245,6 @@ class _SAlertPageState
           const SizedBox(height: 8),
           SAlert(type: SAlertType.error, title: l10n.alertErrorText, banner: true),
           const SizedBox(height: 24),
-
           _sectionHeader(l10n.alertSectionCustomIcon),
           SAlert(
             icon: const Icon(Icons.sentiment_satisfied_alt, color: Colors.orange),
@@ -293,7 +287,6 @@ class _SAlertPageState
             showIcon: true,
           ),
           const SizedBox(height: 24),
-
           _sectionHeader(l10n.alertSectionSmoothClose),
           if (_smoothCloseVisible)
             SAlert(
@@ -316,7 +309,6 @@ class _SAlertPageState
             ],
           ),
           const SizedBox(height: 24),
-
           _sectionHeader(l10n.alertSectionCustomizability),
           SAlert(
             type: SAlertType.error,
@@ -358,12 +350,18 @@ class _SAlertPageState
   }
 }
 
-Widget _sectionHeader(String text) {
+Widget _sectionHeader(
+    String
+        text) {
   return Padding(
-    padding: const EdgeInsets.only(bottom: 10),
-    child: Text(
+    padding: const EdgeInsets
+        .only(
+        bottom: 10),
+    child:
+        Text(
       text,
-      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+      style:
+          const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
     ),
   );
 }

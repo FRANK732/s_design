@@ -11,11 +11,13 @@ class QRCodeDemoPage
   Widget build(
       BuildContext
           context) {
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
     return ComponentPage(
       name:
           'SQRCode',
-      description: l10n.qrcodeDesc,
+      description:
+          l10n.qrcodeDesc,
       whenToUse: [
         l10n.qrcodeTip1,
         l10n.qrcodeTip2,

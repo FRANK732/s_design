@@ -116,7 +116,7 @@ class _NavSidebarState
               onChanged: widget.onSearchChanged,
               style: const TextStyle(fontSize: 13),
               decoration: InputDecoration(
-                    hintText: SLocalizations.ofContext(context).searchComponents,
+                hintText: SLocalizations.ofContext(context).searchComponents,
                 hintStyle: const TextStyle(fontSize: 13),
                 prefixIcon: const Icon(Icons.search, size: 18),
                 isDense: true,

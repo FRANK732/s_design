@@ -55,7 +55,7 @@ class _DropdownMenuPageState
           'any element.',
       whenToUse: const [
         'When you need a context-action menu triggered on hover, click, or right-click.',
-        'When you want actions that don\'t submit form data (use SSelect for data entry).',
+        "When you want actions that don't submit form data (use SSelect for data entry).",
         'When you need split-button groups or cascading sub-menus.',
       ],
       sections: [

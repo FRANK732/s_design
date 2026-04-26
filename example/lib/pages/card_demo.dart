@@ -11,11 +11,13 @@ class SCardDemoPage
   Widget build(
       BuildContext
           context) {
-    final l10n = SLocalizations.ofContext(context);
+    final l10n =
+        SLocalizations.ofContext(context);
     return ComponentPage(
       name:
           'SCard',
-      description: l10n.cardDesc,
+      description:
+          l10n.cardDesc,
       whenToUse: [
         l10n.cardTip1,
         l10n.cardTip2,

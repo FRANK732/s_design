@@ -124,7 +124,7 @@ class _StickyTabsDemoPageState
             },
             body: STabView(
               controller: _tabController,
-              children: _items.map((e) => e.content).toList(),
+              children: _items.map((e) => e.content ?? const SizedBox.shrink()).toList(),
             ),
           );
         });

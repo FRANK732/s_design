@@ -431,7 +431,8 @@ class STimePicker
     this.itemTextStyle,
     this.itemHeight,
     this.columnWidth,
-    this.elevation = 0.0,
+    this.elevation =
+        0.0,
   });
 
   final TimeOfDay?

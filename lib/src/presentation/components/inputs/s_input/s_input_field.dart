@@ -45,6 +45,10 @@ class SInputField
     this.inputFormatters,
     this.autofocus =
         false,
+    this.filled =
+        false,
+    this.hasBorder =
+        true,
     this.readOnly =
         false,
     this.maxLines =
@@ -114,6 +118,10 @@ class SInputField
         decoration,
     bool autofocus =
         false,
+    bool filled =
+        false,
+    bool hasBorder =
+        true,
     bool readOnly =
         false,
     int? maxLines =
@@ -178,6 +186,10 @@ class SInputField
           decoration,
       autofocus:
           autofocus,
+      filled:
+          filled,
+      hasBorder:
+          hasBorder,
       readOnly:
           readOnly,
       maxLines:
@@ -225,6 +237,10 @@ class SInputField
     String?
         hintText,
     bool enabled =
+        true,
+    bool filled =
+        false,
+    bool hasBorder =
         true,
     bool readOnly =
         false,
@@ -300,6 +316,10 @@ class SInputField
           autofocus,
       onTap:
           onTap,
+      filled:
+          filled,
+      hasBorder:
+          hasBorder,
       readOnly:
           readOnly,
       enableSuggestions:
@@ -353,6 +373,10 @@ class SInputField
         decoration,
     bool autofocus =
         false,
+    bool filled =
+        false,
+    bool hasBorder =
+        true,
     bool readOnly =
         false,
     int? maxLines =
@@ -419,6 +443,10 @@ class SInputField
           decoration,
       autofocus:
           autofocus,
+      filled:
+          filled,
+      hasBorder:
+          hasBorder,
       readOnly:
           readOnly,
       maxLines:
@@ -494,6 +522,10 @@ class SInputField
         decoration,
     bool autofocus =
         false,
+    bool filled =
+        false,
+    bool hasBorder =
+        true,
     bool readOnly =
         false,
     int? maxLines =
@@ -558,6 +590,10 @@ class SInputField
           decoration,
       autofocus:
           autofocus,
+      filled:
+          filled,
+      hasBorder:
+          hasBorder,
       readOnly:
           readOnly,
       maxLines:
@@ -622,6 +658,10 @@ class SInputField
         decoration,
     bool autofocus =
         false,
+    bool filled =
+        false,
+    bool hasBorder =
+        true,
     bool readOnly =
         false,
     int? maxLines =
@@ -688,6 +728,10 @@ class SInputField
           decoration,
       autofocus:
           autofocus,
+      filled:
+          filled,
+      hasBorder:
+          hasBorder,
       readOnly:
           readOnly,
       maxLines:
@@ -752,6 +796,10 @@ class SInputField
         decoration,
     bool autofocus =
         false,
+    bool filled =
+        false,
+    bool hasBorder =
+        true,
     bool readOnly =
         false,
     int? maxLines =
@@ -816,6 +864,10 @@ class SInputField
           decoration,
       autofocus:
           autofocus,
+      filled:
+          filled,
+      hasBorder:
+          hasBorder,
       readOnly:
           readOnly,
       maxLines:
@@ -945,6 +997,15 @@ class SInputField
   /// If true, auto-focusing the field when shown.
   final bool
       autofocus;
+
+  /// If true, the field is read-only.
+  /// Whether the input should be filled with the theme background color.
+  final bool
+      filled;
+
+  /// Whether the input should have a border.
+  final bool
+      hasBorder;
 
   /// If true, the field is read-only.
   final bool
