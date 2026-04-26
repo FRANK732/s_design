@@ -185,6 +185,28 @@ class _InputFieldPageState
                 },
               ),
               const Divider(height: 40),
+              _buildSectionTitle('Filled & Borderless'),
+              const SizedBox(height: 8),
+              SInputField(
+                controller: TextEditingController(),
+                hintText: 'Filled with default outline border',
+                filled: true,
+              ),
+              const SizedBox(height: 16),
+              SInputField(
+                controller: TextEditingController(),
+                hintText: 'Filled and borderless',
+                filled: true,
+                hasBorder: false,
+                startIcon: const Icon(Icons.search),
+              ),
+              const SizedBox(height: 16),
+              SInputField(
+                controller: TextEditingController(),
+                hintText: 'Borderless without fill',
+                hasBorder: false,
+              ),
+              const Divider(height: 40),
               _buildSectionTitle(l10n.inputSectionCustom),
               const SizedBox(height: 8),
               SInputField(

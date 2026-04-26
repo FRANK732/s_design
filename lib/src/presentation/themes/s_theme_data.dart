@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'extensions/component_themes/s_alert_theme.dart';
+import 'extensions/component_themes/s_app_state_theme.dart';
 import 'extensions/component_themes/s_avatar_theme.dart';
 import 'extensions/component_themes/s_button_theme.dart';
 import 'extensions/component_themes/s_card_theme.dart';
@@ -42,6 +43,8 @@ class SThemeData
         typographyToken,
     SAlertThemeData?
         alertTheme,
+    SAppStateThemeData?
+        appStateTheme,
     SAvatarThemeData?
         avatarTheme,
     SButtonThemeData?
@@ -133,7 +136,6 @@ class SThemeData
     );
 
     // We map existing constructors that take regular material ColorScheme
-    // We map existing constructors that take regular material ColorScheme
     alertTheme ??=
         SAlertThemeData(
       borderRadius:
@@ -153,6 +155,16 @@ class SThemeData
       shadowColor:
           Colors.transparent,
     );
+    appStateTheme ??=
+        SAppStateThemeData.fromTheme(ThemeData(
+      colorScheme:
+          matColorScheme,
+      textTheme:
+          TextTheme(
+        headlineSmall: typographyToken.headlineSmall,
+        bodyLarge: typographyToken.bodyLarge,
+      ),
+    ));
     avatarTheme ??=
         SAvatarThemeData(
       backgroundColor:
@@ -380,6 +392,8 @@ class SThemeData
           typographyToken,
       alertTheme:
           alertTheme,
+      appStateTheme:
+          appStateTheme,
       avatarTheme:
           avatarTheme,
       buttonTheme:
@@ -424,6 +438,7 @@ class SThemeData
     required this.colorToken,
     required this.typographyToken,
     required this.alertTheme,
+    required this.appStateTheme,
     required this.avatarTheme,
     required this.buttonTheme,
     required this.cardTheme,
@@ -459,6 +474,8 @@ class SThemeData
   // Component Themes
   final SAlertThemeData
       alertTheme;
+  final SAppStateThemeData
+      appStateTheme;
   final SAvatarThemeData
       avatarTheme;
   final SButtonThemeData
@@ -521,6 +538,8 @@ class SThemeData
         typographyToken,
     SAlertThemeData?
         alertTheme,
+    SAppStateThemeData?
+        appStateTheme,
     SAvatarThemeData?
         avatarTheme,
     SButtonThemeData?
@@ -568,6 +587,8 @@ class SThemeData
           typographyToken ?? this.typographyToken,
       alertTheme:
           alertTheme ?? this.alertTheme,
+      appStateTheme:
+          appStateTheme ?? this.appStateTheme,
       avatarTheme:
           avatarTheme ?? this.avatarTheme,
       buttonTheme:
@@ -637,6 +658,8 @@ class SThemeData
           : b.typographyToken,
       alertTheme:
           a.alertTheme.lerp(b.alertTheme, t),
+      appStateTheme:
+          a.appStateTheme.lerp(b.appStateTheme, t),
       avatarTheme:
           a.avatarTheme.lerp(b.avatarTheme, t),
       buttonTheme:
@@ -694,6 +717,7 @@ class SThemeData
         other.colorToken == colorToken &&
         other.typographyToken == typographyToken &&
         other.alertTheme == alertTheme &&
+        other.appStateTheme == appStateTheme &&
         other.avatarTheme == avatarTheme &&
         other.buttonTheme == buttonTheme &&
         other.cardTheme == cardTheme &&
@@ -722,6 +746,7 @@ class SThemeData
       colorToken,
       typographyToken,
       alertTheme,
+      appStateTheme,
       avatarTheme,
       buttonTheme,
       cardTheme,
