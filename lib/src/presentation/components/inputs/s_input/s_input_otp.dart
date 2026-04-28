@@ -10,7 +10,7 @@ class SInputOTP
     this.length =
         6,
     this.size =
-        SInputSize.middle,
+        SInputFieldSize.medium,
     this.status,
     this.onChanged,
     this.onCompleted,
@@ -20,7 +20,7 @@ class SInputOTP
 
   final int
       length;
-  final SInputSize
+  final SInputFieldSize
       size;
   final SInputStatus?
       status;

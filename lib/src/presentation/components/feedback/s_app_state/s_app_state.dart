@@ -9,9 +9,47 @@ import 'paints/no_data_paint.dart';
 import 'paints/server_down_paint.dart';
 
 /// A highly customizable component for displaying application states
-/// (e.g., empty, error, server down) with dynamic illustrations.
-class SAppState
-    extends StatelessWidget {
+/// (e.g., empty, error, server down) with dynamic illustrations and entrance animations.
+class SAppState extends StatefulWidget {
+  /// The variant determining which predefined illustration to show.
+  final SAppStateVariant variant;
+
+  /// Optional title text. If [titleWidget] is provided, this is ignored.
+  final String? title;
+
+  /// Optional description text. If [descriptionWidget] is provided, this is ignored.
+  final String? description;
+
+  /// A custom widget to use as the title, overriding [title].
+  final Widget? titleWidget;
+
+  /// A custom widget to use as the description, overriding [description].
+  final Widget? descriptionWidget;
+
+  /// A custom illustration to use when [variant] is [SAppStateVariant.custom].
+  final Widget? customIllustration;
+
+  /// The size of the illustration.
+  final Size? illustrationSize;
+
+  /// Optional list of action buttons (e.g., Retry, Go Back).
+  final List<Widget>? actions;
+
+  /// Padding around the entire state widget.
+  final EdgeInsetsGeometry? padding;
+
+  /// Vertical spacing between the illustration, title, description, and actions.
+  final double? elementSpacing;
+
+  /// Main axis alignment of the elements.
+  final MainAxisAlignment? mainAxisAlignment;
+
+  /// Cross axis alignment of the elements.
+  final CrossAxisAlignment? crossAxisAlignment;
+
+  /// Whether to show an entrance animation.
+  final bool animate;
+
   /// Creates a default [SAppState] displaying the provided [variant].
   const SAppState({
     super.key,
@@ -27,6 +65,7 @@ class SAppState
     this.elementSpacing,
     this.mainAxisAlignment,
     this.crossAxisAlignment,
+    this.animate = true,
   });
 
   /// Variant for 'Add Notes' state.
@@ -42,6 +81,7 @@ class SAppState
     this.elementSpacing,
     this.mainAxisAlignment,
     this.crossAxisAlignment,
+    this.animate = true,
   })  : variant = SAppStateVariant.addNotes,
         customIllustration = null;
 
@@ -58,6 +98,7 @@ class SAppState
     this.elementSpacing,
     this.mainAxisAlignment,
     this.crossAxisAlignment,
+    this.animate = true,
   })  : variant = SAppStateVariant.arrowPointer,
         customIllustration = null;
 
@@ -74,6 +115,7 @@ class SAppState
     this.elementSpacing,
     this.mainAxisAlignment,
     this.crossAxisAlignment,
+    this.animate = true,
   })  : variant = SAppStateVariant.emptyNotification,
         customIllustration = null;
 
@@ -90,6 +132,7 @@ class SAppState
     this.elementSpacing,
     this.mainAxisAlignment,
     this.crossAxisAlignment,
+    this.animate = true,
   })  : variant = SAppStateVariant.failedServer,
         customIllustration = null;
 
@@ -106,6 +149,7 @@ class SAppState
     this.elementSpacing,
     this.mainAxisAlignment,
     this.crossAxisAlignment,
+    this.animate = true,
   })  : variant = SAppStateVariant.noCalendar,
         customIllustration = null;
 
@@ -122,6 +166,7 @@ class SAppState
     this.elementSpacing,
     this.mainAxisAlignment,
     this.crossAxisAlignment,
+    this.animate = true,
   })  : variant = SAppStateVariant.noData,
         customIllustration = null;
 
@@ -138,74 +183,74 @@ class SAppState
     this.elementSpacing,
     this.mainAxisAlignment,
     this.crossAxisAlignment,
+    this.animate = true,
   })  : variant = SAppStateVariant.underConstruction,
         customIllustration = null;
 
-  /// The variant determining which predefined illustration to show.
-  final SAppStateVariant
-      variant;
+  @override
+  State<SAppState> createState() => _SAppStateState();
+}
 
-  /// Optional title text. If [titleWidget] is provided, this is ignored.
-  final String?
-      title;
+class _SAppStateState extends State<SAppState>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _fadeAnimation;
+  late Animation<Offset> _slideAnimation;
 
-  /// Optional description text. If [descriptionWidget] is provided, this is ignored.
-  final String?
-      description;
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    );
 
-  /// A custom widget to use as the title, overriding [title].
-  final Widget?
-      titleWidget;
+    _fadeAnimation = CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.0, 0.65, curve: Curves.easeOut),
+    );
 
-  /// A custom widget to use as the description, overriding [description].
-  final Widget?
-      descriptionWidget;
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 0.08),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.0, 0.8, curve: Curves.easeOutCubic),
+    ));
 
-  /// A custom illustration to use when [variant] is [SAppStateVariant.custom].
-  final Widget?
-      customIllustration;
+    if (widget.animate) {
+      _controller.forward();
+    } else {
+      _controller.value = 1.0;
+    }
+  }
 
-  /// The size of the illustration.
-  final Size?
-      illustrationSize;
+  @override
+  void didUpdateWidget(SAppState oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.animate && !oldWidget.animate) {
+      _controller.forward();
+    } else if (!widget.animate && oldWidget.animate) {
+      _controller.value = 1.0;
+    }
+  }
 
-  /// Optional list of action buttons (e.g., Retry, Go Back).
-  final List<Widget>?
-      actions;
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
-  /// Padding around the entire state widget.
-  final EdgeInsetsGeometry?
-      padding;
-
-  /// Vertical spacing between the illustration, title, description, and actions.
-  final double?
-      elementSpacing;
-
-  /// Main axis alignment of the elements.
-  final MainAxisAlignment?
-      mainAxisAlignment;
-
-  /// Cross axis alignment of the elements.
-  final CrossAxisAlignment?
-      crossAxisAlignment;
-
-  /// Returns the appropriate painter or custom illustration for the current variant.
-  Widget _buildIllustration(
-      BuildContext
-          context, SAppStateThemeData theme) {
-    if (variant == SAppStateVariant.custom &&
-        customIllustration != null) {
-      return customIllustration!;
+  Widget _buildIllustration(BuildContext context, SAppStateThemeData theme) {
+    if (widget.variant == SAppStateVariant.custom &&
+        widget.customIllustration != null) {
+      return widget.customIllustration!;
     }
 
-    final Color
-        primaryColor =
-        theme.illustrationColor;
+    final Color primaryColor = theme.illustrationColor;
 
-    CustomPainter?
-        painter;
-    switch (
-        variant) {
+    CustomPainter? painter;
+    switch (widget.variant) {
       case SAppStateVariant.addNotes:
         painter = AddNotesPainter(primaryColor: primaryColor);
         break;
@@ -228,87 +273,79 @@ class SAppState
         painter = UnderConstructionPainter(primaryColor: primaryColor);
         break;
       case SAppStateVariant.custom:
-        // Handled above. Fallback to an empty box.
         break;
     }
 
     return CustomPaint(
-      size:
-          illustrationSize ?? theme.illustrationSize,
-      painter:
-          painter,
+      size: widget.illustrationSize ?? theme.illustrationSize,
+      painter: painter,
     );
   }
 
   @override
-  Widget build(
-      BuildContext
-          context) {
-    final SAppStateThemeData
-        theme =
-        Theme.of(context).sAppStateTheme;
+  Widget build(BuildContext context) {
+    final SAppStateThemeData theme = Theme.of(context).sAppStateTheme;
 
-    final EdgeInsetsGeometry
-        resolvedPadding =
-        padding ?? theme.padding;
+    final EdgeInsetsGeometry resolvedPadding =
+        widget.padding ?? theme.padding;
 
-    Widget?
-        resolvedTitle =
-        titleWidget;
-    if (resolvedTitle == null &&
-        title != null) {
-      resolvedTitle =
-          Text(
-        title!,
+    Widget? resolvedTitle = widget.titleWidget;
+    if (resolvedTitle == null && widget.title != null) {
+      resolvedTitle = Text(
+        widget.title!,
         style: theme.titleStyle,
         textAlign: TextAlign.center,
       );
     }
 
-    Widget?
-        resolvedDescription =
-        descriptionWidget;
-    if (resolvedDescription == null &&
-        description != null) {
-      resolvedDescription =
-          Text(
-        description!,
+    Widget? resolvedDescription = widget.descriptionWidget;
+    if (resolvedDescription == null && widget.description != null) {
+      resolvedDescription = Text(
+        widget.description!,
         style: theme.descriptionStyle,
         textAlign: TextAlign.center,
       );
     }
 
-    final double effectiveElementSpacing = elementSpacing ?? theme.elementSpacing;
+    final double effectiveElementSpacing =
+        widget.elementSpacing ?? theme.elementSpacing;
 
     return Padding(
-      padding:
-          resolvedPadding,
-      child:
-          Center(
-        child: Column(
-          mainAxisAlignment: mainAxisAlignment ?? theme.mainAxisAlignment,
-          crossAxisAlignment: crossAxisAlignment ?? theme.crossAxisAlignment,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            _buildIllustration(context, theme),
-            if (resolvedTitle != null) ...[
-              SizedBox(height: effectiveElementSpacing),
-              resolvedTitle,
-            ],
-            if (resolvedDescription != null) ...[
-              SizedBox(height: resolvedTitle != null ? SDimensions.small : effectiveElementSpacing),
-              resolvedDescription,
-            ],
-            if (actions != null && actions!.isNotEmpty) ...[
-              SizedBox(height: effectiveElementSpacing),
-              Wrap(
-                spacing: SDimensions.medium,
-                runSpacing: SDimensions.medium,
-                alignment: WrapAlignment.center,
-                children: actions!,
-              ),
-            ],
-          ],
+      padding: resolvedPadding,
+      child: FadeTransition(
+        opacity: _fadeAnimation,
+        child: SlideTransition(
+          position: _slideAnimation,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: widget.mainAxisAlignment ?? theme.mainAxisAlignment,
+              crossAxisAlignment: widget.crossAxisAlignment ?? theme.crossAxisAlignment,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                _buildIllustration(context, theme),
+                if (resolvedTitle != null) ...[
+                  SizedBox(height: effectiveElementSpacing),
+                  resolvedTitle,
+                ],
+                if (resolvedDescription != null) ...[
+                  SizedBox(
+                      height: resolvedTitle != null
+                          ? SDimensions.small
+                          : effectiveElementSpacing),
+                  resolvedDescription,
+                ],
+                if (widget.actions != null && widget.actions!.isNotEmpty) ...[
+                  SizedBox(height: effectiveElementSpacing),
+                  Wrap(
+                    spacing: SDimensions.medium,
+                    runSpacing: SDimensions.medium,
+                    alignment: WrapAlignment.center,
+                    children: widget.actions!,
+                  ),
+                ],
+              ],
+            ),
+          ),
         ),
       ),
     );

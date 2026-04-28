@@ -50,8 +50,8 @@ SInput(placeholder: l10n.inputLabelMiddle);''',
                 prefix: Icon(Icons.search, size: 16, color: Colors.grey.shade600),
               ),
               const SizedBox(height: 12),
-              SInput.password(
-                placeholder: l10n.inputLabelPassword,
+              SInputField.password(
+                hintText: l10n.inputLabelPassword,
               ),
               const SizedBox(height: 12),
               SInput(
