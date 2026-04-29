@@ -898,33 +898,36 @@ class _SScaffoldState
       bodyWidget =
           SingleChildScrollView(
         physics: (widget.refreshConfig?.enabled ?? widget.enableRefresh) ? const AlwaysScrollableScrollPhysics() : null,
-        child: widget.centerBody
-            ? ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: MediaQuery.of(context).size.height - (widget.appBar?.preferredSize.height ?? 0) - (widget.renderFooter != null ? kBottomNavigationBarHeight : 0),
-                ),
-                child: content,
-              )
-            : content,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: MediaQuery.of(context).size.height -
+                (widget.appBar?.preferredSize.height ?? 0) -
+                MediaQuery.of(context).padding.top -
+                (widget.renderFooter != null ? kBottomNavigationBarHeight : 0),
+          ),
+          child: content,
+        ),
       );
     } else {
       if (widget.refreshConfig?.enabled ??
           widget.enableRefresh) {
         bodyWidget = SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          child: widget.centerBody
-              ? ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: MediaQuery.of(context).size.height - (widget.appBar?.preferredSize.height ?? 0) - (widget.renderFooter != null ? kBottomNavigationBarHeight : 0),
-                  ),
-                  child: content,
-                )
-              : content,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: MediaQuery.of(context).size.height -
+                  (widget.appBar?.preferredSize.height ?? 0) -
+                  MediaQuery.of(context).padding.top -
+                  (widget.renderFooter != null ? kBottomNavigationBarHeight : 0),
+            ),
+            child: content,
+          ),
         );
       } else {
         bodyWidget = content;
       }
     }
+
 
     if (widget.refreshConfig?.enabled ??
         widget.enableRefresh) {
