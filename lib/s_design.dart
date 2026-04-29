@@ -71,9 +71,9 @@ export 'src/presentation/components/inputs/s_date_picker/s_date_range_picker.dar
 export 'src/presentation/components/inputs/s_dropdown/s_dropdown.dart';
 export 'src/presentation/components/inputs/s_dropdown/s_menu.dart';
 export 'src/presentation/components/inputs/s_dropdown/s_sub_menu.dart';
-export 'src/presentation/components/inputs/s_input/s_input.dart';
 export 'src/presentation/components/inputs/s_input/s_input_field.dart';
 export 'src/presentation/components/inputs/s_input/s_input_group.dart';
+// ignore: deprecated_member_use_from_same_package
 export 'src/presentation/components/inputs/s_input/s_input_otp.dart';
 export 'src/presentation/components/inputs/s_rate/s_rate.dart';
 export 'src/presentation/components/inputs/s_rate/s_rate_style.dart';

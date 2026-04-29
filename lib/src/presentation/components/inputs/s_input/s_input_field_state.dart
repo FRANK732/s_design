@@ -26,7 +26,7 @@ class _SInputFieldState
         widget.obscureText;
 
     _controller =
-        widget.controller ?? TextEditingController(text: widget.initialValue);
+        widget.controller ?? TextEditingController();
     _focusNode =
         widget.focusNode ?? FocusNode();
   }
@@ -137,9 +137,6 @@ class _SInputFieldState
           _controller,
       focusNode:
           _focusNode,
-      initialValue: widget.controller == null
-          ? widget.initialValue
-          : null,
       enabled:
           widget.enabled,
       obscureText:
