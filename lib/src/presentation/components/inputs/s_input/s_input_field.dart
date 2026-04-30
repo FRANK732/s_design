@@ -1247,7 +1247,6 @@ class _SInputFieldOtpState
       case SInputFieldSize.large:
         return 56.0;
       case SInputFieldSize.medium:
-      default:
         return 46.0;
     }
   }
