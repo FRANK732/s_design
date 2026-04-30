@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class EmptyNotificationPainter extends CustomPainter {
-  final Color primaryColor;
   
   const EmptyNotificationPainter({required this.primaryColor});
+  final Color primaryColor;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -43,7 +43,7 @@ class EmptyNotificationPainter extends CustomPainter {
     path_0.cubicTo(203.78925 * scaleX, 80.99948 * scaleY, 202.54724 * scaleX, 89.39571999999998 * scaleY, 196.76624 * scaleX, 96.07074 * scaleY);
     path_0.close();
     final Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = Color(0xff9f616a);
+    paint0Fill.color = const Color(0xff9f616a);
     canvas.drawPath(path_0, paint0Fill);
 
     // Path 1
@@ -66,7 +66,7 @@ class EmptyNotificationPainter extends CustomPainter {
     path_1.cubicTo(137.59729 * scaleX, 169.0765 * scaleY, 36.969 * scaleX, 127.79199999999997 * scaleY, 36.969 * scaleX, 127.79199999999997 * scaleY);
     path_1.close();
     final Paint paint1Fill = Paint()..style = PaintingStyle.fill;
-    paint1Fill.color = Color(0xffdedede);
+    paint1Fill.color = const Color(0xffdedede);
     canvas.drawPath(path_1, paint1Fill);
 
     // Path 2
@@ -81,7 +81,7 @@ class EmptyNotificationPainter extends CustomPainter {
     path_2.lineTo(42.942 * scaleX, 127.49799999999999 * scaleY);
     path_2.close();
     final Paint paint2Fill = Paint()..style = PaintingStyle.fill;
-    paint2Fill.color = Color(0xff9f616a);
+    paint2Fill.color = const Color(0xff9f616a);
     canvas.drawPath(path_2, paint2Fill);
 
     // Path 3
@@ -115,7 +115,7 @@ class EmptyNotificationPainter extends CustomPainter {
     path_3.lineTo(110.33624 * scaleX, 215.66271999999998 * scaleY);
     path_3.close();
     final Paint paint3Fill = Paint()..style = PaintingStyle.fill;
-    paint3Fill.color = Color(0xff2f2e41);
+    paint3Fill.color = const Color(0xff2f2e41);
     canvas.drawPath(path_3, paint3Fill);
 
     // Path 4
@@ -134,7 +134,7 @@ class EmptyNotificationPainter extends CustomPainter {
     path_4.lineTo(83.418 * scaleX, 505.78076 * scaleY);
     path_4.close();
     final Paint paint4Fill = Paint()..style = PaintingStyle.fill;
-    paint4Fill.color = Color(0xff2f2e41);
+    paint4Fill.color = const Color(0xff2f2e41);
     canvas.drawPath(path_4, paint4Fill);
 
     // Path 5
@@ -151,7 +151,7 @@ class EmptyNotificationPainter extends CustomPainter {
     path_5.lineTo(55.31025 * scaleX, 87.85073999999997 * scaleY);
     path_5.cubicTo(37.756706 * scaleX, 87.85073999999997 * scaleY, 23.526749 * scaleX, 73.62079999999997 * scaleY, 23.526749 * scaleX, 56.067259999999976 * scaleY);
     final Paint paint5Fill = Paint()..style = PaintingStyle.fill;
-    paint5Fill.color = Color(0xff9f616a);
+    paint5Fill.color = const Color(0xff9f616a);
     path_5.fillType = PathFillType.evenOdd;
     canvas.drawPath(path_5, paint5Fill);
 
@@ -176,7 +176,7 @@ class EmptyNotificationPainter extends CustomPainter {
     path_6.cubicTo(36.51973 * scaleX, 521.56369 * scaleY, 51.503983 * scaleX, 482.265198 * scaleY, 51.503983 * scaleX, 482.265198 * scaleY);
     path_6.close();
     final Paint paint6Fill = Paint()..style = PaintingStyle.fill;
-    paint6Fill.color = Color(0xff2f2e41);
+    paint6Fill.color = const Color(0xff2f2e41);
     canvas.drawPath(path_6, paint6Fill);
 
     // Path 7
@@ -198,7 +198,7 @@ class EmptyNotificationPainter extends CustomPainter {
     path_7.cubicTo(63.438766 * scaleX, 521.561493 * scaleY, 78.42227 * scaleX, 482.263 * scaleY, 78.42227 * scaleX, 482.263 * scaleY);
     path_7.close();
     final Paint paint7Fill = Paint()..style = PaintingStyle.fill;
-    paint7Fill.color = Color(0xff2f2e41);
+    paint7Fill.color = const Color(0xff2f2e41);
     canvas.drawPath(path_7, paint7Fill);
 
     // Path 8
@@ -234,7 +234,7 @@ class EmptyNotificationPainter extends CustomPainter {
     path_8.cubicTo(185.13298 * scaleX, 206.0897 * scaleY, 177.95998 * scaleX, 210.62793 * scaleY, 169.12572 * scaleX, 210.60544 * scaleY);
     path_8.close();
     final Paint paint8Fill = Paint()..style = PaintingStyle.fill;
-    paint8Fill.color = Color(0xff9f616a);
+    paint8Fill.color = const Color(0xff9f616a);
     canvas.drawPath(path_8, paint8Fill);
 
     // Path 9
@@ -261,7 +261,7 @@ class EmptyNotificationPainter extends CustomPainter {
     path_9.lineTo(106.59674 * scaleX, 182.01697000000001 * scaleY);
     path_9.cubicTo(113.835495 * scaleX, 170.25405999999998 * scaleY, 113.257904 * scaleX, 155.28503 * scaleY, 105.13425 * scaleX, 144.11496 * scaleY);
     final Paint paint9Fill = Paint()..style = PaintingStyle.fill;
-    paint9Fill.color = Color(0xffdedede);
+    paint9Fill.color = const Color(0xffdedede);
     canvas.drawPath(path_9, paint9Fill);
 
     // Path 10
@@ -286,7 +286,7 @@ class EmptyNotificationPainter extends CustomPainter {
     path_10.cubicTo(75.1905 * scaleX, 213.41950000000003 * scaleY, 40.79551 * scaleX, 110.23376000000002 * scaleY, 40.79551 * scaleX, 110.23376000000002 * scaleY);
     path_10.close();
     final Paint paint10Fill = Paint()..style = PaintingStyle.fill;
-    paint10Fill.color = Color(0xffdedede);
+    paint10Fill.color = const Color(0xffdedede);
     canvas.drawPath(path_10, paint10Fill);
 
     // Path 11
@@ -339,7 +339,7 @@ class EmptyNotificationPainter extends CustomPainter {
     path_11.lineTo(82.046295 * scaleX, 39.591999999999985 * scaleY);
     path_11.cubicTo(79.68904 * scaleX, 33.966999999999985 * scaleY, 77.7713 * scaleX, 35.14377000000002 * scaleY, 72.00079 * scaleX, 37.128269999999986 * scaleY);
     final Paint paint11Fill = Paint()..style = PaintingStyle.fill;
-    paint11Fill.color = Color(0xff2f2e41);
+    paint11Fill.color = const Color(0xff2f2e41);
     canvas.drawPath(path_11, paint11Fill);
 
     // Path 12
@@ -381,7 +381,7 @@ class EmptyNotificationPainter extends CustomPainter {
     path_12.lineTo(182.66321 * scaleX, 5.359000000000037 * scaleY);
     path_12.cubicTo(182.66321 * scaleX, 1.8990499999999884 * scaleY, 185.46803 * scaleX, -0.9057599999999866 * scaleY, 188.92796 * scaleX, -0.9057599999999866 * scaleY);
     final Paint paint12Fill = Paint()..style = PaintingStyle.fill;
-    paint12Fill.color = Color(0xff090814);
+    paint12Fill.color = const Color(0xff090814);
     canvas.drawPath(path_12, paint12Fill);
 
     // Path 13
@@ -428,7 +428,7 @@ class EmptyNotificationPainter extends CustomPainter {
     path_13.lineTo(186.05016 * scaleX, 2.4607999999999493 * scaleY);
     path_13.cubicTo(187.21399 * scaleX, 1.303160000000048 * scaleY, 188.79016 * scaleX, 0.6554599999999482 * scaleY, 190.43172 * scaleX, 0.6602000000000317 * scaleY);
     final Paint paint13Fill = Paint()..style = PaintingStyle.fill;
-    paint13Fill.color = Color(0xfff2f2f2);
+    paint13Fill.color = const Color(0xfff2f2f2);
     canvas.drawPath(path_13, paint13Fill);
 
     // Path 14
@@ -457,7 +457,7 @@ class EmptyNotificationPainter extends CustomPainter {
     path_14.lineTo(508.90283 * scaleX, 197.71233999999998 * scaleY);
     path_14.cubicTo(512.4908 * scaleX, 194.12439999999998 * scaleY, 514.2847 * scaleX, 189.79336999999998 * scaleY, 514.2847 * scaleX, 184.71924 * scaleY);
     final Paint paint14Fill = Paint()..style = PaintingStyle.fill;
-    paint14Fill.color = Color(0xff6c63ff);
+    paint14Fill.color = const Color(0xff6c63ff);
     path_14.fillType = PathFillType.evenOdd;
     canvas.drawPath(path_14, paint14Fill);
 
@@ -482,7 +482,7 @@ class EmptyNotificationPainter extends CustomPainter {
     path_15.lineTo(217.29276 * scaleX, 98.40697999999998 * scaleY);
     path_15.cubicTo(218.18451 * scaleX, 99.95150000000001 * scaleY, 219.83249 * scaleX, 100.90298000000001 * scaleY, 221.61597 * scaleX, 100.90298000000001 * scaleY);
     final Paint paint15Fill = Paint()..style = PaintingStyle.fill;
-    paint15Fill.color = Color(0xff090814);
+    paint15Fill.color = const Color(0xff090814);
     canvas.drawPath(path_15, paint15Fill);
 
     // Path 16
@@ -506,7 +506,7 @@ class EmptyNotificationPainter extends CustomPainter {
     path_16.lineTo(217.29279 * scaleX, 69.96996999999999 * scaleY);
     path_16.cubicTo(218.18454 * scaleX, 71.5145 * scaleY, 219.83252 * scaleX, 72.46597000000003 * scaleY, 221.616 * scaleX, 72.46597000000003 * scaleY);
     final Paint paint16Fill = Paint()..style = PaintingStyle.fill;
-    paint16Fill.color = Color(0xff6c63ff);
+    paint16Fill.color = const Color(0xff6c63ff);
     canvas.drawPath(path_16, paint16Fill);
 
     // Path 17
@@ -530,7 +530,7 @@ class EmptyNotificationPainter extends CustomPainter {
     path_17.lineTo(217.29276 * scaleX, 126.844 * scaleY);
     path_17.cubicTo(218.18451 * scaleX, 128.38852000000003 * scaleY, 219.83249 * scaleX, 129.33999999999997 * scaleY, 221.61597 * scaleX, 129.33999999999997 * scaleY);
     final Paint paint17Fill = Paint()..style = PaintingStyle.fill;
-    paint17Fill.color = Color(0xff090814);
+    paint17Fill.color = const Color(0xff090814);
     canvas.drawPath(path_17, paint17Fill);
   }
 

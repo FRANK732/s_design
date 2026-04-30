@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class AddNotesPainter extends CustomPainter {
-  final Color primaryColor;
   
   const AddNotesPainter({required this.primaryColor});
+  final Color primaryColor;
 
   @override
   void paint(Canvas canvas, Size size) {

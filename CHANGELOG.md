@@ -5,9 +5,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.0] - 2026-04-10
+## [2.0.0+1] - 2026-04-30
 
-We are thrilled to announce **sDesign v2.0.0** — an absolute game-changer. This release marks sDesign’s graduation into a fully mature enterprise framework. We tore down the old architecture and completely rebuilt the core engine to be faster, sleeker, and infinitely more customizable. Say goodbye to bloated configurations and hello to pure, animated flow. Welcome to the new standard for Flutter UI. 🚀
+We are thrilled to announce **sDesign v2.0.0+1** — an absolute game-changer. This release marks sDesign’s graduation into a fully mature enterprise framework. We tore down the old architecture and completely rebuilt the core engine to be faster, sleeker, and infinitely more customizable. Say goodbye to bloated configurations and hello to pure, animated flow. Welcome to the new standard for Flutter UI. 🚀
 
 ### 🔥 Enter the New Ecosystem
 

@@ -216,7 +216,6 @@ SInputField(
               const SizedBox(height: 8),
               SInputField(
                 hintText: l10n.inputLabelSmall,
-                size: SInputFieldSize.small,
               ),
             ],
           ),
@@ -535,8 +534,9 @@ class _CardNumberFormatter
         i < digits.length;
         i++) {
       if (i > 0 &&
-          i % 4 == 0)
+          i % 4 == 0) {
         buffer.write(' ');
+      }
       buffer.write(digits[i]);
     }
     final formatted =

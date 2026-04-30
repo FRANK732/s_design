@@ -11,44 +11,6 @@ import 'paints/server_down_paint.dart';
 /// A highly customizable component for displaying application states
 /// (e.g., empty, error, server down) with dynamic illustrations and entrance animations.
 class SAppState extends StatefulWidget {
-  /// The variant determining which predefined illustration to show.
-  final SAppStateVariant variant;
-
-  /// Optional title text. If [titleWidget] is provided, this is ignored.
-  final String? title;
-
-  /// Optional description text. If [descriptionWidget] is provided, this is ignored.
-  final String? description;
-
-  /// A custom widget to use as the title, overriding [title].
-  final Widget? titleWidget;
-
-  /// A custom widget to use as the description, overriding [description].
-  final Widget? descriptionWidget;
-
-  /// A custom illustration to use when [variant] is [SAppStateVariant.custom].
-  final Widget? customIllustration;
-
-  /// The size of the illustration.
-  final Size? illustrationSize;
-
-  /// Optional list of action buttons (e.g., Retry, Go Back).
-  final List<Widget>? actions;
-
-  /// Padding around the entire state widget.
-  final EdgeInsetsGeometry? padding;
-
-  /// Vertical spacing between the illustration, title, description, and actions.
-  final double? elementSpacing;
-
-  /// Main axis alignment of the elements.
-  final MainAxisAlignment? mainAxisAlignment;
-
-  /// Cross axis alignment of the elements.
-  final CrossAxisAlignment? crossAxisAlignment;
-
-  /// Whether to show an entrance animation.
-  final bool animate;
 
   /// Creates a default [SAppState] displaying the provided [variant].
   const SAppState({
@@ -186,6 +148,44 @@ class SAppState extends StatefulWidget {
     this.animate = true,
   })  : variant = SAppStateVariant.underConstruction,
         customIllustration = null;
+  /// The variant determining which predefined illustration to show.
+  final SAppStateVariant variant;
+
+  /// Optional title text. If [titleWidget] is provided, this is ignored.
+  final String? title;
+
+  /// Optional description text. If [descriptionWidget] is provided, this is ignored.
+  final String? description;
+
+  /// A custom widget to use as the title, overriding [title].
+  final Widget? titleWidget;
+
+  /// A custom widget to use as the description, overriding [description].
+  final Widget? descriptionWidget;
+
+  /// A custom illustration to use when [variant] is [SAppStateVariant.custom].
+  final Widget? customIllustration;
+
+  /// The size of the illustration.
+  final Size? illustrationSize;
+
+  /// Optional list of action buttons (e.g., Retry, Go Back).
+  final List<Widget>? actions;
+
+  /// Padding around the entire state widget.
+  final EdgeInsetsGeometry? padding;
+
+  /// Vertical spacing between the illustration, title, description, and actions.
+  final double? elementSpacing;
+
+  /// Main axis alignment of the elements.
+  final MainAxisAlignment? mainAxisAlignment;
+
+  /// Cross axis alignment of the elements.
+  final CrossAxisAlignment? crossAxisAlignment;
+
+  /// Whether to show an entrance animation.
+  final bool animate;
 
   @override
   State<SAppState> createState() => _SAppStateState();
@@ -253,25 +253,18 @@ class _SAppStateState extends State<SAppState>
     switch (widget.variant) {
       case SAppStateVariant.addNotes:
         painter = AddNotesPainter(primaryColor: primaryColor);
-        break;
       case SAppStateVariant.arrowPointer:
         painter = ArrowPainter(primaryColor: primaryColor);
-        break;
       case SAppStateVariant.emptyNotification:
         painter = EmptyNotificationPainter(primaryColor: primaryColor);
-        break;
       case SAppStateVariant.failedServer:
         painter = WrongServerPainter(primaryColor: primaryColor);
-        break;
       case SAppStateVariant.noCalendar:
         painter = NoCalenderPainter(primaryColor: primaryColor);
-        break;
       case SAppStateVariant.noData:
         painter = NoDataPainter(primaryColor: primaryColor);
-        break;
       case SAppStateVariant.underConstruction:
         painter = UnderConstructionPainter(primaryColor: primaryColor);
-        break;
       case SAppStateVariant.custom:
         break;
     }
@@ -323,18 +316,18 @@ class _SAppStateState extends State<SAppState>
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 _buildIllustration(context, theme),
-                if (resolvedTitle != null) ...[
+                if (resolvedTitle != null) ...<Widget>[
                   SizedBox(height: effectiveElementSpacing),
                   resolvedTitle,
                 ],
-                if (resolvedDescription != null) ...[
+                if (resolvedDescription != null) ...<Widget>[
                   SizedBox(
                       height: resolvedTitle != null
                           ? SDimensions.small
                           : effectiveElementSpacing),
                   resolvedDescription,
                 ],
-                if (widget.actions != null && widget.actions!.isNotEmpty) ...[
+                if (widget.actions != null && widget.actions!.isNotEmpty) ...<Widget>[
                   SizedBox(height: effectiveElementSpacing),
                   Wrap(
                     spacing: SDimensions.medium,

@@ -1200,12 +1200,14 @@ class _SInputFieldOtpState
   @override
   void
       dispose() {
-    for (final c
-        in _controllers)
+    for (final TextEditingController c
+        in _controllers) {
       c.dispose();
-    for (final f
-        in _focusNodes)
+    }
+    for (final FocusNode f
+        in _focusNodes) {
       f.dispose();
+    }
     super
         .dispose();
   }
@@ -1221,17 +1223,18 @@ class _SInputFieldOtpState
         _focusNodes[index + 1].requestFocus();
       } else {
         _focusNodes[index].unfocus();
-        final String code = _controllers.map((c) => c.text).join();
+        final String code = _controllers.map((TextEditingController c) => c.text).join();
         widget.onCompleted?.call(code);
       }
     } else {
       if (index >
-          0)
+          0) {
         _focusNodes[index - 1].requestFocus();
+      }
     }
     widget
         .onChanged
-        ?.call(_controllers.map((c) => c.text).join());
+        ?.call(_controllers.map((TextEditingController c) => c.text).join());
   }
 
   /// Maps [SInputFieldSize] to a pixel dimension for each OTP cell.
@@ -1258,9 +1261,9 @@ class _SInputFieldOtpState
   Widget build(
       BuildContext
           context) {
-    final theme =
+    final ThemeData theme =
         Theme.of(context);
-    final colorScheme =
+    final ColorScheme colorScheme =
         theme.colorScheme;
 
     return Row(
@@ -1269,7 +1272,7 @@ class _SInputFieldOtpState
       mainAxisAlignment:
           MainAxisAlignment.center,
       children:
-          List<Widget>.generate(widget.length, (index) {
+          List<Widget>.generate(widget.length, (int index) {
         return Container(
           width: _cellSize,
           height: _cellSize,
@@ -1284,10 +1287,10 @@ class _SInputFieldOtpState
               enabled: widget.enabled,
               style: TextStyle(fontSize: _fontSize),
               keyboardType: TextInputType.number,
-              inputFormatters: [
+              inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.digitsOnly
               ],
-              onChanged: (val) => _handleChanged(val, index),
+              onChanged: (String val) => _handleChanged(val, index),
               decoration: InputDecoration(
                 counterText: '',
                 contentPadding: EdgeInsets.zero,

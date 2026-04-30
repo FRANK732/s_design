@@ -911,22 +911,22 @@ class _SScaffoldState
     } else {
       if (widget.refreshConfig?.enabled ??
           widget.enableRefresh) {
-        bodyWidget = SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: MediaQuery.of(context).size.height -
-                  (widget.appBar?.preferredSize.height ?? 0) -
-                  MediaQuery.of(context).padding.top -
-                  (widget.renderFooter != null ? kBottomNavigationBarHeight : 0),
-            ),
-            child: content,
-          ),
+        bodyWidget = LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            return SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: SizedBox(
+                height: constraints.maxHeight,
+                child: content,
+              ),
+            );
+          },
         );
       } else {
         bodyWidget = content;
       }
     }
+
 
 
     if (widget.refreshConfig?.enabled ??

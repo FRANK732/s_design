@@ -372,7 +372,7 @@ class _STooltipState
                 ? Row(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       widget.content,
                       const SizedBox(width: 8),
                       MouseRegion(

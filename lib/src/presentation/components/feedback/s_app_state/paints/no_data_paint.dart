@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 /// Custom painter class to draw a complex SVG-based graphic with multiple paths and shapes.
 /// Extends CustomPainter to provide custom drawing logic for a Flutter widget.
 class NoDataPainter extends CustomPainter {
-  final Color primaryColor;
   
   const NoDataPainter({required this.primaryColor});
+  final Color primaryColor;
 
   /// Main painting method that defines how the graphic is drawn on the canvas.
   /// [canvas]: The canvas to draw on.
