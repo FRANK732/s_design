@@ -307,7 +307,6 @@ class _SButtonSelectGroupState
           old) {
     super.didUpdateWidget(
         old);
-    // Sync if the caller changes initialSelection from outside.
     if (widget.initialSelection !=
         old.initialSelection) {
       setState(() {
@@ -330,7 +329,6 @@ class _SButtonSelectGroupState
         widget.mode) {
       case SButtonSelectMode.single:
         if (_selected.contains(index)) {
-          // Already selected — honour requiresSelection guard.
           if (widget.requiresSelection) {
             return;
           }

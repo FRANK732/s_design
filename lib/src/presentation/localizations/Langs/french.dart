@@ -209,13 +209,13 @@ class SLocalizationsFr
 
   @override
   String get heroTagline =>
-      'sDesign v2.0.0 arrive le ';
+      'sDesign v2.0.0 est officiellement ';
   @override
   String get heroTaglineDate =>
-      '1er mai !';
+      'EN LIGNE !';
   @override
   String get heroTaglineDesc =>
-      "Préparez-vous pour un aperçu exclusif de la prochaine génération de composants de l'interface utilisateur Flutter.";
+      'Découvrez la prochaine génération de composants d\'interface utilisateur Flutter dès aujourd\'hui. Plus rapide, plus élégante et prête pour l\'entreprise.';
   @override
   String get heroTitle =>
       'Créez des interfaces époustouflantes avec un minimum de code';

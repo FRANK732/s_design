@@ -213,13 +213,13 @@ class SLocalizationsEn
   // Home / Landing Page Strings
   @override
   String get heroTagline =>
-      'sDesign v2.0.0 is coming on ';
+      'sDesign v2.0.0 is officially ';
   @override
   String get heroTaglineDate =>
-      'May 1st!';
+      'LIVE!';
   @override
   String get heroTaglineDesc =>
-      'Prepare for an exclusive look at the next generation of Flutter UI components.';
+      'Experience the next generation of Flutter UI components today. Faster, sleeker, and fully enterprise-ready.';
   @override
   String get heroTitle =>
       'Craft Stunning UIs\nWith Minimal Code';
