@@ -7,6 +7,7 @@ import '../../../../domain/entities/config/button_config_entity.dart';
 import '../../../../domain/entities/config/s_button_selectable_config.dart';
 import '../../../themes/extensions/component_themes/s_button_theme.dart';
 import 's_button_content.dart';
+import 's_button_select_group.dart';
 import 's_button_selectable.dart';
 import 's_button_style_helper.dart';
 
@@ -419,6 +420,126 @@ class SButton
           shortcut,
       child:
           child,
+    );
+  }
+
+  /// Creates a coordinated selectable button group.
+  /// This is a convenience forwarder to [SButtonSelectGroup].
+  static SButtonSelectGroup selectGroup({
+    Key? key,
+    SButtonSelectMode mode = SButtonSelectMode.single,
+    Set<int> initialSelection = const <int>{},
+    ValueChanged<Set<int>>? onChanged,
+    required List<SButtonSelectGroupItem> children,
+    SButtonVariant variant = SButtonVariant.outline,
+    SButtonSize size = SButtonSize.defaultSize,
+    SButtonSelectableConfig config = const SButtonSelectableConfig(),
+    double spacing = 8.0,
+    double runSpacing = 8.0,
+    bool isFullWidth = false,
+    bool disabled = false,
+    bool requiresSelection = false,
+  }) {
+    return SButtonSelectGroup(
+      key: key,
+      mode: mode,
+      initialSelection: initialSelection,
+      onChanged: onChanged,
+      children: children,
+      variant: variant,
+      size: size,
+      config: config,
+      spacing: spacing,
+      runSpacing: runSpacing,
+      isFullWidth: isFullWidth,
+      disabled: disabled,
+      requiresSelection: requiresSelection,
+    );
+  }
+
+  /// Creates a single-selection (radio) group.
+  /// This is a convenience forwarder to [SButtonSelectGroup.single].
+  static SButtonSelectGroup selectGroupSingle({
+    Key? key,
+    Set<int> initialSelection = const <int>{},
+    ValueChanged<Set<int>>? onChanged,
+    required List<SButtonSelectGroupItem> children,
+    SButtonVariant variant = SButtonVariant.outline,
+    SButtonSize size = SButtonSize.defaultSize,
+    SButtonSelectableConfig config = const SButtonSelectableConfig(),
+    double spacing = 8.0,
+    double runSpacing = 8.0,
+    bool isFullWidth = false,
+    bool disabled = false,
+    bool requiresSelection = false,
+  }) {
+    return SButtonSelectGroup.single(
+      key: key,
+      initialSelection: initialSelection,
+      onChanged: onChanged,
+      children: children,
+      variant: variant,
+      size: size,
+      config: config,
+      spacing: spacing,
+      runSpacing: runSpacing,
+      isFullWidth: isFullWidth,
+      disabled: disabled,
+      requiresSelection: requiresSelection,
+    );
+  }
+
+  /// Creates a multi-selection group.
+  /// This is a convenience forwarder to [SButtonSelectGroup.multi].
+  static SButtonSelectGroup selectGroupMulti({
+    Key? key,
+    Set<int> initialSelection = const <int>{},
+    ValueChanged<Set<int>>? onChanged,
+    required List<SButtonSelectGroupItem> children,
+    SButtonVariant variant = SButtonVariant.outline,
+    SButtonSize size = SButtonSize.defaultSize,
+    SButtonSelectableConfig config = const SButtonSelectableConfig(),
+    double spacing = 8.0,
+    double runSpacing = 8.0,
+    bool isFullWidth = false,
+    bool disabled = false,
+  }) {
+    return SButtonSelectGroup.multi(
+      key: key,
+      initialSelection: initialSelection,
+      onChanged: onChanged,
+      children: children,
+      variant: variant,
+      size: size,
+      config: config,
+      spacing: spacing,
+      runSpacing: runSpacing,
+      isFullWidth: isFullWidth,
+      disabled: disabled,
+    );
+  }
+
+  /// Creates a data item for an [SButtonSelectGroup].
+  /// This is a convenience forwarder to [SButtonSelectGroupItem].
+  static SButtonSelectGroupItem selectGroupItem({
+    required Widget label,
+    Widget? leadingIcon,
+    Widget? trailingIcon,
+    SButtonSelectableConfig? config,
+    String? tooltip,
+    String? disabledTooltip,
+    bool disabled = false,
+    Key? key,
+  }) {
+    return SButtonSelectGroupItem(
+      label: label,
+      leadingIcon: leadingIcon,
+      trailingIcon: trailingIcon,
+      config: config,
+      tooltip: tooltip,
+      disabledTooltip: disabledTooltip,
+      disabled: disabled,
+      key: key,
     );
   }
 

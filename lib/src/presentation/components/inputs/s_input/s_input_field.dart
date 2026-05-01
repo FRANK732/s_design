@@ -13,7 +13,6 @@ part 's_input_field_state.dart';
 
 class SInputField
     extends StatefulWidget {
-  /// Main constructor (use the factories below for specialized input "types").
   const SInputField({
     super.key,
     this.inputType =
@@ -22,7 +21,6 @@ class SInputField
     this.focusNode,
     this.startIcon,
     this.endIcon,
-    this.initialValue,
     this.enabled,
     bool?
         obscureText,
@@ -85,11 +83,7 @@ class SInputField
     this.restorationId,
     this.enableIMEPersonalizedLearning =
         true,
-  })  : obscureText = obscureText ?? (inputType == SInputFieldType.password),
-        assert(
-          initialValue == null || controller == null,
-          'You cannot provide both initialValue and controller at the same time.',
-        );
+  }) : obscureText = obscureText ?? (inputType == SInputFieldType.password);
 
   factory SInputField.password({
     Key?
@@ -98,8 +92,6 @@ class SInputField
         controller,
     FocusNode?
         focusNode,
-    String?
-        initialValue,
     bool?
         enabled,
     TextInputAction?
@@ -166,8 +158,6 @@ class SInputField
           controller,
       focusNode:
           focusNode,
-      initialValue:
-          initialValue,
       enabled:
           enabled,
       textInputAction:
@@ -283,6 +273,12 @@ class SInputField
             '${effectiveDate.month.toString().padLeft(2, '0')}-'
             '${effectiveDate.year}';
 
+    // Seed the controller with the formatted date so the field shows the
+    // initial date without requiring initialValue.
+    if (initialDate != null) {
+      controller.text = formattedDate;
+    }
+
     return SInputField(
       key:
           key,
@@ -324,9 +320,6 @@ class SInputField
           readOnly,
       enableSuggestions:
           enableSuggestions,
-      initialValue: initialDate != null
-          ? formattedDate
-          : null,
       endIcon:
           Builder(
         builder: (BuildContext context) {
@@ -353,8 +346,6 @@ class SInputField
         controller,
     FocusNode?
         focusNode,
-    String?
-        initialValue,
     bool?
         enabled,
     FormFieldValidator<String>?
@@ -425,8 +416,6 @@ class SInputField
           controller,
       focusNode:
           focusNode,
-      initialValue:
-          initialValue,
       enabled:
           enabled,
       validator:
@@ -502,8 +491,6 @@ class SInputField
         controller,
     FocusNode?
         focusNode,
-    String?
-        initialValue,
     bool?
         enabled,
     TextInputAction?
@@ -570,8 +557,6 @@ class SInputField
           controller,
       focusNode:
           focusNode,
-      initialValue:
-          initialValue,
       enabled:
           enabled,
       textInputAction:
@@ -638,8 +623,6 @@ class SInputField
         controller,
     FocusNode?
         focusNode,
-    String?
-        initialValue,
     bool?
         enabled,
     TextInputAction?
@@ -706,8 +689,6 @@ class SInputField
           controller,
       focusNode:
           focusNode,
-      initialValue:
-          initialValue,
       enabled:
           enabled,
       startIcon:
@@ -776,8 +757,6 @@ class SInputField
         controller,
     FocusNode?
         focusNode,
-    String?
-        initialValue,
     bool?
         enabled,
     TextInputAction?
@@ -844,8 +823,6 @@ class SInputField
           controller,
       focusNode:
           focusNode,
-      initialValue:
-          initialValue,
       enabled:
           enabled,
       textInputAction:
@@ -920,10 +897,6 @@ class SInputField
   /// Optional input formatters (e.g., masking).
   final List<TextInputFormatter>?
       inputFormatters;
-
-  /// If provided, used as the initial text (ignored if [controller] is set).
-  final String?
-      initialValue;
 
   /// Whether the field is enabled or not.
   final bool?
@@ -1112,8 +1085,236 @@ class SInputField
   final bool
       enableIMEPersonalizedLearning;
 
+  /// Factory for a one-time-password (OTP) input.
+  ///
+  /// Renders [length] individual digit boxes side-by-side.
+  /// Focus moves automatically as the user types and backtracks on delete.
+  /// Use [onCompleted] to react when all digits have been entered.
+  ///
+  /// Example:
+  /// ```dart
+  /// SInputField.otp(
+  ///   length: 6,
+  ///   onCompleted: (code) => verifyOTP(code),
+  /// )
+  /// ```
+  static Widget
+      otp({
+    Key?
+        key,
+    int length =
+        6,
+    SInputFieldSize size =
+        SInputFieldSize.medium,
+    bool enabled =
+        true,
+    ValueChanged<String>?
+        onChanged,
+    ValueChanged<String>?
+        onCompleted,
+  }) {
+    return _SInputFieldOtp(
+      key:
+          key,
+      length:
+          length,
+      size:
+          size,
+      enabled:
+          enabled,
+      onChanged:
+          onChanged,
+      onCompleted:
+          onCompleted,
+    );
+  }
+
   @override
   State<SInputField>
       createState() =>
           _SInputFieldState();
+}
+
+// ─────────────────────────────────────────────────────────────
+// Private OTP implementation — consumed via SInputField.otp()
+// ─────────────────────────────────────────────────────────────
+
+class _SInputFieldOtp
+    extends StatefulWidget {
+  const _SInputFieldOtp({
+    super.key,
+    this.length =
+        6,
+    this.size =
+        SInputFieldSize.medium,
+    this.enabled =
+        true,
+    this.onChanged,
+    this.onCompleted,
+  });
+
+  final int
+      length;
+  final SInputFieldSize
+      size;
+  final bool
+      enabled;
+  final ValueChanged<String>?
+      onChanged;
+  final ValueChanged<String>?
+      onCompleted;
+
+  @override
+  State<_SInputFieldOtp>
+      createState() =>
+          _SInputFieldOtpState();
+}
+
+class _SInputFieldOtpState
+    extends State<
+        _SInputFieldOtp> {
+  late List<TextEditingController>
+      _controllers;
+  late List<FocusNode>
+      _focusNodes;
+
+  @override
+  void
+      initState() {
+    super
+        .initState();
+    _controllers =
+        List<TextEditingController>.generate(
+      widget.length,
+      (_) =>
+          TextEditingController(),
+    );
+    _focusNodes =
+        List<FocusNode>.generate(
+      widget.length,
+      (_) =>
+          FocusNode(),
+    );
+  }
+
+  @override
+  void
+      dispose() {
+    for (final TextEditingController c
+        in _controllers) {
+      c.dispose();
+    }
+    for (final FocusNode f
+        in _focusNodes) {
+      f.dispose();
+    }
+    super
+        .dispose();
+  }
+
+  void _handleChanged(
+      String
+          value,
+      int index) {
+    if (value
+        .isNotEmpty) {
+      if (index <
+          widget.length - 1) {
+        _focusNodes[index + 1].requestFocus();
+      } else {
+        _focusNodes[index].unfocus();
+        final String code = _controllers.map((TextEditingController c) => c.text).join();
+        widget.onCompleted?.call(code);
+      }
+    } else {
+      if (index >
+          0) {
+        _focusNodes[index - 1].requestFocus();
+      }
+    }
+    widget
+        .onChanged
+        ?.call(_controllers.map((TextEditingController c) => c.text).join());
+  }
+
+  /// Maps [SInputFieldSize] to a pixel dimension for each OTP cell.
+  double
+      get _cellSize {
+    switch (
+        widget.size) {
+      case SInputFieldSize.small:
+        return 36.0;
+      case SInputFieldSize.large:
+        return 56.0;
+      case SInputFieldSize.medium:
+        return 46.0;
+    }
+  }
+
+  double get _fontSize => widget.size ==
+          SInputFieldSize.small
+      ? 14.0
+      : 16.0;
+
+  @override
+  Widget build(
+      BuildContext
+          context) {
+    final ThemeData theme =
+        Theme.of(context);
+    final ColorScheme colorScheme =
+        theme.colorScheme;
+
+    return Row(
+      mainAxisSize:
+          MainAxisSize.min,
+      mainAxisAlignment:
+          MainAxisAlignment.center,
+      children:
+          List<Widget>.generate(widget.length, (int index) {
+        return Container(
+          width: _cellSize,
+          height: _cellSize,
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          child: Focus(
+            onFocusChange: (_) => setState(() {}),
+            child: TextField(
+              controller: _controllers[index],
+              focusNode: _focusNodes[index],
+              textAlign: TextAlign.center,
+              maxLength: 1,
+              enabled: widget.enabled,
+              style: TextStyle(fontSize: _fontSize),
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly
+              ],
+              onChanged: (String val) => _handleChanged(val, index),
+              decoration: InputDecoration(
+                counterText: '',
+                contentPadding: EdgeInsets.zero,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: colorScheme.outline),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: colorScheme.outline),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(
+                    color: colorScheme.primary,
+                    width: 2,
+                  ),
+                ),
+                filled: true,
+                fillColor: widget.enabled ? colorScheme.surface : colorScheme.surfaceContainerHighest,
+              ),
+            ),
+          ),
+        );
+      }),
+    );
+  }
 }

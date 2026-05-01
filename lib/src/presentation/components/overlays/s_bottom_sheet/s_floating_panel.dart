@@ -444,7 +444,7 @@ class _SFloatingPanelContentState
         hasBg =
         bg != null && bg != Colors.transparent;
 
-    Widget footerContent = widget.config.actionsWidget ??
+    final Widget footerContent = widget.config.actionsWidget ??
         (widget.config.actionsLayout == SFloatingBottomLayout.row
             ? Row(
                 children: widget.config.actions

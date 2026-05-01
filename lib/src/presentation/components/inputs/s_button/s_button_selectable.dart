@@ -99,7 +99,8 @@ class SButtonSelectable
     this.disabledTooltip,
     this.badge,
     this.shortcut,
-  });
+  })  : assert(height == null || height >= 0.0, 'SButtonSelectable: height must be >= 0.0 if provided.'),
+        assert(width == null || width >= 0.0, 'SButtonSelectable: width must be >= 0.0 if provided.');
 
   // ── Selection ─────────────────────────────────────────────────────────────
 
@@ -122,62 +123,120 @@ class SButtonSelectable
       config;
 
   // ── Shared SButton props ──────────────────────────────────────────────────
+  
+  /// The visual variant of the button (e.g., primary, secondary, outline, text).
   final SButtonVariant
       variant;
+
+  /// The sizing scale of the button (e.g., small, medium, large, icon).
   final SButtonSize
       size;
+
+  /// Explicitly forces the button into a specific state logically (e.g., [SButtonState.disabled]).
   final SButtonState?
       state;
+
+  /// An icon to display centered within the button.
   final Widget?
       icon;
+
+  /// The overarching background fill color. Hard overrides the color mapped by [variant] and [size].
   final Color?
       backgroundColor;
+
+  /// The overarching foreground color for text and icons. Hard overrides the color mapped by [variant].
   final Color?
       foregroundColor;
+
+  /// If `true`, the button replaces its content with a loading spinner and becomes unclickable.
   final bool
       loading;
+
+  /// Callback triggered when a long-press gesture resolves.
   final VoidCallback?
       onLongPress;
+
+  /// The primary content of the button, usually a [Text] widget or a complex custom layout.
   final Widget?
       child;
+
+  /// Explicit pixel height of the button. Overrides the innate [size] metric.
   final double?
       height;
+
+  /// Explicit pixel width of the button. Overrides the innate [size] metric.
   final double?
       width;
+
+  /// The explicit padding mapped tightly around the button's internal child content.
   final EdgeInsetsGeometry?
       padding;
+
+  /// The curvature radius of the button's outer shell.
   final BorderRadiusGeometry?
       borderRadius;
+
+  /// The z-axis elevation driving the depth of the casting shadow.
   final double?
       elevation;
+
+  /// The tint color of the cast shadow.
   final Color?
       shadowColor;
+
+  /// Focus node mapped to the button to manually drive native focus mechanisms.
   final FocusNode?
       focusNode;
+
+  /// If `true`, automatically requests focus when the button is injected into the widget tree.
   final bool
       autofocus;
+
+  /// Manual text styling overriding the defaults provided by the [size] config.
   final TextStyle?
       textStyle;
+
+  /// Standard semantic tooltip string deployed when hovering over the button.
   final String?
       tooltip;
+
+  /// A manual [ButtonStyle] injection for overriding fine-grained material behavior natively.
   final ButtonStyle?
       buttonStyle;
+
+  /// Whether the button should stretch to fill the available width.
   final bool
       isFullWidth;
+
+  /// Duration to debounce the button press, preventing rapid accidental double-clicks.
   final Duration?
       debounceDuration;
+
+  /// Whether to trigger haptic feedback on press.
   final bool
       enableHapticFeedback;
+
+  /// Icon to display before the label.
   final Widget?
       leadingIcon;
+
+  /// Icon to display after the label.
   final Widget?
       trailingIcon;
+
+  /// Text to show alongside the spinner when loading.
   final String?
       loadingText;
+
+  /// Tooltip to show when the button is disabled.
   final String?
       disabledTooltip;
+
+  /// Badge to display on the button (usually a count or status).
   final Widget?
       badge;
+
+  /// Keyboard shortcut to trigger the button.
   final SingleActivator?
       shortcut;
 
@@ -241,7 +300,6 @@ class _SButtonSelectableState
           old) {
     super.didUpdateWidget(
         old);
-    // Sync internal state when parent changes isSelected in controlled mode.
     if (widget.onSelectionChanged != null &&
         widget.isSelected != old.isSelected) {
       _internalSelected =
@@ -279,7 +337,6 @@ class _SButtonSelectableState
       return;
     }
 
-    // Trigger press animation.
     _animController.forward(
         from: 0.0);
 
@@ -294,16 +351,13 @@ class _SButtonSelectableState
 
     if (widget.onSelectionChanged !=
         null) {
-      // Controlled — let the caller update isSelected.
       widget.onSelectionChanged!(newValue);
     } else {
-      // Uncontrolled — update internal state.
       setState(() =>
           _internalSelected = newValue);
     }
   }
 
-  // ── Derived styling ───────────────────────────────────────────────────────
 
   Color? _resolvedSelectedBg(
       SButtonThemeData
@@ -317,7 +371,6 @@ class _SButtonSelectableState
         null) {
       return explicit;
     }
-    // Derive a pleasant tint from the button's foreground color.
     return Color
         .alphaBlend(
       SButtonStyleHelper.getForegroundColor(
@@ -386,7 +439,6 @@ class _SButtonSelectableState
     );
   }
 
-  // ── Check icon helpers ────────────────────────────────────────────────────
 
   Widget? _buildCheckIcon(
       Color
@@ -454,7 +506,6 @@ class _SButtonSelectableState
         ? _resolvedSelectedBorder(theme, cs)
         : null;
 
-    // Compute per-side border for selected state overlay.
     final BorderSide? selectedBorder = selected && selectedBorderColor != null
         ? BorderSide(
             color: selectedBorderColor,
@@ -467,7 +518,6 @@ class _SButtonSelectableState
             colorScheme: cs,
           );
 
-    // Build leading/trailing with optional check icon.
     final Widget?
         checkWidget =
         _buildCheckIcon(effectiveFg);
@@ -488,7 +538,6 @@ class _SButtonSelectableState
       }
     }
 
-    // Build the animated border/bg style on top of default.
     final ButtonStyle
         selectStyle =
         SButtonStyleHelper.getButtonStyle(
@@ -549,7 +598,6 @@ class _SButtonSelectableState
           buttonStyle: widget.buttonStyle ?? selectStyle,
           isFullWidth: widget.isFullWidth,
           debounceDuration: widget.debounceDuration,
-          // Haptic is handled by this widget, not delegated to SButton.
           leadingIcon: effectiveLeading,
           trailingIcon: effectiveTrailing,
           loadingText: widget.loadingText,

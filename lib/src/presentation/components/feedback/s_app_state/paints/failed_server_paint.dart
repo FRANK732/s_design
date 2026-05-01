@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 /// Custom painter class to draw a "Something Went Wrong" graphic with a rocket, planets, and stars.
 /// Extends CustomPainter to provide custom drawing logic for a Flutter widget.
 class WrongServerPainter extends CustomPainter {
-  final Color primaryColor;
   
   const WrongServerPainter({required this.primaryColor});
+  final Color primaryColor;
 
   /// Main painting method that defines how the graphic is drawn on the canvas.
   /// [canvas]: The canvas to draw on.

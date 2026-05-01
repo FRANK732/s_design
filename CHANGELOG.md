@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.0] - 2026-04-10
+## [2.0.0] - 2026-04-30
 
 We are thrilled to announce **sDesign v2.0.0** — an absolute game-changer. This release marks sDesign’s graduation into a fully mature enterprise framework. We tore down the old architecture and completely rebuilt the core engine to be faster, sleeker, and infinitely more customizable. Say goodbye to bloated configurations and hello to pure, animated flow. Welcome to the new standard for Flutter UI. 🚀
 
@@ -20,7 +20,7 @@ V2 brings an arsenal of highly anticipated, meticulously crafted components desi
 - **`SDatePicker` & `STimePicker`**: Natively localized, flawlessly themed, responsive date and time capture experiences.
 - **`SPagination`**: A powerhouse pagination widget featuring full parity and deep customizability.
 - **Layout Mastery**: The new `SScaffold` replaces basic layouts with integrated pull-to-refresh and loading states. `STabs` now provides mobile-first, sticky header views, while `SSteps` makes managing complex sequences an absolute breeze.
-- **Rich Display & Feedback**: Introduced comprehensive data visualization via the new `SAvatar` (with intelligent group scaling), `SRate` (star ratings,customizable characters and tooltips), `SProgress` dashboards, `SQRCode`, and `SAlert`.
+- **Rich Display & Feedback**: Introduced comprehensive data visualization via the new `SAvatar` (with intelligent group scaling), `SRate` (star ratings,customizable characters and tooltips), `SProgress` dashboards, `SQRCode`, and `SAlert`. `SAppState` A fully theme-aware, animated application state display widget for communicating empty, error, and maintenance states to users through rich custom illustrations
 
 ### ⚡ Massive Enterprise Architecture Rebuild
 

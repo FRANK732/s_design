@@ -80,9 +80,9 @@ SDialog.show<void>(
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SInput(placeholder: l10n.dialogLabelFullName),
+                    SInputField(hintText: l10n.dialogLabelFullName),
                     const SizedBox(height: 12),
-                    SInput(placeholder: l10n.dialogLabelEmail, keyboardType: TextInputType.emailAddress),
+                    SInputField(hintText: l10n.dialogLabelEmail, keyboardType: TextInputType.emailAddress),
                   ],
                 ),
                 actions: [

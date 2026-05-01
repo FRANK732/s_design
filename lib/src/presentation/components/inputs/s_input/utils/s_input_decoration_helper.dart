@@ -108,10 +108,12 @@ class SInputDecorationHelper {
           width: theme.borderWidth,
         ) : BorderSide.none,
       ),
-      prefixIcon:
-          startIcon,
-      suffixIcon:
-          suffixIconOverride ?? endIcon,
+      prefixIcon: startIcon != null
+          ? _iconWrapper(startIcon)
+          : null,
+      suffixIcon: suffixIconOverride != null
+          ? _iconWrapper(suffixIconOverride)
+          : (endIcon != null ? _iconWrapper(endIcon) : null),
     );
 
     // Merge with user provided decoration
@@ -171,6 +173,26 @@ class SInputDecorationHelper {
           override.prefixIcon ?? base.prefixIcon,
       suffixIcon:
           override.suffixIcon ?? base.suffixIcon,
+    );
+  }
+
+  /// Wraps [child] so it sits centered and properly padded inside the
+  /// `prefixIcon`/`suffixIcon` slot.
+  ///
+  /// Flutter's default [InputDecoration.prefixIconConstraints] gives the slot
+  /// a minimum of 48 px — this wrapper uses [Center] with [heightFactor] and
+  /// [widthFactor] both set to 1.0 so the widget is tightly sized to its
+  /// child. Flutter's own [InputDecorator] then centers that tight widget
+  /// correctly in the field row, making [Text] labels like `$` or `USD`
+  /// align identically to [Icon] widgets.
+  static Widget _iconWrapper(Widget child) {
+    return Center(
+      widthFactor: 1.0,
+      heightFactor: 1.0,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: child,
+      ),
     );
   }
 }

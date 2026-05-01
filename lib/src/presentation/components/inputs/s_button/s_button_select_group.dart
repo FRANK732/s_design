@@ -154,7 +154,17 @@ class SButtonSelectGroup
     /// When true, tapping the currently selected item is a no-op.
     this.requiresSelection =
         false,
-  });
+  })  : assert(spacing >= 0.0, 'SButtonSelectGroup: spacing must be >= 0.0.'),
+        assert(runSpacing >= 0.0, 'SButtonSelectGroup: runSpacing must be >= 0.0.'),
+        assert(
+          !(mode == SButtonSelectMode.single && initialSelection.length > 1),
+          'SButtonSelectGroup: In single selection mode, initialSelection can only contain 0 or 1 items. '
+          'You provided ${initialSelection.length} items.',
+        ),
+        assert(
+          !(requiresSelection && mode == SButtonSelectMode.single && initialSelection.length == 0),
+          'SButtonSelectGroup: When requiresSelection is true in single mode, you MUST provide at least one item in initialSelection.',
+        );
 
   /// Creates a radio-style (single-selection) group.
   const SButtonSelectGroup.single({
@@ -297,7 +307,6 @@ class _SButtonSelectGroupState
           old) {
     super.didUpdateWidget(
         old);
-    // Sync if the caller changes initialSelection from outside.
     if (widget.initialSelection !=
         old.initialSelection) {
       setState(() {
@@ -320,7 +329,6 @@ class _SButtonSelectGroupState
         widget.mode) {
       case SButtonSelectMode.single:
         if (_selected.contains(index)) {
-          // Already selected — honour requiresSelection guard.
           if (widget.requiresSelection) {
             return;
           }

@@ -3,9 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class NoCalenderPainter extends CustomPainter {
-  final Color primaryColor;
   
   const NoCalenderPainter({required this.primaryColor});
+  final Color primaryColor;
 
   @override
   void paint(Canvas canvas, Size size) {

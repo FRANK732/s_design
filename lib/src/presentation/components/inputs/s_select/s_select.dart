@@ -287,6 +287,12 @@ class _SSelectState<
     super
         .initState();
     _initSelectedValues();
+    
+    if (widget.value == null && widget.defaultValue != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _emitOnChanged();
+      });
+    }
     _animationController =
         AnimationController(
       vsync:

@@ -9,7 +9,21 @@ class AppStateDemoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ComponentPage(
       name: 'SAppState',
-      description: 'A component for displaying various application states (empty, error, server down, etc.) with dynamic illustrations.',
+      description:
+          '''
+Communicates empty, error, and maintenance states to users through rich custom illustrations, animated entrance effects, and full theme integration
+      SAppState replaces ad-hoc empty-state widgets with a single, consistent component.
+
+✅ Benefits
+• 7 named constructors for the most common app states — noData, emptyNotification, noCalendar, failedServer, addNotes, arrowPointer, underConstruction — plus a custom slot for your own widget.
+• Built-in entrance animation (fade + slide) via AnimationController. Disable with animate: false.
+• Fully theme-driven via SAppStateThemeData — illustration color, size, title/description styles, padding, and axis alignments are all configurable globally or with a local STheme override.
+• Action slot — pass any list of buttons (Retry, Go Back, etc.) and they're rendered in a responsive centered Wrap.
+
+⚠️ Trade-offs
+• Illustrations are CustomPainter-based (zero external deps). Complex scenes are hard to update when designs change.
+• No SVG filter effects (blur, drop-shadow, gradients) — only solid fills and strokes from the source paths are reproduced.
+• Variant transitions are not path-morphed — only the entrance animation is built in.''',
       sections: [
         const ComponentSection(
           title: 'Default (No Data)',
@@ -26,10 +40,10 @@ const SAppState(
         ),
         ComponentSection(
           title: 'Under Construction',
-          description: 'Used when the server is unreachable or empty contruction state.',
+          description: 'Used when the server is unreachable or a page is under active construction.',
           demo: SAppState.underConstruction(
             title: 'System Under Construction',
-            description: 'The system is currently undergoing contruction.',
+            description: 'This page is currently being built. Check back soon.',
             actions: [
               SButton(
                 onPressed: () {},

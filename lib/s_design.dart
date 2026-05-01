@@ -7,8 +7,8 @@ export 'src/core/utils/s_input_field_utils.dart';
 export 'src/domain/entities/config/button_config_entity.dart';
 export 'src/domain/entities/config/s_alert_type.dart';
 export 'src/domain/entities/config/s_app_state_variant.dart';
-export 'src/domain/entities/config/s_button_selectable_config.dart';
 export 'src/domain/entities/config/s_avatar_enums.dart';
+export 'src/domain/entities/config/s_button_selectable_config.dart';
 export 'src/domain/entities/config/s_card_shadow.dart';
 export 'src/domain/entities/config/s_card_shape.dart';
 export 'src/domain/entities/config/s_checkbox_state.dart';
@@ -59,8 +59,6 @@ export 'src/presentation/components/feedback/s_sonner/s_sonner_config.dart';
 export 'src/presentation/components/feedback/s_toaster/s_toaster.dart';
 export 'src/presentation/components/inputs/s_button/s_button.dart';
 export 'src/presentation/components/inputs/s_button/s_button_poc.dart';
-export 'src/presentation/components/inputs/s_button/s_button_selectable.dart';
-export 'src/presentation/components/inputs/s_button/s_button_select_group.dart';
 export 'src/presentation/components/inputs/s_checkbox/s_checkbox.dart';
 export 'src/presentation/components/inputs/s_checkbox/s_checkbox_form_field.dart';
 export 'src/presentation/components/inputs/s_checkbox/s_checkbox_list_tile.dart';
@@ -71,9 +69,9 @@ export 'src/presentation/components/inputs/s_date_picker/s_date_range_picker.dar
 export 'src/presentation/components/inputs/s_dropdown/s_dropdown.dart';
 export 'src/presentation/components/inputs/s_dropdown/s_menu.dart';
 export 'src/presentation/components/inputs/s_dropdown/s_sub_menu.dart';
-export 'src/presentation/components/inputs/s_input/s_input.dart';
 export 'src/presentation/components/inputs/s_input/s_input_field.dart';
 export 'src/presentation/components/inputs/s_input/s_input_group.dart';
+// ignore: deprecated_member_use_from_same_package
 export 'src/presentation/components/inputs/s_input/s_input_otp.dart';
 export 'src/presentation/components/inputs/s_rate/s_rate.dart';
 export 'src/presentation/components/inputs/s_rate/s_rate_style.dart';
@@ -105,7 +103,6 @@ export 'src/presentation/themes/extensions/component_themes/s_card_theme.dart';
 export 'src/presentation/themes/extensions/component_themes/s_checkbox_theme.dart';
 export 'src/presentation/themes/extensions/component_themes/s_dialog_theme.dart';
 export 'src/presentation/themes/extensions/component_themes/s_dropdown_menu_theme.dart';
-
 export 'src/presentation/themes/extensions/component_themes/s_floating_panel_theme.dart';
 export 'src/presentation/themes/extensions/component_themes/s_input_field_theme.dart';
 export 'src/presentation/themes/extensions/component_themes/s_list_tile_theme.dart';
