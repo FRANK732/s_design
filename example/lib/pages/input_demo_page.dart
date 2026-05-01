@@ -156,7 +156,6 @@ SInputField(
 );''',
         ),
 
-        // ── 4. Input with Icons (named section) ────────────────────────────
         ComponentSection(
           title: l10n.inputSectionIcons,
           description: 'Combine icons with typed factories for rich, purpose-built fields.',

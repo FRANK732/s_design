@@ -89,7 +89,6 @@ SDropdown(
 )''',
         ),
 
-        // ── Click ────────────────────────────────────────────────────────────
         ComponentSection(
           title: 'Click Trigger',
           description: 'Menu opens when the user clicks the button.',
@@ -141,7 +140,6 @@ SDropdown(
 )''',
         ),
 
-        // ── Context Menu ─────────────────────────────────────────────────────
         ComponentSection(
           title: 'Context Menu (Right-Click)',
           description: 'Right-clicking (or long-pressing on mobile) the area opens the menu.',
@@ -182,7 +180,6 @@ SDropdown(
 )''',
         ),
 
-        // ── Placements ───────────────────────────────────────────────────────
         ComponentSection(
           title: 'Placement Options',
           description: 'Control which edge the menu aligns to.',
@@ -247,7 +244,6 @@ SDropdown(
 )''',
         ),
 
-        // ── Disabled ─────────────────────────────────────────────────────────
         ComponentSection(
           title: 'Disabled State',
           description: 'Set `disabled: true` to prevent the dropdown from opening.',
@@ -269,7 +265,6 @@ SDropdown(
 )''',
         ),
 
-        // ── Controlled ───────────────────────────────────────────────────────
         ComponentSection(
           title: 'Controlled Open State',
           description: 'Pass `open` and `onOpenChange` to fully control visibility from outside.',
@@ -312,7 +307,6 @@ SDropdown(
 )''',
         ),
 
-        // ── Sub-Menus (Cascading) ─────────────────────────────────────────
         ComponentSection(
           title: 'Cascading Sub-Menus',
           description: 'Use `SSubMenu` inside any `SMenu` to nest popup menus. '
@@ -391,7 +385,6 @@ SDropdown(
 )''',
         ),
 
-        // ── Dropdown Button (Split) ───────────────────────────────────────
         ComponentSection(
           title: 'Split Button (SDropdownButton)',
           description: 'Use `SDropdownButton` to pair a primary action with a dropdown '
@@ -441,7 +434,6 @@ SDropdownButton(
 )''',
         ),
 
-        // ── Arrows and Extra Styles ──────────────────────────────────────
         ComponentSection(
           title: 'Arrows and Item States',
           description: 'Set `arrow: true` to show a geometric pointer. '

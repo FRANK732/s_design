@@ -6,7 +6,6 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../widgets/code_snippet.dart';
 import '../widgets/schrift_flow_logo.dart';
 
-/// Welcome/overview page shown when the app first opens.
 class HomeOverviewPage
     extends StatefulWidget {
   const HomeOverviewPage(
