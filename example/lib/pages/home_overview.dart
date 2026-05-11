@@ -241,6 +241,93 @@ class MyApp extends StatelessWidget {
                         ),
                       ),
                     ),
+                    const SizedBox(height: 48),
+                    Text(
+                      'Alternative Setup (Without SApp)',
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'If you prefer to use a standard MaterialApp and your own ThemeData.',
+                      style: theme.textTheme.bodyLarge?.copyWith(
+                        color: colors.textSecondary,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    const Align(
+                      child: SizedBox(
+                        width: 800,
+                        child: CodeSnippet(
+                          code: '''
+// ============================================================================
+// ALTERNATIVE SETUP: Using other AppWrappers instead of SApp
+// ============================================================================
+MaterialApp(
+  theme: ThemeData(
+    // 1. KEEP YOUR EXISTING THEME:
+    // This handles styling for all standard Flutter widgets (Scaffold, AppBar, etc.)
+    colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+    useMaterial3: true,
+  ),
+  builder: (context, child) {
+    // 2. WRAP YOUR APP:
+    // We inject our own Overlay to ensure that global notifications float above everything.
+    return _OverlayInitializer(child: child!);
+  },
+  home: const MyDashboard(),
+)
+
+// ============================================================================
+// OVERLAY & THEME INITIALIZER WIDGET
+// ============================================================================
+class _OverlayInitializer extends StatefulWidget {
+  final Widget child;
+  const _OverlayInitializer({required this.child});
+  @override
+  State<_OverlayInitializer> createState() => _OverlayInitializerState();
+}
+
+class _OverlayInitializerState extends State<_OverlayInitializer> {
+  // A dedicated key to access our custom overlay state globally
+  final GlobalKey<OverlayState> _overlayKey = GlobalKey<OverlayState>();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final overlay = _overlayKey.currentState;
+      if (overlay != null) {
+        // 3. REGISTER sDESIGN OVERLAYS:
+        // Initialize the global overlay systems provided by sDesign.
+        SSonner.initialize(overlay);
+        SToast.initialize(overlay);
+        
+        // SFloatingPanel.initialize(overlay); // If your package uses it globally
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // 4. INJECT sDESIGN THEME:
+    // AnimatedSTheme is the engine that styles all sDesign components.
+    return AnimatedSTheme(
+      data: SThemeData.light(),
+      child: Stack(
+        children: [
+          widget.child, // The main application content
+          Overlay(key: _overlayKey), // The dedicated overlay
+        ],
+      ),
+    );
+  }
+}''',
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
