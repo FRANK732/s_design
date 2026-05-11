@@ -15,7 +15,6 @@ class SAvatarPage
 class _SAvatarPageState
     extends State<
         SAvatarPage> {
-  // dynamic scaling state
   final _userList =
       [
     'U',
@@ -55,7 +54,6 @@ class _SAvatarPageState
 
   void
       _changeGap() {
-    // Just mixing up the gap along with user scaling for test
     setState(
         () {
       _idx =

@@ -156,7 +156,6 @@ SInputField(
 );''',
         ),
 
-        // ── 4. Input with Icons (named section) ────────────────────────────
         ComponentSection(
           title: l10n.inputSectionIcons,
           description: 'Combine icons with typed factories for rich, purpose-built fields.',
@@ -587,7 +586,9 @@ class _SignUpFormDemoState
             hintText: l10n.inputHintEmail,
             labelText: 'Email',
             validator: (v) {
-              if (v == null || !v.contains('@')) return l10n.inputErrorEmpty;
+              if (v == null || !v.contains('@')) {
+                return l10n.inputErrorEmpty;
+              }
               return null;
             },
           ),
@@ -596,7 +597,9 @@ class _SignUpFormDemoState
             hintText: l10n.inputHintPassword,
             labelText: 'Password',
             validator: (v) {
-              if (v == null || v.length < 8) return 'Min 8 characters';
+              if (v == null || v.length < 8) {
+                return 'Min 8 characters';
+              }
               return null;
             },
           ),

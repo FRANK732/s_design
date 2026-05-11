@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:s_design/s_design.dart';
 
-/// Demo page showcasing all SPagination features, mirroring all
-/// Pagination demo sections.
 class SPaginationPage
     extends StatefulWidget {
   const SPaginationPage(
